@@ -170,7 +170,7 @@ TEST(try_parse_function, test1) {
     const auto result = try_parse_function({s.cbegin(), s.cend()});
     ASSERT_TRUE(result);
     EXPECT_EQ(string_span_to_string(result.value().name), "foo");
-    ASSERT_EQ(result.value().argv.size(), 0);    
+    ASSERT_EQ(result.value().argv.size(), 0);
 }
 
 TEST(try_parse_function, test2) {
@@ -178,7 +178,7 @@ TEST(try_parse_function, test2) {
     const auto result = try_parse_function({s.cbegin(), s.cend()});
     ASSERT_TRUE(result);
     EXPECT_EQ(string_span_to_string(result.value().name), "foo");
-    ASSERT_EQ(result.value().argv.size(), 0);    
+    ASSERT_EQ(result.value().argv.size(), 0);
 }
 
 TEST(try_parse_function, test3) {
@@ -186,7 +186,7 @@ TEST(try_parse_function, test3) {
     const auto result = try_parse_function({s.cbegin(), s.cend()});
     ASSERT_TRUE(result);
     EXPECT_EQ(string_span_to_string(result.value().name), "foo");
-    ASSERT_EQ(result.value().argv.size(), 3);    
+    ASSERT_EQ(result.value().argv.size(), 3);
     EXPECT_EQ(string_span_to_string(result.value().argv[0]), "abc");
     EXPECT_EQ(string_span_to_string(result.value().argv[1]), "def");
     EXPECT_EQ(string_span_to_string(result.value().argv[2]), "ghi");
@@ -197,17 +197,16 @@ TEST(try_parse_function, test4) {
     const auto result = try_parse_function({s.cbegin(), s.cend()});
     ASSERT_TRUE(result);
     EXPECT_EQ(string_span_to_string(result.value().name), "foo");
-    ASSERT_EQ(result.value().argv.size(), 1);    
+    ASSERT_EQ(result.value().argv.size(), 1);
     EXPECT_EQ(string_span_to_string(result.value().argv[0]), "(abc,def,ghi)");
 }
-
 
 TEST(try_parse_function, test5) {
     const std::string s = "Foo_foo_123(abc,def,ghi)";
     const auto result = try_parse_function({s.cbegin(), s.cend()});
     ASSERT_TRUE(result);
     EXPECT_EQ(string_span_to_string(result.value().name), "Foo_foo_123");
-    ASSERT_EQ(result.value().argv.size(), 3);    
+    ASSERT_EQ(result.value().argv.size(), 3);
     EXPECT_EQ(string_span_to_string(result.value().argv[0]), "abc");
     EXPECT_EQ(string_span_to_string(result.value().argv[1]), "def");
     EXPECT_EQ(string_span_to_string(result.value().argv[2]), "ghi");
@@ -247,6 +246,118 @@ TEST(try_parse_function, test11) {
     const std::string s = "fo!o(abc,def,ghi)";
     const auto result = try_parse_function({s.cbegin(), s.cend()});
     ASSERT_FALSE(result);
+}
+
+// #############################################################################
+
+TEST(try_parse_int, test0) {
+    const std::string s = "";
+    const auto result = try_parse_int({s.cbegin(), s.cend()});
+    ASSERT_FALSE(result);
+}
+
+TEST(try_parse_int, test1) {
+    const std::string s = "5";
+    const auto result = try_parse_int({s.cbegin(), s.cend()});
+    ASSERT_TRUE(result);
+    EXPECT_EQ(result.value(), 5);
+}
+
+TEST(try_parse_int, test2) {
+    const std::string s = "x";
+    const auto result = try_parse_int({s.cbegin(), s.cend()});
+    ASSERT_FALSE(result);
+}
+
+TEST(try_parse_int, test3) {
+    const std::string s = "4x";
+    const auto result = try_parse_int({s.cbegin(), s.cend()});
+    ASSERT_FALSE(result);
+}
+
+TEST(try_parse_int, test4) {
+    const std::string s = "1000000000000000000000000000";
+    ASSERT_THROW(try_parse_int({s.cbegin(), s.cend()}), std::out_of_range);
+}
+
+// #############################################################################
+
+TEST(try_parse_double, test0) {
+    const std::string s = "";
+    const auto result = try_parse_double({s.cbegin(), s.cend()});
+    ASSERT_FALSE(result);
+}
+
+TEST(try_parse_double, test1) {
+    const std::string s = "5";
+    const auto result = try_parse_double({s.cbegin(), s.cend()});
+    ASSERT_TRUE(result);
+    EXPECT_EQ(result.value(), 5.0);
+}
+
+TEST(try_parse_double, test2) {
+    const std::string s = "5.0";
+    const auto result = try_parse_double({s.cbegin(), s.cend()});
+    ASSERT_TRUE(result);
+    EXPECT_EQ(result.value(), 5.0);
+}
+
+TEST(try_parse_double, test3) {
+    const std::string s = "+5.0";
+    const auto result = try_parse_double({s.cbegin(), s.cend()});
+    ASSERT_TRUE(result);
+    EXPECT_EQ(result.value(), 5.0);
+}
+
+TEST(try_parse_double, test4) {
+    const std::string s = "-5.0";
+    const auto result = try_parse_double({s.cbegin(), s.cend()});
+    ASSERT_TRUE(result);
+    EXPECT_EQ(result.value(), -5.0);
+}
+
+TEST(try_parse_double, test5) {
+    const std::string s = "5.";
+    const auto result = try_parse_double({s.cbegin(), s.cend()});
+    ASSERT_TRUE(result);
+    EXPECT_EQ(result.value(), 5.0);
+}
+
+TEST(try_parse_double, test6) {
+    const std::string s = ".5";
+    const auto result = try_parse_double({s.cbegin(), s.cend()});
+    ASSERT_TRUE(result);
+    EXPECT_EQ(result.value(), 0.5);
+}
+
+TEST(try_parse_double, test7) {
+    const std::string s = "5.e0";
+    const auto result = try_parse_double({s.cbegin(), s.cend()});
+    ASSERT_TRUE(result);
+    EXPECT_EQ(result.value(), 5.);
+}
+
+TEST(try_parse_double, test8) {
+    const std::string s = ".";
+    const auto result = try_parse_double({s.cbegin(), s.cend()});
+    ASSERT_FALSE(result);
+}
+
+TEST(try_parse_double, test9) {
+    const std::string s = "5f0";
+    const auto result = try_parse_double({s.cbegin(), s.cend()});
+    ASSERT_FALSE(result);
+}
+
+TEST(try_parse_double, test10) {
+    const std::string s = "4x";
+    const auto result = try_parse_double({s.cbegin(), s.cend()});
+    ASSERT_FALSE(result);
+}
+
+TEST(try_parse_double, test11) {
+    const std::string s = "1e500";
+    ASSERT_THROW(try_parse_double({s.cbegin(), s.cend()}), std::out_of_range);
 }
 
 // #############################################################################

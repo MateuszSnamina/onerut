@@ -7,13 +7,7 @@
 
 namespace {
 
-    operator_string_parser::string_const_span _disregard_one_outer_nesting(
-            operator_string_parser::string_const_span span,
-            char open = '(', char close = ')') {
-        assert(span.first <= span.second);
-        assert(operator_string_parser::is_outer_nested(span, open, close));
-        return {span.first + 1, span.second - 1};
-    }
+
 
 }
 
@@ -53,6 +47,14 @@ namespace operator_string_parser {
         if (span.first == span.second)
             return false;
         return (*span.first == open && *(span.second - 1) == close);
+    }
+
+    string_const_span _disregard_one_outer_nesting(
+            string_const_span span,
+            char open, char close) {
+        assert(span.first <= span.second);
+        assert(is_outer_nested(span, open, close));
+        return {span.first + 1, span.second - 1};
     }
 
     string_const_span disregard_one_outer_nesting(
@@ -129,7 +131,7 @@ namespace operator_string_parser {
                 break;
         }
         const string_const_span name_sub_span = {span.first, it};
-        const string_const_span argv_sub_span = {it, span.second};        
+        const string_const_span argv_sub_span = {it, span.second};
         if (name_sub_span.first == name_sub_span.second)
             return std::optional<FunctionInfo>();
         if (argv_sub_span.first == argv_sub_span.second) {
@@ -148,5 +150,50 @@ namespace operator_string_parser {
         }
         assert(false);
         return std::optional<FunctionInfo>(); // this should never happens.        
+    }
+
+    std::optional<int> try_parse_int(
+            string_const_span span) {
+        assert(span.first <= span.second);
+        std::size_t pos;
+        try {
+            const int result = std::stoi(string_span_to_string(span), &pos);
+            if (span.second == span.first + pos)
+                return result;
+        } catch (std::invalid_argument&) {
+            return std::optional<int>();
+        }
+        return std::optional<int>();
+    }
+
+    std::optional<double> try_parse_double(
+            string_const_span span) {
+        assert(span.first <= span.second);
+        std::size_t pos;
+        try {
+            const double result = std::stod(string_span_to_string(span), &pos);
+            if (span.second == span.first + pos)
+                return result;
+        } catch (std::invalid_argument&) {
+            return std::optional<double>();
+        }
+        return std::optional<double>();
+    }
+
+    std::optional<std::vector<string_const_span>> try_parse_infix_operator(
+            string_const_span span, char op) {
+        const auto result = parse_nested_comma_separated_string(span, op);
+        if (result.size() > 1)
+            return result;
+        return std::optional<std::vector < string_const_span >> ();
+    }
+
+    std::optional<std::string> try_parse_expression(
+            string_const_span span) {
+        if (is_outer_nested(span, '[', ']')) {
+            span = _disregard_one_outer_nesting(span, '[', ']');
+            return string_span_to_string(span);
+        }
+        return std::optional<std::string>();
     }
 }

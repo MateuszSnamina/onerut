@@ -23,6 +23,10 @@ namespace operator_string_parser {
             string_const_span span,
             char open = '(', char close = ')');
 
+    string_const_span _disregard_one_outer_nesting(
+            string_const_span span,
+            char open = '(', char close = ')');
+    
     string_const_span disregard_one_outer_nesting(
             string_const_span span,
             char open = '(', char close = ')');
@@ -43,6 +47,19 @@ namespace operator_string_parser {
 
     std::optional<FunctionInfo> try_parse_function(
             string_const_span span);
+    
+    std::optional<int> try_parse_int(
+            string_const_span span);
+    
+    std::optional<double> try_parse_double(
+            string_const_span span);
+    
+    std::optional<std::vector<string_const_span>> try_parse_infix_operator(
+            string_const_span span, char op);
+
+    std::optional<std::string> try_parse_expression(
+            string_const_span span);
+    
 }
 
 #endif

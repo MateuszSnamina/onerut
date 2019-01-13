@@ -619,6 +619,12 @@
           <buildCommand>${MAKE} -f Makefile</buildCommand>
           <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
           <executablePath></executablePath>
+          <ccTool>
+            <incDir>
+              <pElem>operator_string_parser/include</pElem>
+              <pElem>external_packages/include</pElem>
+            </incDir>
+          </ccTool>
         </makeTool>
         <preBuild>
           <preBuildCommandWorkingDir>build_netbeanns</preBuildCommandWorkingDir>
@@ -629,7 +635,6 @@
       <folder path="onerut1/onerut">
         <ccTool>
           <incDir>
-            <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut</pElem>
           </incDir>
           <preprocessorList>
@@ -733,8 +738,6 @@
       <folder path="onerut1/operator_string_parser">
         <ccTool>
           <incDir>
-            <pElem>operator_string_parser/include</pElem>
-            <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/operator_string_parser</pElem>
           </incDir>
         </ccTool>
@@ -742,8 +745,6 @@
       <folder path="onerut1/operator_string_parser_tests">
         <ccTool>
           <incDir>
-            <pElem>operator_string_parser/include</pElem>
-            <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/operator_string_parser_tests</pElem>
           </incDir>
           <preprocessorList>

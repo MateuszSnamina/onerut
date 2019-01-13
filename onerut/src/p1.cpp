@@ -1,5 +1,37 @@
 #include<armadillo>
 
+#include<operator_string_parser/node.hpp>
+#include<iostream>
+
+int main() {
+    {
+        std::string s = "  foo((3.), bar(6, x ), baz(-9))";
+        auto root = operator_string_parser::span_to_node({s.cbegin(), s.cend()});
+        std::cout << s << std::endl;
+        std::cout << root->str() << std::endl;
+    }
+    {
+        std::string s = "  3+ 5";
+        auto root = operator_string_parser::span_to_node({s.cbegin(), s.cend()});
+        std::cout << s << std::endl;
+        std::cout << root->str() << std::endl;
+    }
+    {
+        std::string s = "( ( x +  3+ (5) + foo(x,y)))";
+        auto root = operator_string_parser::span_to_node({s.cbegin(), s.cend()});
+        std::cout << s << std::endl;
+        std::cout << root->str() << std::endl;
+    }
+    {
+        std::string s = "( ( x +  5 * 9 * y + d * (7+4)))";
+        auto root = operator_string_parser::span_to_node({s.cbegin(), s.cend()});
+        std::cout << s << std::endl;
+        std::cout << root->str() << std::endl;
+    }    
+}
+
+
+/*
 int main() {
   arma::mat X = {{0,1},{1,0}};
   X = X * X;
@@ -16,3 +48,4 @@ int main() {
   //std::cout << epsilon << std::endl;
   //std::cout << beta << std::endl;
 }
+ */
