@@ -1,0 +1,10 @@
+W NetBeans project properties -> Buil -> Prebuild 
+zamiast:
+```${CMAKE}```
+wpisalem recznie:
+```/usr/local/bin/cmake```
+
+(Bo ${CMAKE} rozwija sie do /usr/bin/cmake,
+a u mnie /usr/bin/cmake byl za stary.)
+
+To trzeba sobie zmienic sobie...
