@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.10)
 # The project is supposed to be homogenous C++14 and Fortran.
 # (Fortran is needed for proper linkage with blas and lapack.)
 project(onerut LANGUAGES CXX Fortran)
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #set(CMAKE_CXX_EXTENSIONS OFF)
 add_compile_options(-Wall)
@@ -13,12 +13,12 @@ add_compile_options(-ffast-math)
 add_compile_options(-pthread)
 
 #################################################################
-#if (NOT (UNIX OR CYGWIN))
-#  message(WARNING "The project is supposed to be compiled on linux.")
-#endif()
-#if(NOT ${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
-#  message(WARNING "The project is supposed to be compiled with gcc.")
-#endif()
+if (NOT (UNIX OR CYGWIN))
+  message(WARNING "The project is supposed to be compiled on linux.")
+endif()
+if(NOT ${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+  message(WARNING "The project is supposed to be compiled with gcc.")
+endif()
 
 #################################################################
 # Define important directories.
