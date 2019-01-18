@@ -3,9 +3,13 @@
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <df root="onerut" name="0">
       <df name="src">
-        <in>ast_x3.cpp</in>
         <in>p1.cpp</in>
-        <in>parser.cpp</in>
+      </df>
+    </df>
+    <df root="onerut_parser" name="3">
+      <df name="src">
+        <in>ast_x3.cpp</in>
+        <in>gramma_parser.cpp</in>
       </df>
     </df>
     <df root="operator_string_parser" name="1">
@@ -32,6 +36,7 @@
     <Elem>onerut</Elem>
     <Elem>operator_string_parser</Elem>
     <Elem>operator_string_parser_tests</Elem>
+    <Elem>onerut_parser</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -63,6 +68,7 @@
         <ccTool>
           <incDir>
             <pElem>onerut/include</pElem>
+            <pElem>onerut_parser/include</pElem>
             <pElem>operator_string_parser/include</pElem>
             <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut</pElem>
@@ -87,15 +93,27 @@
           </incDir>
         </ccTool>
       </folder>
-      <item path="onerut/src/ast_x3.cpp" ex="false" tool="1" flavor2="11">
-        <ccTool flags="0">
+      <folder path="3">
+        <ccTool>
+          <incDir>
+            <pElem>onerut_parser/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_parser</pElem>
+          </incDir>
         </ccTool>
-      </item>
+      </folder>
       <item path="onerut/src/p1.cpp" ex="false" tool="1" flavor2="11">
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="onerut/src/parser.cpp" ex="false" tool="1" flavor2="11">
+      <item path="onerut_parser/src/ast_x3.cpp" ex="false" tool="1" flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_parser/src/gramma_parser.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
         <ccTool flags="0">
         </ccTool>
       </item>

@@ -13,6 +13,7 @@
                 <sourceRootElem>onerut</sourceRootElem>
                 <sourceRootElem>operator_string_parser</sourceRootElem>
                 <sourceRootElem>operator_string_parser_tests</sourceRootElem>
+                <sourceRootElem>onerut_parser</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>

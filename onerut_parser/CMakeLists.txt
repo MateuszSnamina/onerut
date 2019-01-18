@@ -20,12 +20,6 @@ if(NOT inc)
   message("    <no files>")
 endif()
 
-add_executable("${TARGET_NAME}" ${src} ${inc})
+add_library("${TARGET_NAME}" ${src} ${inc})
 target_include_directories("${TARGET_NAME}" PUBLIC include)
-target_link_libraries(onerut
-  onerut_parser
-  operator_string_parser
-  Boost::boost
-  Boost::program_options
-  armadillo lapack blas
-)
+target_link_libraries("${TARGET_NAME}" Boost::boost)

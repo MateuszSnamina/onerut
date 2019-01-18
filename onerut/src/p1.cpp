@@ -1,34 +1,30 @@
-//#include<armadillo>
+#include<onerut_parser/gramma_parser.hpp>
 
-#include<onerut/parser.hpp>
-
-///////////////////////////////////////////////////////////////////////
-#include<string_view>
-#include<boost/convert.hpp>
-#include<boost/convert/lexical_cast.hpp>
-
-//using boost::convert;
-//using boost::lexical_cast;
-
-struct boost::cnv::by_default : public boost::cnv::lexical_cast {
-};
-
-std::string_view make_string_view(boost::iterator_range<std::string::const_iterator> r) {
-    return std::string_view(&*r.begin(), r.end() - r.begin());
-}
 ///////////////////////////////////////////////////////////////////////
 
 int main() {
     std::string s = "  _alg(_67j,foo(7,8),xx2s) kota* 56.8 ";
-    onerut_parse(s);
+    onerut_parser::parse(s);
 }
 
 ///////////////////////////////////////////////////////////////////////////
+//#include<string_view>
+//std::string_view make_string_view(boost::iterator_range<std::string::const_iterator> r) {
+//    return std::string_view(&*r.begin(), r.end() - r.begin());
+//}
 
+///////////////////////////////////////////////////////////////////////
+//#include<boost/convert.hpp>
+//#include<boost/convert/lexical_cast.hpp>
+
+//using boost::convert;
+//using boost::lexical_cast;
+
+//struct boost::cnv::by_default : public boost::cnv::lexical_cast {
+//};
 /*
 int main() {
     {
-
         std::string s = "654x";
         boost::iterator_range<std::string::const_iterator> r;
         r = {s.cbegin(), s.cend()};
@@ -50,48 +46,5 @@ int main() {
         // }
     }
 
-    {
-        std::string s = "  foo((3.), bar(6, x ), baz(-9))";
-        auto root = operator_string_parser::span_to_node({s.cbegin(), s.cend()});
-        std::cout << s << std::endl;
-        std::cout << root->str() << std::endl;
-    }
-    {
-        std::string s = "  3+ 5";
-        auto root = operator_string_parser::span_to_node({s.cbegin(), s.cend()});
-        std::cout << s << std::endl;
-        std::cout << root->str() << std::endl;
-    }
-    {
-        std::string s = "( ( x +  3+ (5) + foo(x,y)))";
-        auto root = operator_string_parser::span_to_node({s.cbegin(), s.cend()});
-        std::cout << s << std::endl;
-        std::cout << root->str() << std::endl;
-    }
-    {
-        std::string s = "( ( x +  5 * 9 * y + d * (7+4)))";
-        auto root = operator_string_parser::span_to_node({s.cbegin(), s.cend()});
-        std::cout << s << std::endl;
-        std::cout << root->str() << std::endl;
-    }
 }
- */
-
-/*
-int main() {
-  arma::mat X = {{0,1},{1,0}};
-  X = X * X;
-  arma::mat beta;
-  arma::vec epsilon;
-  arma::eig_sym(epsilon, beta , X);
-  arma::sp_mat Y(5000, 5000);
-  Y(0,0) = -5;
-  Y(1,1) = -8;
-  Y(20,20) = -54;
-  Y(3,3) = -2;
-  Y(4,4) = -3;
-  //arma::eigs_sym(epsilon, beta , Y, 7, "sa");
-  //std::cout << epsilon << std::endl;
-  //std::cout << beta << std::endl;
-}
- */
+*/

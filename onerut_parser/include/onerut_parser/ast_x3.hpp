@@ -4,27 +4,22 @@
 #include<string>
 #include<vector>
 
-#include<boost/spirit/home/x3.hpp> ///????
 #include<boost/spirit/home/x3/support/ast/position_tagged.hpp>
 #include<boost/spirit/home/x3/support/ast/variant.hpp>
 
-//zrobic namespace ast_x3
-namespace ast {
+namespace onerut_parser::onerut_ast::x3 {
 
     struct IdentifierInfo : boost::spirit::x3::position_tagged {
         char first_char;
         std::vector<char> other_chars;
-        //std::string str() const;
     };
 
     struct LitIntInfo : boost::spirit::x3::position_tagged {
         int value;
-        // std::string str() const;
     };
 
     struct LitDoubleInfo : boost::spirit::x3::position_tagged {
         double value;
-        //  std::string str() const;
     };
 
     struct FunctionInfo;
@@ -47,16 +42,12 @@ namespace ast {
         std::vector<ExpressionInfo> argv;
     };
 
-    // std::string to_string(const ExpressionInfo& i);
-    /*
-        struct expression_printer {
-            typedef std::string result_type;
-            result_type operator()(const IdentifierInfo & i) const;
-            result_type operator()(const LitIntInfo & i) const;
-            result_type operator()(const LitDoubleInfo & i) const;
-            result_type operator()(const FunctionInfo & i) const;
-        };
-     */
+    std::string to_string(const IdentifierInfo& i);
+    std::string to_string(const LitIntInfo& i);
+    std::string to_string(const LitDoubleInfo& i);
+    std::string to_string(const FunctionInfo& i);
+    std::string to_string(const ExpressionInfo& i);
+
 }
 
 #endif
