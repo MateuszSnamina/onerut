@@ -21,4 +21,5 @@ if(NOT inc)
 endif()
 
 add_executable("${TARGET_NAME}" ${src} ${inc})
+target_include_directories("${TARGET_NAME}" PUBLIC include)
 target_link_libraries(onerut operator_string_parser armadillo lapack blas Boost::boost Boost::program_options)

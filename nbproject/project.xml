@@ -10,7 +10,9 @@
             <sourceEncoding>UTF-8</sourceEncoding>
             <make-dep-projects/>
             <sourceRootList>
-                <sourceRootElem>operator_string_parser/src</sourceRootElem>
+                <sourceRootElem>onerut</sourceRootElem>
+                <sourceRootElem>operator_string_parser</sourceRootElem>
+                <sourceRootElem>operator_string_parser_tests</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>

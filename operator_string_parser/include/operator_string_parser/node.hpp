@@ -1,11 +1,13 @@
 #ifndef OPERATR_STRING_PARSER_NODE_HPP
 #define OPERATR_STRING_PARSER_NODE_HPP
 
-#include<operator_string_parser/span.hpp>
+#include<operator_string_parser/string_span.hpp>
 #include<memory>
 #include<vector>
-
+#include<optional>
 namespace operator_string_parser {
+
+    // *************************************************************************
 
     class Node {
     public:
@@ -21,9 +23,11 @@ namespace operator_string_parser {
         };
         const string_const_span span;
         virtual std::string str() const = 0;
-        Type type;
+        Type type; //math type
         virtual ~Node() = default;
     };
+
+    // *************************************************************************
 
     class ConstIntNode : public Node {
     public:
@@ -60,6 +64,8 @@ namespace operator_string_parser {
         InvalidNode(string_const_span span);
         virtual std::string str() const override;
     };
+
+    // *************************************************************************
 
     std::shared_ptr<Node> span_to_node(string_const_span span);
 }

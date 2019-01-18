@@ -6,7 +6,7 @@
 #include<string>
 #include<optional>
 #include<stdexcept>
-#include<operator_string_parser/span.hpp>
+#include<operator_string_parser/string_span.hpp>
 
 namespace operator_string_parser {
     

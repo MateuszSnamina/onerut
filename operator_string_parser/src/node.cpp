@@ -1,6 +1,8 @@
+#include<cassert>
+#include<memory>
+#include<map>
 #include<operator_string_parser/node.hpp>
 #include<operator_string_parser/parse_XXX_string.hpp>
-#include<memory>
 
 namespace {
 
@@ -20,9 +22,13 @@ namespace {
 
 namespace operator_string_parser {
 
+    //**************************************************************************
+
     Node::Node(string_const_span span) :
     span(span) {
     }
+
+    //**************************************************************************
 
     ConstIntNode::ConstIntNode(
             string_const_span span,
@@ -84,7 +90,6 @@ namespace operator_string_parser {
     std::string InvalidNode::str() const {
         return "⟦I⇨" + string_span_to_string(span) + "⟧";
     }
-
     // *************************************************************************
 
     std::shared_ptr<Node> span_to_node(
