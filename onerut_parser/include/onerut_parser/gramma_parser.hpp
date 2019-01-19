@@ -4,7 +4,8 @@
 #include<string>
 
 namespace onerut_parser {
-    bool parse(const std::u32string& s);
+    bool parse(const std::u32string& input);
+    bool parse(const std::string input);    
 }
 
 #endif

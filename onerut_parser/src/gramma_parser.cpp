@@ -1,10 +1,13 @@
 #include<iostream>
-#include<boost/fusion/adapted/struct.hpp>
 #include<boost/spirit/home/x3.hpp>
+#include<boost/spirit/home/x3/support/utility/error_reporting.hpp>
+#include<boost/spirit/home/x3/support/utility/annotate_on_success.hpp>
 #include<boost/fusion/adapted/struct.hpp>
+//#include<boost/fusion/include/io.hpp>
 
 #include<onerut_parser/ast_x3.hpp>
 #include<onerut_parser/unicode_support.hpp>
+
 
 // -----------------------------------------------------------------------------
 // This has to be in the global scope:
@@ -40,9 +43,30 @@ namespace {
     inline void annotate_position::on_success(
             Iterator const& first, Iterator const& last,
             T& ast, Context const& context) {
-        auto& position_cache = boost::spirit::x3::get<position_cache_tag>(context).get();
+        auto& position_cache =
+                boost::spirit::x3::get<position_cache_tag>(context).get();
         position_cache.annotate(ast, first, last);
     }
+
+    struct error_handler {
+        template <typename Iterator, typename Exception, typename Context>
+        boost::spirit::x3::error_handler_result on_error(
+                Iterator& first, Iterator const& last,
+                Exception const& x, Context const& context);
+    };
+
+    template <typename Iterator, typename Exception, typename Context>
+    boost::spirit::x3::error_handler_result error_handler::on_error(
+            Iterator& first, Iterator const& last,
+            Exception const& x, Context const& context) {
+        auto& error_handler =
+                boost::spirit::x3::get<boost::spirit::x3::error_handler_tag>(context).get();
+        std::string message =
+                "Error! Expecting: " + x.which() + " here:";
+        error_handler(x.where(), message);
+        return boost::spirit::x3::error_handler_result::fail;
+    }
+
 
 }
 
@@ -61,7 +85,10 @@ namespace onerut_parser::onerut_gramma {
     struct FunctionParser : annotate_position {
     };
 
-    struct ExpressionParser {
+    struct RawExpressionParser {
+    };
+    
+    struct ExpressionParser : annotate_position, error_handler {
     };
 
     boost::spirit::x3::rule<class IndentifierParser, onerut_ast::x3::IdentifierInfo > const indentifier_parser = "indentifier_parser";
@@ -69,34 +96,43 @@ namespace onerut_parser::onerut_gramma {
     boost::spirit::x3::rule<class LitDoubleParser, onerut_ast::x3::LitDoubleInfo > const lit_double_parser = "lit_double_parser";
     boost::spirit::x3::rule<class FunctionParser, onerut_ast::x3::FunctionInfo > const function_parser = "function_parser";
     boost::spirit::x3::rule<class ExpressionParser, onerut_ast::x3::ExpressionInfo > const expression_parser = "expression_parser"; //, qi::space_type
-    auto const indentifier_parser_def = boost::spirit::x3::lexeme[boost::spirit::x3::char_("A-Za-z_") >> *boost::spirit::x3::char_("A-Za-z1-9_")];
 
+    //auto const indentifier_parser_def = boost::spirit::x3::lexeme[boost::spirit::x3::char_("A-Za-z_") >> *boost::spirit::x3::char_("A-Za-z1-9_") >> !boost::spirit::x3::char_('(')];
+    auto const indentifier_parser_def = boost::spirit::x3::lexeme[boost::spirit::x3::char_("A-Za-z_") >> *boost::spirit::x3::char_("A-Za-z1-9_")];
     auto const lit_int_parser_def = boost::spirit::x3::int_;
     auto const lit_double_parser_def = boost::spirit::x3::double_;
     auto const function_parser_def = indentifier_parser >> '(' >> expression_parser % ',' >> ')';
-    auto const expression_parser_def = lit_int_parser | lit_double_parser | function_parser | indentifier_parser;
+    auto const expression_parser_def = boost::spirit::x3::expect[lit_int_parser | lit_double_parser | function_parser | indentifier_parser];
 
     BOOST_SPIRIT_DEFINE(indentifier_parser, lit_int_parser, lit_double_parser, function_parser, expression_parser)
-
 }
 
 // -----------------------------------------------------------------------------
+
 namespace onerut_parser {
 
     bool parse(const std::u32string& s) {
+        // Iterators:
+        const std::u32string::const_iterator input_begin = s.cbegin();
+        const std::u32string::const_iterator input_end = s.cend();
+        std::u32string::const_iterator it = input_begin;
+        // Results:
         onerut_parser::onerut_ast::x3::ExpressionInfo ast_head;
-        using boost::spirit::x3::ascii::space;
         boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >> positions
         {
             s.begin(), s.end()
         };
-
-        auto const parser = boost::spirit::x3::with<position_cache_tag>(std::ref(positions))[onerut_parser::onerut_gramma::expression_parser];
-        std::u32string::const_iterator it = s.begin();
-        const bool match = phrase_parse(it, s.end(), parser, space, ast_head);
+        //
+        boost::spirit::x3::error_handler<std::u32string::const_iterator> error_handler(it, input_end, std::cerr);
+        auto const parser =
+                boost::spirit::x3::with<boost::spirit::x3::error_handler_tag>(std::ref(error_handler))[
+                boost::spirit::x3::with<position_cache_tag>(std::ref(positions))[
+                onerut_parser::onerut_gramma::expression_parser
+                ]];
+        const bool match = phrase_parse(it, s.end(), parser, boost::spirit::x3::ascii::space, ast_head);
         const bool hit_end = (it == s.end());
+        // Print info:
         std::cout << match << " " << hit_end << std::endl;
-
         std::vector<std::u32string> chart = to_u32string_chart(ast_head, positions);
         std::cout << "-----------------" << std::endl;
         std::cout << unicode_to_utf8(s) << std::endl;
@@ -105,15 +141,14 @@ namespace onerut_parser {
             std::cout << unicode_to_utf8(chart[line]) << std::endl;
         }
         std::cout << "-----------------" << std::endl;
-
         std::cout << unicode_to_utf8(to_u32string(ast_head)) << std::endl;
-        std::cout << positions.position_of(ast_head).begin() - s.begin() << std::endl;
-        std::cout << positions.position_of(ast_head).end() - s.begin() << std::endl;
-        std::cout << unicode_to_utf8(std::u32string(positions.position_of(ast_head).begin(), positions.position_of(ast_head).end())) << std::endl;
-
-
+        // Return results:
         return match && hit_end;
 
+    }
+
+    bool parse(const std::string input) {
+        return parse(unicode_from_utf8(input));
     }
 
 }

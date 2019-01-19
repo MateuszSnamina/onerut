@@ -79,9 +79,11 @@ function download_and_build_boost() {
   ./bootstrap.sh |& tee "${boost_boostrap_log_path}"
   ./bjam link=static \
          --toolset=gcc\
+         --cxxflags="-std=c++17"\
          --layout=system\
          --build-type=minimal\
          --with-program_options\
+         --with-system\
          --prefix=${EP_PATH}\
          install |& tee "${boost_bjam_log_path}" 
   cd ${EP_PATH}
@@ -165,7 +167,7 @@ function download_and_build_openblas() {
 #####################################
 
 init
-#download_and_build_boost
+download_and_build_boost
 #download_and_build_openblas
 #download_and_build_lapack
 #download_and_build_armadillo
