@@ -1,5 +1,5 @@
-#ifndef ONERUT_AST_X3
-#define ONERUT_AST_X3
+#ifndef ONERUT_PARSER_AST_X3
+#define ONERUT_PARSER_AST_X3
 
 #include<string>
 #include<vector>
@@ -41,16 +41,6 @@ namespace onerut_parser::onerut_ast::x3 {
         IdentifierInfo name;
         std::vector<ExpressionInfo> argv;
     };
-
-    std::u32string to_u32string(const IdentifierInfo& info);
-    std::u32string to_u32string(const LitIntInfo& info);
-    std::u32string to_u32string(const LitDoubleInfo& info);
-    std::u32string to_u32string(const FunctionInfo& info);
-    std::u32string to_u32string(const ExpressionInfo& info);
-
-    std::vector<std::u32string> to_u32string_chart(
-            const ExpressionInfo& info,
-            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions);
 
 }
 

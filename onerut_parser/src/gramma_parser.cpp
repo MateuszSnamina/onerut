@@ -8,6 +8,8 @@
 
 #include<onerut_parser/unicode_support.hpp>
 #include<onerut_parser/ast_x3.hpp>
+#include<onerut_parser/ast_x3_to_string.hpp>
+#include<onerut_parser/ast_x3_to_chart.hpp>
 #include<onerut_parser/gramma_parser.hpp>
 
 // -----------------------------------------------------------------------------
@@ -67,7 +69,6 @@ namespace {
         error_handler(x.where(), message);
         return boost::spirit::x3::error_handler_result::fail;
     }
-
 
 }
 
@@ -133,16 +134,18 @@ namespace onerut_parser {
         const bool match = phrase_parse(it, s.end(), parser, boost::spirit::x3::ascii::space, ast_head);
         const bool hit_end = (it == s.end());
         // Print info:
+        std::cout << "match:   " << match << std::endl;
+        std::cout << "hit_end: " << hit_end << std::endl;
         if (match) {
-            std::cout << match << " " << hit_end << std::endl;
             std::vector<std::u32string> chart = to_u32string_chart(ast_head, positions);
-            std::cout << "-----------------" << std::endl;
-            std::cout << unicode_to_utf8(s) << std::endl;
-            std::cout << "-----------------" << std::endl;
+            const std::u32string table_horizontal_line(input_end - input_begin + 2, U'▓');
+            std::cout << unicode_to_utf8(table_horizontal_line) << std::endl;
+            std::cout << "▓" << unicode_to_utf8(s) << "▓" << std::endl;
+            std::cout << unicode_to_utf8(table_horizontal_line) << std::endl;
             for (unsigned line = 0; line < chart.size(); line++) {
-                std::cout << unicode_to_utf8(chart[line]) << std::endl;
+                std::cout << "▓" << unicode_to_utf8(chart[line]) << "▓" << std::endl;
             }
-            std::cout << "-----------------" << std::endl;
+            std::cout << unicode_to_utf8(table_horizontal_line) << std::endl;
             std::cout << unicode_to_utf8(to_u32string(ast_head)) << std::endl;
             // Return results:
         }
