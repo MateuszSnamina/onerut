@@ -6,18 +6,19 @@
         <in>p1.cpp</in>
       </df>
     </df>
-    <df root="onerut_parser" name="3">
+    <df root="onerut_parser" name="1">
       <df name="src">
         <in>ast_x3.cpp</in>
         <in>gramma_parser.cpp</in>
+        <in>unicode_support.cpp</in>
       </df>
     </df>
-    <df root="operator_string_parser" name="1">
+    <df root="operator_string_parser" name="2">
       <df name="src">
         <in>token.cpp</in>
       </df>
     </df>
-    <df root="operator_string_parser_tests" name="2">
+    <df root="operator_string_parser_tests" name="3">
       <df name="src">
         <in>nodes.cpp</in>
         <in>parse_XXX_string.cpp</in>
@@ -78,9 +79,9 @@
       <folder path="1">
         <ccTool>
           <incDir>
-            <pElem>operator_string_parser/include</pElem>
+            <pElem>onerut_parser/include</pElem>
             <pElem>external_packages/include</pElem>
-            <pElem>build_netbeanns/operator_string_parser</pElem>
+            <pElem>build_netbeanns/onerut_parser</pElem>
           </incDir>
         </ccTool>
       </folder>
@@ -111,6 +112,13 @@
         </ccTool>
       </item>
       <item path="onerut_parser/src/gramma_parser.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_parser/src/unicode_support.cpp"
             ex="false"
             tool="1"
             flavor2="11">

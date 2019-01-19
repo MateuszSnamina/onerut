@@ -1,17 +1,17 @@
 #include<iostream>
-//#include<boost/algorithm/string/join.hpp>
 #include<boost/fusion/adapted/struct.hpp>
 #include<boost/spirit/home/x3.hpp>
+#include<boost/fusion/adapted/struct.hpp>
 
 #include<onerut_parser/ast_x3.hpp>
+#include<onerut_parser/unicode_support.hpp>
 
 // -----------------------------------------------------------------------------
-// This to be in global scope:
-#include<boost/fusion/adapted/struct.hpp>
+// This has to be in the global scope:
 BOOST_FUSION_ADAPT_STRUCT(
         onerut_parser::onerut_ast::x3::IdentifierInfo,
-        (wchar_t, first_char)
-        (std::vector<wchar_t>, other_chars))
+        (char32_t, first_char)
+        (std::vector<char32_t>, other_chars))
 BOOST_FUSION_ADAPT_STRUCT(
         onerut_parser::onerut_ast::x3::LitIntInfo,
         (int, value))
@@ -83,35 +83,37 @@ namespace onerut_parser::onerut_gramma {
 // -----------------------------------------------------------------------------
 namespace onerut_parser {
 
-    bool parse(const std::wstring& s) {
+    bool parse(const std::u32string& s) {
         onerut_parser::onerut_ast::x3::ExpressionInfo ast_head;
         using boost::spirit::x3::ascii::space;
-        boost::spirit::x3::position_cache<std::vector < std::wstring::const_iterator >> positions
+        boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >> positions
         {
             s.begin(), s.end()
         };
 
         auto const parser = boost::spirit::x3::with<position_cache_tag>(std::ref(positions))[onerut_parser::onerut_gramma::expression_parser];
-        std::wstring::const_iterator it = s.begin();
+        std::u32string::const_iterator it = s.begin();
         const bool match = phrase_parse(it, s.end(), parser, space, ast_head);
         const bool hit_end = (it == s.end());
         std::cout << match << " " << hit_end << std::endl;
 
-        std::vector<std::wstring> chart = to_wstring_chart(ast_head, positions);
-
-        std::wcout << L"-----------------" << std::endl;
-        std::wcout << s << std::endl;
-        std::wcout << L"-----------------" << std::endl;
+        std::vector<std::u32string> chart = to_u32string_chart(ast_head, positions);
+        std::cout << "-----------------" << std::endl;
+        std::cout << unicode_to_utf8(s) << std::endl;
+        std::cout << "-----------------" << std::endl;
         for (unsigned line = 0; line < chart.size(); line++) {
-            std::wcout << chart[line] << std::endl;
+            std::cout << unicode_to_utf8(chart[line]) << std::endl;
         }
-        std::wcout << L"-----------------" << std::endl;
+        std::cout << "-----------------" << std::endl;
 
-        std::wcout << to_wstring(ast_head) << std::endl;
-        std::wcout << positions.position_of(ast_head).begin() - s.begin() << std::endl;
-        std::wcout << positions.position_of(ast_head).end() - s.begin() << std::endl;
-        std::wcout << std::wstring(positions.position_of(ast_head).begin(), positions.position_of(ast_head).end()) << std::endl;
+        std::cout << unicode_to_utf8(to_u32string(ast_head)) << std::endl;
+        std::cout << positions.position_of(ast_head).begin() - s.begin() << std::endl;
+        std::cout << positions.position_of(ast_head).end() - s.begin() << std::endl;
+        std::cout << unicode_to_utf8(std::u32string(positions.position_of(ast_head).begin(), positions.position_of(ast_head).end())) << std::endl;
+
+
         return match && hit_end;
+
     }
 
 }

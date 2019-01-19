@@ -10,7 +10,7 @@ int main() {
     ///std::wcout << "input size: " << ws.size() << std::endl;
     //std::wcout << "input     : " << ws << std::endl;    
 
-    std::wstring ws = L"  _alg(_67j,foo(7,8),xx2s) kota* 56.8 ";
+    std::u32string ws = U"  _alg(_67j,foo(7,8),xx2s) kota* 56.8 ";
     onerut_parser::parse(ws);
     
 }
