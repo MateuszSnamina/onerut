@@ -11,6 +11,7 @@
 #include<onerut_parser/ast_x3_to_string.hpp>
 #include<onerut_parser/ast_x3_to_chart.hpp>
 #include<onerut_parser/gramma_parser.hpp>
+#include <c++/5/bits/shared_ptr.h>
 
 // -----------------------------------------------------------------------------
 // This has to be in the global scope:
@@ -115,10 +116,10 @@ namespace onerut_parser::onerut_gramma {
 
 namespace onerut_parser {
 
-    ParseResultInfo parse(const std::u32string& s) {
+    ParseResultInfo parse(std::shared_ptr<const std::u32string> input) {
         // Iterators:
-        const std::u32string::const_iterator input_begin = s.cbegin();
-        const std::u32string::const_iterator input_end = s.cend();
+        const std::u32string::const_iterator input_begin = input->cbegin();
+        const std::u32string::const_iterator input_end = input->cend();
         std::u32string::const_iterator it = input_begin;
         // Results:
         onerut_parser::onerut_ast::x3::ExpressionInfo ast_head;
@@ -131,29 +132,34 @@ namespace onerut_parser {
                 boost::spirit::x3::with<position_cache_tag>(std::ref(positions))[
                 onerut_parser::onerut_gramma::expression_parser
                 ]];
-        const bool match = phrase_parse(it, s.end(), parser, boost::spirit::x3::ascii::space, ast_head);
-        const bool hit_end = (it == s.end());
-        // Print info:
-        std::cout << "match:   " << match << std::endl;
-        std::cout << "hit_end: " << hit_end << std::endl;
-        if (match) {
-            std::vector<std::u32string> chart = to_u32string_chart(ast_head, positions);
-            const std::u32string table_horizontal_line(input_end - input_begin + 2, U'▓');
-            std::cout << unicode_to_utf8(table_horizontal_line) << std::endl;
-            std::cout << "▓" << unicode_to_utf8(s) << "▓" << std::endl;
-            std::cout << unicode_to_utf8(table_horizontal_line) << std::endl;
-            for (unsigned line = 0; line < chart.size(); line++) {
-                std::cout << "▓" << unicode_to_utf8(chart[line]) << "▓" << std::endl;
-            }
-            std::cout << unicode_to_utf8(table_horizontal_line) << std::endl;
-            std::cout << unicode_to_utf8(to_u32string(ast_head)) << std::endl;
-            // Return results:
-        }
-        return {match, hit_end, match && hit_end, ast_head, positions};
+        const bool match = phrase_parse(it, input_end, parser, boost::spirit::x3::ascii::space, ast_head);
+        const bool hit_end = (it == input_end);
+        // Return results:        
+        return {input, match, hit_end, match && hit_end, ast_head, positions};
+    }
+
+    ParseResultInfo parse(const std::u32string input) {
+        return parse(std::make_shared<const std::u32string>(input));
     }
 
     ParseResultInfo parse(const std::string input) {
-        return parse(unicode_from_utf8(input));
+        return parse(std::make_shared<const std::u32string>(unicode_from_utf8(input)));
     }
 
+    void print(ParseResultInfo info) {
+        std::cout << "match:     " << info.match << std::endl;
+        std::cout << "hit_end:   " << info.hit_end << std::endl;
+        if (info.match) {
+            std::cout << "to_string: " << unicode_to_utf8(to_u32string(info.ast_head)) << std::endl;
+            std::vector<std::u32string> chart = to_u32string_chart(info.ast_head, info.positions);
+            const unsigned input_length = info.positions.last() - info.positions.first();
+            const std::u32string table_horizontal_line(input_length + 2, U'▓');
+            std::cout << unicode_to_utf8(table_horizontal_line) << std::endl;
+            std::cout << "▓" << unicode_to_utf8(*info.input) << "▓" << std::endl;
+            std::cout << unicode_to_utf8(table_horizontal_line) << std::endl;
+            for (const auto & chart_line : chart)
+                std::cout << "▓" << unicode_to_utf8(chart_line) << "▓" << std::endl;
+            std::cout << unicode_to_utf8(table_horizontal_line) << std::endl;
+        }
+    }
 }

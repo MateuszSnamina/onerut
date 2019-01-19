@@ -1,16 +1,11 @@
 #include<onerut_parser/gramma_parser.hpp>
 #include<iostream>
 
-
-int main() { 
-    //std::wstring s;
-    //std::getline(std::cin, s);
-    ///std::wcout << "input size: " << ws.size() << std::endl;
-    //std::wcout << "input     : " << ws << std::endl;    
-    std::string s = "  _alg(_67j, foo(  7  , 8 ) , xx2s) kota* 56.8 ";
-    //std::string s = "  $ ";
-    onerut_parser::parse(s);
-    
+int main() {
+    //std::string input = "  _alg(_67j, foo(  7  , 8 ) , xx2s) kota* 56.8 ";
+    std::string input  = "  $ ";
+    const auto parsed = onerut_parser::parse(input);
+    print(parsed);
 }
 
 ///////////////////////////////////////////////////////////////////////////
