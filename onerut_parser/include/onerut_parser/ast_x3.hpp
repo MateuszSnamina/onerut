@@ -10,8 +10,8 @@
 namespace onerut_parser::onerut_ast::x3 {
 
     struct IdentifierInfo : boost::spirit::x3::position_tagged {
-        char first_char;
-        std::vector<char> other_chars;
+        wchar_t first_char;
+        std::vector<wchar_t> other_chars;
     };
 
     struct LitIntInfo : boost::spirit::x3::position_tagged {
@@ -42,11 +42,15 @@ namespace onerut_parser::onerut_ast::x3 {
         std::vector<ExpressionInfo> argv;
     };
 
-    std::string to_string(const IdentifierInfo& i);
-    std::string to_string(const LitIntInfo& i);
-    std::string to_string(const LitDoubleInfo& i);
-    std::string to_string(const FunctionInfo& i);
-    std::string to_string(const ExpressionInfo& i);
+    std::wstring to_wstring(const IdentifierInfo& i);
+    std::wstring to_wstring(const LitIntInfo& i);
+    std::wstring to_wstring(const LitDoubleInfo& i);
+    std::wstring to_wstring(const FunctionInfo& i);
+    std::wstring to_wstring(const ExpressionInfo& i);
+
+    std::vector<std::wstring> to_wstring_chart(
+            const ExpressionInfo& i,
+            const boost::spirit::x3::position_cache<std::vector < std::wstring::const_iterator >>&positions);
 
 }
 

@@ -4,7 +4,7 @@
 #include<string>
 
 namespace onerut_parser {
-    bool parse(const std::string& s);
+    bool parse(const std::wstring& s);
 }
 
 #endif

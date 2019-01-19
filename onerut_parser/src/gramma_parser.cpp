@@ -10,8 +10,8 @@
 #include<boost/fusion/adapted/struct.hpp>
 BOOST_FUSION_ADAPT_STRUCT(
         onerut_parser::onerut_ast::x3::IdentifierInfo,
-        (char, first_char)
-        (std::vector<char>, other_chars))
+        (wchar_t, first_char)
+        (std::vector<wchar_t>, other_chars))
 BOOST_FUSION_ADAPT_STRUCT(
         onerut_parser::onerut_ast::x3::LitIntInfo,
         (int, value))
@@ -30,14 +30,20 @@ namespace {
     };
 
     struct annotate_position {
-
         template <typename T, typename Iterator, typename Context>
-        inline void on_success(Iterator const& first, Iterator const& last
-                , T& ast, Context const& context) {
-            auto& position_cache = boost::spirit::x3::get<position_cache_tag>(context).get();
-            position_cache.annotate(ast, first, last);
-        }
+        inline void on_success(
+                Iterator const& first, Iterator const& last,
+                T& ast, Context const& context);
     };
+
+    template <typename T, typename Iterator, typename Context>
+    inline void annotate_position::on_success(
+            Iterator const& first, Iterator const& last,
+            T& ast, Context const& context) {
+        auto& position_cache = boost::spirit::x3::get<position_cache_tag>(context).get();
+        position_cache.annotate(ast, first, last);
+    }
+
 }
 
 // -----------------------------------------------------------------------------
@@ -77,24 +83,34 @@ namespace onerut_parser::onerut_gramma {
 // -----------------------------------------------------------------------------
 namespace onerut_parser {
 
-    bool parse(const std::string& s) {
+    bool parse(const std::wstring& s) {
         onerut_parser::onerut_ast::x3::ExpressionInfo ast_head;
         using boost::spirit::x3::ascii::space;
-        boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >> positions
+        boost::spirit::x3::position_cache<std::vector < std::wstring::const_iterator >> positions
         {
             s.begin(), s.end()
         };
 
         auto const parser = boost::spirit::x3::with<position_cache_tag>(std::ref(positions))[onerut_parser::onerut_gramma::expression_parser];
-        std::string::const_iterator it = s.begin();
+        std::wstring::const_iterator it = s.begin();
         const bool match = phrase_parse(it, s.end(), parser, space, ast_head);
         const bool hit_end = (it == s.end());
         std::cout << match << " " << hit_end << std::endl;
 
-        std::cout << to_string(ast_head) << std::endl;
-        std::cout << positions.position_of(ast_head).begin() - s.begin() << std::endl;
-        std::cout << positions.position_of(ast_head).end() - s.begin() << std::endl;
-        std::cout << std::string(positions.position_of(ast_head).begin(), positions.position_of(ast_head).end()) << std::endl;
+        std::vector<std::wstring> chart = to_wstring_chart(ast_head, positions);
+
+        std::wcout << L"-----------------" << std::endl;
+        std::wcout << s << std::endl;
+        std::wcout << L"-----------------" << std::endl;
+        for (unsigned line = 0; line < chart.size(); line++) {
+            std::wcout << chart[line] << std::endl;
+        }
+        std::wcout << L"-----------------" << std::endl;
+
+        std::wcout << to_wstring(ast_head) << std::endl;
+        std::wcout << positions.position_of(ast_head).begin() - s.begin() << std::endl;
+        std::wcout << positions.position_of(ast_head).end() - s.begin() << std::endl;
+        std::wcout << std::wstring(positions.position_of(ast_head).begin(), positions.position_of(ast_head).end()) << std::endl;
         return match && hit_end;
     }
 
