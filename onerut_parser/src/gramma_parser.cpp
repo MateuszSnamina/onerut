@@ -88,7 +88,7 @@ namespace onerut_parser::onerut_gramma {
     struct FunctionParser : annotate_position {
     };
 
-    struct ExpressionParserRaw {
+    struct ExpressionParserRaw : annotate_position {
     };
 
     struct ExpressionParser : annotate_position, error_handler {

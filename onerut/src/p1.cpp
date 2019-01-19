@@ -2,8 +2,8 @@
 #include<iostream>
 
 int main() {
-    //std::string input = "  _alg(_67j, foo(  7  , 8 ) , xx2s) kota* 56.8 ";
-    std::string input  = "  $ ";
+    std::string input = "  _alg(_67j, foo(  7  , 8 ) , xx2s) kota* 56.8 ";
+    //std::string input  = "  $ ";
     const auto parsed = onerut_parser::parse(input);
     print(parsed);
 }
