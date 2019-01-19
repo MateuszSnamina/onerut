@@ -15,11 +15,14 @@
     </df>
     <df root="operator_string_parser" name="2">
       <df name="src">
+        <in>node.cpp</in>
+        <in>parse_XXX_string.cpp</in>
         <in>token.cpp</in>
       </df>
     </df>
     <df root="operator_string_parser_tests" name="3">
       <df name="src">
+        <in>main.cpp</in>
         <in>nodes.cpp</in>
         <in>parse_XXX_string.cpp</in>
         <in>token.cpp</in>
@@ -90,16 +93,16 @@
           <incDir>
             <pElem>operator_string_parser/include</pElem>
             <pElem>external_packages/include</pElem>
-            <pElem>build_netbeanns/operator_string_parser_tests</pElem>
+            <pElem>build_netbeanns/operator_string_parser</pElem>
           </incDir>
         </ccTool>
       </folder>
       <folder path="3">
         <ccTool>
           <incDir>
-            <pElem>onerut_parser/include</pElem>
+            <pElem>operator_string_parser/include</pElem>
             <pElem>external_packages/include</pElem>
-            <pElem>build_netbeanns/onerut_parser</pElem>
+            <pElem>build_netbeanns/operator_string_parser_tests</pElem>
           </incDir>
         </ccTool>
       </folder>
@@ -125,7 +128,28 @@
         <ccTool flags="0">
         </ccTool>
       </item>
+      <item path="operator_string_parser/src/node.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="operator_string_parser/src/parse_XXX_string.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
       <item path="operator_string_parser/src/token.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="operator_string_parser_tests/src/main.cpp"
             ex="false"
             tool="1"
             flavor2="11">
