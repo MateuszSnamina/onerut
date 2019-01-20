@@ -16,19 +16,6 @@
 // -----------------------------------------------------------------------------
 // This has to be in the global scope:
 BOOST_FUSION_ADAPT_STRUCT(
-        onerut_parser::onerut_ast::x3::IdentifierInfo,
-        (char32_t, first_char)
-        (std::vector<char32_t>, other_chars))
-BOOST_FUSION_ADAPT_STRUCT(
-        onerut_parser::onerut_ast::x3::LitIntInfo,
-        (int, value))
-BOOST_FUSION_ADAPT_STRUCT(
-        onerut_parser::onerut_ast::x3::LitDoubleInfo,
-        (double, value))
-BOOST_FUSION_ADAPT_STRUCT(
-        onerut_parser::onerut_ast::x3::NestedExpressionInfo,
-        (onerut_parser::onerut_ast::x3::ExpressionInfo, expression))
-BOOST_FUSION_ADAPT_STRUCT(
         onerut_parser::onerut_ast::x3::ExpressionInfo,
         (onerut_parser::onerut_ast::x3::OpPlusInfo, sum))
 BOOST_FUSION_ADAPT_STRUCT(
@@ -38,9 +25,22 @@ BOOST_FUSION_ADAPT_STRUCT(
         onerut_parser::onerut_ast::x3::OpProdInfo,
         (std::vector<onerut_parser::onerut_ast::x3::ValueInfo>, argv))
 BOOST_FUSION_ADAPT_STRUCT(
+        onerut_parser::onerut_ast::x3::LitDoubleInfo,
+        (double, value))
+BOOST_FUSION_ADAPT_STRUCT(
+        onerut_parser::onerut_ast::x3::LitIntInfo,
+        (int, value))
+BOOST_FUSION_ADAPT_STRUCT(
         onerut_parser::onerut_ast::x3::FunctionInfo,
         (onerut_parser::onerut_ast::x3::IdentifierInfo, name)
         (std::vector<onerut_parser::onerut_ast::x3::ExpressionInfo>, argv))
+BOOST_FUSION_ADAPT_STRUCT(
+        onerut_parser::onerut_ast::x3::IdentifierInfo,
+        (char32_t, first_char)
+        (std::vector<char32_t>, other_chars))
+BOOST_FUSION_ADAPT_STRUCT(
+        onerut_parser::onerut_ast::x3::NestedExpressionInfo,
+        (onerut_parser::onerut_ast::x3::ExpressionInfo, expression))
 
 // -----------------------------------------------------------------------------
 namespace {
@@ -88,16 +88,10 @@ namespace {
 // -----------------------------------------------------------------------------
 namespace onerut_parser::onerut_gramma {
 
-    struct IndentifierParser : annotate_position {
+    struct ExpressionParserRaw : annotate_position {
     };
 
-    struct LitIntParser : annotate_position {
-    };
-
-    struct LitDoubleParser : annotate_position {
-    };
-
-    struct NestedExpressionParser : annotate_position {
+    struct ExpressionParser : annotate_position, error_handler {
     };
 
     struct OpPlusParser : annotate_position {
@@ -106,64 +100,60 @@ namespace onerut_parser::onerut_gramma {
     struct OpProdParser : annotate_position {
     };
 
-    struct FunctionParser : annotate_position {
-    };
-
-    struct ExpressionParserRaw : annotate_position {
-    };
-
-    struct ExpressionParser : annotate_position, error_handler {
-    };
-
     struct ValueParser : annotate_position {
     };
 
-    boost::spirit::x3::rule<class IndentifierParser, onerut_ast::x3::IdentifierInfo > const indentifier_parser = "indentifier_parser";
-    boost::spirit::x3::rule<class LitIntParser, onerut_ast::x3::LitIntInfo > const lit_int_parser = "lit_int_parser";
-    boost::spirit::x3::rule<class LitDoubleParser, onerut_ast::x3::LitDoubleInfo > const lit_double_parser = "lit_double_parser";
-    boost::spirit::x3::rule<class NestedExpressionParser, onerut_ast::x3::NestedExpressionInfo > const nested_expression_parser = "nested_expression_parser";
+    struct LitDoubleParser : annotate_position {
+    };
+
+    struct LitIntParser : annotate_position {
+    };
+
+    struct FunctionParser : annotate_position {
+    };
+
+    struct IndentifierParser : annotate_position {
+    };
+
+    struct NestedExpressionParser : annotate_position {
+    };
+
+    boost::spirit::x3::rule<class ExpressionParserRaw, onerut_ast::x3::ExpressionInfo > const expression_parser_raw = "expression_parser_raw";
+    boost::spirit::x3::rule<class ExpressionParser, onerut_ast::x3::ExpressionInfo > const expression_parser = "expression_parser";
     boost::spirit::x3::rule<class OpPlusParser, onerut_ast::x3::OpPlusInfo > const op_plus_parser = "op_plus_parser";
-    //boost::spirit::x3::rule<class OpPlusParser, onerut_ast::x3::OpPlus2Info > const op_plus_parser = "op_plus_parser";
     boost::spirit::x3::rule<class OpProdParser, onerut_ast::x3::OpProdInfo > const op_prod_parser = "op_prod_parser";
-    //boost::spirit::x3::rule<class OpProdParser, onerut_ast::x3::OpProd2Info > const op_prod_parser = "op_prod_parser";
+    boost::spirit::x3::rule<class ValueParser, onerut_ast::x3::ValueInfo > const value_parser = "value_parser";
+    boost::spirit::x3::rule<class LitDoubleParser, onerut_ast::x3::LitDoubleInfo > const lit_double_parser = "lit_double_parser";
+    boost::spirit::x3::rule<class LitIntParser, onerut_ast::x3::LitIntInfo > const lit_int_parser = "lit_int_parser";
     boost::spirit::x3::rule<class FunctionParser, onerut_ast::x3::FunctionInfo > const function_parser = "function_parser";
-    boost::spirit::x3::rule<class ExpressionParserRaw, onerut_ast::x3::ExpressionInfo > const expression_parser_raw = "expression_parser_raw"; //, qi::space_type
-    boost::spirit::x3::rule<class ExpressionParser, onerut_ast::x3::ExpressionInfo > const expression_parser = "expression_parser"; //, qi::space_type
-    boost::spirit::x3::rule<class ValueParser, onerut_ast::x3::ValueInfo > const value_parser = "value_parser"; //, qi::space_type    
+    boost::spirit::x3::rule<class IndentifierParser, onerut_ast::x3::IdentifierInfo > const indentifier_parser = "indentifier_parser";
+    boost::spirit::x3::rule<class NestedExpressionParser, onerut_ast::x3::NestedExpressionInfo > const nested_expression_parser = "nested_expression_parser";
 
     // https://en.wikipedia.org/wiki/Parsing_expression_grammar:
-    //auto const indentifier_parser_def = boost::spirit::x3::lexeme[boost::spirit::x3::char_("A-Za-z_") >> *boost::spirit::x3::char_("A-Za-z1-9_") >> !boost::spirit::x3::char_('(')];
-    auto const indentifier_parser_def = boost::spirit::x3::lexeme[boost::spirit::x3::char_("A-Za-z_") >> *boost::spirit::x3::char_("A-Za-z1-9_")];
-    auto const lit_int_parser_def = boost::spirit::x3::int_; // dopisac brak kropki !!
-    //auto const lit_double_parser_def = boost::spirit::x3::double_;
-    auto const lit_double_parser_def = boost::spirit::x3::real_parser<double,boost::spirit::x3::strict_real_policies<double>>();
-    
-    auto const nested_expression_parser_def = '(' >> expression_parser >> ')';
-    //auto const op_plus_parser_def = '(' >> expression_parser % '+' >> ')';
-    //auto const op_plus_parser_def = expression_parser % boost::spirit::x3::char_("+");
-    //auto const op_plus_parser_def = expression_parser >> "+" >> expression_parser % boost::spirit::x3::char_("+");
-    //auto const op_plus_parser_def = expression_parser >> '+' >> expression_parser % '+';
-    auto const op_plus_parser_def = op_prod_parser % '+';
-    //auto const op_prod_parser_def = value_parser % '*';
-    auto const op_prod_parser_def = value_parser % '*';
-    auto const function_parser_def = indentifier_parser >> '(' >> expression_parser % ',' >> ')'; // byc moze warto przeniesc pare linijek wyzej
-    //auto const expression_parser_raw_def = op_plus_parser;
-    auto const value_parser_def =
-            lit_double_parser | lit_int_parser |
-            nested_expression_parser |
-            function_parser | indentifier_parser
-            ;
+
     auto const expression_parser_raw_def = op_plus_parser;
     auto const expression_parser_def = boost::spirit::x3::expect[expression_parser_raw];
+    auto const op_plus_parser_def = op_prod_parser % '+';
+    auto const op_prod_parser_def = value_parser % '*';
+    auto const value_parser_def =
+            lit_double_parser | lit_int_parser | // lit_double_parser has to be before lit_int_parser.
+            function_parser | indentifier_parser | //function_parser has to be before indentifier_parser
+            nested_expression_parser;
+    auto const lit_double_parser_def = boost::spirit::x3::real_parser<double, boost::spirit::x3::strict_real_policies<double>>();
+    auto const lit_int_parser_def = boost::spirit::x3::int_;
+    auto const function_parser_def = indentifier_parser >> '(' >> expression_parser % ',' >> ')'; // byc moze warto przeniesc pare linijek wyzej
+    auto const indentifier_parser_def = boost::spirit::x3::lexeme[boost::spirit::x3::char_("A-Za-z_") >> *boost::spirit::x3::char_("A-Za-z1-9_")];
+    auto const nested_expression_parser_def = '(' >> expression_parser >> ')';
 
-    BOOST_SPIRIT_DEFINE(indentifier_parser, lit_int_parser, lit_double_parser,
-            nested_expression_parser,
+    BOOST_SPIRIT_DEFINE(
+            expression_parser_raw,
+            expression_parser,
             op_plus_parser,
             op_prod_parser,
             value_parser,
-            function_parser,
-            expression_parser,
-            expression_parser_raw)
+            lit_double_parser, lit_int_parser,
+            function_parser, indentifier_parser,
+            nested_expression_parser)
 }
 
 // -----------------------------------------------------------------------------

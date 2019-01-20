@@ -9,12 +9,12 @@ namespace onerut_parser::onerut_ast::x3 {
     std::u32string to_u32string(const OpPlusInfo& info);
     std::u32string to_u32string(const OpProdInfo& info);
     std::u32string to_u32string(const ValueInfo& info);
-    std::u32string to_u32string(const IdentifierInfo& info);
-    std::u32string to_u32string(const LitIntInfo& info);
     std::u32string to_u32string(const LitDoubleInfo& info);
-    std::u32string to_u32string(const NestedExpressionInfo& info);
+    std::u32string to_u32string(const LitIntInfo& info);
     std::u32string to_u32string(const FunctionInfo& info);
-
+    std::u32string to_u32string(const IdentifierInfo& info);
+    std::u32string to_u32string(const NestedExpressionInfo& info);
+    
 }
 
 #endif

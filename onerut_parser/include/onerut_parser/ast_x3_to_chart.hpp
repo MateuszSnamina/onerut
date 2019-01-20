@@ -25,7 +25,7 @@ namespace onerut_parser::onerut_ast::x3 {
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
             unsigned deepness,
             std::vector<std::u32string>& chart);
-    void to_u32string_chart(const IdentifierInfo& info,
+    void to_u32string_chart(const LitDoubleInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
             unsigned deepness,
             std::vector<std::u32string>& chart);
@@ -33,7 +33,11 @@ namespace onerut_parser::onerut_ast::x3 {
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
             unsigned deepness,
             std::vector<std::u32string>& chart);
-    void to_u32string_chart(const LitDoubleInfo& info,
+    void to_u32string_chart(const FunctionInfo& info,
+            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
+            unsigned deepness,
+            std::vector<std::u32string>& chart);
+    void to_u32string_chart(const IdentifierInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
             unsigned deepness,
             std::vector<std::u32string>& chart);
@@ -41,11 +45,7 @@ namespace onerut_parser::onerut_ast::x3 {
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
             unsigned deepness,
             std::vector<std::u32string>& chart);
-    void to_u32string_chart(const FunctionInfo& info,
-            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
-            unsigned deepness,
-            std::vector<std::u32string>& chart);
-    
+
     std::vector<std::u32string> to_u32string_chart(
             const ExpressionInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions);

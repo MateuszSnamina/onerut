@@ -20,35 +20,11 @@ namespace onerut_parser::onerut_ast::x3 {
     }
 
     // -------------------------------------------------------------------------
-    // ------------- FUNCTIONS FOR VALUE (VARIANT TYPE) ------------------------
+    // -------------- FUNCTIONS FOR CONCRETE AST TYPES -------------------------
     // -------------------------------------------------------------------------
-
-    std::u32string to_u32string(const ValueInfo& info) {
-        return boost::apply_visitor(to_string_visitor(), info);
-    }
-
-    // -------------------------------------------------------------------------
-    // ------------- FUNCTIONS FOR NON VARIANT TYPE TYPES -------------------
-    // -------------------------------------------------------------------------
-
-    std::u32string to_u32string(const IdentifierInfo& info) {
-        return info.name();
-    }
-
-    std::u32string to_u32string(const LitIntInfo& info) {
-        return unicode_from_utf8(std::to_string(info.value));
-    }
-
-    std::u32string to_u32string(const LitDoubleInfo& info) {
-        return unicode_from_utf8(std::to_string(info.value));
-    }
-
-    std::u32string to_u32string(const NestedExpressionInfo& info) {
-        std::u32string result;
-        result += U"[";
-        result += to_u32string(info.expression);
-        result += U"]";
-        return result;
+    
+    std::u32string to_u32string(const ExpressionInfo& info) {
+        return to_u32string(info.sum);
     }
 
     std::u32string to_u32string(const OpPlusInfo& info) {
@@ -73,6 +49,18 @@ namespace onerut_parser::onerut_ast::x3 {
         return result;
     }
 
+    std::u32string to_u32string(const ValueInfo& info) {
+        return boost::apply_visitor(to_string_visitor(), info);
+    }
+    
+    std::u32string to_u32string(const LitDoubleInfo& info) {
+        return unicode_from_utf8(std::to_string(info.value));
+    }
+
+    std::u32string to_u32string(const LitIntInfo& info) {
+        return unicode_from_utf8(std::to_string(info.value));
+    }
+
     std::u32string to_u32string(const FunctionInfo& info) {
         std::u32string result;
         result += to_u32string(info.name);
@@ -85,8 +73,16 @@ namespace onerut_parser::onerut_ast::x3 {
         return result;
     }
 
-    std::u32string to_u32string(const ExpressionInfo& info) {
-        return to_u32string(info.sum);
+    std::u32string to_u32string(const IdentifierInfo& info) {
+        return info.name();
+    }
+
+    std::u32string to_u32string(const NestedExpressionInfo& info) {
+        std::u32string result;
+        result += U"[";
+        result += to_u32string(info.expression);
+        result += U"]";
+        return result;
     }
 
 }

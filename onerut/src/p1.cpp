@@ -10,11 +10,6 @@ int main() {
     print(parsed);
 }
 
-///////////////////////////////////////////////////////////////////////////
-//#include<string_view>
-//std::string_view make_string_view(boost::iterator_range<std::string::const_iterator> r) {
-//    return std::string_view(&*r.begin(), r.end() - r.begin());
-//}
 
 ///////////////////////////////////////////////////////////////////////
 //#include<boost/convert.hpp>
