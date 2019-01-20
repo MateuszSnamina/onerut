@@ -1,4 +1,5 @@
 #include<iostream>
+#include<memory>
 #include<boost/spirit/home/x3.hpp>
 #include<boost/spirit/home/x3/support/ast/variant.hpp>
 #include<boost/spirit/home/x3/support/ast/position_tagged.hpp>
@@ -11,7 +12,6 @@
 #include<onerut_parser/ast_x3_to_string.hpp>
 #include<onerut_parser/ast_x3_to_chart.hpp>
 #include<onerut_parser/gramma_parser.hpp>
-#include <c++/5/bits/shared_ptr.h>
 
 // -----------------------------------------------------------------------------
 // This has to be in the global scope:
@@ -136,12 +136,12 @@ namespace onerut_parser::onerut_gramma {
     auto const op_plus_parser_def = op_prod_parser % '+';
     auto const op_prod_parser_def = value_parser % '*';
     auto const value_parser_def =
-            lit_double_parser | lit_int_parser | // lit_double_parser has to be before lit_int_parser.
-            function_parser | indentifier_parser | //function_parser has to be before indentifier_parser
+            lit_double_parser | lit_int_parser | // Note: lit_double_parser has to be before lit_int_parser.
+            function_parser | indentifier_parser | //Note: function_parser has to be before indentifier_parser.
             nested_expression_parser;
     auto const lit_double_parser_def = boost::spirit::x3::real_parser<double, boost::spirit::x3::strict_real_policies<double>>();
     auto const lit_int_parser_def = boost::spirit::x3::int_;
-    auto const function_parser_def = indentifier_parser >> '(' >> expression_parser % ',' >> ')'; // byc moze warto przeniesc pare linijek wyzej
+    auto const function_parser_def = indentifier_parser >> '(' >> expression_parser % ',' >> ')';
     auto const indentifier_parser_def = boost::spirit::x3::lexeme[boost::spirit::x3::char_("A-Za-z_") >> *boost::spirit::x3::char_("A-Za-z1-9_")];
     auto const nested_expression_parser_def = '(' >> expression_parser >> ')';
 

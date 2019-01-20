@@ -26,6 +26,8 @@ namespace onerut_parser::onerut_ast::x3 {
     struct NestedExpressionInfo;
     struct FunctionInfo;
 
+    // See: https://stackoverflow.com/questions/44949535/parsing-list-of-variants-with-boost-spirit-x3?rq=1
+
     struct ValueInfo : boost::spirit::x3::variant<
     LitIntInfo,
     LitDoubleInfo,
