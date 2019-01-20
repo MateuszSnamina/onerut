@@ -31,13 +31,7 @@ namespace onerut_parser::onerut_ast::x3 {
     // -------------------------------------------------------------------------
     
     std::u32string to_u32string(const IdentifierInfo& info) {
-        //boost::algorithm::join(other_chars, std::string(""))
-        std::u32string result(1, info.first_char);
-        for (unsigned idx = 0; idx < info.other_chars.size(); idx++) {
-            result += std::u32string(1, info.other_chars[idx]);
-        }
-        // POPRAWIC IMPLEMENTACJE!!
-        return result;
+        return info.name();
     }
 
     std::u32string to_u32string(const LitIntInfo& info) {

@@ -12,6 +12,7 @@ namespace onerut_parser::onerut_ast::x3 {
     struct IdentifierInfo : boost::spirit::x3::position_tagged {
         char32_t first_char;
         std::vector<char32_t> other_chars;
+        std::u32string name() const;
     };
 
     struct LitIntInfo : boost::spirit::x3::position_tagged {

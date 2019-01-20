@@ -18,5 +18,6 @@ namespace operator_string_parser {
     }
 
 }
+
 #endif 
 

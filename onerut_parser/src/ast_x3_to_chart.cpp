@@ -57,8 +57,9 @@ namespace onerut_parser::onerut_ast::x3 {
     // ------------- FUNCTIONS FOR CONCRETE EXPRESSION TYPES -------------------
     // -------------------------------------------------------------------------
 
-    void to_u32string_chart(
-            const IdentifierInfo& info,
+    template<class InfoT>
+    void to_u32string_chart_common_implementation(
+            const InfoT& info,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
             unsigned deepness,
             std::vector<std::u32string>& chart) {
@@ -66,6 +67,14 @@ namespace onerut_parser::onerut_ast::x3 {
             chart.emplace_back(positions.last() - positions.first(), chart_fill_character_1);
         const unsigned offset = positions.position_of(info).begin() - positions.first();
         std::copy(positions.position_of(info).begin(), positions.position_of(info).end(), chart[deepness].begin() + offset);
+    }
+
+    void to_u32string_chart(
+            const IdentifierInfo& info,
+            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
+            unsigned deepness,
+            std::vector<std::u32string>& chart) {
+        to_u32string_chart_common_implementation(info, positions, deepness, chart);
     }
 
     void to_u32string_chart(
@@ -73,10 +82,7 @@ namespace onerut_parser::onerut_ast::x3 {
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
             unsigned deepness,
             std::vector<std::u32string>& chart) {
-        while (chart.size() <= deepness)
-            chart.emplace_back(positions.last() - positions.first(), chart_fill_character_1);
-        const unsigned offset = positions.position_of(info).begin() - positions.first();
-        std::copy(positions.position_of(info).begin(), positions.position_of(info).end(), chart[deepness].begin() + offset);
+        to_u32string_chart_common_implementation(info, positions, deepness, chart);
     }
 
     void to_u32string_chart(
@@ -84,10 +90,7 @@ namespace onerut_parser::onerut_ast::x3 {
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
             unsigned deepness,
             std::vector<std::u32string>& chart) {
-        while (chart.size() <= deepness)
-            chart.emplace_back(positions.last() - positions.first(), chart_fill_character_1);
-        const unsigned offset = positions.position_of(info).begin() - positions.first();
-        std::copy(positions.position_of(info).begin(), positions.position_of(info).end(), chart[deepness].begin() + offset);
+        to_u32string_chart_common_implementation(info, positions, deepness, chart);
     }
 
     void to_u32string_chart(
@@ -95,10 +98,7 @@ namespace onerut_parser::onerut_ast::x3 {
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
             unsigned deepness,
             std::vector<std::u32string>& chart) {
-        while (chart.size() <= deepness)
-            chart.emplace_back(positions.last() - positions.first(), chart_fill_character_1);
-        const unsigned offset = positions.position_of(info).begin() - positions.first();
-        std::copy(positions.position_of(info).begin(), positions.position_of(info).end(), chart[deepness].begin() + offset);
+        to_u32string_chart_common_implementation(info, positions, deepness, chart);
         for (const ExpressionInfo& arg_info : info.argv) {
             to_u32string_chart(arg_info, positions, deepness + 1, chart);
         }
