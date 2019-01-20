@@ -13,11 +13,15 @@ namespace onerut_parser::onerut_ast::x3 {
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
             unsigned deepness,
             std::vector<std::u32string>& chart);
-    void to_u32string_chart(const OpPlusInfo& info,
+    //void to_u32string_chart(const OpPlusInfo& info,
+    //        const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
+    //        unsigned deepness,
+    //        std::vector<std::u32string>& chart);
+    void to_u32string_chart(const OpPlusMinusInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
             unsigned deepness,
             std::vector<std::u32string>& chart);
-    void to_u32string_chart(const OpProdInfo& info,
+    void to_u32string_chart(const OpProdDivInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
             unsigned deepness,
             std::vector<std::u32string>& chart);

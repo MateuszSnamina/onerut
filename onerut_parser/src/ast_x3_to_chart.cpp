@@ -70,24 +70,36 @@ namespace onerut_parser::onerut_ast::x3 {
         to_u32string_chart(info.sum, positions, deepness + 1, chart);
     }
 
+    //void to_u32string_chart(
+    //        const OpPlusInfo& info,
+    //        const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
+    //        unsigned deepness,
+    //        std::vector<std::u32string>& chart) {
+    //    to_u32string_chart_common_implementation(info, positions, deepness, chart);
+    //    for (const OpProdInfo& arg_info : info.argv)
+    //        to_u32string_chart(arg_info, positions, deepness + 1, chart);
+    //}
+    
     void to_u32string_chart(
-            const OpPlusInfo& info,
+            const OpPlusMinusInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
             unsigned deepness,
             std::vector<std::u32string>& chart) {
         to_u32string_chart_common_implementation(info, positions, deepness, chart);
-        for (const OpProdInfo& arg_info : info.argv)
-            to_u32string_chart(arg_info, positions, deepness + 1, chart);
+        to_u32string_chart(info.first_arg, positions, deepness + 1, chart);
+        for (const OpPlusMinusBitInfo& arg_info : info.other_argv)
+            to_u32string_chart(arg_info.arg, positions, deepness + 1, chart);
     }
 
     void to_u32string_chart(
-            const OpProdInfo& info,
+            const OpProdDivInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
             unsigned deepness,
             std::vector<std::u32string>& chart) {
         to_u32string_chart_common_implementation(info, positions, deepness, chart);
-        for (const ValueInfo& arg_info : info.argv)
-            to_u32string_chart(arg_info, positions, deepness + 1, chart);
+        to_u32string_chart(info.first_arg, positions, deepness + 1, chart);
+        for (const OpProdDivBitInfo& arg_info : info.other_argv)
+            to_u32string_chart(arg_info.arg, positions, deepness + 1, chart);
     }
 
     void to_u32string_chart(

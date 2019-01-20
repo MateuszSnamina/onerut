@@ -42,16 +42,29 @@ namespace onerut_parser::onerut_ast::x3 {
         using base_type::operator=;
     };
 
-    struct OpProdInfo : boost::spirit::x3::position_tagged {
-        std::vector<ValueInfo> argv;
+    struct OpProdDivBitInfo : boost::spirit::x3::position_tagged {
+        char32_t op;
+        ValueInfo arg;        
+    };
+    
+    struct OpProdDivInfo : boost::spirit::x3::position_tagged {
+        ValueInfo first_arg;        
+        std::vector<OpProdDivBitInfo> other_argv;        
     };
 
-    struct OpPlusInfo : boost::spirit::x3::position_tagged {
-        std::vector<OpProdInfo> argv;
+    struct OpPlusMinusBitInfo : boost::spirit::x3::position_tagged {
+        char32_t op;
+        OpProdDivInfo arg;
     };
-
+    
+    struct OpPlusMinusInfo : boost::spirit::x3::position_tagged {
+        OpProdDivInfo first_arg;        
+        std::vector<OpPlusMinusBitInfo> other_argv;
+    };
+    
     struct ExpressionInfo : boost::spirit::x3::position_tagged {
-        OpPlusInfo sum;
+        //OpPlusInfo sum;
+        OpPlusMinusInfo sum;
     };
 
     struct FunctionInfo : boost::spirit::x3::position_tagged {

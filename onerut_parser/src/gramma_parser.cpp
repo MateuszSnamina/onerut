@@ -17,13 +17,24 @@
 // This has to be in the global scope:
 BOOST_FUSION_ADAPT_STRUCT(
         onerut_parser::onerut_ast::x3::ExpressionInfo,
-        (onerut_parser::onerut_ast::x3::OpPlusInfo, sum))
+        (onerut_parser::onerut_ast::x3::OpPlusMinusInfo, sum))
+
 BOOST_FUSION_ADAPT_STRUCT(
-        onerut_parser::onerut_ast::x3::OpPlusInfo,
-        (std::vector<onerut_parser::onerut_ast::x3::OpProdInfo>, argv))
+        onerut_parser::onerut_ast::x3::OpPlusMinusBitInfo,
+        (char32_t, op)
+        (onerut_parser::onerut_ast::x3::OpProdDivInfo, arg))
 BOOST_FUSION_ADAPT_STRUCT(
-        onerut_parser::onerut_ast::x3::OpProdInfo,
-        (std::vector<onerut_parser::onerut_ast::x3::ValueInfo>, argv))
+        onerut_parser::onerut_ast::x3::OpPlusMinusInfo,
+        (onerut_parser::onerut_ast::x3::OpProdDivInfo, first_arg)
+        (std::vector<onerut_parser::onerut_ast::x3::OpPlusMinusBitInfo>, other_argv))
+BOOST_FUSION_ADAPT_STRUCT(
+        onerut_parser::onerut_ast::x3::OpProdDivBitInfo,
+        (char32_t, op)
+        (onerut_parser::onerut_ast::x3::ValueInfo, arg))
+BOOST_FUSION_ADAPT_STRUCT(
+        onerut_parser::onerut_ast::x3::OpProdDivInfo,
+        (onerut_parser::onerut_ast::x3::ValueInfo, first_arg)
+        (std::vector<onerut_parser::onerut_ast::x3::OpProdDivBitInfo>, other_argv))
 BOOST_FUSION_ADAPT_STRUCT(
         onerut_parser::onerut_ast::x3::LitDoubleInfo,
         (double, value))
@@ -94,10 +105,16 @@ namespace onerut_parser::onerut_gramma {
     struct ExpressionParser : annotate_position, error_handler {
     };
 
-    struct OpPlusParser : annotate_position {
+    struct OpPlusMinusBitParser : annotate_position {
     };
 
-    struct OpProdParser : annotate_position {
+    struct OpPlusMinusParser : annotate_position {
+    };
+
+    struct OpProdDivBitParser : annotate_position {
+    };
+
+    struct OpProdDivParser : annotate_position {
     };
 
     struct ValueParser : annotate_position {
@@ -118,23 +135,31 @@ namespace onerut_parser::onerut_gramma {
     struct NestedExpressionParser : annotate_position {
     };
 
-    boost::spirit::x3::rule<class ExpressionParserRaw, onerut_ast::x3::ExpressionInfo > const expression_parser_raw = "expression_parser_raw";
-    boost::spirit::x3::rule<class ExpressionParser, onerut_ast::x3::ExpressionInfo > const expression_parser = "expression_parser";
-    boost::spirit::x3::rule<class OpPlusParser, onerut_ast::x3::OpPlusInfo > const op_plus_parser = "op_plus_parser";
-    boost::spirit::x3::rule<class OpProdParser, onerut_ast::x3::OpProdInfo > const op_prod_parser = "op_prod_parser";
-    boost::spirit::x3::rule<class ValueParser, onerut_ast::x3::ValueInfo > const value_parser = "value_parser";
-    boost::spirit::x3::rule<class LitDoubleParser, onerut_ast::x3::LitDoubleInfo > const lit_double_parser = "lit_double_parser";
-    boost::spirit::x3::rule<class LitIntParser, onerut_ast::x3::LitIntInfo > const lit_int_parser = "lit_int_parser";
-    boost::spirit::x3::rule<class FunctionParser, onerut_ast::x3::FunctionInfo > const function_parser = "function_parser";
-    boost::spirit::x3::rule<class IndentifierParser, onerut_ast::x3::IdentifierInfo > const indentifier_parser = "indentifier_parser";
-    boost::spirit::x3::rule<class NestedExpressionParser, onerut_ast::x3::NestedExpressionInfo > const nested_expression_parser = "nested_expression_parser";
+    boost::spirit::x3::rule<class ExpressionParserRaw, onerut_ast::x3::ExpressionInfo > const expression_parser_raw = "expression_raw";
+    boost::spirit::x3::rule<class ExpressionParser, onerut_ast::x3::ExpressionInfo > const expression_parser = "expression";
+
+    boost::spirit::x3::rule<class OpPlusMinusBitParser, onerut_ast::x3::OpPlusMinusBitInfo > const op_plus_minus_bit_parser = "op_plus_minus_bit";
+    boost::spirit::x3::rule<class OpPlusMinusParser, onerut_ast::x3::OpPlusMinusInfo > const op_plus_minus_parser = "op_plus_minus";
+
+    boost::spirit::x3::rule<class OpProdDivBitParser, onerut_ast::x3::OpProdDivBitInfo > const op_prod_div_bit_parser = "op_prod_div_bit";
+    boost::spirit::x3::rule<class OpProdDivParser, onerut_ast::x3::OpProdDivInfo > const op_prod_div_parser = "op_prod_div";
+
+    boost::spirit::x3::rule<class ValueParser, onerut_ast::x3::ValueInfo > const value_parser = "value";
+    boost::spirit::x3::rule<class LitDoubleParser, onerut_ast::x3::LitDoubleInfo > const lit_double_parser = "lit_double";
+    boost::spirit::x3::rule<class LitIntParser, onerut_ast::x3::LitIntInfo > const lit_int_parser = "lit_int";
+    boost::spirit::x3::rule<class FunctionParser, onerut_ast::x3::FunctionInfo > const function_parser = "function";
+    boost::spirit::x3::rule<class IndentifierParser, onerut_ast::x3::IdentifierInfo > const indentifier_parser = "indentifier";
+    boost::spirit::x3::rule<class NestedExpressionParser, onerut_ast::x3::NestedExpressionInfo > const nested_expression_parser = "nested_expression";
 
     // https://en.wikipedia.org/wiki/Parsing_expression_grammar:
 
-    auto const expression_parser_raw_def = op_plus_parser;
+    //auto const expression_parser_raw_def = op_plus_parser;
+    auto const expression_parser_raw_def = op_plus_minus_parser;
     auto const expression_parser_def = boost::spirit::x3::expect[expression_parser_raw];
-    auto const op_plus_parser_def = op_prod_parser % '+';
-    auto const op_prod_parser_def = value_parser % '*';
+    auto const op_plus_minus_bit_parser_def = boost::spirit::x3::char_("+-") >> op_prod_div_parser;
+    auto const op_plus_minus_parser_def = op_prod_div_parser >> *(op_plus_minus_bit_parser);
+    auto const op_prod_div_bit_parser_def = boost::spirit::x3::char_("*/") >> value_parser;
+    auto const op_prod_div_parser_def = value_parser >> *(op_prod_div_bit_parser);
     auto const value_parser_def =
             lit_double_parser | lit_int_parser | // Note: lit_double_parser has to be before lit_int_parser.
             function_parser | indentifier_parser | //Note: function_parser has to be before indentifier_parser.
@@ -148,8 +173,10 @@ namespace onerut_parser::onerut_gramma {
     BOOST_SPIRIT_DEFINE(
             expression_parser_raw,
             expression_parser,
-            op_plus_parser,
-            op_prod_parser,
+            op_plus_minus_bit_parser,
+            op_plus_minus_parser,
+            op_prod_div_bit_parser,
+            op_prod_div_parser,
             value_parser,
             lit_double_parser, lit_int_parser,
             function_parser, indentifier_parser,

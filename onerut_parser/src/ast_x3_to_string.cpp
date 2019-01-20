@@ -22,11 +22,12 @@ namespace onerut_parser::onerut_ast::x3 {
     // -------------------------------------------------------------------------
     // -------------- FUNCTIONS FOR CONCRETE AST TYPES -------------------------
     // -------------------------------------------------------------------------
-    
+
     std::u32string to_u32string(const ExpressionInfo& info) {
         return to_u32string(info.sum);
     }
 
+    /*
     std::u32string to_u32string(const OpPlusInfo& info) {
         std::u32string result;
         result += U"[";
@@ -37,13 +38,29 @@ namespace onerut_parser::onerut_ast::x3 {
         result += U"]";
         return result;
     }
+     */
 
-    std::u32string to_u32string(const OpProdInfo& info) {
+    std::u32string to_u32string(const OpPlusMinusInfo& info) {
         std::u32string result;
         result += U"[";
-        for (const ValueInfo& arg_info : info.argv) {
-            result += to_u32string(arg_info);
-            result += U"*";
+        result += to_u32string(info.first_arg);
+        for (const OpPlusMinusBitInfo& arg_info : info.other_argv) {
+            assert(arg_info.op == U'+' || arg_info.op == U'-');
+            result += arg_info.op;
+            result += to_u32string(arg_info.arg);
+        }
+        result += U"]";
+        return result;
+    }
+
+    std::u32string to_u32string(const OpProdDivInfo& info) {
+        std::u32string result;
+        result += U"[";
+        result += to_u32string(info.first_arg);
+        for (const OpProdDivBitInfo& arg_info : info.other_argv) {
+            assert(arg_info.op == U'*' || arg_info.op == U'/');
+            result += arg_info.op;
+            result += to_u32string(arg_info.arg);
         }
         result += U"]";
         return result;
@@ -52,7 +69,7 @@ namespace onerut_parser::onerut_ast::x3 {
     std::u32string to_u32string(const ValueInfo& info) {
         return boost::apply_visitor(to_string_visitor(), info);
     }
-    
+
     std::u32string to_u32string(const LitDoubleInfo& info) {
         return unicode_from_utf8(std::to_string(info.value));
     }
