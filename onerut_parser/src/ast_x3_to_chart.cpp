@@ -94,14 +94,42 @@ namespace onerut_parser::onerut_ast::x3 {
     }
 
     void to_u32string_chart(
+            const NestedExpressionInfo& info,
+            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
+            unsigned deepness,
+            std::vector<std::u32string>& chart) {
+        to_u32string_chart_common_implementation(info, positions, deepness, chart);
+        to_u32string_chart(info.expression, positions, deepness + 1, chart);
+    }
+
+    void to_u32string_chart(
+            const OpPlusInfo& info,
+            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
+            unsigned deepness,
+            std::vector<std::u32string>& chart) {
+        to_u32string_chart_common_implementation(info, positions, deepness, chart);
+        for (const ExpressionInfo& arg_info : info.argv)
+            to_u32string_chart(arg_info, positions, deepness + 1, chart);
+    }
+
+    void to_u32string_chart(
+            const OpProdInfo& info,
+            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
+            unsigned deepness,
+            std::vector<std::u32string>& chart) {
+        to_u32string_chart_common_implementation(info, positions, deepness, chart);
+        for (const ExpressionInfo& arg_info : info.argv)
+            to_u32string_chart(arg_info, positions, deepness + 1, chart);
+    }
+
+    void to_u32string_chart(
             const FunctionInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
             unsigned deepness,
             std::vector<std::u32string>& chart) {
         to_u32string_chart_common_implementation(info, positions, deepness, chart);
-        for (const ExpressionInfo& arg_info : info.argv) {
+        for (const ExpressionInfo& arg_info : info.argv)
             to_u32string_chart(arg_info, positions, deepness + 1, chart);
-        }
     }
 
     // -------------------------------------------------------------------------

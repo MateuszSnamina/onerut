@@ -11,5 +11,5 @@ namespace onerut_parser::onerut_ast::x3 {
         return result;
         // POPRAWIC IMPLEMENTACJE!!        
     }
-
+    
 }
