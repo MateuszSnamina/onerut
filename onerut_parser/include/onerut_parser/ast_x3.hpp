@@ -24,38 +24,39 @@ namespace onerut_parser::onerut_ast::x3 {
     };
 
     struct NestedExpressionInfo;
-    struct OpPlusInfo;
-    struct OpProdInfo;
     struct FunctionInfo;
 
-    struct ExpressionInfo : boost::spirit::x3::variant<
+    struct ValueInfo : boost::spirit::x3::variant<
     LitIntInfo,
     LitDoubleInfo,
     IdentifierInfo,
-    boost::spirit::x3::forward_ast<NestedExpressionInfo>,
-    //boost::spirit::x3::forward_ast<OpPlusInfo>,
-    //boost::spirit::x3::forward_ast<OpProdInfo>,
-    boost::spirit::x3::forward_ast<FunctionInfo>
+    boost::spirit::x3::forward_ast<FunctionInfo>,
+    boost::spirit::x3::forward_ast<NestedExpressionInfo>
     > {
-        //ExpressionInfo() = default;
-        //ExpressionInfo(ExpressionInfo const&) = default;
-        //ExpressionInfo& operator=(ExpressionInfo const&) = default;
+        ValueInfo() = default;
+        ValueInfo(ValueInfo const&) = default;
+        ValueInfo& operator=(ValueInfo const&) = default;
         using base_type::base_type;
         using base_type::operator=;
+    };
+
+   
+    struct OpProdInfo : boost::spirit::x3::position_tagged {
+        std::vector<ValueInfo> argv;
+    };
+
+    struct OpPlusInfo : boost::spirit::x3::position_tagged {
+        std::vector<OpProdInfo> argv;
+    };
+
+    struct ExpressionInfo : boost::spirit::x3::position_tagged {
+        OpPlusInfo sum;
     };
 
     struct NestedExpressionInfo : boost::spirit::x3::position_tagged {
         ExpressionInfo expression;
     };
-
-    struct OpPlusInfo : boost::spirit::x3::position_tagged {
-        std::vector<ExpressionInfo> argv;
-    };
-
-    struct OpProdInfo : boost::spirit::x3::position_tagged {
-        std::vector<ExpressionInfo> argv;
-    };
-
+    
     struct FunctionInfo : boost::spirit::x3::position_tagged {
         IdentifierInfo name;
         std::vector<ExpressionInfo> argv;
