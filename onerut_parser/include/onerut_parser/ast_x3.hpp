@@ -25,9 +25,9 @@ namespace onerut_parser::onerut_ast::x3 {
         std::u32string name() const;
     };
 
-    struct NestedExpressionInfo;
+    struct NestedExpression1Info;
+    struct NestedExpression2Info;
     struct FunctionInfo;
-
     // See: https://stackoverflow.com/questions/44949535/parsing-list-of-variants-with-boost-spirit-x3?rq=1
 
     struct ValueInfo : boost::spirit::x3::variant<
@@ -35,7 +35,8 @@ namespace onerut_parser::onerut_ast::x3 {
     LitDoubleInfo,
     IdentifierInfo,
     boost::spirit::x3::forward_ast<FunctionInfo>,
-    boost::spirit::x3::forward_ast<NestedExpressionInfo>
+    boost::spirit::x3::forward_ast<NestedExpression1Info>,
+    boost::spirit::x3::forward_ast<NestedExpression2Info>
     > {
         ValueInfo() = default;
         ValueInfo(ValueInfo const&) = default;
@@ -44,9 +45,14 @@ namespace onerut_parser::onerut_ast::x3 {
         using base_type::operator=;
     };
 
+    struct UnaryPlusMinusInfo : boost::spirit::x3::position_tagged {
+        boost::optional<char32_t> op;        
+        ValueInfo expression;
+    };
+    
     struct OpGlueInfo : boost::spirit::x3::position_tagged {
-        ValueInfo first_arg;
-        boost::optional<ValueInfo> other_arg;
+        UnaryPlusMinusInfo first_arg;
+        boost::optional<UnaryPlusMinusInfo> other_arg;
         OpGlueInfo() = default;
         OpGlueInfo(OpGlueInfo const&) = default;
         OpGlueInfo& operator=(OpGlueInfo const&) = default;
@@ -99,7 +105,6 @@ namespace onerut_parser::onerut_ast::x3 {
     };
 
     struct ExpressionInfo : boost::spirit::x3::position_tagged {
-        //OpPlusInfo sum;
         OpPlusMinusInfo sum;
     };
 
@@ -108,11 +113,13 @@ namespace onerut_parser::onerut_ast::x3 {
         std::vector<ExpressionInfo> argv;
     };
 
-    struct NestedExpressionInfo : boost::spirit::x3::position_tagged {
+    struct NestedExpression1Info : boost::spirit::x3::position_tagged {
         ExpressionInfo expression;
     };
 
-
+    struct NestedExpression2Info : boost::spirit::x3::position_tagged {
+        ExpressionInfo expression;
+    };
 
 }
 

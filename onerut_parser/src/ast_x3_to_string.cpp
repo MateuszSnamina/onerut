@@ -11,12 +11,12 @@ namespace onerut_parser::onerut_ast::x3 {
     struct to_string_visitor {
         typedef std::u32string result_type;
         template<typename T>
-        result_type operator()(const T & i) const;
+        result_type operator()(const T & info) const;
     };
 
     template<typename T>
-    to_string_visitor::result_type to_string_visitor::operator()(const T & i) const {
-        return to_u32string(i);
+    to_string_visitor::result_type to_string_visitor::operator()(const T & info) const {
+        return to_u32string(info);
     }
 
     // -------------------------------------------------------------------------
@@ -26,19 +26,6 @@ namespace onerut_parser::onerut_ast::x3 {
     std::u32string to_u32string(const ExpressionInfo& info) {
         return to_u32string(info.sum);
     }
-
-    /*
-    std::u32string to_u32string(const OpPlusInfo& info) {
-        std::u32string result;
-        result += U"[";
-        for (const OpProdInfo& arg_info : info.argv) {
-            result += to_u32string(arg_info);
-            result += U"+";
-        }
-        result += U"]";
-        return result;
-    }
-     */
 
     std::u32string to_u32string(const OpPlusMinusInfo& info) {
         std::u32string result;
@@ -106,6 +93,18 @@ namespace onerut_parser::onerut_ast::x3 {
         return result;
     }
 
+    std::u32string to_u32string(const UnaryPlusMinusInfo& info) {
+        std::u32string result;
+        if (info.op) {
+            assert(info.op == U'+' || info.op == U'-');
+            result += *info.op;
+        }        
+        result += U"+[";
+        result += to_u32string(info.expression);
+        result += U"]";
+        return result;
+    }
+
     std::u32string to_u32string(const ValueInfo& info) {
         return boost::apply_visitor(to_string_visitor(), info);
     }
@@ -134,7 +133,15 @@ namespace onerut_parser::onerut_ast::x3 {
         return info.name();
     }
 
-    std::u32string to_u32string(const NestedExpressionInfo& info) {
+    std::u32string to_u32string(const NestedExpression1Info& info) {
+        std::u32string result;
+        result += U"[";
+        result += to_u32string(info.expression);
+        result += U"]";
+        return result;
+    }
+
+    std::u32string to_u32string(const NestedExpression2Info& info) {
         std::u32string result;
         result += U"[";
         result += to_u32string(info.expression);
