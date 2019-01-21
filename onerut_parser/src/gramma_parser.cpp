@@ -15,10 +15,10 @@
 
 // -----------------------------------------------------------------------------
 // This has to be in the global scope:
+
 BOOST_FUSION_ADAPT_STRUCT(
         onerut_parser::onerut_ast::x3::ExpressionInfo,
         (onerut_parser::onerut_ast::x3::OpPlusMinusInfo, sum))
-
 BOOST_FUSION_ADAPT_STRUCT(
         onerut_parser::onerut_ast::x3::OpPlusMinusBitInfo,
         (char32_t, op)
@@ -30,11 +30,27 @@ BOOST_FUSION_ADAPT_STRUCT(
 BOOST_FUSION_ADAPT_STRUCT(
         onerut_parser::onerut_ast::x3::OpProdDivBitInfo,
         (char32_t, op)
-        (onerut_parser::onerut_ast::x3::ValueInfo, arg))
+        (onerut_parser::onerut_ast::x3::OpPowInfo, arg))
 BOOST_FUSION_ADAPT_STRUCT(
         onerut_parser::onerut_ast::x3::OpProdDivInfo,
-        (onerut_parser::onerut_ast::x3::ValueInfo, first_arg)
+        (onerut_parser::onerut_ast::x3::OpPowInfo, first_arg)
         (std::vector<onerut_parser::onerut_ast::x3::OpProdDivBitInfo>, other_argv))
+BOOST_FUSION_ADAPT_STRUCT(
+        onerut_parser::onerut_ast::x3::OpPowInfo,
+        (onerut_parser::onerut_ast::x3::OpAtInfo, first_arg)
+        (boost::optional<onerut_parser::onerut_ast::x3::OpAtInfo>, other_arg))
+BOOST_FUSION_ADAPT_STRUCT(
+        onerut_parser::onerut_ast::x3::OpAtInfo,
+        (onerut_parser::onerut_ast::x3::OpArrowInfo, first_arg)
+        (boost::optional<onerut_parser::onerut_ast::x3::OpArrowInfo>, other_arg))
+BOOST_FUSION_ADAPT_STRUCT(
+        onerut_parser::onerut_ast::x3::OpArrowInfo,
+        (onerut_parser::onerut_ast::x3::OpGlueInfo, first_arg)
+        (boost::optional<onerut_parser::onerut_ast::x3::OpGlueInfo>, other_arg))
+BOOST_FUSION_ADAPT_STRUCT(
+        onerut_parser::onerut_ast::x3::OpGlueInfo,
+        (onerut_parser::onerut_ast::x3::ValueInfo, first_arg)
+        (boost::optional<onerut_parser::onerut_ast::x3::ValueInfo>, other_arg))
 BOOST_FUSION_ADAPT_STRUCT(
         onerut_parser::onerut_ast::x3::LitDoubleInfo,
         (double, value))
@@ -117,6 +133,18 @@ namespace onerut_parser::onerut_gramma {
     struct OpProdDivParser : annotate_position {
     };
 
+    struct OpGlueParser : annotate_position {
+    };
+
+    struct OpArrowParser : annotate_position {
+    };
+
+    struct OpAtParser : annotate_position {
+    };
+
+    struct OpPowParser : annotate_position {
+    };
+
     struct ValueParser : annotate_position {
     };
 
@@ -144,6 +172,11 @@ namespace onerut_parser::onerut_gramma {
     boost::spirit::x3::rule<class OpProdDivBitParser, onerut_ast::x3::OpProdDivBitInfo > const op_prod_div_bit_parser = "op_prod_div_bit";
     boost::spirit::x3::rule<class OpProdDivParser, onerut_ast::x3::OpProdDivInfo > const op_prod_div_parser = "op_prod_div";
 
+    boost::spirit::x3::rule<class OpPowParser, onerut_ast::x3::OpPowInfo> const op_pow_parser = "op_pow";
+    boost::spirit::x3::rule<class OpAtParser, onerut_ast::x3::OpAtInfo> const op_at_parser = "op_at";
+    boost::spirit::x3::rule<class OpArrowParser, onerut_ast::x3::OpArrowInfo> const op_arrow_parser = "op_arrow";
+    boost::spirit::x3::rule<class OpGlueParser, onerut_ast::x3::OpGlueInfo> const op_glue_parser = "op_glue";
+
     boost::spirit::x3::rule<class ValueParser, onerut_ast::x3::ValueInfo > const value_parser = "value";
     boost::spirit::x3::rule<class LitDoubleParser, onerut_ast::x3::LitDoubleInfo > const lit_double_parser = "lit_double";
     boost::spirit::x3::rule<class LitIntParser, onerut_ast::x3::LitIntInfo > const lit_int_parser = "lit_int";
@@ -158,8 +191,14 @@ namespace onerut_parser::onerut_gramma {
     auto const expression_parser_def = boost::spirit::x3::expect[expression_parser_raw];
     auto const op_plus_minus_bit_parser_def = boost::spirit::x3::char_("+-") >> op_prod_div_parser;
     auto const op_plus_minus_parser_def = op_prod_div_parser >> *(op_plus_minus_bit_parser);
-    auto const op_prod_div_bit_parser_def = boost::spirit::x3::char_("*/") >> value_parser;
-    auto const op_prod_div_parser_def = value_parser >> *(op_prod_div_bit_parser);
+    auto const op_prod_div_bit_parser_def = boost::spirit::x3::char_("/*") >> op_pow_parser;
+    auto const op_prod_div_parser_def = op_pow_parser >> *(op_prod_div_bit_parser);
+
+    auto const op_pow_parser_def = op_at_parser >> -("^" >> op_at_parser);
+    auto const op_at_parser_def = op_arrow_parser>> -("@" >> op_arrow_parser);
+    auto const op_arrow_parser_def = op_glue_parser>> -("->" >> op_glue_parser);
+    auto const op_glue_parser_def = value_parser>> -("::" >> value_parser);
+
     auto const value_parser_def =
             lit_double_parser | lit_int_parser | // Note: lit_double_parser has to be before lit_int_parser.
             function_parser | indentifier_parser | //Note: function_parser has to be before indentifier_parser.
@@ -177,10 +216,15 @@ namespace onerut_parser::onerut_gramma {
             op_plus_minus_parser,
             op_prod_div_bit_parser,
             op_prod_div_parser,
+            op_pow_parser,
+            op_at_parser,
+            op_arrow_parser,
+            op_glue_parser,
             value_parser,
             lit_double_parser, lit_int_parser,
             function_parser, indentifier_parser,
             nested_expression_parser)
+
 }
 
 // -----------------------------------------------------------------------------
@@ -204,6 +248,7 @@ namespace onerut_parser {
                 onerut_parser::onerut_gramma::expression_parser
                 ]];
         const bool match = phrase_parse(it, input_end, parser, boost::spirit::x3::ascii::space, ast_head);
+        //const bool match = false; //debug
         const bool hit_end = (it == input_end);
         // Return results:        
         return {input, match, hit_end, match && hit_end, ast_head, positions};

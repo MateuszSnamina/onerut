@@ -79,7 +79,7 @@ namespace onerut_parser::onerut_ast::x3 {
     //    for (const OpProdInfo& arg_info : info.argv)
     //        to_u32string_chart(arg_info, positions, deepness + 1, chart);
     //}
-    
+
     void to_u32string_chart(
             const OpPlusMinusInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
@@ -100,6 +100,49 @@ namespace onerut_parser::onerut_ast::x3 {
         to_u32string_chart(info.first_arg, positions, deepness + 1, chart);
         for (const OpProdDivBitInfo& arg_info : info.other_argv)
             to_u32string_chart(arg_info.arg, positions, deepness + 1, chart);
+    }
+
+    void to_u32string_chart(
+            const OpPowInfo& info,
+            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
+            unsigned deepness,
+            std::vector<std::u32string>& chart) {
+        to_u32string_chart_common_implementation(info, positions, deepness, chart);
+        to_u32string_chart(info.first_arg, positions, deepness + 1, chart);
+        if (info.other_arg)
+            to_u32string_chart(*info.other_arg, positions, deepness + 1, chart);
+    }
+
+    void to_u32string_chart(
+            const OpAtInfo& info,
+            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
+            unsigned deepness,
+            std::vector<std::u32string>& chart) {
+        to_u32string_chart_common_implementation(info, positions, deepness, chart);
+        to_u32string_chart(info.first_arg, positions, deepness + 1, chart);
+        if (info.other_arg)
+            to_u32string_chart(*info.other_arg, positions, deepness + 1, chart);
+    }
+
+    void to_u32string_chart(
+            const OpArrowInfo& info,
+            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
+            unsigned deepness,
+            std::vector<std::u32string>& chart) {
+        to_u32string_chart_common_implementation(info, positions, deepness, chart);
+        to_u32string_chart(info.first_arg, positions, deepness + 1, chart);
+        if (info.other_arg)
+            to_u32string_chart(*info.other_arg, positions, deepness + 1, chart);
+    }
+
+    void to_u32string_chart(const OpGlueInfo& info,
+            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
+            unsigned deepness,
+            std::vector<std::u32string>& chart) {
+        to_u32string_chart_common_implementation(info, positions, deepness, chart);
+        to_u32string_chart(info.first_arg, positions, deepness + 1, chart);
+        if (info.other_arg)
+            to_u32string_chart(*info.other_arg, positions, deepness + 1, chart);
     }
 
     void to_u32string_chart(

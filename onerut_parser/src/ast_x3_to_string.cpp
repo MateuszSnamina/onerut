@@ -66,6 +66,46 @@ namespace onerut_parser::onerut_ast::x3 {
         return result;
     }
 
+    std::u32string to_u32string(const OpPowInfo& info) {
+        std::u32string result;
+        result += to_u32string(info.first_arg);
+        if (info.other_arg) {
+            result += U"^";
+            result += to_u32string(*info.other_arg);
+        }
+        return result;
+    }
+
+    std::u32string to_u32string(const OpAtInfo& info) {
+        std::u32string result;
+        result += to_u32string(info.first_arg);
+        if (info.other_arg) {
+            result += U"@";
+            result += to_u32string(*info.other_arg);
+        }
+        return result;
+    }
+
+    std::u32string to_u32string(const OpArrowInfo& info) {
+        std::u32string result;
+        result += to_u32string(info.first_arg);
+        if (info.other_arg) {
+            result += U"->";
+            result += to_u32string(*info.other_arg);
+        }
+        return result;
+    }
+
+    std::u32string to_u32string(const OpGlueInfo& info) {
+        std::u32string result;
+        result += to_u32string(info.first_arg);
+        if (info.other_arg) {
+            result += U"::";
+            result += to_u32string(*info.other_arg);
+        }
+        return result;
+    }
+
     std::u32string to_u32string(const ValueInfo& info) {
         return boost::apply_visitor(to_string_visitor(), info);
     }

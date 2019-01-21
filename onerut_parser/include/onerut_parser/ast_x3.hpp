@@ -4,8 +4,10 @@
 #include<string>
 #include<vector>
 
-#include<boost/spirit/home/x3/support/ast/position_tagged.hpp>
+#include<boost/optional.hpp>
 #include<boost/spirit/home/x3/support/ast/variant.hpp>
+#include<boost/spirit/home/x3/support/ast/position_tagged.hpp>
+
 
 namespace onerut_parser::onerut_ast::x3 {
 
@@ -42,26 +44,60 @@ namespace onerut_parser::onerut_ast::x3 {
         using base_type::operator=;
     };
 
+    struct OpGlueInfo : boost::spirit::x3::position_tagged {
+        ValueInfo first_arg;
+        boost::optional<ValueInfo> other_arg;
+        OpGlueInfo() = default;
+        OpGlueInfo(OpGlueInfo const&) = default;
+        OpGlueInfo& operator=(OpGlueInfo const&) = default;
+
+    };
+
+    struct OpArrowInfo : boost::spirit::x3::position_tagged {
+        OpGlueInfo first_arg;
+        boost::optional<OpGlueInfo> other_arg;
+        OpArrowInfo() = default;
+        OpArrowInfo(OpArrowInfo const&) = default;
+        OpArrowInfo& operator=(OpArrowInfo const&) = default;
+
+    };
+
+    struct OpAtInfo : boost::spirit::x3::position_tagged {
+        OpArrowInfo first_arg;
+        boost::optional<OpArrowInfo> other_arg;
+        OpAtInfo() = default;
+        OpAtInfo(OpAtInfo const&) = default;
+        OpAtInfo& operator=(OpAtInfo const&) = default;
+    };
+
+    struct OpPowInfo : boost::spirit::x3::position_tagged {
+        OpAtInfo first_arg;
+        boost::optional<OpAtInfo> other_arg;
+        OpPowInfo() = default;
+        OpPowInfo(OpPowInfo const&) = default;
+        OpPowInfo& operator=(OpPowInfo const&) = default;
+    };
+
     struct OpProdDivBitInfo : boost::spirit::x3::position_tagged {
         char32_t op;
-        ValueInfo arg;        
+        OpPowInfo arg;
     };
-    
+
     struct OpProdDivInfo : boost::spirit::x3::position_tagged {
-        ValueInfo first_arg;        
-        std::vector<OpProdDivBitInfo> other_argv;        
+        OpPowInfo first_arg;
+        std::vector<OpProdDivBitInfo> other_argv;
     };
 
     struct OpPlusMinusBitInfo : boost::spirit::x3::position_tagged {
         char32_t op;
         OpProdDivInfo arg;
     };
-    
+
     struct OpPlusMinusInfo : boost::spirit::x3::position_tagged {
-        OpProdDivInfo first_arg;        
+        OpProdDivInfo first_arg;
         std::vector<OpPlusMinusBitInfo> other_argv;
     };
-    
+
     struct ExpressionInfo : boost::spirit::x3::position_tagged {
         //OpPlusInfo sum;
         OpPlusMinusInfo sum;

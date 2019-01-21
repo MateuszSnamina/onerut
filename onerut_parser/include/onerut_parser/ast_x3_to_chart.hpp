@@ -24,6 +24,22 @@ namespace onerut_parser::onerut_ast::x3 {
     void to_u32string_chart(const OpProdDivInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
             unsigned deepness,
+            std::vector<std::u32string>& chart);    
+    void to_u32string_chart(const OpPowInfo& info,
+            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
+            unsigned deepness,
+            std::vector<std::u32string>& chart);
+    void to_u32string_chart(const OpAtInfo& info,
+            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
+            unsigned deepness,
+            std::vector<std::u32string>& chart);
+    void to_u32string_chart(const OpArrowInfo& info,
+            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
+            unsigned deepness,
+            std::vector<std::u32string>& chart);
+    void to_u32string_chart(const OpGlueInfo& info,
+            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
+            unsigned deepness,
             std::vector<std::u32string>& chart);
     void to_u32string_chart(const ValueInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
