@@ -11,14 +11,6 @@
 
 namespace onerut_parser::onerut_ast::x3 {
 
-    struct LitDoubleInfo : boost::spirit::x3::position_tagged {
-        double value;
-    };
-
-    struct LitIntInfo : boost::spirit::x3::position_tagged {
-        int value;
-    };
-
     struct IdentifierInfo : boost::spirit::x3::position_tagged {
         char32_t first_char;
         std::vector<char32_t> other_chars;
@@ -28,31 +20,49 @@ namespace onerut_parser::onerut_ast::x3 {
     struct NestedExpression1Info;
     struct NestedExpression2Info;
     struct FunctionInfo;
-    // See: https://stackoverflow.com/questions/44949535/parsing-list-of-variants-with-boost-spirit-x3?rq=1
 
-    struct ValueInfo : boost::spirit::x3::variant<
-    LitIntInfo,
-    LitDoubleInfo,
+    struct Value2Info : boost::spirit::x3::variant<
     IdentifierInfo,
     boost::spirit::x3::forward_ast<FunctionInfo>,
     boost::spirit::x3::forward_ast<NestedExpression1Info>,
     boost::spirit::x3::forward_ast<NestedExpression2Info>
     > {
-        ValueInfo() = default;
-        ValueInfo(ValueInfo const&) = default;
-        ValueInfo& operator=(ValueInfo const&) = default;
+        // See: https://stackoverflow.com/questions/44949535/parsing-list-of-variants-with-boost-spirit-x3?rq=1        
+        Value2Info() = default;
+        Value2Info(Value2Info const&) = default;
+        Value2Info& operator=(Value2Info const&) = default;
         using base_type::base_type;
         using base_type::operator=;
     };
 
-    struct UnaryPlusMinusInfo : boost::spirit::x3::position_tagged {
-        boost::optional<char32_t> op;        
-        ValueInfo expression;
+    struct OpUnaryPlusMinusInfo : boost::spirit::x3::position_tagged {
+        boost::optional<char32_t> op;
+        Value2Info expression;
+    };
+
+    struct LitIntInfo : boost::spirit::x3::position_tagged {
+        int value;
     };
     
+    struct LitDoubleInfo : boost::spirit::x3::position_tagged {
+        double value;
+    };
+
+    struct Value1Info : boost::spirit::x3::variant<
+    LitIntInfo,
+    LitDoubleInfo,
+    OpUnaryPlusMinusInfo
+    > {
+        Value1Info() = default;
+        Value1Info(Value1Info const&) = default;
+        Value1Info& operator=(Value1Info const&) = default;
+        using base_type::base_type;
+        using base_type::operator=;
+    };
+
     struct OpGlueInfo : boost::spirit::x3::position_tagged {
-        UnaryPlusMinusInfo first_arg;
-        boost::optional<UnaryPlusMinusInfo> other_arg;
+        Value1Info first_arg;
+        boost::optional<Value1Info> other_arg;
         OpGlueInfo() = default;
         OpGlueInfo(OpGlueInfo const&) = default;
         OpGlueInfo& operator=(OpGlueInfo const&) = default;

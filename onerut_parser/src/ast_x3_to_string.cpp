@@ -93,19 +93,7 @@ namespace onerut_parser::onerut_ast::x3 {
         return result;
     }
 
-    std::u32string to_u32string(const UnaryPlusMinusInfo& info) {
-        std::u32string result;
-        if (info.op) {
-            assert(info.op == U'+' || info.op == U'-');
-            result += *info.op;
-        }        
-        result += U"+[";
-        result += to_u32string(info.expression);
-        result += U"]";
-        return result;
-    }
-
-    std::u32string to_u32string(const ValueInfo& info) {
+    std::u32string to_u32string(const Value1Info& info) {
         return boost::apply_visitor(to_string_visitor(), info);
     }
 
@@ -115,6 +103,22 @@ namespace onerut_parser::onerut_ast::x3 {
 
     std::u32string to_u32string(const LitIntInfo& info) {
         return unicode_from_utf8(std::to_string(info.value));
+    }
+
+    std::u32string to_u32string(const OpUnaryPlusMinusInfo& info) {
+        std::u32string result;
+        if (info.op) {
+            assert(info.op == U'+' || info.op == U'-');
+            result += *info.op;
+        }
+        result += U"+[";
+        result += to_u32string(info.expression);
+        result += U"]";
+        return result;
+    }
+
+    std::u32string to_u32string(const Value2Info& info) {
+        return boost::apply_visitor(to_string_visitor(), info);
     }
 
     std::u32string to_u32string(const FunctionInfo& info) {

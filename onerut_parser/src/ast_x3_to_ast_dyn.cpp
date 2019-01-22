@@ -150,29 +150,12 @@ namespace onerut_parser::onerut_ast {
     }
 
     std::shared_ptr<dyn::ExpressionNode> to_ast_dyn(
-            const x3::UnaryPlusMinusInfo & info,
-            std::shared_ptr<std::u32string> input,
-            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
-        const std::shared_ptr<dyn::ExpressionNode> expression = to_ast_dyn(info.expression, input, positions);
-        if (!info.op)
-            return expression;
-        const u32string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
-        assert(input);
-        assert(span.begin() <= input->cbegin());
-        assert(input->cend() <= span.end());
-        assert(*info.op == U'+' || *info.op == U'-');
-        return std::make_shared<dyn::UnaryPlusMinusNode>(input, span, *info.op, expression);
-    }
-
-    
-    std::shared_ptr<dyn::ExpressionNode> to_ast_dyn(
-            const x3::ValueInfo & info,
+            const x3::Value1Info & info,
             std::shared_ptr<std::u32string> input,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
         const auto visitor = to_ast_dyn_visitor(input, positions);
         return boost::apply_visitor(visitor, info);
     }
-     
 
     std::shared_ptr<dyn::ExpressionNode> to_ast_dyn(
             const x3::LitDoubleInfo & info,
@@ -194,6 +177,29 @@ namespace onerut_parser::onerut_ast {
         assert(span.begin() <= input->cbegin());
         assert(input->cend() <= span.end());
         return std::make_shared<dyn::LitIntNode>(input, span, info.value);
+    }
+
+    std::shared_ptr<dyn::ExpressionNode> to_ast_dyn(
+            const x3::OpUnaryPlusMinusInfo & info,
+            std::shared_ptr<std::u32string> input,
+            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
+        const std::shared_ptr<dyn::ExpressionNode> expression = to_ast_dyn(info.expression, input, positions);
+        if (!info.op)
+            return expression;
+        const u32string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
+        assert(input);
+        assert(span.begin() <= input->cbegin());
+        assert(input->cend() <= span.end());
+        assert(*info.op == U'+' || *info.op == U'-');
+        return std::make_shared<dyn::UnaryPlusMinusNode>(input, span, *info.op, expression);
+    }
+
+    std::shared_ptr<dyn::ExpressionNode> to_ast_dyn(
+            const x3::Value2Info & info,
+            std::shared_ptr<std::u32string> input,
+            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
+        const auto visitor = to_ast_dyn_visitor(input, positions);
+        return boost::apply_visitor(visitor, info);
     }
 
     std::shared_ptr<dyn::ExpressionNode> to_ast_dyn(

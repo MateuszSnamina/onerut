@@ -137,16 +137,7 @@ namespace onerut_parser::onerut_ast::x3 {
     }
 
     void to_u32string_chart(
-            const UnaryPlusMinusInfo& info,
-            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
-            unsigned deepness,
-            std::vector<std::u32string>& chart) {
-        to_u32string_chart_common_implementation(info, positions, deepness, chart);
-        to_u32string_chart(info.expression, positions, deepness + 1, chart);
-    }
-
-    void to_u32string_chart(
-            const ValueInfo& info,
+            const Value1Info& info,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
             unsigned deepness,
             std::vector<std::u32string>& chart) {
@@ -168,6 +159,24 @@ namespace onerut_parser::onerut_ast::x3 {
             unsigned deepness,
             std::vector<std::u32string>& chart) {
         to_u32string_chart_common_implementation(info, positions, deepness, chart);
+    }
+    
+    void to_u32string_chart(
+            const OpUnaryPlusMinusInfo& info,
+            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
+            unsigned deepness,
+            std::vector<std::u32string>& chart) {
+        to_u32string_chart_common_implementation(info, positions, deepness, chart);
+        to_u32string_chart(info.expression, positions, deepness + 1, chart);
+    }
+
+    void to_u32string_chart(
+            const Value2Info& info,
+            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
+            unsigned deepness,
+            std::vector<std::u32string>& chart) {
+        auto visitor = to_string_chart_visitor(positions, deepness, chart);
+        return boost::apply_visitor(visitor, info);
     }
 
     void to_u32string_chart(

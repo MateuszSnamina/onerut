@@ -49,12 +49,12 @@ BOOST_FUSION_ADAPT_STRUCT(
         (boost::optional<onerut_parser::onerut_ast::x3::OpGlueInfo>, other_arg))
 BOOST_FUSION_ADAPT_STRUCT(
         onerut_parser::onerut_ast::x3::OpGlueInfo,
-        (onerut_parser::onerut_ast::x3::UnaryPlusMinusInfo, first_arg)
-        (boost::optional<onerut_parser::onerut_ast::x3::UnaryPlusMinusInfo>, other_arg))
+        (onerut_parser::onerut_ast::x3::Value1Info, first_arg)
+        (boost::optional<onerut_parser::onerut_ast::x3::Value1Info>, other_arg))
 BOOST_FUSION_ADAPT_STRUCT(
-        onerut_parser::onerut_ast::x3::UnaryPlusMinusInfo,
+        onerut_parser::onerut_ast::x3::OpUnaryPlusMinusInfo,
         (boost::optional<char32_t>, op)
-        (onerut_parser::onerut_ast::x3::ValueInfo, expression))
+        (onerut_parser::onerut_ast::x3::Value2Info, expression))
 BOOST_FUSION_ADAPT_STRUCT(
         onerut_parser::onerut_ast::x3::LitDoubleInfo,
         (double, value))
@@ -153,7 +153,7 @@ namespace onerut_parser::onerut_gramma {
     struct OpPowParser : annotate_position {
     };
 
-    struct ValueParser : annotate_position {
+    struct Value1Parser : annotate_position {
     };
 
     struct LitDoubleParser : annotate_position {
@@ -161,7 +161,13 @@ namespace onerut_parser::onerut_gramma {
 
     struct LitIntParser : annotate_position {
     };
+    
+    struct OpUnaryPlusMinusParser : annotate_position {
+    };
 
+    struct Value2Parser : annotate_position {
+    };
+    
     struct FunctionParser : annotate_position {
     };
 
@@ -172,9 +178,6 @@ namespace onerut_parser::onerut_gramma {
     };
 
     struct NestedExpression2Parser : annotate_position {
-    };
-
-    struct UnaryPlusMinusParser : annotate_position {
     };
 
     boost::spirit::x3::rule<class ExpressionParserRaw, onerut_ast::x3::ExpressionInfo > const expression_parser_raw = "expression";
@@ -188,15 +191,16 @@ namespace onerut_parser::onerut_gramma {
     boost::spirit::x3::rule<class OpArrowParser, onerut_ast::x3::OpArrowInfo> const op_arrow_parser = "op_arrow";
     boost::spirit::x3::rule<class OpGlueParser, onerut_ast::x3::OpGlueInfo> const op_glue_parser = "op_glue";
 
-    boost::spirit::x3::rule<class ValueParser, onerut_ast::x3::ValueInfo > const value_parser = "value";
-
+    boost::spirit::x3::rule<class Value1Parser, onerut_ast::x3::Value1Info > const value1_parser = "value1";
     boost::spirit::x3::rule<class LitDoubleParser, onerut_ast::x3::LitDoubleInfo > const lit_double_parser = "lit_double";
     boost::spirit::x3::rule<class LitIntParser, onerut_ast::x3::LitIntInfo > const lit_int_parser = "lit_int";
+    boost::spirit::x3::rule<class OpUnaryPlusMinusParser, onerut_ast::x3::OpUnaryPlusMinusInfo > const op_unary_plus_minus_parser = "unary_plus_minus";
+    
+    boost::spirit::x3::rule<class Value2Parser, onerut_ast::x3::Value2Info > const value2_parser = "value2";
     boost::spirit::x3::rule<class FunctionParser, onerut_ast::x3::FunctionInfo > const function_parser = "function";
     boost::spirit::x3::rule<class IndentifierParser, onerut_ast::x3::IdentifierInfo > const indentifier_parser = "indentifier";
     boost::spirit::x3::rule<class NestedExpression1Parser, onerut_ast::x3::NestedExpression1Info > const nested_expression1_parser = "nested_expression";
     boost::spirit::x3::rule<class NestedExpression2Parser, onerut_ast::x3::NestedExpression2Info > const nested_expression2_parser = "nested_expression";
-    boost::spirit::x3::rule<class UnaryPlusMinusParser, onerut_ast::x3::UnaryPlusMinusInfo > const unary_plus_minus_parser = "unary_plus_minus";
 
     // https://en.wikipedia.org/wiki/Parsing_expression_grammar:
 
@@ -210,13 +214,14 @@ namespace onerut_parser::onerut_gramma {
     auto const op_pow_parser_def = op_at_parser >> -("^" >> op_at_parser);
     auto const op_at_parser_def = op_arrow_parser>> -("@" >> op_arrow_parser);
     auto const op_arrow_parser_def = op_glue_parser>> -("->" >> op_glue_parser);
-    auto const op_glue_parser_def = unary_plus_minus_parser>> -("::" >> unary_plus_minus_parser);
-    auto const unary_plus_minus_parser_def = -boost::spirit::x3::char_("+-") >> value_parser;
-    auto const value_parser_def =
+    auto const op_glue_parser_def = value1_parser>> -("::" >> value1_parser);
+    auto const value1_parser_def =
             lit_double_parser | lit_int_parser | // Note: lit_double_parser has to be before lit_int_parser.
+            op_unary_plus_minus_parser;
+    auto const op_unary_plus_minus_parser_def = -boost::spirit::x3::char_("+-") >> value2_parser;
+    auto const value2_parser_def =
             function_parser | indentifier_parser | // Note: function_parser has to be before indentifier_parser.
             nested_expression1_parser | nested_expression2_parser;
-
     auto const lit_double_parser_def = boost::spirit::x3::real_parser<double, boost::spirit::x3::strict_real_policies<double>>();
     auto const lit_int_parser_def = boost::spirit::x3::int_;
     auto const function_parser_def = indentifier_parser >> '(' >> expression_parser % ',' >> ')';
@@ -235,9 +240,10 @@ namespace onerut_parser::onerut_gramma {
             op_at_parser,
             op_arrow_parser,
             op_glue_parser,
-            unary_plus_minus_parser,
-            value_parser,
-            lit_double_parser, lit_int_parser,
+            value1_parser,            
+            lit_double_parser, lit_int_parser,            
+            op_unary_plus_minus_parser,
+            value2_parser,
             function_parser, indentifier_parser,
             nested_expression1_parser,
             nested_expression2_parser

@@ -4,7 +4,7 @@
 int main() {
     //std::string input = "  _alg(_67j, foo(  7  , 8 ) , (xx2s) ) kota* 56.8 ";
     //std::string input  = "  $ ";
-    std::string input = "  3.0^6@t+_alg((5->4-7/foo(6)), 8.9*ola::ala,-z+9) ";
+    std::string input = "  3.0^6@t+_alg((5->4-7/foo(6)), 8.9*ola::ala,-z+9,-7+9) ";
     //std::string input = "(9*2+3)*7.0";
     const auto parsed = onerut_parser::parse(input);
     print(parsed);
