@@ -1,5 +1,5 @@
-#ifndef ONERUT_GRAMMA_PARSER
-#define ONERUT_GRAMMA_PARSER
+#ifndef ONERUT_PARSER_GRAMMA_PARSER
+#define ONERUT_PARSER_GRAMMA_PARSER
 
 #include<string>
 #include<boost/spirit/home/x3/support/ast/position_tagged.hpp>
@@ -8,7 +8,7 @@
 
 namespace onerut_parser {
 
-    struct ParseResultInfo {
+    struct X3ParseResultInfo {
         std::shared_ptr<const std::u32string> input;
         const bool match;
         const bool hit_end;
@@ -17,11 +17,11 @@ namespace onerut_parser {
         const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >> positions;
     };
 
-    void print(ParseResultInfo info);
+    void print(X3ParseResultInfo info);
 
-    ParseResultInfo parse(std::shared_ptr<const std::u32string> input);
-    ParseResultInfo parse(const std::u32string input);
-    ParseResultInfo parse(const std::string input);
+    X3ParseResultInfo parse(std::shared_ptr<const std::u32string> input);
+    X3ParseResultInfo parse(const std::u32string input);
+    X3ParseResultInfo parse(const std::string input);
 
 }
 

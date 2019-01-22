@@ -9,8 +9,9 @@
 
 #include<onerut_parser/unicode_support.hpp>
 #include<onerut_parser/ast_x3.hpp>
-#include<onerut_parser/ast_x3_to_string.hpp>
+#include<onerut_parser/ast_x3_to_oneliner.hpp>
 #include<onerut_parser/ast_x3_to_chart.hpp>
+#include<onerut_parser/print_chart.hpp>
 #include<onerut_parser/gramma_parser.hpp>
 
 // -----------------------------------------------------------------------------
@@ -161,13 +162,13 @@ namespace onerut_parser::onerut_gramma {
 
     struct LitIntParser : annotate_position {
     };
-    
+
     struct OpUnaryPlusMinusParser : annotate_position {
     };
 
     struct Value2Parser : annotate_position {
     };
-    
+
     struct FunctionParser : annotate_position {
     };
 
@@ -195,7 +196,7 @@ namespace onerut_parser::onerut_gramma {
     boost::spirit::x3::rule<class LitDoubleParser, onerut_ast::x3::LitDoubleInfo > const lit_double_parser = "lit_double";
     boost::spirit::x3::rule<class LitIntParser, onerut_ast::x3::LitIntInfo > const lit_int_parser = "lit_int";
     boost::spirit::x3::rule<class OpUnaryPlusMinusParser, onerut_ast::x3::OpUnaryPlusMinusInfo > const op_unary_plus_minus_parser = "unary_plus_minus";
-    
+
     boost::spirit::x3::rule<class Value2Parser, onerut_ast::x3::Value2Info > const value2_parser = "value2";
     boost::spirit::x3::rule<class FunctionParser, onerut_ast::x3::FunctionInfo > const function_parser = "function";
     boost::spirit::x3::rule<class IndentifierParser, onerut_ast::x3::IdentifierInfo > const indentifier_parser = "indentifier";
@@ -240,8 +241,8 @@ namespace onerut_parser::onerut_gramma {
             op_at_parser,
             op_arrow_parser,
             op_glue_parser,
-            value1_parser,            
-            lit_double_parser, lit_int_parser,            
+            value1_parser,
+            lit_double_parser, lit_int_parser,
             op_unary_plus_minus_parser,
             value2_parser,
             function_parser, indentifier_parser,
@@ -255,7 +256,7 @@ namespace onerut_parser::onerut_gramma {
 
 namespace onerut_parser {
 
-    ParseResultInfo parse(std::shared_ptr<const std::u32string> input) {
+    X3ParseResultInfo parse(std::shared_ptr<const std::u32string> input) {
         // Iterators:
         const std::u32string::const_iterator input_begin = input->cbegin();
         const std::u32string::const_iterator input_end = input->cend();
@@ -278,28 +279,22 @@ namespace onerut_parser {
         return {input, match, hit_end, match && hit_end, ast_head, positions};
     }
 
-    ParseResultInfo parse(const std::u32string input) {
+    X3ParseResultInfo parse(const std::u32string input) {
         return parse(std::make_shared<const std::u32string>(input));
     }
 
-    ParseResultInfo parse(const std::string input) {
+    X3ParseResultInfo parse(const std::string input) {
         return parse(std::make_shared<const std::u32string>(unicode_from_utf8(input)));
     }
 
-    void print(ParseResultInfo info) {
+    void print(X3ParseResultInfo info) {
         std::cout << "match:     " << info.match << std::endl;
         std::cout << "hit_end:   " << info.hit_end << std::endl;
         if (info.match) {
-            std::cout << "to_string: " << unicode_to_utf8(to_u32string(info.ast_head)) << std::endl;
+            std::cout << "to_oneliner: " << unicode_to_utf8(to_oneliner(info.ast_head)) << std::endl;
             std::vector<std::u32string> chart = to_u32string_chart(info.ast_head, info.positions);
-            const unsigned input_length = info.positions.last() - info.positions.first();
-            const std::u32string table_horizontal_line(input_length + 2, U'▓');
-            std::cout << unicode_to_utf8(table_horizontal_line) << std::endl;
-            std::cout << "▓" << unicode_to_utf8(*info.input) << "▓" << std::endl;
-            std::cout << unicode_to_utf8(table_horizontal_line) << std::endl;
-            for (const auto & chart_line : chart)
-                std::cout << "▓" << unicode_to_utf8(chart_line) << "▓" << std::endl;
-            std::cout << unicode_to_utf8(table_horizontal_line) << std::endl;
+            print_chart(info.input, chart);
+
         }
     }
 }

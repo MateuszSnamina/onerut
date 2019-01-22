@@ -1,4 +1,3 @@
-//#include<onerut_parser/unicode_support.hpp>
 #include<onerut_parser/ast_x3_to_ast_dyn.hpp>
 
 namespace onerut_parser::onerut_ast {
@@ -60,14 +59,14 @@ namespace onerut_parser::onerut_ast {
         }
         const u32string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
-        assert(span.begin() <= input->cbegin());
-        assert(input->cend() <= span.end());
+        assert(input->cbegin() <=span.begin());
+        assert(span.end() <= input->cend());
         return std::make_shared<dyn::OpPlusMinusNode>(input, span, first_arg, other_argv, opv);
     }
 
     std::shared_ptr<dyn::ExpressionNode> to_ast_dyn(
             const x3::OpProdDivInfo & info,
-            std::shared_ptr<std::u32string> input,
+            std::shared_ptr<const std::u32string> input,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
         const std::shared_ptr<dyn::ExpressionNode> first_arg = to_ast_dyn(info.first_arg, input, positions);
         if (info.other_argv.empty())
@@ -84,14 +83,14 @@ namespace onerut_parser::onerut_ast {
         }
         const u32string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
-        assert(span.begin() <= input->cbegin());
-        assert(input->cend() <= span.end());
-        return std::make_shared<dyn::OpPlusMinusNode>(input, span, first_arg, other_argv, opv);
+        assert(input->cbegin() <=span.begin());
+        assert(span.end() <= input->cend());
+        return std::make_shared<dyn::OpProdDivNode>(input, span, first_arg, other_argv, opv);
     }
 
     std::shared_ptr<dyn::ExpressionNode> to_ast_dyn(
             const x3::OpPowInfo & info,
-            std::shared_ptr<std::u32string> input,
+            std::shared_ptr<const std::u32string> input,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
         const std::shared_ptr<dyn::ExpressionNode> first_arg = to_ast_dyn(info.first_arg, input, positions);
         if (!info.other_arg)
@@ -99,14 +98,14 @@ namespace onerut_parser::onerut_ast {
         const std::shared_ptr<dyn::ExpressionNode> other_arg = to_ast_dyn(*info.other_arg, input, positions);
         const u32string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
-        assert(span.begin() <= input->cbegin());
-        assert(input->cend() <= span.end());
+        assert(input->cbegin() <=span.begin());
+        assert(span.end() <= input->cend());
         return std::make_shared<dyn::OpPowNode>(input, span, first_arg, other_arg);
     }
 
     std::shared_ptr<dyn::ExpressionNode> to_ast_dyn(
             const x3::OpAtInfo & info,
-            std::shared_ptr<std::u32string> input,
+            std::shared_ptr<const std::u32string> input,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
         const std::shared_ptr<dyn::ExpressionNode> first_arg = to_ast_dyn(info.first_arg, input, positions);
         if (!info.other_arg)
@@ -114,14 +113,14 @@ namespace onerut_parser::onerut_ast {
         const std::shared_ptr<dyn::ExpressionNode> other_arg = to_ast_dyn(*info.other_arg, input, positions);
         const u32string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
-        assert(span.begin() <= input->cbegin());
-        assert(input->cend() <= span.end());
+        assert(input->cbegin() <=span.begin());
+        assert(span.end() <= input->cend());
         return std::make_shared<dyn::OpAtNode>(input, span, first_arg, other_arg);
     }
 
     std::shared_ptr<dyn::ExpressionNode> to_ast_dyn(
             const x3::OpArrowInfo & info,
-            std::shared_ptr<std::u32string> input,
+            std::shared_ptr<const std::u32string> input,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
         const std::shared_ptr<dyn::ExpressionNode> first_arg = to_ast_dyn(info.first_arg, input, positions);
         if (!info.other_arg)
@@ -129,14 +128,14 @@ namespace onerut_parser::onerut_ast {
         const std::shared_ptr<dyn::ExpressionNode> other_arg = to_ast_dyn(*info.other_arg, input, positions);
         const u32string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
-        assert(span.begin() <= input->cbegin());
-        assert(input->cend() <= span.end());
+        assert(input->cbegin() <=span.begin());
+        assert(span.end() <= input->cend());
         return std::make_shared<dyn::OpArrowNode>(input, span, first_arg, other_arg);
     }
 
     std::shared_ptr<dyn::ExpressionNode> to_ast_dyn(
             const x3::OpGlueInfo & info,
-            std::shared_ptr<std::u32string> input,
+            std::shared_ptr<const std::u32string> input,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
         const std::shared_ptr<dyn::ExpressionNode> first_arg = to_ast_dyn(info.first_arg, input, positions);
         if (!info.other_arg)
@@ -144,14 +143,14 @@ namespace onerut_parser::onerut_ast {
         const std::shared_ptr<dyn::ExpressionNode> other_arg = to_ast_dyn(*info.other_arg, input, positions);
         const u32string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
-        assert(span.begin() <= input->cbegin());
-        assert(input->cend() <= span.end());
+        assert(input->cbegin() <=span.begin());
+        assert(span.end() <= input->cend());
         return std::make_shared<dyn::OpGlueNode>(input, span, first_arg, other_arg);
     }
 
     std::shared_ptr<dyn::ExpressionNode> to_ast_dyn(
             const x3::Value1Info & info,
-            std::shared_ptr<std::u32string> input,
+            std::shared_ptr<const std::u32string> input,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
         const auto visitor = to_ast_dyn_visitor(input, positions);
         return boost::apply_visitor(visitor, info);
@@ -159,44 +158,44 @@ namespace onerut_parser::onerut_ast {
 
     std::shared_ptr<dyn::ExpressionNode> to_ast_dyn(
             const x3::LitDoubleInfo & info,
-            std::shared_ptr<std::u32string> input,
+            std::shared_ptr<const std::u32string> input,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
         const u32string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
-        assert(span.begin() <= input->cbegin());
-        assert(input->cend() <= span.end());
+        assert(input->cbegin() <=span.begin());
+        assert(span.end() <= input->cend());
         return std::make_shared<dyn::LitDoubleNode>(input, span, info.value);
     }
 
     std::shared_ptr<dyn::ExpressionNode> to_ast_dyn(
             const x3::LitIntInfo & info,
-            std::shared_ptr<std::u32string> input,
+            std::shared_ptr<const std::u32string> input,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
         const u32string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
-        assert(span.begin() <= input->cbegin());
-        assert(input->cend() <= span.end());
+        assert(input->cbegin() <=span.begin());
+        assert(span.end() <= input->cend());
         return std::make_shared<dyn::LitIntNode>(input, span, info.value);
     }
 
     std::shared_ptr<dyn::ExpressionNode> to_ast_dyn(
             const x3::OpUnaryPlusMinusInfo & info,
-            std::shared_ptr<std::u32string> input,
+            std::shared_ptr<const std::u32string> input,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
         const std::shared_ptr<dyn::ExpressionNode> expression = to_ast_dyn(info.expression, input, positions);
         if (!info.op)
             return expression;
         const u32string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
-        assert(span.begin() <= input->cbegin());
-        assert(input->cend() <= span.end());
+        assert(input->cbegin() <=span.begin());
+        assert(span.end() <= input->cend());
         assert(*info.op == U'+' || *info.op == U'-');
         return std::make_shared<dyn::UnaryPlusMinusNode>(input, span, *info.op, expression);
     }
 
     std::shared_ptr<dyn::ExpressionNode> to_ast_dyn(
             const x3::Value2Info & info,
-            std::shared_ptr<std::u32string> input,
+            std::shared_ptr<const std::u32string> input,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
         const auto visitor = to_ast_dyn_visitor(input, positions);
         return boost::apply_visitor(visitor, info);
@@ -204,7 +203,7 @@ namespace onerut_parser::onerut_ast {
 
     std::shared_ptr<dyn::ExpressionNode> to_ast_dyn(
             const x3::FunctionInfo & info,
-            std::shared_ptr<std::u32string> input,
+            std::shared_ptr<const std::u32string> input,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
         const std::u32string name = info.name.name();
         std::vector<std::shared_ptr < dyn::ExpressionNode>> argv;
@@ -215,32 +214,32 @@ namespace onerut_parser::onerut_ast {
         }
         const u32string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
-        assert(span.begin() <= input->cbegin());
-        assert(input->cend() <= span.end());
+        assert(input->cbegin() <=span.begin());
+        assert(span.end() <= input->cend());
         return std::make_shared<dyn::FunctionNode>(input, span, name, argv);
     }
 
     std::shared_ptr<dyn::ExpressionNode> to_ast_dyn(
             const x3::IdentifierInfo & info,
-            std::shared_ptr<std::u32string> input,
+            std::shared_ptr<const std::u32string> input,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
         const u32string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
-        assert(span.begin() <= input->cbegin());
-        assert(input->cend() <= span.end());
+        assert(input->cbegin() <=span.begin());
+        assert(span.end() <= input->cend());
         return std::make_shared<dyn::IdentifierNode>(input, span, info.name());
     }
 
     std::shared_ptr<dyn::ExpressionNode> to_ast_dyn(
             const x3::NestedExpression1Info & info,
-            std::shared_ptr<std::u32string> input,
+            std::shared_ptr<const std::u32string> input,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
         return to_ast_dyn(info.expression, input, positions);
     }
 
     std::shared_ptr<dyn::ExpressionNode> to_ast_dyn(
             const x3::NestedExpression2Info & info,
-            std::shared_ptr<std::u32string> input,
+            std::shared_ptr<const std::u32string> input,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
         return to_ast_dyn(info.expression, input, positions);
     }

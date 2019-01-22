@@ -9,11 +9,15 @@
     <df root="onerut_parser" name="1">
       <df name="src">
         <in>ast_dyn.cpp</in>
+        <in>ast_dyn_to_chart.cpp</in>
+        <in>ast_dyn_to_oneliner.cpp</in>
         <in>ast_x3.cpp</in>
         <in>ast_x3_to_ast_dyn.cpp</in>
         <in>ast_x3_to_chart.cpp</in>
+        <in>ast_x3_to_oneliner.cpp</in>
         <in>ast_x3_to_string.cpp</in>
         <in>gramma_parser.cpp</in>
+        <in>print_chart.cpp</in>
         <in>unicode_support.cpp</in>
       </df>
     </df>
@@ -118,6 +122,20 @@
         <ccTool flags="0">
         </ccTool>
       </item>
+      <item path="onerut_parser/src/ast_dyn_to_chart.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_parser/src/ast_dyn_to_oneliner.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
       <item path="onerut_parser/src/ast_x3.cpp" ex="false" tool="1" flavor2="11">
         <ccTool flags="0">
         </ccTool>
@@ -136,6 +154,13 @@
         <ccTool flags="0">
         </ccTool>
       </item>
+      <item path="onerut_parser/src/ast_x3_to_oneliner.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
       <item path="onerut_parser/src/ast_x3_to_string.cpp"
             ex="false"
             tool="1"
@@ -147,6 +172,10 @@
             ex="false"
             tool="1"
             flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_parser/src/print_chart.cpp" ex="false" tool="1" flavor2="11">
         <ccTool flags="0">
         </ccTool>
       </item>
