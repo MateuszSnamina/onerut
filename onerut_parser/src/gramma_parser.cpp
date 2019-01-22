@@ -292,7 +292,7 @@ namespace onerut_parser {
         std::cout << "hit_end:   " << info.hit_end << std::endl;
         if (info.match) {
             std::cout << "to_oneliner: " << unicode_to_utf8(to_oneliner(info.ast_head)) << std::endl;
-            std::vector<std::u32string> chart = to_u32string_chart(info.ast_head, info.positions);
+            std::vector<std::u32string> chart = to_chart(info.ast_head, info.positions);
             print_chart(info.input, chart);
 
         }

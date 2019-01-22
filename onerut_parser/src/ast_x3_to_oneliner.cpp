@@ -2,7 +2,7 @@
 #include<onerut_parser/ast_x3.hpp>
 #include<onerut_parser/ast_x3_to_oneliner.hpp>
 
-namespace onerut_parser::onerut_ast::x3 {
+namespace {
 
     // -------------------------------------------------------------------------
     // ------------- VISITOR ---------------------------------------------------
@@ -18,6 +18,10 @@ namespace onerut_parser::onerut_ast::x3 {
     to_string_visitor::result_type to_string_visitor::operator()(const T & info) const {
         return to_oneliner(info);
     }
+
+}
+
+namespace onerut_parser::onerut_ast::x3 {
 
     // -------------------------------------------------------------------------
     // -------------- FUNCTIONS FOR CONCRETE AST TYPES -------------------------
