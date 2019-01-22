@@ -25,7 +25,10 @@ namespace onerut_parser::onerut_ast::dyn {
         std::vector<std::u32string> to_chart() const;
         virtual void to_chart(
                 unsigned deepness,
-                std::vector<std::u32string>& chart) const;
+                std::vector<std::u32string>& chart) const = 0;
+        virtual void to_chart_disregard_subexpression(
+                unsigned deepness,
+                std::vector<std::u32string>& chart) const;        
     };
 
     class WithNoSubexpressionsNode : public ExpressionNode {

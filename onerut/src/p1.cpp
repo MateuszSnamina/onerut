@@ -10,6 +10,7 @@ int main() {
     std::string input = "  3.0^6@t+_alg((5->4-7/foo(6)), 8.9*ola::ala,-z+9,-7+9) ";
     //std::string input = "(9*2+3)*7.0";
     const auto parsed_x3_info = onerut_parser::parse(input);
+    std::cout << "Parsed info: (onerut_ast::x3):" << std::endl;
     print(parsed_x3_info);
 
     const auto ast_dyn_head = onerut_parser::onerut_ast::to_ast_dyn(
@@ -18,22 +19,9 @@ int main() {
             parsed_x3_info.positions);
 
     const auto ast_dyn_chart = ast_dyn_head->to_chart();
+    std::cout << "Parsed info: (onerut_ast::dyn):" << std::endl;
     onerut_parser::print_chart(parsed_x3_info.input, ast_dyn_chart);
     
-    /*
-                const x3::ExpressionInfo& info,
-            std::shared_ptr<const std::u32string> input,                        
-            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions
-                
-                
-                    struct ParseResultInfo {
-        std::shared_ptr<const std::u32string> input;
-        const bool match;
-        const bool hit_end;
-        const bool succes;
-        const onerut_parser::onerut_ast::x3::ExpressionInfo ast_head;
-        const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >> positions;
-     */
 }
 
 
