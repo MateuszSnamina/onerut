@@ -1,138 +1,75 @@
 #include<onerut_parser/ast_dyn.hpp>
 
-//#include<cassert>
-//#include<algorithm>
+#include<cassert>
 
 namespace onerut_parser::onerut_ast::dyn {
-/*
-    ExpressionNode::ExpressionNode(
-            std::shared_ptr<const std::u32string> input,
-            u32string_const_span span) :
-    input(input),
-    span(span) {
-        assert(input->cbegin() <= span.begin());
-        assert(span.end() <= input->cend());
-        assert(span.begin() < span.end());
+
+    std::u32string IdentifierNode::to_oneliner() const {
+        std::u32string result;
+        assert(false);
+        return result;
     }
 
-    ExpressionNode::~ExpressionNode() {
+    std::u32string OpPlusMinusNode::to_oneliner() const {
+        std::u32string result;
+        assert(false);
+        return result;
     }
 
-
-    IdentifierNode::IdentifierNode(
-            std::shared_ptr<const std::u32string> input,
-            u32string_const_span span,
-            std::u32string name) :
-    ExpressionNode(input, span),
-    name(name) {
+    std::u32string OpProdDivNode::to_oneliner() const {
+        std::u32string result;
+        assert(false);
+        return result;
     }
 
-    OpPlusMinusNode::OpPlusMinusNode(
-            std::shared_ptr<const std::u32string> input,
-            u32string_const_span span,
-            std::shared_ptr<ExpressionNode> first_arg,
-            std::vector<std::shared_ptr<ExpressionNode>> other_argv,
-            std::vector<char32_t> opv) :
-    ExpressionNode(input, span),
-    first_arg(first_arg),
-    other_argv(other_argv),
-    opv(opv) {
-        const auto predicate = [](char32_t op) {
-            return op == L'+' || op == L'-';
-        };
-        assert(std::all_of(opv.cbegin(), opv.cend(), predicate));
+    std::u32string OpPowNode::to_oneliner() const {
+        std::u32string result;
+        assert(false);
+        return result;
     }
 
-    OpProdDivNode::OpProdDivNode(
-            std::shared_ptr<const std::u32string> input,
-            u32string_const_span span,
-            std::shared_ptr<ExpressionNode> first_arg,
-            std::vector<std::shared_ptr<ExpressionNode>> other_argv,
-            std::vector<char32_t> opv) :
-    ExpressionNode(input, span),
-    first_arg(first_arg),
-    other_argv(other_argv),
-    opv(opv) {
-        const auto predicate = [](char32_t op) {
-            return op == L'*' || op == L'/';
-        };
-        assert(std::all_of(opv.cbegin(), opv.cend(), predicate));
+    std::u32string OpAtNode::to_oneliner() const {
+        std::u32string result;
+        assert(false);
+        return result;
     }
 
-    OpPowNode::OpPowNode(
-            std::shared_ptr<const std::u32string> input,
-            u32string_const_span span,
-            std::shared_ptr<ExpressionNode> first_arg,
-            std::shared_ptr<ExpressionNode> second_arg) :
-    ExpressionNode(input, span),
-    first_arg(first_arg),
-    second_arg(second_arg) {
+    std::u32string OpArrowNode::to_oneliner() const {
+        std::u32string result;
+        assert(false);
+        return result;
     }
 
-    OpAtNode::OpAtNode(
-            std::shared_ptr<const std::u32string> input,
-            u32string_const_span span,
-            std::shared_ptr<ExpressionNode> first_arg,
-            std::shared_ptr<ExpressionNode> second_arg) :
-    ExpressionNode(input, span),
-    first_arg(first_arg),
-    second_arg(second_arg) {
+    std::u32string OpGlueNode::to_oneliner() const {
+        std::u32string result;
+        assert(false);
+        return result;
     }
 
-    OpArrowNode::OpArrowNode(
-            std::shared_ptr<const std::u32string> input,
-            u32string_const_span span,
-            std::shared_ptr<ExpressionNode> first_arg,
-            std::shared_ptr<ExpressionNode> second_arg) :
-    ExpressionNode(input, span),
-    first_arg(first_arg),
-    second_arg(second_arg) {
+    std::u32string UnaryPlusMinusNode::to_oneliner() const {
+        std::u32string result;
+        //assert(op == L'+' || op == L'-');
+        assert(false);
+        return result;
+
     }
 
-    OpGlueNode::OpGlueNode(
-            std::shared_ptr<const std::u32string> input,
-            u32string_const_span span,
-            std::shared_ptr<ExpressionNode> first_arg,
-            std::shared_ptr<ExpressionNode> second_arg) :
-    ExpressionNode(input, span),
-    first_arg(first_arg),
-    second_arg(second_arg) {
+    std::u32string LitIntNode::to_oneliner() const {
+        std::u32string result;
+        assert(false);
+        return result;
     }
 
-    UnaryPlusMinusNode::UnaryPlusMinusNode(
-            std::shared_ptr<const std::u32string> input,
-            u32string_const_span span,
-            char32_t op,
-            std::shared_ptr<ExpressionNode> expression) :
-    ExpressionNode(input, span),
-    op(op),
-    expression(expression) {
-        assert(op == L'+' || op == L'-');
+    std::u32string LitDoubleNode::to_oneliner() const {
+        std::u32string result;
+        assert(false);
+        return result;        
     }
 
-    LitIntNode::LitIntNode(std::shared_ptr<const std::u32string> input,
-            u32string_const_span span,
-            int value) :
-    ExpressionNode(input, span),
-    value(value) {
+    std::u32string FunctionNode::to_oneliner() const {
+        std::u32string result;
+        assert(false);
+        return result;        
     }
 
-    LitDoubleNode::LitDoubleNode(
-            std::shared_ptr<const std::u32string> input,
-            u32string_const_span span,
-            double value) :
-    ExpressionNode(input, span),
-    value(value) {
-    }
-
-    FunctionNode::FunctionNode(
-            std::shared_ptr<const std::u32string> input,
-            u32string_const_span span,
-            std::u32string name,
-            std::vector<std::shared_ptr<ExpressionNode>> argv) :
-    ExpressionNode(input, span),
-    name(name),
-    argv(argv) {
-    }
-*/
 }

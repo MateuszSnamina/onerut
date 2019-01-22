@@ -12,7 +12,7 @@ namespace onerut_parser::onerut_ast::dyn {
             unsigned deepness,
             std::vector<std::u32string>& chart) const {
         while (chart.size() <= deepness)
-            chart.emplace_back(input->end() - input->begin(), U'░');
+            chart.emplace_back(input->size(), U'░');
         const unsigned offset = span.begin() - input->cbegin();
         std::copy(span.begin(), span.end(), chart[deepness].begin() + offset);
     }
