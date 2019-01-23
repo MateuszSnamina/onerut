@@ -7,11 +7,12 @@
 #include<esc/esc_manip.hpp>
 
 int main() {
+    using namespace esc::manip;
     //EscStreamRaii(std::cout) << 5 << 7;
     //EscStreamRaii(std::cout) << 5 << 7 << esc_end << 8 << std::endl;
     //std::cout << begin1 << 5;// << 7;// << std::endl;
-    std::cout << red << 6 << 9 << esc_end << "xx" << blue << "blue" << green << "green" << bg_cyan << "xxxxx"; // << 5 << 7 << esc_end << 8 << std::endl;
-            std::cout << std::endl;
+    std::cout << red << italic <<6 << underline << 9 << reset << "xx" << blue << "blue" << bold << "bold" << green << "green" << bg_cyan << nobold << "xxxxx"; // << 5 << 7 << esc_end << 8 << std::endl;
+    std::cout << std::endl;
     std::cout << std::endl;
 
     //std::string input = "  _alg(_67j, foo(  7  , 8 ) , (xx2s) ) kota* 56.8 ";
