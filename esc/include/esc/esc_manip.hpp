@@ -2,6 +2,7 @@
 #define ESC_ESC_MANIP
 
 #include<iostream>
+#include<string>
 #include<type_traits>
 
 namespace esc {
@@ -37,7 +38,7 @@ namespace esc {
     class EscStreamRaii {
     public:
         explicit EscStreamRaii(std::ostream& s);
-        EscStreamRaii(EscStreamRaii& raii);
+        EscStreamRaii(EscStreamRaii&& raii);
         ~EscStreamRaii();
         std::string compile();
         void start_session();
@@ -129,6 +130,11 @@ namespace esc {
     typename std::enable_if<std::is_same<typename ManipDispatcher<T>::Tag, ManipTag>::value, EscStreamRaii>::type
     operator<<(std::ostream& stream, const T& manip);
 
+    typedef std::ostream&(*StdManipFunPtrType)(std::ostream&); 
+
+    EscStreamRaii&&
+    operator<<(EscStreamRaii&& raii, StdManipFunPtrType std_namip);
+    
     template<typename T >
     EscStreamRaii&&
     operator<<(EscStreamRaii&& raii, const T& x);

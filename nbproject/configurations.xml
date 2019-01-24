@@ -5,6 +5,7 @@
       <df name="src">
         <in>esc_codes.cpp</in>
         <in>esc_manip.cpp</in>
+        <in>esc_manip_examples.cpp</in>
       </df>
     </df>
     <df root="onerut" name="0">
@@ -88,6 +89,10 @@
         </ccTool>
       </item>
       <item path="esc/src/esc_manip.cpp" ex="false" tool="1" flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="esc/src/esc_manip_examples.cpp" ex="false" tool="1" flavor2="11">
         <ccTool flags="0">
         </ccTool>
       </item>
