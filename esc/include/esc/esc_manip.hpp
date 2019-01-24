@@ -18,7 +18,7 @@ namespace esc {
         Magenta = 5,
         Cyan = 6,
         White = 7,
-        Auto = 9 // o reset colors to their defaults, use ESC[39;49m --> Wiki.
+        Auto = 9 // "to reset colors to their defaults, use ESC[39;49m" Wikipedia.
     };
 
     //--------------------------------------------------------------------------
@@ -57,12 +57,10 @@ namespace esc {
     //--------------------------------------------------------------------------
 
     struct EscFgColorManip {
-        //EscFgColorManip(Color color);
         Color color;
     };
 
     struct EscBgColorManip {
-        //EscBgColorManip(Color color);
         Color color;
     };
 
