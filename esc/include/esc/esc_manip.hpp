@@ -93,32 +93,32 @@ namespace esc {
 
     template<typename T>
     struct ManipDispatcher {
-        typedef NoManipTag Tag;
+        using Tag = NoManipTag;
     };
 
     template<>
     struct ManipDispatcher<EscFgColorManip> {
-        typedef ManipTag Tag;
+        using Tag = ManipTag;
     };
 
     template<>
     struct ManipDispatcher<EscBgColorManip> {
-        typedef ManipTag Tag;
+        using Tag = ManipTag;
     };
 
     template<>
     struct ManipDispatcher<EscBoldManip> {
-        typedef ManipTag Tag;
+        using Tag = ManipTag;
     };
 
     template<>
     struct ManipDispatcher<EscItalicManip> {
-        typedef ManipTag Tag;
+        using Tag = ManipTag;
     };
 
     template<>
     struct ManipDispatcher<EscUnderlineManip> {
-        typedef ManipTag Tag;
+        using Tag = ManipTag;
     };
 
     //--------------------------------------------------------------------------

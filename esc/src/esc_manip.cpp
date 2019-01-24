@@ -1,6 +1,4 @@
 #include<cassert>
-#include<vector>
-#include<boost/algorithm/string/join.hpp>
 
 #include<esc/esc_manip.hpp>
 
@@ -28,22 +26,24 @@ namespace esc {
     }
 
     std::string EscStreamRaii::compile() {
-        std::string result = "\033[";
+        // fg_color -- preparations:
         const int fg_color_value = 30 + static_cast<int> (session_ansi_data.fg_color);
-        const int bg_color_value = 40 + static_cast<int> (session_ansi_data.bg_color);
         assert(30 <= fg_color_value);
         assert(fg_color_value <= 39);
+        assert(fg_color_value != 38);
+        const std::string fg_color_str = std::to_string(fg_color_value);
+        // bg_color -- preparations:
+        const int bg_color_value = 40 + static_cast<int> (session_ansi_data.bg_color);
         assert(40 <= bg_color_value);
         assert(bg_color_value <= 49);
-        const std::string fg_color_str = std::to_string(fg_color_value);
+        assert(bg_color_value != 48);
         const std::string bg_color_str = std::to_string(bg_color_value);
-        std::vector<std::string> bits{fg_color_str, bg_color_str};
-        if (session_ansi_data.bold) bits.push_back("1");
-        if (session_ansi_data.italic) bits.push_back("3");
-        if (session_ansi_data.underline) bits.push_back("4");
-        result += boost::algorithm::join(bits, ";");
-        result += "m";
-        return result;
+        // result:
+        std::string result = fg_color_str + ";" + bg_color_str;
+        if (session_ansi_data.bold) result += ";1";
+        if (session_ansi_data.italic) result += ";3";
+        if (session_ansi_data.underline) result += ";4";
+        return "\033[" + result + "m";
     }
 
     bool EscStreamRaii::is_session_holder() const {
