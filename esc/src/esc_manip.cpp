@@ -8,13 +8,13 @@ namespace esc {
 
     EscStreamRaii::EscStreamRaii(std::ostream& stream) :
     stream(stream),
-    ansi_data({Color::Auto, Color::Auto, false, false, false}),
+    session_ansi_data({Color::Auto, Color::Auto, false, false, false}),
     _is_session_holder(false) {
     }
 
     EscStreamRaii::EscStreamRaii(EscStreamRaii& raii) :
     stream(raii.stream),
-    ansi_data(raii.ansi_data),
+    session_ansi_data(raii.session_ansi_data),
     _is_session_holder(false) {
         if (raii._is_session_holder) {
             _is_session_holder = true;
@@ -27,30 +27,10 @@ namespace esc {
             end_session();
     }
 
-    void EscStreamRaii::set_fg_color(Color color) {
-        ansi_data.fg_color = color;
-    }
-
-    void EscStreamRaii::set_bg_color(Color color) {
-        ansi_data.bg_color = color;
-    }
-
-    void EscStreamRaii::set_bold(bool value) {
-        ansi_data.bold = value;
-    }
-
-    void EscStreamRaii::set_italic(bool value) {
-        ansi_data.italic = value;
-    }
-
-    void EscStreamRaii::set_underline(bool value) {
-        ansi_data.underline = value;
-    }
-
     std::string EscStreamRaii::compile() {
         std::string result = "\033[";
-        const int fg_color_value = 30 + static_cast<int> (ansi_data.fg_color);
-        const int bg_color_value = 40 + static_cast<int> (ansi_data.bg_color);
+        const int fg_color_value = 30 + static_cast<int> (session_ansi_data.fg_color);
+        const int bg_color_value = 40 + static_cast<int> (session_ansi_data.bg_color);
         assert(30 <= fg_color_value);
         assert(fg_color_value <= 39);
         assert(40 <= bg_color_value);
@@ -58,9 +38,9 @@ namespace esc {
         const std::string fg_color_str = std::to_string(fg_color_value);
         const std::string bg_color_str = std::to_string(bg_color_value);
         std::vector<std::string> bits{fg_color_str, bg_color_str};
-        if (ansi_data.bold) bits.push_back("1");
-        if (ansi_data.italic) bits.push_back("3");
-        if (ansi_data.underline) bits.push_back("4");
+        if (session_ansi_data.bold) bits.push_back("1");
+        if (session_ansi_data.italic) bits.push_back("3");
+        if (session_ansi_data.underline) bits.push_back("4");
         result += boost::algorithm::join(bits, ";");
         result += "m";
         return result;
@@ -86,85 +66,31 @@ namespace esc {
     //-------------------  MANIPULATOR CLASSES  --------------------------------
     //--------------------------------------------------------------------------
 
-    //EscFgColorManip::EscFgColorManip(Color color) :
-    //color(color) {
-    // }
+    void EscFgColorManip::apply(SessionEscData& d) const {
+        d.fg_color = color;
+    }
 
-    //EscBgColorManip::EscBgColorManip(Color color) :
-    //color(color) {
-    //}
+    void EscBgColorManip::apply(SessionEscData& d) const {
+        d.bg_color = color;
+    }
+
+    void EscBoldManip::apply(SessionEscData& d) const {
+        d.bold = value;
+    }
+
+    void EscItalicManip::apply(SessionEscData& d) const {
+        d.italic = value;
+    }
+
+    void EscUnderlineManip::apply(SessionEscData& d) const {
+        d.underline = value;
+    }
 
     //--------------------------------------------------------------------------
     //-------------------  STREAM LIKE API  ------------------------------------
     //--------------------------------------------------------------------------
 
-    EscStreamRaii operator<<(std::ostream& stream, const EscFgColorManip& manip) {
-        EscStreamRaii raii(stream);
-        raii.set_fg_color(manip.color);
-        return raii;
-    }
-
-    EscStreamRaii operator<<(std::ostream& stream, const EscBgColorManip& manip) {
-        EscStreamRaii raii(stream);
-        raii.set_bg_color(manip.color);
-        return raii;
-    }
-
-    EscStreamRaii operator<<(std::ostream& stream, const EscBoldManip& manip) {
-        EscStreamRaii raii(stream);
-        raii.set_bold(manip.value);
-        return raii;
-    }
-
-    EscStreamRaii operator<<(std::ostream& stream, const EscItalicManip& manip) {
-        EscStreamRaii raii(stream);
-        raii.set_italic(manip.value);
-        return raii;
-
-    }
-
-    EscStreamRaii operator<<(std::ostream& stream, const EscUnderlineManip& manip) {
-        EscStreamRaii raii(stream);
-        raii.set_underline(manip.value);
-        return raii;
-    }
-
-    EscStreamRaii operator<<(EscStreamRaii raii, const EscFgColorManip& manip) {
-        if (raii.is_session_holder())
-            raii.end_session();
-        raii.set_fg_color(manip.color);
-        return raii;
-    }
-
-    EscStreamRaii operator<<(EscStreamRaii raii, const EscBgColorManip& manip) {
-        if (raii.is_session_holder())
-            raii.end_session();
-        raii.set_bg_color(manip.color);
-        return raii;
-    }
-
-    EscStreamRaii operator<<(EscStreamRaii raii, const EscBoldManip& manip) {
-        if (raii.is_session_holder())
-            raii.end_session();
-        raii.set_bold(manip.value);
-        return raii;
-    }
-
-    EscStreamRaii operator<<(EscStreamRaii raii, const EscItalicManip& manip) {
-        if (raii.is_session_holder())
-            raii.end_session();
-        raii.set_italic(manip.value);
-        return raii;
-    }
-
-    EscStreamRaii operator<<(EscStreamRaii raii, const EscUnderlineManip& manip) {
-        if (raii.is_session_holder())
-            raii.end_session();
-        raii.set_underline(manip.value);
-        return raii;
-    }
-
-    std::ostream& operator<<(EscStreamRaii raii, const EscResetManip&) {
+    std::ostream& operator<<(EscStreamRaii&& raii, const EscResetManip&) {
         if (raii.is_session_holder())
             raii.end_session();
         return raii.stream;
@@ -208,6 +134,7 @@ namespace esc {
         const EscResetManip reset;
 
     }
+
 }
 
 

@@ -21,7 +21,6 @@ namespace onerut_parser::onerut_ast::dyn {
             unsigned deepness,
             std::vector<std::u32string>& chart) const {
         to_chart_disregard_subexpression(deepness, chart);
-        // Do nothing more!
     }
 
     void WithOneSubexpressionNode::to_chart(

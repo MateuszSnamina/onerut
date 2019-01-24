@@ -8,13 +8,14 @@
 
 int main() {
     using namespace esc::manip;
-    //EscStreamRaii(std::cout) << 5 << 7;
-    //EscStreamRaii(std::cout) << 5 << 7 << esc_end << 8 << std::endl;
-    //std::cout << begin1 << 5;// << 7;// << std::endl;
-    std::cout << red << italic <<6 << underline << 9 << reset << "xx" << blue << "blue" << bold << "bold" << green << "green" << bg_cyan << nobold << "xxxxx"; // << 5 << 7 << esc_end << 8 << std::endl;
-    std::cout << std::endl;
-    std::cout << std::endl;
 
+    std::cout << red << italic << 6 << underline << 9 << reset << "xx" << blue << "blue" << bold << "bold" << green << "green" << bg_cyan << nobold << "xxxxx"; // << 5 << 7 << esc_end << 8 << std::endl;
+
+    std::cout << std::endl;
+    std::cout << std::endl;
+    return 1;
+
+    /*
     //std::string input = "  _alg(_67j, foo(  7  , 8 ) , (xx2s) ) kota* 56.8 ";
     //std::string input  = "  $ ";
     std::string input = "  3.0^6@t+_alg((5->4-7/foo(6)), 8.9*ola::ala,-z+9,-7+9) ";
@@ -31,7 +32,7 @@ int main() {
     const auto ast_dyn_chart = ast_dyn_head->to_chart();
     std::cout << "Parsed info: (onerut_ast::dyn):" << std::endl;
     onerut_parser::print_chart(parsed_x3_info.input, ast_dyn_chart);
-
+     */
 }
 
 

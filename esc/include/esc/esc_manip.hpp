@@ -2,6 +2,7 @@
 #define ESC_ESC_MANIP
 
 #include<iostream>
+#include<type_traits>
 
 namespace esc {
 
@@ -25,30 +26,26 @@ namespace esc {
     //-----------  ANSI ESCAPE SESSION CONTROLLER CLASS  -----------------------
     //--------------------------------------------------------------------------    
 
+    struct SessionEscData {
+        Color fg_color;
+        Color bg_color;
+        bool bold;
+        bool italic;
+        bool underline;
+    };
+
     class EscStreamRaii {
     public:
         explicit EscStreamRaii(std::ostream& s);
         EscStreamRaii(EscStreamRaii& raii);
         ~EscStreamRaii();
-        void set_fg_color(Color color);
-        void set_bg_color(Color color);
-        void set_bold(bool value);
-        void set_italic(bool value);
-        void set_underline(bool value);
         std::string compile();
         void start_session();
         void end_session();
         bool is_session_holder() const;
         std::ostream& stream;
+        SessionEscData session_ansi_data;
     private:
-
-        struct {
-            Color fg_color;
-            Color bg_color;
-            bool bold;
-            bool italic;
-            bool underline;
-        } ansi_data;
         bool _is_session_holder;
     };
 
@@ -58,47 +55,86 @@ namespace esc {
 
     struct EscFgColorManip {
         Color color;
+        void apply(SessionEscData& d) const;
     };
 
     struct EscBgColorManip {
         Color color;
+        void apply(SessionEscData& d) const;
     };
 
     struct EscBoldManip {
         bool value;
+        void apply(SessionEscData& d) const;
     };
 
     struct EscItalicManip {
         bool value;
+        void apply(SessionEscData& d) const;
     };
 
     struct EscUnderlineManip {
         bool value;
+        void apply(SessionEscData& d) const;
     };
 
     struct EscResetManip {
     };
 
     //--------------------------------------------------------------------------
+    //-------------------  MANIPULATOR TRAITS   --------------------------------
+    //--------------------------------------------------------------------------    
+
+    struct ManipTag {
+    };
+
+    struct NoManipTag {
+    };
+
+    template<typename T>
+    struct ManipDispatcher {
+        typedef NoManipTag Tag;
+    };
+
+    template<>
+    struct ManipDispatcher<EscFgColorManip> {
+        typedef ManipTag Tag;
+    };
+
+    template<>
+    struct ManipDispatcher<EscBgColorManip> {
+        typedef ManipTag Tag;
+    };
+
+    template<>
+    struct ManipDispatcher<EscBoldManip> {
+        typedef ManipTag Tag;
+    };
+
+    template<>
+    struct ManipDispatcher<EscItalicManip> {
+        typedef ManipTag Tag;
+    };
+
+    template<>
+    struct ManipDispatcher<EscUnderlineManip> {
+        typedef ManipTag Tag;
+    };
+
+    //--------------------------------------------------------------------------
     //-------------------  STREAM LIKE API  ------------------------------------
     //--------------------------------------------------------------------------
 
-    EscStreamRaii operator<<(std::ostream& stream, const EscFgColorManip& manip);
-    EscStreamRaii operator<<(std::ostream& stream, const EscBgColorManip& manip);
-    EscStreamRaii operator<<(std::ostream& stream, const EscBoldManip& manip);
-    EscStreamRaii operator<<(std::ostream& stream, const EscItalicManip& manip);
-    EscStreamRaii operator<<(std::ostream& stream, const EscUnderlineManip& manip);
-
-    EscStreamRaii operator<<(EscStreamRaii raii, const EscFgColorManip& manip);
-    EscStreamRaii operator<<(EscStreamRaii raii, const EscBgColorManip& manip);
-    EscStreamRaii operator<<(EscStreamRaii raii, const EscBoldManip& manip);
-    EscStreamRaii operator<<(EscStreamRaii raii, const EscItalicManip& manip);
-    EscStreamRaii operator<<(EscStreamRaii raii, const EscUnderlineManip& manip);
-
-    std::ostream& operator<<(EscStreamRaii raii, const EscResetManip&);
+    template<typename T>
+    typename std::enable_if<std::is_same<typename ManipDispatcher<T>::Tag, ManipTag>::value, EscStreamRaii>::type
+    operator<<(std::ostream& stream, const T& manip);
 
     template<typename T >
-    EscStreamRaii operator<<(EscStreamRaii raii, T x);
+    EscStreamRaii&&
+    operator<<(EscStreamRaii&& raii, const T& x);
+
+    std::ostream&
+    operator<<(EscStreamRaii&& raii, const EscResetManip&);
 
     //--------------------------------------------------------------------------
     //-------------------  MANIPULATORS  ---------------------------------------
@@ -137,18 +173,44 @@ namespace esc {
 
         extern const EscResetManip reset;
     }
+
     //--------------------------------------------------------------------------
-    //-------------------  TEMPLATE IMPLEMENTATION -----------------------------
+    //-------------------  TEMPLATES IMPLEMENTATION ----------------------------
     //--------------------------------------------------------------------------
 
-    template<typename T >
-    EscStreamRaii operator<<(EscStreamRaii raii, T x) {
-        if (!raii.is_session_holder())
-            raii.start_session();
-        raii.stream << x;
+    template<typename T>
+    typename std::enable_if<std::is_same<typename ManipDispatcher<T>::Tag, ManipTag>::value, EscStreamRaii>::type
+    operator<<(std::ostream& stream, const T& manip) {
+        static_assert(std::is_same<typename ManipDispatcher<T>::Tag, ManipTag>::value);
+        EscStreamRaii raii(stream);
+        manip.apply(raii.session_ansi_data);
         return raii;
     }
 
+    template<typename T >
+    EscStreamRaii&&
+    operator_impl(EscStreamRaii&& raii, const T& manip, ManipTag) {
+        if (raii.is_session_holder())
+            raii.end_session();
+        manip.apply(raii.session_ansi_data);
+        return std::move(raii);
+    }
+
+    template<typename T >
+    EscStreamRaii&&
+    operator_impl(EscStreamRaii&& raii, const T& x, NoManipTag) {
+        if (!raii.is_session_holder())
+            raii.start_session();
+        raii.stream << x;
+        return std::move(raii);
+    }
+
+    template<typename T >
+    EscStreamRaii&&
+    operator<<(EscStreamRaii&& raii, const T& x) {
+        typename ManipDispatcher<T>::Tag t;
+        return operator_impl(std::move(raii), x, t);
+    }
 
 }
 
