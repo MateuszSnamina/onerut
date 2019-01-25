@@ -35,7 +35,7 @@ int main() {
 
     std::cout << "It does deal even with throwing functions:" << std::endl;
     try {
-        std::cout << ">>> " << red << 1 << 2 << 3 << 
+        std::cout << ">>> " << red << 1 << 2 << 3 <<
                 4 << 5 << throwing_function() << 6 << 7 << std::endl;
     } catch (std::runtime_error& e) {
         std::cout << e.what() << std::endl;
@@ -68,11 +68,12 @@ int main() {
     std::cout << "You may capture the setting using auto:" << std::endl;
 
     auto gray_chapter = std::cout << gray << underline;
-    std::move(gray_chapter) << ">>> Chapter line 1." << std::endl;
-    std::move(gray_chapter) << ">>> Chapter line 2." << std::endl;
-    std::move(gray_chapter) << ">>> Chapter line 3." << std::endl;
-
-    std::cout << "But this feature need some improvement." << std::endl;
+    gray_chapter << ">>> " << "Chapter line 1." << std::endl;
+    gray_chapter << ">>> " << "Chapter line 2." << std::endl;
+    gray_chapter << ">>> " << "Chapter line 3." << std::endl;
+    std::cout << ">>> " << "Normal line" << std::endl;
+    gray_chapter << ">>> " << "Next Chapter line 1." << std::endl;
+    gray_chapter << ">>> " << "Next Chapter line 2." << std::endl;
 
     std::cout << std::endl;
     std::cout << "That is all by now! In future new features will be added!" << std::endl;
