@@ -4,9 +4,18 @@
 
 namespace esc {
 
-    EscStreamRaii::EscStreamRaii(std::ostream& stream) :
+    //--------------------------------------------------------------------------
+
+    SinkBuilder::SinkBuilder(std::ostream& stream) :
     stream(stream),
-    session_ansi_data({Color::Auto, Color::Auto, false, false, false}),
+    session_ansi_data({Color::Auto, Color::Auto, false, false, false}) {
+    }
+
+    //--------------------------------------------------------------------------    
+
+    EscStreamRaii::EscStreamRaii(std::ostream& stream, const SessionEscData& session_ansi_data) :
+    stream(stream),
+    session_ansi_data(session_ansi_data),
     _is_session_holder(false) {
     }
 
@@ -46,10 +55,6 @@ namespace esc {
         return "\033[" + result + "m";
     }
 
-    bool EscStreamRaii::is_session_holder() const {
-        return _is_session_holder;
-    }
-
     void EscStreamRaii::start_session() {
         assert(!_is_session_holder);
         _is_session_holder = true;
@@ -60,6 +65,10 @@ namespace esc {
         assert(_is_session_holder);
         stream << "\033[0m";
         _is_session_holder = false;
+    }
+
+    bool EscStreamRaii::is_session_holder() const {
+        return _is_session_holder;
     }
 
     //--------------------------------------------------------------------------
@@ -90,6 +99,7 @@ namespace esc {
     //-------------------  STREAM LIKE API  ------------------------------------
     //--------------------------------------------------------------------------
 
+    /*
     EscStreamRaii&&
     operator<<(EscStreamRaii&& raii, StdManipFunPtrType std_namip) {
         raii.stream << std_namip;
@@ -101,7 +111,7 @@ namespace esc {
             raii.end_session();
         return raii.stream;
     }
-
+     */
 
 
     //--------------------------------------------------------------------------

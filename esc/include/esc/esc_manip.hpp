@@ -24,65 +24,6 @@ namespace esc {
     };
 
     //--------------------------------------------------------------------------
-    //-----------  ANSI ESCAPE SESSION CONTROLLER CLASS  -----------------------
-    //--------------------------------------------------------------------------    
-
-    struct SessionEscData {
-        Color fg_color;
-        Color bg_color;
-        bool bold;
-        bool italic;
-        bool underline;
-    };
-
-    class EscStreamRaii {
-    public:
-        explicit EscStreamRaii(std::ostream& s);
-        EscStreamRaii(EscStreamRaii&& raii);
-        ~EscStreamRaii();
-        std::string compile();
-        void start_session();
-        void end_session();
-        bool is_session_holder() const;
-        std::ostream& stream;
-        SessionEscData session_ansi_data;
-    private:
-        bool _is_session_holder;
-    };
-
-    //--------------------------------------------------------------------------
-    //-------------------  MANIPULATOR CLASSES  --------------------------------
-    //--------------------------------------------------------------------------
-
-    struct EscFgColorManip {
-        Color color;
-        void apply(SessionEscData& d) const;
-    };
-
-    struct EscBgColorManip {
-        Color color;
-        void apply(SessionEscData& d) const;
-    };
-
-    struct EscBoldManip {
-        bool value;
-        void apply(SessionEscData& d) const;
-    };
-
-    struct EscItalicManip {
-        bool value;
-        void apply(SessionEscData& d) const;
-    };
-
-    struct EscUnderlineManip {
-        bool value;
-        void apply(SessionEscData& d) const;
-    };
-
-    struct EscResetManip {
-    };
-
-    //--------------------------------------------------------------------------
     //-------------------  MANIPULATOR TRAITS   --------------------------------
     //--------------------------------------------------------------------------    
 
@@ -97,9 +38,73 @@ namespace esc {
         using Tag = NoManipTag;
     };
 
+    //--------------------------------------------------------------------------
+    //-----------  ANSI ESCAPE SESSION CONTROLLER CLASS  -----------------------
+    //--------------------------------------------------------------------------    
+
+    struct SessionEscData {
+        Color fg_color;
+        Color bg_color;
+        bool bold;
+        bool italic;
+        bool underline;
+    };
+
+    //--------------------------------------------------------------------------
+
+    class SinkBuilder {
+    public:
+        explicit SinkBuilder(std::ostream& stream);
+        std::ostream& stream;
+        SessionEscData session_ansi_data;
+    private:
+    };
+
+    //--------------------------------------------------------------------------
+
+    class EscStreamRaii {
+    public:
+        EscStreamRaii(std::ostream& stream, const SessionEscData& session_ansi_data);
+        EscStreamRaii(const EscStreamRaii& raii) = delete;
+        EscStreamRaii& operator=(EscStreamRaii&& raii) = delete;
+        EscStreamRaii& operator=(const EscStreamRaii& raii) = delete;
+
+        ~EscStreamRaii();
+        std::string compile();
+        void start_session();
+        void end_session();
+        bool is_session_holder() const;
+        std::ostream& stream;
+        SessionEscData session_ansi_data;
+    private:
+        explicit EscStreamRaii(EscStreamRaii&& raii);
+        bool _is_session_holder;
+
+        template<typename T>
+        typename std::enable_if<std::is_same<typename ManipDispatcher<T>::Tag, NoManipTag>::value, EscStreamRaii>::type
+        friend operator<<(SinkBuilder&& stream, const T& manip);
+
+    };
+
+    //--------------------------------------------------------------------------
+    //-------------------  MANIPULATOR CLASSES  --------------------------------
+    //--------------------------------------------------------------------------
+
+    struct EscFgColorManip {
+        Color color;
+        void apply(SessionEscData& d) const;
+    };
+
     template<>
     struct ManipDispatcher<EscFgColorManip> {
         using Tag = ManipTag;
+    };
+
+    //--------------------------------------------------------------------------
+
+    struct EscBgColorManip {
+        Color color;
+        void apply(SessionEscData& d) const;
     };
 
     template<>
@@ -107,9 +112,23 @@ namespace esc {
         using Tag = ManipTag;
     };
 
+    //--------------------------------------------------------------------------
+
+    struct EscBoldManip {
+        bool value;
+        void apply(SessionEscData& d) const;
+    };
+
     template<>
     struct ManipDispatcher<EscBoldManip> {
         using Tag = ManipTag;
+    };
+
+    //--------------------------------------------------------------------------
+
+    struct EscItalicManip {
+        bool value;
+        void apply(SessionEscData& d) const;
     };
 
     template<>
@@ -117,27 +136,61 @@ namespace esc {
         using Tag = ManipTag;
     };
 
+    //--------------------------------------------------------------------------
+
+    struct EscUnderlineManip {
+        bool value;
+        void apply(SessionEscData& d) const;
+    };
+
     template<>
     struct ManipDispatcher<EscUnderlineManip> {
         using Tag = ManipTag;
+    };
+
+    // -------------------------------------------------------------------------    
+
+    struct EscResetManip {
     };
 
     //--------------------------------------------------------------------------
     //-------------------  STREAM LIKE API  ------------------------------------
     //--------------------------------------------------------------------------
 
+    typedef std::ostream&(*StdManipFunPtrType)(std::ostream&);
+
+    // std::ostream& << SinkBuilder:
+
     template<typename T>
-    typename std::enable_if<std::is_same<typename ManipDispatcher<T>::Tag, ManipTag>::value, EscStreamRaii>::type
+    typename std::enable_if<std::is_same<typename ManipDispatcher<T>::Tag, ManipTag>::value, SinkBuilder>::type
     operator<<(std::ostream& stream, const T& manip);
 
-    typedef std::ostream&(*StdManipFunPtrType)(std::ostream&); 
+    // SinkBuilder&& << T:
+
+    template<typename T>
+    typename std::enable_if<std::is_same<typename ManipDispatcher<T>::Tag, ManipTag>::value, SinkBuilder&&>::type
+    operator<<(SinkBuilder&& sink, const T& manip);
+
+    template<typename T>
+    typename std::enable_if<std::is_same<typename ManipDispatcher<T>::Tag, NoManipTag>::value, EscStreamRaii>::type
+    operator<<(SinkBuilder&& sink, const T& x);
+
+    SinkBuilder&&
+    operator<<(SinkBuilder&& sink, StdManipFunPtrType std_namip);
+
+    // EscStreamRaii&& << T:
+
+    template<typename T>
+    typename std::enable_if<std::is_same<typename ManipDispatcher<T>::Tag, NoManipTag>::value, EscStreamRaii&&>::type
+    operator<<(EscStreamRaii&& raii, const T& x);
+
+    template<typename T>
+    typename std::enable_if<std::is_same<typename ManipDispatcher<T>::Tag, ManipTag>::value, EscStreamRaii&&>::type
+    operator<<(EscStreamRaii&& raii, const T& manip);
+    // Maybe better return SinkBuilder ?
 
     EscStreamRaii&&
     operator<<(EscStreamRaii&& raii, StdManipFunPtrType std_namip);
-    
-    template<typename T >
-    EscStreamRaii&&
-    operator<<(EscStreamRaii&& raii, const T& x);
 
     std::ostream&
     operator<<(EscStreamRaii&& raii, const EscResetManip&);
@@ -184,39 +237,107 @@ namespace esc {
     //-------------------  TEMPLATES IMPLEMENTATION ----------------------------
     //--------------------------------------------------------------------------
 
+    // std::ostream& << SinkBuilder:
+
     template<typename T>
-    typename std::enable_if<std::is_same<typename ManipDispatcher<T>::Tag, ManipTag>::value, EscStreamRaii>::type
+    typename std::enable_if<std::is_same<typename ManipDispatcher<T>::Tag, ManipTag>::value, SinkBuilder>::type
     operator<<(std::ostream& stream, const T& manip) {
         static_assert(std::is_same<typename ManipDispatcher<T>::Tag, ManipTag>::value);
-        EscStreamRaii raii(stream);
-        manip.apply(raii.session_ansi_data);
-        return raii;
+        SinkBuilder sink(stream);
+        manip.apply(sink.session_ansi_data);
+        return sink; // return a copy        
     }
 
-    template<typename T >
-    EscStreamRaii&&
-    operator_impl(EscStreamRaii&& raii, const T& manip, ManipTag) {
-        if (raii.is_session_holder())
-            raii.end_session();
-        manip.apply(raii.session_ansi_data);
-        return std::move(raii);
+    // SinkBuilder&& << T:
+
+    template<typename T>
+    typename std::enable_if<std::is_same<typename ManipDispatcher<T>::Tag, ManipTag>::value, SinkBuilder&&>::type
+    operator<<(SinkBuilder&& sink, const T& manip) {
+        static_assert(std::is_same<typename ManipDispatcher<T>::Tag, ManipTag>::value);
+        manip.apply(sink.session_ansi_data);
+        return std::move(sink); // return a reference
     }
 
-    template<typename T >
-    EscStreamRaii&&
-    operator_impl(EscStreamRaii&& raii, const T& x, NoManipTag) {
+    template<typename T>
+    typename std::enable_if<std::is_same<typename ManipDispatcher<T>::Tag, NoManipTag>::value, EscStreamRaii>::type
+    operator<<(SinkBuilder&& sink, const T& x) {
+        static_assert(std::is_same<typename ManipDispatcher<T>::Tag, NoManipTag>::value);
+        EscStreamRaii raii(sink.stream, sink.session_ansi_data);
+        raii.start_session();
+        raii.stream << x;
+        return EscStreamRaii(std::move(raii)); // retur a copy
+    }
+
+    inline
+    SinkBuilder &&
+    operator<<(SinkBuilder&& sink, StdManipFunPtrType std_namip) {
+        sink.stream << std_namip;
+        return std::move(sink);
+    }
+
+    // EscStreamRaii&& << T:
+
+    template<typename T>
+    typename std::enable_if<std::is_same<typename ManipDispatcher<T>::Tag, NoManipTag>::value, EscStreamRaii&&>::type
+    operator<<(EscStreamRaii&& raii, const T& x) {
         if (!raii.is_session_holder())
             raii.start_session();
         raii.stream << x;
-        return std::move(raii);
+        return std::move(raii); // return a reference
     }
 
-    template<typename T >
-    EscStreamRaii&&
-    operator<<(EscStreamRaii&& raii, const T& x) {
-        typename ManipDispatcher<T>::Tag t;
-        return operator_impl(std::move(raii), x, t);
+    template<typename T>
+    typename std::enable_if<std::is_same<typename ManipDispatcher<T>::Tag, ManipTag>::value, EscStreamRaii&&>::type
+    operator<<(EscStreamRaii&& raii, const T& manip) {
+        if (raii.is_session_holder())
+            raii.end_session();
+        manip.apply(raii.session_ansi_data);
+        return std::move(raii); // return a reference
+
     }
+
+    inline
+    EscStreamRaii &&
+    operator<<(EscStreamRaii&& raii, StdManipFunPtrType std_namip) {
+        raii.stream << std_namip;
+        return std::move(raii); // return a reference
+    }
+
+    inline
+    std::ostream&
+    operator<<(EscStreamRaii&& raii, const EscResetManip&) {
+        if (raii.is_session_holder())
+            raii.end_session();
+        return raii.stream;
+    }
+
+    //    //Classical dispatcher implementation:
+    //
+    //    template<typename T >
+    //    EscStreamRaii&&
+    //    operator_impl(EscStreamRaii&& raii, const T& manip, ManipTag) {
+    //        if (raii.is_session_holder())
+    //            raii.end_session();
+    //        manip.apply(raii.session_ansi_data);
+    //        return std::move(raii);
+    //    }
+    //
+    //    template<typename T >
+    //    EscStreamRaii&&
+    //    operator_impl(EscStreamRaii&& raii, const T& x, NoManipTag) {
+    //        if (!raii.is_session_holder())
+    //            raii.start_session();
+    //        raii.stream << x;
+    //        return std::move(raii);
+    //    }
+    //
+    //    template<typename T >
+    //    EscStreamRaii&&
+    //    operator<<(EscStreamRaii&& raii, const T& x) {
+    //        typename ManipDispatcher<T>::Tag t;
+    //        return operator_impl(std::move(raii), x, t);
+    //    }
+
 
 }
 
