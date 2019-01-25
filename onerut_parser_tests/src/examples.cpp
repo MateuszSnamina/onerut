@@ -5,5 +5,5 @@ TEST(test_suite, test0) {
     ASSERT_FALSE(false);
     EXPECT_TRUE(true);
     EXPECT_FALSE(false);
-    EXPECT_EQ(7,7)
+    EXPECT_EQ(7,7);
 }

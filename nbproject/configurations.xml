@@ -101,7 +101,11 @@
       <folder path="1">
         <ccTool>
           <incDir>
+            <pElem>onerut/include</pElem>
             <pElem>onerut_parser/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut</pElem>
           </incDir>
         </ccTool>
       </folder>
@@ -117,9 +121,10 @@
       <folder path="3">
         <ccTool>
           <incDir>
-            <pElem>operator_string_parser/include</pElem>
+            <pElem>onerut_parser/include</pElem>
+            <pElem>esc/include</pElem>
             <pElem>external_packages/include</pElem>
-            <pElem>build_netbeanns/operator_string_parser_tests</pElem>
+            <pElem>build_netbeanns/onerut_parser_tests</pElem>
           </incDir>
         </ccTool>
       </folder>
@@ -131,7 +136,6 @@
         <ccTool flags="0">
           <incDir>
             <pElem>esc/include</pElem>
-            <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut_parser</pElem>
           </incDir>
         </ccTool>
@@ -143,7 +147,6 @@
         <ccTool flags="0">
           <incDir>
             <pElem>esc/include</pElem>
-            <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut_parser</pElem>
           </incDir>
         </ccTool>
@@ -155,7 +158,6 @@
         <ccTool flags="0">
           <incDir>
             <pElem>esc/include</pElem>
-            <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut_parser</pElem>
           </incDir>
         </ccTool>
@@ -164,7 +166,6 @@
         <ccTool flags="0">
           <incDir>
             <pElem>esc/include</pElem>
-            <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut_parser</pElem>
           </incDir>
         </ccTool>
@@ -176,7 +177,6 @@
         <ccTool flags="0">
           <incDir>
             <pElem>esc/include</pElem>
-            <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut_parser</pElem>
           </incDir>
         </ccTool>
@@ -188,7 +188,6 @@
         <ccTool flags="0">
           <incDir>
             <pElem>esc/include</pElem>
-            <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut_parser</pElem>
           </incDir>
         </ccTool>
@@ -200,7 +199,6 @@
         <ccTool flags="0">
           <incDir>
             <pElem>esc/include</pElem>
-            <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut_parser</pElem>
           </incDir>
         </ccTool>
@@ -211,7 +209,6 @@
             flavor2="11">
         <ccTool flags="0">
           <incDir>
-            <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut_parser</pElem>
           </incDir>
         </ccTool>
@@ -223,7 +220,6 @@
         <ccTool flags="0">
           <incDir>
             <pElem>esc/include</pElem>
-            <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut_parser</pElem>
           </incDir>
         </ccTool>
@@ -232,7 +228,6 @@
         <ccTool flags="0">
           <incDir>
             <pElem>esc/include</pElem>
-            <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut_parser</pElem>
           </incDir>
         </ccTool>
@@ -244,7 +239,6 @@
         <ccTool flags="0">
           <incDir>
             <pElem>esc/include</pElem>
-            <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut_parser</pElem>
           </incDir>
         </ccTool>
@@ -252,9 +246,13 @@
       <item path="onerut_parser_tests/src/examples.cpp"
             ex="false"
             tool="1"
-            flavor2="0">
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
       </item>
-      <item path="onerut_parser_tests/src/main.cpp" ex="false" tool="1" flavor2="0">
+      <item path="onerut_parser_tests/src/main.cpp" ex="false" tool="1" flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
       </item>
     </conf>
   </confs>
