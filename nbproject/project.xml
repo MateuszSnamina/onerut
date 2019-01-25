@@ -14,6 +14,7 @@
                 <sourceRootElem>operator_string_parser</sourceRootElem>
                 <sourceRootElem>operator_string_parser_tests</sourceRootElem>
                 <sourceRootElem>onerut_parser</sourceRootElem>
+                <sourceRootElem>onerut_parser_tests</sourceRootElem>
                 <sourceRootElem>esc</sourceRootElem>
             </sourceRootList>
             <confList>

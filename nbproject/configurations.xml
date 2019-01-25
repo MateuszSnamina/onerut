@@ -28,6 +28,12 @@
         <in>unicode_support.cpp</in>
       </df>
     </df>
+    <df root="onerut_parser_tests" name="5">
+      <df name="src">
+        <in>examples.cpp</in>
+        <in>main.cpp</in>
+      </df>
+    </df>
     <df root="operator_string_parser" name="2">
       <df name="src">
         <in>node.cpp</in>
@@ -56,6 +62,7 @@
     <Elem>operator_string_parser</Elem>
     <Elem>operator_string_parser_tests</Elem>
     <Elem>onerut_parser</Elem>
+    <Elem>onerut_parser_tests</Elem>
     <Elem>esc</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
@@ -267,6 +274,13 @@
             <pElem>build_netbeanns/onerut_parser</pElem>
           </incDir>
         </ccTool>
+      </item>
+      <item path="onerut_parser_tests/src/examples.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="onerut_parser_tests/src/main.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="operator_string_parser/src/node.cpp"
             ex="false"

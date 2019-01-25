@@ -67,13 +67,13 @@ int main() {
     std::cout << std::endl;
     std::cout << "You may capture the setting using auto:" << std::endl;
 
-    auto gray_chapter = std::cout << gray << underline;
-    gray_chapter << ">>> " << "Chapter line 1." << std::endl;
-    gray_chapter << ">>> " << "Chapter line 2." << std::endl;
-    gray_chapter << ">>> " << "Chapter line 3." << std::endl;
+    const auto gray_chapter_sink = std::cout << gray << underline;
+    gray_chapter_sink << ">>> " << "Chapter line 1." << std::endl;
+    gray_chapter_sink << ">>> " << "Chapter line 2." << std::endl;
+    gray_chapter_sink << ">>> " << "Chapter line 3." << std::endl;
     std::cout << ">>> " << "Normal line" << std::endl;
-    gray_chapter << ">>> " << "Next Chapter line 1." << std::endl;
-    gray_chapter << ">>> " << "Next Chapter line 2." << std::endl;
+    gray_chapter_sink << ">>> " << "Next Chapter line 1." << std::endl;
+    gray_chapter_sink << ">>> " << "Next Chapter line 2." << std::endl;
 
     std::cout << std::endl;
     std::cout << "That is all by now! In future new features will be added!" << std::endl;
