@@ -82,12 +82,7 @@ namespace esc {
 
         template<typename T>
         typename std::enable_if<std::is_same<typename ManipDispatcher<T>::Tag, NoManipTag>::value, EscStreamRaii>::type
-        friend operator<<(SinkBuilder& stream, const T& manip);
-
-        template<typename T>
-        typename std::enable_if<std::is_same<typename ManipDispatcher<T>::Tag, NoManipTag>::value, EscStreamRaii>::type
-        friend operator<<(SinkBuilder&& stream, const T& manip);
-
+        friend operator<<(const SinkBuilder& stream, const T& manip);
     };
 
     //--------------------------------------------------------------------------
@@ -207,7 +202,7 @@ namespace esc {
     typename std::enable_if<std::is_same<typename ManipDispatcher<T>::Tag, ManipTag>::value, SinkBuilder>::type
     operator<<(std::ostream& stream, const T& manip);
 
-    // SinkBuilder&& << T and SinkBuilder& << T :
+    // SinkBuilder&& << T and const SinkBuilder& << T :
 
     template<typename T>
     typename std::enable_if<std::is_same<typename ManipDispatcher<T>::Tag, ManipTag>::value, SinkBuilder&&>::type
@@ -215,11 +210,7 @@ namespace esc {
 
     template<typename T>
     typename std::enable_if<std::is_same<typename ManipDispatcher<T>::Tag, NoManipTag>::value, EscStreamRaii>::type
-    operator<<(SinkBuilder& sink, const T& x);
-
-    template<typename T>
-    typename std::enable_if<std::is_same<typename ManipDispatcher<T>::Tag, NoManipTag>::value, EscStreamRaii>::type
-    operator<<(SinkBuilder&& sink, const T& x);
+    operator<<(const SinkBuilder& sink, const T& x);
 
     SinkBuilder&&
     operator<<(SinkBuilder&& sink, StdManipFunPtrType std_namip);
@@ -256,7 +247,7 @@ namespace esc {
         return sink; // return a copy        
     }
 
-    // SinkBuilder&& << T and SinkBuilder& << T :
+    // SinkBuilder&& << T and const SinkBuilder& << T :
 
     template<typename T>
     typename std::enable_if<std::is_same<typename ManipDispatcher<T>::Tag, ManipTag>::value, SinkBuilder&&>::type
@@ -268,17 +259,7 @@ namespace esc {
 
     template<typename T>
     typename std::enable_if<std::is_same<typename ManipDispatcher<T>::Tag, NoManipTag>::value, EscStreamRaii>::type
-    operator<<(SinkBuilder& sink, const T& x) {
-        static_assert(std::is_same<typename ManipDispatcher<T>::Tag, NoManipTag>::value);
-        EscStreamRaii raii(sink.stream, sink.session_ansi_data);
-        raii.start_session();
-        raii.stream << x;
-        return EscStreamRaii(std::move(raii)); // retur a copy
-    }
-
-    template<typename T>
-    typename std::enable_if<std::is_same<typename ManipDispatcher<T>::Tag, NoManipTag>::value, EscStreamRaii>::type
-    operator<<(SinkBuilder&& sink, const T& x) {
+    operator<<(const SinkBuilder& sink, const T& x) {
         static_assert(std::is_same<typename ManipDispatcher<T>::Tag, NoManipTag>::value);
         EscStreamRaii raii(sink.stream, sink.session_ansi_data);
         raii.start_session();
