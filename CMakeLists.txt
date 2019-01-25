@@ -187,8 +187,7 @@ message("---  the project  -----------------")
 message("-----------------------------------")
 
 add_subdirectory(esc)
-add_subdirectory(operator_string_parser)
-add_subdirectory(operator_string_parser_tests)
 add_subdirectory(onerut_parser)
+add_subdirectory(onerut_parser_tests)
 add_subdirectory(onerut)
 
