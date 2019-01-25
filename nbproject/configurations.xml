@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configurationDescriptor version="100">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
-    <df root="esc" name="4">
+    <df root="esc" name="0">
       <df name="src">
         <in>esc_codes.cpp</in>
         <in>esc_manip.cpp</in>
         <in>esc_manip_examples.cpp</in>
       </df>
     </df>
-    <df root="onerut" name="0">
+    <df root="onerut" name="1">
       <df name="src">
         <in>p1.cpp</in>
       </df>
     </df>
-    <df root="onerut_parser" name="1">
+    <df root="onerut_parser" name="2">
       <df name="src">
         <in>ast_dyn.cpp</in>
         <in>ast_dyn_to_chart.cpp</in>
@@ -28,25 +28,10 @@
         <in>unicode_support.cpp</in>
       </df>
     </df>
-    <df root="onerut_parser_tests" name="5">
+    <df root="onerut_parser_tests" name="3">
       <df name="src">
         <in>examples.cpp</in>
         <in>main.cpp</in>
-      </df>
-    </df>
-    <df root="operator_string_parser" name="2">
-      <df name="src">
-        <in>node.cpp</in>
-        <in>parse_XXX_string.cpp</in>
-        <in>token.cpp</in>
-      </df>
-    </df>
-    <df root="operator_string_parser_tests" name="3">
-      <df name="src">
-        <in>main.cpp</in>
-        <in>nodes.cpp</in>
-        <in>parse_XXX_string.cpp</in>
-        <in>token.cpp</in>
       </df>
     </df>
     <logicalFolder name="ExternalFiles"
@@ -59,8 +44,6 @@
   <sourceFolderFilter>^(nbproject|build|build_debug|build_release)$</sourceFolderFilter>
   <sourceRootList>
     <Elem>onerut</Elem>
-    <Elem>operator_string_parser</Elem>
-    <Elem>operator_string_parser_tests</Elem>
     <Elem>onerut_parser</Elem>
     <Elem>onerut_parser_tests</Elem>
     <Elem>esc</Elem>
@@ -137,15 +120,6 @@
             <pElem>operator_string_parser/include</pElem>
             <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/operator_string_parser_tests</pElem>
-          </incDir>
-        </ccTool>
-      </folder>
-      <folder path="4">
-        <ccTool>
-          <incDir>
-            <pElem>esc/include</pElem>
-            <pElem>external_packages/include</pElem>
-            <pElem>build_netbeanns/esc</pElem>
           </incDir>
         </ccTool>
       </folder>
@@ -281,55 +255,6 @@
             flavor2="0">
       </item>
       <item path="onerut_parser_tests/src/main.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="operator_string_parser/src/node.cpp"
-            ex="false"
-            tool="1"
-            flavor2="11">
-        <ccTool flags="0">
-        </ccTool>
-      </item>
-      <item path="operator_string_parser/src/parse_XXX_string.cpp"
-            ex="false"
-            tool="1"
-            flavor2="11">
-        <ccTool flags="0">
-        </ccTool>
-      </item>
-      <item path="operator_string_parser/src/token.cpp"
-            ex="false"
-            tool="1"
-            flavor2="11">
-        <ccTool flags="0">
-        </ccTool>
-      </item>
-      <item path="operator_string_parser_tests/src/main.cpp"
-            ex="false"
-            tool="1"
-            flavor2="11">
-        <ccTool flags="0">
-        </ccTool>
-      </item>
-      <item path="operator_string_parser_tests/src/nodes.cpp"
-            ex="false"
-            tool="1"
-            flavor2="11">
-        <ccTool flags="0">
-        </ccTool>
-      </item>
-      <item path="operator_string_parser_tests/src/parse_XXX_string.cpp"
-            ex="false"
-            tool="1"
-            flavor2="11">
-        <ccTool flags="0">
-        </ccTool>
-      </item>
-      <item path="operator_string_parser_tests/src/token.cpp"
-            ex="false"
-            tool="1"
-            flavor2="11">
-        <ccTool flags="0">
-        </ccTool>
       </item>
     </conf>
   </confs>
