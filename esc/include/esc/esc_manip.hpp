@@ -154,6 +154,44 @@ namespace esc {
     };
 
     //--------------------------------------------------------------------------
+    //-------------------  MANIPULATORS  ---------------------------------------
+    //--------------------------------------------------------------------------
+
+    namespace manip {
+
+        extern const EscFgColorManip gray;
+        extern const EscFgColorManip red;
+        extern const EscFgColorManip green;
+        extern const EscFgColorManip yellow;
+        extern const EscFgColorManip blue;
+        extern const EscFgColorManip magenta;
+        extern const EscFgColorManip cyan;
+        extern const EscFgColorManip white;
+        extern const EscFgColorManip color_default;
+
+        extern const EscBgColorManip bg_gray;
+        extern const EscBgColorManip bg_red;
+        extern const EscBgColorManip bg_green;
+        extern const EscBgColorManip bg_yellow;
+        extern const EscBgColorManip bg_blue;
+        extern const EscBgColorManip bg_magenta;
+        extern const EscBgColorManip bg_cyan;
+        extern const EscBgColorManip bg_white;
+        extern const EscBgColorManip bg_color_default;
+
+        extern const EscBoldManip bold;
+        extern const EscBoldManip nobold;
+
+        extern const EscItalicManip italic;
+        extern const EscItalicManip noitalic;
+
+        extern const EscUnderlineManip underline;
+        extern const EscUnderlineManip nounderline;
+
+        extern const EscResetManip reset;
+    }
+
+    //--------------------------------------------------------------------------
     //-------------------  STREAM LIKE API  ------------------------------------
     //--------------------------------------------------------------------------
 
@@ -196,45 +234,7 @@ namespace esc {
     operator<<(EscStreamRaii&& raii, const EscResetManip&);
 
     //--------------------------------------------------------------------------
-    //-------------------  MANIPULATORS  ---------------------------------------
-    //--------------------------------------------------------------------------
-
-    namespace manip {
-
-        extern const EscFgColorManip gray;
-        extern const EscFgColorManip red;
-        extern const EscFgColorManip green;
-        extern const EscFgColorManip yellow;
-        extern const EscFgColorManip blue;
-        extern const EscFgColorManip magenta;
-        extern const EscFgColorManip cyan;
-        extern const EscFgColorManip white;
-        extern const EscFgColorManip color_default;
-
-        extern const EscBgColorManip bg_gray;
-        extern const EscBgColorManip bg_red;
-        extern const EscBgColorManip bg_green;
-        extern const EscBgColorManip bg_yellow;
-        extern const EscBgColorManip bg_blue;
-        extern const EscBgColorManip bg_magenta;
-        extern const EscBgColorManip bg_cyan;
-        extern const EscBgColorManip bg_white;
-        extern const EscBgColorManip bg_color_default;
-
-        extern const EscBoldManip bold;
-        extern const EscBoldManip nobold;
-
-        extern const EscItalicManip italic;
-        extern const EscItalicManip noitalic;
-
-        extern const EscUnderlineManip underline;
-        extern const EscUnderlineManip nounderline;
-
-        extern const EscResetManip reset;
-    }
-
-    //--------------------------------------------------------------------------
-    //-------------------  TEMPLATES IMPLEMENTATION ----------------------------
+    //-------------------  STREAM LIKE API -- IMPLEMENTATION  ------------------
     //--------------------------------------------------------------------------
 
     // std::ostream& << SinkBuilder:

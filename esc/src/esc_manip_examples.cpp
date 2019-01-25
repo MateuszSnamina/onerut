@@ -2,6 +2,11 @@
 #include<iomanip>
 #include<esc/esc_manip.hpp>
 
+int throwing_function() {
+    throw std::runtime_error("Ups, an exception!");
+    return 5;
+}
+
 struct Vec3 {
     double x, y, z;
 };
@@ -28,6 +33,15 @@ int main() {
             << "By esc_manip design, all ansi escape settings are reset automatically" << std::endl
             << "(think of it like of a RAII example)." << std::endl;
 
+    std::cout << "It does deal even with throwing functions:" << std::endl;
+    try {
+        std::cout << ">>> " << red << 1 << 2 << 3 << 
+                4 << 5 << throwing_function() << 6 << 7 << std::endl;
+    } catch (std::runtime_error& e) {
+        std::cout << e.what() << std::endl;
+    }
+
+
     std::cout << std::endl;
     std::cout << "But sometimes you want to end colors and(or) styles earlier." << std::endl
             << "In such a case: use esc::manip::reset namipoluator." << std::endl;
@@ -52,10 +66,12 @@ int main() {
 
     std::cout << std::endl;
     std::cout << "You may capture the setting using auto:" << std::endl;
-    {
-        //auto preparer = std::cout << gray << underline;
-        //std::move(preparer) << ">>> Write to prepared sink." << std::endl;
-    }
+
+    auto gray_chapter = std::cout << gray << underline;
+    std::move(gray_chapter) << ">>> Chapter line 1." << std::endl;
+    std::move(gray_chapter) << ">>> Chapter line 2." << std::endl;
+    std::move(gray_chapter) << ">>> Chapter line 3." << std::endl;
+
     std::cout << "But this feature need some improvement." << std::endl;
 
     std::cout << std::endl;

@@ -96,25 +96,6 @@ namespace esc {
     }
 
     //--------------------------------------------------------------------------
-    //-------------------  STREAM LIKE API  ------------------------------------
-    //--------------------------------------------------------------------------
-
-    /*
-    EscStreamRaii&&
-    operator<<(EscStreamRaii&& raii, StdManipFunPtrType std_namip) {
-        raii.stream << std_namip;
-        return std::move(raii);
-    }
-
-    std::ostream& operator<<(EscStreamRaii&& raii, const EscResetManip&) {
-        if (raii.is_session_holder())
-            raii.end_session();
-        return raii.stream;
-    }
-     */
-
-
-    //--------------------------------------------------------------------------
     //-------------------  MANIPULATORS  ---------------------------------------
     //--------------------------------------------------------------------------
 
