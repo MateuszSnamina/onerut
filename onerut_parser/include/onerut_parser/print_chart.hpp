@@ -25,8 +25,8 @@ namespace onerut_parser {
 
     void print_chart(
             std::shared_ptr<const std::u32string> input,
-            const std::vector<std::u32string>& chart);
-
+            const LinesInfo&chart);
+    
     // -------------------------------------------------------------------------
     // -------------- STYLED VERSION OF PRINT CHART ----------------------------
     // -------------------------------------------------------------------------
