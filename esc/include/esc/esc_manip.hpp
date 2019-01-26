@@ -56,7 +56,7 @@ namespace esc {
     class EscDataBuilder {
     public:
         explicit EscDataBuilder(
-                const EscData& session_ansi_data = {Color::Auto, Color::Auto, false, false, false});
+                const EscData& esc_data = {Color::Auto, Color::Auto, false, false, false});
         EscData esc_data;
     };
 
@@ -66,7 +66,7 @@ namespace esc {
     public:
         explicit SinkBuilder(
                 std::ostream& stream,
-                const EscData& session_ansi_data = {Color::Auto, Color::Auto, false, false, false});
+                const EscData& esc_data = {Color::Auto, Color::Auto, false, false, false});
         std::ostream& stream;
         EscData esc_data;
     };
@@ -75,18 +75,17 @@ namespace esc {
 
     class EscStreamRaii {
     public:
-        EscStreamRaii(std::ostream& stream, const EscData& session_ansi_data);
+        EscStreamRaii(std::ostream& stream, const EscData& esc_data);
         EscStreamRaii(const EscStreamRaii& raii) = delete;
         EscStreamRaii& operator=(EscStreamRaii&& raii) = delete;
         EscStreamRaii& operator=(const EscStreamRaii& raii) = delete;
-
         ~EscStreamRaii();
         std::string compile();
         void start_session();
         void end_session();
         bool is_session_holder() const;
         std::ostream& stream;
-        EscData session_ansi_data;
+        EscData esc_data;
     private:
         explicit EscStreamRaii(EscStreamRaii&& raii);
         bool _is_session_holder;
@@ -346,7 +345,7 @@ namespace esc {
     operator<<(EscStreamRaii&& raii, const T& manip) {
         if (raii.is_session_holder())
             raii.end_session();
-        manip.apply(raii.session_ansi_data);
+        manip.apply(raii.esc_data);
         return std::move(raii); // return a reference
 
     }

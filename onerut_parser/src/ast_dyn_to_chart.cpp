@@ -2,37 +2,38 @@
 
 namespace onerut_parser::onerut_ast::dyn {
 
-    std::vector<std::u32string> ExpressionNode::to_chart() const {
-        std::vector<std::u32string> chart;
+    LinesStyledChartInfo ExpressionNode::to_chart() const {
+        LinesStyledChartInfo chart;
         to_chart(0, chart);
         return chart;
     }
 
     void ExpressionNode::to_chart_disregard_subexpression(
             unsigned deepness,
-            std::vector<std::u32string>& chart) const {
+            LinesStyledChartInfo& chart) const {
         while (chart.size() <= deepness)
-            chart.emplace_back(input->size(), U'░');
-        const unsigned offset = span.begin() - input->cbegin();
-        std::copy(span.begin(), span.end(), chart[deepness].begin() + offset);
+            chart.emplace_back();
+        esc::EscData esc_data = {esc::Color::Auto, esc::Color::Auto, false, false, false};
+        LineBitStyledChartInfo bit = {span, esc_data};
+        chart[deepness].push_back(bit);
     }
 
     void WithNoSubexpressionsNode::to_chart(
             unsigned deepness,
-            std::vector<std::u32string>& chart) const {
+            LinesStyledChartInfo& chart) const {
         to_chart_disregard_subexpression(deepness, chart);
     }
 
     void WithOneSubexpressionNode::to_chart(
             unsigned deepness,
-            std::vector<std::u32string>& chart) const {
+            LinesStyledChartInfo& chart) const {
         to_chart_disregard_subexpression(deepness, chart);
         expression->to_chart(deepness + 1, chart);
     }
 
     void WithTwoSubexpressionsNode::to_chart(
             unsigned deepness,
-            std::vector<std::u32string>& chart) const {
+            LinesStyledChartInfo& chart) const {
         to_chart_disregard_subexpression(deepness, chart);
         first_arg->to_chart(deepness + 1, chart);
         second_arg->to_chart(deepness + 1, chart);
@@ -40,7 +41,7 @@ namespace onerut_parser::onerut_ast::dyn {
 
     void WithOneOrMoreSubexpressionsNode::to_chart(
             unsigned deepness,
-            std::vector<std::u32string>& chart) const {
+            LinesStyledChartInfo& chart) const {
         to_chart_disregard_subexpression(deepness, chart);
         first_arg->to_chart(deepness + 1, chart);
         for (const auto& arg : other_argv) {
@@ -50,7 +51,7 @@ namespace onerut_parser::onerut_ast::dyn {
 
     void WithAnyNumberOfSubexpressionsNode::to_chart(
             unsigned deepness,
-            std::vector<std::u32string>& chart) const {
+            LinesStyledChartInfo& chart) const {
         to_chart_disregard_subexpression(deepness, chart);
         for (const auto& arg : argv) {
             arg->to_chart(deepness + 1, chart);

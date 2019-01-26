@@ -31,17 +31,17 @@ namespace onerut_parser {
     // -------------- STYLED VERSION OF PRINT CHART ----------------------------
     // -------------------------------------------------------------------------
 
-    struct LineStyleBitInfo {
+    struct LineBitStyledChartInfo {
         u32string_const_span span;
         esc::EscData esc_data;
     };
 
-    using LineStyleInfo = std::vector<LineStyleBitInfo>;
-    using LinesStyleInfo = std::vector<LineStyleInfo>;
+    using LineStyledChartInfo = std::vector<LineBitStyledChartInfo>;
+    using LinesStyledChartInfo = std::vector<LineStyledChartInfo>;
 
     void print_chart(
             std::shared_ptr<const std::u32string> input,
-            const LinesStyleInfo&chart);
+            const LinesStyledChartInfo&chart);
 
     void print_styled_chart_example();
 }

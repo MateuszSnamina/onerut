@@ -23,28 +23,28 @@ namespace esc {
     }
     //--------------------------------------------------------------------------
 
-    EscDataBuilder::EscDataBuilder(const EscData& session_ansi_data) :
-    esc_data(session_ansi_data) {
+    EscDataBuilder::EscDataBuilder(const EscData& esc_data) :
+    esc_data(esc_data) {
     }
 
     //--------------------------------------------------------------------------
 
-    SinkBuilder::SinkBuilder(std::ostream& stream, const EscData& session_ansi_data) :
+    SinkBuilder::SinkBuilder(std::ostream& stream, const EscData& esc_data) :
     stream(stream),
-    esc_data(session_ansi_data) {
+    esc_data(esc_data) {
     }
 
     //--------------------------------------------------------------------------    
 
-    EscStreamRaii::EscStreamRaii(std::ostream& stream, const EscData& session_ansi_data) :
+    EscStreamRaii::EscStreamRaii(std::ostream& stream, const EscData& esc_data) :
     stream(stream),
-    session_ansi_data(session_ansi_data),
+    esc_data(esc_data),
     _is_session_holder(false) {
     }
 
     EscStreamRaii::EscStreamRaii(EscStreamRaii&& raii) :
     stream(raii.stream),
-    session_ansi_data(raii.session_ansi_data),
+    esc_data(raii.esc_data),
     _is_session_holder(false) {
         if (raii._is_session_holder) {
             _is_session_holder = true;
@@ -59,22 +59,22 @@ namespace esc {
 
     std::string EscStreamRaii::compile() {
         // fg_color -- preparations:
-        const int fg_color_value = 30 + static_cast<int> (session_ansi_data.fg_color);
+        const int fg_color_value = 30 + static_cast<int> (esc_data.fg_color);
         assert(30 <= fg_color_value);
         assert(fg_color_value <= 39);
         assert(fg_color_value != 38);
         const std::string fg_color_str = std::to_string(fg_color_value);
         // bg_color -- preparations:
-        const int bg_color_value = 40 + static_cast<int> (session_ansi_data.bg_color);
+        const int bg_color_value = 40 + static_cast<int> (esc_data.bg_color);
         assert(40 <= bg_color_value);
         assert(bg_color_value <= 49);
         assert(bg_color_value != 48);
         const std::string bg_color_str = std::to_string(bg_color_value);
         // result:
         std::string result = fg_color_str + ";" + bg_color_str;
-        if (session_ansi_data.bold) result += ";1";
-        if (session_ansi_data.italic) result += ";3";
-        if (session_ansi_data.underline) result += ";4";
+        if (esc_data.bold) result += ";1";
+        if (esc_data.italic) result += ";3";
+        if (esc_data.underline) result += ";4";
         return "\033[" + result + "m";
     }
 

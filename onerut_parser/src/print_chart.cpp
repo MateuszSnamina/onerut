@@ -61,7 +61,7 @@ namespace onerut_parser {
 
     void print_chart(
             std::shared_ptr<const std::u32string> input,
-            const LinesStyleInfo&chart) {
+            const LinesStyledChartInfo&chart) {
         // Check input consistency:
         assert(input);
         for (const auto & chart_line : chart) {
@@ -111,21 +111,21 @@ namespace onerut_parser {
     void print_styled_chart_example() {
 
         const auto input = std::make_shared<std::u32string>(U"123456789abcdef");
-        const onerut_parser::LineStyleBitInfo bi0{
+        const onerut_parser::LineBitStyledChartInfo bi0{
             {input->begin() + 2, input->begin() + 8},
             {esc::Color::Green, esc::Color::Auto, true, false, false}};
 
-        const onerut_parser::LineStyleBitInfo bi1{
+        const onerut_parser::LineBitStyledChartInfo bi1{
             {input->begin() + 2, input->begin() + 4},
             {esc::Color::Green, esc::Color::Auto, false, true, false}};
 
-        const onerut_parser::LineStyleBitInfo bi2{
+        const onerut_parser::LineBitStyledChartInfo bi2{
             {input->begin() + 6, input->begin() + 8},
             {esc::Color::Auto, esc::Color::Red, false, false, true}};
 
-        const LineStyleInfo l0{bi0};
-        const LineStyleInfo l1{bi1, bi2};
-        const LinesStyleInfo ls{l0, l1};
+        const LineStyledChartInfo l0{bi0};
+        const LineStyledChartInfo l1{bi1, bi2};
+        const LinesStyledChartInfo ls{l0, l1};
 
         print_chart(input, ls);
     }
