@@ -2,6 +2,10 @@
 
 namespace onerut_parser::onerut_ast::dyn {
 
+    // *************************************************************************
+    // ***********************    Abstract baseclasses   ***********************
+    // *************************************************************************
+
     LinesStyledChartInfo ExpressionNode::to_chart() const {
         LinesStyledChartInfo chart;
         to_chart(0, chart);
@@ -13,10 +17,16 @@ namespace onerut_parser::onerut_ast::dyn {
             LinesStyledChartInfo& chart) const {
         while (chart.size() <= deepness)
             chart.emplace_back();
-        esc::EscData esc_data = {esc::Color::Auto, esc::Color::Auto, false, false, false};
+        esc::EscData esc_data = get_print_style();
         LineBitStyledChartInfo bit = {span, esc_data};
         chart[deepness].push_back(bit);
     }
+
+    esc::EscData ExpressionNode::get_print_style() const {
+        return esc::EscDataBuilder() << esc::manip::build_esc_data;
+    }
+
+    // -------------------------------------------------------------------------
 
     void WithNoSubexpressionsNode::to_chart(
             unsigned deepness,
@@ -57,5 +67,14 @@ namespace onerut_parser::onerut_ast::dyn {
             arg->to_chart(deepness + 1, chart);
         }
     }
+
+    // *************************************************************************
+    // ***********************      Concrete classes     ***********************
+    // *************************************************************************
+
+    esc::EscData IdentifierNode::get_print_style() const {
+        return esc::EscDataBuilder() << esc::manip::blue << esc::manip::build_esc_data;
+    } // bedzie do usuniecia!!
+
 
 }

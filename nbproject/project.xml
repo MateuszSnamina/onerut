@@ -14,6 +14,7 @@
                 <sourceRootElem>onerut_parser</sourceRootElem>
                 <sourceRootElem>onerut_parser_tests</sourceRootElem>
                 <sourceRootElem>esc</sourceRootElem>
+                <sourceRootElem>onerut_scalar</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>

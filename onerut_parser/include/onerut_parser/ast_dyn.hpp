@@ -30,8 +30,11 @@ namespace onerut_parser::onerut_ast::dyn {
         virtual void to_chart_disregard_subexpression(
                 unsigned deepness,
                 LinesStyledChartInfo& chart) const;
+        virtual esc::EscData get_print_style() const;
     };
-
+    
+    // -------------------------------------------------------------------------
+    
     class WithNoSubexpressionsNode : public ExpressionNode {
     public:
         WithNoSubexpressionsNode(
@@ -105,6 +108,7 @@ namespace onerut_parser::onerut_ast::dyn {
                 u32string_const_span span,
                 std::u32string name);
         std::u32string to_oneliner() const override;
+        esc::EscData get_print_style() const override; // bedzie do usuniecia!!
         const std::u32string name;
     };
 
