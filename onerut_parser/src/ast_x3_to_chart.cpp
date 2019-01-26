@@ -40,10 +40,6 @@ namespace {
 
 namespace onerut_parser::onerut_ast::x3 {
 
-    extern const char32_t chart_fill_character_1 = U'░';
-    extern const char32_t chart_fill_character_2 = U'▒';
-    extern const char32_t chart_fill_character_3 = U'▓';
-
     // -------------------------------------------------------------------------
     // ------------- HELPER GENERIC TEMPLATEW ----------------------------------
     // -------------------------------------------------------------------------
@@ -55,7 +51,7 @@ namespace onerut_parser::onerut_ast::x3 {
             unsigned deepness,
             std::vector<std::u32string>& chart) {
         while (chart.size() <= deepness)
-            chart.emplace_back(positions.last() - positions.first(), chart_fill_character_1);
+            chart.emplace_back(positions.last() - positions.first(), U'░');
         const unsigned offset = positions.position_of(info).begin() - positions.first();
         std::copy(positions.position_of(info).begin(), positions.position_of(info).end(), chart[deepness].begin() + offset);
     }
