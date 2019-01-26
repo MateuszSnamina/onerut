@@ -76,14 +76,36 @@
       </makefileType>
       <item path="esc/src/esc_codes.cpp" ex="false" tool="1" flavor2="11">
         <ccTool flags="0">
+          <incDir>
+            <pElem>onerut/include</pElem>
+            <pElem>onerut_parser/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>operator_string_parser/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="esc/src/esc_manip.cpp" ex="false" tool="1" flavor2="11">
         <ccTool flags="0">
+          <incDir>
+            <pElem>onerut/include</pElem>
+            <pElem>onerut_parser/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>operator_string_parser/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut</pElem>
+            <pElem>build_netbeanns/esc</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="esc/src/esc_manip_examples.cpp" ex="false" tool="1" flavor2="11">
         <ccTool flags="0">
+          <incDir>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/esc</pElem>
+          </incDir>
         </ccTool>
       </item>
       <folder path="0">
@@ -219,6 +241,7 @@
             flavor2="11">
         <ccTool flags="0">
           <incDir>
+            <pElem>onerut_parser/include</pElem>
             <pElem>esc/include</pElem>
             <pElem>build_netbeanns/onerut_parser</pElem>
           </incDir>
@@ -227,6 +250,7 @@
       <item path="onerut_parser/src/print_chart.cpp" ex="false" tool="1" flavor2="11">
         <ccTool flags="0">
           <incDir>
+            <pElem>onerut_parser/include</pElem>
             <pElem>esc/include</pElem>
             <pElem>build_netbeanns/onerut_parser</pElem>
           </incDir>

@@ -76,6 +76,24 @@ int main() {
     gray_chapter_sink << ">>> " << "Next Chapter line 2." << std::endl;
 
     std::cout << std::endl;
+    std::cout << "If you need some more control: take look at EscData struct." << std::endl
+            << "The struct holds information about background and background colors" << std::endl
+            << "as well as bold, italic, underline fags." << std::endl
+            << "Instances of EscData may be created using builder-like pattern" << std::endl
+            << "and expose a few self-explanatory fields:" << std::endl;    
+    const esc::EscData esc_data = esc::EscDataBuilder() << red << bold << build_esc_data;
+    std::cout << ">>> " << "fg_color   " << to_string(esc_data.fg_color) << std::endl;
+    std::cout << ">>> " << "bg_color   " << to_string(esc_data.bg_color) << std::endl;
+    std::cout << ">>> " << "bold:      " << esc_data.bold << std::endl;
+    std::cout << ">>> " << "italic:    " << esc_data.italic << std::endl;
+    std::cout << ">>> " << "underline: " << esc_data.underline << std::endl;
+    std::cout << "One an EscData instance is prepared in advance," << std::endl;
+    std::cout << "then may be utilized during many printing sessions" << std::endl;
+    std::cout << "(with any number of streams)" << std::endl;
+    std::cout << esc_data << "RedBold 1" << std::endl;
+    std::cerr << esc_data << "RedBold 2" << std::endl;
+    
+    std::cout << std::endl;
     std::cout << "That is all by now! In future new features will be added!" << std::endl;
 
 }

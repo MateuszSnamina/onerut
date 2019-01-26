@@ -3,17 +3,40 @@
 #include<esc/esc_manip.hpp>
 
 namespace esc {
+    //--------------------------------------------------------------------------
+
+    std::string to_string(Color color) {
+        switch (color) {
+            case Color::Gray: return "Color::Gray (code 0)";
+            case Color::Red: return "Color::Red (code 1)";
+            case Color::Green: return "Color::Green (code 2)";
+            case Color::Yellow: return "Color::Yellow (code 3)";
+            case Color::Blue: return "Color::Blue (code 4)";
+            case Color::Magenta: return "Color::Magenta (code 5)";
+            case Color::Cyan: return "Color::Cyan (code 6)";
+            case Color::White: return "Color::White (code 7)";
+            case Color::Auto: return "Color::Auto (code 9)";
+            default: return "InvalidColor (code" + std::to_string(static_cast<int> (color)) + ")";
+        }
+        assert(false);
+        return "internal error";
+    }
+    //--------------------------------------------------------------------------
+
+    EscDataBuilder::EscDataBuilder(const EscData& session_ansi_data) :
+    esc_data(session_ansi_data) {
+    }
 
     //--------------------------------------------------------------------------
 
-    SinkBuilder::SinkBuilder(std::ostream& stream) :
+    SinkBuilder::SinkBuilder(std::ostream& stream, const EscData& session_ansi_data) :
     stream(stream),
-    session_ansi_data({Color::Auto, Color::Auto, false, false, false}) {
+    esc_data(session_ansi_data) {
     }
 
     //--------------------------------------------------------------------------    
 
-    EscStreamRaii::EscStreamRaii(std::ostream& stream, const SessionEscData& session_ansi_data) :
+    EscStreamRaii::EscStreamRaii(std::ostream& stream, const EscData& session_ansi_data) :
     stream(stream),
     session_ansi_data(session_ansi_data),
     _is_session_holder(false) {
@@ -75,23 +98,23 @@ namespace esc {
     //-------------------  MANIPULATOR CLASSES  --------------------------------
     //--------------------------------------------------------------------------
 
-    void EscFgColorManip::apply(SessionEscData& d) const {
+    void EscFgColorManip::apply(EscData& d) const {
         d.fg_color = color;
     }
 
-    void EscBgColorManip::apply(SessionEscData& d) const {
+    void EscBgColorManip::apply(EscData& d) const {
         d.bg_color = color;
     }
 
-    void EscBoldManip::apply(SessionEscData& d) const {
+    void EscBoldManip::apply(EscData& d) const {
         d.bold = value;
     }
 
-    void EscItalicManip::apply(SessionEscData& d) const {
+    void EscItalicManip::apply(EscData& d) const {
         d.italic = value;
     }
 
-    void EscUnderlineManip::apply(SessionEscData& d) const {
+    void EscUnderlineManip::apply(EscData& d) const {
         d.underline = value;
     }
 
@@ -130,6 +153,7 @@ namespace esc {
         const EscUnderlineManip underline{true};
         const EscUnderlineManip nounderline{false};
 
+        const BuildEscDataManip build_esc_data;
         const EscResetManip reset;
 
     }
