@@ -14,12 +14,24 @@ namespace onerut_parser {
     // ********************** ERRORS          **********************************
     // *************************************************************************
 
-    class ArgumentMismatchError : public std::runtime_error {
-        ArgumentMismatchError(const std::string& message);
+    class BuildError : public std::runtime_error {
+    public:
+        BuildError(const std::string& message);
     };
 
-    class BuildError : public std::runtime_error {
-        BuildError(const std::string& message);
+    class FunctionNotFoundError : public BuildError {
+    public:
+        FunctionNotFoundError(const std::string& function_name);
+    };
+
+    class IdentifierNotFoundError : public BuildError {
+    public:
+        IdentifierNotFoundError(const std::string& identifier_name);
+    };
+
+    class ArgumentMismatchError : public BuildError {
+    public:
+        ArgumentMismatchError();
     };
 
 
@@ -33,24 +45,19 @@ namespace onerut_parser {
         BuildResult() = default;
         template<typename T> BuildResult from_type();
         template<typename T> BuildResult from_value(std::shared_ptr<T> value);
-        BuildResult from_argument_mismatch_error(std::shared_ptr<ArgumentMismatchError> value);
         BuildResult from_build_error(std::shared_ptr<BuildError> value);
         // Accessors and predicates:
         template<typename T> bool is_given_type() const;
         std::optional<std::any> value_or_empty() const;
-        std::optional<std::shared_ptr<ArgumentMismatchError>> argument_mismatch_error_or_empty() const;
         std::optional<std::shared_ptr<BuildError>> build_error_or_empty() const;
         std::any value_or_throw() const;
         template<typename T> std::optional<std::shared_ptr<T>> typed_value_or_empty() const;
         template<typename T> std::shared_ptr<T> typed_value_or_throw() const;
         bool is_empty() const;
-        bool is_argument_mismatch_error() const;
-        bool is_build_error() const;
         bool is_error() const;
     private:
         using ContentType = std::variant<
                 std::monostate,
-                std::shared_ptr<ArgumentMismatchError>,
                 std::shared_ptr<BuildError>,
                 std::any>;
         const ContentType _content;
@@ -98,11 +105,6 @@ namespace onerut_parser {
                     throw std::runtime_error("BuildResult: Result type mismatch.");
                     ;
                 }
-            }
-
-            ResultType operator()(std::shared_ptr<ArgumentMismatchError> error) const {
-                assert(error);
-                throw *error;
             }
 
             ResultType operator()(std::shared_ptr<BuildError> error) const {

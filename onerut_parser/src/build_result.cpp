@@ -5,7 +5,7 @@ namespace onerut_parser {
     // *************************************************************************
     // ********************** HELPER FUNCTIONS   *******************************
     // *************************************************************************
-    
+
     namespace {
 
         // -------------------------------------------------------------------------
@@ -53,11 +53,6 @@ namespace onerut_parser {
                 return x;
             }
 
-            std::any operator()(std::shared_ptr<ArgumentMismatchError> error) const {
-                assert(error);
-                throw *error;
-            }
-
             std::any operator()(std::shared_ptr<BuildError> error) const {
                 assert(error);
                 throw *error;
@@ -66,30 +61,34 @@ namespace onerut_parser {
         };
 
     }
-    
+
     // *************************************************************************
     // ********************** ERRORS          **********************************
     // *************************************************************************
-
-    ArgumentMismatchError::ArgumentMismatchError(const std::string& message) :
-    std::runtime_error(message) {
-    }
 
     BuildError::BuildError(const std::string& message) :
     std::runtime_error(message) {
     }
 
+    FunctionNotFoundError::FunctionNotFoundError(const std::string& function_name) :
+    BuildError("FunctionNotFoundError" + function_name) { //TODO
+    }
+
+    IdentifierNotFoundError::IdentifierNotFoundError(const std::string& identifier_name) :
+    BuildError("IdentifierNotFoundError" + identifier_name) { //TODO
+    }
+
+    ArgumentMismatchError::ArgumentMismatchError() :
+    BuildError("ArgumentMismatchError") {
+    }
+
+
     // *************************************************************************
     // ********************** BUILDER RESULTS **********************************
     // *************************************************************************    
 
-    BuildResult
-    BuildResult::from_argument_mismatch_error(std::shared_ptr<ArgumentMismatchError> error) {
-        assert(error);
-        BuildResult::ContentType content{
-            std::in_place_type<std::shared_ptr < ArgumentMismatchError>>,
-            error};
-        return BuildResult(content);
+    BuildResult::BuildResult(const BuildResult::ContentType content) :
+    _content(content) {
     }
 
     BuildResult
@@ -107,13 +106,7 @@ namespace onerut_parser {
         return std::visit(value_or_empty_visitor, _content);
     }
 
-    std::optional<std::shared_ptr<ArgumentMismatchError>>
-    BuildResult::argument_mismatch_error_or_empty() const {
-        const ContentOrEmptyVisitor<std::shared_ptr < ArgumentMismatchError>> argument_mismatch_error_or_empty_visitor;
-        return std::visit(argument_mismatch_error_or_empty_visitor, _content);
-    }
-
-    std::optional<std::shared_ptr<BuildError>>
+    std::optional<std::shared_ptr < BuildError >>
     BuildResult::build_error_or_empty() const {
         const ContentOrEmptyVisitor<std::shared_ptr < BuildError>> build_error_or_empty_visitor;
         return std::visit(build_error_or_empty_visitor, _content);
@@ -132,20 +125,9 @@ namespace onerut_parser {
     }
 
     bool
-    BuildResult::is_argument_mismatch_error() const {
-        const IsContentVisitor<std::shared_ptr < ArgumentMismatchError>> is_argument_mismatch_error_visitor;
-        return std::visit(is_argument_mismatch_error_visitor, _content);
-    }
-
-    bool
-    BuildResult::is_build_error() const {
+    BuildResult::is_error() const {
         const IsContentVisitor<std::shared_ptr < BuildError>> is_build_error_visitor;
         return std::visit(is_build_error_visitor, _content);
-    }
-
-    bool
-    BuildResult::is_error() const {
-        return is_argument_mismatch_error() || is_build_error();
     }
 
 }

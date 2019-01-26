@@ -5,6 +5,7 @@
 #include<vector>
 #include<memory>
 
+#include<onerut_parser/builder.hpp>
 #include<onerut_parser/string_span.hpp>
 #include<onerut_parser/print_chart.hpp>
 
@@ -30,7 +31,7 @@ namespace onerut_parser::onerut_ast::dyn {
         virtual void to_chart_disregard_subexpression(
                 unsigned deepness,
                 LinesStyledChartInfo& chart) const;
-        virtual esc::EscData get_print_style() const;
+        virtual esc::EscData get_print_style() const; // for the time being
     };
     
     // -------------------------------------------------------------------------
