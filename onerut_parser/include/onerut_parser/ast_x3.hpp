@@ -8,7 +8,6 @@
 #include<boost/spirit/home/x3/support/ast/variant.hpp>
 #include<boost/spirit/home/x3/support/ast/position_tagged.hpp>
 
-
 namespace onerut_parser::onerut_ast::x3 {
 
     struct IdentifierInfo : boost::spirit::x3::position_tagged {

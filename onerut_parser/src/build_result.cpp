@@ -3,6 +3,30 @@
 namespace onerut_parser {
 
     // *************************************************************************
+    // ********************** ERRORS          **********************************
+    // *************************************************************************
+
+    BuildError::BuildError(const std::string& message) :
+    std::runtime_error(message) {
+    }
+
+    FunctionNotFoundError::FunctionNotFoundError(const std::string& function_name) :
+    BuildError("FunctionNotFoundError" + function_name) { //TODO
+    }
+
+    IdentifierNotFoundError::IdentifierNotFoundError(const std::string& identifier_name) :
+    BuildError("IdentifierNotFoundError" + identifier_name) { //TODO
+    }
+
+    BuildArgumentsError::BuildArgumentsError() :
+    BuildError("BuildArgumentsError") {
+    }
+
+    ArgumentMismatchError::ArgumentMismatchError() :
+    BuildError("ArgumentMismatchError") {
+    }
+
+    // *************************************************************************
     // ********************** HELPER FUNCTIONS   *******************************
     // *************************************************************************
 
@@ -61,27 +85,6 @@ namespace onerut_parser {
         };
 
     }
-
-    // *************************************************************************
-    // ********************** ERRORS          **********************************
-    // *************************************************************************
-
-    BuildError::BuildError(const std::string& message) :
-    std::runtime_error(message) {
-    }
-
-    FunctionNotFoundError::FunctionNotFoundError(const std::string& function_name) :
-    BuildError("FunctionNotFoundError" + function_name) { //TODO
-    }
-
-    IdentifierNotFoundError::IdentifierNotFoundError(const std::string& identifier_name) :
-    BuildError("IdentifierNotFoundError" + identifier_name) { //TODO
-    }
-
-    ArgumentMismatchError::ArgumentMismatchError() :
-    BuildError("ArgumentMismatchError") {
-    }
-
 
     // *************************************************************************
     // ********************** BUILDER RESULTS **********************************

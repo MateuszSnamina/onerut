@@ -29,6 +29,11 @@ namespace onerut_parser {
         IdentifierNotFoundError(const std::string& identifier_name);
     };
 
+    class BuildArgumentsError : public BuildError {
+    public:
+        BuildArgumentsError();
+    };
+
     class ArgumentMismatchError : public BuildError {
     public:
         ArgumentMismatchError();
@@ -60,7 +65,7 @@ namespace onerut_parser {
                 std::monostate,
                 std::shared_ptr<BuildError>,
                 std::any>;
-        const ContentType _content;
+        ContentType _content;
         explicit BuildResult(const ContentType content);
     };
 
