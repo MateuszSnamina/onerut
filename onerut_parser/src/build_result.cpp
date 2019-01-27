@@ -11,23 +11,23 @@ namespace onerut_parser {
     }
 
     FunctionNotFoundError::FunctionNotFoundError(const std::string& function_name) :
-    BuildError("FunctionNotFoundError" + function_name) { //TODO
+    BuildError("FunctionNotFoundError! (Details: the function name = '" + function_name + "'.)") {
     }
 
     IdentifierNotFoundError::IdentifierNotFoundError(const std::string& identifier_name) :
-    BuildError("IdentifierNotFoundError" + identifier_name) { //TODO
+    BuildError("IdentifierNotFoundError! (Details: the identifier name = '" + identifier_name + "'.)") {
     }
 
     BuildArgumentsError::BuildArgumentsError() :
-    BuildError("BuildArgumentsError") {
+    BuildError("BuildArgumentsError!") {
     }
 
     ArgumentMismatchError::ArgumentMismatchError() :
-    BuildError("ArgumentMismatchError") {
+    BuildError("ArgumentMismatchError!") {
     }
 
     BuildNotImplementedError::BuildNotImplementedError() :
-    BuildError("BuildNotImplementedError") {
+    BuildError("BuildNotImplementedError!") {
     }
 
     // *************************************************************************

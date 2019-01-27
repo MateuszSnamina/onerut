@@ -14,18 +14,18 @@ namespace onerut_parser::onerut_ast::dyn {
     }
 
     TwoSubexpressionsBuildResult
-    WithTwoSubexpressionsNode::run_args() const {
+    WithTwoSubexpressionsNode::build_args() const {
         TwoSubexpressionsBuildResult result;
-        result.first_arg = first_arg->run();
-        result.second_arg = second_arg->run();
+        result.first_arg = first_arg->build();
+        result.second_arg = second_arg->build();
         return result;
     }
 
     TwoSubexpressionsBuildResult
-    WithTwoSubexpressionsNode::dry_run_args() const {
+    WithTwoSubexpressionsNode::build_dry_run_args() const {
         TwoSubexpressionsBuildResult result;
-        result.first_arg = first_arg->dry_run();
-        result.second_arg = second_arg->dry_run();
+        result.first_arg = first_arg->build_dry_run();
+        result.second_arg = second_arg->build_dry_run();
         return result;
     }
 
@@ -36,25 +36,25 @@ namespace onerut_parser::onerut_ast::dyn {
     }
 
     OneOrMoreSubexpressionsBuildResult
-    WithOneOrMoreSubexpressionsNode::run_args() const {
+    WithOneOrMoreSubexpressionsNode::build_args() const {
         OneOrMoreSubexpressionsBuildResult result;
-        result.first_arg = first_arg->run();
+        result.first_arg = first_arg->build();
         result.other_argv.resize(other_argv.size());
         std::transform(other_argv.cbegin(), other_argv.cend(), result.other_argv.begin(),
                 [](const std::shared_ptr<ExpressionNode> & e) {
-                    return e->run();
+                    return e->build();
                 });
         return result;
     }
 
     OneOrMoreSubexpressionsBuildResult
-    WithOneOrMoreSubexpressionsNode::dry_run_args() const {
+    WithOneOrMoreSubexpressionsNode::build_dry_run_args() const {
         OneOrMoreSubexpressionsBuildResult result;
-        result.first_arg = first_arg->dry_run();
+        result.first_arg = first_arg->build_dry_run();
         result.other_argv.resize(other_argv.size());
         std::transform(other_argv.cbegin(), other_argv.cend(), result.other_argv.begin(),
                 [](const std::shared_ptr<ExpressionNode> & e) {
-                    return e->dry_run();
+                    return e->build_dry_run();
                 });
         return result;
     }
@@ -66,23 +66,23 @@ namespace onerut_parser::onerut_ast::dyn {
     }
 
     AnyNumberOfSubexpressionsBuildResult
-    WithAnyNumberOfSubexpressionsNode::run_args() const {
+    WithAnyNumberOfSubexpressionsNode::build_args() const {
         AnyNumberOfSubexpressionsBuildResult result;
         result.argv.resize(argv.size());
         std::transform(argv.cbegin(), argv.cend(), result.argv.begin(),
                 [](const std::shared_ptr<ExpressionNode> & e) {
-                    return e->run();
+                    return e->build();
                 });
         return result;
     }
 
     AnyNumberOfSubexpressionsBuildResult
-    WithAnyNumberOfSubexpressionsNode::dry_run_args() const {
+    WithAnyNumberOfSubexpressionsNode::build_dry_run_args() const {
         AnyNumberOfSubexpressionsBuildResult result;
         result.argv.resize(argv.size());
         std::transform(argv.cbegin(), argv.cend(), result.argv.begin(),
                 [](const std::shared_ptr<ExpressionNode> & e) {
-                    return e->dry_run();
+                    return e->build_dry_run();
                 });
         return result;
     }
@@ -91,27 +91,13 @@ namespace onerut_parser::onerut_ast::dyn {
     // ***********************      Concrete classes     ***********************
     // *************************************************************************
 
-    BuildResult IdentifierNode::dry_run() const {
+    BuildResult IdentifierNode::build_dry_run() const {
         BuildResult result;
         result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
         return result;
     }
 
-    BuildResult IdentifierNode::run() const {
-        BuildResult result;
-        result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
-        return result;
-    }
-
-    // -------------------------------------------------------------------------
-
-    BuildResult OpPlusMinusNode::dry_run() const {
-        BuildResult result;
-        result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
-        return result;
-    }
-
-    BuildResult OpPlusMinusNode::run() const {
+    BuildResult IdentifierNode::build() const {
         BuildResult result;
         result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
         return result;
@@ -119,27 +105,13 @@ namespace onerut_parser::onerut_ast::dyn {
 
     // -------------------------------------------------------------------------
 
-    BuildResult OpProdDivNode::dry_run() const {
+    BuildResult OpPlusMinusNode::build_dry_run() const {
         BuildResult result;
         result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
         return result;
     }
 
-    BuildResult OpProdDivNode::run() const {
-        BuildResult result;
-        result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
-        return result;
-    }
-
-    // -------------------------------------------------------------------------
-
-    BuildResult OpPowNode::dry_run() const {
-        BuildResult result;
-        result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
-        return result;
-    }
-
-    BuildResult OpPowNode::run() const {
+    BuildResult OpPlusMinusNode::build() const {
         BuildResult result;
         result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
         return result;
@@ -147,27 +119,13 @@ namespace onerut_parser::onerut_ast::dyn {
 
     // -------------------------------------------------------------------------
 
-    BuildResult OpAtNode::dry_run() const {
+    BuildResult OpProdDivNode::build_dry_run() const {
         BuildResult result;
         result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
         return result;
     }
 
-    BuildResult OpAtNode::run() const {
-        BuildResult result;
-        result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
-        return result;
-    }
-
-    // -------------------------------------------------------------------------
-
-    BuildResult OpArrowNode::dry_run() const {
-        BuildResult result;
-        result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
-        return result;
-    }
-
-    BuildResult OpArrowNode::run() const {
+    BuildResult OpProdDivNode::build() const {
         BuildResult result;
         result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
         return result;
@@ -175,13 +133,13 @@ namespace onerut_parser::onerut_ast::dyn {
 
     // -------------------------------------------------------------------------
 
-    BuildResult OpGlueNode::dry_run() const {
+    BuildResult OpPowNode::build_dry_run() const {
         BuildResult result;
         result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
         return result;
     }
 
-    BuildResult OpGlueNode::run() const {
+    BuildResult OpPowNode::build() const {
         BuildResult result;
         result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
         return result;
@@ -189,14 +147,56 @@ namespace onerut_parser::onerut_ast::dyn {
 
     // -------------------------------------------------------------------------
 
-    BuildResult UnaryPlusMinusNode::dry_run() const {
+    BuildResult OpAtNode::build_dry_run() const {
+        BuildResult result;
+        result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
+        return result;
+    }
+
+    BuildResult OpAtNode::build() const {
+        BuildResult result;
+        result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
+        return result;
+    }
+
+    // -------------------------------------------------------------------------
+
+    BuildResult OpArrowNode::build_dry_run() const {
+        BuildResult result;
+        result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
+        return result;
+    }
+
+    BuildResult OpArrowNode::build() const {
+        BuildResult result;
+        result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
+        return result;
+    }
+
+    // -------------------------------------------------------------------------
+
+    BuildResult OpGlueNode::build_dry_run() const {
+        BuildResult result;
+        result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
+        return result;
+    }
+
+    BuildResult OpGlueNode::build() const {
+        BuildResult result;
+        result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
+        return result;
+    }
+
+    // -------------------------------------------------------------------------
+
+    BuildResult UnaryPlusMinusNode::build_dry_run() const {
         BuildResult result;
         //assert(op == L'+' || op == L'-');
         result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
         return result;
     }
 
-    BuildResult UnaryPlusMinusNode::run() const {
+    BuildResult UnaryPlusMinusNode::build() const {
         BuildResult result;
         //assert(op == L'+' || op == L'-');
         result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
@@ -205,13 +205,13 @@ namespace onerut_parser::onerut_ast::dyn {
 
     // -------------------------------------------------------------------------
 
-    BuildResult LitIntNode::dry_run() const {
+    BuildResult LitIntNode::build_dry_run() const {
         BuildResult result;
         result = BuildResult::from_type<onerut_scalar::Int>();
         return result;
     }
 
-    BuildResult LitIntNode::run() const {
+    BuildResult LitIntNode::build() const {
         BuildResult result;
         result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
         return result;
@@ -219,13 +219,13 @@ namespace onerut_parser::onerut_ast::dyn {
 
     // -------------------------------------------------------------------------
 
-    BuildResult LitDoubleNode::dry_run() const {
+    BuildResult LitDoubleNode::build_dry_run() const {
         BuildResult result;
         result = BuildResult::from_type<onerut_scalar::Double>();
         return result;
     }
 
-    BuildResult LitDoubleNode::run() const {
+    BuildResult LitDoubleNode::build() const {
         BuildResult result;
         result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
         return result;
@@ -233,13 +233,13 @@ namespace onerut_parser::onerut_ast::dyn {
 
     // -------------------------------------------------------------------------
 
-    BuildResult FunctionNode::dry_run() const {
+    BuildResult FunctionNode::build_dry_run() const {
         BuildResult result;
         result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
         return result;
     }
 
-    BuildResult FunctionNode::run() const {
+    BuildResult FunctionNode::build() const {
         BuildResult result;
         result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
         return result;

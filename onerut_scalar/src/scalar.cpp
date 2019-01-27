@@ -101,7 +101,7 @@ namespace {
     // -------------------------------------------------------------------------    
 
     template<typename ResultType>
-    std::variant<int, double> _op_plus_minus_int_double_as_t(
+    std::variant<int, double> _op_plus_minus_as_t(
             std::variant<int, double> first_arg,
             std::variant<int, double> second_arg,
             char32_t op) {
@@ -112,7 +112,7 @@ namespace {
         return VariantType{std::in_place_type<ResultType>, result_t};
     }
 
-    std::variant<int, double> _op_plus_minus_int_double(
+    std::variant<int, double> _op_plus_minus(
             std::variant<int, double> first_arg,
             std::variant<int, double> second_arg,
             char32_t op) {
@@ -120,17 +120,17 @@ namespace {
         const PromotionLevel second_arg_promotion_level = variant_to_promotion_level(second_arg);
         const PromotionLevel op_promotion_level = do_propotion(first_arg_promotion_level, second_arg_promotion_level);
         if (op_promotion_level == PromotionLevel::int_promotion_level) {
-            return _op_plus_minus_int_double_as_t<int>(first_arg, second_arg, op);
+            return _op_plus_minus_as_t<int>(first_arg, second_arg, op);
         }
         {
-            return _op_plus_minus_int_double_as_t<double>(first_arg, second_arg, op);
+            return _op_plus_minus_as_t<double>(first_arg, second_arg, op);
         }
     }
 
     // -------------------------------------------------------------------------    
 
     template<typename ResultType>
-    std::variant<int, double> _op_prod_div_int_double_as_t(
+    std::variant<int, double> _op_prod_div_as_t(
             std::variant<int, double> first_arg,
             std::variant<int, double> second_arg,
             char32_t op) {
@@ -141,7 +141,7 @@ namespace {
         return VariantType{std::in_place_type<ResultType>, result_t};
     }
 
-    std::variant<int, double> _op_prod_div_int_double(
+    std::variant<int, double> _op_prod_div(
             std::variant<int, double> first_arg,
             std::variant<int, double> second_arg,
             char32_t op) {
@@ -149,10 +149,10 @@ namespace {
         const PromotionLevel second_arg_promotion_level = variant_to_promotion_level(second_arg);
         const PromotionLevel op_promotion_level = do_propotion(first_arg_promotion_level, second_arg_promotion_level);
         if (op_promotion_level == PromotionLevel::int_promotion_level) {
-            return _op_prod_div_int_double_as_t<int>(first_arg, second_arg, op);
+            return _op_prod_div_as_t<int>(first_arg, second_arg, op);
         }
         {
-            return _op_prod_div_int_double_as_t<double>(first_arg, second_arg, op);
+            return _op_prod_div_as_t<double>(first_arg, second_arg, op);
         }
     }
 
@@ -251,7 +251,7 @@ namespace onerut_scalar {
         for (unsigned i = 0; i < other_argv.size(); i++) {
             const std::variant<int, double> other_arg = as_variant(other_argv[i]);
             const char32_t op = opv[i];
-            result = _op_plus_minus_int_double(result, other_arg, op);
+            result = _op_plus_minus(result, other_arg, op);
         }
         return as_t<double>(result);
     }
@@ -309,7 +309,7 @@ namespace onerut_scalar {
         for (unsigned i = 0; i < other_argv.size(); i++) {
             const std::variant<int, double> other_arg = as_variant(other_argv[i]);
             const char32_t op = opv[i];
-            result = _op_prod_div_int_double(result, other_arg, op);
+            result = _op_prod_div(result, other_arg, op);
         }
         return as_t<double>(result);
     }
