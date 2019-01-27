@@ -65,12 +65,12 @@ namespace onerut_parser {
         bool is_empty() const;
         bool is_error() const;
     private:
-        using ContentType = std::variant<
+        using VariantType = std::variant<
                 std::monostate,
                 std::shared_ptr<BuildError>,
                 std::any>;
-        ContentType _content;
-        explicit BuildResult(const ContentType content);
+        VariantType _content;
+        explicit BuildResult(const VariantType content);
     };
 
     // *************************************************************************
@@ -152,7 +152,7 @@ namespace onerut_parser {
     template<typename T>
     BuildResult BuildResult::from_type() {
         std::shared_ptr<T> value;
-        BuildResult::ContentType content{
+        BuildResult::VariantType content{
             std::in_place_type<std::any>,
             value};
         return BuildResult(content);
@@ -161,7 +161,7 @@ namespace onerut_parser {
     template<typename T>
     BuildResult BuildResult::from_value(std::shared_ptr<T> value) {
         assert(value);
-        BuildResult::ContentType content{
+        BuildResult::VariantType content{
             std::in_place_type<std::any>,
             value};
         return BuildResult(content);

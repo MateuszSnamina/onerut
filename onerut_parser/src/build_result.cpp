@@ -94,14 +94,14 @@ namespace onerut_parser {
     // ********************** BUILDER RESULTS **********************************
     // *************************************************************************    
 
-    BuildResult::BuildResult(const BuildResult::ContentType content) :
+    BuildResult::BuildResult(const BuildResult::VariantType content) :
     _content(content) {
     }
 
     BuildResult
     BuildResult::from_build_error(std::shared_ptr<BuildError> error) {
         assert(error);
-        BuildResult::ContentType content{
+        BuildResult::VariantType content{
             std::in_place_type<std::shared_ptr < BuildError>>,
             error};
         return BuildResult(content);
