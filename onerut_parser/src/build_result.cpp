@@ -26,6 +26,10 @@ namespace onerut_parser {
     BuildError("ArgumentMismatchError") {
     }
 
+    BuildNotImplementedError::BuildNotImplementedError() :
+    BuildError("BuildNotImplementedError") {
+    }
+
     // *************************************************************************
     // ********************** HELPER FUNCTIONS   *******************************
     // *************************************************************************

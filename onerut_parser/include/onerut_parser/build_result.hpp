@@ -39,6 +39,10 @@ namespace onerut_parser {
         ArgumentMismatchError();
     };
 
+    class BuildNotImplementedError : public BuildError {
+    public:
+        BuildNotImplementedError();
+    };
 
     // *************************************************************************
     // ********************** BUILDER RESULTS **********************************
@@ -48,9 +52,9 @@ namespace onerut_parser {
     public:
         // Construction:
         BuildResult() = default;
-        template<typename T> BuildResult from_type();
-        template<typename T> BuildResult from_value(std::shared_ptr<T> value);
-        BuildResult from_build_error(std::shared_ptr<BuildError> value);
+        template<typename T> static BuildResult from_type();
+        template<typename T> static BuildResult from_value(std::shared_ptr<T> value);
+        static BuildResult from_build_error(std::shared_ptr<BuildError> error);
         // Accessors and predicates:
         template<typename T> bool is_given_type() const;
         std::optional<std::any> value_or_empty() const;
@@ -147,7 +151,7 @@ namespace onerut_parser {
 
     template<typename T>
     BuildResult BuildResult::from_type() {
-        std::shared_ptr<T> value = std::make_shared<T>(nullptr);
+        std::shared_ptr<T> value;
         BuildResult::ContentType content{
             std::in_place_type<std::any>,
             value};

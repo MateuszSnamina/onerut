@@ -31,7 +31,6 @@ namespace onerut_parser::onerut_ast::dyn {
         virtual void to_chart_disregard_subexpression(
                 unsigned deepness,
                 LinesStyledChartInfo& chart) const;
-        virtual esc::EscData get_print_style() const; // for the time being
     };
 
     // -------------------------------------------------------------------------
@@ -75,6 +74,7 @@ namespace onerut_parser::onerut_ast::dyn {
                 unsigned deepness,
                 LinesStyledChartInfo& chart) const final;
         TwoSubexpressionsBuildResult run_args() const;
+        TwoSubexpressionsBuildResult dry_run_args() const;
         const std::shared_ptr<ExpressionNode> first_arg;
         const std::shared_ptr<ExpressionNode> second_arg;
     };
@@ -95,9 +95,10 @@ namespace onerut_parser::onerut_ast::dyn {
         void to_chart(
                 unsigned deepness,
                 LinesStyledChartInfo& chart) const final;
+        OneOrMoreSubexpressionsBuildResult run_args() const;
+        OneOrMoreSubexpressionsBuildResult dry_run_args() const;
         const std::shared_ptr<ExpressionNode> first_arg;
         const std::vector<std::shared_ptr<ExpressionNode>> other_argv;
-        OneOrMoreSubexpressionsBuildResult run_args() const;
     };
 
     struct AnyNumberOfSubexpressionsBuildResult {
@@ -114,8 +115,9 @@ namespace onerut_parser::onerut_ast::dyn {
         void to_chart(
                 unsigned deepness,
                 LinesStyledChartInfo& chart) const final;
-        const std::vector<std::shared_ptr<ExpressionNode>> argv;
         AnyNumberOfSubexpressionsBuildResult run_args() const;
+        AnyNumberOfSubexpressionsBuildResult dry_run_args() const;
+        const std::vector<std::shared_ptr<ExpressionNode>> argv;
     };
 
     // *************************************************************************
@@ -131,7 +133,6 @@ namespace onerut_parser::onerut_ast::dyn {
         std::u32string to_oneliner() const override;
         BuildResult dry_run() const override;
         BuildResult run() const override;
-        esc::EscData get_print_style() const override; // bedzie do usuniecia!!
         const std::u32string name;
     };
 
