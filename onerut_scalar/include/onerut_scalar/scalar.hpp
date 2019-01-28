@@ -24,6 +24,18 @@ namespace onerut_scalar {
     };
 
     // -------------------------------------------------------------------------
+    // -------------- CAST CLASES  ---------------------------------------------
+    // -------------------------------------------------------------------------
+
+    class CastIntToDouble : public Double {
+    public:
+        CastIntToDouble(std::shared_ptr<Int> arg);
+        double value_double() const override;
+    private:
+        const std::shared_ptr<Int> arg;
+    };
+
+    // -------------------------------------------------------------------------
     // -------------- LITERAL CLASES  ------------------------------------------
     // -------------------------------------------------------------------------
 
@@ -39,7 +51,6 @@ namespace onerut_scalar {
         LitInt(int value);
         int value_int() const override;
         const int value;
-
     };
 
     // -------------------------------------------------------------------------
@@ -62,6 +73,7 @@ namespace onerut_scalar {
                 std::shared_ptr<Int> arg,
                 char32_t op);
         int value_int() const override;
+    private:
         const std::shared_ptr<Int> arg;
         const char32_t op;
     };
@@ -77,6 +89,7 @@ namespace onerut_scalar {
                 std::vector<std::shared_ptr<Double>> other_argv,
                 const std::vector<char32_t>& opv);
         double value_double() const override;
+    private:
         const std::shared_ptr<Double> first_arg;
         const std::vector<std::shared_ptr<Double>> other_argv;
         const std::vector<char32_t> opv;
@@ -89,6 +102,7 @@ namespace onerut_scalar {
                 std::vector<std::shared_ptr<Int>> other_argv,
                 const std::vector<char32_t>& opv);
         int value_int() const override;
+    private:
         const std::shared_ptr<Int> first_arg;
         const std::vector<std::shared_ptr<Int>> other_argv;
         const std::vector<char32_t> opv;
@@ -105,6 +119,7 @@ namespace onerut_scalar {
                 std::vector<std::shared_ptr<Double>> other_argv,
                 const std::vector<char32_t>& opv);
         double value_double() const override;
+    private:
         const std::shared_ptr<Double> first_arg;
         const std::vector<std::shared_ptr<Double>> other_argv;
         const std::vector<char32_t> opv;
@@ -117,6 +132,7 @@ namespace onerut_scalar {
                 std::vector<std::shared_ptr<Int>> other_argv,
                 const std::vector<char32_t>& opv);
         int value_int() const override;
+    private:
         const std::shared_ptr<Int> first_arg;
         const std::vector<std::shared_ptr<Int>> other_argv;
         const std::vector<char32_t> opv;

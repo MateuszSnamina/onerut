@@ -74,7 +74,7 @@ namespace onerut_parser::onerut_ast::dyn {
                 unsigned deepness,
                 LinesStyledChartInfo& chart) const final;
         TwoSubexpressionsBuildResult build_args() const;
-        TwoSubexpressionsBuildResult build_dry_run_args() const;
+        TwoSubexpressionsBuildResult build_args_dry_run() const;
         const std::shared_ptr<ExpressionNode> first_arg;
         const std::shared_ptr<ExpressionNode> second_arg;
     };
@@ -96,7 +96,7 @@ namespace onerut_parser::onerut_ast::dyn {
                 unsigned deepness,
                 LinesStyledChartInfo& chart) const final;
         OneOrMoreSubexpressionsBuildResult build_args() const;
-        OneOrMoreSubexpressionsBuildResult build_dry_run_args() const;
+        OneOrMoreSubexpressionsBuildResult build_args_dry_run() const;
         const std::shared_ptr<ExpressionNode> first_arg;
         const std::vector<std::shared_ptr<ExpressionNode>> other_argv;
     };
@@ -116,7 +116,7 @@ namespace onerut_parser::onerut_ast::dyn {
                 unsigned deepness,
                 LinesStyledChartInfo& chart) const final;
         AnyNumberOfSubexpressionsBuildResult build_args() const;
-        AnyNumberOfSubexpressionsBuildResult build_dry_run_args() const;
+        AnyNumberOfSubexpressionsBuildResult build_args_dry_run() const;
         const std::vector<std::shared_ptr<ExpressionNode>> argv;
     };
 

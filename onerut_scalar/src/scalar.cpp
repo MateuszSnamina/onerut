@@ -43,9 +43,9 @@ namespace {
     // -------------------------------------------------------------------------
 
     enum class PromotionLevel {
-        int_promotion_level = 1,
-        double_promotion_level = 2,
-        complex_promotion_level = 3 // not used now!
+        integer = 1,
+        real = 2,
+        complex = 3 // not used now!
     };
 
     // -------------------------------------------------------------------------
@@ -66,11 +66,11 @@ namespace {
         using ResultType = PromotionLevel;
 
         ResultType operator()(int i) const {
-            return PromotionLevel::int_promotion_level;
+            return PromotionLevel::integer;
         }
 
         ResultType operator()(double d) const {
-            return PromotionLevel::double_promotion_level;
+            return PromotionLevel::real;
         }
 
     };
@@ -119,7 +119,7 @@ namespace {
         const PromotionLevel first_arg_promotion_level = variant_to_promotion_level(first_arg);
         const PromotionLevel second_arg_promotion_level = variant_to_promotion_level(second_arg);
         const PromotionLevel op_promotion_level = do_propotion(first_arg_promotion_level, second_arg_promotion_level);
-        if (op_promotion_level == PromotionLevel::int_promotion_level) {
+        if (op_promotion_level == PromotionLevel::integer) {
             return _op_plus_minus_as_t<int>(first_arg, second_arg, op);
         }
         {
@@ -148,7 +148,7 @@ namespace {
         const PromotionLevel first_arg_promotion_level = variant_to_promotion_level(first_arg);
         const PromotionLevel second_arg_promotion_level = variant_to_promotion_level(second_arg);
         const PromotionLevel op_promotion_level = do_propotion(first_arg_promotion_level, second_arg_promotion_level);
-        if (op_promotion_level == PromotionLevel::int_promotion_level) {
+        if (op_promotion_level == PromotionLevel::integer) {
             return _op_prod_div_as_t<int>(first_arg, second_arg, op);
         }
         {
@@ -168,6 +168,19 @@ namespace onerut_scalar {
 
         return static_cast<double> (value_int());
         // TODO: numeric_cast!!
+    }
+
+    // -------------------------------------------------------------------------
+    // -------------- CAST CLASES  ---------------------------------------------
+    // -------------------------------------------------------------------------
+
+    CastIntToDouble::CastIntToDouble(std::shared_ptr<Int> arg) :
+    arg(arg) {
+        assert(arg);
+    }
+
+    double CastIntToDouble::value_double() const {
+        return static_cast<double> (arg->value_int());
     }
 
     // -------------------------------------------------------------------------
