@@ -68,12 +68,8 @@ namespace {
 
     // -------------------------------------------------------------------------
 
-    PromotionLevel do_propotion(
-            PromotionLevel p1,
-            PromotionLevel p2) {
-        return static_cast<PromotionLevel> (
-                std::max(static_cast<int> (p1), static_cast<int> (p2))
-                );
+    PromotionLevel do_propotion(PromotionLevel p1, PromotionLevel p2) {
+        return static_cast<PromotionLevel> (std::max(static_cast<int> (p1), static_cast<int> (p2)));
     }
 
     // -------------------------------------------------------------------------
@@ -124,6 +120,7 @@ namespace {
             std::variant<int, double> first_arg,
             std::variant<int, double> second_arg,
             char32_t op) {
+        static_assert(std::is_arithmetic<ResultType>::value);        
         using VariantType = std::variant<int, double>;
         const ResultType first_arg_t = as_t<ResultType>(first_arg);
         const ResultType second_arg_t = as_t<ResultType>(second_arg);
@@ -142,7 +139,6 @@ namespace {
         if (op_promotion_level == PromotionLevel::integer)
             return _op_t<_OpFlavour, int>(first_arg, second_arg, op);
         return _op_t<_OpFlavour, double>(first_arg, second_arg, op);
-
     }
 
     std::variant<int, double> _op_plus_minus(
