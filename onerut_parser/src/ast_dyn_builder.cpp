@@ -36,10 +36,11 @@ namespace {
     std::shared_ptr<onerut_scalar::Double> to_real(const onerut_parser::BuildResult& arg_result) {
         assert(is_real(arg_result));
         std::shared_ptr<onerut_scalar::Double> arg_double;
-        if (auto temp = arg_result.typed_value_or_empty<onerut_scalar::Int>())
+        if (auto temp = arg_result.typed_value_or_empty<onerut_scalar::Int>()) {
             arg_double = *temp;
-        else
+        } else {
             arg_double = *arg_result.typed_value_or_empty<onerut_scalar::Double>();
+        }
         assert(arg_double);
         return arg_double;
     }
@@ -167,18 +168,19 @@ namespace onerut_parser::onerut_ast::dyn {
             return BuildResult::from_build_error(std::make_shared<BuildArgumentsError>());
         if (is_integer(arg_results.first_arg) && std::all_of(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), is_integer)) {
             std::shared_ptr<onerut_scalar::Int> first_arg_int;
-            std::vector<std::shared_ptr < onerut_scalar::Int>> other_argv_int;
+            std::vector<std::shared_ptr < onerut_scalar::Int >> other_argv_int(other_argv.size());
             first_arg_int = to_int(arg_results.first_arg);
             std::transform(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), other_argv_int.begin(), to_int);
             return BuildResult::from_value<onerut_scalar::Int>(std::make_shared<onerut_scalar::OpPlusMinusInt>(first_arg_int, other_argv_int, opv));
         }
         if (is_real(arg_results.first_arg) && std::all_of(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), is_real)) {
             std::shared_ptr<onerut_scalar::Double> first_arg_double;
-            std::vector<std::shared_ptr < onerut_scalar::Double>> other_argv_double;
+            std::vector<std::shared_ptr < onerut_scalar::Double >> other_argv_double(other_argv.size());
             first_arg_double = to_real(arg_results.first_arg);
-            std::transform(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), other_argv_double.begin(), to_int);
+            std::transform(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), other_argv_double.begin(), to_real);
             return BuildResult::from_value<onerut_scalar::Double>(std::make_shared<onerut_scalar::OpPlusMinusDouble>(first_arg_double, other_argv_double, opv));
         }
+
         return BuildResult::from_build_error(std::make_shared<ArgumentMismatchError>());
     }
 
@@ -203,16 +205,16 @@ namespace onerut_parser::onerut_ast::dyn {
             return BuildResult::from_build_error(std::make_shared<BuildArgumentsError>());
         if (is_integer(arg_results.first_arg) && std::all_of(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), is_integer)) {
             std::shared_ptr<onerut_scalar::Int> first_arg_int;
-            std::vector<std::shared_ptr < onerut_scalar::Int>> other_argv_int;
+            std::vector<std::shared_ptr < onerut_scalar::Int >> other_argv_int(other_argv.size());
             first_arg_int = to_int(arg_results.first_arg);
             std::transform(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), other_argv_int.begin(), to_int);
             return BuildResult::from_value<onerut_scalar::Int>(std::make_shared<onerut_scalar::OpProdDivInt>(first_arg_int, other_argv_int, opv));
         }
         if (is_real(arg_results.first_arg) && std::all_of(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), is_real)) {
             std::shared_ptr<onerut_scalar::Double> first_arg_double;
-            std::vector<std::shared_ptr < onerut_scalar::Double>> other_argv_double;
+            std::vector<std::shared_ptr < onerut_scalar::Double >> other_argv_double(other_argv.size());
             first_arg_double = to_real(arg_results.first_arg);
-            std::transform(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), other_argv_double.begin(), to_int);
+            std::transform(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), other_argv_double.begin(), to_real);
             return BuildResult::from_value<onerut_scalar::Double>(std::make_shared<onerut_scalar::OpProdDivDouble>(first_arg_double, other_argv_double, opv));
         }
         return BuildResult::from_build_error(std::make_shared<ArgumentMismatchError>());

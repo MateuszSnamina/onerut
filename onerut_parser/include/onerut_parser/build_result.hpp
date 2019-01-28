@@ -112,7 +112,6 @@ namespace onerut_parser {
                     return std::any_cast<ResultType>(x);
                 } catch (std::bad_any_cast &) {
                     throw std::runtime_error("BuildResult: Result type mismatch.");
-                    ;
                 }
             }
 
@@ -132,7 +131,7 @@ namespace onerut_parser {
                 try {
                     return std::any_cast<AnyContentType>(x);
                 } catch (std::bad_any_cast &) {
-                    throw;
+                    return ResultType();
                 }
             }
 

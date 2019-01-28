@@ -6,9 +6,21 @@
 
 namespace {
 
+    //    struct DebugPrintVisitor{
+    //
+    //        void operator()(int i) {
+    //            std::cout << "I" << i << std::endl;
+    //        }
+    //
+    //        void operator()(double d) {
+    //            std::cout << "D" << d << std::endl;
+    //        }
+    //    };
+    //    DebugPrintVisitor debug_print_visitor;
+
     template<typename T>
     T _op_unary_plus_minus(T arg, char32_t op) {
-        return op == L'+' || op == L'-';
+        assert(op == L'+' || op == L'-');
         if (op == L'-')
             return -arg;
         return +arg;
@@ -16,7 +28,7 @@ namespace {
 
     template<typename T>
     T _op_plus_minus(T first_arg, T second_arg, char32_t op) {
-        return op == L'+' || op == L'-';
+        assert(op == L'+' || op == L'-');
         if (op == L'-')
             return first_arg - second_arg;
         return first_arg + second_arg;
@@ -24,7 +36,7 @@ namespace {
 
     template<typename T>
     T _op_prod_div(T first_arg, T second_arg, char32_t op) {
-        return op == L'*' || op == L'/';
+        assert(op == L'*' || op == L'/');
         if (op == L'/')
             return first_arg / second_arg;
         return first_arg * second_arg;
@@ -106,9 +118,9 @@ namespace {
             std::variant<int, double> second_arg,
             char32_t op) {
         using VariantType = std::variant<int, double>;
-        const int first_arg_t = as_t<ResultType>(first_arg);
-        const int second_arg_t = as_t<ResultType>(second_arg);
-        const int result_t = _op_plus_minus<ResultType>(first_arg_t, second_arg_t, op);
+        const ResultType first_arg_t = as_t<ResultType>(first_arg);
+        const ResultType second_arg_t = as_t<ResultType>(second_arg);
+        const ResultType result_t = _op_plus_minus<ResultType>(first_arg_t, second_arg_t, op);
         return VariantType{std::in_place_type<ResultType>, result_t};
     }
 
@@ -116,6 +128,7 @@ namespace {
             std::variant<int, double> first_arg,
             std::variant<int, double> second_arg,
             char32_t op) {
+
         const PromotionLevel first_arg_promotion_level = variant_to_promotion_level(first_arg);
         const PromotionLevel second_arg_promotion_level = variant_to_promotion_level(second_arg);
         const PromotionLevel op_promotion_level = do_propotion(first_arg_promotion_level, second_arg_promotion_level);
@@ -135,9 +148,9 @@ namespace {
             std::variant<int, double> second_arg,
             char32_t op) {
         using VariantType = std::variant<int, double>;
-        const int first_arg_t = as_t<ResultType>(first_arg);
-        const int second_arg_t = as_t<ResultType>(second_arg);
-        const int result_t = _op_prod_div<ResultType>(first_arg_t, second_arg_t, op);
+        const ResultType first_arg_t = as_t<ResultType>(first_arg);
+        const ResultType second_arg_t = as_t<ResultType>(second_arg);
+        const ResultType result_t = _op_prod_div<ResultType>(first_arg_t, second_arg_t, op);
         return VariantType{std::in_place_type<ResultType>, result_t};
     }
 

@@ -3,6 +3,7 @@
 #include<onerut_parser/gramma_parser.hpp>
 #include<onerut_parser/ast_x3_to_ast_dyn.hpp>
 #include<onerut_parser/print_chart.hpp>
+#include<onerut_scalar/scalar.hpp>
 
 #include<esc/esc_manip.hpp>
 
@@ -10,9 +11,11 @@ int main() {
 
     //std::string input = "  _alg(_67j, foo(  7  , 8 ) , (xx2s) ) kota* 56.8 ";
     //std::string input  = "  $ ";
-    std::string input = "  3.0^6@t+_alg((5->4-7/foo(6)), 8.9*ola::ala,-z+9,-7+9)*(-(9))+(-(9.0)+1) ";
+    //std::string input = "  3.0^6@t+_alg((5->4-7/foo(6)), 8.9*ola::ala,-z+9,-7+9)*(-(9))+(-(9.0)+1) ";
     //std::string input = "(9*2+3)*7.0";
 
+    std::string input = " (13/2*0.5+(7.8*(5+5*7) + 8. + -.8) /9) ";
+    std::cout << (13 / 2 * 0.5 + (7.8 * (5 + 5 * 7) + 8. + -.8) / 9) << std::endl;
     // -------------------------------------------------------------------------
     const auto parsed_x3_info = onerut_parser::parse(input);
     std::cout << "Parsed info: (onerut_ast::x3):" << std::endl;
@@ -25,9 +28,29 @@ int main() {
             parsed_x3_info.positions);
 
     const auto ast_dyn_chart = ast_dyn_head->to_chart();
+    // -------------------------------------------------------------------------
+
     std::cout << "Parsed info: (onerut_ast::dyn):" << std::endl;
     onerut_parser::print_chart(parsed_x3_info.input, ast_dyn_chart);
 
+    // -------------------------------------------------------------------------
+
+    onerut_parser::BuildResult result = ast_dyn_head->build();
+    if (result.is_error()) {
+        std::cout << "ERROR" << std::endl;
+        std::cout << (*result.build_error_or_empty())->what() << std::endl;
+    } else if (result.is_given_type<onerut_scalar::Int>()) {
+        std::cout << "RESULT IS AN INT" << std::endl;
+        std::shared_ptr<onerut_scalar::Int> result_int = *(result.typed_value_or_empty<onerut_scalar::Int>());
+        std::cout << "VALUE = " << result_int->value_int() << std::endl;
+    } else if (result.is_given_type<onerut_scalar::Double>()) {
+        std::cout << "RESULT IS AN DOUBLE" << std::endl;
+        std::shared_ptr<onerut_scalar::Double> result_double = *(result.typed_value_or_empty<onerut_scalar::Double>());
+        std::cout << "VALUE = " << std::endl;
+        std::cout << result_double->value_double() << std::endl;
+    } else {
+        std::cout << "NOT INT NOR DOUBLE" << std::endl;
+    }
     // -------------------------------------------------------------------------
 
 }
