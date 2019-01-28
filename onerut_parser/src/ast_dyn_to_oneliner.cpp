@@ -54,7 +54,7 @@ namespace onerut_parser::onerut_ast::dyn {
 
     }
 
-    std::u32string LitIntNode::to_oneliner() const {
+    std::u32string LitLongNode::to_oneliner() const {
         std::u32string result;
         assert(false);
         return result;

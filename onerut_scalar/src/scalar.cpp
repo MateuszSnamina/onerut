@@ -51,10 +51,10 @@ namespace {
 
     // -------------------------------------------------------------------------
 
-    std::variant<int, double> as_variant(std::shared_ptr<onerut_scalar::Double> d) {
-        using ResultType = std::variant<int, double>;
-        if (const auto & i = std::dynamic_pointer_cast<onerut_scalar::Int>(d))
-            return ResultType{std::in_place_type<int>, i->value_int()};
+    std::variant<long, double> as_variant(std::shared_ptr<onerut_scalar::Double> d) {
+        using ResultType = std::variant<long, double>;
+        if (const auto & i = std::dynamic_pointer_cast<onerut_scalar::Long>(d))
+            return ResultType{std::in_place_type<long>, i->value_long()};
         return ResultType{std::in_place_type<double>, d->value_double()};
     }
 
@@ -77,7 +77,7 @@ namespace {
     struct VariantToPromotionLevelVisitor {
         using ResultType = PromotionLevel;
 
-        ResultType operator()(int i) const {
+        ResultType operator()(long i) const {
             return PromotionLevel::integer;
         }
 
@@ -89,7 +89,7 @@ namespace {
 
     const VariantToPromotionLevelVisitor variant_to_promotion_level_visitor;
 
-    PromotionLevel variant_to_promotion_level(std::variant<int, double> v) {
+    PromotionLevel variant_to_promotion_level(std::variant<long, double> v) {
         return std::visit(variant_to_promotion_level_visitor, v);
     }
 
@@ -108,7 +108,7 @@ namespace {
     }
 
     template<typename ResultType>
-    ResultType as_t(std::variant<int, double> v) {
+    ResultType as_t(std::variant<long, double> v) {
         const AsTVisitor<ResultType> as_t_visitor;
         return std::visit(as_t_visitor, v);
     }
@@ -116,12 +116,12 @@ namespace {
     // -------------------------------------------------------------------------    
 
     template<template <typename> class _OpFlavour, typename ResultType>
-    std::variant<int, double> _op_t(
-            std::variant<int, double> first_arg,
-            std::variant<int, double> second_arg,
+    std::variant<long, double> _op_t(
+            std::variant<long, double> first_arg,
+            std::variant<long, double> second_arg,
             char32_t op) {
         static_assert(std::is_arithmetic<ResultType>::value);        
-        using VariantType = std::variant<int, double>;
+        using VariantType = std::variant<long, double>;
         const ResultType first_arg_t = as_t<ResultType>(first_arg);
         const ResultType second_arg_t = as_t<ResultType>(second_arg);
         const ResultType result_t = _OpFlavour<ResultType>()(first_arg_t, second_arg_t, op);
@@ -129,28 +129,28 @@ namespace {
     }
 
     template<template <typename> class _OpFlavour>
-    std::variant<int, double> _op(
-            std::variant<int, double> first_arg,
-            std::variant<int, double> second_arg,
+    std::variant<long, double> _op(
+            std::variant<long, double> first_arg,
+            std::variant<long, double> second_arg,
             char32_t op) {
         const PromotionLevel first_arg_promotion_level = variant_to_promotion_level(first_arg);
         const PromotionLevel second_arg_promotion_level = variant_to_promotion_level(second_arg);
         const PromotionLevel op_promotion_level = do_propotion(first_arg_promotion_level, second_arg_promotion_level);
         if (op_promotion_level == PromotionLevel::integer)
-            return _op_t<_OpFlavour, int>(first_arg, second_arg, op);
+            return _op_t<_OpFlavour, long>(first_arg, second_arg, op);
         return _op_t<_OpFlavour, double>(first_arg, second_arg, op);
     }
 
-    std::variant<int, double> _op_plus_minus(
-            std::variant<int, double> first_arg,
-            std::variant<int, double> second_arg,
+    std::variant<long, double> _op_plus_minus(
+            std::variant<long, double> first_arg,
+            std::variant<long, double> second_arg,
             char32_t op) {
         return _op<_OpPlusMinus>(first_arg, second_arg, op);
     }
 
-    std::variant<int, double> _op_prod_div(
-            std::variant<int, double> first_arg,
-            std::variant<int, double> second_arg,
+    std::variant<long, double> _op_prod_div(
+            std::variant<long, double> first_arg,
+            std::variant<long, double> second_arg,
             char32_t op) {
         return _op<_OpProdDiv>(first_arg, second_arg, op);
     }
@@ -159,7 +159,7 @@ namespace {
 
     //    struct DebugPrintVisitor{
     //
-    //        void operator()(int i) const {
+    //        void operator()(long i) const {
     //            std::cout << "I" << i << std::endl;
     //        }
     //
@@ -177,9 +177,9 @@ namespace onerut_scalar {
     // -------------- ABSTRACT BASE CLASES -------------------------------------
     // -------------------------------------------------------------------------
 
-    double Int::value_double() const {
+    double Long::value_double() const {
 
-        return static_cast<double> (value_int());
+        return static_cast<double> (value_long());
         // TODO: numeric_cast!!
     }
 
@@ -187,13 +187,13 @@ namespace onerut_scalar {
     // -------------- CAST CLASES  ---------------------------------------------
     // -------------------------------------------------------------------------
 
-    CastIntToDouble::CastIntToDouble(std::shared_ptr<Int> arg) :
+    CastLongToDouble::CastLongToDouble(std::shared_ptr<Long> arg) :
     arg(arg) {
         assert(arg);
     }
 
-    double CastIntToDouble::value_double() const {
-        return static_cast<double> (arg->value_int());
+    double CastLongToDouble::value_double() const {
+        return static_cast<double> (arg->value_long());
     }
 
     // -------------------------------------------------------------------------
@@ -210,11 +210,11 @@ namespace onerut_scalar {
 
     //--------------------------------------------------------------------------
 
-    LitInt::LitInt(int value) :
+    LitLong::LitLong(long value) :
     value(value) {
     }
 
-    int LitInt::value_int() const {
+    long LitLong::value_long() const {
         return value;
     }
 
@@ -238,8 +238,8 @@ namespace onerut_scalar {
 
     // -------------------------------------------------------------------------
 
-    OpUnaryPlusMinusInt::OpUnaryPlusMinusInt(
-            std::shared_ptr<Int> arg,
+    OpUnaryPlusMinusLong::OpUnaryPlusMinusLong(
+            std::shared_ptr<Long> arg,
             char32_t op) :
     arg(arg),
     op(op) {
@@ -247,8 +247,8 @@ namespace onerut_scalar {
         assert(op == L'+' || op == L'-');
     }
 
-    int OpUnaryPlusMinusInt::value_int() const {
-        return _OpUnaryPlusMinus<int>()(arg->value_int(), op);
+    long OpUnaryPlusMinusLong::value_long() const {
+        return _OpUnaryPlusMinus<long>()(arg->value_long(), op);
     }
 
     // -------------------------------------------------------------------------
@@ -273,9 +273,9 @@ namespace onerut_scalar {
     }
 
     double OpPlusMinusDouble::value_double() const {
-        std::variant<int, double> result = as_variant(first_arg);
+        std::variant<long, double> result = as_variant(first_arg);
         for (unsigned i = 0; i < other_argv.size(); i++) {
-            const std::variant<int, double> other_arg = as_variant(other_argv[i]);
+            const std::variant<long, double> other_arg = as_variant(other_argv[i]);
             const char32_t op = opv[i];
             result = _op_plus_minus(result, other_arg, op);
         }
@@ -284,15 +284,15 @@ namespace onerut_scalar {
 
     // -------------------------------------------------------------------------
 
-    OpPlusMinusInt::OpPlusMinusInt(
-            std::shared_ptr<Int> first_arg,
-            std::vector<std::shared_ptr<Int>> other_argv,
+    OpPlusMinusLong::OpPlusMinusLong(
+            std::shared_ptr<Long> first_arg,
+            std::vector<std::shared_ptr<Long>> other_argv,
             const std::vector<char32_t>& opv) :
     first_arg(first_arg),
     other_argv(other_argv),
     opv(opv) {
         assert(first_arg);
-        assert(std::all_of(other_argv.cbegin(), other_argv.cend(), [](std::shared_ptr<Int> ptr) {
+        assert(std::all_of(other_argv.cbegin(), other_argv.cend(), [](std::shared_ptr<Long> ptr) {
             return static_cast<bool> (ptr);
         }));
         assert(std::all_of(opv.cbegin(), opv.cend(), [](char32_t op) {
@@ -301,10 +301,10 @@ namespace onerut_scalar {
         assert(other_argv.size() == opv.size());
     }
 
-    int OpPlusMinusInt::value_int() const {
-        int result = first_arg->value_int();
+    long OpPlusMinusLong::value_long() const {
+        long result = first_arg->value_long();
         for (unsigned i = 0; i < other_argv.size(); i++) {
-            result = _OpPlusMinus<int>()(result, other_argv[i]->value_int(), opv[i]);
+            result = _OpPlusMinus<long>()(result, other_argv[i]->value_long(), opv[i]);
         }
         return result;
     }
@@ -331,9 +331,9 @@ namespace onerut_scalar {
     }
 
     double OpProdDivDouble::value_double() const {
-        std::variant<int, double> result = as_variant(first_arg);
+        std::variant<long, double> result = as_variant(first_arg);
         for (unsigned i = 0; i < other_argv.size(); i++) {
-            const std::variant<int, double> other_arg = as_variant(other_argv[i]);
+            const std::variant<long, double> other_arg = as_variant(other_argv[i]);
             const char32_t op = opv[i];
             result = _op_prod_div(result, other_arg, op);
         }
@@ -342,15 +342,15 @@ namespace onerut_scalar {
 
     // -------------------------------------------------------------------------
 
-    OpProdDivInt::OpProdDivInt(
-            std::shared_ptr<Int> first_arg,
-            std::vector<std::shared_ptr < Int>> other_argv,
+    OpProdDivLong::OpProdDivLong(
+            std::shared_ptr<Long> first_arg,
+            std::vector<std::shared_ptr < Long>> other_argv,
             const std::vector<char32_t>& opv) :
     first_arg(first_arg),
     other_argv(other_argv),
     opv(opv) {
         assert(first_arg);
-        assert(std::all_of(other_argv.cbegin(), other_argv.cend(), [](std::shared_ptr<Int> ptr) {
+        assert(std::all_of(other_argv.cbegin(), other_argv.cend(), [](std::shared_ptr<Long> ptr) {
             return static_cast<bool> (ptr);
         }));
         assert(std::all_of(opv.cbegin(), opv.cend(), [](char32_t op) {
@@ -359,10 +359,10 @@ namespace onerut_scalar {
         assert(other_argv.size() == opv.size());
     }
 
-    int OpProdDivInt::value_int() const {
-        int result = first_arg->value_int();
+    long OpProdDivLong::value_long() const {
+        long result = first_arg->value_long();
         for (unsigned i = 0; i < other_argv.size(); i++) {
-            result = _OpProdDiv<int>()(result, other_argv[i]->value_int(), opv[i]);
+            result = _OpProdDiv<long>()(result, other_argv[i]->value_long(), opv[i]);
         }
         return result;
     }

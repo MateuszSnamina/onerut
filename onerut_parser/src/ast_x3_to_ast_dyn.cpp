@@ -168,14 +168,14 @@ namespace onerut_parser::onerut_ast {
     }
 
     std::shared_ptr<dyn::ExpressionNode> to_ast_dyn(
-            const x3::LitIntInfo & info,
+            const x3::LitLongInfo & info,
             std::shared_ptr<const std::u32string> input,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
         const u32string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
         assert(input->cbegin() <=span.begin());
         assert(span.end() <= input->cend());
-        return std::make_shared<dyn::LitIntNode>(input, span, info.value);
+        return std::make_shared<dyn::LitLongNode>(input, span, info.value);
     }
 
     std::shared_ptr<dyn::ExpressionNode> to_ast_dyn(

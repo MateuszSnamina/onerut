@@ -13,7 +13,7 @@ namespace onerut_parser {
                 return esc::EscDataBuilder() << esc::manip::bg_magenta << esc::manip::build_esc_data;
             return esc::EscDataBuilder() << esc::manip::bg_red << esc::manip::build_esc_data;
         }
-        if (build_result.is_given_type<onerut_scalar::Int>())
+        if (build_result.is_given_type<onerut_scalar::Long>())
             return esc::EscDataBuilder() << esc::manip::blue << esc::manip::build_esc_data;
         if (build_result.is_given_type<onerut_scalar::Double>())
             return esc::EscDataBuilder() << esc::manip::cyan << esc::manip::build_esc_data;

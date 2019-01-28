@@ -13,8 +13,8 @@ int main() {
     //std::string input = "  _alg(_67j, foo(  7  , 8 ) , (xx2s) ) kota* 56.8 ";
     //std::string input  = "  $ ";
     //std::string input = "  3.0^6@t+_alg((5->4-7/foo(6)), 8.9*ola::ala,-z+9,-7+9)*(-(9))+(-(9.0)+1) ";
-    std::string input = "(9/2+3)*7.0";
-    std::cout << (9 / 2 + 3)*7.0 << std::endl;
+    //std::string input = "(9/2+3)*7.0";
+    //std::cout << (9 / 2 + 3)*7.0 << std::endl;
     //long i = 10000000000000000l;
     //std::cout << i + 1 << std::endl;
     //std::cout << std::setprecision(20) << 10000000000000000 + 1. << std::endl;
@@ -22,7 +22,7 @@ int main() {
     //std::string input = " (13/2*0.5+ (-(7.8*(5+5*7)) + 8. + -.8) /9) ";
     //std::cout << (13 / 2 * 0.5 + (-(7.8 * (5 + 5 * 7)) + 8. + -.8) / 9) << std::endl;
     //std::string input = "10000000 + 1.";
-
+    std::string input = "10000000000000000+1.";
 
     // -------------------------------------------------------------------------
     const auto parsed_x3_info = onerut_parser::parse(input);
@@ -47,15 +47,15 @@ int main() {
     if (result.is_error()) {
         std::cout << "ERROR" << std::endl;
         std::cout << (*result.build_error_or_empty())->what() << std::endl;
-    } else if (result.is_given_type<onerut_scalar::Int>()) {
+    } else if (result.is_given_type<onerut_scalar::Long>()) {
         std::cout << "RESULT IS AN INT" << std::endl;
-        std::shared_ptr<onerut_scalar::Int> result_int = *(result.typed_value_or_empty<onerut_scalar::Int>());
-        std::cout << "VALUE = " << result_int->value_int() << std::endl;
+        std::shared_ptr<onerut_scalar::Long> result_long = *(result.typed_value_or_empty<onerut_scalar::Long>());
+        std::cout << "VALUE = " << result_long->value_long() << std::endl;
     } else if (result.is_given_type<onerut_scalar::Double>()) {
         std::cout << "RESULT IS AN DOUBLE" << std::endl;
         std::shared_ptr<onerut_scalar::Double> result_double = *(result.typed_value_or_empty<onerut_scalar::Double>());
         std::cout << "VALUE = " << std::endl;
-        std::cout << result_double->value_double() << std::endl;
+        std::cout << std::setprecision(20) << result_double->value_double() << std::endl;
     } else {
         std::cout << "NOT INT NOR DOUBLE" << std::endl;
     }
@@ -81,7 +81,7 @@ int main() {
         r = {s.cbegin(), s.cend()};
         auto sv = make_string_view(r);
 
-        int i2 = boost::convert<int>(sv).value();
+        long i2 = boost::convert<long>(sv).value();
         std::cout << i2 << std::endl;
 
         //boost::cnv::lexical_cast
@@ -89,7 +89,7 @@ int main() {
         //boost::cnv::cstream cnv;
 
         //std::cout <<
-        //      boost::convert<int>("66", cnv).value();
+        //      boost::convert<long>("66", cnv).value();
 
         //std::string_view sw(s.data(), 3);
         //if (sw.cbegin() == s.cbegin()){

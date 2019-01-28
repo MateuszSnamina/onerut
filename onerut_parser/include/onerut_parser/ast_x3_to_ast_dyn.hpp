@@ -52,7 +52,7 @@ namespace onerut_parser::onerut_ast {
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions);
 
     std::shared_ptr<dyn::ExpressionNode> to_ast_dyn(
-            const x3::LitIntInfo& info,
+            const x3::LitLongInfo& info,
             std::shared_ptr<const std::u32string> input,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions);
 

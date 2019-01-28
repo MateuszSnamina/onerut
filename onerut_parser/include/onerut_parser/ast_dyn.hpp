@@ -136,16 +136,16 @@ namespace onerut_parser::onerut_ast::dyn {
         const std::u32string name;
     };
 
-    class LitIntNode : public WithNoSubexpressionsNode {
+    class LitLongNode : public WithNoSubexpressionsNode {
     public:
-        LitIntNode(
+        LitLongNode(
                 std::shared_ptr<const std::u32string> input,
                 u32string_const_span span,
-                int value);
+                long value);
         std::u32string to_oneliner() const override;
         BuildResult build_dry_run() const override;
         BuildResult build() const override;
-        const int value;
+        const long value;
     };
 
     class LitDoubleNode : public WithNoSubexpressionsNode {

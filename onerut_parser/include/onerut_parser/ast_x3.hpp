@@ -39,8 +39,8 @@ namespace onerut_parser::onerut_ast::x3 {
         Value2Info expression;
     };
 
-    struct LitIntInfo : boost::spirit::x3::position_tagged {
-        int value;
+    struct LitLongInfo : boost::spirit::x3::position_tagged {
+        long value;
     };
     
     struct LitDoubleInfo : boost::spirit::x3::position_tagged {
@@ -48,7 +48,7 @@ namespace onerut_parser::onerut_ast::x3 {
     };
 
     struct Value1Info : boost::spirit::x3::variant<
-    LitIntInfo,
+    LitLongInfo,
     LitDoubleInfo,
     OpUnaryPlusMinusInfo
     > {

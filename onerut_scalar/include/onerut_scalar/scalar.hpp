@@ -16,23 +16,23 @@ namespace onerut_scalar {
         virtual ~Double() = default;
     };
 
-    class Int : public Double {
+    class Long : public Double {
     public:
-        virtual int value_int() const = 0;
+        virtual long value_long() const = 0;
         virtual double value_double() const override;
-        virtual ~Int() = default;
+        virtual ~Long() = default;
     };
 
     // -------------------------------------------------------------------------
     // -------------- CAST CLASES  ---------------------------------------------
     // -------------------------------------------------------------------------
 
-    class CastIntToDouble : public Double {
+    class CastLongToDouble : public Double {
     public:
-        CastIntToDouble(std::shared_ptr<Int> arg);
+        CastLongToDouble(std::shared_ptr<Long> arg);
         double value_double() const override;
     private:
-        const std::shared_ptr<Int> arg;
+        const std::shared_ptr<Long> arg;
     };
 
     // -------------------------------------------------------------------------
@@ -46,11 +46,11 @@ namespace onerut_scalar {
         const double value;
     };
 
-    class LitInt : public Int {
+    class LitLong : public Long {
     public:
-        LitInt(int value);
-        int value_int() const override;
-        const int value;
+        LitLong(long value);
+        long value_long() const override;
+        const long value;
     };
 
     // -------------------------------------------------------------------------
@@ -67,14 +67,14 @@ namespace onerut_scalar {
         const char32_t op;
     };
 
-    class OpUnaryPlusMinusInt : public Int {
+    class OpUnaryPlusMinusLong : public Long {
     public:
-        OpUnaryPlusMinusInt(
-                std::shared_ptr<Int> arg,
+        OpUnaryPlusMinusLong(
+                std::shared_ptr<Long> arg,
                 char32_t op);
-        int value_int() const override;
+        long value_long() const override;
     private:
-        const std::shared_ptr<Int> arg;
+        const std::shared_ptr<Long> arg;
         const char32_t op;
     };
 
@@ -95,16 +95,16 @@ namespace onerut_scalar {
         const std::vector<char32_t> opv;
     };
 
-    class OpPlusMinusInt : public Int {
+    class OpPlusMinusLong : public Long {
     public:
-        OpPlusMinusInt(
-                std::shared_ptr<Int> first_arg,
-                std::vector<std::shared_ptr<Int>> other_argv,
+        OpPlusMinusLong(
+                std::shared_ptr<Long> first_arg,
+                std::vector<std::shared_ptr<Long>> other_argv,
                 const std::vector<char32_t>& opv);
-        int value_int() const override;
+        long value_long() const override;
     private:
-        const std::shared_ptr<Int> first_arg;
-        const std::vector<std::shared_ptr<Int>> other_argv;
+        const std::shared_ptr<Long> first_arg;
+        const std::vector<std::shared_ptr<Long>> other_argv;
         const std::vector<char32_t> opv;
     };
 
@@ -125,16 +125,16 @@ namespace onerut_scalar {
         const std::vector<char32_t> opv;
     };
 
-    class OpProdDivInt : public Int {
+    class OpProdDivLong : public Long {
     public:
-        OpProdDivInt(
-                std::shared_ptr<Int> first_arg,
-                std::vector<std::shared_ptr<Int>> other_argv,
+        OpProdDivLong(
+                std::shared_ptr<Long> first_arg,
+                std::vector<std::shared_ptr<Long>> other_argv,
                 const std::vector<char32_t>& opv);
-        int value_int() const override;
+        long value_long() const override;
     private:
-        const std::shared_ptr<Int> first_arg;
-        const std::vector<std::shared_ptr<Int>> other_argv;
+        const std::shared_ptr<Long> first_arg;
+        const std::vector<std::shared_ptr<Long>> other_argv;
         const std::vector<char32_t> opv;
     };
 

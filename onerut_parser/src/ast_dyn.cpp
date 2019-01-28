@@ -147,9 +147,9 @@ namespace onerut_parser::onerut_ast::dyn {
         assert(op == L'+' || op == L'-');
     }
 
-    LitIntNode::LitIntNode(std::shared_ptr<const std::u32string> input,
+    LitLongNode::LitLongNode(std::shared_ptr<const std::u32string> input,
             u32string_const_span span,
-            int value) :
+            long value) :
     WithNoSubexpressionsNode(input, span),
     value(value) {
     }

@@ -13,30 +13,30 @@ namespace {
         return op == L'*' || op == L'/';
     }
 
-    bool is_integer(const onerut_parser::BuildResult& result) {
+    bool is_longeger(const onerut_parser::BuildResult& result) {
         assert(!result.is_empty());
         assert(!result.is_error());
-        return result.is_given_type<onerut_scalar::Int>();
+        return result.is_given_type<onerut_scalar::Long>();
     }
 
     bool is_real(const onerut_parser::BuildResult& result) {
         assert(!result.is_empty());
         assert(!result.is_error());
-        return result.is_given_type<onerut_scalar::Int>() || result.is_given_type<onerut_scalar::Double>();
+        return result.is_given_type<onerut_scalar::Long>() || result.is_given_type<onerut_scalar::Double>();
     }
 
-    std::shared_ptr<onerut_scalar::Int> to_int(const onerut_parser::BuildResult& arg_result) {
-        assert(is_integer(arg_result));
-        std::shared_ptr<onerut_scalar::Int> arg_int;
-        arg_int = *arg_result.typed_value_or_empty<onerut_scalar::Int>();
-        assert(arg_int);
-        return arg_int;
+    std::shared_ptr<onerut_scalar::Long> to_long(const onerut_parser::BuildResult& arg_result) {
+        assert(is_longeger(arg_result));
+        std::shared_ptr<onerut_scalar::Long> arg_long;
+        arg_long = *arg_result.typed_value_or_empty<onerut_scalar::Long>();
+        assert(arg_long);
+        return arg_long;
     }
 
     std::shared_ptr<onerut_scalar::Double> to_real(const onerut_parser::BuildResult& arg_result) {
         assert(is_real(arg_result));
         std::shared_ptr<onerut_scalar::Double> arg_double;
-        if (auto temp = arg_result.typed_value_or_empty<onerut_scalar::Int>()) {
+        if (auto temp = arg_result.typed_value_or_empty<onerut_scalar::Long>()) {
             arg_double = *temp;
         } else {
             arg_double = *arg_result.typed_value_or_empty<onerut_scalar::Double>();
@@ -154,8 +154,8 @@ namespace onerut_parser::onerut_ast::dyn {
         const OneOrMoreSubexpressionsBuildResult arg_results = build_args_dry_run();
         if (arg_results.is_error())
             return BuildResult::from_build_error(std::make_shared<BuildArgumentsError>());
-        if (is_integer(arg_results.first_arg) && std::all_of(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), is_integer))
-            return BuildResult::from_type<onerut_scalar::Int>();
+        if (is_longeger(arg_results.first_arg) && std::all_of(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), is_longeger))
+            return BuildResult::from_type<onerut_scalar::Long>();
         if (is_real(arg_results.first_arg) && std::all_of(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), is_real))
             return BuildResult::from_type<onerut_scalar::Double>();
         return BuildResult::from_build_error(std::make_shared<ArgumentMismatchError>());
@@ -166,12 +166,12 @@ namespace onerut_parser::onerut_ast::dyn {
         const OneOrMoreSubexpressionsBuildResult arg_results = build_args();
         if (arg_results.is_error())
             return BuildResult::from_build_error(std::make_shared<BuildArgumentsError>());
-        if (is_integer(arg_results.first_arg) && std::all_of(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), is_integer)) {
-            std::shared_ptr<onerut_scalar::Int> first_arg_int;
-            std::vector<std::shared_ptr < onerut_scalar::Int >> other_argv_int(other_argv.size());
-            first_arg_int = to_int(arg_results.first_arg);
-            std::transform(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), other_argv_int.begin(), to_int);
-            return BuildResult::from_value<onerut_scalar::Int>(std::make_shared<onerut_scalar::OpPlusMinusInt>(first_arg_int, other_argv_int, opv));
+        if (is_longeger(arg_results.first_arg) && std::all_of(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), is_longeger)) {
+            std::shared_ptr<onerut_scalar::Long> first_arg_long;
+            std::vector<std::shared_ptr < onerut_scalar::Long >> other_argv_long(other_argv.size());
+            first_arg_long = to_long(arg_results.first_arg);
+            std::transform(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), other_argv_long.begin(), to_long);
+            return BuildResult::from_value<onerut_scalar::Long>(std::make_shared<onerut_scalar::OpPlusMinusLong>(first_arg_long, other_argv_long, opv));
         }
         if (is_real(arg_results.first_arg) && std::all_of(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), is_real)) {
             std::shared_ptr<onerut_scalar::Double> first_arg_double;
@@ -191,8 +191,8 @@ namespace onerut_parser::onerut_ast::dyn {
         const OneOrMoreSubexpressionsBuildResult arg_results = build_args_dry_run();
         if (arg_results.is_error())
             return BuildResult::from_build_error(std::make_shared<BuildArgumentsError>());
-        if (is_integer(arg_results.first_arg) && std::all_of(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), is_integer))
-            return BuildResult::from_type<onerut_scalar::Int>();
+        if (is_longeger(arg_results.first_arg) && std::all_of(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), is_longeger))
+            return BuildResult::from_type<onerut_scalar::Long>();
         if (is_real(arg_results.first_arg) && std::all_of(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), is_real))
             return BuildResult::from_type<onerut_scalar::Double>();
         return BuildResult::from_build_error(std::make_shared<ArgumentMismatchError>());
@@ -203,12 +203,12 @@ namespace onerut_parser::onerut_ast::dyn {
         const OneOrMoreSubexpressionsBuildResult arg_results = build_args();
         if (arg_results.is_error())
             return BuildResult::from_build_error(std::make_shared<BuildArgumentsError>());
-        if (is_integer(arg_results.first_arg) && std::all_of(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), is_integer)) {
-            std::shared_ptr<onerut_scalar::Int> first_arg_int;
-            std::vector<std::shared_ptr < onerut_scalar::Int >> other_argv_int(other_argv.size());
-            first_arg_int = to_int(arg_results.first_arg);
-            std::transform(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), other_argv_int.begin(), to_int);
-            return BuildResult::from_value<onerut_scalar::Int>(std::make_shared<onerut_scalar::OpProdDivInt>(first_arg_int, other_argv_int, opv));
+        if (is_longeger(arg_results.first_arg) && std::all_of(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), is_longeger)) {
+            std::shared_ptr<onerut_scalar::Long> first_arg_long;
+            std::vector<std::shared_ptr < onerut_scalar::Long >> other_argv_long(other_argv.size());
+            first_arg_long = to_long(arg_results.first_arg);
+            std::transform(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), other_argv_long.begin(), to_long);
+            return BuildResult::from_value<onerut_scalar::Long>(std::make_shared<onerut_scalar::OpProdDivLong>(first_arg_long, other_argv_long, opv));
         }
         if (is_real(arg_results.first_arg) && std::all_of(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), is_real)) {
             std::shared_ptr<onerut_scalar::Double> first_arg_double;
@@ -284,8 +284,8 @@ namespace onerut_parser::onerut_ast::dyn {
         assert(!arg_result.is_empty());
         if (arg_result.is_error())
             return BuildResult::from_build_error(std::make_shared<BuildArgumentsError>());
-        if (is_integer(arg_result))
-            return BuildResult::from_type<onerut_scalar::Int>();
+        if (is_longeger(arg_result))
+            return BuildResult::from_type<onerut_scalar::Long>();
         if (is_real(arg_result))
             return BuildResult::from_type<onerut_scalar::Double>();
         return BuildResult::from_build_error(std::make_shared<ArgumentMismatchError>());
@@ -297,9 +297,9 @@ namespace onerut_parser::onerut_ast::dyn {
         assert(!arg_result.is_empty());
         if (arg_result.is_error())
             return BuildResult::from_build_error(std::make_shared<BuildArgumentsError>());
-        if (is_integer(arg_result)) {
-            const std::shared_ptr<onerut_scalar::Int> arg_int = to_int(arg_result);
-            return BuildResult::from_value<onerut_scalar::Int>(std::make_shared<onerut_scalar::OpUnaryPlusMinusInt>(arg_int, op));
+        if (is_longeger(arg_result)) {
+            const std::shared_ptr<onerut_scalar::Long> arg_long = to_long(arg_result);
+            return BuildResult::from_value<onerut_scalar::Long>(std::make_shared<onerut_scalar::OpUnaryPlusMinusLong>(arg_long, op));
         }
         if (is_real(arg_result)) {
             const std::shared_ptr<onerut_scalar::Double> arg_double = to_real(arg_result);
@@ -310,12 +310,12 @@ namespace onerut_parser::onerut_ast::dyn {
 
     // -------------------------------------------------------------------------
 
-    BuildResult LitIntNode::build_dry_run() const {
-        return BuildResult::from_type<onerut_scalar::Int>();
+    BuildResult LitLongNode::build_dry_run() const {
+        return BuildResult::from_type<onerut_scalar::Long>();
     }
 
-    BuildResult LitIntNode::build() const {
-        return BuildResult::from_value<onerut_scalar::Int>(std::make_shared<onerut_scalar::LitInt>(value));
+    BuildResult LitLongNode::build() const {
+        return BuildResult::from_value<onerut_scalar::Long>(std::make_shared<onerut_scalar::LitLong>(value));
     }
 
     // -------------------------------------------------------------------------

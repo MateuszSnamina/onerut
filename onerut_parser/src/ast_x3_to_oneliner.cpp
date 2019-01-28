@@ -105,7 +105,7 @@ namespace onerut_parser::onerut_ast::x3 {
         return unicode_from_utf8(std::to_string(info.value));
     }
 
-    std::u32string to_oneliner(const LitIntInfo& info) {
+    std::u32string to_oneliner(const LitLongInfo& info) {
         return unicode_from_utf8(std::to_string(info.value));
     }
 
