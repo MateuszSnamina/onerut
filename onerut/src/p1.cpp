@@ -1,4 +1,5 @@
 #include<iostream>
+#include<iomanip>
 
 #include<onerut_parser/gramma_parser.hpp>
 #include<onerut_parser/ast_x3_to_ast_dyn.hpp>
@@ -12,10 +13,17 @@ int main() {
     //std::string input = "  _alg(_67j, foo(  7  , 8 ) , (xx2s) ) kota* 56.8 ";
     //std::string input  = "  $ ";
     //std::string input = "  3.0^6@t+_alg((5->4-7/foo(6)), 8.9*ola::ala,-z+9,-7+9)*(-(9))+(-(9.0)+1) ";
-    //std::string input = "(9*2+3)*7.0";
+    std::string input = "(9/2+3)*7.0";
+    std::cout << (9 / 2 + 3)*7.0 << std::endl;
+    //long i = 10000000000000000l;
+    //std::cout << i + 1 << std::endl;
+    //std::cout << std::setprecision(20) << 10000000000000000 + 1. << std::endl;
+    //return 1;
+    //std::string input = " (13/2*0.5+ (-(7.8*(5+5*7)) + 8. + -.8) /9) ";
+    //std::cout << (13 / 2 * 0.5 + (-(7.8 * (5 + 5 * 7)) + 8. + -.8) / 9) << std::endl;
+    //std::string input = "10000000 + 1.";
 
-    std::string input = " (13/2*0.5+(7.8*(5+5*7) + 8. + -.8) /9) ";
-    std::cout << (13 / 2 * 0.5 + (7.8 * (5 + 5 * 7) + 8. + -.8) / 9) << std::endl;
+
     // -------------------------------------------------------------------------
     const auto parsed_x3_info = onerut_parser::parse(input);
     std::cout << "Parsed info: (onerut_ast::x3):" << std::endl;
