@@ -9,6 +9,8 @@
 #include<esc/esc_manip.hpp>
 
 int main() {
+    //    std::string input = "10000000000000000+1.";
+    //    std::string input = "10000000000000000+1";
 
     //std::string input = "  _alg(_67j, foo(  7  , 8 ) , (xx2s) ) kota* 56.8 ";
     //std::string input  = "  $ ";

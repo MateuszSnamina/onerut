@@ -21,13 +21,14 @@ if(NOT inc)
 endif()
 
 add_executable("${TARGET_NAME}" ${src} ${inc})
+target_include_directories("${TARGET_NAME}" PUBLIC include)
 
 if ( TARGET_NAME MATCHES "_tests$" )
   message("  Assumed the target is a test target (by the target name sufix).")
   string(REGEX REPLACE "_tests" ""
          TESTED_TARGET_NAME "${TARGET_NAME}")
   message("  Tested target: ${TESTED_TARGET_NAME}")
-  target_link_libraries("${TARGET_NAME}" ${GTEST_LIBRARIES} pthread)
+  target_link_libraries("${TARGET_NAME}" ${GTEST_LIBRARIES} pthread Boost::program_options)
   target_link_libraries("${TARGET_NAME}" "${TESTED_TARGET_NAME}")
 endif()
 
