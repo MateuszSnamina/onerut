@@ -31,4 +31,3 @@ if ( TARGET_NAME MATCHES "_tests$" )
   target_link_libraries("${TARGET_NAME}" "${TESTED_TARGET_NAME}")
 endif()
 
-
