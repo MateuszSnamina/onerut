@@ -21,13 +21,15 @@ int main() {
     //std::string input = " (13/2*0.5+ (-(7.8*(5+5*7)) + 8. + -.8) /9) ";
     //std::cout << (13 / 2 * 0.5 + (-(7.8 * (5 + 5 * 7)) + 8. + -.8) / 9) << std::endl;
     //std::string input = "10000000 + 1.";
-    std::string input = "1000000000+1.";
+    std::string input = "1000000000000000000000+1.";
 
     // -------------------------------------------------------------------------
     const auto parsed_x3_info = onerut_parser::parse(input);
     std::cout << "Parsed info: (onerut_ast::x3):" << std::endl;
     print(parsed_x3_info);
-
+    if (!parsed_x3_info.succes())
+        return 1;
+    
     // -------------------------------------------------------------------------
     const auto ast_dyn_head = onerut_parser::onerut_ast::to_ast_dyn(
             parsed_x3_info.ast_head,

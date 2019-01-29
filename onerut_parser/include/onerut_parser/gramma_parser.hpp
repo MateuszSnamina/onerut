@@ -12,7 +12,7 @@ namespace onerut_parser {
         std::shared_ptr<const std::u32string> input;
         const bool match;
         const bool hit_end;
-        const bool succes;
+        bool succes() const;
         const onerut_parser::onerut_ast::x3::ExpressionInfo ast_head;
         const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >> positions;
     };

@@ -33,7 +33,6 @@
     </df>
     <df root="onerut_parser_tests" name="3">
       <df name="src">
-        <in>examples.cpp</in>
         <in>global_flags.cpp</in>
         <in>main.cpp</in>
         <in>mix_int_real.cpp</in>
@@ -237,13 +236,6 @@
         </ccTool>
       </item>
       <item path="onerut_parser/src/unicode_support.cpp"
-            ex="false"
-            tool="1"
-            flavor2="11">
-        <ccTool flags="0">
-        </ccTool>
-      </item>
-      <item path="onerut_parser_tests/src/examples.cpp"
             ex="false"
             tool="1"
             flavor2="11">

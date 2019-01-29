@@ -14,6 +14,12 @@
 #include<onerut_parser/print_chart.hpp>
 #include<onerut_parser/gramma_parser.hpp>
 
+namespace onerut_parser {
+
+    bool X3ParseResultInfo::succes() const {
+        return match && hit_end;
+    }
+}
 // -----------------------------------------------------------------------------
 // This has to be in the global scope:
 
@@ -115,7 +121,7 @@ namespace {
                 boost::spirit::x3::get<boost::spirit::x3::error_handler_tag>(context).get();
         std::string message =
                 "Error! Expecting: " + x.which() + " here:";
-        error_handler(x.where(), message);
+        error_handler(x.where(), message); // this prints to cerr.
         return boost::spirit::x3::error_handler_result::fail;
     }
 
@@ -276,7 +282,7 @@ namespace onerut_parser {
         //const bool match = false; //debug
         const bool hit_end = (it == input_end);
         // Return results:        
-        return {input, match, hit_end, match && hit_end, ast_head, positions};
+        return {input, match, hit_end, ast_head, positions};
     }
 
     X3ParseResultInfo parse(const std::u32string input) {

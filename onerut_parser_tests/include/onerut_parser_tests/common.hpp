@@ -38,32 +38,42 @@ BASIC_ONERUT_TEST(EXPRESSION, EXPRESSION)
 
 template<typename T>
 void _basis_onerut_test(T _cpp_value, std::shared_ptr<std::u32string> _onerut_inuput) {
+    // --------------------------------------------------    
     std::cout << "[test][common] cpp_value: " << _cpp_value << std::endl;
-    bool _cpp_is_int = std::is_same < decltype(_cpp_value), long>::value ||
+    bool _cpp_is_int =
+            std::is_same < decltype(_cpp_value), long>::value ||
             std::is_same < decltype(_cpp_value), int>::value;
-    bool _cpp_is_double = std::is_same < decltype(_cpp_value), double>::value;
+    bool _cpp_is_double =
+            std::is_same < decltype(_cpp_value), double>::value;
     if (onerut_verbose) {
         std::cout << "[test][common] cpp_is_int: " << _cpp_is_int << std::endl;
         std::cout << "[test][common] cpp_is_double: " << _cpp_is_double << std::endl;
     }
     // --------------------------------------------------
+    // --------------------------------------------------
     const auto _parsed_x3_info = onerut_parser::parse(_onerut_inuput);
+    // --------------------------------------------------
     if (onerut_verbose) {
         std::cout << "[test][common] Parsed info (onerut_ast::x3):" << std::endl;
         print(_parsed_x3_info);
     }
     // --------------------------------------------------
+    ASSERT_TRUE(_parsed_x3_info.succes());
+    // --------------------------------------------------
     const auto _ast_dyn_head = onerut_parser::onerut_ast::to_ast_dyn(
             _parsed_x3_info.ast_head,
             _parsed_x3_info.input,
             _parsed_x3_info.positions);
+    // --------------------------------------------------
     if (onerut_verbose) {
         std::cout << "[test][common] Parsed info (onerut_ast::dyn):" << std::endl;
         const auto ast_dyn_chart = _ast_dyn_head->to_chart();
         onerut_parser::print_chart(_parsed_x3_info.input, ast_dyn_chart);
     }
     // -------------------------------------------------------------------------
+    // --------------------------------------------------    
     onerut_parser::BuildResult _result = _ast_dyn_head->build();
+    // --------------------------------------------------    
     if (onerut_verbose) {
         if (_result.is_error()) {
             std::cout << "[test][common] (onerut_ast::dyn) onerut expression is an error." << std::endl;
@@ -81,6 +91,8 @@ void _basis_onerut_test(T _cpp_value, std::shared_ptr<std::u32string> _onerut_in
             std::cout << "[test][common] (onerut_ast::dyn) NOT INT NOR DOUBLE" << std::endl;
         }
     }
+    // --------------------------------------------------    
+    // --------------------------------------------------    
     ASSERT_TRUE(!_result.is_error()); // bedzie is_value_or_type
     ASSERT_EQ(_cpp_is_int, _result.is_given_type<onerut_scalar::Long>());
     ASSERT_EQ(_cpp_is_double, _result.is_given_type<onerut_scalar::Double>());
