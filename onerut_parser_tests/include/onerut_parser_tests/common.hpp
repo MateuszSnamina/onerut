@@ -39,7 +39,8 @@ BASIC_ONERUT_TEST(EXPRESSION, EXPRESSION)
 template<typename T>
 void _basis_onerut_test(T _cpp_value, std::shared_ptr<std::u32string> _onerut_inuput) {
     std::cout << "[test][common] cpp_value: " << _cpp_value << std::endl;
-    bool _cpp_is_int = std::is_same < decltype(_cpp_value), int>::value;
+    bool _cpp_is_int = std::is_same < decltype(_cpp_value), long>::value ||
+            std::is_same < decltype(_cpp_value), int>::value;
     bool _cpp_is_double = std::is_same < decltype(_cpp_value), double>::value;
     if (onerut_verbose) {
         std::cout << "[test][common] cpp_is_int: " << _cpp_is_int << std::endl;

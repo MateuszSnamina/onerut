@@ -85,6 +85,10 @@ TEST(pure_real, op_plus_munis_9) {
     ONERUT_TEST(-540.5 - 75.8 - 764.3);
 }
 
+TEST(pure_real, op_plus_minus_10) {
+    BASIC_ONERUT_TEST(10000000000000000. + 1., 10000000000000000. + 1.);
+}
+
 TEST(pure_real, op_prod_div_1) {
     ONERUT_TEST(540.5 * 75.8);
 }

@@ -53,6 +53,10 @@ TEST(pure_int, op_plus_munis_9) {
     ONERUT_TEST(-540 - 75 - 764);
 }
 
+TEST(pure_int, op_plus_munis_10) {
+    BASIC_ONERUT_TEST(10000000000000000l + 1, 10000000000000000 + 1);
+}
+
 TEST(pure_int, op_prod_div_1) {
     ONERUT_TEST(540 * 75);
 }
