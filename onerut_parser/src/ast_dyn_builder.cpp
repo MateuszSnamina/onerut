@@ -61,8 +61,7 @@ namespace onerut_parser::onerut_ast::dyn {
     bool TwoSubexpressionsBuildResult::is_either_value_or_type() const {
         return first_arg.is_either_value_or_type() && second_arg.is_either_value_or_type();
     }
-    
-    
+
     TwoSubexpressionsBuildResult
     WithTwoSubexpressionsNode::build_args() const {
         TwoSubexpressionsBuildResult result;
@@ -90,7 +89,7 @@ namespace onerut_parser::onerut_ast::dyn {
             return r.is_either_value_or_type();
         });
     }
-    
+
     OneOrMoreSubexpressionsBuildResult
     WithOneOrMoreSubexpressionsNode::build_args() const {
         OneOrMoreSubexpressionsBuildResult result;
@@ -125,8 +124,8 @@ namespace onerut_parser::onerut_ast::dyn {
         return std::all_of(argv.cbegin(), argv.cend(), [](const BuildResult & r) {
             return r.is_either_value_or_type();
         });
-    }    
-    
+    }
+
     AnyNumberOfSubexpressionsBuildResult
     WithAnyNumberOfSubexpressionsNode::build_args() const {
         AnyNumberOfSubexpressionsBuildResult result;
@@ -245,57 +244,65 @@ namespace onerut_parser::onerut_ast::dyn {
     // -------------------------------------------------------------------------
 
     BuildResult OpPowNode::build_dry_run() const {
-        BuildResult result;
-        result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
-        return result;
+        const TwoSubexpressionsBuildResult arg_results = build_args();
+        if (!arg_results.is_either_value_or_type())
+            return BuildResult::from_build_error(std::make_shared<BuildArgumentsError>());
+        return BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
     }
 
     BuildResult OpPowNode::build() const {
-        BuildResult result;
-        result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
-        return result;
+        const TwoSubexpressionsBuildResult arg_results = build_args();
+        if (!arg_results.is_either_value_or_type())
+            return BuildResult::from_build_error(std::make_shared<BuildArgumentsError>());
+        return BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
     }
 
     // -------------------------------------------------------------------------
 
     BuildResult OpAtNode::build_dry_run() const {
-        BuildResult result;
-        result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
-        return result;
+        const TwoSubexpressionsBuildResult arg_results = build_args();
+        if (!arg_results.is_either_value_or_type())
+            return BuildResult::from_build_error(std::make_shared<BuildArgumentsError>());
+        return BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
     }
 
     BuildResult OpAtNode::build() const {
-        BuildResult result;
-        result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
-        return result;
+        const TwoSubexpressionsBuildResult arg_results = build_args();
+        if (!arg_results.is_either_value_or_type())
+            return BuildResult::from_build_error(std::make_shared<BuildArgumentsError>());
+        return BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
     }
 
     // -------------------------------------------------------------------------
 
     BuildResult OpArrowNode::build_dry_run() const {
-        BuildResult result;
-        result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
-        return result;
+        const TwoSubexpressionsBuildResult arg_results = build_args();
+        if (!arg_results.is_either_value_or_type())
+            return BuildResult::from_build_error(std::make_shared<BuildArgumentsError>());
+        return BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
     }
 
     BuildResult OpArrowNode::build() const {
-        BuildResult result;
-        result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
-        return result;
+        const TwoSubexpressionsBuildResult arg_results = build_args();
+        if (!arg_results.is_either_value_or_type())
+            return BuildResult::from_build_error(std::make_shared<BuildArgumentsError>());
+        return BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
     }
 
     // -------------------------------------------------------------------------
 
     BuildResult OpGlueNode::build_dry_run() const {
-        BuildResult result;
-        result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
-        return result;
+        const TwoSubexpressionsBuildResult arg_results = build_args();
+        if (!arg_results.is_either_value_or_type())
+            return BuildResult::from_build_error(std::make_shared<BuildArgumentsError>());
+        return BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
     }
 
     BuildResult OpGlueNode::build() const {
-        BuildResult result;
-        result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
-        return result;
+        const TwoSubexpressionsBuildResult arg_results = build_args();
+        if (!arg_results.is_either_value_or_type())
+            return BuildResult::from_build_error(std::make_shared<BuildArgumentsError>());
+        return BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
     }
 
     // -------------------------------------------------------------------------
@@ -353,15 +360,17 @@ namespace onerut_parser::onerut_ast::dyn {
     // -------------------------------------------------------------------------
 
     BuildResult FunctionNode::build_dry_run() const {
-        BuildResult result;
-        result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
-        return result;
+        const AnyNumberOfSubexpressionsBuildResult arg_results = build_args();
+        if (!arg_results.is_either_value_or_type())
+            return BuildResult::from_build_error(std::make_shared<BuildArgumentsError>());
+        return BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
     }
 
     BuildResult FunctionNode::build() const {
-        BuildResult result;
-        result = BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
-        return result;
+        const AnyNumberOfSubexpressionsBuildResult arg_results = build_args();
+        if (!arg_results.is_either_value_or_type())
+            return BuildResult::from_build_error(std::make_shared<BuildArgumentsError>());
+        return BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
     }
 
 }
