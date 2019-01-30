@@ -63,6 +63,7 @@ namespace onerut_parser {
         template<typename T> std::optional<std::shared_ptr<T>> typed_value_or_empty() const;
         template<typename T> std::shared_ptr<T> typed_value_or_throw() const;
         bool is_empty() const;
+        bool is_either_value_or_type() const;
         bool is_error() const;
     private:
         using VariantType = std::variant<

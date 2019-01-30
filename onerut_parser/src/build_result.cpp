@@ -132,6 +132,12 @@ namespace onerut_parser {
     }
 
     bool
+    BuildResult::is_either_value_or_type() const {
+        const IsContentVisitor<std::any> is_either_value_or_type_visitor;
+        return std::visit(is_either_value_or_type_visitor, _content);
+    }
+
+    bool
     BuildResult::is_error() const {
         const IsContentVisitor<std::shared_ptr < BuildError>> is_build_error_visitor;
         return std::visit(is_build_error_visitor, _content);
