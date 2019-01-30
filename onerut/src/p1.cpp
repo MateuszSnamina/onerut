@@ -9,6 +9,8 @@
 #include<esc/esc_manip.hpp>
 
 int main() {
+
+
     //std::string input = "  _alg(_67j, foo(  7  , 8 ) , (xx2s) ) kota* 56.8 ";
     //std::string input  = "  $ ";
     //std::string input = "  3.0^6@t+_alg((5->4-7/foo(6)), 8.9*ola::ala,-z+9,-7+9)*(-(9))+(-(9.0)+1) ";
@@ -29,7 +31,7 @@ int main() {
     print(parsed_x3_info);
     if (!parsed_x3_info.succes())
         return 1;
-    
+
     // -------------------------------------------------------------------------
     const auto ast_dyn_head = onerut_parser::onerut_ast::to_ast_dyn(
             parsed_x3_info.ast_head,

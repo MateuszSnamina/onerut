@@ -1,4 +1,5 @@
 #include<algorithm>
+#include<iterator>
 
 #include<onerut_parser/ast_dyn.hpp>
 #include<onerut_scalar/scalar.hpp>
@@ -57,6 +58,11 @@ namespace onerut_parser::onerut_ast::dyn {
         return first_arg.is_error() || second_arg.is_error();
     }
 
+    bool TwoSubexpressionsBuildResult::is_either_value_or_type() const {
+        return first_arg.is_either_value_or_type() && second_arg.is_either_value_or_type();
+    }
+    
+    
     TwoSubexpressionsBuildResult
     WithTwoSubexpressionsNode::build_args() const {
         TwoSubexpressionsBuildResult result;
@@ -79,6 +85,12 @@ namespace onerut_parser::onerut_ast::dyn {
         });
     }
 
+    bool OneOrMoreSubexpressionsBuildResult::is_either_value_or_type() const {
+        return first_arg.is_either_value_or_type() && std::all_of(other_argv.cbegin(), other_argv.cend(), [](const BuildResult & r) {
+            return r.is_either_value_or_type();
+        });
+    }
+    
     OneOrMoreSubexpressionsBuildResult
     WithOneOrMoreSubexpressionsNode::build_args() const {
         OneOrMoreSubexpressionsBuildResult result;
@@ -109,6 +121,12 @@ namespace onerut_parser::onerut_ast::dyn {
         });
     }
 
+    bool AnyNumberOfSubexpressionsBuildResult::is_either_value_or_type() const {
+        return std::all_of(argv.cbegin(), argv.cend(), [](const BuildResult & r) {
+            return r.is_either_value_or_type();
+        });
+    }    
+    
     AnyNumberOfSubexpressionsBuildResult
     WithAnyNumberOfSubexpressionsNode::build_args() const {
         AnyNumberOfSubexpressionsBuildResult result;
@@ -152,7 +170,7 @@ namespace onerut_parser::onerut_ast::dyn {
     BuildResult OpPlusMinusNode::build_dry_run() const {
         assert(std::all_of(opv.cbegin(), opv.cend(), is_plus_munis_char));
         const OneOrMoreSubexpressionsBuildResult arg_results = build_args_dry_run();
-        if (arg_results.is_error())
+        if (!arg_results.is_either_value_or_type())
             return BuildResult::from_build_error(std::make_shared<BuildArgumentsError>());
         if (is_longeger(arg_results.first_arg) && std::all_of(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), is_longeger))
             return BuildResult::from_type<onerut_scalar::Long>();
@@ -164,20 +182,22 @@ namespace onerut_parser::onerut_ast::dyn {
     BuildResult OpPlusMinusNode::build() const {
         assert(std::all_of(opv.cbegin(), opv.cend(), is_plus_munis_char));
         const OneOrMoreSubexpressionsBuildResult arg_results = build_args();
-        if (arg_results.is_error())
+        if (!arg_results.is_either_value_or_type())
             return BuildResult::from_build_error(std::make_shared<BuildArgumentsError>());
         if (is_longeger(arg_results.first_arg) && std::all_of(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), is_longeger)) {
             std::shared_ptr<onerut_scalar::Long> first_arg_long;
-            std::vector<std::shared_ptr < onerut_scalar::Long >> other_argv_long(other_argv.size());
+            std::vector<std::shared_ptr < onerut_scalar::Long >> other_argv_long;
+            other_argv_long.reserve(other_argv.size());
             first_arg_long = to_long(arg_results.first_arg);
-            std::transform(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), other_argv_long.begin(), to_long);
+            std::transform(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), std::back_inserter(other_argv_long), to_long);
             return BuildResult::from_value<onerut_scalar::Long>(std::make_shared<onerut_scalar::OpPlusMinusLong>(first_arg_long, other_argv_long, opv));
         }
         if (is_real(arg_results.first_arg) && std::all_of(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), is_real)) {
             std::shared_ptr<onerut_scalar::Double> first_arg_double;
-            std::vector<std::shared_ptr < onerut_scalar::Double >> other_argv_double(other_argv.size());
+            std::vector<std::shared_ptr < onerut_scalar::Double >> other_argv_double;
+            other_argv_double.reserve(other_argv.size());
             first_arg_double = to_real(arg_results.first_arg);
-            std::transform(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), other_argv_double.begin(), to_real);
+            std::transform(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), std::back_inserter(other_argv_double), to_real);
             return BuildResult::from_value<onerut_scalar::Double>(std::make_shared<onerut_scalar::OpPlusMinusDouble>(first_arg_double, other_argv_double, opv));
         }
 
@@ -189,7 +209,7 @@ namespace onerut_parser::onerut_ast::dyn {
     BuildResult OpProdDivNode::build_dry_run() const {
         assert(std::all_of(opv.cbegin(), opv.cend(), is_prod_div_char));
         const OneOrMoreSubexpressionsBuildResult arg_results = build_args_dry_run();
-        if (arg_results.is_error())
+        if (!arg_results.is_either_value_or_type())
             return BuildResult::from_build_error(std::make_shared<BuildArgumentsError>());
         if (is_longeger(arg_results.first_arg) && std::all_of(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), is_longeger))
             return BuildResult::from_type<onerut_scalar::Long>();
@@ -201,20 +221,22 @@ namespace onerut_parser::onerut_ast::dyn {
     BuildResult OpProdDivNode::build() const {
         assert(std::all_of(opv.cbegin(), opv.cend(), is_prod_div_char));
         const OneOrMoreSubexpressionsBuildResult arg_results = build_args();
-        if (arg_results.is_error())
+        if (!arg_results.is_either_value_or_type())
             return BuildResult::from_build_error(std::make_shared<BuildArgumentsError>());
         if (is_longeger(arg_results.first_arg) && std::all_of(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), is_longeger)) {
             std::shared_ptr<onerut_scalar::Long> first_arg_long;
-            std::vector<std::shared_ptr < onerut_scalar::Long >> other_argv_long(other_argv.size());
+            std::vector<std::shared_ptr < onerut_scalar::Long >> other_argv_long;
+            other_argv_long.reserve(other_argv.size());
             first_arg_long = to_long(arg_results.first_arg);
-            std::transform(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), other_argv_long.begin(), to_long);
+            std::transform(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), std::back_inserter(other_argv_long), to_long);
             return BuildResult::from_value<onerut_scalar::Long>(std::make_shared<onerut_scalar::OpProdDivLong>(first_arg_long, other_argv_long, opv));
         }
         if (is_real(arg_results.first_arg) && std::all_of(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), is_real)) {
             std::shared_ptr<onerut_scalar::Double> first_arg_double;
-            std::vector<std::shared_ptr < onerut_scalar::Double >> other_argv_double(other_argv.size());
+            std::vector<std::shared_ptr < onerut_scalar::Double >> other_argv_double;
+            other_argv_double.reserve(other_argv.size());
             first_arg_double = to_real(arg_results.first_arg);
-            std::transform(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), other_argv_double.begin(), to_real);
+            std::transform(arg_results.other_argv.cbegin(), arg_results.other_argv.cend(), std::back_inserter(other_argv_double), to_real);
             return BuildResult::from_value<onerut_scalar::Double>(std::make_shared<onerut_scalar::OpProdDivDouble>(first_arg_double, other_argv_double, opv));
         }
         return BuildResult::from_build_error(std::make_shared<ArgumentMismatchError>());
@@ -282,7 +304,7 @@ namespace onerut_parser::onerut_ast::dyn {
         assert(is_plus_munis_char(op));
         const BuildResult arg_result = expression->build_dry_run();
         assert(!arg_result.is_empty());
-        if (arg_result.is_error())
+        if (!arg_result.is_either_value_or_type())
             return BuildResult::from_build_error(std::make_shared<BuildArgumentsError>());
         if (is_longeger(arg_result))
             return BuildResult::from_type<onerut_scalar::Long>();
@@ -295,7 +317,7 @@ namespace onerut_parser::onerut_ast::dyn {
         assert(is_plus_munis_char(op));
         const BuildResult arg_result = expression->build();
         assert(!arg_result.is_empty());
-        if (arg_result.is_error())
+        if (!arg_result.is_either_value_or_type())
             return BuildResult::from_build_error(std::make_shared<BuildArgumentsError>());
         if (is_longeger(arg_result)) {
             const std::shared_ptr<onerut_scalar::Long> arg_long = to_long(arg_result);

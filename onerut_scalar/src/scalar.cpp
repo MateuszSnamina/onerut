@@ -2,6 +2,7 @@
 #include<type_traits>
 #include<variant>
 #include<algorithm>
+#include<boost/cast.hpp>
 
 #include<onerut_scalar/scalar.hpp>
 
@@ -104,7 +105,7 @@ namespace {
     template<typename ResultType>
     template<typename U>
     ResultType AsTVisitor<ResultType>::operator()(U x) const {
-        return static_cast<ResultType> (x);
+        return boost::numeric_cast<ResultType> (x);
     }
 
     template<typename ResultType>
@@ -120,7 +121,7 @@ namespace {
             std::variant<long, double> first_arg,
             std::variant<long, double> second_arg,
             char32_t op) {
-        static_assert(std::is_arithmetic<ResultType>::value);        
+        static_assert(std::is_arithmetic<ResultType>::value);
         using VariantType = std::variant<long, double>;
         const ResultType first_arg_t = as_t<ResultType>(first_arg);
         const ResultType second_arg_t = as_t<ResultType>(second_arg);
@@ -178,9 +179,7 @@ namespace onerut_scalar {
     // -------------------------------------------------------------------------
 
     double Long::value_double() const {
-
-        return static_cast<double> (value_long());
-        // TODO: numeric_cast!!
+        return boost::numeric_cast<double> (value_long());
     }
 
     // -------------------------------------------------------------------------
@@ -193,7 +192,7 @@ namespace onerut_scalar {
     }
 
     double CastLongToDouble::value_double() const {
-        return static_cast<double> (arg->value_long());
+        return boost::numeric_cast<double> (arg->value_long());
     }
 
     // -------------------------------------------------------------------------

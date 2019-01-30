@@ -61,6 +61,7 @@ namespace onerut_parser::onerut_ast::dyn {
         BuildResult first_arg;
         BuildResult second_arg;
         bool is_error() const;
+        bool is_either_value_or_type() const;        
     };
 
     class WithTwoSubexpressionsNode : public ExpressionNode {
@@ -83,6 +84,7 @@ namespace onerut_parser::onerut_ast::dyn {
         BuildResult first_arg;
         std::vector<BuildResult> other_argv;
         bool is_error() const;
+        bool is_either_value_or_type() const;
     };
 
     class WithOneOrMoreSubexpressionsNode : public ExpressionNode {
@@ -104,6 +106,7 @@ namespace onerut_parser::onerut_ast::dyn {
     struct AnyNumberOfSubexpressionsBuildResult {
         std::vector<BuildResult> argv;
         bool is_error() const;
+        bool is_either_value_or_type() const;        
     };
 
     class WithAnyNumberOfSubexpressionsNode : public ExpressionNode {
