@@ -170,6 +170,26 @@ namespace onerut_parser::onerut_ast::dyn {
 
     // -------------------------------------------------------------------------
 
+    BuildResult OpAssignNode::build_dry_run() const {
+        const TwoSubexpressionsBuildResult arg_results = build_args();
+        if (!arg_results.is_either_value_or_type())
+            return BuildResult::from_build_error(std::make_shared<BuildArgumentsError>());
+
+        return BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
+
+    }
+
+    BuildResult OpAssignNode::build() const {
+        const TwoSubexpressionsBuildResult arg_results = build_args();
+        if (!arg_results.is_either_value_or_type())
+            return BuildResult::from_build_error(std::make_shared<BuildArgumentsError>());
+
+        return BuildResult::from_build_error(std::make_shared<BuildNotImplementedError>());
+
+    }
+
+    // -------------------------------------------------------------------------
+
     BuildResult OpPlusMinusNode::build_dry_run() const {
         assert(std::all_of(opv.cbegin(), opv.cend(), is_plus_munis_char));
         const OneOrMoreSubexpressionsBuildResult arg_results = build_args_dry_run();

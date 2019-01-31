@@ -21,7 +21,7 @@ namespace onerut_parser::onerut_ast::dyn {
 
     ExpressionNode::~ExpressionNode() {
     }
-    
+
     WithNoSubexpressionsNode::WithNoSubexpressionsNode(
             std::shared_ptr<const std::u32string> input,
             u32string_const_span span) :
@@ -64,7 +64,7 @@ namespace onerut_parser::onerut_ast::dyn {
     ExpressionNode(input, span),
     argv(argv) {
     }
-  
+
     // *************************************************************************
     // ***********************      Concrete classes     ***********************
     // *************************************************************************
@@ -75,6 +75,18 @@ namespace onerut_parser::onerut_ast::dyn {
             std::u32string name) :
     WithNoSubexpressionsNode(input, span),
     name(name) {
+    }
+
+    OpAssignNode::OpAssignNode(
+            std::shared_ptr<const std::u32string> input,
+            u32string_const_span span,
+            std::shared_ptr<ExpressionNode> first_arg,
+            std::shared_ptr<ExpressionNode> second_arg,
+            bool new_flag,
+            bool const_flag) :
+    WithTwoSubexpressionsNode(input, span, first_arg, second_arg),
+    new_flag(new_flag),
+    const_flag(const_flag) {
     }
 
     OpPlusMinusNode::OpPlusMinusNode(

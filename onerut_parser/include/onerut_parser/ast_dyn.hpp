@@ -61,7 +61,7 @@ namespace onerut_parser::onerut_ast::dyn {
         BuildResult first_arg;
         BuildResult second_arg;
         bool is_error() const;
-        bool is_either_value_or_type() const;        
+        bool is_either_value_or_type() const;
     };
 
     class WithTwoSubexpressionsNode : public ExpressionNode {
@@ -106,7 +106,7 @@ namespace onerut_parser::onerut_ast::dyn {
     struct AnyNumberOfSubexpressionsBuildResult {
         std::vector<BuildResult> argv;
         bool is_error() const;
-        bool is_either_value_or_type() const;        
+        bool is_either_value_or_type() const;
     };
 
     class WithAnyNumberOfSubexpressionsNode : public ExpressionNode {
@@ -161,6 +161,22 @@ namespace onerut_parser::onerut_ast::dyn {
         BuildResult build_dry_run() const override;
         BuildResult build() const override;
         const double value;
+    };
+
+    class OpAssignNode : public WithTwoSubexpressionsNode {
+    public:
+        OpAssignNode(
+                std::shared_ptr<const std::u32string> input,
+                u32string_const_span span,
+                std::shared_ptr<ExpressionNode> first_arg,
+                std::shared_ptr<ExpressionNode> second_arg,
+                bool new_flag,
+                bool const_flag);
+        std::u32string to_oneliner() const override;
+        BuildResult build_dry_run() const override;
+        BuildResult build() const override;
+        const bool new_flag;
+        const bool const_flag;
     };
 
     class OpPlusMinusNode : public WithOneOrMoreSubexpressionsNode {

@@ -42,7 +42,7 @@ namespace onerut_parser::onerut_ast::x3 {
     struct LitLongInfo : boost::spirit::x3::position_tagged {
         long value;
     };
-    
+
     struct LitDoubleInfo : boost::spirit::x3::position_tagged {
         double value;
     };
@@ -101,6 +101,9 @@ namespace onerut_parser::onerut_ast::x3 {
     struct OpProdDivInfo : boost::spirit::x3::position_tagged {
         OpPowInfo first_arg;
         std::vector<OpProdDivBitInfo> other_argv;
+        OpProdDivInfo() = default;
+        OpProdDivInfo(OpProdDivInfo const&) = default;
+        OpProdDivInfo& operator=(OpProdDivInfo const&) = default;
     };
 
     struct OpPlusMinusBitInfo : boost::spirit::x3::position_tagged {
@@ -111,10 +114,27 @@ namespace onerut_parser::onerut_ast::x3 {
     struct OpPlusMinusInfo : boost::spirit::x3::position_tagged {
         OpProdDivInfo first_arg;
         std::vector<OpPlusMinusBitInfo> other_argv;
+        OpPlusMinusInfo() = default;
+        OpPlusMinusInfo(OpPlusMinusInfo const&) = default;
+        OpPlusMinusInfo& operator=(OpPlusMinusInfo const&) = default;
+    };
+
+    struct OpAssignBitInfo : boost::spirit::x3::position_tagged {
+        bool new_flag;
+        bool const_flag;
+        IdentifierInfo identifier;
+    };
+
+    struct OpAssignInfo : boost::spirit::x3::position_tagged {
+        boost::optional<OpAssignBitInfo> bit;
+        OpPlusMinusInfo sum;
+        OpAssignInfo() = default;
+        OpAssignInfo(OpAssignInfo const&) = default;
+        OpAssignInfo& operator=(OpAssignInfo const&) = default;
     };
 
     struct ExpressionInfo : boost::spirit::x3::position_tagged {
-        OpPlusMinusInfo sum;
+        OpAssignInfo assign;
     };
 
     struct FunctionInfo : boost::spirit::x3::position_tagged {

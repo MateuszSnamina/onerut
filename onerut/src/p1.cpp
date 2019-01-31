@@ -33,7 +33,9 @@ int main() {
     //std::string input = "1000000000000000000000+1.";
 
 
-    const std::string input = "  10+pi/2 ";
+    //const std::string input = "  10+pi/2 ";
+    const std::string input = "new x := 10 ";
+    
     // -------------------------------------------------------------------------
     const auto parsed_x3_info = onerut_parser::parse(input);
     std::cout << "Parsed info: (onerut_ast::x3):" << std::endl;

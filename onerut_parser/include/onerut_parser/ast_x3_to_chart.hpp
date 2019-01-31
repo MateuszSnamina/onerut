@@ -11,10 +11,11 @@ namespace onerut_parser::onerut_ast::x3 {
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
             unsigned deepness,
             LinesInfo& chart);
-    //void to_chart(const OpPlusInfo& info,
-    //        const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
-    //        unsigned deepness,
-    //        LinesInfo& chart);
+    void to_chart(
+            const OpAssignInfo& info,
+            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
+            unsigned deepness,
+            LinesInfo& chart);
     void to_chart(
             const OpPlusMinusInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
@@ -59,7 +60,7 @@ namespace onerut_parser::onerut_ast::x3 {
             const LitLongInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
             unsigned deepness,
-            LinesInfo& chart);    
+            LinesInfo& chart);
     void to_chart(
             const OpUnaryPlusMinusInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,

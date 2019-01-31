@@ -10,6 +10,12 @@ namespace onerut_parser::onerut_ast::dyn {
         return result;
     }
 
+    std::u32string OpAssignNode::to_oneliner() const {
+        std::u32string result;
+        assert(false);
+        return result;
+    }
+    
     std::u32string OpPlusMinusNode::to_oneliner() const {
         std::u32string result;
         assert(false);

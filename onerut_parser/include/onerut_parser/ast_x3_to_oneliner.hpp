@@ -6,6 +6,7 @@
 namespace onerut_parser::onerut_ast::x3 {
 
     std::u32string to_oneliner(const ExpressionInfo& info);
+    std::u32string to_oneliner(const OpAssignInfo& info);
     std::u32string to_oneliner(const OpPlusMinusInfo& info);
     std::u32string to_oneliner(const OpProdDivInfo& info);
     std::u32string to_oneliner(const OpPowInfo& info);
@@ -14,7 +15,7 @@ namespace onerut_parser::onerut_ast::x3 {
     std::u32string to_oneliner(const OpGlueInfo& info);
     std::u32string to_oneliner(const Value1Info& info);
     std::u32string to_oneliner(const LitDoubleInfo& info);
-    std::u32string to_oneliner(const LitLongInfo& info);    
+    std::u32string to_oneliner(const LitLongInfo& info);
     std::u32string to_oneliner(const OpUnaryPlusMinusInfo& info);
     std::u32string to_oneliner(const Value2Info& info);
     std::u32string to_oneliner(const FunctionInfo& info);

@@ -28,7 +28,18 @@ namespace onerut_parser::onerut_ast::x3 {
     // -------------------------------------------------------------------------
 
     std::u32string to_oneliner(const ExpressionInfo& info) {
-        return to_oneliner(info.sum);
+        return to_oneliner(info.assign);
+    }
+
+    std::u32string to_oneliner(const OpAssignInfo& info) {
+        std::u32string result;
+        if (info.bit) {
+            if ((*info.bit).new_flag) result += U"NEW ";            
+            if ((*info.bit).const_flag) result += U"CONST ";
+            result += to_oneliner((*info.bit).identifier);
+        }
+        result += to_oneliner(info.sum);
+        return result;
     }
 
     std::u32string to_oneliner(const OpPlusMinusInfo& info) {

@@ -65,6 +65,17 @@ namespace onerut_parser::onerut_ast::x3 {
             unsigned deepness,
             LinesInfo& chart) {
         to_chart_common_implementation(info, positions, deepness, chart);
+        to_chart(info.assign, positions, deepness + 1, chart);
+    }
+
+    void to_chart(
+            const OpAssignInfo& info,
+            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions,
+            unsigned deepness,
+            LinesInfo& chart) {
+        to_chart_common_implementation(info, positions, deepness, chart);
+        if (info.bit)
+            to_chart((*info.bit).identifier, positions, deepness + 1, chart);
         to_chart(info.sum, positions, deepness + 1, chart);
     }
 
