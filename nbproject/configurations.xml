@@ -26,7 +26,11 @@
         <in>build_result.cpp</in>
         <in>build_result_to_esc_data.cpp</in>
         <in>builder.cpp</in>
+        <in>function.cpp</in>
+        <in>function_global.cpp</in>
         <in>gramma_parser.cpp</in>
+        <in>identifier.cpp</in>
+        <in>identifier_global.cpp</in>
         <in>print_chart.cpp</in>
         <in>unicode_support.cpp</in>
       </df>
@@ -224,7 +228,29 @@
         <ccTool flags="0">
         </ccTool>
       </item>
+      <item path="onerut_parser/src/function.cpp" ex="false" tool="1" flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_parser/src/function_global.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
       <item path="onerut_parser/src/gramma_parser.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_parser/src/identifier.cpp" ex="false" tool="1" flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_parser/src/identifier_global.cpp"
             ex="false"
             tool="1"
             flavor2="11">

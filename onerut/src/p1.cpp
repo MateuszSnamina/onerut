@@ -4,16 +4,23 @@
 #include<onerut_parser/gramma_parser.hpp>
 #include<onerut_parser/ast_x3_to_ast_dyn.hpp>
 #include<onerut_parser/print_chart.hpp>
+#include<onerut_parser/identifier_global.hpp>
+#include<onerut_parser/function_global.hpp>
 #include<onerut_scalar/scalar.hpp>
 
 #include<esc/esc_manip.hpp>
 
 int main() {
 
+    onerut_parser::GlobalIdentifiers::instance().put_e();
+    onerut_parser::GlobalIdentifiers::instance().put_pi();
+
+    //onerut_parser::GlobalFunction::instance().put_sqrt();
+    //onerut_parser::GlobalIdentifiers::instance().put_pi();
 
     //std::string input = "  _alg(_67j, foo(  7  , 8 ) , (xx2s) ) kota* 56.8 ";
     //std::string input  = "  $ ";
-    const std::string input = "  3.0^6@t+_alg((5->4-7/foo(6)), 8.9*ola::ala,-z+9,-7+9)*(-(9))+(-(9.0)+1) ";
+    //const std::string input = "  3.0^6@t+_alg((5->4-7/foo(6)), 8.9*ola::ala,-pi+9,-7+9)*(-(9))+(-(9.0)+1) ";
     //std::string input = "(9/2+3)*7.0";
     //std::cout << (9 / 2 + 3)*7.0 << std::endl;
     //long i = 10000000000000000l;
@@ -25,6 +32,8 @@ int main() {
     //std::string input = "10000000 + 1.";
     //std::string input = "1000000000000000000000+1.";
 
+
+    const std::string input = "  10+pi/2 ";
     // -------------------------------------------------------------------------
     const auto parsed_x3_info = onerut_parser::parse(input);
     std::cout << "Parsed info: (onerut_ast::x3):" << std::endl;

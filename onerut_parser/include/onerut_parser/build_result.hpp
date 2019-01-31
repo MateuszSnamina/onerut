@@ -16,17 +16,17 @@ namespace onerut_parser {
 
     class BuildError : public std::runtime_error {
     public:
-        BuildError(const std::string& message);
+        BuildError(const std::u32string& message);
     };
 
     class FunctionNotFoundError : public BuildError {
     public:
-        FunctionNotFoundError(const std::string& function_name);
+        FunctionNotFoundError(const std::u32string& function_name);
     };
 
     class IdentifierNotFoundError : public BuildError {
     public:
-        IdentifierNotFoundError(const std::string& identifier_name);
+        IdentifierNotFoundError(const std::u32string& identifier_name);
     };
 
     class BuildArgumentsError : public BuildError {

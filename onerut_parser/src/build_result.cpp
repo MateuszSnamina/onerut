@@ -1,3 +1,4 @@
+#include<onerut_parser/unicode_support.hpp>
 #include<onerut_parser/build_result.hpp>
 
 namespace onerut_parser {
@@ -6,28 +7,28 @@ namespace onerut_parser {
     // ********************** ERRORS          **********************************
     // *************************************************************************
 
-    BuildError::BuildError(const std::string& message) :
-    std::runtime_error(message) {
+    BuildError::BuildError(const std::u32string& message) :
+    std::runtime_error(unicode_to_utf8(message)) {
     }
 
-    FunctionNotFoundError::FunctionNotFoundError(const std::string& function_name) :
-    BuildError("FunctionNotFoundError! (Details: the function name = '" + function_name + "'.)") {
+    FunctionNotFoundError::FunctionNotFoundError(const std::u32string& function_name) :
+    BuildError(U"FunctionNotFoundError! (Details: the function name = '" + function_name + U"'.)") {
     }
 
-    IdentifierNotFoundError::IdentifierNotFoundError(const std::string& identifier_name) :
-    BuildError("IdentifierNotFoundError! (Details: the identifier name = '" + identifier_name + "'.)") {
+    IdentifierNotFoundError::IdentifierNotFoundError(const std::u32string& identifier_name) :
+    BuildError(U"IdentifierNotFoundError! (Details: the identifier name = '" + identifier_name + U"'.)") {
     }
 
     BuildArgumentsError::BuildArgumentsError() :
-    BuildError("BuildArgumentsError!") {
+    BuildError(U"BuildArgumentsError!") {
     }
 
     ArgumentMismatchError::ArgumentMismatchError() :
-    BuildError("ArgumentMismatchError!") {
+    BuildError(U"ArgumentMismatchError!") {
     }
 
     BuildNotImplementedError::BuildNotImplementedError() :
-    BuildError("BuildNotImplementedError!") {
+    BuildError(U"BuildNotImplementedError!") {
     }
 
     // *************************************************************************
