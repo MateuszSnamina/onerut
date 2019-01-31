@@ -35,6 +35,7 @@ int main() {
 
     //const std::string input = "  10+pi/2 ";
     const std::string input = "new x := 10 ";
+    //const std::string input = "zinf";
     
     // -------------------------------------------------------------------------
     const auto parsed_x3_info = onerut_parser::parse(input);

@@ -231,8 +231,8 @@ namespace onerut_parser::onerut_gramma {
     //auto const expression_parser_raw_def = op_plus_minus_parser;
     auto const expression_parser_raw_def = op_assign_parser;
     auto const expression_parser_def = boost::spirit::x3::expect[expression_parser_raw];
-    auto const op_assign_bit_parser_def = boost::spirit::x3::matches["new"] >> boost::spirit::x3::matches["const"] >> indentifier_parser;
-    auto const op_assign_parser_def = -(op_assign_bit_parser >> ":=") >> op_plus_minus_parser;
+    auto const op_assign_bit_parser_def = boost::spirit::x3::matches["new"] >> boost::spirit::x3::matches["const"] >> indentifier_parser >> ":=";
+    auto const op_assign_parser_def = -op_assign_bit_parser >> op_plus_minus_parser;
     auto const op_plus_minus_bit_parser_def = boost::spirit::x3::char_("+-") >> op_prod_div_parser;
     auto const op_plus_minus_parser_def = op_prod_div_parser >> *(op_plus_minus_bit_parser);
     auto const op_prod_div_bit_parser_def = boost::spirit::x3::char_("/*") >> op_pow_parser;
@@ -300,7 +300,6 @@ namespace onerut_parser {
                 onerut_parser::onerut_gramma::expression_parser
                 ]];
         const bool match = phrase_parse(it, input_end, parser, boost::spirit::x3::ascii::space, ast_head);
-        //const bool match = false; //debug
         const bool hit_end = (it == input_end);
         // Return results:        
         return {input, match, hit_end, ast_head, positions};

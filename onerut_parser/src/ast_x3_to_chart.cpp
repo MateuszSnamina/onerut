@@ -2,6 +2,9 @@
 #include<onerut_parser/ast_x3.hpp>
 #include<onerut_parser/ast_x3_to_chart.hpp>
 
+#include<iostream>//debug
+
+
 namespace {
     // -------------------------------------------------------------------------
     // ------------- VISITOR ---------------------------------------------------
@@ -74,8 +77,9 @@ namespace onerut_parser::onerut_ast::x3 {
             unsigned deepness,
             LinesInfo& chart) {
         to_chart_common_implementation(info, positions, deepness, chart);
-        if (info.bit)
+        if (info.bit) {
             to_chart((*info.bit).identifier, positions, deepness + 1, chart);
+        }
         to_chart(info.sum, positions, deepness + 1, chart);
     }
 
