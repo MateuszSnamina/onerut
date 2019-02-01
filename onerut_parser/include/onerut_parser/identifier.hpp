@@ -8,8 +8,8 @@ namespace onerut_parser {
     class ConstDoubleIdentifier : public Builder {
     public:
         ConstDoubleIdentifier(double value);
-        BuildResult build() const;
-        BuildResult build_dry_run() const;
+        CompileResult build() const;
+        CompileResult build_dry_run() const;
         const double value;
     };
 

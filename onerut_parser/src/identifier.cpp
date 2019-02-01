@@ -7,12 +7,12 @@ namespace onerut_parser {
     value(value) {
     }
 
-    BuildResult ConstDoubleIdentifier::build() const {
-        return BuildResult::from_value<onerut_scalar::Double>(std::make_shared<onerut_scalar::LitDouble>(value));
+    CompileResult ConstDoubleIdentifier::build() const {
+        return CompileResult::from_value<onerut_scalar::Double>(std::make_shared<onerut_scalar::LitDouble>(value));
     }
 
-    BuildResult ConstDoubleIdentifier::build_dry_run() const {
-        return BuildResult::from_type<onerut_scalar::Double>();
+    CompileResult ConstDoubleIdentifier::build_dry_run() const {
+        return CompileResult::from_type<onerut_scalar::Double>();
     }
 
 

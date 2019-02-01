@@ -1,12 +1,12 @@
-#ifndef ONERUT_PARSER_DYN_X3
-#define ONERUT_PARSER_DYN_X3
+#ifndef ONERUT_PARSER_AST_DYN
+#define ONERUT_PARSER_AST_DYN
 
 #include<string>
 #include<vector>
 #include<memory>
 
-#include<onerut_parser/builder.hpp>
 #include<onerut_parser/string_span.hpp>
+#include<onerut_parser/compile_result.hpp>
 #include<onerut_parser/print_chart.hpp>
 
 namespace onerut_parser::onerut_ast::dyn {
@@ -15,7 +15,7 @@ namespace onerut_parser::onerut_ast::dyn {
     // ***********************    Abstract baseclasses   ***********************
     // *************************************************************************
 
-    class ExpressionNode : public Builder {
+    class ExpressionNode {
     public:
         ExpressionNode(
                 std::shared_ptr<const std::u32string> input,
@@ -24,6 +24,7 @@ namespace onerut_parser::onerut_ast::dyn {
         const u32string_const_span span;
         virtual ~ExpressionNode() = 0;
         virtual std::u32string to_oneliner() const = 0;
+        virtual CompileResult compile() const = 0;
         LinesStyledChartInfo to_chart() const;
         virtual void to_chart(
                 unsigned deepness,
@@ -57,10 +58,10 @@ namespace onerut_parser::onerut_ast::dyn {
         const std::shared_ptr<ExpressionNode> expression;
     };
 
-    struct TwoSubexpressionsBuildResult {
-        BuildResult first_arg;
-        BuildResult second_arg;
-        bool is_error() const;
+    struct TwoSubexpressionsCompileResult {
+        CompileResult first_arg;
+        CompileResult second_arg;
+        bool is_compile_error() const;
         bool is_either_value_or_type() const;
     };
 
@@ -74,16 +75,15 @@ namespace onerut_parser::onerut_ast::dyn {
         void to_chart(
                 unsigned deepness,
                 LinesStyledChartInfo& chart) const final;
-        TwoSubexpressionsBuildResult build_args() const;
-        TwoSubexpressionsBuildResult build_args_dry_run() const;
+        TwoSubexpressionsCompileResult compile_args() const;
         const std::shared_ptr<ExpressionNode> first_arg;
         const std::shared_ptr<ExpressionNode> second_arg;
     };
 
-    struct OneOrMoreSubexpressionsBuildResult {
-        BuildResult first_arg;
-        std::vector<BuildResult> other_argv;
-        bool is_error() const;
+    struct OneOrMoreSubexpressionsCompileResult {
+        CompileResult first_arg;
+        std::vector<CompileResult> other_argv;
+        bool is_compile_error() const;
         bool is_either_value_or_type() const;
     };
 
@@ -97,15 +97,14 @@ namespace onerut_parser::onerut_ast::dyn {
         void to_chart(
                 unsigned deepness,
                 LinesStyledChartInfo& chart) const final;
-        OneOrMoreSubexpressionsBuildResult build_args() const;
-        OneOrMoreSubexpressionsBuildResult build_args_dry_run() const;
+        OneOrMoreSubexpressionsCompileResult compile_args() const;
         const std::shared_ptr<ExpressionNode> first_arg;
         const std::vector<std::shared_ptr<ExpressionNode>> other_argv;
     };
 
-    struct AnyNumberOfSubexpressionsBuildResult {
-        std::vector<BuildResult> argv;
-        bool is_error() const;
+    struct AnyNumberOfSubexpressionsCompileResult {
+        std::vector<CompileResult> argv;
+        bool is_compile_error() const;
         bool is_either_value_or_type() const;
     };
 
@@ -118,8 +117,7 @@ namespace onerut_parser::onerut_ast::dyn {
         void to_chart(
                 unsigned deepness,
                 LinesStyledChartInfo& chart) const final;
-        AnyNumberOfSubexpressionsBuildResult build_args() const;
-        AnyNumberOfSubexpressionsBuildResult build_args_dry_run() const;
+        AnyNumberOfSubexpressionsCompileResult compile_args() const;
         const std::vector<std::shared_ptr<ExpressionNode>> argv;
     };
 
@@ -134,8 +132,7 @@ namespace onerut_parser::onerut_ast::dyn {
                 u32string_const_span span,
                 std::u32string name);
         std::u32string to_oneliner() const override;
-        BuildResult build_dry_run() const override;
-        BuildResult build() const override;
+        CompileResult compile() const override;
         const std::u32string name;
     };
 
@@ -146,8 +143,7 @@ namespace onerut_parser::onerut_ast::dyn {
                 u32string_const_span span,
                 long value);
         std::u32string to_oneliner() const override;
-        BuildResult build_dry_run() const override;
-        BuildResult build() const override;
+        CompileResult compile() const override;
         const long value;
     };
 
@@ -158,8 +154,7 @@ namespace onerut_parser::onerut_ast::dyn {
                 u32string_const_span span,
                 double value);
         std::u32string to_oneliner() const override;
-        BuildResult build_dry_run() const override;
-        BuildResult build() const override;
+        CompileResult compile() const override;
         const double value;
     };
 
@@ -173,8 +168,7 @@ namespace onerut_parser::onerut_ast::dyn {
                 bool new_flag,
                 bool const_flag);
         std::u32string to_oneliner() const override;
-        BuildResult build_dry_run() const override;
-        BuildResult build() const override;
+        CompileResult compile() const override;
         const bool new_flag;
         const bool const_flag;
     };
@@ -188,8 +182,7 @@ namespace onerut_parser::onerut_ast::dyn {
                 std::vector<std::shared_ptr<ExpressionNode>> other_argv,
                 std::vector<char32_t> opv);
         std::u32string to_oneliner() const override;
-        BuildResult build_dry_run() const override;
-        BuildResult build() const override;
+        CompileResult compile() const override;
         const std::vector<char32_t> opv;
     };
 
@@ -202,8 +195,7 @@ namespace onerut_parser::onerut_ast::dyn {
                 std::vector<std::shared_ptr<ExpressionNode>> other_argv,
                 std::vector<char32_t> opv);
         std::u32string to_oneliner() const override;
-        BuildResult build_dry_run() const override;
-        BuildResult build() const override;
+        CompileResult compile() const override;
         const std::vector<char32_t> opv;
     };
 
@@ -215,8 +207,7 @@ namespace onerut_parser::onerut_ast::dyn {
                 std::shared_ptr<ExpressionNode> first_arg,
                 std::shared_ptr<ExpressionNode> second_arg);
         std::u32string to_oneliner() const override;
-        BuildResult build_dry_run() const override;
-        BuildResult build() const override;
+        CompileResult compile() const override;
     };
 
     class OpAtNode : public WithTwoSubexpressionsNode {
@@ -227,8 +218,7 @@ namespace onerut_parser::onerut_ast::dyn {
                 std::shared_ptr<ExpressionNode> first_arg,
                 std::shared_ptr<ExpressionNode> second_arg);
         std::u32string to_oneliner() const override;
-        BuildResult build_dry_run() const override;
-        BuildResult build() const override;
+        CompileResult compile() const override;
     };
 
     class OpArrowNode : public WithTwoSubexpressionsNode {
@@ -239,8 +229,7 @@ namespace onerut_parser::onerut_ast::dyn {
                 std::shared_ptr<ExpressionNode> first_arg,
                 std::shared_ptr<ExpressionNode> second_arg);
         std::u32string to_oneliner() const override;
-        BuildResult build_dry_run() const override;
-        BuildResult build() const override;
+        CompileResult compile() const override;
     };
 
     class OpGlueNode : public WithTwoSubexpressionsNode {
@@ -251,8 +240,7 @@ namespace onerut_parser::onerut_ast::dyn {
                 std::shared_ptr<ExpressionNode> first_arg,
                 std::shared_ptr<ExpressionNode> second_arg);
         std::u32string to_oneliner() const override;
-        BuildResult build_dry_run() const override;
-        BuildResult build() const override;
+        CompileResult compile() const override;
     };
 
     class UnaryPlusMinusNode : public WithOneSubexpressionNode {
@@ -263,8 +251,7 @@ namespace onerut_parser::onerut_ast::dyn {
                 char32_t op,
                 std::shared_ptr<ExpressionNode> expression);
         std::u32string to_oneliner() const override;
-        BuildResult build_dry_run() const override;
-        BuildResult build() const override;
+        CompileResult compile() const override;
         const char32_t op;
     };
 
@@ -276,8 +263,7 @@ namespace onerut_parser::onerut_ast::dyn {
                 std::u32string name,
                 std::vector<std::shared_ptr<ExpressionNode>> argv);
         std::u32string to_oneliner() const override;
-        BuildResult build_dry_run() const override;
-        BuildResult build() const override;
+        CompileResult compile() const override;
         const std::u32string name;
     };
 

@@ -15,17 +15,19 @@
     </df>
     <df root="onerut_parser" name="2">
       <df name="src">
+        <in>ast_compile_result.cpp</in>
+        <in>ast_compile_result_to_chart.cpp</in>
         <in>ast_dyn.cpp</in>
-        <in>ast_dyn_builder.cpp</in>
+        <in>ast_dyn_compile.cpp</in>
         <in>ast_dyn_to_chart.cpp</in>
         <in>ast_dyn_to_oneliner.cpp</in>
         <in>ast_x3.cpp</in>
         <in>ast_x3_to_ast_dyn.cpp</in>
         <in>ast_x3_to_chart.cpp</in>
         <in>ast_x3_to_oneliner.cpp</in>
-        <in>build_result.cpp</in>
-        <in>build_result_to_esc_data.cpp</in>
         <in>builder.cpp</in>
+        <in>compile_result.cpp</in>
+        <in>compile_result_to_esc_data.cpp</in>
         <in>function.cpp</in>
         <in>function_global.cpp</in>
         <in>gramma_parser.cpp</in>
@@ -160,11 +162,25 @@
         <ccTool flags="0">
         </ccTool>
       </item>
+      <item path="onerut_parser/src/ast_compile_result.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_parser/src/ast_compile_result_to_chart.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
       <item path="onerut_parser/src/ast_dyn.cpp" ex="false" tool="1" flavor2="11">
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="onerut_parser/src/ast_dyn_builder.cpp"
+      <item path="onerut_parser/src/ast_dyn_compile.cpp"
             ex="false"
             tool="1"
             flavor2="11">
@@ -210,21 +226,21 @@
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="onerut_parser/src/build_result.cpp"
-            ex="false"
-            tool="1"
-            flavor2="11">
-        <ccTool flags="0">
-        </ccTool>
-      </item>
-      <item path="onerut_parser/src/build_result_to_esc_data.cpp"
-            ex="false"
-            tool="1"
-            flavor2="11">
-        <ccTool flags="0">
-        </ccTool>
-      </item>
       <item path="onerut_parser/src/builder.cpp" ex="false" tool="1" flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_parser/src/compile_result.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_parser/src/compile_result_to_esc_data.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
         <ccTool flags="0">
         </ccTool>
       </item>

@@ -72,12 +72,12 @@ void _basis_onerut_test(T _cpp_value, std::shared_ptr<std::u32string> _onerut_in
     }
     // -------------------------------------------------------------------------
     // --------------------------------------------------    
-    onerut_parser::BuildResult _result = _ast_dyn_head->build();
+    onerut_parser::CompileResult _result = _ast_dyn_head->compile();
     // --------------------------------------------------    
     if (onerut_verbose) {
-        if (_result.is_error()) {
+        if (_result.is_compile_error()) {
             std::cout << "[test][common] (onerut_ast::dyn) onerut expression is an error." << std::endl;
-            std::cout << (*_result.build_error_or_empty())->what() << std::endl;
+            std::cout << (*_result.compile_error_or_empty())->what() << std::endl;
         } else if (_result.is_given_type<onerut_scalar::Long>()) {
             std::cout << "[test][common] (onerut_ast::dyn) onerut expression is an int." << std::endl;
             std::shared_ptr<onerut_scalar::Long> result_long = *(_result.typed_value_or_empty<onerut_scalar::Long>());
@@ -93,7 +93,7 @@ void _basis_onerut_test(T _cpp_value, std::shared_ptr<std::u32string> _onerut_in
     }
     // --------------------------------------------------    
     // --------------------------------------------------    
-    ASSERT_TRUE(!_result.is_error()); // bedzie is_value_or_type
+    ASSERT_TRUE(!_result.is_compile_error()); // bedzie is_value_or_type
     ASSERT_EQ(_cpp_is_int, _result.is_given_type<onerut_scalar::Long>());
     ASSERT_EQ(_cpp_is_double, _result.is_given_type<onerut_scalar::Double>());
     if (_cpp_is_int) {

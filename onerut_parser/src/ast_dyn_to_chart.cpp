@@ -1,5 +1,5 @@
 #include<onerut_parser/ast_dyn.hpp>
-#include<onerut_parser/build_result_to_esc_data.hpp>
+#include<onerut_parser/compile_result_to_esc_data.hpp>
 
 namespace onerut_parser::onerut_ast::dyn {
 
@@ -18,7 +18,7 @@ namespace onerut_parser::onerut_ast::dyn {
             LinesStyledChartInfo& chart) const {
         while (chart.size() <= deepness)
             chart.emplace_back();
-        esc::EscData esc_data = build_result_to_esc_data(build_dry_run());
+        esc::EscData esc_data = esc::EscDataBuilder() << esc::manip::build_esc_data;
         LineBitStyledChartInfo bit = {span, esc_data};
         chart[deepness].push_back(bit);
     }

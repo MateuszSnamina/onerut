@@ -10,6 +10,7 @@
 
 #include<esc/esc_manip.hpp>
 
+
 int main() {
 
     onerut_parser::GlobalIdentifiers::instance().put_e();
@@ -36,7 +37,7 @@ int main() {
     //const std::string input = "  10+pi/2 ";
     const std::string input = "new x := 10 ";
     //const std::string input = "zinf";
-    
+
     // -------------------------------------------------------------------------
     const auto parsed_x3_info = onerut_parser::parse(input);
     std::cout << "Parsed info: (onerut_ast::x3):" << std::endl;
@@ -58,10 +59,10 @@ int main() {
 
     // -------------------------------------------------------------------------
 
-    onerut_parser::BuildResult result = ast_dyn_head->build();
-    if (result.is_error()) {
+    onerut_parser::CompileResult result = ast_dyn_head->compile();
+    if (result.is_compile_error()) {
         std::cout << "ERROR" << std::endl;
-        std::cout << (*result.build_error_or_empty())->what() << std::endl;
+        std::cout << (*result.compile_error_or_empty())->what() << std::endl;
     } else if (result.is_given_type<onerut_scalar::Long>()) {
         std::cout << "RESULT IS AN INT" << std::endl;
         std::shared_ptr<onerut_scalar::Long> result_long = *(result.typed_value_or_empty<onerut_scalar::Long>());
