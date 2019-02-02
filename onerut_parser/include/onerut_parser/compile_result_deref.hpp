@@ -20,7 +20,7 @@ namespace onerut_parser {
     public:
         // Construction:
         CompileResultDeref() = default;
-        CompileResultDeref(const CompileResultDeref&) = default; // TODO explicit??
+        CompileResultDeref(const CompileResultDeref&) = default;
         CompileResultDeref(CompileResultDeref&&) = default;
         CompileResultDeref & operator=(const CompileResultDeref&) = default;
         CompileResultDeref & operator=(CompileResultDeref&&) = default;
@@ -44,7 +44,7 @@ namespace onerut_parser {
                 std::any>;
         VariantType _content;
         // We use the tag 'from_content' to mope up the overload issues:
-        // DereferencedCompileResult(const VariantType) vs DereferencedCompileResult(const DereferencedCompileResult&)
+        // DereferencedCompileResult(VariantType) vs DereferencedCompileResult(DereferencedCompileResult&)
         struct FromContentT;
         static const FromContentT from_content;
         CompileResultDeref(const VariantType content, FromContentT);

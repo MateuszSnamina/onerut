@@ -16,7 +16,7 @@ namespace onerut_parser {
 
         CompileResultDeref
         DereferenceVisitor::operator()(const std::shared_ptr < AbstractCompileResultRef>& reference) const {
-            return reference->get_compile_result();
+            return reference->get_compile_result_deref();
         }
 
         CompileResultDeref

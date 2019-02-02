@@ -152,8 +152,8 @@ namespace onerut_parser::onerut_ast::source {
             std::shared_ptr<const std::u32string> input,
             u32string_const_span span,
             char32_t op,
-            std::shared_ptr<SourceNode> source) :
-    WithOneSubsourceNode(input, span, source),
+            std::shared_ptr<SourceNode> arg) :
+    WithOneSubsourceNode(input, span, arg),
     op(op) {
         assert(op == L'+' || op == L'-');
     }

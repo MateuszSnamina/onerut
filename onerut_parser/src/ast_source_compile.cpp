@@ -103,7 +103,7 @@ namespace {
             onerut_parser::CompileResultDeref second_arg_compile_result) {
         return first_arg_compile_result.is_either_value_or_type() &&
                 second_arg_compile_result.is_either_value_or_type();
-    } // TODO : multiline
+    }
 
     bool
     is_either_value_or_type(

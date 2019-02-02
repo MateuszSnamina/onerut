@@ -5,25 +5,26 @@
 
 namespace onerut_parser {
 
-    class AbstractCompileResultRef {//TODO holder->ref
+    class AbstractCompileResultRef {
     public:
-        virtual CompileResultDeref get_compile_result() const = 0; // TODO zmienić na dereferenced compile result
+        virtual CompileResultDeref get_compile_result_deref() const = 0;
         virtual ~AbstractCompileResultRef() = default;
     };
 
+    // TODO: przerobić na szczegolny przypadek CompileResultConstRef.
     class ConstDoubleHolder : public AbstractCompileResultRef {
     public:
         ConstDoubleHolder(double value);
-        CompileResultDeref get_compile_result() const override;
+        CompileResultDeref get_compile_result_deref() const override;
         const double value;
     };
 
     class CompileResultConstRef : public AbstractCompileResultRef {
     public:
         CompileResultConstRef(std::u32string name, CompileResultDeref value);
-        CompileResultDeref get_compile_result() const override;
+        CompileResultDeref get_compile_result_deref() const override;
         std::u32string get_name() const;
-        //private: TODO
+    private:
         const std::u32string name;
         const CompileResultDeref value;
     };
@@ -31,10 +32,10 @@ namespace onerut_parser {
     class CompileResultNotConstRef : public AbstractCompileResultRef {
     public:
         CompileResultNotConstRef(std::u32string name, CompileResultDeref value);
-        CompileResultDeref get_compile_result() const override;
+        CompileResultDeref get_compile_result_deref() const override;
         void set_compile_result(CompileResultDeref new_value);
         std::u32string get_name() const;
-        //private: TODO
+    private:
         const std::u32string name;
         CompileResultDeref value;
     };

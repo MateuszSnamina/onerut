@@ -240,7 +240,7 @@ namespace onerut_parser::onerut_ast::source {
                 std::shared_ptr<const std::u32string> input,
                 u32string_const_span span,
                 char32_t op,
-                std::shared_ptr<SourceNode> source);//TODO zrobic arg!!!
+                std::shared_ptr<SourceNode> arg);
         std::u32string to_oneliner() const override;
         virtual CompileResult basic_compile(CompileResult arg_compile_result) const override;
         const char32_t op;

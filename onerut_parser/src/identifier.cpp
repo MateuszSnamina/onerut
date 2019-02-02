@@ -7,7 +7,7 @@ namespace onerut_parser {
     value(value) {
     }
 
-    CompileResultDeref ConstDoubleHolder::get_compile_result() const {
+    CompileResultDeref ConstDoubleHolder::get_compile_result_deref() const {
         return CompileResultDeref::from_value<onerut_scalar::Double>(std::make_shared<onerut_scalar::LitDouble>(value));
     }
     //------------------
@@ -21,7 +21,7 @@ namespace onerut_parser {
         return name;
     }
 
-    CompileResultDeref CompileResultConstRef::get_compile_result() const {
+    CompileResultDeref CompileResultConstRef::get_compile_result_deref() const {
         return value;
     }
     //------------------------------------
@@ -35,7 +35,7 @@ namespace onerut_parser {
         return name;
     }
 
-    CompileResultDeref CompileResultNotConstRef::get_compile_result() const {
+    CompileResultDeref CompileResultNotConstRef::get_compile_result_deref() const {
         return value;
     }
 
