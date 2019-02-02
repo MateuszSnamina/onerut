@@ -95,11 +95,11 @@ namespace {
     //    }
 
     std::vector<std::shared_ptr < onerut_parser::onerut_ast::compile_result::CompileResultNode>>
-    many_compile(const std::vector<std::shared_ptr<onerut_parser::onerut_ast::source::ExpressionNode>> argv) {
+    many_compile(const std::vector<std::shared_ptr<onerut_parser::onerut_ast::source::SourceNode>> argv) {
         std::vector<std::shared_ptr < onerut_parser::onerut_ast::compile_result::CompileResultNode>> argv_node;
         argv_node.reserve(argv.size());
         std::transform(cbegin(argv), cend(argv), back_inserter(argv_node),
-                [](const std::shared_ptr<onerut_parser::onerut_ast::source::ExpressionNode> & arg) {
+                [](const std::shared_ptr<onerut_parser::onerut_ast::source::SourceNode> & arg) {
                     return arg->compile();
                 });
         return argv_node;
@@ -125,7 +125,7 @@ namespace onerut_parser::onerut_ast::source {
     // *************************************************************************
 
     std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode>
-    WithNoSubexpressionsNode::compile() const {
+    WithNoSubsourcesNode::compile() const {
         const auto compile_result = basic_compile();
 
         return std::make_shared<onerut_parser::onerut_ast::compile_result::CompileResultNode>(
@@ -133,7 +133,7 @@ namespace onerut_parser::onerut_ast::source {
     }
 
     std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode>
-    WithOneSubexpressionNode::compile() const {
+    WithOneSubsourceNode::compile() const {
         std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode> arg_node = arg->compile();
         const auto arg_compile_result = arg_node->compile_result;
         const auto compile_result = basic_compile(arg_compile_result);
@@ -143,7 +143,7 @@ namespace onerut_parser::onerut_ast::source {
     }
 
     std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode>
-    WithTwoSubexpressionsNode::compile() const {
+    WithTwoSubsourcesNode::compile() const {
         std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode> first_arg_node = first_arg->compile();
         std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode> second_arg_node = second_arg->compile();
         const auto first_arg_compile_result = first_arg_node->compile_result;
@@ -155,7 +155,7 @@ namespace onerut_parser::onerut_ast::source {
     }
 
     std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode>
-    WithOneOrMoreSubexpressionsNode::compile() const {
+    WithOneOrMoreSubsourcesNode::compile() const {
         const auto first_arg_node = first_arg->compile();
         const auto other_argv_node = many_compile(other_argv);
         const auto first_arg_compile_result = first_arg_node->compile_result;
@@ -166,7 +166,7 @@ namespace onerut_parser::onerut_ast::source {
     }
 
     std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode>
-    WithAnyNumberOfSubexpressionsNode::compile() const {
+    WithAnyNumberOfSubsourcesNode::compile() const {
         const auto argv_node = many_compile(argv);
         const auto argv_compile_result = many_extract_compile_result(argv_node);
         const auto compile_result = basic_compile(argv_compile_result);
@@ -190,7 +190,7 @@ namespace onerut_parser::onerut_ast::source {
 
     CompileResult
     OpAssignNode::basic_compile(CompileResult first_arg_compile_result, CompileResult second_arg_compile_result) const {
-        //        const TwoSubexpressionsCompileResult arg_results = compile_args();
+        //        const TwoSubsourcesCompileResult arg_results = compile_args();
         //        if (!arg_results.is_either_value_or_type())
         //            const CompileResult compile_result = CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
         //

@@ -7,13 +7,13 @@ namespace onerut_parser::onerut_ast::source {
     // ***********************    Abstract baseclasses   ***********************
     // *************************************************************************
 
-    LinesStyledChartInfo ExpressionNode::to_chart() const {
+    LinesStyledChartInfo SourceNode::to_chart() const {
         LinesStyledChartInfo chart;
         to_chart(0, chart);
         return chart;
     }
 
-    void ExpressionNode::to_chart_disregard_subexpression(
+    void SourceNode::to_chart_disregard_subsource(
             unsigned deepness,
             LinesStyledChartInfo& chart) const {
         while (chart.size() <= deepness)
@@ -25,48 +25,44 @@ namespace onerut_parser::onerut_ast::source {
 
     // -------------------------------------------------------------------------
 
-    void WithNoSubexpressionsNode::to_chart(
+    void WithNoSubsourcesNode::to_chart(
             unsigned deepness,
             LinesStyledChartInfo& chart) const {
-        to_chart_disregard_subexpression(deepness, chart);
+        to_chart_disregard_subsource(deepness, chart);
     }
 
-    void WithOneSubexpressionNode::to_chart(
+    void WithOneSubsourceNode::to_chart(
             unsigned deepness,
             LinesStyledChartInfo& chart) const {
-        to_chart_disregard_subexpression(deepness, chart);
+        to_chart_disregard_subsource(deepness, chart);
         arg->to_chart(deepness + 1, chart);
     }
 
-    void WithTwoSubexpressionsNode::to_chart(
+    void WithTwoSubsourcesNode::to_chart(
             unsigned deepness,
             LinesStyledChartInfo& chart) const {
-        to_chart_disregard_subexpression(deepness, chart);
+        to_chart_disregard_subsource(deepness, chart);
         first_arg->to_chart(deepness + 1, chart);
         second_arg->to_chart(deepness + 1, chart);
     }
 
-    void WithOneOrMoreSubexpressionsNode::to_chart(
+    void WithOneOrMoreSubsourcesNode::to_chart(
             unsigned deepness,
             LinesStyledChartInfo& chart) const {
-        to_chart_disregard_subexpression(deepness, chart);
+        to_chart_disregard_subsource(deepness, chart);
         first_arg->to_chart(deepness + 1, chart);
         for (const auto& arg : other_argv) {
             arg->to_chart(deepness + 1, chart);
         }
     }
 
-    void WithAnyNumberOfSubexpressionsNode::to_chart(
+    void WithAnyNumberOfSubsourcesNode::to_chart(
             unsigned deepness,
             LinesStyledChartInfo& chart) const {
-        to_chart_disregard_subexpression(deepness, chart);
+        to_chart_disregard_subsource(deepness, chart);
         for (const auto& arg : argv) {
             arg->to_chart(deepness + 1, chart);
         }
     }
-
-    // *************************************************************************
-    // ***********************      Concrete classes     ***********************
-    // *************************************************************************
 
 }

@@ -48,7 +48,7 @@ int main() {
         return 1;
 
     // -------------------------------------------------------------------------
-    const std::shared_ptr<onerut_parser::onerut_ast::source::ExpressionNode> ast_source_head = onerut_parser::onerut_ast::to_ast_source(
+    const std::shared_ptr<onerut_parser::onerut_ast::source::SourceNode> ast_source_head = onerut_parser::onerut_ast::to_ast_source(
             parsed_x3_info.ast_head,
             parsed_x3_info.input,
             parsed_x3_info.positions);

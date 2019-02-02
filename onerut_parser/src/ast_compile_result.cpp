@@ -18,49 +18,49 @@ namespace {
 namespace onerut_parser::onerut_ast::compile_result {
 
     CompileResultNode::CompileResultNode(
-            std::shared_ptr<const source::ExpressionNode> expression,
+            std::shared_ptr<const source::SourceNode> source,
             CompileResult compile_result
             ) :
-    expression(expression),
-    subexpressions({}),
+    source(source),
+    subsources({}),
     compile_result(compile_result) {
     }
 
     CompileResultNode::CompileResultNode(
-            std::shared_ptr<const source::ExpressionNode> expression,
-            std::shared_ptr<CompileResultNode> subexpression,
+            std::shared_ptr<const source::SourceNode> source,
+            std::shared_ptr<CompileResultNode> subsource,
             CompileResult compile_result) :
-    expression(expression),
-    subexpressions({subexpression}),
+    source(source),
+    subsources({subsource}),
     compile_result(compile_result) {
     }
 
     CompileResultNode::CompileResultNode(
-            std::shared_ptr<const source::ExpressionNode> expression,
-            std::shared_ptr<CompileResultNode> first_subexpression,
-            std::shared_ptr<CompileResultNode> second_subexpression,
+            std::shared_ptr<const source::SourceNode> source,
+            std::shared_ptr<CompileResultNode> first_subsource,
+            std::shared_ptr<CompileResultNode> second_subsource,
             CompileResult compile_result) :
-    expression(expression),
-    subexpressions({first_subexpression, second_subexpression}),
+    source(source),
+    subsources({first_subsource, second_subsource}),
     compile_result(compile_result) {
     }
 
     CompileResultNode::CompileResultNode(
-            std::shared_ptr<const source::ExpressionNode> expression,
-            std::shared_ptr<CompileResultNode> first_subexpression,
-            std::vector<std::shared_ptr<CompileResultNode>> others_subexpressions,
+            std::shared_ptr<const source::SourceNode> source,
+            std::shared_ptr<CompileResultNode> first_subsource,
+            std::vector<std::shared_ptr<CompileResultNode>> others_subsources,
             CompileResult compile_result) :
-    expression(expression),
-    subexpressions(cat(first_subexpression, others_subexpressions)),
+    source(source),
+    subsources(cat(first_subsource, others_subsources)),
     compile_result(compile_result) {
     }
 
     CompileResultNode::CompileResultNode(
-            std::shared_ptr<const source::ExpressionNode> expression,
-            std::vector<std::shared_ptr<CompileResultNode>> subexpressions,
+            std::shared_ptr<const source::SourceNode> source,
+            std::vector<std::shared_ptr<CompileResultNode>> subsources,
             CompileResult compile_result) :
-    expression(expression),
-    subexpressions(),
+    source(source),
+    subsources({}),
     compile_result(compile_result) {
     }
 

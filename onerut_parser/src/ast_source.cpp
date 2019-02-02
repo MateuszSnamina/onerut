@@ -9,7 +9,7 @@ namespace onerut_parser::onerut_ast::source {
     // ***********************    Abstract baseclasses   ***********************
     // *************************************************************************    
 
-    ExpressionNode::ExpressionNode (
+    SourceNode::SourceNode (
             std::shared_ptr<const std::u32string> input,
             u32string_const_span span) :
     input(input),
@@ -19,48 +19,48 @@ namespace onerut_parser::onerut_ast::source {
         assert(span.begin() < span.end());
     }
 
-    ExpressionNode::~ExpressionNode() {
+    SourceNode::~SourceNode() {
     }
 
-    WithNoSubexpressionsNode::WithNoSubexpressionsNode(
+    WithNoSubsourcesNode::WithNoSubsourcesNode(
             std::shared_ptr<const std::u32string> input,
             u32string_const_span span) :
-    ExpressionNode(input, span) {
+    SourceNode(input, span) {
     }
 
-    WithOneSubexpressionNode::WithOneSubexpressionNode(
+    WithOneSubsourceNode::WithOneSubsourceNode(
             std::shared_ptr<const std::u32string> input,
             u32string_const_span span,
-            const std::shared_ptr<ExpressionNode> arg) :
-    ExpressionNode(input, span),
+            const std::shared_ptr<SourceNode> arg) :
+    SourceNode(input, span),
     arg(arg) {
     }
 
-    WithTwoSubexpressionsNode::WithTwoSubexpressionsNode(
+    WithTwoSubsourcesNode::WithTwoSubsourcesNode(
             std::shared_ptr<const std::u32string> input,
             u32string_const_span span,
-            std::shared_ptr<ExpressionNode> first_arg,
-            std::shared_ptr<ExpressionNode> second_arg) :
-    ExpressionNode(input, span),
+            std::shared_ptr<SourceNode> first_arg,
+            std::shared_ptr<SourceNode> second_arg) :
+    SourceNode(input, span),
     first_arg(first_arg),
     second_arg(second_arg) {
     }
 
-    WithOneOrMoreSubexpressionsNode::WithOneOrMoreSubexpressionsNode(
+    WithOneOrMoreSubsourcesNode::WithOneOrMoreSubsourcesNode(
             std::shared_ptr<const std::u32string> input,
             u32string_const_span span,
-            std::shared_ptr<ExpressionNode> first_arg,
-            std::vector<std::shared_ptr<ExpressionNode>> other_argv) :
-    ExpressionNode(input, span),
+            std::shared_ptr<SourceNode> first_arg,
+            std::vector<std::shared_ptr<SourceNode>> other_argv) :
+    SourceNode(input, span),
     first_arg(first_arg),
     other_argv(other_argv) {
     }
 
-    WithAnyNumberOfSubexpressionsNode::WithAnyNumberOfSubexpressionsNode(
+    WithAnyNumberOfSubsourcesNode::WithAnyNumberOfSubsourcesNode(
             std::shared_ptr<const std::u32string> input,
             u32string_const_span span,
-            std::vector<std::shared_ptr<ExpressionNode>> argv) :
-    ExpressionNode(input, span),
+            std::vector<std::shared_ptr<SourceNode>> argv) :
+    SourceNode(input, span),
     argv(argv) {
     }
 
@@ -72,18 +72,18 @@ namespace onerut_parser::onerut_ast::source {
             std::shared_ptr<const std::u32string> input,
             u32string_const_span span,
             std::u32string name) :
-    WithNoSubexpressionsNode(input, span),
+    WithNoSubsourcesNode(input, span),
     name(name) {
     }
 
     OpAssignNode::OpAssignNode(
             std::shared_ptr<const std::u32string> input,
             u32string_const_span span,
-            std::shared_ptr<ExpressionNode> first_arg,
-            std::shared_ptr<ExpressionNode> second_arg,
+            std::shared_ptr<SourceNode> first_arg,
+            std::shared_ptr<SourceNode> second_arg,
             bool new_flag,
             bool const_flag) :
-    WithTwoSubexpressionsNode(input, span, first_arg, second_arg),
+    WithTwoSubsourcesNode(input, span, first_arg, second_arg),
     new_flag(new_flag),
     const_flag(const_flag) {
     }
@@ -91,10 +91,10 @@ namespace onerut_parser::onerut_ast::source {
     OpPlusMinusNode::OpPlusMinusNode(
             std::shared_ptr<const std::u32string> input,
             u32string_const_span span,
-            std::shared_ptr<ExpressionNode> first_arg,
-            std::vector<std::shared_ptr<ExpressionNode>> other_argv,
+            std::shared_ptr<SourceNode> first_arg,
+            std::vector<std::shared_ptr<SourceNode>> other_argv,
             std::vector<char32_t> opv) :
-    WithOneOrMoreSubexpressionsNode(input, span, first_arg, other_argv),
+    WithOneOrMoreSubsourcesNode(input, span, first_arg, other_argv),
     opv(opv) {
         const auto predicate = [](char32_t op) {
             return op == L'+' || op == L'-';
@@ -105,10 +105,10 @@ namespace onerut_parser::onerut_ast::source {
     OpProdDivNode::OpProdDivNode(
             std::shared_ptr<const std::u32string> input,
             u32string_const_span span,
-            std::shared_ptr<ExpressionNode> first_arg,
-            std::vector<std::shared_ptr<ExpressionNode>> other_argv,
+            std::shared_ptr<SourceNode> first_arg,
+            std::vector<std::shared_ptr<SourceNode>> other_argv,
             std::vector<char32_t> opv) :
-    WithOneOrMoreSubexpressionsNode(input, span, first_arg, other_argv),
+    WithOneOrMoreSubsourcesNode(input, span, first_arg, other_argv),
     opv(opv) {
         const auto predicate = [](char32_t op) {
             return op == L'*' || op == L'/';
@@ -119,41 +119,41 @@ namespace onerut_parser::onerut_ast::source {
     OpPowNode::OpPowNode(
             std::shared_ptr<const std::u32string> input,
             u32string_const_span span,
-            std::shared_ptr<ExpressionNode> first_arg,
-            std::shared_ptr<ExpressionNode> second_arg) :
-    WithTwoSubexpressionsNode(input, span, first_arg, second_arg) {
+            std::shared_ptr<SourceNode> first_arg,
+            std::shared_ptr<SourceNode> second_arg) :
+    WithTwoSubsourcesNode(input, span, first_arg, second_arg) {
     }
 
     OpAtNode::OpAtNode(
             std::shared_ptr<const std::u32string> input,
             u32string_const_span span,
-            std::shared_ptr<ExpressionNode> first_arg,
-            std::shared_ptr<ExpressionNode> second_arg) :
-    WithTwoSubexpressionsNode(input, span, first_arg, second_arg) {
+            std::shared_ptr<SourceNode> first_arg,
+            std::shared_ptr<SourceNode> second_arg) :
+    WithTwoSubsourcesNode(input, span, first_arg, second_arg) {
     }
 
     OpArrowNode::OpArrowNode(
             std::shared_ptr<const std::u32string> input,
             u32string_const_span span,
-            std::shared_ptr<ExpressionNode> first_arg,
-            std::shared_ptr<ExpressionNode> second_arg) :
-    WithTwoSubexpressionsNode(input, span, first_arg, second_arg) {
+            std::shared_ptr<SourceNode> first_arg,
+            std::shared_ptr<SourceNode> second_arg) :
+    WithTwoSubsourcesNode(input, span, first_arg, second_arg) {
     }
 
     OpGlueNode::OpGlueNode(
             std::shared_ptr<const std::u32string> input,
             u32string_const_span span,
-            std::shared_ptr<ExpressionNode> first_arg,
-            std::shared_ptr<ExpressionNode> second_arg) :
-    WithTwoSubexpressionsNode(input, span, first_arg, second_arg) {
+            std::shared_ptr<SourceNode> first_arg,
+            std::shared_ptr<SourceNode> second_arg) :
+    WithTwoSubsourcesNode(input, span, first_arg, second_arg) {
     }
 
     UnaryPlusMinusNode::UnaryPlusMinusNode(
             std::shared_ptr<const std::u32string> input,
             u32string_const_span span,
             char32_t op,
-            std::shared_ptr<ExpressionNode> expression) :
-    WithOneSubexpressionNode(input, span, expression),
+            std::shared_ptr<SourceNode> source) :
+    WithOneSubsourceNode(input, span, source),
     op(op) {
         assert(op == L'+' || op == L'-');
     }
@@ -161,7 +161,7 @@ namespace onerut_parser::onerut_ast::source {
     LitLongNode::LitLongNode(std::shared_ptr<const std::u32string> input,
             u32string_const_span span,
             long value) :
-    WithNoSubexpressionsNode(input, span),
+    WithNoSubsourcesNode(input, span),
     value(value) {
     }
 
@@ -169,7 +169,7 @@ namespace onerut_parser::onerut_ast::source {
             std::shared_ptr<const std::u32string> input,
             u32string_const_span span,
             double value) :
-    WithNoSubexpressionsNode(input, span),
+    WithNoSubsourcesNode(input, span),
     value(value) {
     }
 
@@ -177,8 +177,8 @@ namespace onerut_parser::onerut_ast::source {
             std::shared_ptr<const std::u32string> input,
             u32string_const_span span,
             std::u32string name,
-            std::vector<std::shared_ptr<ExpressionNode>> argv) :
-    WithAnyNumberOfSubexpressionsNode(input, span, argv),
+            std::vector<std::shared_ptr<SourceNode>> argv) :
+    WithAnyNumberOfSubsourcesNode(input, span, argv),
     name(name) {
     }
 

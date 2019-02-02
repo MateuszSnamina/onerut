@@ -15,10 +15,10 @@ namespace onerut_parser::onerut_ast::compile_result {
         while (chart.size() <= deepness)
             chart.emplace_back();
         esc::EscData esc_data = compile_result_to_esc_data(compile_result);
-        LineBitStyledChartInfo bit = {expression->span, esc_data};
+        LineBitStyledChartInfo bit = {source->span, esc_data};
         chart[deepness].push_back(bit);
-        for (const auto& subexpression : subexpressions) {
-            subexpression->to_chart(deepness + 1, chart);
+        for (const auto& subsource : subsources) {
+            subsource->to_chart(deepness + 1, chart);
         }
     }
 

@@ -13,26 +13,26 @@ namespace onerut_parser::onerut_ast::compile_result {
     class CompileResultNode {
     public:
         CompileResultNode(
-                std::shared_ptr<const source::ExpressionNode> expression,
+                std::shared_ptr<const source::SourceNode> source,
                 CompileResult compile_result
                 );
         CompileResultNode(
-                std::shared_ptr<const source::ExpressionNode> expression,
-                std::shared_ptr<CompileResultNode> subexpression,
+                std::shared_ptr<const source::SourceNode> source,
+                std::shared_ptr<CompileResultNode> subsource,
                 CompileResult compile_result);
         CompileResultNode(
-                std::shared_ptr<const source::ExpressionNode> expression,
-                std::shared_ptr<CompileResultNode> first_subexpression,
-                std::shared_ptr<CompileResultNode> second_subexpression,
+                std::shared_ptr<const source::SourceNode> source,
+                std::shared_ptr<CompileResultNode> first_subsource,
+                std::shared_ptr<CompileResultNode> second_subsource,
                 CompileResult compile_result);
         CompileResultNode(
-                std::shared_ptr<const source::ExpressionNode> expression,
-                std::shared_ptr<CompileResultNode> first_subexpression,
-                std::vector<std::shared_ptr<CompileResultNode>> others_subexpressions,
+                std::shared_ptr<const source::SourceNode> source,
+                std::shared_ptr<CompileResultNode> first_subsource,
+                std::vector<std::shared_ptr<CompileResultNode>> others_subsources,
                 CompileResult compile_result);
         CompileResultNode(
-                std::shared_ptr<const source::ExpressionNode> expression,
-                std::vector<std::shared_ptr<CompileResultNode>> subexpressions,
+                std::shared_ptr<const source::SourceNode> source,
+                std::vector<std::shared_ptr<CompileResultNode>> subsources,
                 CompileResult compile_result);
         virtual ~CompileResultNode() = default;
         // To-chart functions:
@@ -41,8 +41,8 @@ namespace onerut_parser::onerut_ast::compile_result {
                 unsigned deepness,
                 LinesStyledChartInfo& chart) const;
         // Internal data:
-        const std::shared_ptr<const source::ExpressionNode> expression;
-        const std::vector<std::shared_ptr<CompileResultNode>> subexpressions;
+        const std::shared_ptr<const source::SourceNode> source;
+        const std::vector<std::shared_ptr<CompileResultNode>> subsources;
         const CompileResult compile_result;
     };
 
