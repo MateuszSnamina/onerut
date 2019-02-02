@@ -11,11 +11,6 @@ namespace onerut_parser {
         virtual ~AbstractCompileResultHolder() = default;
     };
 
-    //    class BuildResultHolder {
-    //        ConstDoubleIdentifier(CompileResult compile_result);
-    //        virtual CompileResult get_compile_result() const = 0;
-    //    };
-
     class ConstDoubleHolder : public AbstractCompileResultHolder {
     public:
         ConstDoubleHolder(double value);
@@ -34,7 +29,8 @@ namespace onerut_parser {
     public:
         CompileResultRef(CompileResult value);
         CompileResult get_compile_result() const override;
-        const CompileResult value;
+        void set_compile_result(CompileResult new_value);
+        CompileResult value;
     };
 
 }

@@ -12,23 +12,37 @@ namespace onerut_parser {
     }
 
     FunctionNotFoundError::FunctionNotFoundError(const std::u32string& function_name) :
-    CompileError(U"FunctionNotFoundError! (Details: the function name = '" + function_name + U"'.)") {
+    CompileError(U"FunctionNotFoundError! (Details: the function name = '" + function_name + U"'.)"),
+    function_name(function_name) {
     }
 
     IdentifierNotFoundError::IdentifierNotFoundError(const std::u32string& identifier_name) :
-    CompileError(U"IdentifierNotFoundError! (Details: the identifier name = '" + identifier_name + U"'.)") {
+    CompileError(U"Identifier not found error! (Details: the identifier name = '" + identifier_name + U"'.)"),
+    identifier_name(identifier_name) {
     }
 
     CompileArgumentsError::CompileArgumentsError() :
-    CompileError(U"CompileArgumentsError!") {
+    CompileError(U"Compile arguments error!") {
     }
 
     ArgumentMismatchError::ArgumentMismatchError() :
-    CompileError(U"ArgumentMismatchError!") {
+    CompileError(U"Argument mismatch error!") {
+    }
+
+    IllegalAssignAttemptToRValueError::IllegalAssignAttemptToRValueError() :
+    CompileError(U"Illegal assign attempt to r-value error!") {
+    }
+
+    IllegalAssignAttemptToConstReferenceError::IllegalAssignAttemptToConstReferenceError() :
+    CompileError(U"Illegal assign attempt to const reference error!") {
+    }
+
+    IllegalAssignAttemptToReferenceError::IllegalAssignAttemptToReferenceError() :
+    CompileError(U"Illegal assign attempt to reference error!") {
     }
 
     CompilerNotImplementedError::CompilerNotImplementedError() :
-    CompileError(U"CompilerNotImplementedError!") {
+    CompileError(U"Compiler not implemented error!") {
     }
 
     // *************************************************************************

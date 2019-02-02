@@ -28,4 +28,8 @@ namespace onerut_parser {
     CompileResult CompileResultRef::get_compile_result() const {
         return value;
     }
+
+    void CompileResultRef::set_compile_result(CompileResult new_value) {
+        value = new_value;
+    }
 }

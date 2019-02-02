@@ -45,6 +45,14 @@ namespace {
         return false;
     }
 
+    std::u32string is_identifier_not_found_name(const onerut_parser::CompileResult& result) {
+        const auto& error = result.compile_error_or_empty();
+        assert(error);
+        const auto& identifier_not_found_error = std::dynamic_pointer_cast<const onerut_parser::IdentifierNotFoundError>(*error);
+        assert(identifier_not_found_error);
+        return identifier_not_found_error->identifier_name;
+    }
+
     std::shared_ptr<onerut_scalar::Long> to_long(const onerut_parser::CompileResult& arg_result) {
         assert(is_integer(arg_result));
         std::shared_ptr<onerut_scalar::Long> arg_long;
@@ -201,12 +209,36 @@ namespace onerut_parser::onerut_ast::source {
 
     CompileResult
     OpAssignNode::basic_compile(CompileResult first_arg_compile_result, CompileResult second_arg_compile_result) const {
+        const bool first_arg_is_ref = is_ref(first_arg_compile_result);
+        const bool first_arg_is_const_ref = is_const_ref(first_arg_compile_result);
+        const bool first_arg_is_identifier_not_found_error = is_identifier_not_found_error(first_arg_compile_result);
+        const bool first_arg_type_match = first_arg_is_ref || first_arg_is_const_ref || first_arg_is_identifier_not_found_error;
+        const bool second_argument_match = second_arg_compile_result.is_either_value_or_type();
+        if (!second_argument_match)
+            return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
+        if (!first_arg_type_match)
+            return CompileResult::from_compile_error(std::make_shared<IllegalAssignAttemptToRValueError>());
+        if (first_arg_is_const_ref)
+            return CompileResult::from_compile_error(std::make_shared<IllegalAssignAttemptToConstReferenceError>());
+        if (new_flag && !first_arg_is_identifier_not_found_error)
+            return CompileResult::from_compile_error(std::make_shared<IllegalAssignAttemptToReferenceError>());
+        if (first_arg_is_identifier_not_found_error && !const_flag) {
+            const auto name = is_identifier_not_found_name(first_arg_compile_result);
+            const auto created_ref = std::make_shared<CompileResultRef>(second_arg_compile_result);
+            GlobalIdentifiers::instance().put(name, created_ref);
+            return second_arg_compile_result;
+        }
+        //TODO
+
+        //if (first_arg_type_match && second_argument_match) {
+
+        //}
+
         //        const TwoSubsourcesCompileResult arg_results = compile_args();
         //        if (!arg_results.is_either_value_or_type())
         //            const CompileResult compile_result = CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
         //
-        //        const CompileResult compile_result = CompileResult::from_compile_error(std::make_shared<CompilerNotImplementedError>());
-
+        return CompileResult::from_compile_error(std::make_shared<CompilerNotImplementedError>());
     }
 
     // -------------------------------------------------------------------------

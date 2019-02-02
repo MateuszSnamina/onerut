@@ -26,10 +26,10 @@ namespace onerut_parser {
         }
     }
 
-    bool GlobalIdentifiers::put(const std::u32string& name, std::shared_ptr<AbstractCompileResultHolder> builder) {
+    bool GlobalIdentifiers::put(const std::u32string& name, std::shared_ptr<AbstractCompileResultHolder> holder) {
         if (identifiers.count(name))
             return false;
-        identifiers[name] = builder;
+        identifiers[name] = holder;
         return true;
     }
 

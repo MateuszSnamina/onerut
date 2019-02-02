@@ -12,8 +12,9 @@
 #include<esc/esc_manip.hpp>
 
 bool execute_line(std::shared_ptr<std::u32string> input) {
-    // -------------------------------------------------------------------------
+    // #########################################################################
     const auto parsed_x3_info = onerut_parser::parse(input);
+    // -------------------------------------------------------------------------
     std::cout << "Parsed info: (onerut_ast::x3):" << std::endl;
     print(parsed_x3_info);
     if (!parsed_x3_info.succes())
@@ -50,7 +51,7 @@ bool execute_line(std::shared_ptr<std::u32string> input) {
     } else {
         std::cout << "RESULT IS NOT INT NOR DOUBLE NOR ERROR." << std::endl;
     }
-
+    return true;
 }
 
 int main() {
@@ -59,9 +60,7 @@ int main() {
 
     onerut_parser::GlobalIdentifiers::instance().put_e();
     onerut_parser::GlobalIdentifiers::instance().put_pi();
-
     //onerut_parser::GlobalFunction::instance().put_sqrt();
-    //onerut_parser::GlobalIdentifiers::instance().put_pi();
 
     //std::string input = "  _alg(_67j, foo(  7  , 8 ) , (xx2s) ) kota* 56.8 ";
     //std::string input  = "  $ ";
@@ -81,7 +80,7 @@ int main() {
     //const std::string input = "new x := 10 ";
 
     {
-        const auto input = std::make_shared<std::u32string>(U"3/2+2*7+pi/2");
+        const auto input = std::make_shared<std::u32string>(U"x:=3/2+2*7+pi/2");
         execute_line(input);
     }
 

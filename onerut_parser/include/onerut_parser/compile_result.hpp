@@ -22,11 +22,13 @@ namespace onerut_parser {
     class FunctionNotFoundError : public CompileError {
     public:
         FunctionNotFoundError(const std::u32string& function_name);
+        const std::u32string function_name;
     };
 
     class IdentifierNotFoundError : public CompileError {
     public:
         IdentifierNotFoundError(const std::u32string& identifier_name);
+        const std::u32string identifier_name;
     };
 
     class CompileArgumentsError : public CompileError {
@@ -37,6 +39,21 @@ namespace onerut_parser {
     class ArgumentMismatchError : public CompileError {
     public:
         ArgumentMismatchError();
+    };
+
+    class IllegalAssignAttemptToRValueError : public CompileError {
+    public:
+        IllegalAssignAttemptToRValueError();
+    };
+
+    class IllegalAssignAttemptToConstReferenceError : public CompileError {
+    public:
+        IllegalAssignAttemptToConstReferenceError();
+    };
+
+    class IllegalAssignAttemptToReferenceError : public CompileError {
+    public:
+        IllegalAssignAttemptToReferenceError();
     };
 
     class CompilerNotImplementedError : public CompileError {
@@ -52,7 +69,7 @@ namespace onerut_parser {
     public:
         // Construction:
         CompileResult() = default;
-        CompileResult(const CompileResult&) = default;// TODO explicit??
+        CompileResult(const CompileResult&) = default; // TODO explicit??
         CompileResult(CompileResult&&) = default;
         CompileResult & operator=(const CompileResult&) = default;
         CompileResult & operator=(CompileResult&&) = default;
