@@ -39,7 +39,7 @@ BASIC_ONERUT_TEST(EXPRESSION, EXPRESSION)
 
 template<typename T>
 void _basis_onerut_test(T _cpp_value, std::shared_ptr<std::u32string> _onerut_inuput) {
-    // --------------------------------------------------    
+    // #########################################################################
     std::cout << "[test][common] cpp_value: " << _cpp_value << std::endl;
     bool _cpp_is_int =
             std::is_same < decltype(_cpp_value), long>::value ||
@@ -50,8 +50,7 @@ void _basis_onerut_test(T _cpp_value, std::shared_ptr<std::u32string> _onerut_in
         std::cout << "[test][common] cpp_is_int: " << _cpp_is_int << std::endl;
         std::cout << "[test][common] cpp_is_double: " << _cpp_is_double << std::endl;
     }
-    // --------------------------------------------------
-    // --------------------------------------------------
+    // #########################################################################
     const auto _parsed_x3_info = onerut_parser::parse(_onerut_inuput);
     // --------------------------------------------------
     if (onerut_verbose) {
@@ -60,7 +59,7 @@ void _basis_onerut_test(T _cpp_value, std::shared_ptr<std::u32string> _onerut_in
     }
     // --------------------------------------------------
     ASSERT_TRUE(_parsed_x3_info.succes());
-    // --------------------------------------------------
+    // #########################################################################
     const auto _ast_source_head = onerut_parser::onerut_ast::to_ast_source(
             _parsed_x3_info.ast_head,
             _parsed_x3_info.input,
@@ -71,11 +70,14 @@ void _basis_onerut_test(T _cpp_value, std::shared_ptr<std::u32string> _onerut_in
         const auto ast_source_chart = _ast_source_head->to_chart();
         onerut_parser::print_chart(_parsed_x3_info.input, ast_source_chart);
     }
+    // #########################################################################
+    const auto _ast_compile_result_head = _ast_source_head->compile();
     // -------------------------------------------------------------------------
-    // --------------------------------------------------    
-
-    std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode> _compiled = _ast_source_head->compile();
-    onerut_parser::CompileResult _result = _compiled->compile_result;
+    const auto ast_compile_result_chart = _ast_compile_result_head->to_chart();
+    std::cout << "Parsed info: (onerut_ast::compile_result):" << std::endl;
+    onerut_parser::print_chart(_parsed_x3_info.input, ast_compile_result_chart);
+    // #########################################################################
+    onerut_parser::CompileResult _result = _ast_compile_result_head->compile_result;
     // --------------------------------------------------    
     if (onerut_verbose) {
         if (_result.dereference().is_compile_error()) {

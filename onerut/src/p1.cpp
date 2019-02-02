@@ -26,17 +26,16 @@ bool execute_line(std::shared_ptr<std::u32string> line) {
             parsed_x3_info.positions);
     // -------------------------------------------------------------------------
     const auto ast_source_chart = ast_source_head->to_chart();
-    std::cout << "Parsed info: (onerut_ast::dyn):" << std::endl;
+    std::cout << "Parsed info: (onerut_ast::source):" << std::endl;
     onerut_parser::print_chart(parsed_x3_info.input, ast_source_chart);
     // #########################################################################
+    const auto ast_compile_result_head = ast_source_head->compile();
     // -------------------------------------------------------------------------
-    const auto ast_compile_result = ast_source_head->compile();
-    // -------------------------------------------------------------------------
-    const auto ast_compile_result_chart = ast_compile_result->to_chart();
+    const auto ast_compile_result_chart = ast_compile_result_head->to_chart();
     std::cout << "Parsed info: (onerut_ast::compile_result):" << std::endl;
     onerut_parser::print_chart(parsed_x3_info.input, ast_compile_result_chart);
     // -------------------------------------------------------------------------
-    onerut_parser::CompileResult compile_result = ast_compile_result->compile_result;
+    onerut_parser::CompileResult compile_result = ast_compile_result_head->compile_result;
     if (compile_result.dereference().is_compile_error()) {
         std::cout << "RESULT IS AN ERROR" << std::endl;
         std::cout << (*compile_result.dereference().compile_error_or_empty())->what() << std::endl;
@@ -88,7 +87,7 @@ int main() {
 
     std::vector<std::shared_ptr < std::u32string>> lines;
 //    lines.push_back(std::make_shared < std::u32string>(U"(2+4*3)+pi/2"));
-    lines.push_back(std::make_shared < std::u32string>(U"x:=(2+4*3)+pi/2"));
+    lines.push_back(std::make_shared < std::u32string>(U"const x:=(2+4*3)+pi/2"));
     lines.push_back(std::make_shared < std::u32string>(U"x+7"));
     lines.push_back(std::make_shared < std::u32string>(U"x:=40"));
     lines.push_back(std::make_shared < std::u32string>(U"x+4"));
