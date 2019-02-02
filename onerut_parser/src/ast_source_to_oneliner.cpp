@@ -1,8 +1,8 @@
-#include<onerut_parser/ast_dyn.hpp>
+#include<onerut_parser/ast_source.hpp>
 
 #include<cassert>
 
-namespace onerut_parser::onerut_ast::dyn {
+namespace onerut_parser::onerut_ast::source {
 
     std::u32string IdentifierNode::to_oneliner() const {
         std::u32string result;

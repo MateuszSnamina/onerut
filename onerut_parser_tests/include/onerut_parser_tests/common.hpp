@@ -9,7 +9,7 @@
 #include<gtest/gtest.h>
 
 #include<onerut_parser/gramma_parser.hpp>
-#include<onerut_parser/ast_x3_to_ast_dyn.hpp>
+#include<onerut_parser/ast_x3_to_ast_source.hpp>
 #include<onerut_parser/ast_compile_result.hpp>
 #include<onerut_parser/print_chart.hpp>
 #include<onerut_scalar/scalar.hpp>
@@ -61,20 +61,20 @@ void _basis_onerut_test(T _cpp_value, std::shared_ptr<std::u32string> _onerut_in
     // --------------------------------------------------
     ASSERT_TRUE(_parsed_x3_info.succes());
     // --------------------------------------------------
-    const auto _ast_dyn_head = onerut_parser::onerut_ast::to_ast_dyn(
+    const auto _ast_source_head = onerut_parser::onerut_ast::to_ast_source(
             _parsed_x3_info.ast_head,
             _parsed_x3_info.input,
             _parsed_x3_info.positions);
     // --------------------------------------------------
     if (onerut_verbose) {
         std::cout << "[test][common] Parsed info (onerut_ast::dyn):" << std::endl;
-        const auto ast_dyn_chart = _ast_dyn_head->to_chart();
-        onerut_parser::print_chart(_parsed_x3_info.input, ast_dyn_chart);
+        const auto ast_source_chart = _ast_source_head->to_chart();
+        onerut_parser::print_chart(_parsed_x3_info.input, ast_source_chart);
     }
     // -------------------------------------------------------------------------
     // --------------------------------------------------    
 
-    std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode> _compiled = _ast_dyn_head->compile();
+    std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode> _compiled = _ast_source_head->compile();
     onerut_parser::CompileResult _result = _compiled->compile_result;
     // --------------------------------------------------    
     if (onerut_verbose) {

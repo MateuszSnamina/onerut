@@ -17,12 +17,12 @@
       <df name="src">
         <in>ast_compile_result.cpp</in>
         <in>ast_compile_result_to_chart.cpp</in>
-        <in>ast_dyn.cpp</in>
-        <in>ast_dyn_compile.cpp</in>
-        <in>ast_dyn_to_chart.cpp</in>
-        <in>ast_dyn_to_oneliner.cpp</in>
+        <in>ast_source.cpp</in>
+        <in>ast_source_compile.cpp</in>
+        <in>ast_source_to_chart.cpp</in>
+        <in>ast_source_to_oneliner.cpp</in>
         <in>ast_x3.cpp</in>
-        <in>ast_x3_to_ast_dyn.cpp</in>
+        <in>ast_x3_to_ast_source.cpp</in>
         <in>ast_x3_to_chart.cpp</in>
         <in>ast_x3_to_oneliner.cpp</in>
         <in>builder.cpp</in>
@@ -176,25 +176,25 @@
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="onerut_parser/src/ast_dyn.cpp" ex="false" tool="1" flavor2="11">
+      <item path="onerut_parser/src/ast_source.cpp" ex="false" tool="1" flavor2="11">
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="onerut_parser/src/ast_dyn_compile.cpp"
+      <item path="onerut_parser/src/ast_source_compile.cpp"
             ex="false"
             tool="1"
             flavor2="11">
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="onerut_parser/src/ast_dyn_to_chart.cpp"
+      <item path="onerut_parser/src/ast_source_to_chart.cpp"
             ex="false"
             tool="1"
             flavor2="11">
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="onerut_parser/src/ast_dyn_to_oneliner.cpp"
+      <item path="onerut_parser/src/ast_source_to_oneliner.cpp"
             ex="false"
             tool="1"
             flavor2="11">
@@ -205,7 +205,7 @@
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="onerut_parser/src/ast_x3_to_ast_dyn.cpp"
+      <item path="onerut_parser/src/ast_x3_to_ast_source.cpp"
             ex="false"
             tool="1"
             flavor2="11">

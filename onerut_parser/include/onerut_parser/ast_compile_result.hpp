@@ -6,32 +6,32 @@
 #include<memory>
 
 #include<onerut_parser/print_chart.hpp>
-#include<onerut_parser/ast_dyn.hpp>
+#include<onerut_parser/ast_source.hpp>
 
 namespace onerut_parser::onerut_ast::compile_result {
 
     class CompileResultNode {
     public:
         CompileResultNode(
-                std::shared_ptr<const dyn::ExpressionNode> expression,
+                std::shared_ptr<const source::ExpressionNode> expression,
                 CompileResult compile_result
                 );
         CompileResultNode(
-                std::shared_ptr<const dyn::ExpressionNode> expression,
+                std::shared_ptr<const source::ExpressionNode> expression,
                 std::shared_ptr<CompileResultNode> subexpression,
                 CompileResult compile_result);
         CompileResultNode(
-                std::shared_ptr<const dyn::ExpressionNode> expression,
+                std::shared_ptr<const source::ExpressionNode> expression,
                 std::shared_ptr<CompileResultNode> first_subexpression,
                 std::shared_ptr<CompileResultNode> second_subexpression,
                 CompileResult compile_result);
         CompileResultNode(
-                std::shared_ptr<const dyn::ExpressionNode> expression,
+                std::shared_ptr<const source::ExpressionNode> expression,
                 std::shared_ptr<CompileResultNode> first_subexpression,
                 std::vector<std::shared_ptr<CompileResultNode>> others_subexpressions,
                 CompileResult compile_result);
         CompileResultNode(
-                std::shared_ptr<const dyn::ExpressionNode> expression,
+                std::shared_ptr<const source::ExpressionNode> expression,
                 std::vector<std::shared_ptr<CompileResultNode>> subexpressions,
                 CompileResult compile_result);
         virtual ~CompileResultNode() = default;
@@ -41,7 +41,7 @@ namespace onerut_parser::onerut_ast::compile_result {
                 unsigned deepness,
                 LinesStyledChartInfo& chart) const;
         // Internal data:
-        const std::shared_ptr<const dyn::ExpressionNode> expression;
+        const std::shared_ptr<const source::ExpressionNode> expression;
         const std::vector<std::shared_ptr<CompileResultNode>> subexpressions;
         const CompileResult compile_result;
     };

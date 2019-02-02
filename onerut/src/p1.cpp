@@ -2,7 +2,7 @@
 #include<iomanip>
 
 #include<onerut_parser/gramma_parser.hpp>
-#include<onerut_parser/ast_x3_to_ast_dyn.hpp>
+#include<onerut_parser/ast_x3_to_ast_source.hpp>
 #include<onerut_parser/ast_compile_result.hpp>
 #include<onerut_parser/print_chart.hpp>
 #include<onerut_parser/identifier_global.hpp>
@@ -48,18 +48,18 @@ int main() {
         return 1;
 
     // -------------------------------------------------------------------------
-    const std::shared_ptr<onerut_parser::onerut_ast::dyn::ExpressionNode> ast_dyn_head = onerut_parser::onerut_ast::to_ast_dyn(
+    const std::shared_ptr<onerut_parser::onerut_ast::source::ExpressionNode> ast_source_head = onerut_parser::onerut_ast::to_ast_source(
             parsed_x3_info.ast_head,
             parsed_x3_info.input,
             parsed_x3_info.positions);
 
-    const auto ast_dyn_chart = ast_dyn_head->to_chart();
+    const auto ast_source_chart = ast_source_head->to_chart();
     std::cout << "Parsed info: (onerut_ast::dyn):" << std::endl;
-    onerut_parser::print_chart(parsed_x3_info.input, ast_dyn_chart);
+    onerut_parser::print_chart(parsed_x3_info.input, ast_source_chart);
 
     // -------------------------------------------------------------------------
 
-    std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode> compiled = ast_dyn_head->compile();
+    std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode> compiled = ast_source_head->compile();
     onerut_parser::CompileResult result = compiled->compile_result;
     
     const auto ast_compiled_chart = compiled->to_chart();

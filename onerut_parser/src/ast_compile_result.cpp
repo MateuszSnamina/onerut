@@ -18,7 +18,7 @@ namespace {
 namespace onerut_parser::onerut_ast::compile_result {
 
     CompileResultNode::CompileResultNode(
-            std::shared_ptr<const dyn::ExpressionNode> expression,
+            std::shared_ptr<const source::ExpressionNode> expression,
             CompileResult compile_result
             ) :
     expression(expression),
@@ -27,7 +27,7 @@ namespace onerut_parser::onerut_ast::compile_result {
     }
 
     CompileResultNode::CompileResultNode(
-            std::shared_ptr<const dyn::ExpressionNode> expression,
+            std::shared_ptr<const source::ExpressionNode> expression,
             std::shared_ptr<CompileResultNode> subexpression,
             CompileResult compile_result) :
     expression(expression),
@@ -36,7 +36,7 @@ namespace onerut_parser::onerut_ast::compile_result {
     }
 
     CompileResultNode::CompileResultNode(
-            std::shared_ptr<const dyn::ExpressionNode> expression,
+            std::shared_ptr<const source::ExpressionNode> expression,
             std::shared_ptr<CompileResultNode> first_subexpression,
             std::shared_ptr<CompileResultNode> second_subexpression,
             CompileResult compile_result) :
@@ -46,7 +46,7 @@ namespace onerut_parser::onerut_ast::compile_result {
     }
 
     CompileResultNode::CompileResultNode(
-            std::shared_ptr<const dyn::ExpressionNode> expression,
+            std::shared_ptr<const source::ExpressionNode> expression,
             std::shared_ptr<CompileResultNode> first_subexpression,
             std::vector<std::shared_ptr<CompileResultNode>> others_subexpressions,
             CompileResult compile_result) :
@@ -56,7 +56,7 @@ namespace onerut_parser::onerut_ast::compile_result {
     }
 
     CompileResultNode::CompileResultNode(
-            std::shared_ptr<const dyn::ExpressionNode> expression,
+            std::shared_ptr<const source::ExpressionNode> expression,
             std::vector<std::shared_ptr<CompileResultNode>> subexpressions,
             CompileResult compile_result) :
     expression(expression),

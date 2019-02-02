@@ -1,9 +1,9 @@
-#include<onerut_parser/ast_dyn.hpp>
+#include<onerut_parser/ast_source.hpp>
 
 #include<cassert>
 #include<algorithm>
 
-namespace onerut_parser::onerut_ast::dyn {
+namespace onerut_parser::onerut_ast::source {
 
     // *************************************************************************
     // ***********************    Abstract baseclasses   ***********************
@@ -44,7 +44,6 @@ namespace onerut_parser::onerut_ast::dyn {
     ExpressionNode(input, span),
     first_arg(first_arg),
     second_arg(second_arg) {
-
     }
 
     WithOneOrMoreSubexpressionsNode::WithOneOrMoreSubexpressionsNode(

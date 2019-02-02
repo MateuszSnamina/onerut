@@ -13,7 +13,7 @@ namespace onerut_parser::onerut_ast::compile_result {
     class CompileResultNode;
 }
 
-namespace onerut_parser::onerut_ast::dyn {
+namespace onerut_parser::onerut_ast::source {
 
     // *************************************************************************
     // ***********************    Abstract baseclasses   ***********************
