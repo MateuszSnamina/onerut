@@ -26,6 +26,8 @@
         <in>ast_x3_to_chart.cpp</in>
         <in>ast_x3_to_oneliner.cpp</in>
         <in>compile_result.cpp</in>
+        <in>compile_result_deref.cpp</in>
+        <in>compile_result_error.cpp</in>
         <in>compile_result_to_esc_data.cpp</in>
         <in>function.cpp</in>
         <in>function_global.cpp</in>
@@ -226,6 +228,20 @@
         </ccTool>
       </item>
       <item path="onerut_parser/src/compile_result.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_parser/src/compile_result_deref.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_parser/src/compile_result_error.cpp"
             ex="false"
             tool="1"
             flavor2="11">
