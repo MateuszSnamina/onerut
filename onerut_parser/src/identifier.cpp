@@ -3,17 +3,29 @@
 
 namespace onerut_parser {
 
-    ConstDoubleIdentifier::ConstDoubleIdentifier(double value) :
+    ConstDoubleHolder::ConstDoubleHolder(double value) :
     value(value) {
     }
 
-    CompileResult ConstDoubleIdentifier::build() const {
+    CompileResult ConstDoubleHolder::get_compile_result() const {
         return CompileResult::from_value<onerut_scalar::Double>(std::make_shared<onerut_scalar::LitDouble>(value));
     }
+    //------------------
 
-    CompileResult ConstDoubleIdentifier::build_dry_run() const {
-        return CompileResult::from_type<onerut_scalar::Double>();
+    ConstCompileResultRef::ConstCompileResultRef(CompileResult value) :
+    value(value) {
     }
 
+    CompileResult ConstCompileResultRef::get_compile_result() const {
+        return value;
+    }
+    //------------------------------------
 
+    CompileResultRef::CompileResultRef(CompileResult value) :
+    value(value) {
+    }
+
+    CompileResult CompileResultRef::get_compile_result() const {
+        return value;
+    }
 }

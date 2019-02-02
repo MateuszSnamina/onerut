@@ -1,20 +1,41 @@
 #ifndef ONERUT_PARSER_IDENTIFIER
 #define ONERUT_PARSER_IDENTIFIER
 
-#include<onerut_parser/builder.hpp>
+#include<onerut_parser/compile_result.hpp>
 
 namespace onerut_parser {
 
-    class ConstDoubleIdentifier : public Builder {
+    class AbstractCompileResultHolder {
     public:
-        ConstDoubleIdentifier(double value);
-        CompileResult build() const;
-        CompileResult build_dry_run() const;
+        virtual CompileResult get_compile_result() const = 0;
+        virtual ~AbstractCompileResultHolder() = default;
+    };
+
+    //    class BuildResultHolder {
+    //        ConstDoubleIdentifier(CompileResult compile_result);
+    //        virtual CompileResult get_compile_result() const = 0;
+    //    };
+
+    class ConstDoubleHolder : public AbstractCompileResultHolder {
+    public:
+        ConstDoubleHolder(double value);
+        CompileResult get_compile_result() const override;
         const double value;
     };
 
-    // ConstDoubleRefIdentifier TODO
-    // RefDoubleIdentifier TODO
+    class ConstCompileResultRef : public AbstractCompileResultHolder {
+    public:
+        ConstCompileResultRef(CompileResult value);
+        CompileResult get_compile_result() const override;
+        const CompileResult value;
+    };
+
+    class CompileResultRef : public AbstractCompileResultHolder {
+    public:
+        CompileResultRef(CompileResult value);
+        CompileResult get_compile_result() const override;
+        const CompileResult value;
+    };
 
 }
 

@@ -25,7 +25,6 @@
         <in>ast_x3_to_ast_source.cpp</in>
         <in>ast_x3_to_chart.cpp</in>
         <in>ast_x3_to_oneliner.cpp</in>
-        <in>builder.cpp</in>
         <in>compile_result.cpp</in>
         <in>compile_result_to_esc_data.cpp</in>
         <in>function.cpp</in>
@@ -223,10 +222,6 @@
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
-        </ccTool>
-      </item>
-      <item path="onerut_parser/src/builder.cpp" ex="false" tool="1" flavor2="11">
         <ccTool flags="0">
         </ccTool>
       </item>

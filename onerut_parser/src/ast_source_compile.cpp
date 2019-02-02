@@ -30,9 +30,20 @@ namespace {
         return result.is_given_type<onerut_scalar::Long>() || result.is_given_type<onerut_scalar::Double>();
     }
 
-    // bool  is_ref(const onerut_parser::CompileResult& result) {}
+    bool is_ref(const onerut_parser::CompileResult& result) {
+        return result.is_given_type<onerut_parser::CompileResultRef>();
+    }
 
-    // bool  is_const_ref(const onerut_parser::CompileResult& result) {}
+    bool is_const_ref(const onerut_parser::CompileResult& result) {
+        return result.is_given_type<onerut_parser::ConstCompileResultRef>();
+    }
+
+    bool is_identifier_not_found_error(const onerut_parser::CompileResult& result) {
+        if (const auto& error = result.compile_error_or_empty())
+            if (std::dynamic_pointer_cast<const onerut_parser::IdentifierNotFoundError>(*error))
+                return true;
+        return false;
+    }
 
     std::shared_ptr<onerut_scalar::Long> to_long(const onerut_parser::CompileResult& arg_result) {
         assert(is_integer(arg_result));
@@ -181,7 +192,7 @@ namespace onerut_parser::onerut_ast::source {
     CompileResult
     IdentifierNode::basic_compile() const {
         if (auto builder = GlobalIdentifiers::instance().get_or_empty(name)) {
-            return (*builder)->build();
+            return (*builder)->get_compile_result();
         }
         return CompileResult::from_compile_error(std::make_shared<IdentifierNotFoundError>(name));
     }

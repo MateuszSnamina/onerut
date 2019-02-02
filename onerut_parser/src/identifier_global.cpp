@@ -1,4 +1,3 @@
-#include<onerut_parser/identifier.hpp>
 #include<onerut_parser/identifier_global.hpp>
 
 namespace onerut_parser {
@@ -19,15 +18,15 @@ namespace onerut_parser {
         return _instance;
     }
 
-    std::optional<std::shared_ptr<Builder>> GlobalIdentifiers::get_or_empty(const std::u32string& name) const {
+    std::optional<std::shared_ptr<AbstractCompileResultHolder>> GlobalIdentifiers::get_or_empty(const std::u32string& name) const {
         try {
             return identifiers.at(name);
         } catch (std::out_of_range&) {
-            return std::optional<std::shared_ptr < Builder >> ();
+            return std::optional<std::shared_ptr < AbstractCompileResultHolder >> ();
         }
     }
 
-    bool GlobalIdentifiers::put(const std::u32string& name, std::shared_ptr<Builder> builder) {
+    bool GlobalIdentifiers::put(const std::u32string& name, std::shared_ptr<AbstractCompileResultHolder> builder) {
         if (identifiers.count(name))
             return false;
         identifiers[name] = builder;
@@ -35,13 +34,13 @@ namespace onerut_parser {
     }
 
     bool GlobalIdentifiers::put_e() {
-        const std::shared_ptr<Builder> pi_identifier = std::make_shared<ConstDoubleIdentifier>(pi);
-        return GlobalIdentifiers::instance().put(U"e", pi_identifier);
+        const auto e_holder = std::make_shared<ConstDoubleHolder>(e);
+        return GlobalIdentifiers::instance().put(U"e", e_holder);
     }
 
     bool GlobalIdentifiers::put_pi() {
-        const std::shared_ptr<Builder> pi_identifier = std::make_shared<ConstDoubleIdentifier>(pi);
-        return GlobalIdentifiers::instance().put(U"pi", pi_identifier);
+        const auto pi_holder = std::make_shared<ConstDoubleHolder>(pi);
+        return GlobalIdentifiers::instance().put(U"pi", pi_holder);
     }
 
 }

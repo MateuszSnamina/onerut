@@ -20,6 +20,7 @@ namespace onerut_parser {
         return match && hit_end;
     }
 }
+
 // -----------------------------------------------------------------------------
 // This has to be in the global scope:
 
@@ -305,13 +306,13 @@ namespace onerut_parser {
         return {input, match, hit_end, ast_head, positions};
     }
 
-    X3ParseResultInfo parse(const std::u32string input) {
-        return parse(std::make_shared<const std::u32string>(input));
-    }
+    //    X3ParseResultInfo parse(const std::u32string input) {
+    //        return parse(std::make_shared<const std::u32string>(input));
+    //    }
 
-    X3ParseResultInfo parse(const std::string input) {
-        return parse(std::make_shared<const std::u32string>(unicode_from_utf8(input)));
-    }
+    //    X3ParseResultInfo parse(const std::string input) {
+    //        return parse(std::make_shared<const std::u32string>(unicode_from_utf8(input)));
+    //    }
 
     void print(X3ParseResultInfo info) {
         std::cout << "match:     " << info.match << std::endl;

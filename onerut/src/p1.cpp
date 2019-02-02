@@ -11,7 +11,51 @@
 
 #include<esc/esc_manip.hpp>
 
+bool execute_line(std::shared_ptr<std::u32string> input) {
+    // -------------------------------------------------------------------------
+    const auto parsed_x3_info = onerut_parser::parse(input);
+    std::cout << "Parsed info: (onerut_ast::x3):" << std::endl;
+    print(parsed_x3_info);
+    if (!parsed_x3_info.succes())
+        return false;
+    // #########################################################################
+    const auto ast_source_head = onerut_parser::onerut_ast::to_ast_source(
+            parsed_x3_info.ast_head,
+            parsed_x3_info.input,
+            parsed_x3_info.positions);
+    // -------------------------------------------------------------------------
+    const auto ast_source_chart = ast_source_head->to_chart();
+    std::cout << "Parsed info: (onerut_ast::dyn):" << std::endl;
+    onerut_parser::print_chart(parsed_x3_info.input, ast_source_chart);
+    // #########################################################################
+    // -------------------------------------------------------------------------
+    const auto ast_compile_result = ast_source_head->compile();
+    // -------------------------------------------------------------------------
+    const auto ast_compile_result_chart = ast_compile_result->to_chart();
+    std::cout << "Parsed info: (onerut_ast::compile_result):" << std::endl;
+    onerut_parser::print_chart(parsed_x3_info.input, ast_compile_result_chart);
+    // -------------------------------------------------------------------------
+    onerut_parser::CompileResult compile_result = ast_compile_result->compile_result;
+    if (compile_result.is_compile_error()) {
+        std::cout << "RESULT IS AN ERROR" << std::endl;
+        std::cout << (*compile_result.compile_error_or_empty())->what() << std::endl;
+    } else if (compile_result.is_given_type<onerut_scalar::Long>()) {
+        std::cout << "RESULT IS AN INT" << std::endl;
+        std::shared_ptr<onerut_scalar::Long> result_long = *(compile_result.typed_value_or_empty<onerut_scalar::Long>());
+        std::cout << "VALUE = " << result_long->value_long() << std::endl;
+    } else if (compile_result.is_given_type<onerut_scalar::Double>()) {
+        std::cout << "RESULT IS AN DOUBLE" << std::endl;
+        std::shared_ptr<onerut_scalar::Double> result_double = *(compile_result.typed_value_or_empty<onerut_scalar::Double>());
+        std::cout << "VALUE = " << std::setprecision(20) << result_double->value_double() << std::endl;
+    } else {
+        std::cout << "RESULT IS NOT INT NOR DOUBLE NOR ERROR." << std::endl;
+    }
+
+}
+
 int main() {
+
+    //std::make_shared<const std::u32string>(unicode_from_utf8(input)));
 
     onerut_parser::GlobalIdentifiers::instance().put_e();
     onerut_parser::GlobalIdentifiers::instance().put_pi();
@@ -33,57 +77,18 @@ int main() {
     //std::string input = "10000000 + 1.";
     //std::string input = "1000000000000000000000+1.";
 
-
     //const std::string input = "  10+pi/2 ";
     //const std::string input = "new x := 10 ";
-    
-    const std::string input = "3/2+2*7+pi/2";
-    //const std::string input = "zinf";
 
-    // -------------------------------------------------------------------------
-    const auto parsed_x3_info = onerut_parser::parse(input);
-    std::cout << "Parsed info: (onerut_ast::x3):" << std::endl;
-    print(parsed_x3_info);
-    if (!parsed_x3_info.succes())
-        return 1;
-
-    // -------------------------------------------------------------------------
-    const std::shared_ptr<onerut_parser::onerut_ast::source::SourceNode> ast_source_head = onerut_parser::onerut_ast::to_ast_source(
-            parsed_x3_info.ast_head,
-            parsed_x3_info.input,
-            parsed_x3_info.positions);
-
-    const auto ast_source_chart = ast_source_head->to_chart();
-    std::cout << "Parsed info: (onerut_ast::dyn):" << std::endl;
-    onerut_parser::print_chart(parsed_x3_info.input, ast_source_chart);
-
-    // -------------------------------------------------------------------------
-
-    std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode> compiled = ast_source_head->compile();
-    onerut_parser::CompileResult result = compiled->compile_result;
-    
-    const auto ast_compiled_chart = compiled->to_chart();
-    std::cout << "Parsed info: (onerut_ast::compile_result):" << std::endl;
-    onerut_parser::print_chart(parsed_x3_info.input, ast_compiled_chart);
-    
-    // -------------------------------------------------------------------------
-
-    if (result.is_compile_error()) {
-        std::cout << "ERROR" << std::endl;
-        std::cout << (*result.compile_error_or_empty())->what() << std::endl;
-    } else if (result.is_given_type<onerut_scalar::Long>()) {
-        std::cout << "RESULT IS AN INT" << std::endl;
-        std::shared_ptr<onerut_scalar::Long> result_long = *(result.typed_value_or_empty<onerut_scalar::Long>());
-        std::cout << "VALUE = " << result_long->value_long() << std::endl;
-    } else if (result.is_given_type<onerut_scalar::Double>()) {
-        std::cout << "RESULT IS AN DOUBLE" << std::endl;
-        std::shared_ptr<onerut_scalar::Double> result_double = *(result.typed_value_or_empty<onerut_scalar::Double>());
-        std::cout << "VALUE = " << std::endl;
-        std::cout << std::setprecision(20) << result_double->value_double() << std::endl;
-    } else {
-        std::cout << "NOT INT NOR DOUBLE" << std::endl;
+    {
+        const auto input = std::make_shared<std::u32string>(U"3/2+2*7+pi/2");
+        execute_line(input);
     }
-    // -------------------------------------------------------------------------
+
+    {
+        const auto input = std::make_shared<std::u32string>(U"x+7");
+        execute_line(input);
+    }
 
 }
 

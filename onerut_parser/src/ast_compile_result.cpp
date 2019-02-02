@@ -60,7 +60,7 @@ namespace onerut_parser::onerut_ast::compile_result {
             std::vector<std::shared_ptr<CompileResultNode>> subsources,
             CompileResult compile_result) :
     source(source),
-    subsources({}),
+    subsources(subsources),
     compile_result(compile_result) {
     }
 

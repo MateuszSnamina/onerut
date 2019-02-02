@@ -20,8 +20,8 @@ namespace onerut_parser {
     void print(X3ParseResultInfo info);
 
     X3ParseResultInfo parse(std::shared_ptr<const std::u32string> input);
-    X3ParseResultInfo parse(const std::u32string input);
-    X3ParseResultInfo parse(const std::string input);
+    //X3ParseResultInfo parse(const std::u32string input);
+    //X3ParseResultInfo parse(const std::string input);
 
 }
 
