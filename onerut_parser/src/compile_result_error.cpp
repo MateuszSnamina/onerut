@@ -24,6 +24,10 @@ namespace onerut_parser {
     ArgumentMismatchError::ArgumentMismatchError() :
     CompileError(U"Argument mismatch error!") {
     }
+    
+    WrongNumberOfArgumentsError::WrongNumberOfArgumentsError() :
+    CompileError(U"Wrong number of arguments error!") {
+    }
 
     IllegalAssignAttemptToRValueError::IllegalAssignAttemptToRValueError() :
     CompileError(U"Illegal assign attempt to r-value error!") {

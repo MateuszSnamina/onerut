@@ -39,12 +39,12 @@ namespace onerut_parser {
 
     bool GlobalIdentifiers::put_e() {
         const auto e_holder = std::make_shared<ConstDoubleHolder>(e);
-        return GlobalIdentifiers::instance().put(U"e", e_holder);
+        return put(U"e", e_holder);
     }
 
     bool GlobalIdentifiers::put_pi() {
         const auto pi_holder = std::make_shared<ConstDoubleHolder>(pi);
-        return GlobalIdentifiers::instance().put(U"pi", pi_holder);
+        return put(U"pi", pi_holder);
     }
 
 }

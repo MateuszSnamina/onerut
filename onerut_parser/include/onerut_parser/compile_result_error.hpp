@@ -32,6 +32,11 @@ namespace onerut_parser {
         ArgumentMismatchError();
     };
 
+    class WrongNumberOfArgumentsError : public CompileError {
+    public:
+        WrongNumberOfArgumentsError();
+    };
+    
     class IllegalAssignAttemptToRValueError : public CompileError {
     public:
         IllegalAssignAttemptToRValueError();

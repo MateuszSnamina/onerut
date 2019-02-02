@@ -1,6 +1,7 @@
 #ifndef ONERUT_SCALAR_SCALAR
 #define ONERUT_SCALAR_SCALAR
 
+#include<cassert>// TODO : remove when templates will have its onw file
 #include<memory>
 #include<vector>
 
@@ -138,6 +139,63 @@ namespace onerut_scalar {
         const std::vector<char32_t> opv;
     };
 
+    // -------------------------------------------------------------------------
+    // -------------- FUNCTION CLASES  ---------------------------------
+    // -------------------------------------------------------------------------
+
+    template<typename Callable>
+    class UnaryDoubleFunction : public Double {
+    public:
+        UnaryDoubleFunction(Callable callable, std::shared_ptr<Double> arg);
+        double value_double() const override;
+    private:
+        Callable callable;
+        const std::shared_ptr<Double> arg;
+    };
+
+    template<typename Callable>
+    UnaryDoubleFunction<Callable>::UnaryDoubleFunction(Callable callable, std::shared_ptr<Double> arg) :
+    callable(callable),
+    arg(arg) {
+        assert(arg);
+    }
+
+    template<typename Callable>
+    double UnaryDoubleFunction<Callable>::value_double() const {
+        const double x = arg->value_double();
+        const double y = callable(x);
+        return y;
+    }
+
+    // -------------------------------------------------------------------------
+
+    template<typename Callable>
+    class BinaryDoubleFunction : public Double {
+    public:
+        BinaryDoubleFunction(Callable callable, std::shared_ptr<Double> first_arg, std::shared_ptr<Double> second_arg);
+        double value_double() const override;
+    private:
+        Callable callable;
+        const std::shared_ptr<Double> first_arg;
+        const std::shared_ptr<Double> second_arg;
+    };
+
+    template<typename Callable>
+    BinaryDoubleFunction<Callable>::BinaryDoubleFunction(Callable callable, std::shared_ptr<Double> first_arg, std::shared_ptr<Double> second_arg) :
+    callable(callable),    
+    first_arg(first_arg),
+    second_arg(second_arg) {
+        assert(first_arg);
+        assert(second_arg);
+    }
+
+    template<typename Callable>
+    double BinaryDoubleFunction<Callable>::value_double() const {
+        const double firts_x = first_arg->value_double();
+        const double second_x = second_arg->value_double();
+        const double y = callable(firts_x, second_x);
+        return y;
+    }
 }
 
 #endif

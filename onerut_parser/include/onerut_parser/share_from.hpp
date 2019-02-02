@@ -1,6 +1,8 @@
 #ifndef ONERUT_PARSER_SHARE_FROM
 #define ONERUT_PARSER_SHARE_FROM
 
+#include<memory>
+
 namespace {
     // https://stackoverflow.com/questions/657155/how-to-enable-shared-from-this-of-both-parent-and-derived:
 
