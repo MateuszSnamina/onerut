@@ -15,9 +15,7 @@ namespace onerut_parser {
         std::optional<std::shared_ptr<AbstractFunction>> get_or_empty(const std::u32string& name) const;
         bool put(const std::u32string& name, std::shared_ptr<AbstractFunction> function);
         void force_put(const std::u32string& name, std::shared_ptr<AbstractFunction> function);
-        void put_sqrt();
-        void put_pow();
-        void put_cmath();        
+        void put_cmath();
     private:
         std::map<std::u32string, std::shared_ptr<AbstractFunction>> functions;
     };

@@ -40,17 +40,6 @@ namespace onerut_parser {
         functions[name] = function;
     }
 
-    void GlobalFunctions::put_sqrt() {
-        using FunPtrType1 = double(*)(double);
-        std::shared_ptr<AbstractFunction> function = std::make_shared <UnaryDoubleFunction < FunPtrType1 >> (static_cast<FunPtrType1> (&std::sqrt));
-        return force_put(U"sqrt", function);
-    }
-
-    void GlobalFunctions::put_pow() {
-        using FunPtrType2 = double(*)(double, double);
-        return PUT_STD_BINARY_FUNCTION(pow);
-    }
-
     void GlobalFunctions::put_cmath() {
         using FunPtrType1 = double(*)(double);
         using FunPtrType2 = double(*)(double, double);
