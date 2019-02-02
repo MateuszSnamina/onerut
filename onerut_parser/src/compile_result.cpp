@@ -41,6 +41,10 @@ namespace onerut_parser {
     CompileError(U"Illegal assign attempt to reference error!") {
     }
 
+    IllegalSecondAssignError::IllegalSecondAssignError() :
+    CompileError(U"Illegal second assign error!") {
+    }    
+    
     CompilerNotImplementedError::CompilerNotImplementedError() :
     CompileError(U"Compiler not implemented error!") {
     }

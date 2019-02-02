@@ -12,17 +12,27 @@ namespace onerut_parser {
     }
     //------------------
 
-    ConstCompileResultRef::ConstCompileResultRef(CompileResult value) :
+    CompileResultConstRef::CompileResultConstRef(std::u32string name, CompileResult value) :
+    name(name),
     value(value) {
     }
 
-    CompileResult ConstCompileResultRef::get_compile_result() const {
+    std::u32string CompileResultConstRef::get_name() const {
+        return name;
+    }
+
+    CompileResult CompileResultConstRef::get_compile_result() const {
         return value;
     }
     //------------------------------------
 
-    CompileResultRef::CompileResultRef(CompileResult value) :
+    CompileResultRef::CompileResultRef(std::u32string name, CompileResult value) :
+    name(name),
     value(value) {
+    }
+
+    std::u32string CompileResultRef::get_name() const {
+        return name;
     }
 
     CompileResult CompileResultRef::get_compile_result() const {

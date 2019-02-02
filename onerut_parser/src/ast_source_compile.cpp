@@ -31,11 +31,11 @@ namespace {
     }
 
     bool is_ref(const onerut_parser::CompileResult& result) {
-        return result.is_given_type<onerut_parser::CompileResultRef>();
+        return result.is_given_type<onerut_parser::CompileResultRef>();//ZLE TODO
     }
 
     bool is_const_ref(const onerut_parser::CompileResult& result) {
-        return result.is_given_type<onerut_parser::ConstCompileResultRef>();
+        return result.is_given_type<onerut_parser::CompileResultConstRef>();//ZLE TODO
     }
 
     bool is_identifier_not_found_error(const onerut_parser::CompileResult& result) {
@@ -55,8 +55,7 @@ namespace {
 
     std::shared_ptr<onerut_scalar::Long> to_long(const onerut_parser::CompileResult& arg_result) {
         assert(is_integer(arg_result));
-        std::shared_ptr<onerut_scalar::Long> arg_long;
-        arg_long = *arg_result.typed_value_or_empty<onerut_scalar::Long>();
+        const auto& arg_long = *arg_result.typed_value_or_empty<onerut_scalar::Long>();
         assert(arg_long);
         return arg_long;
     }
@@ -71,6 +70,13 @@ namespace {
         }
         assert(arg_double);
         return arg_double;
+    }
+
+    std::shared_ptr<onerut_parser::CompileResultRef> to_ref(const onerut_parser::CompileResult& arg_result) {
+        assert(is_ref(arg_result));
+        const auto & arg_ref = *arg_result.typed_value_or_empty<onerut_parser::CompileResultRef>();
+        assert(arg_ref);
+        return arg_ref;
     }
 
     bool is_either_value_or_type(onerut_parser::CompileResult first_arg_compile_result, onerut_parser::CompileResult second_arg_compile_result) {
@@ -199,8 +205,8 @@ namespace onerut_parser::onerut_ast::source {
 
     CompileResult
     IdentifierNode::basic_compile() const {
-        if (auto builder = GlobalIdentifiers::instance().get_or_empty(name)) {
-            return (*builder)->get_compile_result();
+        if (auto holder = GlobalIdentifiers::instance().get_or_empty(name)) {
+            return (*holder)->get_compile_result();
         }
         return CompileResult::from_compile_error(std::make_shared<IdentifierNotFoundError>(name));
     }
@@ -222,22 +228,27 @@ namespace onerut_parser::onerut_ast::source {
             return CompileResult::from_compile_error(std::make_shared<IllegalAssignAttemptToConstReferenceError>());
         if (new_flag && !first_arg_is_identifier_not_found_error)
             return CompileResult::from_compile_error(std::make_shared<IllegalAssignAttemptToReferenceError>());
-        if (first_arg_is_identifier_not_found_error && !const_flag) {
+        if (first_arg_is_identifier_not_found_error) {
             const auto name = is_identifier_not_found_name(first_arg_compile_result);
-            const auto created_ref = std::make_shared<CompileResultRef>(second_arg_compile_result);
-            GlobalIdentifiers::instance().put(name, created_ref);
+            const std::shared_ptr<AbstractCompileResultHolder> created_ref = const_flag ?
+                    std::static_pointer_cast<AbstractCompileResultHolder>(std::make_shared<CompileResultConstRef>(name, second_arg_compile_result)) :
+                    std::static_pointer_cast<AbstractCompileResultHolder>(std::make_shared<CompileResultRef>(name, second_arg_compile_result));
+            if (!GlobalIdentifiers::instance().put(name, created_ref)) {
+                return CompileResult::from_compile_error(std::make_shared<IllegalSecondAssignError>());
+            }
             return second_arg_compile_result;
         }
-        //TODO
-
-        //if (first_arg_type_match && second_argument_match) {
-
-        //}
-
-        //        const TwoSubsourcesCompileResult arg_results = compile_args();
-        //        if (!arg_results.is_either_value_or_type())
-        //            const CompileResult compile_result = CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
-        //
+        if (first_arg_is_ref) {
+            auto ref = to_ref(first_arg_compile_result);
+            if (!const_flag) {
+                ref->set_compile_result(second_arg_compile_result);
+            } else {
+                const auto name = ref->get_name();
+                const auto created_ref = std::make_shared<CompileResultConstRef>(name, second_arg_compile_result);
+                GlobalIdentifiers::instance().force_put(name, created_ref);
+            }
+            return second_arg_compile_result;
+        }
         return CompileResult::from_compile_error(std::make_shared<CompilerNotImplementedError>());
     }
 

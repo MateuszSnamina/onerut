@@ -33,6 +33,10 @@ namespace onerut_parser {
         return true;
     }
 
+    void GlobalIdentifiers::force_put(const std::u32string& name, std::shared_ptr<AbstractCompileResultHolder> holder) {
+        identifiers[name] = holder;
+    }
+
     bool GlobalIdentifiers::put_e() {
         const auto e_holder = std::make_shared<ConstDoubleHolder>(e);
         return GlobalIdentifiers::instance().put(U"e", e_holder);

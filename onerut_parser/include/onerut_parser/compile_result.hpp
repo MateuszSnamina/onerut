@@ -56,6 +56,11 @@ namespace onerut_parser {
         IllegalAssignAttemptToReferenceError();
     };
 
+    class IllegalSecondAssignError : public CompileError {
+    public:
+        IllegalSecondAssignError();
+    };    
+    
     class CompilerNotImplementedError : public CompileError {
     public:
         CompilerNotImplementedError();

@@ -11,9 +11,9 @@
 
 #include<esc/esc_manip.hpp>
 
-bool execute_line(std::shared_ptr<std::u32string> input) {
+bool execute_line(std::shared_ptr<std::u32string> line) {
     // #########################################################################
-    const auto parsed_x3_info = onerut_parser::parse(input);
+    const auto parsed_x3_info = onerut_parser::parse(line);
     // -------------------------------------------------------------------------
     std::cout << "Parsed info: (onerut_ast::x3):" << std::endl;
     print(parsed_x3_info);
@@ -54,6 +54,13 @@ bool execute_line(std::shared_ptr<std::u32string> input) {
     return true;
 }
 
+bool execute_script(std::vector<std::shared_ptr<std::u32string>> lines) {
+    return std::all_of(cbegin(lines), cend(lines),
+            [](const std::shared_ptr<std::u32string> &line) {
+                return execute_line(line);
+            });
+}
+
 int main() {
 
     //std::make_shared<const std::u32string>(unicode_from_utf8(input)));
@@ -79,16 +86,12 @@ int main() {
     //const std::string input = "  10+pi/2 ";
     //const std::string input = "new x := 10 ";
 
-    {
-        const auto input = std::make_shared<std::u32string>(U"x:=3/2+2*7+pi/2");
-        execute_line(input);
-    }
-
-    {
-        const auto input = std::make_shared<std::u32string>(U"x+7");
-        execute_line(input);
-    }
-
+    std::vector<std::shared_ptr < std::u32string>> lines;
+    lines.push_back(std::make_shared < std::u32string>(U"x:=(2+4*3)+pi/2"));
+    lines.push_back(std::make_shared < std::u32string>(U"x+7"));
+    lines.push_back(std::make_shared < std::u32string>(U"x:=40"));
+    lines.push_back(std::make_shared < std::u32string>(U"x+4"));
+    execute_script(lines);
 }
 
 
