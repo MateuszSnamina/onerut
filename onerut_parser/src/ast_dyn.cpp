@@ -31,9 +31,9 @@ namespace onerut_parser::onerut_ast::dyn {
     WithOneSubexpressionNode::WithOneSubexpressionNode(
             std::shared_ptr<const std::u32string> input,
             u32string_const_span span,
-            const std::shared_ptr<ExpressionNode> expression) :
+            const std::shared_ptr<ExpressionNode> arg) :
     ExpressionNode(input, span),
-    expression(expression) {
+    arg(arg) {
     }
 
     WithTwoSubexpressionsNode::WithTwoSubexpressionsNode(

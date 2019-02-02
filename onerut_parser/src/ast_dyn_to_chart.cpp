@@ -35,7 +35,7 @@ namespace onerut_parser::onerut_ast::dyn {
             unsigned deepness,
             LinesStyledChartInfo& chart) const {
         to_chart_disregard_subexpression(deepness, chart);
-        expression->to_chart(deepness + 1, chart);
+        arg->to_chart(deepness + 1, chart);
     }
 
     void WithTwoSubexpressionsNode::to_chart(

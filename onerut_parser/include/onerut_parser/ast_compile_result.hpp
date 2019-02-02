@@ -8,10 +8,6 @@
 #include<onerut_parser/print_chart.hpp>
 #include<onerut_parser/ast_dyn.hpp>
 
-namespace onerut_parser::onerut_ast::dyn {
-    class ExpressionNode;
-} // ZROBIC FORWARD???? TODO
-
 namespace onerut_parser::onerut_ast::compile_result {
 
     class CompileResultNode {

@@ -9,9 +9,6 @@
 #include<onerut_parser/compile_result.hpp>
 #include<onerut_parser/print_chart.hpp>
 
-#include "ast_compile_result.hpp"
-
-// ZROBIC FORWARD DECLARATION HEADER!!!
 namespace onerut_parser::onerut_ast::compile_result {
     class CompileResultNode;
 }
@@ -60,23 +57,15 @@ namespace onerut_parser::onerut_ast::dyn {
         WithOneSubexpressionNode(
                 std::shared_ptr<const std::u32string> input,
                 u32string_const_span span,
-                const std::shared_ptr<ExpressionNode> expression);
+                const std::shared_ptr<ExpressionNode> arg);
         void to_chart(
                 unsigned deepness,
                 LinesStyledChartInfo& chart) const final;
         virtual std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode> compile() const final;
         virtual CompileResult basic_compile(CompileResult arg_compile_result) const = 0;
-        const std::shared_ptr<ExpressionNode> expression; // zmienic na arg!!
+        const std::shared_ptr<ExpressionNode> arg;
     };
 
-    /*
-    struct TwoSubexpressionsCompileResult {
-        std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode> first_arg;
-        std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode> second_arg;
-        bool is_compile_error() const;
-        bool is_either_value_or_type() const;
-    };
-     */
     class WithTwoSubexpressionsNode : public ExpressionNode {
     public:
         WithTwoSubexpressionsNode(
@@ -92,15 +81,6 @@ namespace onerut_parser::onerut_ast::dyn {
         const std::shared_ptr<ExpressionNode> first_arg;
         const std::shared_ptr<ExpressionNode> second_arg;
     };
-
-    /*
-    struct OneOrMoreSubexpressionsCompileResult {
-        std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode> first_arg;
-        std::vector<std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode> > other_argv;
-        bool is_compile_error() const;
-        bool is_either_value_or_type() const;
-    };
-     */
 
     class WithOneOrMoreSubexpressionsNode : public ExpressionNode {
     public:
@@ -118,13 +98,6 @@ namespace onerut_parser::onerut_ast::dyn {
         const std::vector<std::shared_ptr<ExpressionNode>> other_argv;
     };
 
-    /*
-    struct AnyNumberOfSubexpressionsCompileResult {
-        std::vector<std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode> > argv;
-        bool is_compile_error() const;
-        bool is_either_value_or_type() const;
-    };
-     */
     class WithAnyNumberOfSubexpressionsNode : public ExpressionNode {
     public:
         WithAnyNumberOfSubexpressionsNode(

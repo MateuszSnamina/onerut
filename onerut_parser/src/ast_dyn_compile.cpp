@@ -6,32 +6,7 @@
 #include<onerut_parser/function_global.hpp>
 #include<onerut_scalar/scalar.hpp>
 #include<onerut_parser/ast_compile_result.hpp>
-
-#include<iostream> //debug! TODO
-
-
-
-// https://stackoverflow.com/questions/657155/how-to-enable-shared-from-this-of-both-parent-and-derived:
-
-template <typename Base>
-inline std::shared_ptr<Base>
-shared_from_base(std::enable_shared_from_this<Base>* base) {
-    return base->shared_from_this();
-}
-
-template <typename Base>
-inline std::shared_ptr<const Base>
-shared_from_base(std::enable_shared_from_this<Base> const* base) {
-    return base->shared_from_this();
-}
-
-template <typename That>
-inline std::shared_ptr<That>
-shared_from(That* that) {
-    return std::static_pointer_cast<That>(shared_from_base(that));
-}
-
-
+#include<onerut_parser/share_from.hpp>
 
 namespace {
 
@@ -55,6 +30,10 @@ namespace {
         return result.is_given_type<onerut_scalar::Long>() || result.is_given_type<onerut_scalar::Double>();
     }
 
+    // bool  is_ref(const onerut_parser::CompileResult& result) {}
+
+    // bool  is_const_ref(const onerut_parser::CompileResult& result) {}
+
     std::shared_ptr<onerut_scalar::Long> to_long(const onerut_parser::CompileResult& arg_result) {
         assert(is_integer(arg_result));
         std::shared_ptr<onerut_scalar::Long> arg_long;
@@ -75,22 +54,9 @@ namespace {
         return arg_double;
     }
 
-    bool is_compile_error(onerut_parser::CompileResult first_arg_compile_result, onerut_parser::CompileResult second_arg_compile_result) {
-        return first_arg_compile_result.is_compile_error() ||
-                second_arg_compile_result.is_compile_error();
-    }
-
     bool is_either_value_or_type(onerut_parser::CompileResult first_arg_compile_result, onerut_parser::CompileResult second_arg_compile_result) {
         return first_arg_compile_result.is_either_value_or_type() &&
                 second_arg_compile_result.is_either_value_or_type();
-    }
-
-    bool is_compile_error(onerut_parser::CompileResult first_arg_compile_result, std::vector<onerut_parser::CompileResult> other_argv_compile_result) {
-        return first_arg_compile_result.is_compile_error() ||
-                std::any_of(other_argv_compile_result.cbegin(), other_argv_compile_result.cend(),
-                [](const onerut_parser::CompileResult & compile_result) {
-                    return compile_result.is_compile_error();
-                });
     }
 
     bool is_either_value_or_type(onerut_parser::CompileResult first_arg_compile_result, std::vector<onerut_parser::CompileResult> other_argv_compile_result) {
@@ -101,18 +67,53 @@ namespace {
                 });
     }
 
-    bool is_compile_error(std::vector<onerut_parser::CompileResult> argv_compile_result) {
-        return std::any_of(argv_compile_result.cbegin(), argv_compile_result.cend(),
-                [](const onerut_parser::CompileResult & compile_result) {
-                    return compile_result.is_compile_error();
-                });
-    }
-
     bool is_either_value_or_type(std::vector<onerut_parser::CompileResult> argv_compile_result) {
         return std::all_of(argv_compile_result.cbegin(), argv_compile_result.cend(),
                 [](const onerut_parser::CompileResult & compile_result) {
                     return compile_result.is_either_value_or_type();
                 });
+    }
+
+    //    bool is_compile_error(onerut_parser::CompileResult first_arg_compile_result, onerut_parser::CompileResult second_arg_compile_result) {
+    //        return first_arg_compile_result.is_compile_error() ||
+    //                second_arg_compile_result.is_compile_error();
+    //    }
+
+    //    bool is_compile_error(onerut_parser::CompileResult first_arg_compile_result, std::vector<onerut_parser::CompileResult> other_argv_compile_result) {
+    //        return first_arg_compile_result.is_compile_error() ||
+    //                std::any_of(other_argv_compile_result.cbegin(), other_argv_compile_result.cend(),
+    //                [](const onerut_parser::CompileResult & compile_result) {
+    //                    return compile_result.is_compile_error();
+    //                });
+    //    }
+
+    //    bool is_compile_error(std::vector<onerut_parser::CompileResult> argv_compile_result) {
+    //        return std::any_of(argv_compile_result.cbegin(), argv_compile_result.cend(),
+    //                [](const onerut_parser::CompileResult & compile_result) {
+    //                    return compile_result.is_compile_error();
+    //                });
+    //    }
+
+    std::vector<std::shared_ptr < onerut_parser::onerut_ast::compile_result::CompileResultNode>>
+    many_compile(const std::vector<std::shared_ptr<onerut_parser::onerut_ast::dyn::ExpressionNode>> argv) {
+        std::vector<std::shared_ptr < onerut_parser::onerut_ast::compile_result::CompileResultNode>> argv_node;
+        argv_node.reserve(argv.size());
+        std::transform(cbegin(argv), cend(argv), back_inserter(argv_node),
+                [](const std::shared_ptr<onerut_parser::onerut_ast::dyn::ExpressionNode> & arg) {
+                    return arg->compile();
+                });
+        return argv_node;
+    }
+
+    std::vector<onerut_parser::CompileResult>
+    many_extract_compile_result(std::vector<std::shared_ptr < onerut_parser::onerut_ast::compile_result::CompileResultNode>> argv_node) {
+        std::vector<onerut_parser::CompileResult> argv_compile_result;
+        argv_compile_result.reserve(argv_node.size());
+        std::transform(cbegin(argv_node), cend(argv_node), back_inserter(argv_compile_result),
+                [](const std::shared_ptr < onerut_parser::onerut_ast::compile_result::CompileResultNode> &arg) {
+                    return arg->compile_result;
+                });
+        return argv_compile_result;
     }
 
 }
@@ -125,16 +126,18 @@ namespace onerut_parser::onerut_ast::dyn {
 
     std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode>
     WithNoSubexpressionsNode::compile() const {
-        const CompileResult compile_result = basic_compile();
+        const auto compile_result = basic_compile();
+
         return std::make_shared<onerut_parser::onerut_ast::compile_result::CompileResultNode>(
                 shared_from(this), compile_result);
     }
 
     std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode>
     WithOneSubexpressionNode::compile() const {
-        std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode> arg_node = expression->compile();
-        const CompileResult arg_compile_result = arg_node->compile_result;
-        const CompileResult compile_result = basic_compile(arg_compile_result);
+        std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode> arg_node = arg->compile();
+        const auto arg_compile_result = arg_node->compile_result;
+        const auto compile_result = basic_compile(arg_compile_result);
+
         return std::make_shared<onerut_parser::onerut_ast::compile_result::CompileResultNode>(
                 shared_from(this), arg_node, compile_result);
     }
@@ -143,49 +146,30 @@ namespace onerut_parser::onerut_ast::dyn {
     WithTwoSubexpressionsNode::compile() const {
         std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode> first_arg_node = first_arg->compile();
         std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode> second_arg_node = second_arg->compile();
-        const CompileResult first_arg_compile_result = first_arg_node->compile_result;
-        const CompileResult second_arg_compile_result = second_arg_node->compile_result;
-        const CompileResult compile_result = basic_compile(first_arg_compile_result, second_arg_compile_result);
+        const auto first_arg_compile_result = first_arg_node->compile_result;
+        const auto second_arg_compile_result = second_arg_node->compile_result;
+        const auto compile_result = basic_compile(first_arg_compile_result, second_arg_compile_result);
+
         return std::make_shared<onerut_parser::onerut_ast::compile_result::CompileResultNode>(
                 shared_from(this), first_arg_node, second_arg_node, compile_result);
     }
 
     std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode>
     WithOneOrMoreSubexpressionsNode::compile() const {
-        std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode> first_arg_node = first_arg->compile();
-        std::vector<std::shared_ptr < onerut_parser::onerut_ast::compile_result::CompileResultNode>> other_argv_node;
-        other_argv_node.resize(other_argv.size());
-        std::transform(other_argv.cbegin(), other_argv.cend(), other_argv_node.begin(),
-                [](const std::shared_ptr<ExpressionNode> & arg) {
-                    return arg->compile();
-                }); // TODO zrobic back inserter!!!!!! Zrobic osobna funkcje!!
-        const CompileResult first_arg_compile_result = first_arg_node->compile_result;
-        std::vector<CompileResult> other_argv_compile_result;
-        other_argv_compile_result.resize(other_argv.size());
-        std::transform(other_argv_node.cbegin(), other_argv_node.cend(), other_argv_compile_result.begin(),
-                [](const std::shared_ptr < onerut_parser::onerut_ast::compile_result::CompileResultNode> &arg) {
-                    return arg->compile_result;
-                }); // TODO zrobic back inserter!!!!!! Zrobic osobna funkcje!!
-        const CompileResult compile_result = basic_compile(first_arg_compile_result, other_argv_compile_result);
+        const auto first_arg_node = first_arg->compile();
+        const auto other_argv_node = many_compile(other_argv);
+        const auto first_arg_compile_result = first_arg_node->compile_result;
+        const auto other_argv_compile_result = many_extract_compile_result(other_argv_node);
+        const auto compile_result = basic_compile(first_arg_compile_result, other_argv_compile_result);
         return std::make_shared<onerut_parser::onerut_ast::compile_result::CompileResultNode>(
                 shared_from(this), first_arg_node, other_argv_node, compile_result);
     }
 
     std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode>
     WithAnyNumberOfSubexpressionsNode::compile() const {
-        std::vector<std::shared_ptr < onerut_parser::onerut_ast::compile_result::CompileResultNode>> argv_node;
-        argv_node.resize(argv.size());
-        std::transform(argv.cbegin(), argv.cend(), argv_node.begin(),
-                [](const std::shared_ptr<ExpressionNode> & arg) {
-                    return arg->compile();
-                }); // TODO zrobic back inserter!!!!!! Zrobic osobna funkcje!!
-        std::vector<CompileResult> argv_compile_result;
-        argv_compile_result.resize(argv.size());
-        std::transform(argv_node.cbegin(), argv_node.cend(), argv_compile_result.begin(),
-                [](const std::shared_ptr < onerut_parser::onerut_ast::compile_result::CompileResultNode> &arg) {
-                    return arg->compile_result;
-                }); // TODO zrobic back inserter!!!!!! Zrobic osobna funkcje!!
-        const CompileResult compile_result = basic_compile(argv_compile_result);
+        const auto argv_node = many_compile(argv);
+        const auto argv_compile_result = many_extract_compile_result(argv_node);
+        const auto compile_result = basic_compile(argv_compile_result);
         return std::make_shared<onerut_parser::onerut_ast::compile_result::CompileResultNode>(
                 shared_from(this), argv_node, compile_result);
     }
@@ -235,6 +219,7 @@ namespace onerut_parser::onerut_ast::dyn {
             other_argv_double.reserve(other_argv.size());
             first_arg_double = to_double(first_arg_compile_result);
             std::transform(other_argv_compile_result.cbegin(), other_argv_compile_result.cend(), std::back_inserter(other_argv_double), to_double);
+
             return CompileResult::from_value<onerut_scalar::Double>(std::make_shared<onerut_scalar::OpPlusMinusDouble>(first_arg_double, other_argv_double, opv));
         }
         return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
@@ -261,6 +246,7 @@ namespace onerut_parser::onerut_ast::dyn {
             other_argv_double.reserve(other_argv.size());
             first_arg_double = to_double(first_arg_compile_result);
             std::transform(other_argv_compile_result.cbegin(), other_argv_compile_result.cend(), std::back_inserter(other_argv_double), to_double);
+
             return CompileResult::from_value<onerut_scalar::Double>(std::make_shared<onerut_scalar::OpProdDivDouble>(first_arg_double, other_argv_double, opv));
         }
         return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
@@ -272,6 +258,7 @@ namespace onerut_parser::onerut_ast::dyn {
     OpPowNode::basic_compile(CompileResult first_arg_compile_result, CompileResult second_arg_compile_result) const {
         if (!is_either_value_or_type(first_arg_compile_result, second_arg_compile_result))
             return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
+
         return CompileResult::from_compile_error(std::make_shared<CompilerNotImplementedError>());
     }
 
@@ -281,6 +268,7 @@ namespace onerut_parser::onerut_ast::dyn {
     OpAtNode::basic_compile(CompileResult first_arg_compile_result, CompileResult second_arg_compile_result) const {
         if (!is_either_value_or_type(first_arg_compile_result, second_arg_compile_result))
             return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
+
         return CompileResult::from_compile_error(std::make_shared<CompilerNotImplementedError>());
     }
 
@@ -290,6 +278,7 @@ namespace onerut_parser::onerut_ast::dyn {
     OpArrowNode::basic_compile(CompileResult first_arg_compile_result, CompileResult second_arg_compile_result) const {
         if (!is_either_value_or_type(first_arg_compile_result, second_arg_compile_result))
             return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
+
         return CompileResult::from_compile_error(std::make_shared<CompilerNotImplementedError>());
 
     }
@@ -300,6 +289,7 @@ namespace onerut_parser::onerut_ast::dyn {
     OpGlueNode::basic_compile(CompileResult first_arg_compile_result, CompileResult second_arg_compile_result) const {
         if (!is_either_value_or_type(first_arg_compile_result, second_arg_compile_result))
             return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
+
         return CompileResult::from_compile_error(std::make_shared<CompilerNotImplementedError>());
     }
 
@@ -317,6 +307,7 @@ namespace onerut_parser::onerut_ast::dyn {
         }
         if (is_real(arg_compile_result)) {
             const std::shared_ptr<onerut_scalar::Double> arg_double = to_double(arg_compile_result);
+
             return CompileResult::from_value<onerut_scalar::Double>(std::make_shared<onerut_scalar::OpUnaryPlusMinusDouble>(arg_double, op));
         }
         return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
@@ -326,6 +317,7 @@ namespace onerut_parser::onerut_ast::dyn {
 
     CompileResult
     LitLongNode::basic_compile() const {
+
         return CompileResult::from_value<onerut_scalar::Long>(std::make_shared<onerut_scalar::LitLong>(value));
     }
 
@@ -333,6 +325,7 @@ namespace onerut_parser::onerut_ast::dyn {
 
     CompileResult
     LitDoubleNode::basic_compile() const {
+
         return CompileResult::from_value<onerut_scalar::Double>(std::make_shared<onerut_scalar::LitDouble>(value));
     }
 
