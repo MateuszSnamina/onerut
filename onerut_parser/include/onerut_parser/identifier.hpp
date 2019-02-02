@@ -5,38 +5,38 @@
 
 namespace onerut_parser {
 
-    class AbstractCompileResultHolder {//TODO holder->ref
+    class AbstractCompileResultRef {//TODO holder->ref
     public:
-        virtual CompileResult get_compile_result() const = 0;
-        virtual ~AbstractCompileResultHolder() = default;
+        virtual DereferencedCompileResult get_compile_result() const = 0; // TODO zmienić na dereferenced compile result
+        virtual ~AbstractCompileResultRef() = default;
     };
 
-    class ConstDoubleHolder : public AbstractCompileResultHolder {
+    class ConstDoubleHolder : public AbstractCompileResultRef {
     public:
         ConstDoubleHolder(double value);
-        CompileResult get_compile_result() const override;
+        DereferencedCompileResult get_compile_result() const override;
         const double value;
     };
 
-    class CompileResultConstRef : public AbstractCompileResultHolder {
+    class CompileResultConstRef : public AbstractCompileResultRef {
     public:
-        CompileResultConstRef(std::u32string name, CompileResult value);
-        CompileResult get_compile_result() const override;
+        CompileResultConstRef(std::u32string name, DereferencedCompileResult value);
+        DereferencedCompileResult get_compile_result() const override;
         std::u32string get_name() const;
         //private: TODO
         const std::u32string name;
-        const CompileResult value;
+        const DereferencedCompileResult value;
     };
 
-    class CompileResultRef : public AbstractCompileResultHolder {
+    class CompileResultNotConstRef : public AbstractCompileResultRef {
     public:
-        CompileResultRef(std::u32string name, CompileResult value);
-        CompileResult get_compile_result() const override;
-        void set_compile_result(CompileResult new_value);
+        CompileResultNotConstRef(std::u32string name, DereferencedCompileResult value);
+        DereferencedCompileResult get_compile_result() const override;
+        void set_compile_result(DereferencedCompileResult new_value);
         std::u32string get_name() const;
         //private: TODO
         const std::u32string name;
-        CompileResult value;
+        DereferencedCompileResult value;
     };
 
 }

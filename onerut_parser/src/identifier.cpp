@@ -7,12 +7,12 @@ namespace onerut_parser {
     value(value) {
     }
 
-    CompileResult ConstDoubleHolder::get_compile_result() const {
-        return CompileResult::from_value<onerut_scalar::Double>(std::make_shared<onerut_scalar::LitDouble>(value));
+    DereferencedCompileResult ConstDoubleHolder::get_compile_result() const {
+        return DereferencedCompileResult::from_value<onerut_scalar::Double>(std::make_shared<onerut_scalar::LitDouble>(value));
     }
     //------------------
 
-    CompileResultConstRef::CompileResultConstRef(std::u32string name, CompileResult value) :
+    CompileResultConstRef::CompileResultConstRef(std::u32string name, DereferencedCompileResult value) :
     name(name),
     value(value) {
     }
@@ -21,25 +21,25 @@ namespace onerut_parser {
         return name;
     }
 
-    CompileResult CompileResultConstRef::get_compile_result() const {
+    DereferencedCompileResult CompileResultConstRef::get_compile_result() const {
         return value;
     }
     //------------------------------------
 
-    CompileResultRef::CompileResultRef(std::u32string name, CompileResult value) :
+    CompileResultNotConstRef::CompileResultNotConstRef(std::u32string name, DereferencedCompileResult value) :
     name(name),
     value(value) {
     }
 
-    std::u32string CompileResultRef::get_name() const {
+    std::u32string CompileResultNotConstRef::get_name() const {
         return name;
     }
 
-    CompileResult CompileResultRef::get_compile_result() const {
+    DereferencedCompileResult CompileResultNotConstRef::get_compile_result() const {
         return value;
     }
 
-    void CompileResultRef::set_compile_result(CompileResult new_value) {
+    void CompileResultNotConstRef::set_compile_result(DereferencedCompileResult new_value) {
         value = new_value;
     }
 }

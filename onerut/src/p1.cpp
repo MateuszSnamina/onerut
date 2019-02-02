@@ -37,16 +37,16 @@ bool execute_line(std::shared_ptr<std::u32string> line) {
     onerut_parser::print_chart(parsed_x3_info.input, ast_compile_result_chart);
     // -------------------------------------------------------------------------
     onerut_parser::CompileResult compile_result = ast_compile_result->compile_result;
-    if (compile_result.is_compile_error()) {
+    if (compile_result.dereference().is_compile_error()) {
         std::cout << "RESULT IS AN ERROR" << std::endl;
-        std::cout << (*compile_result.compile_error_or_empty())->what() << std::endl;
-    } else if (compile_result.is_given_type<onerut_scalar::Long>()) {
+        std::cout << (*compile_result.dereference().compile_error_or_empty())->what() << std::endl;
+    } else if (compile_result.dereference().is_given_type<onerut_scalar::Long>()) {
         std::cout << "RESULT IS AN INT" << std::endl;
-        std::shared_ptr<onerut_scalar::Long> result_long = *(compile_result.typed_value_or_empty<onerut_scalar::Long>());
+        std::shared_ptr<onerut_scalar::Long> result_long = *(compile_result.dereference().typed_value_or_empty<onerut_scalar::Long>());
         std::cout << "VALUE = " << result_long->value_long() << std::endl;
-    } else if (compile_result.is_given_type<onerut_scalar::Double>()) {
+    } else if (compile_result.dereference().is_given_type<onerut_scalar::Double>()) {
         std::cout << "RESULT IS AN DOUBLE" << std::endl;
-        std::shared_ptr<onerut_scalar::Double> result_double = *(compile_result.typed_value_or_empty<onerut_scalar::Double>());
+        std::shared_ptr<onerut_scalar::Double> result_double = *(compile_result.dereference().typed_value_or_empty<onerut_scalar::Double>());
         std::cout << "VALUE = " << std::setprecision(20) << result_double->value_double() << std::endl;
     } else {
         std::cout << "RESULT IS NOT INT NOR DOUBLE NOR ERROR." << std::endl;
@@ -87,6 +87,7 @@ int main() {
     //const std::string input = "new x := 10 ";
 
     std::vector<std::shared_ptr < std::u32string>> lines;
+//    lines.push_back(std::make_shared < std::u32string>(U"(2+4*3)+pi/2"));
     lines.push_back(std::make_shared < std::u32string>(U"x:=(2+4*3)+pi/2"));
     lines.push_back(std::make_shared < std::u32string>(U"x+7"));
     lines.push_back(std::make_shared < std::u32string>(U"x:=40"));

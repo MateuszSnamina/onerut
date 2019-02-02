@@ -59,28 +59,28 @@ namespace onerut_parser {
     class IllegalSecondAssignError : public CompileError {
     public:
         IllegalSecondAssignError();
-    };    
-    
+    };
+
     class CompilerNotImplementedError : public CompileError {
     public:
         CompilerNotImplementedError();
     };
 
     // *************************************************************************
-    // ********************** BUILDER RESULTS **********************************
+    // ********************** DEREFERENCED COMPILE RESULTS *********************
     // *************************************************************************
 
-    class CompileResult {
+    class DereferencedCompileResult {
     public:
         // Construction:
-        CompileResult() = default;
-        CompileResult(const CompileResult&) = default; // TODO explicit??
-        CompileResult(CompileResult&&) = default;
-        CompileResult & operator=(const CompileResult&) = default;
-        CompileResult & operator=(CompileResult&&) = default;
-        template<typename T> static CompileResult from_type();
-        template<typename T> static CompileResult from_value(std::shared_ptr<T> value);
-        static CompileResult from_compile_error(std::shared_ptr<CompileError> error);
+        DereferencedCompileResult() = default;
+        DereferencedCompileResult(const DereferencedCompileResult&) = default; // TODO explicit??
+        DereferencedCompileResult(DereferencedCompileResult&&) = default;
+        DereferencedCompileResult & operator=(const DereferencedCompileResult&) = default;
+        DereferencedCompileResult & operator=(DereferencedCompileResult&&) = default;
+        template<typename T> static DereferencedCompileResult from_type();
+        template<typename T> static DereferencedCompileResult from_value(std::shared_ptr<T> value);
+        static DereferencedCompileResult from_compile_error(std::shared_ptr<CompileError> error);
         // Accessors and predicates:
         template<typename T> bool is_given_type() const;
         std::optional<std::any> value_or_empty() const;
@@ -98,7 +98,46 @@ namespace onerut_parser {
                 std::any>;
         VariantType _content;
         // We use the tag 'from_content' to mope up the overload issues:
-        // CompileResult(const VariantType) vs CompileResult(const CompileResult&)
+        // DereferencedCompileResult(const VariantType) vs DereferencedCompileResult(const DereferencedCompileResult&)
+        struct FromContentT;
+        static const FromContentT from_content;
+        DereferencedCompileResult(const VariantType content, FromContentT);
+    };
+
+    struct DereferencedCompileResult::FromContentT {
+    };
+
+    // *************************************************************************
+    // **********************   COMPILE RESULTS            *********************
+    // *************************************************************************    
+
+    class AbstractCompileResultRef; // TO DO: po rozdzieleniu plikow usunac forward deklaracje!!
+
+    class CompileResult {
+    public:
+        // Construction:
+        CompileResult() = default;
+        CompileResult(const CompileResult&) = default; // TODO explicit??
+        CompileResult(CompileResult&&) = default;
+        CompileResult & operator=(const CompileResult&) = default;
+        CompileResult & operator=(CompileResult&&) = default;
+        static CompileResult from_reference(std::shared_ptr<AbstractCompileResultRef> reference);
+        static CompileResult from_dereferenced_compile_result(DereferencedCompileResult dereferenced_compile_result);
+        template<typename T> static CompileResult from_type();
+        template<typename T> static CompileResult from_value(std::shared_ptr<T> value);
+        static CompileResult from_compile_error(std::shared_ptr<CompileError> error);
+        bool is_reference() const;
+        std::optional<std::shared_ptr<AbstractCompileResultRef>> reference_or_empty() const;
+        std::optional<DereferencedCompileResult> dereferenced_compile_result_or_empty() const;
+        DereferencedCompileResult dereference() const;
+        //TO DO _or_throw member functions.
+    private:
+        using VariantType = std::variant<
+                std::shared_ptr<AbstractCompileResultRef>,
+                DereferencedCompileResult>;
+        VariantType _content;
+        // We use the tag 'from_content' to mope up the overload issues:
+        // DereferencedCompileResult(const VariantType) vs DereferencedCompileResult(const DereferencedCompileResult&)
         struct FromContentT;
         static const FromContentT from_content;
         CompileResult(const VariantType content, FromContentT);
@@ -106,6 +145,31 @@ namespace onerut_parser {
 
     struct CompileResult::FromContentT {
     };
+
+    /////////TO CPP IN THE FUTURE:
+
+    inline
+    CompileResult CompileResult::from_reference(std::shared_ptr<AbstractCompileResultRef> reference) {
+        CompileResult::VariantType content{
+            std::in_place_type<std::shared_ptr < AbstractCompileResultRef>>,
+            reference};
+        return CompileResult(content, from_content);
+    }
+
+    inline
+    CompileResult CompileResult::from_dereferenced_compile_result(DereferencedCompileResult dereferenced_compile_result) {
+        CompileResult::VariantType content{
+            std::in_place_type<DereferencedCompileResult>,
+            dereferenced_compile_result};
+        return CompileResult(content, from_content);
+    }
+
+    inline
+    CompileResult CompileResult::from_compile_error(std::shared_ptr<CompileError> error) {
+        DereferencedCompileResult dereferenced_compile_result = DereferencedCompileResult::from_compile_error(error);
+        return from_dereferenced_compile_result(dereferenced_compile_result);
+    }
+
 
     // *************************************************************************
     // ********   TEMPLATES IMPLEMENTATION -- HELPER FUNCTIONS  ****************
@@ -183,40 +247,55 @@ namespace onerut_parser {
     // *************************************************************************
 
     template<typename T>
-    CompileResult CompileResult::from_type() {
+    DereferencedCompileResult DereferencedCompileResult::from_type() {
         std::shared_ptr<T> value;
-        CompileResult::VariantType content{
+        DereferencedCompileResult::VariantType content{
             std::in_place_type<std::any>,
             value};
-        return CompileResult(content, from_content);
+        return DereferencedCompileResult(content, from_content);
     }
 
     template<typename T>
-    CompileResult CompileResult::from_value(std::shared_ptr<T> value) {
+    DereferencedCompileResult DereferencedCompileResult::from_value(std::shared_ptr<T> value) {
         assert(value);
-        CompileResult::VariantType content{
+        DereferencedCompileResult::VariantType content{
             std::in_place_type<std::any>,
             value};
-        return CompileResult(content, from_content);
+        return DereferencedCompileResult(content, from_content);
     }
 
     template<typename T>
-    bool CompileResult::is_given_type() const {
+    bool DereferencedCompileResult::is_given_type() const {
         const IsGivenTypeVisitor<T> is_given_type_visitor;
         return std::visit(is_given_type_visitor, _content);
     }
 
     template<typename T>
-    std::optional<std::shared_ptr<T>> CompileResult::typed_value_or_empty() const {
+    std::optional<std::shared_ptr<T>> DereferencedCompileResult::typed_value_or_empty() const {
         const TypedValueOrEmptyVisitor<T> type_value_or_empty_visitor;
         return std::visit(type_value_or_empty_visitor, _content);
     }
 
     template<typename T>
-    std::shared_ptr<T> CompileResult::typed_value_or_throw() const {
+    std::shared_ptr<T> DereferencedCompileResult::typed_value_or_throw() const {
         const TypedValueOrThrowVisitor<T> type_value_or_throw_visitor;
         return std::visit(type_value_or_throw_visitor, _content);
     }
 
+    // *************************************************************************
+    // ********   TEMPLATES IMPLEMENTATION   ***********************************
+    // *************************************************************************
+
+    template<typename T>
+    CompileResult CompileResult::from_type() {
+        DereferencedCompileResult dereferenced_compile_result = DereferencedCompileResult::from_type<T>();
+        return from_dereferenced_compile_result(dereferenced_compile_result);
+    }
+
+    template<typename T>
+    CompileResult CompileResult::from_value(std::shared_ptr<T> value) {
+        DereferencedCompileResult dereferenced_compile_result = DereferencedCompileResult::from_value(value);
+        return from_dereferenced_compile_result(dereferenced_compile_result);
+    }
 }
 #endif

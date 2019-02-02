@@ -1,6 +1,8 @@
 #include<onerut_parser/unicode_support.hpp>
 #include<onerut_parser/compile_result.hpp>
 
+#include "onerut_parser/identifier.hpp"
+
 namespace onerut_parser {
 
     // *************************************************************************
@@ -43,8 +45,8 @@ namespace onerut_parser {
 
     IllegalSecondAssignError::IllegalSecondAssignError() :
     CompileError(U"Illegal second assign error!") {
-    }    
-    
+    }
+
     CompilerNotImplementedError::CompilerNotImplementedError() :
     CompileError(U"Compiler not implemented error!") {
     }
@@ -93,7 +95,7 @@ namespace onerut_parser {
         struct ValueOrThrowVisitor {
 
             std::any operator()(const std::monostate&) const {
-                throw std::runtime_error("CompileResult: Empty result type has no value.");
+                throw std::runtime_error("DereferencedCompileResult: Empty result type has no value.");
             }
 
             std::any operator()(const std::any& x) const {
@@ -113,51 +115,92 @@ namespace onerut_parser {
     // ********************** COMPILE RESULT ***********************************
     // *************************************************************************    
 
-    CompileResult::CompileResult(const CompileResult::VariantType content, FromContentT) :
+    CompileResult::CompileResult(const CompileResult::VariantType content, CompileResult::FromContentT) : //TODO czy namespace jest  potrzebne??
     _content(content) {
     }
 
-    CompileResult
-    CompileResult::from_compile_error(std::shared_ptr<CompileError> error) {
+    bool CompileResult::is_reference() const {
+        const IsContentVisitor<std::shared_ptr < AbstractCompileResultRef>> is_empty_visitor;
+        return std::visit(is_empty_visitor, _content);
+    }
+
+    std::optional<std::shared_ptr<AbstractCompileResultRef>> CompileResult::reference_or_empty() const {
+        const ContentOrEmptyVisitor<std::shared_ptr < AbstractCompileResultRef>> reference_or_empty_visitor;
+        return std::visit(reference_or_empty_visitor, _content);
+    }
+
+    std::optional<DereferencedCompileResult> CompileResult::dereferenced_compile_result_or_empty() const {
+        const ContentOrEmptyVisitor<DereferencedCompileResult> dereferenced_compile_result_or_empty_visitor;
+        return std::visit(dereferenced_compile_result_or_empty_visitor, _content);
+    }
+
+    struct DereferenceVisitor {
+        using ResultType = DereferencedCompileResult;
+
+        ResultType operator()(const std::shared_ptr < AbstractCompileResultRef>& reference) const {
+            return reference->get_compile_result();
+        }
+
+        ResultType operator()(const DereferencedCompileResult& results) const {
+            return results;
+        }
+    };
+
+    DereferencedCompileResult CompileResult::dereference() const {
+        const DereferenceVisitor dereference_visitor;
+        return std::visit(dereference_visitor, _content);
+
+    }
+
+    // *************************************************************************
+    // ********************** DEREFERENCED COMPILE RESULT **********************
+    // *************************************************************************    
+
+    DereferencedCompileResult::DereferencedCompileResult(const DereferencedCompileResult::VariantType content, FromContentT) : //TODO czy namespace jest  potrzebne??
+    _content(content) {
+    }
+
+    DereferencedCompileResult
+    DereferencedCompileResult::from_compile_error(std::shared_ptr<CompileError> error) {
         assert(error);
-        CompileResult::VariantType content{
+        DereferencedCompileResult::VariantType content{
             std::in_place_type<std::shared_ptr < CompileError>>,
             error};
-        return CompileResult(content, from_content);
+        return DereferencedCompileResult(content, from_content);
     }
 
     std::optional<std::any>
-    CompileResult::value_or_empty() const {
+    DereferencedCompileResult::value_or_empty() const {
         const ContentOrEmptyVisitor<std::any> value_or_empty_visitor;
         return std::visit(value_or_empty_visitor, _content);
     }
 
     std::optional<std::shared_ptr < CompileError >>
-    CompileResult::compile_error_or_empty() const {
+    DereferencedCompileResult::compile_error_or_empty() const {
         const ContentOrEmptyVisitor<std::shared_ptr < CompileError>> compile_error_or_empty_visitor;
         return std::visit(compile_error_or_empty_visitor, _content);
     }
 
     std::any
-    CompileResult::value_or_throw() const {
+    DereferencedCompileResult::value_or_throw() const {
         const ValueOrThrowVisitor value_or_throw_visitor;
         return std::visit(value_or_throw_visitor, _content);
     }
 
     bool
-    CompileResult::is_empty() const {
+    DereferencedCompileResult::is_empty() const {
         const IsContentVisitor<std::monostate> is_empty_visitor;
         return std::visit(is_empty_visitor, _content);
     }
 
     bool
-    CompileResult::is_either_value_or_type() const {
+    DereferencedCompileResult::is_either_value_or_type() const {
         const IsContentVisitor<std::any> is_either_value_or_type_visitor;
         return std::visit(is_either_value_or_type_visitor, _content);
     }
 
     bool
-    CompileResult::is_compile_error() const {
+    DereferencedCompileResult::is_compile_error() const {
         const IsContentVisitor<std::shared_ptr < CompileError>> is_compile_error_visitor;
         return std::visit(is_compile_error_visitor, _content);
     }
