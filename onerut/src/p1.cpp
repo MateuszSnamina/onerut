@@ -1,6 +1,7 @@
 #include<iostream>
 #include<iomanip>
 
+#include<esc/esc_manip.hpp>
 #include<onerut_parser/gramma_parser.hpp>
 #include<onerut_parser/ast_x3_to_ast_source.hpp>
 #include<onerut_parser/ast_compile_result.hpp>
@@ -8,8 +9,6 @@
 #include<onerut_parser/identifier_global.hpp>
 #include<onerut_parser/function_global.hpp>
 #include<onerut_scalar/scalar.hpp>
-
-#include<esc/esc_manip.hpp>
 
 bool execute_line(std::shared_ptr<std::u32string> line) {
     // #########################################################################
@@ -47,10 +46,6 @@ bool execute_line(std::shared_ptr<std::u32string> line) {
         std::cout << "RESULT IS AN DOUBLE" << std::endl;
         std::shared_ptr<onerut_scalar::Double> result_double = *(compile_result.dereference().typed_value_or_empty<onerut_scalar::Double>());
         std::cout << "VALUE = " << std::setprecision(20) << result_double->value_double() << std::endl;
-        //    } else if (compile_result.dereference().is_given_type<onerut_scalar::Double>()) {
-        //        std::cout << "RESULT IS AN DOUBLE" << std::endl;
-        //        std::shared_ptr<onerut_scalar::Double> result_double = *(compile_result.dereference().typed_value_or_empty<onerut_scalar::Double>());
-        //        std::cout << "VALUE = " << std::setprecision(20) << result_double->value_double() << std::endl;
     } else {
         std::cout << "RESULT IS NOT INT NOR DOUBLE NOR ERROR." << std::endl;
     }
@@ -70,8 +65,7 @@ int main() {
 
     onerut_parser::GlobalIdentifiers::instance().put_e();
     onerut_parser::GlobalIdentifiers::instance().put_pi();
-    onerut_parser::GlobalFunctions::instance().put_sqrt();
-    onerut_parser::GlobalFunctions::instance().put_pow();
+    onerut_parser::GlobalFunctions::instance().put_cmath();
 
     //std::string input = "  _alg(_67j, foo(  7  , 8 ) , (xx2s) ) kota* 56.8 ";
     //std::string input  = "  $ ";
@@ -97,7 +91,8 @@ int main() {
     lines.push_back(std::make_shared < std::u32string>(U"x:=40"));
     lines.push_back(std::make_shared < std::u32string>(U"x+4"));
     lines.push_back(std::make_shared < std::u32string>(U"sqrt(4.0)"));
-    lines.push_back(std::make_shared < std::u32string>(U"pow(3,2)"));
+    lines.push_back(std::make_shared < std::u32string>(U"max(3,2)"));
+    lines.push_back(std::make_shared < std::u32string>(U"sin(pi/4)/sqrt(2)"));
     execute_script(lines);
 }
 
