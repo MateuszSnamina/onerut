@@ -3,13 +3,13 @@
 
 #include<onerut_parser/gramma_parser.hpp>
 #include<onerut_parser/ast_x3_to_ast_dyn.hpp>
+#include<onerut_parser/ast_compile_result.hpp>
 #include<onerut_parser/print_chart.hpp>
 #include<onerut_parser/identifier_global.hpp>
 #include<onerut_parser/function_global.hpp>
 #include<onerut_scalar/scalar.hpp>
 
 #include<esc/esc_manip.hpp>
-
 
 int main() {
 
@@ -35,7 +35,9 @@ int main() {
 
 
     //const std::string input = "  10+pi/2 ";
-    const std::string input = "new x := 10 ";
+    //const std::string input = "new x := 10 ";
+    
+    const std::string input = "3/2+2*7+pi/2";
     //const std::string input = "zinf";
 
     // -------------------------------------------------------------------------
@@ -46,20 +48,26 @@ int main() {
         return 1;
 
     // -------------------------------------------------------------------------
-    const auto ast_dyn_head = onerut_parser::onerut_ast::to_ast_dyn(
+    const std::shared_ptr<onerut_parser::onerut_ast::dyn::ExpressionNode> ast_dyn_head = onerut_parser::onerut_ast::to_ast_dyn(
             parsed_x3_info.ast_head,
             parsed_x3_info.input,
             parsed_x3_info.positions);
 
     const auto ast_dyn_chart = ast_dyn_head->to_chart();
-    // -------------------------------------------------------------------------
-
     std::cout << "Parsed info: (onerut_ast::dyn):" << std::endl;
     onerut_parser::print_chart(parsed_x3_info.input, ast_dyn_chart);
 
     // -------------------------------------------------------------------------
 
-    onerut_parser::CompileResult result = ast_dyn_head->compile();
+    std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode> compiled = ast_dyn_head->compile();
+    onerut_parser::CompileResult result = compiled->compile_result;
+    
+    const auto ast_compiled_chart = compiled->to_chart();
+    std::cout << "Parsed info: (onerut_ast::compile_result):" << std::endl;
+    onerut_parser::print_chart(parsed_x3_info.input, ast_compiled_chart);
+    
+    // -------------------------------------------------------------------------
+
     if (result.is_compile_error()) {
         std::cout << "ERROR" << std::endl;
         std::cout << (*result.compile_error_or_empty())->what() << std::endl;

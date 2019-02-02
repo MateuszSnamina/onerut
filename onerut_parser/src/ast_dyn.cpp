@@ -9,7 +9,7 @@ namespace onerut_parser::onerut_ast::dyn {
     // ***********************    Abstract baseclasses   ***********************
     // *************************************************************************    
 
-    ExpressionNode::ExpressionNode(
+    ExpressionNode::ExpressionNode (
             std::shared_ptr<const std::u32string> input,
             u32string_const_span span) :
     input(input),

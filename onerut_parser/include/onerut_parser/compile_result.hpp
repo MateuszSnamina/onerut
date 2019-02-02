@@ -52,8 +52,8 @@ namespace onerut_parser {
     public:
         // Construction:
         CompileResult() = default;
-        explicit CompileResult(const CompileResult&) = default;
-        explicit CompileResult(CompileResult&&) = default;
+        CompileResult(const CompileResult&) = default;// TODO explicit??
+        CompileResult(CompileResult&&) = default;
         CompileResult & operator=(const CompileResult&) = default;
         CompileResult & operator=(CompileResult&&) = default;
         template<typename T> static CompileResult from_type();

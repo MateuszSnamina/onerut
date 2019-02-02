@@ -10,6 +10,7 @@
 
 #include<onerut_parser/gramma_parser.hpp>
 #include<onerut_parser/ast_x3_to_ast_dyn.hpp>
+#include<onerut_parser/ast_compile_result.hpp>
 #include<onerut_parser/print_chart.hpp>
 #include<onerut_scalar/scalar.hpp>
 #include<onerut_parser_tests/global_flags.hpp>
@@ -72,7 +73,9 @@ void _basis_onerut_test(T _cpp_value, std::shared_ptr<std::u32string> _onerut_in
     }
     // -------------------------------------------------------------------------
     // --------------------------------------------------    
-    onerut_parser::CompileResult _result = _ast_dyn_head->compile();
+
+    std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode> _compiled = _ast_dyn_head->compile();
+    onerut_parser::CompileResult _result = _compiled->compile_result;
     // --------------------------------------------------    
     if (onerut_verbose) {
         if (_result.is_compile_error()) {
