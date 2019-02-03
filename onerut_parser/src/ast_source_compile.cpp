@@ -8,8 +8,6 @@
 #include<onerut_parser/identifier_global.hpp>
 #include<onerut_parser/function_global.hpp>
 #include<onerut_scalar/scalar.hpp>
-#include <c++/5/bits/stringfwd.h>
-
 
 namespace {
 
