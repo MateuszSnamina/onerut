@@ -73,7 +73,7 @@ execute_line(std::shared_ptr<std::u32string> uline) {
 }
 
 bool
-execute_script_ulines(const std::vector<std::shared_ptr<std::u32string>>& ulines) {
+execute_script_ulines(const std::vector<std::shared_ptr<std::u32string>>&ulines) {
     return std::all_of(cbegin(ulines), cend(ulines),
             [](const std::shared_ptr<std::u32string> &line) {
                 return execute_line(line);

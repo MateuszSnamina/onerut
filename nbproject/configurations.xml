@@ -13,7 +13,12 @@
         <in>p1.cpp</in>
       </df>
     </df>
-    <df root="onerut_parser" name="2">
+    <df root="onerut_op1e" name="2">
+      <df name="src">
+        <in>op1e.cpp</in>
+      </df>
+    </df>
+    <df root="onerut_parser" name="3">
       <df name="src">
         <in>ast_compile_result.cpp</in>
         <in>ast_compile_result_to_chart.cpp</in>
@@ -39,7 +44,7 @@
         <in>unicode_support.cpp</in>
       </df>
     </df>
-    <df root="onerut_parser_tests" name="3">
+    <df root="onerut_parser_tests" name="4">
       <df name="src">
         <in>global_flags.cpp</in>
         <in>main.cpp</in>
@@ -48,7 +53,7 @@
         <in>pure_real.cpp</in>
       </df>
     </df>
-    <df root="onerut_scalar" name="4">
+    <df root="onerut_scalar" name="5">
       <df name="src">
         <in>scalar.cpp</in>
       </df>
@@ -67,6 +72,7 @@
     <Elem>onerut_parser_tests</Elem>
     <Elem>esc</Elem>
     <Elem>onerut_scalar</Elem>
+    <Elem>onerut_op1e</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -130,11 +136,10 @@
       <folder path="2">
         <ccTool>
           <incDir>
-            <pElem>onerut_parser/include</pElem>
-            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_op1e/include</pElem>
             <pElem>esc/include</pElem>
             <pElem>external_packages/include</pElem>
-            <pElem>build_netbeanns/onerut_parser</pElem>
+            <pElem>build_netbeanns/onerut_op1e</pElem>
           </incDir>
         </ccTool>
       </folder>
@@ -161,6 +166,10 @@
         </ccTool>
       </folder>
       <item path="onerut/src/p1.cpp" ex="false" tool="1" flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_op1e/src/op1e.cpp" ex="false" tool="1" flavor2="11">
         <ccTool flags="0">
         </ccTool>
       </item>

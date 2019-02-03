@@ -1,0 +1,9 @@
+x := (2 + 4*3) + pi/2
+x + 7
+x := 40
+x+4
+const y := sqrt(4.0)
+new const z := max(x, y)
+new const w := sin(pi/4) / sqrt(2)
+p := 3^2
+z = zx
