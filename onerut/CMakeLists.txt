@@ -25,6 +25,7 @@ target_include_directories("${TARGET_NAME}" PUBLIC include)
 target_link_libraries(onerut
   onerut_parser
   esc
+  stdc++fs
   Boost::boost
   Boost::program_options
   armadillo lapack blas

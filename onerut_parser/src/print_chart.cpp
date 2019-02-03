@@ -44,8 +44,8 @@ namespace onerut_parser {
                     std::cout << unicode_to_utf8(text_bit);
                 }
                 {
-                    const std::u32string text_bit = std::u32string(bit.begin(), bit.end());
-                    std::cout << unicode_to_utf8(text_bit);
+                    const auto text_view = to_u32string_view(bit);
+                    std::cout << unicode_to_utf8(text_view);
                 }
                 it = bit.end();
             }
@@ -89,8 +89,8 @@ namespace onerut_parser {
                     std::cout << unicode_to_utf8(text_bit);
                 }
                 {
-                    const std::u32string text_bit = std::u32string(style_bit.span.begin(), style_bit.span.end());
-                    std::cout << style_bit.esc_data << unicode_to_utf8(text_bit);
+                    const auto text_view = to_u32string_view(style_bit.span);
+                    std::cout << style_bit.esc_data << unicode_to_utf8(text_view);
                 }
                 it = style_bit.span.end();
             }

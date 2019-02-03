@@ -16,9 +16,22 @@
 
 namespace onerut_parser {
 
-    bool X3ParseResultInfo::succes() const {
-        return match && hit_end;
+    bool X3ParseResultInfo::hit_end() const {
+        return it == input->cend();
     }
+
+    bool X3ParseResultInfo::succes() const {
+        return match && hit_end();
+    }
+
+    u32string_const_span X3ParseResultInfo::parsed_span() const {
+        return{input->cbegin(), it};
+    }
+
+    u32string_const_span X3ParseResultInfo::not_parsed_span() const {
+        return{it, input->cend()};
+    }
+
 }
 
 // -----------------------------------------------------------------------------
@@ -301,9 +314,9 @@ namespace onerut_parser {
                 onerut_parser::onerut_gramma::expression_parser
                 ]];
         const bool match = phrase_parse(it, input_end, parser, boost::spirit::x3::ascii::space, ast_head);
-        const bool hit_end = (it == input_end);
+        //const bool hit_end = (it == input_end);
         // Return results:        
-        return {input, match, hit_end, ast_head, positions};
+        return {input, it, match, ast_head, positions};
     }
 
     //    X3ParseResultInfo parse(const std::u32string input) {
@@ -316,7 +329,7 @@ namespace onerut_parser {
 
     void print(X3ParseResultInfo info) {
         std::cout << "match:     " << info.match << std::endl;
-        std::cout << "hit_end:   " << info.hit_end << std::endl;
+        std::cout << "hit_end:   " << info.hit_end() << std::endl;
         if (info.match) {
             std::cout << "to_oneliner: " << unicode_to_utf8(to_oneliner(info.ast_head)) << std::endl;
             LinesInfo chart = to_chart(info.ast_head, info.positions);
