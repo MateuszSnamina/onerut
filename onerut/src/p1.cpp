@@ -14,6 +14,9 @@
 #include<onerut_parser/function_global.hpp>
 #include<onerut_scalar/scalar.hpp>
 
+
+#include<optional>
+
 bool
 execute_line(std::shared_ptr<std::u32string> uline) {
     // #########################################################################
@@ -105,6 +108,12 @@ bool execute_script_file(const std::filesystem::path& file_path) {
 }
 
 void temp_testing() {
+
+    //    std::cout << sizeof(int) << std::endl;
+    //    std::cout << sizeof(std::optional<int>) << std::endl;
+    //    std::cout << sizeof(std::pair<int,bool>) << std::endl;
+    //    std::cout << sizeof(std::pair<bool,int>) << std::endl;
+    
     onerut_parser::GlobalIdentifiers::instance().put_e();
     onerut_parser::GlobalIdentifiers::instance().put_pi();
     onerut_parser::GlobalFunctions::instance().put_cmath();
