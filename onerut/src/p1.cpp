@@ -65,7 +65,7 @@ execute_line(std::shared_ptr<std::u32string> uline) {
         std::shared_ptr<onerut_scalar::Long> result_long = *(compile_result.dereference().typed_value_or_empty<onerut_scalar::Long>());
         std::cout << "Value = " << result_long->value_long() << std::endl;
     } else if (compile_result.dereference().is_given_type<onerut_scalar::Double>()) {
-        std::cout << "Result is an double." << std::endl;
+        std::cout << "Result is a double." << std::endl;
         std::shared_ptr<onerut_scalar::Double> result_double = *(compile_result.dereference().typed_value_or_empty<onerut_scalar::Double>());
         std::cout << "Value = " << std::setprecision(20) << result_double->value_double() << std::endl;
     } else {
