@@ -14,7 +14,7 @@ bool execute_line(std::shared_ptr<std::u32string> line) {
     // #########################################################################
     const auto parsed_x3_info = onerut_parser::parse(line);
     // -------------------------------------------------------------------------
-    std::cout << "Parsed info: (onerut_ast::x3):" << std::endl;
+    //std::cout << "onerut_ast::x3:" << std::endl;
     //    print(parsed_x3_info);
     if (!parsed_x3_info.succes())
         return false;
@@ -25,13 +25,13 @@ bool execute_line(std::shared_ptr<std::u32string> line) {
             parsed_x3_info.positions);
     // -------------------------------------------------------------------------
     //    const auto ast_source_chart = ast_source_head->to_chart();
-    //    std::cout << "Parsed info: (onerut_ast::source):" << std::endl;
+    //    std::cout << "onerut_ast::source:" << std::endl;
     //    onerut_parser::print_chart(parsed_x3_info.input, ast_source_chart);
     // #########################################################################
     const auto ast_compile_result_head = ast_source_head->compile();
     // -------------------------------------------------------------------------
     const auto ast_compile_result_chart = ast_compile_result_head->to_chart();
-    std::cout << "Parsed info: (onerut_ast::compile_result):" << std::endl;
+    //std::cout << "onerut_ast::compile_result:" << std::endl;
     onerut_parser::print_chart(parsed_x3_info.input, ast_compile_result_chart);
     // -------------------------------------------------------------------------
     onerut_parser::CompileResult compile_result = ast_compile_result_head->compile_result;
@@ -49,6 +49,7 @@ bool execute_line(std::shared_ptr<std::u32string> line) {
     } else {
         std::cout << "RESULT IS NOT INT NOR DOUBLE NOR ERROR." << std::endl;
     }
+    std::cout << std::endl;
     return true;
 }
 
@@ -62,7 +63,6 @@ bool execute_script(std::vector<std::shared_ptr<std::u32string>> lines) {
 int main() {
 
     //std::make_shared<const std::u32string>(unicode_from_utf8(input)));
-
     onerut_parser::GlobalIdentifiers::instance().put_e();
     onerut_parser::GlobalIdentifiers::instance().put_pi();
     onerut_parser::GlobalFunctions::instance().put_cmath();
@@ -93,6 +93,7 @@ int main() {
     lines.push_back(std::make_shared < std::u32string>(U"sqrt(4.0)"));
     lines.push_back(std::make_shared < std::u32string>(U"max(3,2)"));
     lines.push_back(std::make_shared < std::u32string>(U"sin(pi/4)/sqrt(2)"));
+    lines.push_back(std::make_shared < std::u32string>(U"3^2"));
     execute_script(lines);
 }
 

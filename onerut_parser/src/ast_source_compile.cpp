@@ -8,6 +8,7 @@
 #include<onerut_parser/identifier_global.hpp>
 #include<onerut_parser/function_global.hpp>
 #include<onerut_scalar/scalar.hpp>
+#include <c++/5/bits/stringfwd.h>
 
 
 namespace {
@@ -46,13 +47,13 @@ namespace {
         return argv_compile_result;
     }
 
-    bool
-    many_is_either_value_or_type(
-            onerut_parser::CompileResultDeref first_arg_compile_result,
-            onerut_parser::CompileResultDeref second_arg_compile_result) {
-        return first_arg_compile_result.is_either_value_or_type() &&
-                second_arg_compile_result.is_either_value_or_type();
-    }
+    //    bool
+    //    many_is_either_value_or_type(
+    //            onerut_parser::CompileResultDeref first_arg_compile_result,
+    //            onerut_parser::CompileResultDeref second_arg_compile_result) {
+    //        return first_arg_compile_result.is_either_value_or_type() &&
+    //                second_arg_compile_result.is_either_value_or_type();
+    //    }
 
     bool
     many_is_either_value_or_type(
@@ -72,6 +73,18 @@ namespace {
     //                    return compile_result.is_either_value_or_type();
     //                });
     //    }
+
+    onerut_parser::CompileResult
+    behave_like_a_binary_function(
+            const std::u32string function_name,
+            onerut_parser::CompileResult first_arg_compile_result,
+            onerut_parser::CompileResult second_arg_compile_result) {
+        const auto first_arg_compile_result_deref = first_arg_compile_result.dereference();
+        const auto second_arg_compile_result_deref = second_arg_compile_result.dereference();
+        if (auto function = onerut_parser::GlobalFunctions::instance().get_or_empty(function_name))
+            return (*function)->get_compile_result({first_arg_compile_result, second_arg_compile_result});
+        return onerut_parser::CompileResult::from_compile_error(std::make_shared<onerut_parser::FunctionNotFoundError>(function_name));
+    }
 
 }
 
@@ -186,9 +199,9 @@ namespace onerut_parser::onerut_ast::source {
 
     CompileResult
     OpPlusMinusNode::basic_compile(CompileResult first_arg_compile_result, std::vector<CompileResult> other_argv_compile_result) const {
+        assert(std::all_of(opv.cbegin(), opv.cend(), is_plus_munis_char));
         const auto & first_arg_compile_result_deref = first_arg_compile_result.dereference();
         const auto & other_argv_compile_result_deref = utility::many_dereference(other_argv_compile_result);
-        assert(std::all_of(opv.cbegin(), opv.cend(), is_plus_munis_char));
         if (!many_is_either_value_or_type(first_arg_compile_result_deref, other_argv_compile_result_deref))
             return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
         if (utility::is_integer(first_arg_compile_result_deref) && std::all_of(other_argv_compile_result_deref.cbegin(), other_argv_compile_result_deref.cend(), utility::is_integer)) {
@@ -208,9 +221,9 @@ namespace onerut_parser::onerut_ast::source {
 
     CompileResult
     OpProdDivNode::basic_compile(CompileResult first_arg_compile_result, std::vector<CompileResult> other_argv_compile_result) const {
+        assert(std::all_of(opv.cbegin(), opv.cend(), is_prod_div_char));
         const auto & first_deref_arg_compile_result = first_arg_compile_result.dereference();
         const auto & other_argv_compile_result_deref = utility::many_dereference(other_argv_compile_result);
-        assert(std::all_of(opv.cbegin(), opv.cend(), is_prod_div_char));
         if (!many_is_either_value_or_type(first_deref_arg_compile_result, other_argv_compile_result_deref))
             return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
         if (utility::is_integer(first_deref_arg_compile_result) && std::all_of(other_argv_compile_result_deref.cbegin(), other_argv_compile_result_deref.cend(), utility::is_integer)) {
@@ -230,44 +243,30 @@ namespace onerut_parser::onerut_ast::source {
 
     CompileResult
     OpPowNode::basic_compile(CompileResult first_arg_compile_result, CompileResult second_arg_compile_result) const {
-        const auto first_arg_compile_result_deref = first_arg_compile_result.dereference();
-        const auto second_arg_compile_result_deref = second_arg_compile_result.dereference();
-        if (!many_is_either_value_or_type(first_arg_compile_result_deref, second_arg_compile_result_deref))
-            return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
-        return CompileResult::from_compile_error(std::make_shared<CompilerNotImplementedError>());
+        return behave_like_a_binary_function(U"pow", first_arg_compile_result, second_arg_compile_result);
     }
 
     // -------------------------------------------------------------------------
 
     CompileResult
     OpAtNode::basic_compile(CompileResult first_arg_compile_result, CompileResult second_arg_compile_result) const {
-        const auto first_arg_compile_result_deref = first_arg_compile_result.dereference();
-        const auto second_arg_compile_result_deref = second_arg_compile_result.dereference();
-        if (!many_is_either_value_or_type(first_arg_compile_result_deref, second_arg_compile_result_deref))
-            return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
-        return CompileResult::from_compile_error(std::make_shared<CompilerNotImplementedError>());
+        return behave_like_a_binary_function(U"at", first_arg_compile_result, second_arg_compile_result);
+
     }
 
     // -------------------------------------------------------------------------
 
     CompileResult
     OpArrowNode::basic_compile(CompileResult first_arg_compile_result, CompileResult second_arg_compile_result) const {
-        const auto first_arg_compile_result_deref = first_arg_compile_result.dereference();
-        const auto second_arg_compile_result_deref = second_arg_compile_result.dereference();
-        if (!many_is_either_value_or_type(first_arg_compile_result_deref, second_arg_compile_result_deref))
-            return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
-        return CompileResult::from_compile_error(std::make_shared<CompilerNotImplementedError>());
+        return behave_like_a_binary_function(U"arrow", first_arg_compile_result, second_arg_compile_result);
+
     }
 
     // -------------------------------------------------------------------------
 
     CompileResult
     OpGlueNode::basic_compile(CompileResult first_arg_compile_result, CompileResult second_arg_compile_result) const {
-        const auto first_arg_compile_result_deref = first_arg_compile_result.dereference();
-        const auto second_arg_compile_result_deref = second_arg_compile_result.dereference();
-        if (!many_is_either_value_or_type(first_arg_compile_result_deref, second_arg_compile_result_deref))
-            return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
-        return CompileResult::from_compile_error(std::make_shared<CompilerNotImplementedError>());
+        return behave_like_a_binary_function(U"glue", first_arg_compile_result, second_arg_compile_result);
     }
 
     // -------------------------------------------------------------------------
