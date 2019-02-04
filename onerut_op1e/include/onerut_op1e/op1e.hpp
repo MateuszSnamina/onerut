@@ -27,9 +27,9 @@ namespace onerut_op1e {
         using difference_type = unsigned;
         using pointer = value_type*;
         using reference = value_type&;
-        virtual value_type operator*() const = 0;
-        virtual AbstractResultIterator& operator++() = 0;
-        virtual bool operator==(const AbstractResultIterator & other) const = 0;
+        virtual value_type get_val_bra() const = 0;
+        virtual AbstractResultIterator & next() = 0;
+        virtual bool is_end() const = 0;
         virtual ~AbstractResultIterator() = default;
     };
 
@@ -37,7 +37,6 @@ namespace onerut_op1e {
     class AbstractOperator {
     public:
         virtual std::shared_ptr<AbstractResultIterator<BraKetT>> begin_itptr(const BraKetT arg) const = 0;
-        virtual std::shared_ptr<AbstractResultIterator<BraKetT>> end_itptr() const = 0;
     };
 
     // -------------------------------------------------------------------------
@@ -49,12 +48,12 @@ namespace onerut_op1e {
     public:
         static SimpleOperatorIterator create_the_one_valid_iterator(typename AbstractResultIterator<BraKetT>::value_type);
         static SimpleOperatorIterator create_end_iterator();
-        typename AbstractResultIterator<BraKetT>::value_type operator*() const override;
-        SimpleOperatorIterator& operator++() override;
-        bool operator==(const AbstractResultIterator<BraKetT> & other) const override;
+        typename AbstractResultIterator<BraKetT>::value_type get_val_bra() const override;
+        SimpleOperatorIterator& next() override;
+        virtual bool is_end() const override;
     private:
-        SimpleOperatorIterator(typename AbstractResultIterator<BraKetT>::value_type result);
         SimpleOperatorIterator() = default;
+        SimpleOperatorIterator(typename AbstractResultIterator<BraKetT>::value_type result);
         std::optional<std::pair<double, BraKetT>> result; // no value for the end iterator.
     };
 
@@ -64,7 +63,6 @@ namespace onerut_op1e {
         using Iterator = SimpleOperatorIterator<BraKetT>;
         HopOperator(double value, const BraKetT &site_1, const BraKetT &site_2);
         std::shared_ptr<AbstractResultIterator<BraKetT>> begin_itptr(const BraKetT arg) const override;
-        std::shared_ptr<AbstractResultIterator<BraKetT>> end_itptr() const override;
     private:
         const double value;
         const BraKetT site_1;
@@ -77,7 +75,6 @@ namespace onerut_op1e {
         using Iterator = SimpleOperatorIterator<BraKetT>;
         DiagOperator(double value, const BraKetT &site);
         std::shared_ptr<AbstractResultIterator<BraKetT>> begin_itptr(const BraKetT arg) const override;
-        std::shared_ptr<AbstractResultIterator<BraKetT>> end_itptr() const override;
     private:
         const double value;
         const BraKetT site;
@@ -105,14 +102,14 @@ namespace onerut_op1e {
 
     template<typename BraKetT>
     typename AbstractResultIterator<BraKetT>::value_type
-    SimpleOperatorIterator<BraKetT>::operator*() const {
+    SimpleOperatorIterator<BraKetT>::get_val_bra() const {
         assert(result);
         return *result;
     }
 
     template<typename BraKetT>
     SimpleOperatorIterator<BraKetT>&
-    SimpleOperatorIterator<BraKetT>::operator++() {
+    SimpleOperatorIterator<BraKetT>::next() {
         assert(result);
         result.reset();
         return *this;
@@ -120,10 +117,8 @@ namespace onerut_op1e {
 
     template<typename BraKetT>
     bool
-    SimpleOperatorIterator<BraKetT>::operator==(const AbstractResultIterator<BraKetT>& other) const {
-        assert(dynamic_cast<const SimpleOperatorIterator<BraKetT>*> (&other));
-        const SimpleOperatorIterator<BraKetT>& other_casted = dynamic_cast<const SimpleOperatorIterator<BraKetT>&> (other);
-        return result == other_casted.result;
+    SimpleOperatorIterator<BraKetT>::is_end() const {
+        return !result.has_value();
     }
 
     // -------------------------------------------------------------------------    
@@ -147,12 +142,6 @@ namespace onerut_op1e {
         return std::make_shared<Iterator>(Iterator::create_end_iterator());
     }
 
-    template<typename BraKetT>
-    std::shared_ptr<AbstractResultIterator<BraKetT>>
-    HopOperator<BraKetT>::end_itptr() const {
-        return std::make_shared<Iterator>(Iterator::create_end_iterator());
-    }
-
     // -------------------------------------------------------------------------        
 
     template<typename BraKetT>
@@ -169,13 +158,6 @@ namespace onerut_op1e {
         }
         return std::make_shared<Iterator>(Iterator::create_end_iterator());
     }
-
-    template<typename BraKetT>
-    std::shared_ptr<AbstractResultIterator<BraKetT>>
-    DiagOperator<BraKetT>::end_itptr() const {
-        return Iterator::create_end_iterator();
-    }
-
 
     // -------------------------------------------------------------------------
     // ------------------ SIMPLE OPERATOR - IMPLEMENTATION ---------------------
@@ -198,13 +180,12 @@ namespace onerut_op1e {
         arma::mat result(spad_dim, spad_dim, arma::fill::zeros);
         for (unsigned ket = 0; ket < spad_dim; ket++) {
             auto it1 = op.begin_itptr(ket);
-            auto it2 = op.end_itptr();
-            while (*it1 != *it2) {
-                const std::pair<double, unsigned>& val_bra = *(*it1);
+            while (!it1->is_end()) {
+                const std::pair<double, unsigned>& val_bra = it1->get_val_bra();
                 const double& value = val_bra.first;
                 const unsigned& bra = val_bra.second;
                 result(bra, ket) += value;
-                ++(*it1);
+                it1->next();
             }
         }
         return result;
