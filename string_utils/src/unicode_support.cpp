@@ -1,6 +1,6 @@
 #include<codecvt>
 #include<locale>
-#include<onerut_parser/unicode_support.hpp>
+#include<string_utils/unicode_support.hpp>
 
 std::string unicode_to_utf8(const std::u32string& uni) {
     std::wstring_convert < std::codecvt_utf8<char32_t>, char32_t > convert;

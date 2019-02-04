@@ -1,7 +1,7 @@
 #include<cassert>
 #include<iostream>
 
-#include<onerut_parser/unicode_support.hpp>
+#include<string_utils/unicode_support.hpp>
 #include<onerut_parser/print_chart.hpp>
 
 namespace onerut_parser {

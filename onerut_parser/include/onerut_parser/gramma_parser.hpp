@@ -4,7 +4,7 @@
 #include<string>
 #include<boost/spirit/home/x3/support/ast/position_tagged.hpp>
 
-#include<onerut_parser/string_span.hpp>
+#include<string_utils/string_span.hpp>
 #include<onerut_parser/ast_x3.hpp>
 
 namespace onerut_parser {

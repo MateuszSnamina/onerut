@@ -5,7 +5,7 @@
 #include<vector>
 #include<memory>
 
-#include<onerut_parser/string_span.hpp>
+#include<string_utils/string_span.hpp>
 #include<onerut_parser/compile_result.hpp>
 #include<onerut_parser/print_chart.hpp>
 

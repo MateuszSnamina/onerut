@@ -7,7 +7,7 @@
 //#include<boost/spirit/home/x3/support/utility/annotate_on_success.hpp>
 #include<boost/fusion/adapted/struct.hpp>
 
-#include<onerut_parser/unicode_support.hpp>
+#include<string_utils/unicode_support.hpp>
 #include<onerut_parser/ast_x3.hpp>
 #include<onerut_parser/ast_x3_to_oneliner.hpp>
 #include<onerut_parser/ast_x3_to_chart.hpp>

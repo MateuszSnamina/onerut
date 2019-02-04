@@ -187,6 +187,7 @@ message("---  the project  -----------------")
 message("-----------------------------------")
 
 add_subdirectory(esc)
+add_subdirectory(string_utils)
 add_subdirectory(onerut_scalar)
 #add_subdirectory(onerut_scalar_tests)
 add_subdirectory(onerut_op1e)

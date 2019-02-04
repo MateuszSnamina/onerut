@@ -5,7 +5,7 @@
 #include<string>
 #include<vector>
 
-#include<onerut_parser/string_span.hpp>
+#include<string_utils/string_span.hpp>
 #include<esc/esc_manip.hpp>
 
 namespace onerut_parser {
