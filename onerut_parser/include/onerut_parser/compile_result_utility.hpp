@@ -28,7 +28,7 @@ namespace onerut_parser::utility {
     std::shared_ptr<onerut_parser::CompileResultNotConstRef>
     to_not_const_ref(const onerut_parser::CompileResult& compile_result);
     
-    std::u32string
+    std::string
     name_of_identifier_not_found(const onerut_parser::CompileResultDeref& result);
 
     // -------------------------------------------------------------------------

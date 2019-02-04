@@ -22,12 +22,12 @@
 const double inf = std::numeric_limits<double>::infinity();
 
 template<typename T>
-void _basis_onerut_test(T _cpp_value, std::shared_ptr<std::u32string> _onerut_inuput);
+void _basis_onerut_test(T _cpp_value, std::shared_ptr<std::string> _onerut_inuput);
 
 #define BASIC_ONERUT_TEST(CPP_EXPRESSION, ONERUT_EXPRESSION)                     \
 std::cout << "[test][common] cpp_expression:" << (#CPP_EXPRESSION) << std::endl; \
 auto _cpp_value = CPP_EXPRESSION;                                                \
-auto _onerut_inuput = std::make_shared<std::u32string>(U ## #ONERUT_EXPRESSION); \
+auto _onerut_inuput = std::make_shared<std::string>(#ONERUT_EXPRESSION); \
 _basis_onerut_test(_cpp_value, _onerut_inuput);
 
 #define ONERUT_TEST(EXPRESSION)  \
@@ -38,7 +38,7 @@ BASIC_ONERUT_TEST(EXPRESSION, EXPRESSION)
 // -----------------------------------------------------------
 
 template<typename T>
-void _basis_onerut_test(T _cpp_value, std::shared_ptr<std::u32string> _onerut_inuput) {
+void _basis_onerut_test(T _cpp_value, std::shared_ptr<std::string> _onerut_inuput) {
     // #########################################################################
     std::cout << "[test][common] cpp_value: " << _cpp_value << std::endl;
     bool _cpp_is_int =

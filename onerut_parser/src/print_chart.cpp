@@ -13,9 +13,9 @@ namespace onerut_parser {
     // -------------------------------------------------------------------------
     // -------------- BASIC VERSION OF PRINT CHART -----------------------------
     // -------------------------------------------------------------------------    
-    
+
     void print_chart(
-            std::shared_ptr<const std::u32string> input,
+            std::shared_ptr<const std::string> input,
             const LinesInfo&chart) {
         // Check input consistency:
         assert(input);
@@ -32,7 +32,7 @@ namespace onerut_parser {
         // Print:
         const std::u32string table_horizontal_line(input->size() + 2, U'▓');
         std::cout << unicode_to_utf8(table_horizontal_line) << std::endl;
-        std::cout << "▓" << unicode_to_utf8(*input) << "▓" << std::endl;
+        std::cout << "▓" << *input << "▓" << std::endl;
         std::cout << unicode_to_utf8(table_horizontal_line) << std::endl;
         for (const auto & chart_line : chart) {
             std::cout << "▓";
@@ -44,8 +44,8 @@ namespace onerut_parser {
                     std::cout << unicode_to_utf8(text_bit);
                 }
                 {
-                    const auto text_view = to_u32string_view(bit);
-                    std::cout << unicode_to_utf8(text_view);
+                    const auto text_view = to_string_view(bit);
+                    std::cout << text_view;
                 }
                 it = bit.end();
             }
@@ -60,7 +60,7 @@ namespace onerut_parser {
     }
 
     void print_chart(
-            std::shared_ptr<const std::u32string> input,
+            std::shared_ptr<const std::string> input,
             const LinesStyledChartInfo&chart) {
         // Check input consistency:
         assert(input);
@@ -77,7 +77,7 @@ namespace onerut_parser {
         // Print:
         const std::u32string table_horizontal_line(input->size() + 2, U'▓');
         std::cout << unicode_to_utf8(table_horizontal_line) << std::endl;
-        std::cout << "▓" << unicode_to_utf8(*input) << "▓" << std::endl;
+        std::cout << "▓" << *input << "▓" << std::endl;
         std::cout << unicode_to_utf8(table_horizontal_line) << std::endl;
         for (const auto & chart_line : chart) {
             std::cout << "▓";
@@ -89,8 +89,8 @@ namespace onerut_parser {
                     std::cout << unicode_to_utf8(text_bit);
                 }
                 {
-                    const auto text_view = to_u32string_view(style_bit.span);
-                    std::cout << style_bit.esc_data << unicode_to_utf8(text_view);
+                    const auto text_view = to_string_view(style_bit.span);
+                    std::cout << style_bit.esc_data << text_view;
                 }
                 it = style_bit.span.end();
             }
@@ -107,10 +107,10 @@ namespace onerut_parser {
     // -------------------------------------------------------------------------
     // -------------- STYLED VERSION OF PRINT CHART ----------------------------
     // -------------------------------------------------------------------------    
-    
+
     void print_styled_chart_example() {
 
-        const auto input = std::make_shared<std::u32string>(U"123456789abcdef");
+        const auto input = std::make_shared<std::string>("123456789abcdef");
         const onerut_parser::LineBitStyledChartInfo bi0{
             {input->begin() + 2, input->begin() + 8},
             {esc::Color::Green, esc::Color::Auto, true, false, false}};

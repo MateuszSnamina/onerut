@@ -12,12 +12,12 @@ namespace onerut_parser {
     }
     //------------------
 
-    CompileResultConstRef::CompileResultConstRef(std::u32string name, CompileResultDeref value) :
+    CompileResultConstRef::CompileResultConstRef(std::string name, CompileResultDeref value) :
     name(name),
     value(value) {
     }
 
-    std::u32string CompileResultConstRef::get_name() const {
+    std::string CompileResultConstRef::get_name() const {
         return name;
     }
 
@@ -26,12 +26,12 @@ namespace onerut_parser {
     }
     //------------------------------------
 
-    CompileResultNotConstRef::CompileResultNotConstRef(std::u32string name, CompileResultDeref value) :
+    CompileResultNotConstRef::CompileResultNotConstRef(std::string name, CompileResultDeref value) :
     name(name),
     value(value) {
     }
 
-    std::u32string CompileResultNotConstRef::get_name() const {
+    std::string CompileResultNotConstRef::get_name() const {
         return name;
     }
 

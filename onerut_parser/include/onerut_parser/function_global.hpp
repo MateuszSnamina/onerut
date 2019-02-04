@@ -12,12 +12,12 @@ namespace onerut_parser {
     class GlobalFunctions {
     public:
         static GlobalFunctions& instance();
-        std::optional<std::shared_ptr<AbstractFunction>> get_or_empty(const std::u32string& name) const;
-        bool put(const std::u32string& name, std::shared_ptr<AbstractFunction> function);
-        void force_put(const std::u32string& name, std::shared_ptr<AbstractFunction> function);
+        std::optional<std::shared_ptr<AbstractFunction>> get_or_empty(const std::string& name) const;
+        bool put(const std::string& name, std::shared_ptr<AbstractFunction> function);
+        void force_put(const std::string& name, std::shared_ptr<AbstractFunction> function);
         void put_cmath();
     private:
-        std::map<std::u32string, std::shared_ptr<AbstractFunction>> functions;
+        std::map<std::string, std::shared_ptr<AbstractFunction>> functions;
     };
 
 }

@@ -1,4 +1,3 @@
-#include<string_utils/unicode_support.hpp>
 #include<onerut_parser/ast_x3.hpp>
 #include<onerut_parser/ast_x3_to_oneliner.hpp>
 
@@ -9,7 +8,7 @@ namespace {
     // -------------------------------------------------------------------------
 
     struct to_string_visitor {
-        typedef std::u32string result_type;
+        typedef std::string result_type;
         template<typename T>
         result_type operator()(const T & info) const;
     };
@@ -27,144 +26,144 @@ namespace onerut_parser::onerut_ast::x3 {
     // -------------- FUNCTIONS FOR CONCRETE AST TYPES -------------------------
     // -------------------------------------------------------------------------
 
-    std::u32string to_oneliner(const ExpressionInfo& info) {
+    std::string to_oneliner(const ExpressionInfo& info) {
         return to_oneliner(info.assign);
     }
 
-    std::u32string to_oneliner(const OpAssignInfo& info) {
-        std::u32string result;
+    std::string to_oneliner(const OpAssignInfo& info) {
+        std::string result;
         if (info.bit) {
-            if ((*info.bit).new_flag) result += U"NEW ";            
-            if ((*info.bit).const_flag) result += U"CONST ";
+            if ((*info.bit).new_flag) result += "NEW ";            
+            if ((*info.bit).const_flag) result += "CONST ";
             result += to_oneliner((*info.bit).identifier);
         }
         result += to_oneliner(info.sum);
         return result;
     }
 
-    std::u32string to_oneliner(const OpPlusMinusInfo& info) {
-        std::u32string result;
-        result += U"[";
+    std::string to_oneliner(const OpPlusMinusInfo& info) {
+        std::string result;
+        result += "[";
         result += to_oneliner(info.first_arg);
         for (const OpPlusMinusBitInfo& arg_info : info.other_argv) {
-            assert(arg_info.op == U'+' || arg_info.op == U'-');
+            assert(arg_info.op == '+' || arg_info.op == '-');
             result += arg_info.op;
             result += to_oneliner(arg_info.arg);
         }
-        result += U"]";
+        result += "]";
         return result;
     }
 
-    std::u32string to_oneliner(const OpProdDivInfo& info) {
-        std::u32string result;
-        result += U"[";
+    std::string to_oneliner(const OpProdDivInfo& info) {
+        std::string result;
+        result += "[";
         result += to_oneliner(info.first_arg);
         for (const OpProdDivBitInfo& arg_info : info.other_argv) {
-            assert(arg_info.op == U'*' || arg_info.op == U'/');
+            assert(arg_info.op == '*' || arg_info.op == '/');
             result += arg_info.op;
             result += to_oneliner(arg_info.arg);
         }
-        result += U"]";
+        result += "]";
         return result;
     }
 
-    std::u32string to_oneliner(const OpPowInfo& info) {
-        std::u32string result;
+    std::string to_oneliner(const OpPowInfo& info) {
+        std::string result;
         result += to_oneliner(info.first_arg);
         if (info.other_arg) {
-            result += U"^";
+            result += "^";
             result += to_oneliner(*info.other_arg);
         }
         return result;
     }
 
-    std::u32string to_oneliner(const OpAtInfo& info) {
-        std::u32string result;
+    std::string to_oneliner(const OpAtInfo& info) {
+        std::string result;
         result += to_oneliner(info.first_arg);
         if (info.other_arg) {
-            result += U"@";
+            result += "@";
             result += to_oneliner(*info.other_arg);
         }
         return result;
     }
 
-    std::u32string to_oneliner(const OpArrowInfo& info) {
-        std::u32string result;
+    std::string to_oneliner(const OpArrowInfo& info) {
+        std::string result;
         result += to_oneliner(info.first_arg);
         if (info.other_arg) {
-            result += U"->";
+            result += "->";
             result += to_oneliner(*info.other_arg);
         }
         return result;
     }
 
-    std::u32string to_oneliner(const OpGlueInfo& info) {
-        std::u32string result;
+    std::string to_oneliner(const OpGlueInfo& info) {
+        std::string result;
         result += to_oneliner(info.first_arg);
         if (info.other_arg) {
-            result += U"::";
+            result += "::";
             result += to_oneliner(*info.other_arg);
         }
         return result;
     }
 
-    std::u32string to_oneliner(const Value1Info& info) {
+    std::string to_oneliner(const Value1Info& info) {
         return boost::apply_visitor(to_string_visitor(), info);
     }
 
-    std::u32string to_oneliner(const LitDoubleInfo& info) {
-        return unicode_from_utf8(std::to_string(info.value));
+    std::string to_oneliner(const LitDoubleInfo& info) {
+        return std::to_string(info.value);
     }
 
-    std::u32string to_oneliner(const LitLongInfo& info) {
-        return unicode_from_utf8(std::to_string(info.value));
+    std::string to_oneliner(const LitLongInfo& info) {
+        return std::to_string(info.value);
     }
 
-    std::u32string to_oneliner(const OpUnaryPlusMinusInfo& info) {
-        std::u32string result;
+    std::string to_oneliner(const OpUnaryPlusMinusInfo& info) {
+        std::string result;
         if (info.op) {
-            assert(info.op == U'+' || info.op == U'-');
+            assert(info.op == '+' || info.op == '-');
             result += *info.op;
         }
-        result += U"+[";
+        result += "+[";
         result += to_oneliner(info.expression);
-        result += U"]";
+        result += "]";
         return result;
     }
 
-    std::u32string to_oneliner(const Value2Info& info) {
+    std::string to_oneliner(const Value2Info& info) {
         return boost::apply_visitor(to_string_visitor(), info);
     }
 
-    std::u32string to_oneliner(const FunctionInfo& info) {
-        std::u32string result;
+    std::string to_oneliner(const FunctionInfo& info) {
+        std::string result;
         result += to_oneliner(info.name);
-        result += U"[";
+        result += "[";
         for (const ExpressionInfo& arg_info : info.argv) {
             result += to_oneliner(arg_info);
-            result += U",";
+            result += ",";
         }
-        result += U"]";
+        result += "]";
         return result;
     }
 
-    std::u32string to_oneliner(const IdentifierInfo& info) {
+    std::string to_oneliner(const IdentifierInfo& info) {
         return info.name();
     }
 
-    std::u32string to_oneliner(const NestedExpression1Info& info) {
-        std::u32string result;
-        result += U"[";
+    std::string to_oneliner(const NestedExpression1Info& info) {
+        std::string result;
+        result += "[";
         result += to_oneliner(info.expression);
-        result += U"]";
+        result += "]";
         return result;
     }
 
-    std::u32string to_oneliner(const NestedExpression2Info& info) {
-        std::u32string result;
-        result += U"[";
+    std::string to_oneliner(const NestedExpression2Info& info) {
+        std::string result;
+        result += "[";
         result += to_oneliner(info.expression);
-        result += U"]";
+        result += "]";
         return result;
     }
 

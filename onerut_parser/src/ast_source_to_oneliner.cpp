@@ -4,76 +4,76 @@
 
 namespace onerut_parser::onerut_ast::source {
 
-    std::u32string IdentifierNode::to_oneliner() const {
-        std::u32string result;
+    std::string IdentifierNode::to_oneliner() const {
+        std::string result;
         assert(false);
         return result;
     }
 
-    std::u32string OpAssignNode::to_oneliner() const {
-        std::u32string result;
+    std::string OpAssignNode::to_oneliner() const {
+        std::string result;
         assert(false);
         return result;
     }
     
-    std::u32string OpPlusMinusNode::to_oneliner() const {
-        std::u32string result;
+    std::string OpPlusMinusNode::to_oneliner() const {
+        std::string result;
         assert(false);
         return result;
     }
 
-    std::u32string OpProdDivNode::to_oneliner() const {
-        std::u32string result;
+    std::string OpProdDivNode::to_oneliner() const {
+        std::string result;
         assert(false);
         return result;
     }
 
-    std::u32string OpPowNode::to_oneliner() const {
-        std::u32string result;
+    std::string OpPowNode::to_oneliner() const {
+        std::string result;
         assert(false);
         return result;
     }
 
-    std::u32string OpAtNode::to_oneliner() const {
-        std::u32string result;
+    std::string OpAtNode::to_oneliner() const {
+        std::string result;
         assert(false);
         return result;
     }
 
-    std::u32string OpArrowNode::to_oneliner() const {
-        std::u32string result;
+    std::string OpArrowNode::to_oneliner() const {
+        std::string result;
         assert(false);
         return result;
     }
 
-    std::u32string OpGlueNode::to_oneliner() const {
-        std::u32string result;
+    std::string OpGlueNode::to_oneliner() const {
+        std::string result;
         assert(false);
         return result;
     }
 
-    std::u32string UnaryPlusMinusNode::to_oneliner() const {
-        std::u32string result;
+    std::string UnaryPlusMinusNode::to_oneliner() const {
+        std::string result;
         //assert(op == L'+' || op == L'-');
         assert(false);
         return result;
 
     }
 
-    std::u32string LitLongNode::to_oneliner() const {
-        std::u32string result;
+    std::string LitLongNode::to_oneliner() const {
+        std::string result;
         assert(false);
         return result;
     }
 
-    std::u32string LitDoubleNode::to_oneliner() const {
-        std::u32string result;
+    std::string LitDoubleNode::to_oneliner() const {
+        std::string result;
         assert(false);
         return result;        
     }
 
-    std::u32string FunctionNode::to_oneliner() const {
-        std::u32string result;
+    std::string FunctionNode::to_oneliner() const {
+        std::string result;
         assert(false);
         return result;        
     }

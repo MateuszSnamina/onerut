@@ -6,7 +6,6 @@
 
 #include<esc/esc_manip.hpp>
 #include<string_utils/string_span.hpp>
-#include<string_utils/unicode_support.hpp>//TODO delete!
 #include<onerut_parser/gramma_parser.hpp>
 #include<onerut_parser/ast_x3_to_ast_source.hpp>
 #include<onerut_parser/ast_compile_result.hpp>
@@ -18,24 +17,24 @@
 #include<onerut_op1e/op1e.hpp>
 
 bool
-execute_line(std::shared_ptr<std::u32string> uline) {
+execute_line(std::shared_ptr<std::string> line) {
     // #########################################################################
     std::cout << esc::manip::bg_yellow << "Processsing "
-            << esc::manip::blue << unicode_to_utf8(*uline) << esc::manip::color_default
+            << esc::manip::blue << *line << esc::manip::color_default
             << "...";
     std::cout << std::endl;
     // #########################################################################
-    const auto parsed_x3_info = onerut_parser::parse(uline);
+    const auto parsed_x3_info = onerut_parser::parse(line);
     // -------------------------------------------------------------------------
     //std::cout << "onerut_ast::x3:" << std::endl;
     //    print(parsed_x3_info);
     if (!parsed_x3_info.succes()) {
-        //std::cout << "Fail to parse line: " << esc::manip::red << unicode_to_utf8(*uline) << esc::manip::reset << "." << std::endl;
+        //std::cout << "Fail to parse line: " << esc::manip::red << unicode_to_utf8(*line) << esc::manip::reset << "." << std::endl;
         //std::cout << "match: " << parsed_x3_info.match << ", hit_end: " << parsed_x3_info.hit_end() << "." << std::endl;
-        const auto parsed_view = onerut_parser::to_u32string_view(parsed_x3_info.parsed_span());
-        const auto not_parsed_view = onerut_parser::to_u32string_view(parsed_x3_info.not_parsed_span());
-        std::cout << esc::manip::bg_green << unicode_to_utf8(parsed_view)
-                << esc::manip::bg_red << unicode_to_utf8(not_parsed_view);
+        const auto parsed_view = onerut_parser::to_string_view(parsed_x3_info.parsed_span());
+        const auto not_parsed_view = onerut_parser::to_string_view(parsed_x3_info.not_parsed_span());
+        std::cout << esc::manip::bg_green << parsed_view
+                << esc::manip::bg_red << not_parsed_view;
         std::cout << std::endl;
         return false;
     }
@@ -76,35 +75,35 @@ execute_line(std::shared_ptr<std::u32string> uline) {
 }
 
 bool
-execute_script_ulines(const std::vector<std::shared_ptr<std::u32string>>&ulines) {
-    return std::all_of(cbegin(ulines), cend(ulines),
-            [](const std::shared_ptr<std::u32string> &line) {
+execute_script_lines(const std::vector<std::shared_ptr<std::string>>&lines) {
+    return std::all_of(cbegin(lines), cend(lines),
+            [](const std::shared_ptr<std::string> &line) {
                 return execute_line(line);
             });
 }
 
-std::vector<std::shared_ptr<std::u32string>>
-load_script_ulines_from_file(const std::filesystem::path& file_path) {
+std::vector<std::shared_ptr<std::string>>
+load_script_lines_from_file(const std::filesystem::path& file_path) {
     std::ifstream file(file_path);
     if (!file) {
         std::cerr << "Problem z otwarciem pliku" << std::endl;
     }
-    std::vector<std::shared_ptr < std::u32string >> ulines;
+    std::vector<std::shared_ptr < std::string >> lines;
     std::string line;
     while (std::getline(file, line)) {
         std::cout << "load line: " << line << std::endl;
-        auto uline = std::make_shared<std::u32string>(unicode_from_utf8(line));
-        ulines.push_back(uline);
+        auto line_ptr = std::make_shared<std::string>(line);
+        lines.push_back(line_ptr);
     }
-    return ulines;
+    return lines;
 }
 
 bool execute_script_file(const std::filesystem::path& file_path) {
-    auto ulines = load_script_ulines_from_file(file_path);
+    auto lines = load_script_lines_from_file(file_path);
     onerut_parser::GlobalIdentifiers::instance().put_e();
     onerut_parser::GlobalIdentifiers::instance().put_pi();
     onerut_parser::GlobalFunctions::instance().put_cmath();
-    return execute_script_ulines(ulines);
+    return execute_script_lines(lines);
 }
 
 void temp_testing() {
@@ -140,17 +139,17 @@ void temp_testing() {
     //const std::string input = "  10+pi/2 ";
     //const std::string input = "new x := 10 ";
 
-    std::vector<std::shared_ptr < std::u32string>> lines;
-    //    lines.push_back(std::make_shared < std::u32string>(U"(2+4*3)+pi/2"));
-    lines.push_back(std::make_shared < std::u32string>(U"x:=(2+4*3)+pi/2"));
-    lines.push_back(std::make_shared < std::u32string>(U"x+7"));
-    lines.push_back(std::make_shared < std::u32string>(U"x:=40"));
-    lines.push_back(std::make_shared < std::u32string>(U"x+4"));
-    lines.push_back(std::make_shared < std::u32string>(U"sqrt(4.0)"));
-    lines.push_back(std::make_shared < std::u32string>(U"max(3,2)"));
-    lines.push_back(std::make_shared < std::u32string>(U"sin(pi/4)/sqrt(2)"));
-    lines.push_back(std::make_shared < std::u32string>(U"3^2"));
-    execute_script_ulines(lines);
+    std::vector<std::shared_ptr < std::string>> lines;
+    //    lines.push_back(std::make_shared < std::string>("(2+4*3)+pi/2"));
+    lines.push_back(std::make_shared < std::string>("x:=(2+4*3)+pi/2"));
+    lines.push_back(std::make_shared < std::string>("x+7"));
+    lines.push_back(std::make_shared < std::string>("x:=40"));
+    lines.push_back(std::make_shared < std::string>("x+4"));
+    lines.push_back(std::make_shared < std::string>("sqrt(4.0)"));
+    lines.push_back(std::make_shared < std::string>("max(3,2)"));
+    lines.push_back(std::make_shared < std::string>("sin(pi/4)/sqrt(2)"));
+    lines.push_back(std::make_shared < std::string>("3^2"));
+    execute_script_lines(lines);
 
 }
 

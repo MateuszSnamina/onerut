@@ -21,22 +21,22 @@ namespace onerut_parser {
 
     class CompileResultConstRef : public AbstractCompileResultRef {
     public:
-        CompileResultConstRef(std::u32string name, CompileResultDeref value);
+        CompileResultConstRef(std::string name, CompileResultDeref value);
         CompileResultDeref get_compile_result_deref() const override;
-        std::u32string get_name() const;
+        std::string get_name() const;
     private:
-        const std::u32string name;
+        const std::string name;
         const CompileResultDeref value;
     };
 
     class CompileResultNotConstRef : public AbstractCompileResultRef {
     public:
-        CompileResultNotConstRef(std::u32string name, CompileResultDeref value);
+        CompileResultNotConstRef(std::string name, CompileResultDeref value);
         CompileResultDeref get_compile_result_deref() const override;
         void set_compile_result(CompileResultDeref new_value);
-        std::u32string get_name() const;
+        std::string get_name() const;
     private:
-        const std::u32string name;
+        const std::string name;
         CompileResultDeref value;
     };
 

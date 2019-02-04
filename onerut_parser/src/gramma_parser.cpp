@@ -7,7 +7,6 @@
 //#include<boost/spirit/home/x3/support/utility/annotate_on_success.hpp>
 #include<boost/fusion/adapted/struct.hpp>
 
-#include<string_utils/unicode_support.hpp>
 #include<onerut_parser/ast_x3.hpp>
 #include<onerut_parser/ast_x3_to_oneliner.hpp>
 #include<onerut_parser/ast_x3_to_chart.hpp>
@@ -24,11 +23,11 @@ namespace onerut_parser {
         return match && hit_end();
     }
 
-    u32string_const_span X3ParseResultInfo::parsed_span() const {
+    string_const_span X3ParseResultInfo::parsed_span() const {
         return{input->cbegin(), it};
     }
 
-    u32string_const_span X3ParseResultInfo::not_parsed_span() const {
+    string_const_span X3ParseResultInfo::not_parsed_span() const {
         return{it, input->cend()};
     }
 
@@ -51,7 +50,7 @@ BOOST_FUSION_ADAPT_STRUCT(
         (onerut_parser::onerut_ast::x3::OpPlusMinusInfo, sum))
 BOOST_FUSION_ADAPT_STRUCT(
         onerut_parser::onerut_ast::x3::OpPlusMinusBitInfo,
-        (char32_t, op)
+        (char, op)
         (onerut_parser::onerut_ast::x3::OpProdDivInfo, arg))
 BOOST_FUSION_ADAPT_STRUCT(
         onerut_parser::onerut_ast::x3::OpPlusMinusInfo,
@@ -59,7 +58,7 @@ BOOST_FUSION_ADAPT_STRUCT(
         (std::vector<onerut_parser::onerut_ast::x3::OpPlusMinusBitInfo>, other_argv))
 BOOST_FUSION_ADAPT_STRUCT(
         onerut_parser::onerut_ast::x3::OpProdDivBitInfo,
-        (char32_t, op)
+        (char, op)
         (onerut_parser::onerut_ast::x3::OpPowInfo, arg))
 BOOST_FUSION_ADAPT_STRUCT(
         onerut_parser::onerut_ast::x3::OpProdDivInfo,
@@ -83,7 +82,7 @@ BOOST_FUSION_ADAPT_STRUCT(
         (boost::optional<onerut_parser::onerut_ast::x3::Value1Info>, other_arg))
 BOOST_FUSION_ADAPT_STRUCT(
         onerut_parser::onerut_ast::x3::OpUnaryPlusMinusInfo,
-        (boost::optional<char32_t>, op)
+        (boost::optional<char>, op)
         (onerut_parser::onerut_ast::x3::Value2Info, expression))
 BOOST_FUSION_ADAPT_STRUCT(
         onerut_parser::onerut_ast::x3::LitDoubleInfo,
@@ -97,8 +96,8 @@ BOOST_FUSION_ADAPT_STRUCT(
         (std::vector<onerut_parser::onerut_ast::x3::ExpressionInfo>, argv))
 BOOST_FUSION_ADAPT_STRUCT(
         onerut_parser::onerut_ast::x3::IdentifierInfo,
-        (char32_t, first_char)
-        (std::vector<char32_t>, other_chars))
+        (char, first_char)
+        (std::vector<char>, other_chars))
 BOOST_FUSION_ADAPT_STRUCT(
         onerut_parser::onerut_ast::x3::NestedExpression1Info,
         (onerut_parser::onerut_ast::x3::ExpressionInfo, expression))
@@ -297,16 +296,16 @@ namespace onerut_parser::onerut_gramma {
 
 namespace onerut_parser {
 
-    X3ParseResultInfo parse(std::shared_ptr<const std::u32string> input) {
+    X3ParseResultInfo parse(std::shared_ptr<const std::string> input) {
         // Iterators:
-        const std::u32string::const_iterator input_begin = input->cbegin();
-        const std::u32string::const_iterator input_end = input->cend();
-        std::u32string::const_iterator it = input_begin;
+        const std::string::const_iterator input_begin = input->cbegin();
+        const std::string::const_iterator input_end = input->cend();
+        std::string::const_iterator it = input_begin;
         // Results:
         onerut_parser::onerut_ast::x3::ExpressionInfo ast_head;
-        boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >> positions(input_begin, input_end);
+        boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >> positions(input_begin, input_end);
         // Annotation, positions_handlers, error_handlers:
-        boost::spirit::x3::error_handler<std::u32string::const_iterator> error_handler(it, input_end, std::cerr);
+        boost::spirit::x3::error_handler<std::string::const_iterator> error_handler(it, input_end, std::cerr);
         // The Parser, parse:
         auto const parser =
                 boost::spirit::x3::with<boost::spirit::x3::error_handler_tag>(std::ref(error_handler))[
@@ -319,19 +318,15 @@ namespace onerut_parser {
         return {input, it, match, ast_head, positions};
     }
 
-    //    X3ParseResultInfo parse(const std::u32string input) {
-    //        return parse(std::make_shared<const std::u32string>(input));
-    //    }
-
     //    X3ParseResultInfo parse(const std::string input) {
-    //        return parse(std::make_shared<const std::u32string>(unicode_from_utf8(input)));
+    //        return parse(std::make_shared<const std::string>(input));
     //    }
 
     void print(X3ParseResultInfo info) {
         std::cout << "match:     " << info.match << std::endl;
         std::cout << "hit_end:   " << info.hit_end() << std::endl;
         if (info.match) {
-            std::cout << "to_oneliner: " << unicode_to_utf8(to_oneliner(info.ast_head)) << std::endl;
+            std::cout << "to_oneliner: " << to_oneliner(info.ast_head) << std::endl;
             LinesInfo chart = to_chart(info.ast_head, info.positions);
             print_chart(info.input, chart);
         }

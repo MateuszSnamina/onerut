@@ -11,13 +11,13 @@ namespace onerut_parser {
     class GlobalIdentifiers {
     public:
         static GlobalIdentifiers& instance();
-        std::optional<std::shared_ptr<AbstractCompileResultRef>> get_or_empty(const std::u32string& name) const;
-        bool put(const std::u32string& name, std::shared_ptr<AbstractCompileResultRef> holder);
-        void force_put(const std::u32string& name, std::shared_ptr<AbstractCompileResultRef> holder);
+        std::optional<std::shared_ptr<AbstractCompileResultRef>> get_or_empty(const std::string& name) const;
+        bool put(const std::string& name, std::shared_ptr<AbstractCompileResultRef> holder);
+        void force_put(const std::string& name, std::shared_ptr<AbstractCompileResultRef> holder);
         bool put_e();
         bool put_pi();
     private:
-        std::map<std::u32string, std::shared_ptr<AbstractCompileResultRef>> identifiers;
+        std::map<std::string, std::shared_ptr<AbstractCompileResultRef>> identifiers;
     };
 
 }

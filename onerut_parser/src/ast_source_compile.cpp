@@ -12,12 +12,12 @@
 namespace {
 
     bool
-    is_plus_munis_char(char32_t op) {
+    is_plus_munis_char(char op) {
         return op == L'+' || op == L'-';
     }
 
     bool
-    is_prod_div_char(char32_t op) {
+    is_prod_div_char(char op) {
         return op == L'*' || op == L'/';
     }
 
@@ -74,7 +74,7 @@ namespace {
 
     onerut_parser::CompileResult
     behave_like_a_binary_function(
-            const std::u32string function_name,
+            const std::string function_name,
             onerut_parser::CompileResult first_arg_compile_result,
             onerut_parser::CompileResult second_arg_compile_result) {
         const auto first_arg_compile_result_deref = first_arg_compile_result.dereference();
@@ -241,14 +241,14 @@ namespace onerut_parser::onerut_ast::source {
 
     CompileResult
     OpPowNode::basic_compile(CompileResult first_arg_compile_result, CompileResult second_arg_compile_result) const {
-        return behave_like_a_binary_function(U"pow", first_arg_compile_result, second_arg_compile_result);
+        return behave_like_a_binary_function("pow", first_arg_compile_result, second_arg_compile_result);
     }
 
     // -------------------------------------------------------------------------
 
     CompileResult
     OpAtNode::basic_compile(CompileResult first_arg_compile_result, CompileResult second_arg_compile_result) const {
-        return behave_like_a_binary_function(U"at", first_arg_compile_result, second_arg_compile_result);
+        return behave_like_a_binary_function("at", first_arg_compile_result, second_arg_compile_result);
 
     }
 
@@ -256,7 +256,7 @@ namespace onerut_parser::onerut_ast::source {
 
     CompileResult
     OpArrowNode::basic_compile(CompileResult first_arg_compile_result, CompileResult second_arg_compile_result) const {
-        return behave_like_a_binary_function(U"arrow", first_arg_compile_result, second_arg_compile_result);
+        return behave_like_a_binary_function("arrow", first_arg_compile_result, second_arg_compile_result);
 
     }
 
@@ -264,7 +264,7 @@ namespace onerut_parser::onerut_ast::source {
 
     CompileResult
     OpGlueNode::basic_compile(CompileResult first_arg_compile_result, CompileResult second_arg_compile_result) const {
-        return behave_like_a_binary_function(U"glue", first_arg_compile_result, second_arg_compile_result);
+        return behave_like_a_binary_function("glue", first_arg_compile_result, second_arg_compile_result);
     }
 
     // -------------------------------------------------------------------------

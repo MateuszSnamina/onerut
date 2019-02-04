@@ -22,12 +22,12 @@ namespace onerut_parser::onerut_ast::source {
     class SourceNode : public std::enable_shared_from_this<SourceNode> {
     public:
         SourceNode(
-                std::shared_ptr<const std::u32string> input,
-                u32string_const_span span);
-        const std::shared_ptr<const std::u32string> input;
-        const u32string_const_span span;
+                std::shared_ptr<const std::string> input,
+                string_const_span span);
+        const std::shared_ptr<const std::string> input;
+        const string_const_span span;
         virtual ~SourceNode() = 0;
-        virtual std::u32string to_oneliner() const = 0;
+        virtual std::string to_oneliner() const = 0;
         virtual std::shared_ptr<onerut_parser::onerut_ast::compile_result::CompileResultNode> compile() const = 0;
         LinesStyledChartInfo to_chart() const;
         virtual void to_chart(
@@ -43,8 +43,8 @@ namespace onerut_parser::onerut_ast::source {
     class WithNoSubsourcesNode : public SourceNode {
     public:
         WithNoSubsourcesNode(
-                std::shared_ptr<const std::u32string> input,
-                u32string_const_span span);
+                std::shared_ptr<const std::string> input,
+                string_const_span span);
         void to_chart(
                 unsigned deepness,
                 LinesStyledChartInfo& chart) const final;
@@ -55,8 +55,8 @@ namespace onerut_parser::onerut_ast::source {
     class WithOneSubsourceNode : public SourceNode {
     public:
         WithOneSubsourceNode(
-                std::shared_ptr<const std::u32string> input,
-                u32string_const_span span,
+                std::shared_ptr<const std::string> input,
+                string_const_span span,
                 const std::shared_ptr<SourceNode> arg);
         void to_chart(
                 unsigned deepness,
@@ -69,8 +69,8 @@ namespace onerut_parser::onerut_ast::source {
     class WithTwoSubsourcesNode : public SourceNode {
     public:
         WithTwoSubsourcesNode(
-                std::shared_ptr<const std::u32string> input,
-                u32string_const_span span,
+                std::shared_ptr<const std::string> input,
+                string_const_span span,
                 std::shared_ptr<SourceNode> first_arg,
                 std::shared_ptr<SourceNode> second_arg);
         void to_chart(
@@ -85,8 +85,8 @@ namespace onerut_parser::onerut_ast::source {
     class WithOneOrMoreSubsourcesNode : public SourceNode {
     public:
         WithOneOrMoreSubsourcesNode(
-                std::shared_ptr<const std::u32string> input,
-                u32string_const_span span,
+                std::shared_ptr<const std::string> input,
+                string_const_span span,
                 std::shared_ptr<SourceNode> first_arg,
                 std::vector<std::shared_ptr<SourceNode>> other_argv);
         void to_chart(
@@ -101,8 +101,8 @@ namespace onerut_parser::onerut_ast::source {
     class WithAnyNumberOfSubsourcesNode : public SourceNode {
     public:
         WithAnyNumberOfSubsourcesNode(
-                std::shared_ptr<const std::u32string> input,
-                u32string_const_span span,
+                std::shared_ptr<const std::string> input,
+                string_const_span span,
                 std::vector<std::shared_ptr<SourceNode>> argv);
         void to_chart(
                 unsigned deepness,
@@ -119,21 +119,21 @@ namespace onerut_parser::onerut_ast::source {
     class IdentifierNode : public WithNoSubsourcesNode {
     public:
         IdentifierNode(
-                std::shared_ptr<const std::u32string> input,
-                u32string_const_span span,
-                std::u32string name);
-        std::u32string to_oneliner() const override;
+                std::shared_ptr<const std::string> input,
+                string_const_span span,
+                std::string name);
+        std::string to_oneliner() const override;
         CompileResult basic_compile() const override;
-        const std::u32string name;
+        const std::string name;
     };
 
     class LitLongNode : public WithNoSubsourcesNode {
     public:
         LitLongNode(
-                std::shared_ptr<const std::u32string> input,
-                u32string_const_span span,
+                std::shared_ptr<const std::string> input,
+                string_const_span span,
                 long value);
-        std::u32string to_oneliner() const override;
+        std::string to_oneliner() const override;
         CompileResult basic_compile() const override;
         const long value;
     };
@@ -141,10 +141,10 @@ namespace onerut_parser::onerut_ast::source {
     class LitDoubleNode : public WithNoSubsourcesNode {
     public:
         LitDoubleNode(
-                std::shared_ptr<const std::u32string> input,
-                u32string_const_span span,
+                std::shared_ptr<const std::string> input,
+                string_const_span span,
                 double value);
-        std::u32string to_oneliner() const override;
+        std::string to_oneliner() const override;
         CompileResult basic_compile() const override;
         const double value;
     };
@@ -152,13 +152,13 @@ namespace onerut_parser::onerut_ast::source {
     class OpAssignNode : public WithTwoSubsourcesNode {
     public:
         OpAssignNode(
-                std::shared_ptr<const std::u32string> input,
-                u32string_const_span span,
+                std::shared_ptr<const std::string> input,
+                string_const_span span,
                 std::shared_ptr<SourceNode> first_arg,
                 std::shared_ptr<SourceNode> second_arg,
                 bool new_flag,
                 bool const_flag);
-        std::u32string to_oneliner() const override;
+        std::string to_oneliner() const override;
         virtual CompileResult basic_compile(CompileResult first_arg_compile_result, CompileResult second_arg_compile_result) const override;
         const bool new_flag;
         const bool const_flag;
@@ -167,95 +167,95 @@ namespace onerut_parser::onerut_ast::source {
     class OpPlusMinusNode : public WithOneOrMoreSubsourcesNode {
     public:
         OpPlusMinusNode(
-                std::shared_ptr<const std::u32string> input,
-                u32string_const_span span,
+                std::shared_ptr<const std::string> input,
+                string_const_span span,
                 std::shared_ptr<SourceNode> first_arg,
                 std::vector<std::shared_ptr<SourceNode>> other_argv,
-                std::vector<char32_t> opv);
-        std::u32string to_oneliner() const override;
+                std::vector<char> opv);
+        std::string to_oneliner() const override;
         virtual CompileResult basic_compile(CompileResult first_arg_compile_result, std::vector<CompileResult> other_argv_compile_result) const override;
-        const std::vector<char32_t> opv;
+        const std::vector<char> opv;
     };
 
     class OpProdDivNode : public WithOneOrMoreSubsourcesNode {
     public:
         OpProdDivNode(
-                std::shared_ptr<const std::u32string> input,
-                u32string_const_span span,
+                std::shared_ptr<const std::string> input,
+                string_const_span span,
                 std::shared_ptr<SourceNode> first_arg,
                 std::vector<std::shared_ptr<SourceNode>> other_argv,
-                std::vector<char32_t> opv);
-        std::u32string to_oneliner() const override;
+                std::vector<char> opv);
+        std::string to_oneliner() const override;
         virtual CompileResult basic_compile(CompileResult first_arg_compile_result, std::vector<CompileResult> other_argv_compile_result) const override;
-        const std::vector<char32_t> opv;
+        const std::vector<char> opv;
     };
 
     class OpPowNode : public WithTwoSubsourcesNode {
     public:
         OpPowNode(
-                std::shared_ptr<const std::u32string> input,
-                u32string_const_span span,
+                std::shared_ptr<const std::string> input,
+                string_const_span span,
                 std::shared_ptr<SourceNode> first_arg,
                 std::shared_ptr<SourceNode> second_arg);
-        std::u32string to_oneliner() const override;
+        std::string to_oneliner() const override;
         virtual CompileResult basic_compile(CompileResult first_arg_compile_result, CompileResult second_arg_compile_result) const override;
     };
 
     class OpAtNode : public WithTwoSubsourcesNode {
     public:
         OpAtNode(
-                std::shared_ptr<const std::u32string> input,
-                u32string_const_span span,
+                std::shared_ptr<const std::string> input,
+                string_const_span span,
                 std::shared_ptr<SourceNode> first_arg,
                 std::shared_ptr<SourceNode> second_arg);
-        std::u32string to_oneliner() const override;
+        std::string to_oneliner() const override;
         virtual CompileResult basic_compile(CompileResult first_arg_compile_result, CompileResult second_arg_compile_result) const override;
     };
 
     class OpArrowNode : public WithTwoSubsourcesNode {
     public:
         OpArrowNode(
-                std::shared_ptr<const std::u32string> input,
-                u32string_const_span span,
+                std::shared_ptr<const std::string> input,
+                string_const_span span,
                 std::shared_ptr<SourceNode> first_arg,
                 std::shared_ptr<SourceNode> second_arg);
-        std::u32string to_oneliner() const override;
+        std::string to_oneliner() const override;
         virtual CompileResult basic_compile(CompileResult first_arg_compile_result, CompileResult second_arg_compile_result) const override;
     };
 
     class OpGlueNode : public WithTwoSubsourcesNode {
     public:
         OpGlueNode(
-                std::shared_ptr<const std::u32string> input,
-                u32string_const_span span,
+                std::shared_ptr<const std::string> input,
+                string_const_span span,
                 std::shared_ptr<SourceNode> first_arg,
                 std::shared_ptr<SourceNode> second_arg);
-        std::u32string to_oneliner() const override;
+        std::string to_oneliner() const override;
         virtual CompileResult basic_compile(CompileResult first_arg_compile_result, CompileResult second_arg_compile_result) const override;
     };
 
     class UnaryPlusMinusNode : public WithOneSubsourceNode {
     public:
         UnaryPlusMinusNode(
-                std::shared_ptr<const std::u32string> input,
-                u32string_const_span span,
-                char32_t op,
+                std::shared_ptr<const std::string> input,
+                string_const_span span,
+                char op,
                 std::shared_ptr<SourceNode> arg);
-        std::u32string to_oneliner() const override;
+        std::string to_oneliner() const override;
         virtual CompileResult basic_compile(CompileResult arg_compile_result) const override;
-        const char32_t op;
+        const char op;
     };
 
     class FunctionNode : public WithAnyNumberOfSubsourcesNode {
     public:
         FunctionNode(
-                std::shared_ptr<const std::u32string> input,
-                u32string_const_span span,
-                std::u32string name,
+                std::shared_ptr<const std::string> input,
+                string_const_span span,
+                std::string name,
                 std::vector<std::shared_ptr<SourceNode>> argv);
-        std::u32string to_oneliner() const override;
+        std::string to_oneliner() const override;
         virtual CompileResult basic_compile(std::vector<CompileResult> argv_compile_result) const override;
-        const std::u32string name;
+        const std::string name;
     };
 
 }

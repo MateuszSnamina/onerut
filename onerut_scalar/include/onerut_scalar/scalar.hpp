@@ -62,21 +62,21 @@ namespace onerut_scalar {
     public:
         OpUnaryPlusMinusDouble(
                 std::shared_ptr<Double> arg,
-                char32_t op);
+                char op);
         double value_double() const override;
         const std::shared_ptr<Double> arg;
-        const char32_t op;
+        const char op;
     };
 
     class OpUnaryPlusMinusLong : public Long {
     public:
         OpUnaryPlusMinusLong(
                 std::shared_ptr<Long> arg,
-                char32_t op);
+                char op);
         long value_long() const override;
     private:
         const std::shared_ptr<Long> arg;
-        const char32_t op;
+        const char op;
     };
 
     // -------------------------------------------------------------------------
@@ -88,12 +88,12 @@ namespace onerut_scalar {
         OpPlusMinusDouble(
                 std::shared_ptr<Double> first_arg,
                 std::vector<std::shared_ptr<Double>> other_argv,
-                const std::vector<char32_t>& opv);
+                const std::vector<char>& opv);
         double value_double() const override;
     private:
         const std::shared_ptr<Double> first_arg;
         const std::vector<std::shared_ptr<Double>> other_argv;
-        const std::vector<char32_t> opv;
+        const std::vector<char> opv;
     };
 
     class OpPlusMinusLong : public Long {
@@ -101,12 +101,12 @@ namespace onerut_scalar {
         OpPlusMinusLong(
                 std::shared_ptr<Long> first_arg,
                 std::vector<std::shared_ptr<Long>> other_argv,
-                const std::vector<char32_t>& opv);
+                const std::vector<char>& opv);
         long value_long() const override;
     private:
         const std::shared_ptr<Long> first_arg;
         const std::vector<std::shared_ptr<Long>> other_argv;
-        const std::vector<char32_t> opv;
+        const std::vector<char> opv;
     };
 
     // -------------------------------------------------------------------------
@@ -118,12 +118,12 @@ namespace onerut_scalar {
         OpProdDivDouble(
                 std::shared_ptr<Double> first_arg,
                 std::vector<std::shared_ptr<Double>> other_argv,
-                const std::vector<char32_t>& opv);
+                const std::vector<char>& opv);
         double value_double() const override;
     private:
         const std::shared_ptr<Double> first_arg;
         const std::vector<std::shared_ptr<Double>> other_argv;
-        const std::vector<char32_t> opv;
+        const std::vector<char> opv;
     };
 
     class OpProdDivLong : public Long {
@@ -131,12 +131,12 @@ namespace onerut_scalar {
         OpProdDivLong(
                 std::shared_ptr<Long> first_arg,
                 std::vector<std::shared_ptr<Long>> other_argv,
-                const std::vector<char32_t>& opv);
+                const std::vector<char>& opv);
         long value_long() const override;
     private:
         const std::shared_ptr<Long> first_arg;
         const std::vector<std::shared_ptr<Long>> other_argv;
-        const std::vector<char32_t> opv;
+        const std::vector<char> opv;
     };
 
     // -------------------------------------------------------------------------

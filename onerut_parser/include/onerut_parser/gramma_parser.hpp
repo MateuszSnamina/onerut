@@ -10,21 +10,20 @@
 namespace onerut_parser {
 
     struct X3ParseResultInfo {
-        std::shared_ptr<const std::u32string> input;
-        std::u32string::const_iterator it;        
+        std::shared_ptr<const std::string> input;
+        std::string::const_iterator it;        
         const bool match;
         const onerut_parser::onerut_ast::x3::ExpressionInfo ast_head;
-        const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >> positions;
+        const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >> positions;
         bool hit_end() const;
         bool succes() const;        
-        u32string_const_span parsed_span() const;
-        u32string_const_span not_parsed_span() const;
+        string_const_span parsed_span() const;
+        string_const_span not_parsed_span() const;
     };
 
     void print(X3ParseResultInfo info);
 
-    X3ParseResultInfo parse(std::shared_ptr<const std::u32string> input);
-    //X3ParseResultInfo parse(const std::u32string input);
+    X3ParseResultInfo parse(std::shared_ptr<const std::string> input);
     //X3ParseResultInfo parse(const std::string input);
 
 }

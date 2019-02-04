@@ -11,9 +11,9 @@
 namespace onerut_parser::onerut_ast::x3 {
 
     struct IdentifierInfo : boost::spirit::x3::position_tagged {
-        char32_t first_char;
-        std::vector<char32_t> other_chars;
-        std::u32string name() const;
+        char first_char;
+        std::vector<char> other_chars;
+        std::string name() const;
     };
 
     struct NestedExpression1Info;
@@ -35,7 +35,7 @@ namespace onerut_parser::onerut_ast::x3 {
     };
 
     struct OpUnaryPlusMinusInfo : boost::spirit::x3::position_tagged {
-        boost::optional<char32_t> op;
+        boost::optional<char> op;
         Value2Info expression;
     };
 
@@ -94,7 +94,7 @@ namespace onerut_parser::onerut_ast::x3 {
     };
 
     struct OpProdDivBitInfo : boost::spirit::x3::position_tagged {
-        char32_t op;
+        char op;
         OpPowInfo arg;
     };
 
@@ -107,7 +107,7 @@ namespace onerut_parser::onerut_ast::x3 {
     };
 
     struct OpPlusMinusBitInfo : boost::spirit::x3::position_tagged {
-        char32_t op;
+        char op;
         OpProdDivInfo arg;
     };
 

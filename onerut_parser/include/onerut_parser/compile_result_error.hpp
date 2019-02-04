@@ -7,19 +7,19 @@ namespace onerut_parser {
 
     class CompileError : public std::runtime_error {
     public:
-        CompileError(const std::u32string& message);
+        CompileError(const std::string& message);
     };
 
     class FunctionNotFoundError : public CompileError {
     public:
-        FunctionNotFoundError(const std::u32string& function_name);
-        const std::u32string function_name;
+        FunctionNotFoundError(const std::string& function_name);
+        const std::string function_name;
     };
 
     class IdentifierNotFoundError : public CompileError {
     public:
-        IdentifierNotFoundError(const std::u32string& identifier_name);
-        const std::u32string identifier_name;
+        IdentifierNotFoundError(const std::string& identifier_name);
+        const std::string identifier_name;
     };
 
     class CompileArgumentsError : public CompileError {

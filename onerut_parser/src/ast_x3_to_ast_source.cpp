@@ -8,18 +8,18 @@ namespace onerut_parser::onerut_ast {
 
     struct ToAstSourceVisitor {
         ToAstSourceVisitor(
-                std::shared_ptr<const std::u32string> input,
-                const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions);
+                std::shared_ptr<const std::string> input,
+                const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions);
         typedef std::shared_ptr<source::SourceNode> result_type;
         template<typename T>
         result_type operator()(const T & info) const;
-        const std::shared_ptr<const std::u32string> input;
-        const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions;
+        const std::shared_ptr<const std::string> input;
+        const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions;
     };
 
     ToAstSourceVisitor::ToAstSourceVisitor(
-            std::shared_ptr<const std::u32string> input,
-            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) :
+            std::shared_ptr<const std::string> input,
+            const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions) :
     input(input),
     positions(positions) {
     }
@@ -35,20 +35,20 @@ namespace onerut_parser::onerut_ast {
 
     std::shared_ptr<source::SourceNode> to_ast_source(
             const x3::ExpressionInfo& info,
-            std::shared_ptr<const std::u32string> input,
-            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
+            std::shared_ptr<const std::string> input,
+            const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions) {
         return to_ast_source(info.assign, input, positions);
     }
 
     std::shared_ptr<source::SourceNode> to_ast_source(
             const x3::OpAssignInfo& info,
-            std::shared_ptr<const std::u32string> input,
-            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
+            std::shared_ptr<const std::string> input,
+            const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions) {
         const std::shared_ptr<source::SourceNode> second_arg = to_ast_source(info.sum, input, positions);
         if (!info.bit)
             return second_arg;
         const std::shared_ptr<source::SourceNode> first_arg = to_ast_source((*info.bit).identifier, input, positions);
-        const u32string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
+        const string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
         assert(input->cbegin() <= span.begin());
         assert(span.end() <= input->cend());
@@ -57,22 +57,22 @@ namespace onerut_parser::onerut_ast {
 
     std::shared_ptr<source::SourceNode> to_ast_source(
             const x3::OpPlusMinusInfo& info,
-            std::shared_ptr<const std::u32string> input,
-            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
+            std::shared_ptr<const std::string> input,
+            const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions) {
         const std::shared_ptr<source::SourceNode> first_arg = to_ast_source(info.first_arg, input, positions);
         if (info.other_argv.empty())
             return first_arg;
         std::vector<std::shared_ptr < source::SourceNode>> other_argv;
-        std::vector<char32_t> opv;
+        std::vector<char> opv;
         other_argv.reserve(info.other_argv.size());
         opv.reserve(info.other_argv.size());
         for (const x3::OpPlusMinusBitInfo& arg_info : info.other_argv) {
-            assert(arg_info.op == U'+' || arg_info.op == U'-');
+            assert(arg_info.op == '+' || arg_info.op == '-');
             const std::shared_ptr<source::SourceNode> other_arg = to_ast_source(arg_info.arg, input, positions);
             other_argv.push_back(other_arg);
             opv.push_back(arg_info.op);
         }
-        const u32string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
+        const string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
         assert(input->cbegin() <= span.begin());
         assert(span.end() <= input->cend());
@@ -81,22 +81,22 @@ namespace onerut_parser::onerut_ast {
 
     std::shared_ptr<source::SourceNode> to_ast_source(
             const x3::OpProdDivInfo & info,
-            std::shared_ptr<const std::u32string> input,
-            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
+            std::shared_ptr<const std::string> input,
+            const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions) {
         const std::shared_ptr<source::SourceNode> first_arg = to_ast_source(info.first_arg, input, positions);
         if (info.other_argv.empty())
             return first_arg;
         std::vector<std::shared_ptr < source::SourceNode>> other_argv;
-        std::vector<char32_t> opv;
+        std::vector<char> opv;
         other_argv.reserve(info.other_argv.size());
         opv.reserve(info.other_argv.size());
         for (const x3::OpProdDivBitInfo& arg_info : info.other_argv) {
-            assert(arg_info.op == U'*' || arg_info.op == U'/');
+            assert(arg_info.op == '*' || arg_info.op == '/');
             const std::shared_ptr<source::SourceNode> other_arg = to_ast_source(arg_info.arg, input, positions);
             other_argv.push_back(other_arg);
             opv.push_back(arg_info.op);
         }
-        const u32string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
+        const string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
         assert(input->cbegin() <= span.begin());
         assert(span.end() <= input->cend());
@@ -105,13 +105,13 @@ namespace onerut_parser::onerut_ast {
 
     std::shared_ptr<source::SourceNode> to_ast_source(
             const x3::OpPowInfo & info,
-            std::shared_ptr<const std::u32string> input,
-            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
+            std::shared_ptr<const std::string> input,
+            const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions) {
         const std::shared_ptr<source::SourceNode> first_arg = to_ast_source(info.first_arg, input, positions);
         if (!info.other_arg)
             return first_arg;
         const std::shared_ptr<source::SourceNode> other_arg = to_ast_source(*info.other_arg, input, positions);
-        const u32string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
+        const string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
         assert(input->cbegin() <= span.begin());
         assert(span.end() <= input->cend());
@@ -120,13 +120,13 @@ namespace onerut_parser::onerut_ast {
 
     std::shared_ptr<source::SourceNode> to_ast_source(
             const x3::OpAtInfo & info,
-            std::shared_ptr<const std::u32string> input,
-            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
+            std::shared_ptr<const std::string> input,
+            const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions) {
         const std::shared_ptr<source::SourceNode> first_arg = to_ast_source(info.first_arg, input, positions);
         if (!info.other_arg)
             return first_arg;
         const std::shared_ptr<source::SourceNode> other_arg = to_ast_source(*info.other_arg, input, positions);
-        const u32string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
+        const string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
         assert(input->cbegin() <= span.begin());
         assert(span.end() <= input->cend());
@@ -135,13 +135,13 @@ namespace onerut_parser::onerut_ast {
 
     std::shared_ptr<source::SourceNode> to_ast_source(
             const x3::OpArrowInfo & info,
-            std::shared_ptr<const std::u32string> input,
-            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
+            std::shared_ptr<const std::string> input,
+            const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions) {
         const std::shared_ptr<source::SourceNode> first_arg = to_ast_source(info.first_arg, input, positions);
         if (!info.other_arg)
             return first_arg;
         const std::shared_ptr<source::SourceNode> other_arg = to_ast_source(*info.other_arg, input, positions);
-        const u32string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
+        const string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
         assert(input->cbegin() <= span.begin());
         assert(span.end() <= input->cend());
@@ -150,13 +150,13 @@ namespace onerut_parser::onerut_ast {
 
     std::shared_ptr<source::SourceNode> to_ast_source(
             const x3::OpGlueInfo & info,
-            std::shared_ptr<const std::u32string> input,
-            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
+            std::shared_ptr<const std::string> input,
+            const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions) {
         const std::shared_ptr<source::SourceNode> first_arg = to_ast_source(info.first_arg, input, positions);
         if (!info.other_arg)
             return first_arg;
         const std::shared_ptr<source::SourceNode> other_arg = to_ast_source(*info.other_arg, input, positions);
-        const u32string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
+        const string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
         assert(input->cbegin() <= span.begin());
         assert(span.end() <= input->cend());
@@ -165,17 +165,17 @@ namespace onerut_parser::onerut_ast {
 
     std::shared_ptr<source::SourceNode> to_ast_source(
             const x3::Value1Info & info,
-            std::shared_ptr<const std::u32string> input,
-            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
+            std::shared_ptr<const std::string> input,
+            const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions) {
         const auto visitor = ToAstSourceVisitor(input, positions);
         return boost::apply_visitor(visitor, info);
     }
 
     std::shared_ptr<source::SourceNode> to_ast_source(
             const x3::LitDoubleInfo & info,
-            std::shared_ptr<const std::u32string> input,
-            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
-        const u32string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
+            std::shared_ptr<const std::string> input,
+            const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions) {
+        const string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
         assert(input->cbegin() <= span.begin());
         assert(span.end() <= input->cend());
@@ -184,9 +184,9 @@ namespace onerut_parser::onerut_ast {
 
     std::shared_ptr<source::SourceNode> to_ast_source(
             const x3::LitLongInfo & info,
-            std::shared_ptr<const std::u32string> input,
-            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
-        const u32string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
+            std::shared_ptr<const std::string> input,
+            const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions) {
+        const string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
         assert(input->cbegin() <= span.begin());
         assert(span.end() <= input->cend());
@@ -195,39 +195,39 @@ namespace onerut_parser::onerut_ast {
 
     std::shared_ptr<source::SourceNode> to_ast_source(
             const x3::OpUnaryPlusMinusInfo & info,
-            std::shared_ptr<const std::u32string> input,
-            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
+            std::shared_ptr<const std::string> input,
+            const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions) {
         const std::shared_ptr<source::SourceNode> expression = to_ast_source(info.expression, input, positions);
         if (!info.op)
             return expression;
-        const u32string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
+        const string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
         assert(input->cbegin() <= span.begin());
         assert(span.end() <= input->cend());
-        assert(*info.op == U'+' || *info.op == U'-');
+        assert(*info.op == '+' || *info.op == '-');
         return std::make_shared<source::UnaryPlusMinusNode>(input, span, *info.op, expression);
     }
 
     std::shared_ptr<source::SourceNode> to_ast_source(
             const x3::Value2Info & info,
-            std::shared_ptr<const std::u32string> input,
-            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
+            std::shared_ptr<const std::string> input,
+            const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions) {
         const auto visitor = ToAstSourceVisitor(input, positions);
         return boost::apply_visitor(visitor, info);
     }
 
     std::shared_ptr<source::SourceNode> to_ast_source(
             const x3::FunctionInfo & info,
-            std::shared_ptr<const std::u32string> input,
-            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
-        const std::u32string name = info.name.name();
+            std::shared_ptr<const std::string> input,
+            const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions) {
+        const std::string name = info.name.name();
         std::vector<std::shared_ptr < source::SourceNode>> argv;
         argv.reserve(info.argv.size());
         for (const x3::ExpressionInfo& arg_info : info.argv) {
             const std::shared_ptr<source::SourceNode> arg = to_ast_source(arg_info, input, positions);
             argv.push_back(arg);
         }
-        const u32string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
+        const string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
         assert(input->cbegin() <= span.begin());
         assert(span.end() <= input->cend());
@@ -236,9 +236,9 @@ namespace onerut_parser::onerut_ast {
 
     std::shared_ptr<source::SourceNode> to_ast_source(
             const x3::IdentifierInfo & info,
-            std::shared_ptr<const std::u32string> input,
-            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
-        const u32string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
+            std::shared_ptr<const std::string> input,
+            const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions) {
+        const string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
         assert(input->cbegin() <= span.begin());
         assert(span.end() <= input->cend());
@@ -247,15 +247,15 @@ namespace onerut_parser::onerut_ast {
 
     std::shared_ptr<source::SourceNode> to_ast_source(
             const x3::NestedExpression1Info & info,
-            std::shared_ptr<const std::u32string> input,
-            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
+            std::shared_ptr<const std::string> input,
+            const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions) {
         return to_ast_source(info.expression, input, positions);
     }
 
     std::shared_ptr<source::SourceNode> to_ast_source(
             const x3::NestedExpression2Info & info,
-            std::shared_ptr<const std::u32string> input,
-            const boost::spirit::x3::position_cache<std::vector < std::u32string::const_iterator >>&positions) {
+            std::shared_ptr<const std::string> input,
+            const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions) {
         return to_ast_source(info.expression, input, positions);
     }
 

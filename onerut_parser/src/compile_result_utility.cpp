@@ -45,7 +45,7 @@ namespace onerut_parser::utility {
         return no_const_reference;
     }
 
-    std::u32string
+    std::string
     name_of_identifier_not_found(const onerut_parser::CompileResultDeref& result) {
         const auto& error = result.compile_error_or_empty();
         assert(error);

@@ -2,11 +2,11 @@
 #include<onerut_parser/function_global.hpp>
 #include<onerut_scalar/scalar.hpp>
 
-#define FULL_CUSTOMIZED_PUT_STD_UNARY_FUNCTION(TYPE, ONERUT_NAME, CPPSTD_NAME) force_put(U ## #ONERUT_NAME, std::make_shared <UnaryDoubleFunction < TYPE >> (static_cast<TYPE> (&std::CPPSTD_NAME)))
+#define FULL_CUSTOMIZED_PUT_STD_UNARY_FUNCTION(TYPE, ONERUT_NAME, CPPSTD_NAME) force_put(#ONERUT_NAME, std::make_shared <UnaryDoubleFunction < TYPE >> (static_cast<TYPE> (&std::CPPSTD_NAME)))
 #define CUSTOMIZED_PUT_STD_UNARY_FUNCTION(ONERUT_NAME, CPPSTD_NAME) FULL_CUSTOMIZED_PUT_STD_UNARY_FUNCTION(FunPtrType1, ONERUT_NAME, CPPSTD_NAME)
 #define PUT_STD_UNARY_FUNCTION(NAME) CUSTOMIZED_PUT_STD_UNARY_FUNCTION(NAME, NAME)
 
-#define FULL_CUSTOMIZED_PUT_STD_BINARY_FUNCTION(TYPE, ONERUT_NAME, CPPSTD_NAME) force_put(U ## #ONERUT_NAME, std::make_shared <BinaryDoubleFunction < TYPE >> (static_cast<TYPE> (&std::CPPSTD_NAME)))
+#define FULL_CUSTOMIZED_PUT_STD_BINARY_FUNCTION(TYPE, ONERUT_NAME, CPPSTD_NAME) force_put(#ONERUT_NAME, std::make_shared <BinaryDoubleFunction < TYPE >> (static_cast<TYPE> (&std::CPPSTD_NAME)))
 #define CUSTOMIZED_PUT_STD_BINARY_FUNCTION(ONERUT_NAME, CPPSTD_NAME) FULL_CUSTOMIZED_PUT_STD_BINARY_FUNCTION(FunPtrType2, ONERUT_NAME, CPPSTD_NAME)
 #define PUT_STD_BINARY_FUNCTION(NAME) CUSTOMIZED_PUT_STD_BINARY_FUNCTION(NAME, NAME)
 
@@ -21,7 +21,7 @@ namespace onerut_parser {
         return _instance;
     }
 
-    std::optional<std::shared_ptr<AbstractFunction>> GlobalFunctions::get_or_empty(const std::u32string& name) const {
+    std::optional<std::shared_ptr<AbstractFunction>> GlobalFunctions::get_or_empty(const std::string& name) const {
         try {
             return functions.at(name);
         } catch (std::out_of_range&) {
@@ -29,14 +29,14 @@ namespace onerut_parser {
         }
     }
 
-    bool GlobalFunctions::put(const std::u32string& name, std::shared_ptr<AbstractFunction> function) {
+    bool GlobalFunctions::put(const std::string& name, std::shared_ptr<AbstractFunction> function) {
         if (functions.count(name))
             return false;
         functions[name] = function;
         return true;
     }
 
-    void GlobalFunctions::force_put(const std::u32string& name, std::shared_ptr<AbstractFunction> function) {
+    void GlobalFunctions::force_put(const std::string& name, std::shared_ptr<AbstractFunction> function) {
         functions[name] = function;
     }
 
