@@ -24,6 +24,7 @@ add_executable("${TARGET_NAME}" ${src} ${inc})
 target_include_directories("${TARGET_NAME}" PUBLIC include)
 target_link_libraries(onerut
   onerut_parser
+  onerut_op1e
   esc
   stdc++fs # Will not be necessary in the futire.
   Boost::boost

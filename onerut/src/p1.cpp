@@ -1,6 +1,7 @@
 #include<iostream>
 #include<fstream>
 #include<iomanip>
+#include<optional>
 #include<filesystem>
 
 #include<esc/esc_manip.hpp>
@@ -14,8 +15,7 @@
 #include<onerut_parser/function_global.hpp>
 #include<onerut_scalar/scalar.hpp>
 
-
-#include<optional>
+#include<onerut_op1e/op1e.hpp>
 
 bool
 execute_line(std::shared_ptr<std::u32string> uline) {
@@ -109,11 +109,17 @@ bool execute_script_file(const std::filesystem::path& file_path) {
 
 void temp_testing() {
 
+
+    onerut_op1e::HopOperator<unsigned> o1(4.6, 1, 3);
+    arma::mat M = onerut_op1e::to_mat(o1, 4);
+    std::cout << M << std::endl;
+
+    return;
     //    std::cout << sizeof(int) << std::endl;
     //    std::cout << sizeof(std::optional<int>) << std::endl;
     //    std::cout << sizeof(std::pair<int,bool>) << std::endl;
     //    std::cout << sizeof(std::pair<bool,int>) << std::endl;
-    
+
     onerut_parser::GlobalIdentifiers::instance().put_e();
     onerut_parser::GlobalIdentifiers::instance().put_pi();
     onerut_parser::GlobalFunctions::instance().put_cmath();

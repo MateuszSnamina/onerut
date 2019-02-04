@@ -128,6 +128,7 @@
             <pElem>onerut_parser/include</pElem>
             <pElem>onerut_scalar/include</pElem>
             <pElem>esc/include</pElem>
+            <pElem>onerut_op1e/include</pElem>
             <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut</pElem>
           </incDir>
