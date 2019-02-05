@@ -38,7 +38,6 @@ execute_line(std::shared_ptr<std::string> line) {
         std::cout << std::endl;
         return false;
     }
-
     // #########################################################################
     const auto ast_source_head = onerut_parser::onerut_ast::to_ast_source(
             parsed_x3_info.ast_head,

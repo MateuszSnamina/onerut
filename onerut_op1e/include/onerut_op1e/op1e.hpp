@@ -237,7 +237,7 @@ namespace onerut_op1e {
     }
 
     // -------------------------------------------------------------------------
-    // ------------------ SCALLED OPERATOR  -------------------------------------
+    // ------------------ PlusMinus OPERATOR  -------------------------------------
     // -------------------------------------------------------------------------    
 
     template<typename BraKetT>
@@ -246,24 +246,26 @@ namespace onerut_op1e {
     template<typename BraKetT>
     class OpPlusMinusOperatorIterator : public AbstractResultIterator<BraKetT> {
     public:
-        using OpT = AbstractOperator<BraKetT>;
-        using OpPtrT = std::shared_ptr<const OpT>;
+        using AbstractOpT = AbstractOperator<BraKetT>;
+        using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
+        using AbstractIterator = AbstractResultIterator<BraKetT>;
+        using AbstractIteratorPtrT = std::shared_ptr<AbstractIterator>;
         using Iterator = OpPlusMinusOperatorIterator<BraKetT>;
         OpPlusMinusOperatorIterator(
-                const BraKetT& ket,
-                const OpPtrT& first_arg,
-                const std::vector<OpPtrT>& other_argv,
-                const std::vector<char>& opv);
+                const AbstractOpPtrT& first_arg,
+                const std::vector<AbstractOpPtrT>& other_argv,
+                const std::vector<char>& opv,
+                const BraKetT& ket);
         typename AbstractResultIterator<BraKetT>::value_type get_val_bra() const override;
         void next() override;
         virtual bool is_end() const override;
     private:
         void _goto_next_arg_if_base_itptr_is_end();
-        const BraKetT _ket;
-        std::shared_ptr<AbstractResultIterator<BraKetT>> _base_itptr;
-        typename std::vector<OpPtrT>::const_iterator _other_argv_it;
-        const typename std::vector<OpPtrT>::const_iterator _other_argv_end;
+        AbstractIteratorPtrT _base_itptr;
+        typename std::vector<AbstractOpPtrT>::const_iterator _other_argv_it;
+        const typename std::vector<AbstractOpPtrT>::const_iterator _other_argv_end;
         std::vector<char>::const_iterator _opv_it;
+        const BraKetT _ket;
         bool _process_first;
         bool _is_end;
     };
@@ -271,33 +273,35 @@ namespace onerut_op1e {
     template<typename BraKetT>
     class OpPlusMinusOperator : public AbstractOperator<BraKetT> {
     public:
-        using OpT = AbstractOperator<BraKetT>;
-        using OpPtrT = std::shared_ptr<const OpT>;
+        using AbstractOpT = AbstractOperator<BraKetT>;
+        using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
         using Iterator = OpPlusMinusOperatorIterator<BraKetT>;
         OpPlusMinusOperator(
-                const OpPtrT& first_arg,
-                const std::vector<OpPtrT>& other_argv,
+                const AbstractOpPtrT& first_arg,
+                const std::vector<AbstractOpPtrT>& other_argv,
                 const std::vector<char>& opv);
         std::shared_ptr<AbstractResultIterator<BraKetT>> begin_itptr(const BraKetT& ket) const override;
     private:
-        const OpPtrT first_arg;
-        const std::vector<OpPtrT> other_argv;
+        const AbstractOpPtrT first_arg;
+        const std::vector<AbstractOpPtrT> other_argv;
         const std::vector<char> opv;
     };
 
     // -------------------------------------------------------------------------
+    // ------------------ PlusMinus OPERATOR - implementation  -----------------
+    // -------------------------------------------------------------------------    
 
     template<typename BraKetT>
     OpPlusMinusOperatorIterator<BraKetT>::OpPlusMinusOperatorIterator(
-            const BraKetT& ket,
-            const OpPtrT& first_arg,
-            const std::vector<OpPtrT>& other_argv,
-            const std::vector<char>& opv) :
-    _ket(ket),
+            const AbstractOpPtrT& first_arg,
+            const std::vector<AbstractOpPtrT>& other_argv,
+            const std::vector<char>& opv,
+            const BraKetT& ket) :
     _base_itptr(first_arg->begin_itptr(ket)),
     _other_argv_it(std::cbegin(other_argv)),
     _other_argv_end(std::cend(other_argv)),
     _opv_it(std::cbegin(opv)),
+    _ket(ket),
     _process_first(true),
     _is_end(false) {
         _goto_next_arg_if_base_itptr_is_end();
@@ -342,11 +346,10 @@ namespace onerut_op1e {
         while (_base_itptr->is_end() && !_is_end) {
             _other_argv_it++;
             _opv_it++;
-            if (_other_argv_it != _other_argv_end) {
+            if (_other_argv_it != _other_argv_end)
                 _base_itptr = (*_other_argv_it)->begin_itptr(_ket);
-            } else {
+            else
                 _is_end = true;
-            }
         }
     }
 
@@ -354,8 +357,8 @@ namespace onerut_op1e {
 
     template<typename BraKetT>
     OpPlusMinusOperator<BraKetT>::OpPlusMinusOperator(
-            const OpPtrT& first_arg,
-            const std::vector<OpPtrT>& other_argv,
+            const AbstractOpPtrT& first_arg,
+            const std::vector<AbstractOpPtrT>& other_argv,
             const std::vector<char>& opv) :
     first_arg(first_arg),
     other_argv(other_argv),
@@ -365,7 +368,96 @@ namespace onerut_op1e {
     template<typename BraKetT>
     std::shared_ptr<AbstractResultIterator<BraKetT>>
     OpPlusMinusOperator<BraKetT>::begin_itptr(const BraKetT& ket) const {
-        return std::make_shared<Iterator>(ket, first_arg, other_argv, opv);
+        return std::make_shared<Iterator>(first_arg, other_argv, opv, ket);
+    }
+
+    // -------------------------------------------------------------------------
+    // ------------------ OpProd OPERATOR  -------------------------------------
+    // -------------------------------------------------------------------------    
+
+    template<typename BraKetT>
+    class OpProdOperatorIterator : public AbstractResultIterator<BraKetT> {
+    public:
+        using AbstractOpT = AbstractOperator<BraKetT>;
+        using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
+        using AbstractIterator = AbstractResultIterator<BraKetT>;
+        using AbstractIteratorPtrT = std::shared_ptr<const AbstractIterator>;
+        using Iterator = OpProdOperatorIterator<BraKetT>;
+        OpProdOperatorIterator(
+                const std::vector<AbstractOpPtrT>& argv, const BraKetT& ket);
+        typename AbstractResultIterator<BraKetT>::value_type get_val_bra() const override;
+        void next() override;
+        virtual bool is_end() const override;
+    private:
+        //void _goto_next_arg_if_base_itptr_is_end();
+        std::vector<AbstractOpPtrT> _argv;
+        std::vector<AbstractIteratorPtrT> _base_itptr;
+        std::vector<double> _factor;
+        std::optional<BraKetT> _bra;
+    };
+
+    template<typename BraKetT>
+    class OpProdOperator : public AbstractOperator<BraKetT> {
+    public:
+        using AbstractOpT = AbstractOperator<BraKetT>;
+        using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
+        using Iterator = OpProdOperatorIterator<BraKetT>;
+        OpProdOperator(std::vector<AbstractOpPtrT> argv);
+        std::shared_ptr<AbstractResultIterator<BraKetT>> begin_itptr(const BraKetT& ket) const override;
+    private:
+        std::vector<AbstractOpPtrT> argv;
+    };
+
+    // -------------------------------------------------------------------------
+
+    template<typename BraKetT>
+    OpProdOperatorIterator<BraKetT>::OpProdOperatorIterator(
+            const std::vector<AbstractOpPtrT>& argv, const BraKetT& ket) :
+    _argv(argv),
+    _base_itptr(argv.size()),
+    _factor(argv.size()),
+    _bra(std::nullopt) {
+        BraKetT& temp = ket;
+        auto base_itptr_rit = _base_itptr.rbegin();
+        for (auto arg_rit = _argv.rbegin(); arg_rit != _argv.rend(); arg_rit) {
+            *base_itptr_rit = (*arg_rit)->begin_itptr(temp);
+            if ((*base_itptr_rit)->is_end())
+                return;
+            const auto& val_bra = (*base_itptr_rit)->get_val_bra();
+            const double& val = val_bra.first;
+            const BraKetT& bra = val_bra.second;
+            temp = bra;
+        }
+        _bra = temp;
+    }
+
+    template<typename BraKetT>
+    typename AbstractResultIterator<BraKetT>::value_type
+    OpProdOperatorIterator<BraKetT>::get_val_bra() const {
+        //TODO
+    }
+
+    template<typename BraKetT>
+    void
+    OpProdOperatorIterator<BraKetT>::next() {
+        //TODO
+    }
+
+    template<typename BraKetT>
+    bool
+    OpProdOperatorIterator<BraKetT>::is_end() const {
+        return _bra.has_value();
+    }
+
+    template<typename BraKetT>
+    OpProdOperator<BraKetT>::OpProdOperator(std::vector<AbstractOpPtrT> argv) :
+    argv(argv) {
+    }
+
+    template<typename BraKetT>
+    std::shared_ptr<AbstractResultIterator<BraKetT>>
+    OpProdOperator<BraKetT>::begin_itptr(const BraKetT& ket) const {
+        return std::make_shared<Iterator>(argv, ket);
     }
 
     // -------------------------------------------------------------------------
