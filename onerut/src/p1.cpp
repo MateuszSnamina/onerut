@@ -108,39 +108,35 @@ bool execute_script_file(const std::filesystem::path& file_path) {
 
 void temp_testing() {
 
+    auto o1 = std::make_shared<onerut_op1e::HopOperator<unsigned>>(4.6, 1, 3);
+    auto o2 = std::make_shared<onerut_op1e::HopOperator<unsigned>>(2.2, 1, 2);
+    auto o3 = std::make_shared<onerut_op1e::ScalledOperator<unsigned>>(2.0, o1);
 
-    onerut_op1e::HopOperator<unsigned> o1(4.6, 1, 3);
-    arma::mat M = onerut_op1e::to_mat(o1, 4);
-    std::cout << M << std::endl;
+    using OpT = onerut_op1e::AbstractOperator<unsigned>;
+    using OpPtrT = std::shared_ptr<const OpT>;
+
+    OpPtrT first_arg = o1;
+    std::vector<OpPtrT> other_argv({o2, o3});
+    std::vector<char> opv({'-', '-'});
+    auto o1_p_02 = std::make_shared<onerut_op1e::OpPlusMinusOperator<unsigned>>(first_arg, other_argv, opv);
+//    auto o1_p_02 = std::make_shared<onerut_op1e::OpPlusMinusOperator<unsigned>>(o1,{o2},
+//    {
+//        '+'
+//    });
+
+    //arma::mat M = ;
+    std::cout << onerut_op1e::to_mat(*o1, 4) << std::endl;
+    std::cout << onerut_op1e::to_mat(*o2, 4) << std::endl;
+    std::cout << onerut_op1e::to_mat(*o3, 4) << std::endl;
+    std::cout << onerut_op1e::to_mat(*o1_p_02, 4) << std::endl;
 
     return;
-    //    std::cout << sizeof(int) << std::endl;
-    //    std::cout << sizeof(std::optional<int>) << std::endl;
-    //    std::cout << sizeof(std::pair<int,bool>) << std::endl;
-    //    std::cout << sizeof(std::pair<bool,int>) << std::endl;
-
-    onerut_parser::GlobalIdentifiers::instance().put_e();
-    onerut_parser::GlobalIdentifiers::instance().put_pi();
-    onerut_parser::GlobalFunctions::instance().put_cmath();
 
     //std::string input = "  _alg(_67j, foo(  7  , 8 ) , (xx2s) ) kota* 56.8 ";
-    //std::string input  = "  $ ";
     //const std::string input = "  3.0^6@t+_alg((5->4-7/foo(6)), 8.9*ola::ala,-pi+9,-7+9)*(-(9))+(-(9.0)+1) ";
-    //std::string input = "(9/2+3)*7.0";
-    //std::cout << (9 / 2 + 3)*7.0 << std::endl;
-    //long i = 10000000000000000l;
-    //std::cout << i + 1 << std::endl;
-    //std::cout << std::setprecision(20) << 10000000000000000 + 1. << std::endl;
-    //return 1;
-    //std::string input = " (13/2*0.5+ (-(7.8*(5+5*7)) + 8. + -.8) /9) ";
     //std::cout << (13 / 2 * 0.5 + (-(7.8 * (5 + 5 * 7)) + 8. + -.8) / 9) << std::endl;
-    //std::string input = "10000000 + 1.";
-    //std::string input = "1000000000000000000000+1.";
-    //const std::string input = "  10+pi/2 ";
-    //const std::string input = "new x := 10 ";
 
     std::vector<std::shared_ptr < std::string>> lines;
-    //    lines.push_back(std::make_shared < std::string>("(2+4*3)+pi/2"));
     lines.push_back(std::make_shared < std::string>("x:=(2+4*3)+pi/2"));
     lines.push_back(std::make_shared < std::string>("x+7"));
     lines.push_back(std::make_shared < std::string>("x:=40"));
@@ -149,6 +145,9 @@ void temp_testing() {
     lines.push_back(std::make_shared < std::string>("max(3,2)"));
     lines.push_back(std::make_shared < std::string>("sin(pi/4)/sqrt(2)"));
     lines.push_back(std::make_shared < std::string>("3^2"));
+    onerut_parser::GlobalIdentifiers::instance().put_e();
+    onerut_parser::GlobalIdentifiers::instance().put_pi();
+    onerut_parser::GlobalFunctions::instance().put_cmath();    
     execute_script_lines(lines);
 
 }
