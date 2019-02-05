@@ -7,6 +7,7 @@
 #include<iterator>
 #include<vector>
 #include<optional>
+#include<functional>
 
 #include<boost/operators.hpp>
 
@@ -211,6 +212,7 @@ namespace onerut_op1e {
     template<typename BraKetT>
     void
     ScalledOperatorIterator<BraKetT>::next() {
+        assert(!base_itptr->is_end());
         base_itptr->next();
     }
 
@@ -310,6 +312,7 @@ namespace onerut_op1e {
     template<typename BraKetT>
     typename AbstractResultIterator<BraKetT>::value_type
     OpPlusMinusOperatorIterator<BraKetT>::get_val_bra() const {
+        assert(!_is_end);
         assert(!_base_itptr->is_end());
         if (_process_first || *_opv_it == '+') {
             return _base_itptr->get_val_bra();
@@ -434,12 +437,15 @@ namespace onerut_op1e {
     template<typename BraKetT>
     typename AbstractResultIterator<BraKetT>::value_type
     OpProdOperatorIterator<BraKetT>::get_val_bra() const {
-        //TODO
+        assert(!is_end());
+        double value = std::accumulate(begin(_factor), end(_factor), 1, std::multiplies<double>());
+        return std::make_pair(value, _bra);
     }
 
     template<typename BraKetT>
     void
     OpProdOperatorIterator<BraKetT>::next() {
+        assert(!is_end());
         //TODO
     }
 
