@@ -9,8 +9,6 @@
 #include<optional>
 #include<functional>
 
-#include<boost/operators.hpp>
-
 #include<armadillo>
 
 namespace onerut_op1e {
@@ -20,7 +18,7 @@ namespace onerut_op1e {
     // -------------------------------------------------------------------------
 
     template<typename BraKetT>
-    class AbstractResultIterator : boost::equality_comparable<AbstractResultIterator<BraKetT>>
+    class AbstractResultIterator
     {
         public:
         using iterator_category = std::input_iterator_tag;
