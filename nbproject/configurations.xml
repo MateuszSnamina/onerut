@@ -18,12 +18,12 @@
         <in>op1e.cpp</in>
       </df>
     </df>
-    <df root="onerut_operator" name="7">
+    <df root="onerut_operator" name="3">
       <df name="src">
         <in>to_mat.cpp.cpp</in>
       </df>
     </df>
-    <df root="onerut_operator_tests" name="8">
+    <df root="onerut_operator_tests" name="4">
       <df name="src">
         <in>global_flags.cpp</in>
         <in>main.cpp</in>
@@ -33,7 +33,7 @@
         <in>operator_simple.cpp</in>
       </df>
     </df>
-    <df root="onerut_parser" name="3">
+    <df root="onerut_parser" name="5">
       <df name="src">
         <in>ast_compile_result.cpp</in>
         <in>ast_compile_result_to_chart.cpp</in>
@@ -58,7 +58,7 @@
         <in>print_chart.cpp</in>
       </df>
     </df>
-    <df root="onerut_parser_tests" name="4">
+    <df root="onerut_parser_tests" name="6">
       <df name="src">
         <in>global_flags.cpp</in>
         <in>main.cpp</in>
@@ -67,12 +67,12 @@
         <in>pure_real.cpp</in>
       </df>
     </df>
-    <df root="onerut_scalar" name="5">
+    <df root="onerut_scalar" name="7">
       <df name="src">
         <in>scalar.cpp</in>
       </df>
     </df>
-    <df root="string_utils" name="6">
+    <df root="string_utils" name="8">
       <df name="src">
         <in>unicode_support.cpp</in>
       </df>
