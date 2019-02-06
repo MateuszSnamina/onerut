@@ -18,9 +18,8 @@ namespace onerut_op1e {
     // -------------------------------------------------------------------------
 
     template<typename BraKetT>
-    class AbstractResultIterator
-    {
-        public:
+    class AbstractResultIterator {
+    public:
         using iterator_category = std::input_iterator_tag;
         using value_type = std::pair<double, BraKetT>;
         using difference_type = unsigned;
@@ -382,7 +381,7 @@ namespace onerut_op1e {
         using AbstractOpT = AbstractOperator<BraKetT>;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
         using AbstractIterator = AbstractResultIterator<BraKetT>;
-        using AbstractIteratorPtrT = std::shared_ptr<const AbstractIterator>;
+        using AbstractIteratorPtrT = std::shared_ptr<AbstractIterator>;
         using Iterator = OpProdOperatorIterator<BraKetT>;
         OpProdOperatorIterator(
                 const std::vector<AbstractOpPtrT>& argv, const BraKetT& ket);
@@ -395,6 +394,8 @@ namespace onerut_op1e {
         std::vector<AbstractIteratorPtrT> _base_itptr;
         std::vector<double> _factor;
         std::optional<BraKetT> _bra;
+        std::optional<BraKetT> init(unsigned arg_number, BraKetT);
+        std::optional<BraKetT> next(unsigned arg_number);
     };
 
     template<typename BraKetT>
@@ -418,49 +419,119 @@ namespace onerut_op1e {
     _base_itptr(argv.size()),
     _factor(argv.size()),
     _bra(std::nullopt) {
-        BraKetT& temp = ket;
+        std::cout << "C1" << std::endl;
+        _bra = init(_argv.size() - 1, ket);
+        /*
+
+        BraKetT temp = ket;
         auto base_itptr_rit = _base_itptr.rbegin();
-        for (auto arg_rit = _argv.rbegin(); arg_rit != _argv.rend(); arg_rit) {
-            *base_itptr_rit = (*arg_rit)->begin_itptr(temp);
+        auto factor_rit = _factor.rbegin();
+        int i = 0;
+        for (auto arg_rit = _argv.rbegin(); arg_rit != _argv.rend(); arg_rit++) {
+            std::cout << i++ << std::endl;
+         *base_itptr_rit = (*arg_rit)->begin_itptr(temp);
             if ((*base_itptr_rit)->is_end())
                 return;
             const auto& val_bra = (*base_itptr_rit)->get_val_bra();
             const double& val = val_bra.first;
             const BraKetT& bra = val_bra.second;
+            std::cout << "valbra:" << val << " " << bra << std::endl;
+         *factor_rit = val;
             temp = bra;
+            factor_rit++;
+            base_itptr_rit++;
         }
         _bra = temp;
+         */
+        std::cout << "C2" << std::endl;
+    }
+
+    template<typename BraKetT>
+    std::optional<BraKetT>
+    OpProdOperatorIterator<BraKetT>::init(unsigned arg_number, BraKetT ket) {
+        std::cout << "init" << arg_number << " " << ket << std::endl;
+        _base_itptr[arg_number] = _argv[arg_number]->begin_itptr(ket);
+        while (!_base_itptr[arg_number]->is_end()) {
+            const auto& val_bra = _base_itptr[arg_number]->get_val_bra();
+            const double& val = val_bra.first;
+            const BraKetT& bra1 = val_bra.second;
+            _factor[arg_number] = val;
+            if (arg_number == 0) {
+                return bra1;
+            }
+            std::optional<BraKetT> bra2 = init(arg_number - 1, bra1);
+            if (bra2) {
+                std::cout << "init" << arg_number << " " << ket << "-->" << bra1 << std::endl;
+                return bra2;
+            } else {
+                std::cout << "init" << arg_number << " " << ket << "try next" << std::endl;
+                _base_itptr[arg_number]->next();
+            }
+
+        }
+        std::cout << "init" << arg_number << " " << ket << "-->" << "NULL" << std::endl;
+        return std::nullopt;
     }
 
     template<typename BraKetT>
     typename AbstractResultIterator<BraKetT>::value_type
     OpProdOperatorIterator<BraKetT>::get_val_bra() const {
         assert(!is_end());
-        double value = std::accumulate(begin(_factor), end(_factor), 1, std::multiplies<double>());
-        return std::make_pair(value, _bra);
+        //double value = std::accumulate(begin(_factor), end(_factor), 1, std::multiplies<double>());
+        double value = _factor[0] * _factor[1];
+        std::cout << "_factor:" << _factor[0] << " " << _factor[1] << std::endl;
+        std::cout << "return" << value << " " << *_bra << std::endl;
+        return std::make_pair(value, *_bra);
     }
 
     template<typename BraKetT>
     void
     OpProdOperatorIterator<BraKetT>::next() {
         assert(!is_end());
-        //TODO
+        _bra = next(0);
+    }
+
+    template<typename BraKetT >
+    std::optional<BraKetT>
+    OpProdOperatorIterator<BraKetT>::next(unsigned arg_number) {
+        assert(arg_number < _argv.size());
+        assert(!is_end());
+        _base_itptr[arg_number]->next();
+        while (_base_itptr[arg_number]->is_end()) {
+            if (arg_number == _argv.size() - 1) {
+                return std::nullopt;
+            } else {
+                auto intermediate = next(arg_number + 1); //TODO move to if
+                if (intermediate) {
+                    _base_itptr[arg_number] = _argv[arg_number]->begin_itptr(*intermediate);
+                } else {
+                    return std::nullopt;
+                }
+            }
+        }
+        assert(!_base_itptr[arg_number]->is_end());
+        const auto& val_bra = _base_itptr[arg_number]->get_val_bra();
+        const double& val = val_bra.first;
+        const BraKetT& bra = val_bra.second;
+        _factor[arg_number] = val;
+        return bra;
+
     }
 
     template<typename BraKetT>
     bool
     OpProdOperatorIterator<BraKetT>::is_end() const {
-        return _bra.has_value();
+        return !_bra.has_value();
     }
 
-    template<typename BraKetT>
+    template<typename BraKetT >
     OpProdOperator<BraKetT>::OpProdOperator(std::vector<AbstractOpPtrT> argv) :
     argv(argv) {
     }
 
-    template<typename BraKetT>
-    std::shared_ptr<AbstractResultIterator<BraKetT>>
-    OpProdOperator<BraKetT>::begin_itptr(const BraKetT& ket) const {
+    template<typename BraKetT >
+    std::shared_ptr<AbstractResultIterator < BraKetT >>
+    OpProdOperator<BraKetT>::begin_itptr(const BraKetT & ket) const {
         return std::make_shared<Iterator>(argv, ket);
     }
 
@@ -482,6 +553,7 @@ namespace onerut_op1e {
     arma::mat to_mat(const AbstractOperator<unsigned>& op, unsigned spad_dim) {
         arma::mat result(spad_dim, spad_dim, arma::fill::zeros);
         for (unsigned ket = 0; ket < spad_dim; ket++) {
+            std::cout << "ket" << ket << std::endl;
             auto it1 = op.begin_itptr(ket);
             while (!it1->is_end()) {
                 const std::pair<double, unsigned>& val_bra = it1->get_val_bra();

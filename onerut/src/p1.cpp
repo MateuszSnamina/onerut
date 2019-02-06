@@ -107,27 +107,44 @@ bool execute_script_file(const std::filesystem::path& file_path) {
 
 void temp_testing() {
 
+    using OpT = onerut_op1e::AbstractOperator<unsigned>;
+    using OpPtrT = std::shared_ptr<const OpT>;
+
     auto o1 = std::make_shared<onerut_op1e::HopOperator<unsigned>>(4.6, 1, 3);
     auto o2 = std::make_shared<onerut_op1e::HopOperator<unsigned>>(2.2, 1, 2);
     auto o3 = std::make_shared<onerut_op1e::ScalledOperator<unsigned>>(2.0, o1);
 
-    using OpT = onerut_op1e::AbstractOperator<unsigned>;
-    using OpPtrT = std::shared_ptr<const OpT>;
+    auto o4 = std::make_shared<onerut_op1e::HopOperator<unsigned>>(3.2, 2, 1);
+    auto o5 = std::make_shared<onerut_op1e::DiagOperator<unsigned>>(10, 1);
+    auto o6 = std::make_shared<onerut_op1e::DiagOperator<unsigned>>(19, 2);
+    auto o7 = std::make_shared<onerut_op1e::DiagOperator<unsigned>>(7, 0);
+    OpPtrT o8_first_arg = o4;
+    std::vector<OpPtrT> o8_other_argv({o5, o6, o7});
+    std::vector<char> o8_opv({'+', '-', '-'});
+    auto o8 = std::make_shared<onerut_op1e::OpPlusMinusOperator<unsigned>>(o8_first_arg, o8_other_argv, o8_opv);
 
-    OpPtrT first_arg = o1;
-    std::vector<OpPtrT> other_argv({o2, o3});
-    std::vector<char> opv({'-', '-'});
-    auto o1_p_02 = std::make_shared<onerut_op1e::OpPlusMinusOperator<unsigned>>(first_arg, other_argv, opv);
-//    auto o1_p_02 = std::make_shared<onerut_op1e::OpPlusMinusOperator<unsigned>>(o1,{o2},
-//    {
-//        '+'
-//    });
+    OpPtrT o9_first_arg = o1;
+    std::vector<OpPtrT> o9_other_argv({o2, o3});
+    std::vector<char> o9_opv({'-', '-'});
+    auto o9 = std::make_shared<onerut_op1e::OpPlusMinusOperator<unsigned>>(o9_first_arg, o9_other_argv, o9_opv);
+
+    std::vector<OpPtrT> o20_argv({o8, o9});
+    auto o20 = std::make_shared<onerut_op1e::OpProdOperator<unsigned>>(o20_argv);
 
     //arma::mat M = ;
     std::cout << onerut_op1e::to_mat(*o1, 4) << std::endl;
     std::cout << onerut_op1e::to_mat(*o2, 4) << std::endl;
     std::cout << onerut_op1e::to_mat(*o3, 4) << std::endl;
-    std::cout << onerut_op1e::to_mat(*o1_p_02, 4) << std::endl;
+    std::cout << "o7:" << std::endl;
+    std::cout << onerut_op1e::to_mat(*o7, 4) << std::endl;
+    std::cout << "o8:" << std::endl;
+    std::cout << onerut_op1e::to_mat(*o8, 4) << std::endl;
+    std::cout << "o9:" << std::endl;
+    std::cout << onerut_op1e::to_mat(*o9, 4) << std::endl;
+    std::cout << "o20:" << std::endl;
+    std::cout << onerut_op1e::to_mat(*o20, 4) << std::endl;
+    std::cout << "o8 * o9:" << std::endl;    
+    std::cout << onerut_op1e::to_mat(*o8, 4) * onerut_op1e::to_mat(*o9, 4) << std::endl;
 
     return;
 
@@ -146,7 +163,7 @@ void temp_testing() {
     lines.push_back(std::make_shared < std::string>("3^2"));
     onerut_parser::GlobalIdentifiers::instance().put_e();
     onerut_parser::GlobalIdentifiers::instance().put_pi();
-    onerut_parser::GlobalFunctions::instance().put_cmath();    
+    onerut_parser::GlobalFunctions::instance().put_cmath();
     execute_script_lines(lines);
 
 }
