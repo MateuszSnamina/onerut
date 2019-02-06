@@ -22,13 +22,13 @@ endif()
 
 add_executable("${TARGET_NAME}" ${src} ${inc})
 target_include_directories("${TARGET_NAME}" PUBLIC include)
-target_link_libraries(onerut
-  onerut_parser
-  onerut_operator
-  #onerut_op1e
-  esc
-  stdc++fs # Will not be necessary in the futire.
-  Boost::boost
-  Boost::program_options
-  armadillo lapack blas
-)
+
+if ( TARGET_NAME MATCHES "_tests$" )
+  message("  Assumed the target is a test target (by the target name sufix).")
+  string(REGEX REPLACE "_tests" ""
+         TESTED_TARGET_NAME "${TARGET_NAME}")
+  message("  Tested target: ${TESTED_TARGET_NAME}")
+  target_link_libraries("${TARGET_NAME}" ${GTEST_LIBRARIES} pthread Boost::program_options armadillo)
+  target_link_libraries("${TARGET_NAME}" "${TESTED_TARGET_NAME}")
+endif()
+

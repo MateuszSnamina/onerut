@@ -20,15 +20,6 @@ if(NOT inc)
   message("    <no files>")
 endif()
 
-add_executable("${TARGET_NAME}" ${src} ${inc})
+add_library("${TARGET_NAME}" ${src} ${inc})
 target_include_directories("${TARGET_NAME}" PUBLIC include)
-target_link_libraries(onerut
-  onerut_parser
-  onerut_operator
-  #onerut_op1e
-  esc
-  stdc++fs # Will not be necessary in the futire.
-  Boost::boost
-  Boost::program_options
-  armadillo lapack blas
-)
+target_link_libraries("${TARGET_NAME}")

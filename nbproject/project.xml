@@ -6,7 +6,7 @@
             <name>onerut1</name>
             <c-extensions/>
             <cpp-extensions>cpp</cpp-extensions>
-            <header-extensions>hpp</header-extensions>
+            <header-extensions>hpp,hpp_OLD</header-extensions>
             <sourceEncoding>UTF-8</sourceEncoding>
             <make-dep-projects/>
             <sourceRootList>
@@ -17,6 +17,8 @@
                 <sourceRootElem>onerut_op1e</sourceRootElem>
                 <sourceRootElem>esc</sourceRootElem>
                 <sourceRootElem>string_utils</sourceRootElem>
+                <sourceRootElem>onerut_operator</sourceRootElem>
+                <sourceRootElem>onerut_operator_tests</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>
