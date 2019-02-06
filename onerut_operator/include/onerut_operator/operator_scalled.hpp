@@ -32,7 +32,6 @@ namespace onerut_operator {
         const std::shared_ptr<const AbstractOperator<BraKetT>> arg;
     };
 
-
     // -------------------------------------------------------------------------
     // ------------------ SCALLED OPERATOR - IMPLEMENTATION ---------------------
     // -------------------------------------------------------------------------    
