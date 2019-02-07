@@ -31,13 +31,12 @@ namespace onerut_operator {
         void next() override;
         virtual bool is_end() const override;
     private:
-        //void _goto_next_arg_if_base_itptr_is_end();
         std::vector<AbstractOpPtrT> _argv;
         std::vector<AbstractIteratorPtrT> _base_itptr;
         std::vector<double> _factor;
         std::optional<BraKetT> _bra;
-        std::optional<BraKetT> init(unsigned arg_number, BraKetT);
-        std::optional<BraKetT> next(unsigned arg_number);
+        std::optional<BraKetT> _init(unsigned arg_number, BraKetT);
+        std::optional<BraKetT> _next(unsigned arg_number);
     };
 
     template<typename BraKetT>
@@ -45,9 +44,11 @@ namespace onerut_operator {
     public:
         using AbstractOpT = AbstractOperator<BraKetT>;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
+        using AbstractIteratorT = AbstractResultIterator<BraKetT>;
+        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
         using Iterator = OpProdOperatorIterator<BraKetT>;
         OpProdOperator(std::vector<AbstractOpPtrT> argv);
-        std::unique_ptr<AbstractResultIterator<BraKetT>> begin_itptr(const BraKetT& ket) const override;
+        AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
     private:
         std::vector<AbstractOpPtrT> argv;
     };
@@ -61,12 +62,12 @@ namespace onerut_operator {
     _base_itptr(argv.size()),
     _factor(argv.size()),
     _bra(std::nullopt) {
-        _bra = init(_argv.size() - 1, ket);
+        _bra = _init(_argv.size() - 1, ket);
     }
 
     template<typename BraKetT>
     std::optional<BraKetT>
-    OpProdOperatorIterator<BraKetT>::init(unsigned arg_number, BraKetT ket) {
+    OpProdOperatorIterator<BraKetT>::_init(unsigned arg_number, BraKetT ket) {
         _base_itptr[arg_number] = _argv[arg_number]->begin_itptr(ket);
         while (!_base_itptr[arg_number]->is_end()) {
             const auto& val_bra = _base_itptr[arg_number]->get_val_bra();
@@ -76,7 +77,7 @@ namespace onerut_operator {
             if (arg_number == 0) {
                 return bra1;
             }
-            std::optional<BraKetT> bra2 = init(arg_number - 1, bra1);
+            std::optional<BraKetT> bra2 = _init(arg_number - 1, bra1);
             if (bra2) {
                 return bra2;
             } else {
@@ -90,7 +91,7 @@ namespace onerut_operator {
     typename AbstractResultIterator<BraKetT>::value_type
     OpProdOperatorIterator<BraKetT>::get_val_bra() const {
         assert(!is_end());
-        double value = std::accumulate(begin(_factor), end(_factor), 1.0, std::multiplies<double>());
+        const double value = std::accumulate(begin(_factor), end(_factor), 1.0, std::multiplies<double>());
         return std::make_pair(value, *_bra);
     }
 
@@ -98,12 +99,12 @@ namespace onerut_operator {
     void
     OpProdOperatorIterator<BraKetT>::next() {
         assert(!is_end());
-        _bra = next(0);
+        _bra = _next(0);
     }
 
     template<typename BraKetT >
     std::optional<BraKetT>
-    OpProdOperatorIterator<BraKetT>::next(unsigned arg_number) {
+    OpProdOperatorIterator<BraKetT>::_next(unsigned arg_number) {
         assert(arg_number < _argv.size());
         assert(!is_end());
         _base_itptr[arg_number]->next();
@@ -111,7 +112,7 @@ namespace onerut_operator {
             if (arg_number == _argv.size() - 1) {
                 return std::nullopt;
             } else {
-                if (auto intermediate = next(arg_number + 1)) {
+                if (auto intermediate = _next(arg_number + 1)) {
                     _base_itptr[arg_number] = _argv[arg_number]->begin_itptr(*intermediate);
                 } else {
                     return std::nullopt;
@@ -138,7 +139,7 @@ namespace onerut_operator {
     }
 
     template<typename BraKetT >
-    std::unique_ptr<AbstractResultIterator < BraKetT >>
+    typename OpProdOperator<BraKetT>::AbstractIteratorPtrT
     OpProdOperator<BraKetT>::begin_itptr(const BraKetT & ket) const {
         return std::make_unique<Iterator>(argv, ket);
     }

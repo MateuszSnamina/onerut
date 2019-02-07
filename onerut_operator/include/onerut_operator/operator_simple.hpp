@@ -12,6 +12,10 @@ namespace onerut_operator {
     template<typename BraKetT>
     class SimpleOperatorIterator : public AbstractResultIterator<BraKetT> {
     public:
+        using AbstractOpT = AbstractOperator<BraKetT>;
+        using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
+        using AbstractIteratorT = AbstractResultIterator<BraKetT>;
+        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;        
         using Iterator = SimpleOperatorIterator<BraKetT>;        
         static SimpleOperatorIterator create_the_one_valid_iterator(typename AbstractResultIterator<BraKetT>::value_type);
         static SimpleOperatorIterator create_end_iterator();
@@ -27,9 +31,13 @@ namespace onerut_operator {
     template<typename BraKetT>
     class HopOperator : public AbstractOperator<BraKetT> {
     public:
+        using AbstractOpT = AbstractOperator<BraKetT>;
+        using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
+        using AbstractIteratorT = AbstractResultIterator<BraKetT>;
+        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;       
         using Iterator = SimpleOperatorIterator<BraKetT>;
         HopOperator(double value, const BraKetT &site_1, const BraKetT &site_2);
-        std::unique_ptr<AbstractResultIterator<BraKetT>> begin_itptr(const BraKetT& ket) const override;
+        AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
     private:
         const double value;
         const BraKetT site_1;
@@ -39,9 +47,13 @@ namespace onerut_operator {
     template<typename BraKetT>
     class DiagOperator : public AbstractOperator<BraKetT> {
     public:
+        using AbstractOpT = AbstractOperator<BraKetT>;
+        using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
+        using AbstractIteratorT = AbstractResultIterator<BraKetT>;
+        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;        
         using Iterator = SimpleOperatorIterator<BraKetT>;
         DiagOperator(double value, const BraKetT &site);
-        std::unique_ptr<AbstractResultIterator<BraKetT>> begin_itptr(const BraKetT& ket) const override;
+        AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
     private:
         const double value;
         const BraKetT site;
@@ -98,7 +110,7 @@ namespace onerut_operator {
     }
 
     template<typename BraKetT>
-    std::unique_ptr<AbstractResultIterator<BraKetT>>
+    typename HopOperator<BraKetT>::AbstractIteratorPtrT
     HopOperator<BraKetT>::begin_itptr(const BraKetT& ket) const {
         if (ket == site_1) {
             return std::make_unique<Iterator>(Iterator::create_the_one_valid_iterator(std::make_pair(value, site_2)));
@@ -117,7 +129,7 @@ namespace onerut_operator {
     }
 
     template<typename BraKetT>
-    std::unique_ptr<AbstractResultIterator<BraKetT>>
+    typename DiagOperator<BraKetT>::AbstractIteratorPtrT
     DiagOperator<BraKetT>::begin_itptr(const BraKetT& ket) const {
         if (ket == site) {
             return std::make_unique<Iterator>(Iterator::create_the_one_valid_iterator(std::make_pair(value, site)));

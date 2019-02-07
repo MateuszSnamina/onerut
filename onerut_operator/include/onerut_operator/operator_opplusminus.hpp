@@ -36,7 +36,6 @@ namespace onerut_operator {
         void next() override;
         virtual bool is_end() const override;
     private:
-        void _goto_next_arg_if_base_itptr_is_end();
         AbstractIteratorPtrT _base_itptr;
         typename std::vector<AbstractOpPtrT>::const_iterator _other_argv_it;
         const typename std::vector<AbstractOpPtrT>::const_iterator _other_argv_end;
@@ -44,6 +43,7 @@ namespace onerut_operator {
         const BraKetT _ket;
         bool _process_first;
         bool _is_end;
+        void _goto_next_arg_if_base_itptr_is_end();
     };
 
     template<typename BraKetT>
@@ -51,6 +51,8 @@ namespace onerut_operator {
     public:
         using AbstractOpT = AbstractOperator<BraKetT>;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
+        using AbstractIteratorT = AbstractResultIterator<BraKetT>;
+        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
         using Iterator = OpPlusMinusOperatorIterator<BraKetT>;
         OpPlusMinusOperator(
                 const AbstractOpPtrT& first_arg,
@@ -92,7 +94,7 @@ namespace onerut_operator {
             return _base_itptr->get_val_bra();
         } else {
             assert(*_opv_it == '-');
-            const typename AbstractResultIterator<BraKetT>::value_type& val_bra = _base_itptr->get_val_bra();
+            const auto& val_bra = _base_itptr->get_val_bra();
             const double& value = val_bra.first;
             const BraKetT& bra = val_bra.second;
             return std::make_pair(-value, bra);
@@ -143,7 +145,7 @@ namespace onerut_operator {
     }
 
     template<typename BraKetT>
-    std::unique_ptr<AbstractResultIterator<BraKetT>>
+    typename OpPlusMinusOperator<BraKetT>::AbstractIteratorPtrT
     OpPlusMinusOperator<BraKetT>::begin_itptr(const BraKetT& ket) const {
         return std::make_unique<Iterator>(first_arg, other_argv, opv, ket);
     }
