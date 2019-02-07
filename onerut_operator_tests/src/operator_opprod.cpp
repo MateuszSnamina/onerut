@@ -71,18 +71,8 @@ TEST(operator_op_prod, test_4) {
     std::shared_ptr<onerut_operator::AbstractOperator<unsigned>> op2 = second_compound_operator();
     std::vector<OpPtrT> argv({op1, op2, op2});
     auto op = std::make_shared<onerut_operator::OpProdOperator<unsigned>>(argv);
-    const arma::mat M1 = {
-        {-7.0, +0.0, +0.0, +0.0},
-        {+0.0, -5.5, +3.2, +0.0},
-        {+0.0, +3.2, +1.9, +0.0},
-        {+0.0, +0.0, +0.0, +0.0}
-    };
-    const arma::mat M2 = {
-        {+0.0, +0.0, +1.3, +0.0},
-        {+0.0, +0.0, +4.4, +0.0},
-        {+1.3, +4.4, +1.7, +7.5},
-        {+0.0, +0.0, +7.5, +0.0}
-    };
+    const arma::mat M1 = first_compound_matrix();
+    const arma::mat M2 = second_compound_matrix();
     const arma::mat M_expected = M1 * M2 * M2;
     compare(M_expected, op);
 }

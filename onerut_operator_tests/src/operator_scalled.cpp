@@ -32,3 +32,10 @@ TEST(operator_scalled, test_2) {
     compare(M_expected, op);
 }
 
+TEST(operator_scalled, test_3) {
+    std::shared_ptr<onerut_operator::AbstractOperator<unsigned>> op1 = first_compound_operator();
+    auto op = std::make_shared<onerut_operator::ScalledOperator<unsigned>>(3.5, op1);
+    const arma::mat M1 = first_compound_matrix();
+    const arma::mat M_expected = 3.5 * M1;
+    compare(M_expected, op);
+}

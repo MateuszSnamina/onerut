@@ -22,6 +22,26 @@ void compare(const arma::mat& M_expected, std::shared_ptr<onerut_operator::Abstr
             EXPECT_DOUBLE_EQ(M_got(i, j), M_expected(i, j));
 }
 
+arma::mat first_compound_matrix() {
+    const arma::mat M = {
+        {-7.0, +0.0, +0.0, +0.0},
+        {+0.0, -5.5, +3.2, +0.0},
+        {+0.0, +3.2, +1.9, +0.0},
+        {+0.0, +0.0, +0.0, +0.0}
+    };
+    return M;
+}
+
+arma::mat second_compound_matrix() {
+    const arma::mat M = {
+        {+0.0, +0.0, +1.3, +0.0},
+        {+0.0, +0.0, +4.4, +0.0},
+        {+1.3, +4.4, +1.7, +7.5},
+        {+0.0, +0.0, +7.5, +0.0}
+    };
+    return M;
+}
+
 std::shared_ptr<onerut_operator::AbstractOperator<unsigned>> first_compound_operator() {
     using OpT = onerut_operator::AbstractOperator<unsigned>;
     using OpPtrT = std::shared_ptr<const OpT>;
@@ -33,13 +53,8 @@ std::shared_ptr<onerut_operator::AbstractOperator<unsigned>> first_compound_oper
     std::vector<OpPtrT> op_other_argv({op2, op3, op4});
     std::vector<char> op_opv({'-', '+', '-'});
     auto op = std::make_shared<onerut_operator::OpPlusMinusOperator<unsigned>>(op_first_arg, op_other_argv, op_opv);
-    const arma::mat M_expected = {
-        {-7.0, +0.0, +0.0, +0.0},
-        {+0.0, -5.5, +3.2, +0.0},
-        {+0.0, +3.2, +1.9, +0.0},
-        {+0.0, +0.0, +0.0, +0.0}
-    };
-    compare(M_expected, op);   
+    const arma::mat M_expected = first_compound_matrix();
+    compare(M_expected, op);
     return op;
 }
 
@@ -57,12 +72,7 @@ std::shared_ptr<onerut_operator::AbstractOperator<unsigned>> second_compound_ope
     std::vector<OpPtrT> op_other_argv({op2, op3, op4, op5, op6, op7});
     std::vector<char> op_opv({'+', '+', '+', '+', '+', '+'});
     auto op = std::make_shared<onerut_operator::OpPlusMinusOperator<unsigned>>(op_first_arg, op_other_argv, op_opv);
-    const arma::mat M_expected = {
-        {+0.0, +0.0, +1.3, +0.0},
-        {+0.0, +0.0, +4.4, +0.0},
-        {+1.3, +4.4, +1.7, +7.5},
-        {+0.0, +0.0, +7.5, +0.0}
-    };
-    compare(M_expected, op);    
+    const arma::mat M_expected = second_compound_matrix();
+    compare(M_expected, op);
     return op;
 }
