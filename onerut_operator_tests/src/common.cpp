@@ -1,14 +1,28 @@
 #include<gtest/gtest.h>
 
-#include<onerut_operator/operator_simple.hpp>
 #include<onerut_operator/operator_opplusminus.hpp>
+#include<onerut_operator/operator_simple.hpp>
+#include<onerut_operator/to_mat.hpp>
+
+#include<onerut_operator_tests/global_flags.hpp>
 #include<onerut_operator_tests/common.hpp>
 
-// -----------------------------------------------------------------------------
-// --------------------  test cases  -------------------------------------------
-// -----------------------------------------------------------------------------
+extern bool onerut_verbose;
 
-TEST(operator_op_plus_minu, test_1) {
+void compare(const arma::mat& M_expected, std::shared_ptr<onerut_operator::AbstractOperator<unsigned>> op) {
+    const arma::mat M_got = onerut_operator::to_mat(*op, 4);
+    if (onerut_verbose) {
+        std::cout << "M_got:" << std::endl;
+        std::cout << M_got;
+        std::cout << "M_expected:" << std::endl;
+        std::cout << M_expected;
+    }
+    for (unsigned i = 0; i < 4; i++)
+        for (unsigned j = 0; j < 4; j++)
+            EXPECT_DOUBLE_EQ(M_got(i, j), M_expected(i, j));
+}
+
+std::shared_ptr<onerut_operator::AbstractOperator<unsigned>> first_compound_operator() {
     using OpT = onerut_operator::AbstractOperator<unsigned>;
     using OpPtrT = std::shared_ptr<const OpT>;
     auto op1 = std::make_shared<onerut_operator::HopOperator<unsigned>>(3.2, 2, 1);
@@ -25,10 +39,11 @@ TEST(operator_op_plus_minu, test_1) {
         {+0.0, +3.2, +1.9, +0.0},
         {+0.0, +0.0, +0.0, +0.0}
     };
-    compare(M_expected, op);
+    compare(M_expected, op);   
+    return op;
 }
 
-TEST(operator_op_plus_minu, test_2) {
+std::shared_ptr<onerut_operator::AbstractOperator<unsigned>> second_compound_operator() {
     using OpT = onerut_operator::AbstractOperator<unsigned>;
     using OpPtrT = std::shared_ptr<const OpT>;
     auto op1 = std::make_shared<onerut_operator::HopOperator<unsigned>>(2.1, 2, 1);
@@ -48,30 +63,6 @@ TEST(operator_op_plus_minu, test_2) {
         {+1.3, +4.4, +1.7, +7.5},
         {+0.0, +0.0, +7.5, +0.0}
     };
-    compare(M_expected, op);
-}
-
-TEST(operator_op_plus_minu, test_3) {
-    using OpT = onerut_operator::AbstractOperator<unsigned>;
-    using OpPtrT = std::shared_ptr<const OpT>;
-    std::shared_ptr<onerut_operator::AbstractOperator<unsigned>> op1 = first_compound_operator();
-    std::shared_ptr<onerut_operator::AbstractOperator<unsigned>> op2 = second_compound_operator();
-    OpPtrT op_first_arg = op1;
-    std::vector<OpPtrT> op_other_argv({op2});
-    std::vector<char> op_opv({'-'});
-    auto op = std::make_shared<onerut_operator::OpPlusMinusOperator<unsigned>>(op_first_arg, op_other_argv, op_opv);
-    const arma::mat M1 = {
-        {-7.0, +0.0, +0.0, +0.0},
-        {+0.0, -5.5, +3.2, +0.0},
-        {+0.0, +3.2, +1.9, +0.0},
-        {+0.0, +0.0, +0.0, +0.0}
-    };
-    const arma::mat M2 = {
-        {+0.0, +0.0, +1.3, +0.0},
-        {+0.0, +0.0, +4.4, +0.0},
-        {+1.3, +4.4, +1.7, +7.5},
-        {+0.0, +0.0, +7.5, +0.0}
-    };
-    const arma::mat M_expected = M1 - M2;
-    compare(M_expected, op);
+    compare(M_expected, op);    
+    return op;
 }

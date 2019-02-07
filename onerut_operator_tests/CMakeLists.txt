@@ -28,7 +28,6 @@ if ( TARGET_NAME MATCHES "_tests$" )
   string(REGEX REPLACE "_tests" ""
          TESTED_TARGET_NAME "${TARGET_NAME}")
   message("  Tested target: ${TESTED_TARGET_NAME}")
-  target_link_libraries("${TARGET_NAME}" ${GTEST_LIBRARIES} pthread Boost::program_options armadillo)
+  target_link_libraries("${TARGET_NAME}" ${GTEST_LIBRARIES} pthread Boost::program_options armadillo lapack blas)
   target_link_libraries("${TARGET_NAME}" "${TESTED_TARGET_NAME}")
 endif()
-
