@@ -75,3 +75,28 @@ TEST(operator_op_plus_minu, test_3) {
     const arma::mat M_expected = M1 - M2;
     compare(M_expected, op);
 }
+
+TEST(operator_op_plus_minu, test_4) {
+    using OpT = onerut_operator::AbstractOperator<unsigned>;
+    using OpPtrT = std::shared_ptr<const OpT>;
+    std::shared_ptr<onerut_operator::AbstractOperator<unsigned>> op1 = first_compound_operator();
+    std::shared_ptr<onerut_operator::AbstractOperator<unsigned>> op2 = second_compound_operator();
+    OpPtrT op_first_arg = op1;
+    std::vector<OpPtrT> op_other_argv({op2, op1});
+    std::vector<char> op_opv({'-', '+'});
+    auto op = std::make_shared<onerut_operator::OpPlusMinusOperator<unsigned>>(op_first_arg, op_other_argv, op_opv);
+    const arma::mat M1 = {
+        {-7.0, +0.0, +0.0, +0.0},
+        {+0.0, -5.5, +3.2, +0.0},
+        {+0.0, +3.2, +1.9, +0.0},
+        {+0.0, +0.0, +0.0, +0.0}
+    };
+    const arma::mat M2 = {
+        {+0.0, +0.0, +1.3, +0.0},
+        {+0.0, +0.0, +4.4, +0.0},
+        {+1.3, +4.4, +1.7, +7.5},
+        {+0.0, +0.0, +7.5, +0.0}
+    };
+    const arma::mat M_expected = M1 - M2 + M1;
+    compare(M_expected, op);
+}
