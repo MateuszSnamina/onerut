@@ -22,8 +22,8 @@ namespace onerut_operator {
     public:
         using AbstractOpT = AbstractOperator<BraKetT>;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
-        using AbstractIterator = AbstractResultIterator<BraKetT>;
-        using AbstractIteratorPtrT = std::shared_ptr<AbstractIterator>;
+        using AbstractIteratorT = AbstractResultIterator<BraKetT>;
+        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
         using Iterator = OpProdOperatorIterator<BraKetT>;
         OpProdOperatorIterator(
                 const std::vector<AbstractOpPtrT>& argv, const BraKetT& ket);
@@ -47,7 +47,7 @@ namespace onerut_operator {
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
         using Iterator = OpProdOperatorIterator<BraKetT>;
         OpProdOperator(std::vector<AbstractOpPtrT> argv);
-        std::shared_ptr<AbstractResultIterator<BraKetT>> begin_itptr(const BraKetT& ket) const override;
+        std::unique_ptr<AbstractResultIterator<BraKetT>> begin_itptr(const BraKetT& ket) const override;
     private:
         std::vector<AbstractOpPtrT> argv;
     };
@@ -138,9 +138,9 @@ namespace onerut_operator {
     }
 
     template<typename BraKetT >
-    std::shared_ptr<AbstractResultIterator < BraKetT >>
+    std::unique_ptr<AbstractResultIterator < BraKetT >>
     OpProdOperator<BraKetT>::begin_itptr(const BraKetT & ket) const {
-        return std::make_shared<Iterator>(argv, ket);
+        return std::make_unique<Iterator>(argv, ket);
     }
 
 }

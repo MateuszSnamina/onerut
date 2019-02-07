@@ -27,7 +27,7 @@ namespace onerut_operator {
     template<typename BraKetT>
     class AbstractOperator {
     public:
-        virtual std::shared_ptr<AbstractResultIterator<BraKetT>> begin_itptr(const BraKetT& ket) const = 0;
+        virtual std::unique_ptr<AbstractResultIterator<BraKetT>> begin_itptr(const BraKetT& ket) const = 0;
     };
 
 }
