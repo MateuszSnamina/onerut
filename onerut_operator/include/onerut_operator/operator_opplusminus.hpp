@@ -42,7 +42,6 @@ namespace onerut_operator {
         std::vector<char>::const_iterator _opv_it;
         const BraKetT _ket;
         bool _process_first;
-        bool _is_end;
         void _goto_next_arg_if_base_itptr_is_end();
     };
 
@@ -80,15 +79,14 @@ namespace onerut_operator {
     _other_argv_end(std::cend(other_argv)),
     _opv_it(std::cbegin(opv)),
     _ket(ket),
-    _process_first(true),
-    _is_end(false) {
+    _process_first(true) {
         _goto_next_arg_if_base_itptr_is_end();
     }
 
     template<typename BraKetT>
     typename AbstractResultIterator<BraKetT>::value_type
     OpPlusMinusOperatorIterator<BraKetT>::get_val_bra() const {
-        assert(!_is_end);
+        assert(!is_end());
         assert(!_base_itptr->is_end());
         if (_process_first || *_opv_it == '+') {
             return _base_itptr->get_val_bra();
@@ -104,7 +102,7 @@ namespace onerut_operator {
     template<typename BraKetT>
     void
     OpPlusMinusOperatorIterator<BraKetT>::next() {
-        assert(!_is_end);
+        assert(!is_end());
         _base_itptr->next();
         _goto_next_arg_if_base_itptr_is_end();
     }
@@ -112,23 +110,22 @@ namespace onerut_operator {
     template<typename BraKetT>
     bool
     OpPlusMinusOperatorIterator<BraKetT>::is_end() const {
-        return _is_end;
+        return (_other_argv_it == _other_argv_end) && _base_itptr->is_end();
     }
 
     template<typename BraKetT>
     void
     OpPlusMinusOperatorIterator<BraKetT>::_goto_next_arg_if_base_itptr_is_end() {
-        if (_process_first && _base_itptr->is_end()) {
+        if (_base_itptr->is_end() && _process_first) {
             _process_first = false;
-            _base_itptr = (*_other_argv_it)->begin_itptr(_ket);
+            if (_other_argv_it != _other_argv_end)
+                _base_itptr = (*_other_argv_it)->begin_itptr(_ket);
         }
-        while (_base_itptr->is_end() && !_is_end) {
+        while (_base_itptr->is_end() && (_other_argv_it != _other_argv_end)) {
             _other_argv_it++;
             _opv_it++;
             if (_other_argv_it != _other_argv_end)
                 _base_itptr = (*_other_argv_it)->begin_itptr(_ket);
-            else
-                _is_end = true;
         }
     }
 
