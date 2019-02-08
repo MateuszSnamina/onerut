@@ -62,12 +62,18 @@ namespace onerut_operator {
     _base_itptr(argv.size()),
     _factor(argv.size()),
     _bra(std::nullopt) {
-        _bra = _init(_argv.size() - 1, ket);
+        if (_argv.empty())
+            _bra = ket;
+        else
+            _bra = _init(_argv.size() - 1, ket);
     }
 
     template<typename BraKetT>
     std::optional<BraKetT>
     OpProdOperatorIterator<BraKetT>::_init(unsigned arg_number, BraKetT ket) {
+        assert(_base_itptr.size() == _argv.size());
+        assert(_base_itptr.size() == _factor.size());
+        assert(arg_number < _argv.size());
         _base_itptr[arg_number] = _argv[arg_number]->begin_itptr(ket);
         while (!_base_itptr[arg_number]->is_end()) {
             const auto& val_bra = _base_itptr[arg_number]->get_val_bra();
@@ -77,8 +83,7 @@ namespace onerut_operator {
             if (arg_number == 0) {
                 return bra1;
             }
-            std::optional<BraKetT> bra2 = _init(arg_number - 1, bra1);
-            if (bra2) {
+            if (const auto& bra2 = _init(arg_number - 1, bra1)) {
                 return bra2;
             } else {
                 _base_itptr[arg_number]->next();
@@ -99,12 +104,17 @@ namespace onerut_operator {
     void
     OpProdOperatorIterator<BraKetT>::next() {
         assert(!is_end());
-        _bra = _next(0);
+        if (_argv.empty())
+            _bra.reset();
+        else
+            _bra = _next(0);
     }
 
     template<typename BraKetT >
     std::optional<BraKetT>
     OpProdOperatorIterator<BraKetT>::_next(unsigned arg_number) {
+        assert(_base_itptr.size() == _argv.size());
+        assert(_base_itptr.size() == _factor.size());
         assert(arg_number < _argv.size());
         assert(!is_end());
         _base_itptr[arg_number]->next();
@@ -112,7 +122,7 @@ namespace onerut_operator {
             if (arg_number == _argv.size() - 1) {
                 return std::nullopt;
             } else {
-                if (auto intermediate = _next(arg_number + 1)) {
+                if (const auto& intermediate = _next(arg_number + 1)) {
                     _base_itptr[arg_number] = _argv[arg_number]->begin_itptr(*intermediate);
                 } else {
                     return std::nullopt;
