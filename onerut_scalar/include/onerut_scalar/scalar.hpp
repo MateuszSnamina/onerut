@@ -1,11 +1,11 @@
 #ifndef ONERUT_SCALAR_SCALAR
 #define ONERUT_SCALAR_SCALAR
 
-#include<cassert>// TODO remove  when funcion impl have their file.
-#include<complex>
-#include<memory>
-#include<vector>
-
+#include<onerut_scalar/scalar_integer.hpp>
+#include<onerut_scalar/scalar_real.hpp>
+#include<onerut_scalar/scalar_complex.hpp>
+#include<onerut_scalar/function_real.hpp>
+/*
 namespace onerut_scalar {
 
     // -------------------------------------------------------------------------
@@ -248,5 +248,5 @@ namespace onerut_scalar {
         return y;
     }
 }
-
+ */
 #endif
