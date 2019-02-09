@@ -83,15 +83,15 @@ void _basis_onerut_test(T _cpp_value, std::shared_ptr<std::string> _onerut_inupu
         if (_result.dereference().is_compile_error()) {
             std::cout << "[test][common] (onerut_ast::dyn) onerut expression is an error." << std::endl;
             std::cout << (*_result.dereference().compile_error_or_empty())->what() << std::endl;
-        } else if (_result.dereference().is_given_type<onerut_scalar::Long>()) {
-            std::cout << "[test][common] (onerut_ast::dyn) onerut expression is an int." << std::endl;
-            std::shared_ptr<onerut_scalar::Long> result_long = *(_result.dereference().typed_value_or_empty<onerut_scalar::Long>());
-            std::cout << "[test][common] (onerut_ast::dyn) onerut_value = " << result_long->value_long() << std::endl;
-        } else if (_result.dereference().is_given_type<onerut_scalar::Double>()) {
-            std::cout << "[test][common] (onerut_ast::dyn) onerut expression is double." << std::endl;
-            std::shared_ptr<onerut_scalar::Double> result_double = *(_result.dereference().typed_value_or_empty<onerut_scalar::Double>());
+        } else if (_result.dereference().is_given_type<onerut_scalar::Integer>()) {
+            std::cout << "[test][common] (onerut_ast::dyn) onerut expression is an integer number." << std::endl;
+            std::shared_ptr<onerut_scalar::Integer> result_integer = *(_result.dereference().typed_value_or_empty<onerut_scalar::Integer>());
+            std::cout << "[test][common] (onerut_ast::dyn) onerut_value = " << result_integer->value_integer() << std::endl;
+        } else if (_result.dereference().is_given_type<onerut_scalar::Real>()) {
+            std::cout << "[test][common] (onerut_ast::dyn) onerut expression is a real number." << std::endl;
+            std::shared_ptr<onerut_scalar::Real> result_real = *(_result.dereference().typed_value_or_empty<onerut_scalar::Real>());
             std::cout << std::setprecision(20); //TODO
-            std::cout << "[test][common] (onerut_ast::dyn) onerut_value = " << result_double->value_double() << std::endl;
+            std::cout << "[test][common] (onerut_ast::dyn) onerut_value = " << result_real->value_real() << std::endl;
         } else {
             std::cout << "[test][common] (onerut_ast::dyn) NOT INT NOR DOUBLE" << std::endl;
         }
@@ -99,16 +99,16 @@ void _basis_onerut_test(T _cpp_value, std::shared_ptr<std::string> _onerut_inupu
     // --------------------------------------------------    
     // --------------------------------------------------    
     ASSERT_TRUE(!_result.dereference().is_compile_error()); // bedzie is_value_or_type
-    ASSERT_EQ(_cpp_is_int, _result.dereference().is_given_type<onerut_scalar::Long>());
-    ASSERT_EQ(_cpp_is_double, _result.dereference().is_given_type<onerut_scalar::Double>());
+    ASSERT_EQ(_cpp_is_int, _result.dereference().is_given_type<onerut_scalar::Integer>());
+    ASSERT_EQ(_cpp_is_double, _result.dereference().is_given_type<onerut_scalar::Real>());
     if (_cpp_is_int) {
-        std::shared_ptr<onerut_scalar::Long> result_long = *(_result.dereference().typed_value_or_empty<onerut_scalar::Long>());
-        long _onerut_value = result_long->value_long();
+        std::shared_ptr<onerut_scalar::Integer> result_integer = *(_result.dereference().typed_value_or_empty<onerut_scalar::Integer>());
+        auto _onerut_value = result_integer->value_integer();
         EXPECT_EQ(_cpp_value, _onerut_value);
     }
     if (_cpp_is_double) {
-        std::shared_ptr<onerut_scalar::Double> result_double = *(_result.dereference().typed_value_or_empty<onerut_scalar::Double>());
-        double _onerut_value = result_double->value_double();
+        std::shared_ptr<onerut_scalar::Real> result_real = *(_result.dereference().typed_value_or_empty<onerut_scalar::Real>());
+        auto _onerut_value = result_real->value_real();
         EXPECT_EQ(_cpp_value, _onerut_value);
     }
 

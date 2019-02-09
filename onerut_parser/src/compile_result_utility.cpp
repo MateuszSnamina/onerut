@@ -73,60 +73,60 @@ namespace onerut_parser::utility {
     // -------------------------------------------------------------------------    
 
     bool
-    is_integer(const onerut_parser::CompileResultDeref& result) {
-        assert(!result.is_empty());
-        assert(!result.is_compile_error());
-        return result.is_given_type<onerut_scalar::Long>();
+    is_integer(const onerut_parser::CompileResultDeref& arg) {
+        assert(!arg.is_empty());
+        assert(!arg.is_compile_error());
+        return arg.is_given_type<onerut_scalar::Integer>();
     }
 
     bool
-    is_real(const onerut_parser::CompileResultDeref& result) {
-        assert(!result.is_empty());
-        assert(!result.is_compile_error());
-        return result.is_given_type<onerut_scalar::Long>() || result.is_given_type<onerut_scalar::Double>();
+    is_real_or_integer(const onerut_parser::CompileResultDeref& arg) {
+        assert(!arg.is_empty());
+        assert(!arg.is_compile_error());
+        return arg.is_given_type<onerut_scalar::Integer>() || arg.is_given_type<onerut_scalar::Real>();
     }
 
     // -------------------------------------------------------------------------
 
-    std::shared_ptr<onerut_scalar::Long>
-    to_long(const onerut_parser::CompileResultDeref& arg_result) {
-        assert(is_integer(arg_result));
-        const auto& arg_long = *arg_result.typed_value_or_empty<onerut_scalar::Long>();
-        assert(arg_long);
-        return arg_long;
+    std::shared_ptr<onerut_scalar::Integer>
+    to_integer(const onerut_parser::CompileResultDeref& arg) {
+        assert(is_integer(arg));
+        const auto& arg_integer = *arg.typed_value_or_empty<onerut_scalar::Integer>();
+        assert(arg_integer);
+        return arg_integer;
     }
 
-    std::shared_ptr<onerut_scalar::Double>
-    to_double(const onerut_parser::CompileResultDeref& arg_result) {
-        assert(is_real(arg_result));
-        std::shared_ptr<onerut_scalar::Double> arg_double;
-        if (auto temp = arg_result.typed_value_or_empty<onerut_scalar::Long>()) {
-            arg_double = *temp;
+    std::shared_ptr<onerut_scalar::Real>
+    to_real(const onerut_parser::CompileResultDeref& arg) {
+        assert(is_real_or_integer(arg));
+        std::shared_ptr<onerut_scalar::Real> arg_real;
+        if (auto temp = arg.typed_value_or_empty<onerut_scalar::Integer>()) {
+            arg_real = *temp;
         } else {
-            arg_double = *arg_result.typed_value_or_empty<onerut_scalar::Double>();
+            arg_real = *arg.typed_value_or_empty<onerut_scalar::Real>();
         }
-        assert(arg_double);
-        return arg_double;
+        assert(arg_real);
+        return arg_real;
     }
 
     // -------------------------------------------------------------------------
 
-    std::vector<std::shared_ptr < onerut_scalar::Long >>
-    many_to_long(std::vector<onerut_parser::CompileResultDeref> argv_compile_result_deref) {
-        std::vector<std::shared_ptr < onerut_scalar::Long >> argv_long;
-        argv_long.reserve(argv_compile_result_deref.size());
+    std::vector<std::shared_ptr < onerut_scalar::Integer >>
+    many_to_integer(std::vector<onerut_parser::CompileResultDeref> argv_compile_result_deref) {
+        std::vector<std::shared_ptr < onerut_scalar::Integer >> argv_integer;
+        argv_integer.reserve(argv_compile_result_deref.size());
         std::transform(argv_compile_result_deref.cbegin(), argv_compile_result_deref.cend(),
-                std::back_inserter(argv_long), to_long);
-        return argv_long;
+                std::back_inserter(argv_integer), to_integer);
+        return argv_integer;
     }
 
-    std::vector<std::shared_ptr < onerut_scalar::Double >>
-    many_to_double(std::vector<onerut_parser::CompileResultDeref> argv_compile_result_deref) {
-        std::vector<std::shared_ptr < onerut_scalar::Double >> argv_long;
-        argv_long.reserve(argv_compile_result_deref.size());
+    std::vector<std::shared_ptr < onerut_scalar::Real >>
+    many_to_real(std::vector<onerut_parser::CompileResultDeref> argv_compile_result_deref) {
+        std::vector<std::shared_ptr < onerut_scalar::Real >> argv_integer;
+        argv_integer.reserve(argv_compile_result_deref.size());
         std::transform(argv_compile_result_deref.cbegin(), argv_compile_result_deref.cend(),
-                std::back_inserter(argv_long), to_double);
-        return argv_long;
+                std::back_inserter(argv_integer), to_real);
+        return argv_integer;
     }
 
 }

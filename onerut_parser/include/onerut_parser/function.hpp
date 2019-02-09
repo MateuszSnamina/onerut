@@ -33,58 +33,58 @@ namespace onerut_parser {
     // ---------------------------------------------------------------------------        
 
     template<typename Callable>
-    class UnaryDoubleFunction : public UnaryFunction {
+    class UnaryRealFunction : public UnaryFunction {
     public:
-        UnaryDoubleFunction(Callable callable);
-        UnaryDoubleFunction() = default;
+        UnaryRealFunction(Callable callable);
+        UnaryRealFunction() = default;
         CompileResult get_compile_result(CompileResult arg) const override;
     private:
         Callable callable;
     };
 
     template<typename Callable>
-    UnaryDoubleFunction<Callable>::UnaryDoubleFunction(Callable callable) :
+    UnaryRealFunction<Callable>::UnaryRealFunction(Callable callable) :
     callable(callable) {
     }
 
     template<typename Callable>
-    CompileResult UnaryDoubleFunction<Callable>::get_compile_result(CompileResult arg_compile_result) const {
+    CompileResult UnaryRealFunction<Callable>::get_compile_result(CompileResult arg_compile_result) const {
         const auto & arg_compile_result_deref = arg_compile_result.dereference();
         if (!arg_compile_result_deref.is_either_value_or_type())
             return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
-        if (!utility::is_real(arg_compile_result_deref))
+        if (!utility::is_real_or_integer(arg_compile_result_deref))
             return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
-        const auto & arg_double = utility::to_double(arg_compile_result_deref);
-        return CompileResult::from_value<onerut_scalar::Double>(std::make_shared<onerut_scalar::UnaryDoubleFunction < Callable >> (callable, arg_double));
+        const auto & arg_real = utility::to_real(arg_compile_result_deref);
+        return CompileResult::from_value<onerut_scalar::Real>(std::make_shared<onerut_scalar::UnaryRealFunction < Callable >> (callable, arg_real));
     }
 
     // -------------------------------------------------------------------------
 
     template<typename Callable>
-    class BinaryDoubleFunction : public BinaryFunction {
+    class BinaryRealFunction : public BinaryFunction {
     public:
-        BinaryDoubleFunction(Callable callable);
+        BinaryRealFunction(Callable callable);
         CompileResult get_compile_result(CompileResult first_arg, CompileResult second_arg) const override;
     private:
         Callable callable;
     };
 
     template<typename Callable>
-    BinaryDoubleFunction<Callable>::BinaryDoubleFunction(Callable callable) :
+    BinaryRealFunction<Callable>::BinaryRealFunction(Callable callable) :
     callable(callable) {
     }
 
     template<typename Callable>
-    CompileResult BinaryDoubleFunction<Callable>::get_compile_result(CompileResult first_arg_compile_result, CompileResult second_arg_compile_result) const {
+    CompileResult BinaryRealFunction<Callable>::get_compile_result(CompileResult first_arg_compile_result, CompileResult second_arg_compile_result) const {
         const auto & first_arg_compile_result_deref = first_arg_compile_result.dereference();
         const auto & second_arg_compile_result_deref = second_arg_compile_result.dereference();
         if (!first_arg_compile_result_deref.is_either_value_or_type() || !second_arg_compile_result_deref.is_either_value_or_type())
             return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
-        if (!utility::is_real(first_arg_compile_result_deref) || !utility::is_real(second_arg_compile_result_deref))
+        if (!utility::is_real_or_integer(first_arg_compile_result_deref) || !utility::is_real_or_integer(second_arg_compile_result_deref))
             return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
-        const auto & first_arg_double = utility::to_double(first_arg_compile_result_deref);
-        const auto & second_arg_double = utility::to_double(second_arg_compile_result_deref);
-        return CompileResult::from_value<onerut_scalar::Double>(std::make_shared<onerut_scalar::BinaryDoubleFunction < Callable >> (callable, first_arg_double, second_arg_double));
+        const auto & first_arg_real = utility::to_real(first_arg_compile_result_deref);
+        const auto & second_arg_real = utility::to_real(second_arg_compile_result_deref);
+        return CompileResult::from_value<onerut_scalar::Real>(std::make_shared<onerut_scalar::BinaryRealFunction < Callable >> (callable, first_arg_real, second_arg_real));
     }
 
 }

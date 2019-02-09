@@ -79,8 +79,8 @@
         <in>global_flags.cpp</in>
         <in>main.cpp</in>
         <in>scalar_complex.cpp</in>
-        <in>scalar_double.cpp</in>
-        <in>scalar_int.cpp</in>
+        <in>scalar_integer.cpp</in>
+        <in>scalar_real.cpp</in>
       </df>
     </df>
     <df root="string_utils" name="9">
@@ -501,14 +501,14 @@
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="onerut_scalar_tests/src/scalar_double.cpp"
+      <item path="onerut_scalar_tests/src/scalar_integer.cpp"
             ex="false"
             tool="1"
             flavor2="11">
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="onerut_scalar_tests/src/scalar_int.cpp"
+      <item path="onerut_scalar_tests/src/scalar_real.cpp"
             ex="false"
             tool="1"
             flavor2="11">

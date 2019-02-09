@@ -3,12 +3,12 @@
 
 namespace onerut_parser {
 
-    ConstDoubleHolder::ConstDoubleHolder(double value) :
+    ConstRealHolder::ConstRealHolder(double value) :
     value(value) {
     }
 
-    CompileResultDeref ConstDoubleHolder::get_compile_result_deref() const {
-        return CompileResultDeref::from_value<onerut_scalar::Double>(std::make_shared<onerut_scalar::LitDouble>(value));
+    CompileResultDeref ConstRealHolder::get_compile_result_deref() const {
+        return CompileResultDeref::from_value<onerut_scalar::Real>(std::make_shared<onerut_scalar::LitReal>(value));
     }
     //------------------
 

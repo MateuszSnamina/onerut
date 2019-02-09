@@ -44,23 +44,23 @@ namespace onerut_parser::utility {
     is_integer(const onerut_parser::CompileResultDeref& result);
 
     bool
-    is_real(const onerut_parser::CompileResultDeref& result);
+    is_real_or_integer(const onerut_parser::CompileResultDeref& result);
 
     // -------------------------------------------------------------------------
 
-    std::shared_ptr<onerut_scalar::Long>
-    to_long(const onerut_parser::CompileResultDeref& arg_result);
+    std::shared_ptr<onerut_scalar::Integer>
+    to_integer(const onerut_parser::CompileResultDeref& arg_result);
 
-    std::shared_ptr<onerut_scalar::Double>
-    to_double(const onerut_parser::CompileResultDeref& arg_result);
+    std::shared_ptr<onerut_scalar::Real>
+    to_real(const onerut_parser::CompileResultDeref& arg_result);
 
     // -------------------------------------------------------------------------
 
-    std::vector<std::shared_ptr < onerut_scalar::Long >>
-    many_to_long(std::vector<onerut_parser::CompileResultDeref> argv_compile_result_deref);
+    std::vector<std::shared_ptr < onerut_scalar::Integer >>
+    many_to_integer(std::vector<onerut_parser::CompileResultDeref> argv_compile_result_deref);
 
-    std::vector<std::shared_ptr < onerut_scalar::Double >>
-    many_to_double(std::vector<onerut_parser::CompileResultDeref> argv_compile_result_deref);
+    std::vector<std::shared_ptr < onerut_scalar::Real >>
+    many_to_real(std::vector<onerut_parser::CompileResultDeref> argv_compile_result_deref);
 
 }
 

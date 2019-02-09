@@ -9,7 +9,6 @@
 // --------------------  test cases  -------------------------------------------
 // -----------------------------------------------------------------------------
 
-
 TEST(operator_op_plus_minu, test_0) {
     using OpT = onerut_operator::AbstractOperator<unsigned>;
     using OpPtrT = std::shared_ptr<const OpT>;
@@ -18,14 +17,14 @@ TEST(operator_op_plus_minu, test_0) {
     const std::vector<OpPtrT> op_other_argv{};
     const std::vector<char> op_opv{};
     const auto op = std::make_shared<onerut_operator::OpPlusMinusOperator<unsigned>>(op_first_arg, op_other_argv, op_opv);
-    const arma::mat M_expected = arma::mat(4,4,arma::fill::zeros);
+    const arma::mat M_expected = arma::mat(4, 4, arma::fill::zeros);
     compare(M_expected, op);
 }
 
 TEST(operator_op_plus_minu, test_1) {
     using OpT = onerut_operator::AbstractOperator<unsigned>;
     using OpPtrT = std::shared_ptr<const OpT>;
-    const auto op1 = std::make_shared<onerut_operator::HopOperator<unsigned>>(3.2, 2, 1);    
+    const auto op1 = std::make_shared<onerut_operator::HopOperator<unsigned>>(3.2, 2, 1);
     const OpPtrT op_first_arg = op1;
     const std::vector<OpPtrT> op_other_argv{};
     const std::vector<char> op_opv{};
@@ -147,3 +146,19 @@ TEST(operator_op_plus_minu, test_7) {
     const arma::mat M_expected = M1 - M2 + M1;
     compare(M_expected, op);
 }
+
+TEST(operator_op_plus_minu, test_8) {
+    using OpT = onerut_operator::AbstractOperator<unsigned>;
+    using OpPtrT = std::shared_ptr<const OpT>;
+    const auto op1 = std::make_shared<onerut_operator::ZeroOperator<unsigned>>();
+    const auto op2 = second_compound_operator();
+    const OpPtrT op_first_arg = op1;
+    const std::vector<OpPtrT> op_other_argv{op1, op2, op1};
+    const std::vector<char> op_opv{'+', '-', '+'};
+    const auto op = std::make_shared<onerut_operator::OpPlusMinusOperator<unsigned>>(op_first_arg, op_other_argv, op_opv);
+    const arma::mat M2 = second_compound_matrix();
+    const arma::mat M_expected = -M2;
+    compare(M_expected, op);
+}
+
+

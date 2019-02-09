@@ -12,9 +12,9 @@ namespace onerut_parser {
     };
 
     // TODO: przerobić na szczegolny przypadek CompileResultConstRef.
-    class ConstDoubleHolder : public AbstractCompileResultRef {
+    class ConstRealHolder : public AbstractCompileResultRef {
     public:
-        ConstDoubleHolder(double value);
+        ConstRealHolder(double value);
         CompileResultDeref get_compile_result_deref() const override;
         const double value;
     };

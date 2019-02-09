@@ -1,7 +1,8 @@
 #ifndef ONERUT_SCALAR_SCALAR
 #define ONERUT_SCALAR_SCALAR
 
-#include<cassert>// TODO : remove when templates will have its onw file
+#include<cassert>// TODO remove  when funcion impl have their file.
+#include<complex>
 #include<memory>
 #include<vector>
 
@@ -11,46 +12,53 @@ namespace onerut_scalar {
     // -------------- ABSTRACT BASE CLASES -------------------------------------
     // -------------------------------------------------------------------------
 
-    class Double {
+    class Complex {
     public:
-        virtual double value_double() const = 0;
-        virtual ~Double() = default;
+        virtual std::complex<double> value_complex() const = 0;
+        virtual ~Complex() = default;
     };
 
-    class Long : public Double {
+    class Real : public Complex {
     public:
-        virtual long value_long() const = 0;
-        virtual double value_double() const override;
-        virtual ~Long() = default;
+        virtual double value_real() const = 0;
+        virtual std::complex<double> value_complex() const override;
+        virtual ~Real() = default;
+    };
+
+    class Integer : public Real {
+    public:
+        virtual long value_integer() const = 0;
+        virtual double value_real() const override;
+        virtual ~Integer() = default;
     };
 
     // -------------------------------------------------------------------------
     // -------------- CAST CLASES  ---------------------------------------------
     // -------------------------------------------------------------------------
 
-    class CastLongToDouble : public Double {
+    class CastIntegerToReal : public Real {
     public:
-        CastLongToDouble(std::shared_ptr<Long> arg);
-        double value_double() const override;
+        CastIntegerToReal(std::shared_ptr<Integer> arg);
+        double value_real() const override;
     private:
-        const std::shared_ptr<Long> arg;
+        const std::shared_ptr<Integer> arg;
     };
 
     // -------------------------------------------------------------------------
     // -------------- LITERAL CLASES  ------------------------------------------
     // -------------------------------------------------------------------------
 
-    class LitDouble : public Double {
+    class LitReal : public Real {
     public:
-        LitDouble(double value);
-        double value_double() const override;
+        LitReal(double value);
+        double value_real() const override;
         const double value;
     };
 
-    class LitLong : public Long {
+    class LitInteger : public Integer {
     public:
-        LitLong(long value);
-        long value_long() const override;
+        LitInteger(long value);
+        long value_integer() const override;
         const long value;
     };
 
@@ -58,24 +66,24 @@ namespace onerut_scalar {
     // -------------- OPUNARYPLUSMINUS CLASES  ---------------------------------
     // -------------------------------------------------------------------------
 
-    class OpUnaryPlusMinusDouble : public Double {
+    class OpUnaryPlusMinusReal : public Real {
     public:
-        OpUnaryPlusMinusDouble(
-                std::shared_ptr<Double> arg,
+        OpUnaryPlusMinusReal(
+                std::shared_ptr<Real> arg,
                 char op);
-        double value_double() const override;
-        const std::shared_ptr<Double> arg;
+        double value_real() const override;
+        const std::shared_ptr<Real> arg;
         const char op;
     };
 
-    class OpUnaryPlusMinusLong : public Long {
+    class OpUnaryPlusMinusInteger : public Integer {
     public:
-        OpUnaryPlusMinusLong(
-                std::shared_ptr<Long> arg,
+        OpUnaryPlusMinusInteger(
+                std::shared_ptr<Integer> arg,
                 char op);
-        long value_long() const override;
+        long value_integer() const override;
     private:
-        const std::shared_ptr<Long> arg;
+        const std::shared_ptr<Integer> arg;
         const char op;
     };
 
@@ -83,29 +91,29 @@ namespace onerut_scalar {
     // -------------- OPPLUSMINUS CLASES  --------------------------------------
     // -------------------------------------------------------------------------
 
-    class OpPlusMinusDouble : public Double {
+    class OpPlusMinusReal : public Real {
     public:
-        OpPlusMinusDouble(
-                std::shared_ptr<Double> first_arg,
-                std::vector<std::shared_ptr<Double>> other_argv,
+        OpPlusMinusReal(
+                std::shared_ptr<Real> first_arg,
+                std::vector<std::shared_ptr<Real>> other_argv,
                 const std::vector<char>& opv);
-        double value_double() const override;
+        double value_real() const override;
     private:
-        const std::shared_ptr<Double> first_arg;
-        const std::vector<std::shared_ptr<Double>> other_argv;
+        const std::shared_ptr<Real> first_arg;
+        const std::vector<std::shared_ptr<Real>> other_argv;
         const std::vector<char> opv;
     };
 
-    class OpPlusMinusLong : public Long {
+    class OpPlusMinusInteger : public Integer {
     public:
-        OpPlusMinusLong(
-                std::shared_ptr<Long> first_arg,
-                std::vector<std::shared_ptr<Long>> other_argv,
+        OpPlusMinusInteger(
+                std::shared_ptr<Integer> first_arg,
+                std::vector<std::shared_ptr<Integer>> other_argv,
                 const std::vector<char>& opv);
-        long value_long() const override;
+        long value_integer() const override;
     private:
-        const std::shared_ptr<Long> first_arg;
-        const std::vector<std::shared_ptr<Long>> other_argv;
+        const std::shared_ptr<Integer> first_arg;
+        const std::vector<std::shared_ptr<Integer>> other_argv;
         const std::vector<char> opv;
     };
 
@@ -113,29 +121,29 @@ namespace onerut_scalar {
     // -------------- OPPRODDIV CLASES  ----------------------------------------
     // -------------------------------------------------------------------------    
 
-    class OpProdDivDouble : public Double {
+    class OpProdDivReal : public Real {
     public:
-        OpProdDivDouble(
-                std::shared_ptr<Double> first_arg,
-                std::vector<std::shared_ptr<Double>> other_argv,
+        OpProdDivReal(
+                std::shared_ptr<Real> first_arg,
+                std::vector<std::shared_ptr<Real>> other_argv,
                 const std::vector<char>& opv);
-        double value_double() const override;
+        double value_real() const override;
     private:
-        const std::shared_ptr<Double> first_arg;
-        const std::vector<std::shared_ptr<Double>> other_argv;
+        const std::shared_ptr<Real> first_arg;
+        const std::vector<std::shared_ptr<Real>> other_argv;
         const std::vector<char> opv;
     };
 
-    class OpProdDivLong : public Long {
+    class OpProdDivInteger : public Integer {
     public:
-        OpProdDivLong(
-                std::shared_ptr<Long> first_arg,
-                std::vector<std::shared_ptr<Long>> other_argv,
+        OpProdDivInteger(
+                std::shared_ptr<Integer> first_arg,
+                std::vector<std::shared_ptr<Integer>> other_argv,
                 const std::vector<char>& opv);
-        long value_long() const override;
+        long value_integer() const override;
     private:
-        const std::shared_ptr<Long> first_arg;
-        const std::vector<std::shared_ptr<Long>> other_argv;
+        const std::shared_ptr<Integer> first_arg;
+        const std::vector<std::shared_ptr<Integer>> other_argv;
         const std::vector<char> opv;
     };
 
@@ -144,25 +152,25 @@ namespace onerut_scalar {
     // -------------------------------------------------------------------------
 
     template<typename Callable>
-    class UnaryDoubleFunction : public Double {
+    class UnaryRealFunction : public Real {
     public:
-        UnaryDoubleFunction(Callable callable, std::shared_ptr<Double> arg);
-        double value_double() const override;
+        UnaryRealFunction(Callable callable, std::shared_ptr<Real> arg);
+        double value_real() const override;
     private:
         Callable callable;
-        const std::shared_ptr<Double> arg;
+        const std::shared_ptr<Real> arg;
     };
 
     template<typename Callable>
-    UnaryDoubleFunction<Callable>::UnaryDoubleFunction(Callable callable, std::shared_ptr<Double> arg) :
+    UnaryRealFunction<Callable>::UnaryRealFunction(Callable callable, std::shared_ptr<Real> arg) :
     callable(callable),
     arg(arg) {
         assert(arg);
     }
 
     template<typename Callable>
-    double UnaryDoubleFunction<Callable>::value_double() const {
-        const double x = arg->value_double();
+    double UnaryRealFunction<Callable>::value_real() const {
+        const double x = arg->value_real();
         const double y = callable(x);
         return y;
     }
@@ -170,19 +178,19 @@ namespace onerut_scalar {
     // -------------------------------------------------------------------------
 
     template<typename Callable>
-    class BinaryDoubleFunction : public Double {
+    class BinaryRealFunction : public Real {
     public:
-        BinaryDoubleFunction(Callable callable, std::shared_ptr<Double> first_arg, std::shared_ptr<Double> second_arg);
-        double value_double() const override;
+        BinaryRealFunction(Callable callable, std::shared_ptr<Real> first_arg, std::shared_ptr<Real> second_arg);
+        double value_real() const override;
     private:
         Callable callable;
-        const std::shared_ptr<Double> first_arg;
-        const std::shared_ptr<Double> second_arg;
+        const std::shared_ptr<Real> first_arg;
+        const std::shared_ptr<Real> second_arg;
     };
 
     template<typename Callable>
-    BinaryDoubleFunction<Callable>::BinaryDoubleFunction(Callable callable, std::shared_ptr<Double> first_arg, std::shared_ptr<Double> second_arg) :
-    callable(callable),    
+    BinaryRealFunction<Callable>::BinaryRealFunction(Callable callable, std::shared_ptr<Real> first_arg, std::shared_ptr<Real> second_arg) :
+    callable(callable),
     first_arg(first_arg),
     second_arg(second_arg) {
         assert(first_arg);
@@ -190,9 +198,9 @@ namespace onerut_scalar {
     }
 
     template<typename Callable>
-    double BinaryDoubleFunction<Callable>::value_double() const {
-        const double firts_x = first_arg->value_double();
-        const double second_x = second_arg->value_double();
+    double BinaryRealFunction<Callable>::value_real() const {
+        const double firts_x = first_arg->value_real();
+        const double second_x = second_arg->value_real();
         const double y = callable(firts_x, second_x);
         return y;
     }

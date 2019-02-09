@@ -203,14 +203,14 @@ namespace onerut_parser::onerut_ast::source {
         if (!many_is_either_value_or_type(first_arg_compile_result_deref, other_argv_compile_result_deref))
             return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
         if (utility::is_integer(first_arg_compile_result_deref) && std::all_of(other_argv_compile_result_deref.cbegin(), other_argv_compile_result_deref.cend(), utility::is_integer)) {
-            const auto & first_arg_long = utility::to_long(first_arg_compile_result_deref);
-            const auto & other_argv_long = utility::many_to_long(other_argv_compile_result_deref);
-            return CompileResult::from_value<onerut_scalar::Long>(std::make_shared<onerut_scalar::OpPlusMinusLong>(first_arg_long, other_argv_long, opv));
+            const auto & first_arg_integer = utility::to_integer(first_arg_compile_result_deref);
+            const auto & other_argv_integer = utility::many_to_integer(other_argv_compile_result_deref);
+            return CompileResult::from_value<onerut_scalar::Integer>(std::make_shared<onerut_scalar::OpPlusMinusInteger>(first_arg_integer, other_argv_integer, opv));
         }
-        if (utility::is_real(first_arg_compile_result_deref) && std::all_of(other_argv_compile_result_deref.cbegin(), other_argv_compile_result_deref.cend(), utility::is_real)) {
-            const auto & first_arg_double = utility::to_double(first_arg_compile_result_deref);
-            const auto & other_argv_double = utility::many_to_double(other_argv_compile_result_deref);
-            return CompileResult::from_value<onerut_scalar::Double>(std::make_shared<onerut_scalar::OpPlusMinusDouble>(first_arg_double, other_argv_double, opv));
+        if (utility::is_real_or_integer(first_arg_compile_result_deref) && std::all_of(other_argv_compile_result_deref.cbegin(), other_argv_compile_result_deref.cend(), utility::is_real_or_integer)) {
+            const auto & first_arg_real = utility::to_real(first_arg_compile_result_deref);
+            const auto & other_argv_real = utility::many_to_real(other_argv_compile_result_deref);
+            return CompileResult::from_value<onerut_scalar::Real>(std::make_shared<onerut_scalar::OpPlusMinusReal>(first_arg_real, other_argv_real, opv));
         }
         return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
     }
@@ -225,14 +225,14 @@ namespace onerut_parser::onerut_ast::source {
         if (!many_is_either_value_or_type(first_deref_arg_compile_result, other_argv_compile_result_deref))
             return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
         if (utility::is_integer(first_deref_arg_compile_result) && std::all_of(other_argv_compile_result_deref.cbegin(), other_argv_compile_result_deref.cend(), utility::is_integer)) {
-            const auto & first_arg_long = utility::to_long(first_deref_arg_compile_result);
-            const auto & other_argv_long = utility::many_to_long(other_argv_compile_result_deref);
-            return CompileResult::from_value<onerut_scalar::Long>(std::make_shared<onerut_scalar::OpProdDivLong>(first_arg_long, other_argv_long, opv));
+            const auto & first_arg_integer = utility::to_integer(first_deref_arg_compile_result);
+            const auto & other_argv_integer = utility::many_to_integer(other_argv_compile_result_deref);
+            return CompileResult::from_value<onerut_scalar::Integer>(std::make_shared<onerut_scalar::OpProdDivInteger>(first_arg_integer, other_argv_integer, opv));
         }
-        if (utility::is_real(first_deref_arg_compile_result) && std::all_of(other_argv_compile_result_deref.cbegin(), other_argv_compile_result_deref.cend(), utility::is_real)) {
-            const auto & first_arg_double = utility::to_double(first_deref_arg_compile_result);
-            const auto & other_argv_double = utility::many_to_double(other_argv_compile_result_deref);
-            return CompileResult::from_value<onerut_scalar::Double>(std::make_shared<onerut_scalar::OpProdDivDouble>(first_arg_double, other_argv_double, opv));
+        if (utility::is_real_or_integer(first_deref_arg_compile_result) && std::all_of(other_argv_compile_result_deref.cbegin(), other_argv_compile_result_deref.cend(), utility::is_real_or_integer)) {
+            const auto & first_arg_real = utility::to_real(first_deref_arg_compile_result);
+            const auto & other_argv_real = utility::many_to_real(other_argv_compile_result_deref);
+            return CompileResult::from_value<onerut_scalar::Real>(std::make_shared<onerut_scalar::OpProdDivReal>(first_arg_real, other_argv_real, opv));
         }
         return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
     }
@@ -277,12 +277,12 @@ namespace onerut_parser::onerut_ast::source {
         if (!arg_compile_result_deref.is_either_value_or_type())
             const CompileResult compile_result = CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
         if (utility::is_integer(arg_compile_result_deref)) {
-            const std::shared_ptr<onerut_scalar::Long> arg_long = utility::to_long(arg_compile_result_deref);
-            return CompileResult::from_value<onerut_scalar::Long>(std::make_shared<onerut_scalar::OpUnaryPlusMinusLong>(arg_long, op));
+            const std::shared_ptr<onerut_scalar::Integer> arg_integer = utility::to_integer(arg_compile_result_deref);
+            return CompileResult::from_value<onerut_scalar::Integer>(std::make_shared<onerut_scalar::OpUnaryPlusMinusInteger>(arg_integer, op));
         }
-        if (utility::is_real(arg_compile_result_deref)) {
-            const std::shared_ptr<onerut_scalar::Double> arg_double = utility::to_double(arg_compile_result_deref);
-            return CompileResult::from_value<onerut_scalar::Double>(std::make_shared<onerut_scalar::OpUnaryPlusMinusDouble>(arg_double, op));
+        if (utility::is_real_or_integer(arg_compile_result_deref)) {
+            const std::shared_ptr<onerut_scalar::Real> arg_real = utility::to_real(arg_compile_result_deref);
+            return CompileResult::from_value<onerut_scalar::Real>(std::make_shared<onerut_scalar::OpUnaryPlusMinusReal>(arg_real, op));
         }
         return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
     }
@@ -291,14 +291,14 @@ namespace onerut_parser::onerut_ast::source {
 
     CompileResult
     LitLongNode::basic_compile() const {
-        return CompileResult::from_value<onerut_scalar::Long>(std::make_shared<onerut_scalar::LitLong>(value));
+        return CompileResult::from_value<onerut_scalar::Integer>(std::make_shared<onerut_scalar::LitInteger>(value));
     }
 
     // -------------------------------------------------------------------------
 
     CompileResult
     LitDoubleNode::basic_compile() const {
-        return CompileResult::from_value<onerut_scalar::Double>(std::make_shared<onerut_scalar::LitDouble>(value));
+        return CompileResult::from_value<onerut_scalar::Real>(std::make_shared<onerut_scalar::LitReal>(value));
     }
 
     // -------------------------------------------------------------------------
