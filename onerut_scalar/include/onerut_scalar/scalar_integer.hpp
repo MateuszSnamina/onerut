@@ -1,23 +1,12 @@
 #ifndef ONERUT_SCALAR_SCALAR_INTEGER
 #define ONERUT_SCALAR_SCALAR_INTEGER
 
-#include<onerut_scalar/scalar_real.hpp>
-
 #include<memory>
 #include<vector>
 
+#include<onerut_scalar/scalar_abstract_integer.hpp>
+
 namespace onerut_scalar {
-
-    // -------------------------------------------------------------------------
-    // -------------- ABSTRACT BASE CLASES -------------------------------------
-    // -------------------------------------------------------------------------
-
-    class Integer : public Real {
-    public:
-        virtual long value_integer() const = 0;
-        virtual double value_real() const override;
-        virtual ~Integer() = default;
-    };
 
     // -------------------------------------------------------------------------
     // -------------- LITERAL CLASES  ------------------------------------------

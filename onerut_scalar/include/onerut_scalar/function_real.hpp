@@ -3,7 +3,7 @@
 
 #include<cassert>
 
-#include<onerut_scalar/scalar_real.hpp>
+#include<onerut_scalar/scalar_abstract_real.hpp>
 
 namespace onerut_scalar {
 

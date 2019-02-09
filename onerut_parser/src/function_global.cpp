@@ -1,6 +1,6 @@
 #include<cmath>
 #include<onerut_parser/function_global.hpp>
-#include<onerut_scalar/scalar.hpp>
+#include<onerut_scalar/function_real.hpp>
 
 #define FULL_CUSTOMIZED_PUT_STD_UNARY_FUNCTION(TYPE, ONERUT_NAME, CPPSTD_NAME) force_put(#ONERUT_NAME, std::make_shared <UnaryRealFunction < TYPE >> (static_cast<TYPE> (&std::CPPSTD_NAME)))
 #define CUSTOMIZED_PUT_STD_UNARY_FUNCTION(ONERUT_NAME, CPPSTD_NAME) FULL_CUSTOMIZED_PUT_STD_UNARY_FUNCTION(FunPtrType1, ONERUT_NAME, CPPSTD_NAME)

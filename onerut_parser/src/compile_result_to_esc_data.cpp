@@ -1,5 +1,5 @@
 #include<onerut_parser/compile_result_to_esc_data.hpp>
-#include<onerut_scalar/scalar.hpp>
+#include<onerut_scalar/scalar_abstract.hpp>
 
 namespace onerut_parser {
 
@@ -17,6 +17,8 @@ namespace onerut_parser {
             return esc::EscDataBuilder() << esc::manip::blue << esc::manip::build_esc_data;
         if (compile_result.dereference().is_given_type<onerut_scalar::Real>())
             return esc::EscDataBuilder() << esc::manip::cyan << esc::manip::build_esc_data;
+        if (compile_result.dereference().is_given_type<onerut_scalar::Complex>())
+            return esc::EscDataBuilder() << esc::manip::green << esc::manip::build_esc_data;        
         return esc::EscDataBuilder() << esc::manip::build_esc_data;
     }
 

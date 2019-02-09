@@ -12,7 +12,7 @@
 #include<onerut_parser/print_chart.hpp>
 #include<onerut_parser/identifier_global.hpp>
 #include<onerut_parser/function_global.hpp>
-#include<onerut_scalar/scalar.hpp>
+#include<onerut_scalar/scalar_abstract.hpp>
 
 #include<onerut_operator/operator.hpp>
 
@@ -59,19 +59,25 @@ execute_line(std::shared_ptr<std::string> line) {
     onerut_parser::print_chart(parsed_x3_info.input, ast_compile_result_chart);
     // -------------------------------------------------------------------------
     onerut_parser::CompileResult compile_result = ast_compile_result_head->compile_result;
+
     if (compile_result.dereference().is_compile_error()) {
-        std::cout << "Result is an error." << std::endl;
-        std::cout << "Message = " << (*compile_result.dereference().compile_error_or_empty())->what() << std::endl;
+        std::cout << "[receipt] expression is an error." << std::endl;
+        const auto error = *compile_result.dereference().compile_error_or_empty();
+        std::cout << error->what() << std::endl;
     } else if (compile_result.dereference().is_given_type<onerut_scalar::Integer>()) {
-        std::cout << "Result is an integer number." << std::endl;
-        std::shared_ptr<onerut_scalar::Integer> result_long = *(compile_result.dereference().typed_value_or_empty<onerut_scalar::Integer>());
-        std::cout << "Value = " << result_long->value_integer() << std::endl;
+        std::cout << "[receipt] expression is an integer number." << std::endl;
+        const auto result_integer = *(compile_result.dereference().typed_value_or_empty<onerut_scalar::Integer>());
+        std::cout << "[receipt] onerut_value = " << result_integer->value_integer() << std::endl;
     } else if (compile_result.dereference().is_given_type<onerut_scalar::Real>()) {
-        std::cout << "Result is a real number." << std::endl;
-        std::shared_ptr<onerut_scalar::Real> result_double = *(compile_result.dereference().typed_value_or_empty<onerut_scalar::Real>());
-        std::cout << "Value = " << std::setprecision(20) << result_double->value_real() << std::endl;
+        std::cout << "[receipt] expression is a real number." << std::endl;
+        const auto result_real = *(compile_result.dereference().typed_value_or_empty<onerut_scalar::Real>());
+        std::cout << "[receipt] onerut_value = " << result_real->value_real() << std::endl;
+    } else if (compile_result.dereference().is_given_type<onerut_scalar::Real>()) {
+        std::cout << "[receipt] expression is a complex number." << std::endl;
+        const auto result_complex = *(compile_result.dereference().typed_value_or_empty<onerut_scalar::Complex>());
+        std::cout << "[receipt] onerut_value = " << result_complex->value_complex() << std::endl;
     } else {
-        std::cout << "Result is not an integer, nor a double, nor an error." << std::endl;
+        std::cout << "[receipt] result is not an error nor a scalar." << std::endl;
     }
     std::cout << std::endl;
     return true;

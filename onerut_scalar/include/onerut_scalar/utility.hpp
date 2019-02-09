@@ -3,10 +3,11 @@
 
 #include<cassert>
 #include<type_traits>
+#include<memory>
 #include<variant>
 #include<boost/cast.hpp>
 
-#include<onerut_scalar/scalar.hpp>
+#include<onerut_scalar/scalar_abstract.hpp>
 
 namespace onerut_scalar {
 

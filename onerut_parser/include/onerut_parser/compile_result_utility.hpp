@@ -4,11 +4,7 @@
 #include<vector>
 
 #include<onerut_parser/compile_result.hpp>
-#include<onerut_scalar/scalar.hpp>
-
-// *************************************************************************
-// ********************** HELPER FUNCTIONS   *******************************
-// *************************************************************************
+#include<onerut_scalar/scalar_abstract.hpp>
 
 namespace onerut_parser::utility {
 
@@ -27,7 +23,7 @@ namespace onerut_parser::utility {
 
     std::shared_ptr<onerut_parser::CompileResultNotConstRef>
     to_not_const_ref(const onerut_parser::CompileResult& compile_result);
-    
+
     std::string
     name_of_identifier_not_found(const onerut_parser::CompileResultDeref& result);
 
@@ -46,6 +42,9 @@ namespace onerut_parser::utility {
     bool
     is_real_or_integer(const onerut_parser::CompileResultDeref& result);
 
+    bool
+    is_real_or_integer_or_complex(const onerut_parser::CompileResultDeref& result);
+
     // -------------------------------------------------------------------------
 
     std::shared_ptr<onerut_scalar::Integer>
@@ -54,6 +53,9 @@ namespace onerut_parser::utility {
     std::shared_ptr<onerut_scalar::Real>
     to_real(const onerut_parser::CompileResultDeref& arg_result);
 
+    std::shared_ptr<onerut_scalar::Complex>
+    to_complex(const onerut_parser::CompileResultDeref& arg_result);
+
     // -------------------------------------------------------------------------
 
     std::vector<std::shared_ptr < onerut_scalar::Integer >>
@@ -61,6 +63,9 @@ namespace onerut_parser::utility {
 
     std::vector<std::shared_ptr < onerut_scalar::Real >>
     many_to_real(std::vector<onerut_parser::CompileResultDeref> argv_compile_result_deref);
+
+    std::vector<std::shared_ptr < onerut_scalar::Complex >>
+    many_to_complex(std::vector<onerut_parser::CompileResultDeref> argv_compile_result_deref);
 
 }
 

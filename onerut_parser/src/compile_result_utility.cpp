@@ -2,10 +2,6 @@
 
 #include<onerut_parser/compile_result_utility.hpp>
 
-// *************************************************************************
-// ********************** HELPER FUNCTIONS   *******************************
-// *************************************************************************
-
 namespace onerut_parser::utility {
 
     // -------------------------------------------------------------------------
@@ -83,9 +79,18 @@ namespace onerut_parser::utility {
     is_real_or_integer(const onerut_parser::CompileResultDeref& arg) {
         assert(!arg.is_empty());
         assert(!arg.is_compile_error());
-        return arg.is_given_type<onerut_scalar::Integer>() || arg.is_given_type<onerut_scalar::Real>();
+        return arg.is_given_type<onerut_scalar::Integer>() ||
+                arg.is_given_type<onerut_scalar::Real>();
     }
 
+    bool
+    is_real_or_integer_or_complex(const onerut_parser::CompileResultDeref& arg) {
+        assert(!arg.is_empty());
+        assert(!arg.is_compile_error());
+        return arg.is_given_type<onerut_scalar::Integer>() ||
+                arg.is_given_type<onerut_scalar::Real>() ||
+                arg.is_given_type<onerut_scalar::Complex>();
+    }
     // -------------------------------------------------------------------------
 
     std::shared_ptr<onerut_scalar::Integer>
@@ -109,6 +114,21 @@ namespace onerut_parser::utility {
         return arg_real;
     }
 
+    std::shared_ptr<onerut_scalar::Complex>
+    to_complex(const onerut_parser::CompileResultDeref& arg) {
+        assert(is_real_or_integer_or_complex(arg));
+        std::shared_ptr<onerut_scalar::Complex> arg_complex;
+        if (auto temp = arg.typed_value_or_empty<onerut_scalar::Integer>()) {
+            arg_complex = *temp;
+        } else if (auto temp = arg.typed_value_or_empty<onerut_scalar::Real>()) {
+            arg_complex = *temp;
+        } else {
+            arg_complex = *arg.typed_value_or_empty<onerut_scalar::Complex>();
+        }
+        assert(arg_complex);
+        return arg_complex;
+    }
+
     // -------------------------------------------------------------------------
 
     std::vector<std::shared_ptr < onerut_scalar::Integer >>
@@ -122,11 +142,20 @@ namespace onerut_parser::utility {
 
     std::vector<std::shared_ptr < onerut_scalar::Real >>
     many_to_real(std::vector<onerut_parser::CompileResultDeref> argv_compile_result_deref) {
-        std::vector<std::shared_ptr < onerut_scalar::Real >> argv_integer;
-        argv_integer.reserve(argv_compile_result_deref.size());
+        std::vector<std::shared_ptr < onerut_scalar::Real >> argv_real;
+        argv_real.reserve(argv_compile_result_deref.size());
         std::transform(argv_compile_result_deref.cbegin(), argv_compile_result_deref.cend(),
-                std::back_inserter(argv_integer), to_real);
-        return argv_integer;
+                std::back_inserter(argv_real), to_real);
+        return argv_real;
+    }
+
+    std::vector<std::shared_ptr < onerut_scalar::Complex >>
+    many_to_complex(std::vector<onerut_parser::CompileResultDeref> argv_compile_result_deref) {
+        std::vector<std::shared_ptr < onerut_scalar::Complex >> argv_complex;
+        argv_complex.reserve(argv_compile_result_deref.size());
+        std::transform(argv_compile_result_deref.cbegin(), argv_compile_result_deref.cend(),
+                std::back_inserter(argv_complex), to_complex);
+        return argv_complex;
     }
 
 }

@@ -12,7 +12,7 @@
 #include<onerut_parser/ast_x3_to_ast_source.hpp>
 #include<onerut_parser/ast_compile_result.hpp>
 #include<onerut_parser/print_chart.hpp>
-#include<onerut_scalar/scalar.hpp>
+#include<onerut_scalar/scalar_abstract.hpp>
 #include<onerut_parser_tests/global_flags.hpp>
 
 // -----------------------------------------------------------
@@ -77,37 +77,41 @@ void _basis_onerut_test(T _cpp_value, std::shared_ptr<std::string> _onerut_inupu
     std::cout << "Parsed info: (onerut_ast::compile_result):" << std::endl;
     onerut_parser::print_chart(_parsed_x3_info.input, ast_compile_result_chart);
     // #########################################################################
-    onerut_parser::CompileResult _result = _ast_compile_result_head->compile_result;
+    onerut_parser::CompileResult _compile_result = _ast_compile_result_head->compile_result;
     // --------------------------------------------------    
     if (onerut_verbose) {
-        if (_result.dereference().is_compile_error()) {
+        if (_compile_result.dereference().is_compile_error()) {
             std::cout << "[test][common] (onerut_ast::dyn) onerut expression is an error." << std::endl;
-            std::cout << (*_result.dereference().compile_error_or_empty())->what() << std::endl;
-        } else if (_result.dereference().is_given_type<onerut_scalar::Integer>()) {
+            const auto error = *_compile_result.dereference().compile_error_or_empty();
+            std::cout << error->what() << std::endl;
+        } else if (_compile_result.dereference().is_given_type<onerut_scalar::Integer>()) {
             std::cout << "[test][common] (onerut_ast::dyn) onerut expression is an integer number." << std::endl;
-            std::shared_ptr<onerut_scalar::Integer> result_integer = *(_result.dereference().typed_value_or_empty<onerut_scalar::Integer>());
+            const auto result_integer = *(_compile_result.dereference().typed_value_or_empty<onerut_scalar::Integer>());
             std::cout << "[test][common] (onerut_ast::dyn) onerut_value = " << result_integer->value_integer() << std::endl;
-        } else if (_result.dereference().is_given_type<onerut_scalar::Real>()) {
+        } else if (_compile_result.dereference().is_given_type<onerut_scalar::Real>()) {
             std::cout << "[test][common] (onerut_ast::dyn) onerut expression is a real number." << std::endl;
-            std::shared_ptr<onerut_scalar::Real> result_real = *(_result.dereference().typed_value_or_empty<onerut_scalar::Real>());
-            std::cout << std::setprecision(20); //TODO
+            const auto result_real = *(_compile_result.dereference().typed_value_or_empty<onerut_scalar::Real>());
             std::cout << "[test][common] (onerut_ast::dyn) onerut_value = " << result_real->value_real() << std::endl;
+        }  else if (_compile_result.dereference().is_given_type<onerut_scalar::Real>()) {
+            std::cout << "[test][common] (onerut_ast::dyn) onerut expression is a complex number." << std::endl;
+            const auto result_complex = *(_compile_result.dereference().typed_value_or_empty<onerut_scalar::Complex>());
+            std::cout << "[test][common] (onerut_ast::dyn) onerut_value = " << result_complex->value_complex() << std::endl;
         } else {
             std::cout << "[test][common] (onerut_ast::dyn) NOT INT NOR DOUBLE" << std::endl;
         }
     }
     // --------------------------------------------------    
     // --------------------------------------------------    
-    ASSERT_TRUE(!_result.dereference().is_compile_error()); // bedzie is_value_or_type
-    ASSERT_EQ(_cpp_is_int, _result.dereference().is_given_type<onerut_scalar::Integer>());
-    ASSERT_EQ(_cpp_is_double, _result.dereference().is_given_type<onerut_scalar::Real>());
+    ASSERT_TRUE(!_compile_result.dereference().is_compile_error()); // bedzie is_value_or_type
+    ASSERT_EQ(_cpp_is_int, _compile_result.dereference().is_given_type<onerut_scalar::Integer>());
+    ASSERT_EQ(_cpp_is_double, _compile_result.dereference().is_given_type<onerut_scalar::Real>());
     if (_cpp_is_int) {
-        std::shared_ptr<onerut_scalar::Integer> result_integer = *(_result.dereference().typed_value_or_empty<onerut_scalar::Integer>());
+        std::shared_ptr<onerut_scalar::Integer> result_integer = *(_compile_result.dereference().typed_value_or_empty<onerut_scalar::Integer>());
         auto _onerut_value = result_integer->value_integer();
         EXPECT_EQ(_cpp_value, _onerut_value);
     }
     if (_cpp_is_double) {
-        std::shared_ptr<onerut_scalar::Real> result_real = *(_result.dereference().typed_value_or_empty<onerut_scalar::Real>());
+        std::shared_ptr<onerut_scalar::Real> result_real = *(_compile_result.dereference().typed_value_or_empty<onerut_scalar::Real>());
         auto _onerut_value = result_real->value_real();
         EXPECT_EQ(_cpp_value, _onerut_value);
     }

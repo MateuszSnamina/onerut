@@ -1,22 +1,12 @@
 #ifndef ONERUT_SCALAR_SCALAR_COMPLEX
 #define ONERUT_SCALAR_SCALAR_COMPLEX
 
-#include<complex>
 #include<memory>
 #include<vector>
 
+#include<onerut_scalar/scalar_abstract_complex.hpp>
+
 namespace onerut_scalar {
-
-    // -------------------------------------------------------------------------
-    // -------------- ABSTRACT BASE CLASES -------------------------------------
-    // -------------------------------------------------------------------------
-
-    class Complex {
-    public:
-        virtual std::complex<double> value_complex() const = 0;
-        virtual ~Complex() = default;
-    };
-
 
     // -------------------------------------------------------------------------
     // -------------- LITERAL CLASES  ------------------------------------------
