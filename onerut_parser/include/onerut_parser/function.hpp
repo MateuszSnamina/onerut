@@ -5,7 +5,7 @@
 
 #include<onerut_parser/compile_result.hpp>
 #include<onerut_parser/compile_result_utility.hpp>
-#include<onerut_scalar/scalar.hpp> // TODO move template classes to another header. Then remove this header
+#include<onerut_scalar/function_real.hpp> // TODO move template classes to another header. Then remove this header
 
 namespace onerut_parser {
 

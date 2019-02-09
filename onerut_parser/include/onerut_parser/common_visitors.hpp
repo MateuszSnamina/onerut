@@ -25,7 +25,7 @@ namespace {
     template<typename U>
     typename ContentOrEmptyVisitor<VariantContentType>::ResultType
     ContentOrEmptyVisitor<VariantContentType>::operator()(const U& x) const {
-        return ResultType();
+        return std::nullopt;
     }
 
     // -------------------------------------------------------------------------

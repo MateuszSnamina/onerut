@@ -202,15 +202,23 @@ namespace onerut_parser::onerut_ast::source {
         const auto & other_argv_compile_result_deref = utility::many_dereference(other_argv_compile_result);
         if (!many_is_either_value_or_type(first_arg_compile_result_deref, other_argv_compile_result_deref))
             return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
-        if (utility::is_integer(first_arg_compile_result_deref) && std::all_of(other_argv_compile_result_deref.cbegin(), other_argv_compile_result_deref.cend(), utility::is_integer)) {
+        if (utility::is_integer(first_arg_compile_result_deref) &&
+                std::all_of(cbegin(other_argv_compile_result_deref), cend(other_argv_compile_result_deref), utility::is_integer)) {
             const auto & first_arg_integer = utility::to_integer(first_arg_compile_result_deref);
             const auto & other_argv_integer = utility::many_to_integer(other_argv_compile_result_deref);
             return CompileResult::from_value<onerut_scalar::Integer>(std::make_shared<onerut_scalar::OpPlusMinusInteger>(first_arg_integer, other_argv_integer, opv));
         }
-        if (utility::is_real_or_integer(first_arg_compile_result_deref) && std::all_of(other_argv_compile_result_deref.cbegin(), other_argv_compile_result_deref.cend(), utility::is_real_or_integer)) {
+        if (utility::is_real_or_integer(first_arg_compile_result_deref) &&
+                std::all_of(cbegin(other_argv_compile_result_deref), cend(other_argv_compile_result_deref), utility::is_real_or_integer)) {
             const auto & first_arg_real = utility::to_real(first_arg_compile_result_deref);
             const auto & other_argv_real = utility::many_to_real(other_argv_compile_result_deref);
             return CompileResult::from_value<onerut_scalar::Real>(std::make_shared<onerut_scalar::OpPlusMinusReal>(first_arg_real, other_argv_real, opv));
+        }
+        if (utility::is_real_or_integer_or_complex(first_arg_compile_result_deref) &&
+                std::all_of(cbegin(other_argv_compile_result_deref), cend(other_argv_compile_result_deref), utility::is_real_or_integer_or_complex)) {
+            const auto & first_arg_complex = utility::to_complex(first_arg_compile_result_deref);
+            const auto & other_argv_complex = utility::many_to_complex(other_argv_compile_result_deref);
+            return CompileResult::from_value<onerut_scalar::Complex>(std::make_shared<onerut_scalar::OpPlusMinusComplex>(first_arg_complex, other_argv_complex, opv));
         }
         return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
     }
@@ -224,15 +232,23 @@ namespace onerut_parser::onerut_ast::source {
         const auto & other_argv_compile_result_deref = utility::many_dereference(other_argv_compile_result);
         if (!many_is_either_value_or_type(first_deref_arg_compile_result, other_argv_compile_result_deref))
             return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
-        if (utility::is_integer(first_deref_arg_compile_result) && std::all_of(other_argv_compile_result_deref.cbegin(), other_argv_compile_result_deref.cend(), utility::is_integer)) {
+        if (utility::is_integer(first_deref_arg_compile_result) &&
+                std::all_of(cbegin(other_argv_compile_result_deref), cend(other_argv_compile_result_deref), utility::is_integer)) {
             const auto & first_arg_integer = utility::to_integer(first_deref_arg_compile_result);
             const auto & other_argv_integer = utility::many_to_integer(other_argv_compile_result_deref);
             return CompileResult::from_value<onerut_scalar::Integer>(std::make_shared<onerut_scalar::OpProdDivInteger>(first_arg_integer, other_argv_integer, opv));
         }
-        if (utility::is_real_or_integer(first_deref_arg_compile_result) && std::all_of(other_argv_compile_result_deref.cbegin(), other_argv_compile_result_deref.cend(), utility::is_real_or_integer)) {
+        if (utility::is_real_or_integer(first_deref_arg_compile_result) &&
+                std::all_of(cbegin(other_argv_compile_result_deref), cend(other_argv_compile_result_deref), utility::is_real_or_integer)) {
             const auto & first_arg_real = utility::to_real(first_deref_arg_compile_result);
             const auto & other_argv_real = utility::many_to_real(other_argv_compile_result_deref);
             return CompileResult::from_value<onerut_scalar::Real>(std::make_shared<onerut_scalar::OpProdDivReal>(first_arg_real, other_argv_real, opv));
+        }
+        if (utility::is_real_or_integer_or_complex(first_deref_arg_compile_result) &&
+                std::all_of(cbegin(other_argv_compile_result_deref), cend(other_argv_compile_result_deref), utility::is_real_or_integer_or_complex)) {
+            const auto & first_arg_complex = utility::to_complex(first_deref_arg_compile_result);
+            const auto & other_argv_complex = utility::many_to_complex(other_argv_compile_result_deref);
+            return CompileResult::from_value<onerut_scalar::Complex>(std::make_shared<onerut_scalar::OpProdDivComplex>(first_arg_complex, other_argv_complex, opv));
         }
         return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
     }

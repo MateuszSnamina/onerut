@@ -16,10 +16,6 @@
 
 #include<onerut_operator/operator.hpp>
 
-
-#include<boost/cast.hpp>
-#include<complex>
-
 bool
 execute_line(std::shared_ptr<std::string> line) {
     // #########################################################################
@@ -116,15 +112,6 @@ bool execute_script_file(const std::filesystem::path& file_path) {
 }
 
 void temp_testing() {
-
-    //std::cout << boost::numeric_cast < std::complex<double>>(5) << std::endl;
-    //std::complex<double> c(5.0, 0.0);
-    //std::cout << boost::numeric_cast<double>(c) << std::endl;
-    return;
-
-    //std::string input = "  _alg(_67j, foo(  7  , 8 ) , (xx2s) ) kota* 56.8 ";
-    //const std::string input = "  3.0^6@t+_alg((5->4-7/foo(6)), 8.9*ola::ala,-pi+9,-7+9)*(-(9))+(-(9.0)+1) ";
-    //std::cout << (13 / 2 * 0.5 + (-(7.8 * (5 + 5 * 7)) + 8. + -.8) / 9) << std::endl;
 
     std::vector<std::shared_ptr < std::string>> lines;
     lines.push_back(std::make_shared < std::string>("x:=(2+4*3)+pi/2"));
