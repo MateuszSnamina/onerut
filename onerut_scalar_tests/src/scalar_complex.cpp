@@ -38,10 +38,7 @@ TEST(operator_scalar_complex, test_3) {
     const auto r2 = std::make_shared<onerut_scalar::LitInteger>(7);
     const auto r3 = std::make_shared<onerut_scalar::LitReal>(5.0);
     const std::shared_ptr<onerut_scalar::Complex> first_arg = r1;
-    const std::vector<std::shared_ptr < onerut_scalar::Complex >> other_argv
-    {
-        r2, r3
-    };
+    const std::vector<std::shared_ptr < onerut_scalar::Complex > > other_argv{r2, r3};
     const std::vector<char> opv{'-', '+'};
     const auto r = std::make_shared<onerut_scalar::OpPlusMinusComplex>(first_arg, other_argv, opv);
     ASSERT_EQ(4.0, r->value_complex());
@@ -52,11 +49,41 @@ TEST(operator_scalar_complex, test_4) {
     const auto r2 = std::make_shared<onerut_scalar::LitComplex>(7.4 + 5.2i);
     const auto r3 = std::make_shared<onerut_scalar::LitComplex>(5.5 - 5.7i);
     const std::shared_ptr<onerut_scalar::Complex> first_arg = r1;
-    const std::vector<std::shared_ptr < onerut_scalar::Complex >> other_argv
-    {
-        r2, r3
-    };
+    const std::vector<std::shared_ptr < onerut_scalar::Complex > > other_argv{r2, r3};
     const std::vector<char> opv{'-', '+'};
     const auto r = std::make_shared<onerut_scalar::OpPlusMinusComplex>(first_arg, other_argv, opv);
     ASSERT_EQ(double(6) - (7.4 + 5.2i) + (5.5 - 5.7i), r->value_complex());
+}
+
+TEST(operator_scalar_complex, test_5) {
+    const auto r1 = std::make_shared<onerut_scalar::LitInteger>(6);
+    const auto r2 = std::make_shared<onerut_scalar::LitInteger>(-7);
+    const auto r3 = std::make_shared<onerut_scalar::LitInteger>(5);
+    const std::shared_ptr<onerut_scalar::Complex> first_arg = r1;
+    const std::vector<std::shared_ptr < onerut_scalar::Complex > > other_argv{r2, r3};
+    const std::vector<char> opv{'*', '/'};
+    const auto r = std::make_shared<onerut_scalar::OpProdDivComplex>(first_arg, other_argv, opv);
+    ASSERT_EQ(-8.0, r->value_complex());
+}
+
+TEST(operator_scalar_complex, test_6) {
+    const auto r1 = std::make_shared<onerut_scalar::LitInteger>(6);
+    const auto r2 = std::make_shared<onerut_scalar::LitInteger>(-7);
+    const auto r3 = std::make_shared<onerut_scalar::LitReal>(5.0);
+    const std::shared_ptr<onerut_scalar::Complex> first_arg = r1;
+    const std::vector<std::shared_ptr < onerut_scalar::Complex > > other_argv{r2, r3};
+    const std::vector<char> opv{'*', '/'};
+    const auto r = std::make_shared<onerut_scalar::OpProdDivComplex>(first_arg, other_argv, opv);
+    ASSERT_EQ(-8.4, r->value_complex());
+}
+
+TEST(operator_scalar_complex, test_7) {
+    const auto r1 = std::make_shared<onerut_scalar::LitInteger>(6);
+    const auto r2 = std::make_shared<onerut_scalar::LitComplex>(7.4 + 5.2i);
+    const auto r3 = std::make_shared<onerut_scalar::LitComplex>(5.5 - 5.7i);
+    const std::shared_ptr<onerut_scalar::Complex> first_arg = r1;
+    const std::vector<std::shared_ptr < onerut_scalar::Complex > > other_argv{r2, r3};
+    const std::vector<char> opv{'/', '*'};
+    const auto r = std::make_shared<onerut_scalar::OpProdDivComplex>(first_arg, other_argv, opv);
+    ASSERT_EQ(double(6) / (7.4 + 5.2i) * (5.5 - 5.7i), r->value_complex());
 }

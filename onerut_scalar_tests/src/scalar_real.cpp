@@ -24,10 +24,7 @@ TEST(operator_scalar_double, test_2) {
     const auto r2 = std::make_shared<onerut_scalar::LitInteger>(7);
     const auto r3 = std::make_shared<onerut_scalar::LitInteger>(5);
     const std::shared_ptr<onerut_scalar::Real> first_arg = r1;
-    const std::vector<std::shared_ptr < onerut_scalar::Real >> other_argv
-    {
-        r2, r3
-    };
+    const std::vector<std::shared_ptr < onerut_scalar::Real > > other_argv{r2, r3};
     const std::vector<char> opv{'-', '+'};
     const auto r = std::make_shared<onerut_scalar::OpPlusMinusReal>(first_arg, other_argv, opv);
     ASSERT_EQ(4.0, r->value_real());
@@ -39,10 +36,7 @@ TEST(operator_scalar_double, test_3) {
     const auto r2 = std::make_shared<onerut_scalar::LitInteger>(7);
     const auto r3 = std::make_shared<onerut_scalar::LitReal>(5.0);
     const std::shared_ptr<onerut_scalar::Real> first_arg = r1;
-    const std::vector<std::shared_ptr < onerut_scalar::Real >> other_argv
-    {
-        r2, r3
-    };
+    const std::vector<std::shared_ptr < onerut_scalar::Real > > other_argv{r2, r3};
     const std::vector<char> opv{'-', '+'};
     const auto r = std::make_shared<onerut_scalar::OpPlusMinusReal>(first_arg, other_argv, opv);
     ASSERT_EQ(4.0, r->value_real());
@@ -54,10 +48,7 @@ TEST(operator_scalar_double, test_4) {
     const auto r2 = std::make_shared<onerut_scalar::LitInteger>(-7);
     const auto r3 = std::make_shared<onerut_scalar::LitInteger>(5);
     const std::shared_ptr<onerut_scalar::Real> first_arg = r1;
-    const std::vector<std::shared_ptr < onerut_scalar::Real >> other_argv
-    {
-        r2, r3
-    };
+    const std::vector<std::shared_ptr < onerut_scalar::Real > > other_argv{r2, r3};
     const std::vector<char> opv{'*', '/'};
     const auto r = std::make_shared<onerut_scalar::OpProdDivReal>(first_arg, other_argv, opv);
     ASSERT_EQ(-8.0, r->value_real());
@@ -69,10 +60,7 @@ TEST(operator_scalar_double, test_5) {
     const auto r2 = std::make_shared<onerut_scalar::LitInteger>(-7);
     const auto r3 = std::make_shared<onerut_scalar::LitReal>(5.0);
     const std::shared_ptr<onerut_scalar::Real> first_arg = r1;
-    const std::vector<std::shared_ptr < onerut_scalar::Real >> other_argv
-    {
-        r2, r3
-    };
+    const std::vector<std::shared_ptr < onerut_scalar::Real > > other_argv{r2, r3};
     const std::vector<char> opv{'*', '/'};
     const auto r = std::make_shared<onerut_scalar::OpProdDivReal>(first_arg, other_argv, opv);
     ASSERT_EQ(-8.4, r->value_real());
