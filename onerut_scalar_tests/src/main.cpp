@@ -2,7 +2,7 @@
 #include<boost/program_options.hpp>
 #include<gtest/gtest.h>
 
-#include<onerut_parser_tests/global_flags.hpp>
+#include<onerut_operator_tests/global_flags.hpp>
 
 namespace {
 
@@ -20,7 +20,7 @@ int main(int argc, char **argv) {
     desc.add_options()
             // --help, -h:
             ("help,h", "Print help messages")
-            // --verbose, -h:    
+            // --verbose, -h:
             ("verbose,v",
             boost::program_options::bool_switch(
             &onerut_verbose)

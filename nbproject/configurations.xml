@@ -74,7 +74,9 @@
         <in>scalar.cpp</in>
       </df>
     </df>
-    <df root="string_utils" name="8">
+    <df root="onerut_scalar_tests" name="8">
+    </df>
+    <df root="string_utils" name="9">
       <df name="src">
         <in>unicode_support.cpp</in>
       </df>
@@ -92,11 +94,12 @@
     <Elem>onerut_parser</Elem>
     <Elem>onerut_parser_tests</Elem>
     <Elem>onerut_scalar</Elem>
+    <Elem>onerut_scalar_tests</Elem>
     <Elem>onerut_op1e</Elem>
-    <Elem>esc</Elem>
-    <Elem>string_utils</Elem>
     <Elem>onerut_operator</Elem>
     <Elem>onerut_operator_tests</Elem>
+    <Elem>esc</Elem>
+    <Elem>string_utils</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>

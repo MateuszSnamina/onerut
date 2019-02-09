@@ -14,11 +14,12 @@
                 <sourceRootElem>onerut_parser</sourceRootElem>
                 <sourceRootElem>onerut_parser_tests</sourceRootElem>
                 <sourceRootElem>onerut_scalar</sourceRootElem>
+                <sourceRootElem>onerut_scalar_tests</sourceRootElem>
                 <sourceRootElem>onerut_op1e</sourceRootElem>
-                <sourceRootElem>esc</sourceRootElem>
-                <sourceRootElem>string_utils</sourceRootElem>
                 <sourceRootElem>onerut_operator</sourceRootElem>
                 <sourceRootElem>onerut_operator_tests</sourceRootElem>
+                <sourceRootElem>esc</sourceRootElem>
+                <sourceRootElem>string_utils</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>

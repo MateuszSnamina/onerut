@@ -20,6 +20,7 @@ int main(int argc, char **argv) {
     desc.add_options()
             // --help, -h:
             ("help,h", "Print help messages")
+            // --verbose, -h:    
             ("verbose,v",
             boost::program_options::bool_switch(
             &onerut_verbose)
