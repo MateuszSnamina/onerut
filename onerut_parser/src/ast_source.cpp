@@ -9,7 +9,7 @@ namespace onerut_parser::onerut_ast::source {
     // ***********************    Abstract baseclasses   ***********************
     // *************************************************************************    
 
-    SourceNode::SourceNode (
+    SourceNode::SourceNode(
             std::shared_ptr<const std::string> input,
             string_const_span span) :
     input(input),
@@ -166,6 +166,14 @@ namespace onerut_parser::onerut_ast::source {
     }
 
     LitDoubleNode::LitDoubleNode(
+            std::shared_ptr<const std::string> input,
+            string_const_span span,
+            double value) :
+    WithNoSubsourcesNode(input, span),
+    value(value) {
+    }
+
+    LitPureComplexDoubleNode::LitPureComplexDoubleNode(
             std::shared_ptr<const std::string> input,
             string_const_span span,
             double value) :

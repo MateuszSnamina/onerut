@@ -68,7 +68,7 @@ execute_line(std::shared_ptr<std::string> line) {
         std::cout << "[receipt] expression is a real number." << std::endl;
         const auto result_real = *(compile_result.dereference().typed_value_or_empty<onerut_scalar::Real>());
         std::cout << "[receipt] onerut_value = " << result_real->value_real() << std::endl;
-    } else if (compile_result.dereference().is_given_type<onerut_scalar::Real>()) {
+    } else if (compile_result.dereference().is_given_type<onerut_scalar::Complex>()) {
         std::cout << "[receipt] expression is a complex number." << std::endl;
         const auto result_complex = *(compile_result.dereference().typed_value_or_empty<onerut_scalar::Complex>());
         std::cout << "[receipt] onerut_value = " << result_complex->value_complex() << std::endl;
@@ -122,6 +122,8 @@ void temp_testing() {
     lines.push_back(std::make_shared < std::string>("max(3,2)"));
     lines.push_back(std::make_shared < std::string>("sin(pi/4)/sqrt(2)"));
     lines.push_back(std::make_shared < std::string>("3^2"));
+    lines.push_back(std::make_shared < std::string>("5i"));
+    lines.push_back(std::make_shared < std::string>("5i+6 + 7i"));
     onerut_parser::GlobalIdentifiers::instance().put_e();
     onerut_parser::GlobalIdentifiers::instance().put_pi();
     onerut_parser::GlobalFunctions::instance().put_cmath();

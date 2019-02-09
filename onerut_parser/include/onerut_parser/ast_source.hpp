@@ -149,6 +149,17 @@ namespace onerut_parser::onerut_ast::source {
         const double value;
     };
 
+    class LitPureComplexDoubleNode : public WithNoSubsourcesNode {
+    public:
+        LitPureComplexDoubleNode(
+                std::shared_ptr<const std::string> input,
+                string_const_span span,
+                double value);
+        std::string to_oneliner() const override;
+        CompileResult basic_compile() const override;
+        const double value; // the complex part
+    };
+
     class OpAssignNode : public WithTwoSubsourcesNode {
     public:
         OpAssignNode(

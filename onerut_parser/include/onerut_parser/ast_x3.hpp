@@ -47,7 +47,12 @@ namespace onerut_parser::onerut_ast::x3 {
         double value;
     };
 
+    struct LitPureComplexDoubleInfo : boost::spirit::x3::position_tagged {
+        double value;
+    };
+
     struct Value1Info : boost::spirit::x3::variant<
+    LitPureComplexDoubleInfo,
     LitLongInfo,
     LitDoubleInfo,
     OpUnaryPlusMinusInfo

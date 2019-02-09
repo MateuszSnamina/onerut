@@ -15,7 +15,7 @@ namespace onerut_parser::onerut_ast::source {
         assert(false);
         return result;
     }
-    
+
     std::string OpPlusMinusNode::to_oneliner() const {
         std::string result;
         assert(false);
@@ -57,7 +57,6 @@ namespace onerut_parser::onerut_ast::source {
         //assert(op == L'+' || op == L'-');
         assert(false);
         return result;
-
     }
 
     std::string LitLongNode::to_oneliner() const {
@@ -69,13 +68,19 @@ namespace onerut_parser::onerut_ast::source {
     std::string LitDoubleNode::to_oneliner() const {
         std::string result;
         assert(false);
-        return result;        
+        return result;
+    }
+
+    std::string LitPureComplexDoubleNode::to_oneliner() const {
+        std::string result;
+        assert(false);
+        return result;
     }
 
     std::string FunctionNode::to_oneliner() const {
         std::string result;
         assert(false);
-        return result;        
+        return result;
     }
 
 }

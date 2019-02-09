@@ -15,6 +15,7 @@ namespace onerut_parser::onerut_ast::x3 {
     std::string to_oneliner(const OpGlueInfo& info);
     std::string to_oneliner(const Value1Info& info);
     std::string to_oneliner(const LitDoubleInfo& info);
+    std::string to_oneliner(const LitPureComplexDoubleInfo& info);
     std::string to_oneliner(const LitLongInfo& info);
     std::string to_oneliner(const OpUnaryPlusMinusInfo& info);
     std::string to_oneliner(const Value2Info& info);

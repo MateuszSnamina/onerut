@@ -92,7 +92,7 @@ void _basis_onerut_test(T _cpp_value, std::shared_ptr<std::string> _onerut_inupu
             std::cout << "[test][common] (onerut_ast::dyn) onerut expression is a real number." << std::endl;
             const auto result_real = *(_compile_result.dereference().typed_value_or_empty<onerut_scalar::Real>());
             std::cout << "[test][common] (onerut_ast::dyn) onerut_value = " << result_real->value_real() << std::endl;
-        }  else if (_compile_result.dereference().is_given_type<onerut_scalar::Real>()) {
+        }  else if (_compile_result.dereference().is_given_type<onerut_scalar::Complex>()) {
             std::cout << "[test][common] (onerut_ast::dyn) onerut expression is a complex number." << std::endl;
             const auto result_complex = *(_compile_result.dereference().typed_value_or_empty<onerut_scalar::Complex>());
             std::cout << "[test][common] (onerut_ast::dyn) onerut_value = " << result_complex->value_complex() << std::endl;

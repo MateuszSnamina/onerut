@@ -33,7 +33,7 @@ namespace onerut_parser::onerut_ast::x3 {
     std::string to_oneliner(const OpAssignInfo& info) {
         std::string result;
         if (info.bit) {
-            if ((*info.bit).new_flag) result += "NEW ";            
+            if ((*info.bit).new_flag) result += "NEW ";
             if ((*info.bit).const_flag) result += "CONST ";
             result += to_oneliner((*info.bit).identifier);
         }
@@ -113,6 +113,10 @@ namespace onerut_parser::onerut_ast::x3 {
 
     std::string to_oneliner(const LitDoubleInfo& info) {
         return std::to_string(info.value);
+    }
+
+    std::string to_oneliner(const LitPureComplexDoubleInfo& info) {
+        return std::to_string(info.value) + "i";
     }
 
     std::string to_oneliner(const LitLongInfo& info) {

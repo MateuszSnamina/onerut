@@ -293,12 +293,16 @@ namespace onerut_parser::onerut_ast::source {
         if (!arg_compile_result_deref.is_either_value_or_type())
             const CompileResult compile_result = CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
         if (utility::is_integer(arg_compile_result_deref)) {
-            const std::shared_ptr<onerut_scalar::Integer> arg_integer = utility::to_integer(arg_compile_result_deref);
+            const auto & arg_integer = utility::to_integer(arg_compile_result_deref);
             return CompileResult::from_value<onerut_scalar::Integer>(std::make_shared<onerut_scalar::OpUnaryPlusMinusInteger>(arg_integer, op));
         }
         if (utility::is_real_or_integer(arg_compile_result_deref)) {
-            const std::shared_ptr<onerut_scalar::Real> arg_real = utility::to_real(arg_compile_result_deref);
+            const auto & arg_real = utility::to_real(arg_compile_result_deref);
             return CompileResult::from_value<onerut_scalar::Real>(std::make_shared<onerut_scalar::OpUnaryPlusMinusReal>(arg_real, op));
+        }
+        if (utility::is_real_or_integer_or_complex(arg_compile_result_deref)) {
+            const auto & arg_complex = utility::to_complex(arg_compile_result_deref);
+            return CompileResult::from_value<onerut_scalar::Complex>(std::make_shared<onerut_scalar::OpUnaryPlusMinusComplex>(arg_complex, op));
         }
         return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
     }
@@ -317,6 +321,13 @@ namespace onerut_parser::onerut_ast::source {
         return CompileResult::from_value<onerut_scalar::Real>(std::make_shared<onerut_scalar::LitReal>(value));
     }
 
+    // -------------------------------------------------------------------------
+
+    CompileResult
+    LitPureComplexDoubleNode::basic_compile() const {
+        return CompileResult::from_value<onerut_scalar::Complex>(std::make_shared<onerut_scalar::LitComplex>(std::complex(0.0, value)));
+    }
+    
     // -------------------------------------------------------------------------
 
     CompileResult
