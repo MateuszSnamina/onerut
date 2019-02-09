@@ -1,6 +1,6 @@
 #include<gtest/gtest.h>
 
-#include<onerut_scalar/scalar.hpp>
+//#include<onerut_scalar/scalar.hpp>
 
 // -----------------------------------------------------------------------------
 // --------------------  test cases  -------------------------------------------

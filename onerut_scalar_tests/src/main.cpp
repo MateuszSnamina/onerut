@@ -2,7 +2,7 @@
 #include<boost/program_options.hpp>
 #include<gtest/gtest.h>
 
-#include<onerut_operator_tests/global_flags.hpp>
+#include<onerut_scalar_tests/global_flags.hpp>
 
 namespace {
 

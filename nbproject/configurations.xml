@@ -75,6 +75,13 @@
       </df>
     </df>
     <df root="onerut_scalar_tests" name="8">
+      <df name="src">
+        <in>global_flags.cpp</in>
+        <in>main.cpp</in>
+        <in>scalar_complex.cpp</in>
+        <in>scalar_double.cpp</in>
+        <in>scalar_int.cpp</in>
+      </df>
     </df>
     <df root="string_utils" name="9">
       <df name="src">
@@ -222,7 +229,6 @@
         <ccTool>
           <incDir>
             <pElem>onerut_scalar/include</pElem>
-            <pElem>esc/include</pElem>
             <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut_scalar</pElem>
           </incDir>
@@ -231,9 +237,10 @@
       <folder path="8">
         <ccTool>
           <incDir>
-            <pElem>string_utils/include</pElem>
+            <pElem>onerut_scalar_tests/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
             <pElem>external_packages/include</pElem>
-            <pElem>build_netbeanns/string_utils</pElem>
+            <pElem>build_netbeanns/onerut_scalar_tests</pElem>
           </incDir>
         </ccTool>
       </folder>
@@ -473,6 +480,38 @@
         </ccTool>
       </item>
       <item path="onerut_scalar/src/scalar.cpp" ex="false" tool="1" flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_scalar_tests/src/global_flags.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_scalar_tests/src/main.cpp" ex="false" tool="1" flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_scalar_tests/src/scalar_complex.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_scalar_tests/src/scalar_double.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_scalar_tests/src/scalar_int.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
         <ccTool flags="0">
         </ccTool>
       </item>
