@@ -113,23 +113,34 @@ bool execute_script_file(const std::filesystem::path& file_path) {
 
 void temp_testing() {
 
-    std::vector<std::shared_ptr < std::string>> lines;
-    lines.push_back(std::make_shared < std::string>("x:=(2+4*3)+pi/2"));
-    lines.push_back(std::make_shared < std::string>("x+7"));
-    lines.push_back(std::make_shared < std::string>("x:=40"));
-    lines.push_back(std::make_shared < std::string>("x+4"));
-    lines.push_back(std::make_shared < std::string>("sqrt(4.0)"));
-    lines.push_back(std::make_shared < std::string>("max(3,2)"));
-    lines.push_back(std::make_shared < std::string>("sin(pi/4)/sqrt(2)"));
-    lines.push_back(std::make_shared < std::string>("3^2"));
-    lines.push_back(std::make_shared < std::string>("5i"));
-    lines.push_back(std::make_shared < std::string>("5i+6 + 7i"));
-    lines.push_back(std::make_shared < std::string>("conj(3i+5i*7.i)"));
-    lines.push_back(std::make_shared < std::string>("pow(2i,2)"));
-    lines.push_back(std::make_shared < std::string>("cx_pow(2i,2)"));
-    lines.push_back(std::make_shared < std::string>("pow(2,2)"));
-    lines.push_back(std::make_shared < std::string>("pow(2,2.0)"));
-    lines.push_back(std::make_shared < std::string>("pow(2,2.2)"));
+    std::vector<std::shared_ptr<std::string> > lines;
+    lines.push_back(std::make_shared<std::string>("x:=(2+4*3)+pi/2"));
+    lines.push_back(std::make_shared<std::string>("x+7"));
+    lines.push_back(std::make_shared<std::string>("x:=40"));
+    lines.push_back(std::make_shared<std::string>("x+4"));
+    lines.push_back(std::make_shared<std::string>("sqrt(4.0)"));
+    lines.push_back(std::make_shared<std::string>("max(3,2)"));
+    lines.push_back(std::make_shared<std::string>("sin(pi/4)/sqrt(2)"));
+    lines.push_back(std::make_shared<std::string>("3^2"));
+    lines.push_back(std::make_shared<std::string>("5i"));
+    lines.push_back(std::make_shared<std::string>("5i+6 + 7i"));
+    lines.push_back(std::make_shared<std::string>("conj(3i+5i*7.i)"));
+    lines.push_back(std::make_shared<std::string>("pow(2i,2)"));
+    lines.push_back(std::make_shared<std::string>("cx_pow(2i,2)"));
+    lines.push_back(std::make_shared<std::string>("pow(2,2)"));
+    lines.push_back(std::make_shared<std::string>("pow(2,2.0)"));
+    lines.push_back(std::make_shared<std::string>("pow(2,2.2)"));
+    lines.push_back(std::make_shared<std::string>("sqrt(2)"));
+    lines.push_back(std::make_shared<std::string>("sqrt(2.0)"));
+    lines.push_back(std::make_shared<std::string>("sqrt(sqrt(2)*1i)"));
+    lines.push_back(std::make_shared<std::string>("norm(sqrt(sqrt(2)*1i))"));
+    lines.push_back(std::make_shared<std::string>("re_sqrt(2)"));
+    lines.push_back(std::make_shared<std::string>("cx_sqrt(2)"));
+    lines.push_back(std::make_shared<std::string>("new z := sqrt(2i)"));
+    lines.push_back(std::make_shared<std::string>("re := real(z)"));
+    lines.push_back(std::make_shared<std::string>("im := imag(z)"));
+    lines.push_back(std::make_shared<std::string>("xx := re+im"));
+
     onerut_parser::GlobalIdentifiers::instance().put_e();
     onerut_parser::GlobalIdentifiers::instance().put_pi();
     onerut_parser::GlobalFunctions::instance().put_cmath();

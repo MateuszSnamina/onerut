@@ -34,6 +34,31 @@ namespace onerut_scalar {
         const double y = callable(x);
         return y;
     }
+    // -------------------------------------------------------------------------    
+
+    template<typename Callable>
+    class UnaryComplexReturnsRealFunction : public Real {
+    public:
+        UnaryComplexReturnsRealFunction(Callable callable, std::shared_ptr<Complex> arg);
+        double value_real() const override;
+    private:
+        Callable callable;
+        const std::shared_ptr<Complex> arg;
+    };
+
+    template<typename Callable>
+    UnaryComplexReturnsRealFunction<Callable>::UnaryComplexReturnsRealFunction(Callable callable, std::shared_ptr<Complex> arg) :
+    callable(callable),
+    arg(arg) {
+        assert(arg);
+    }
+
+    template<typename Callable>
+    double UnaryComplexReturnsRealFunction<Callable>::value_real() const {
+        const std::complex<double>& x = arg->value_complex();
+        const double y = callable(x);
+        return y;
+    }
 
     // -------------------------------------------------------------------------
 
@@ -64,7 +89,7 @@ namespace onerut_scalar {
         const double y = callable(firts_x, second_x);
         return y;
     }
-    
+
 }
 
 #endif

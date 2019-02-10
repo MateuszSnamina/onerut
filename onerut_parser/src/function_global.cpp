@@ -6,73 +6,104 @@
 // *****************************************************************************
 // *************   Macros that help to add real functions   ********************
 // *****************************************************************************
-#define CUSTOMIZED_PUT_STD_UNARY_REAL_FUNCTION(ONERUT_NAME, CPPSTD_NAME)       \
+#define CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(ONERUT_NAME, CPPSTD_NAME)           \
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
-    std::make_shared <UnaryRealFunction < UnaryRealFunPtrT >> (                \
+    std::make_shared<                                                          \
+      UnaryRealFunction<UnaryRealFunPtrT>                                      \
+    >(                                                                         \
       static_cast<UnaryRealFunPtrT> (&std::CPPSTD_NAME)                        \
-  ))
+    )                                                                          \
+  )
 
 #define PUT_STD_UNARY_REAL_FUNCTION(NAME)                                      \
-  CUSTOMIZED_PUT_STD_UNARY_REAL_FUNCTION(NAME, NAME)
+  CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(NAME, NAME)
 
-#define CUSTOMIZED_PUT_STD_BINARY_REAL_FUNCTION(ONERUT_NAME, CPPSTD_NAME)      \
+#define CUSTOM_PUT_STD_UNARY_COMPLEX_RETURNS_REAL_FUNCTION(ONERUT_NAME, CPPSTD_NAME) \
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
-    std::make_shared <BinaryRealFunction < BinaryRealFunPtrT >> (              \
+    std::make_shared<                                                          \
+      UnaryComplexReturnsRealFunction < UnaryComplexReturnsRealFunPtrT >       \
+    >(                                                                         \
+      static_cast<UnaryComplexReturnsRealFunPtrT> (&std::CPPSTD_NAME)          \
+    )                                                                          \
+  )
+
+#define PUT_STD_UNARY_COMPLEX_RETURNS_REAL_FUNCTION(NAME)                      \
+  CUSTOM_PUT_STD_UNARY_COMPLEX_RETURNS_REAL_FUNCTION(NAME, NAME)
+
+#define CUSTOM_PUT_STD_BINARY_REAL_FUNCTION(ONERUT_NAME, CPPSTD_NAME)          \
+  force_put(                                                                   \
+    #ONERUT_NAME,                                                              \
+    std::make_shared<                                                          \
+      BinaryRealFunction<BinaryRealFunPtrT>                                    \
+    >(                                                                         \
             static_cast<BinaryRealFunPtrT> (&std::CPPSTD_NAME)                 \
-  ))
+    )                                                                          \
+  )
 
 #define PUT_STD_BINARY_REAL_FUNCTION(NAME)                                     \
-  CUSTOMIZED_PUT_STD_BINARY_REAL_FUNCTION(NAME, NAME)
+  CUSTOM_PUT_STD_BINARY_REAL_FUNCTION(NAME, NAME)
 
 // *****************************************************************************
 // *************   Macros that help to add complex functions   *****************
 // *****************************************************************************
-#define CUSTOMIZED_PUT_STD_UNARY_COMPLEX_FUNCTION(ONERUT_NAME, CPPSTD_NAME)    \
+#define CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(ONERUT_NAME, CPPSTD_NAME)        \
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
-    std::make_shared <UnaryComplexFunction < UnaryComplexFunPtrT >> (          \
+    std::make_shared <                                                         \
+      UnaryComplexFunction<UnaryComplexFunPtrT>                                \
+    >(                                                                         \
       static_cast<UnaryComplexFunPtrT> (&std::CPPSTD_NAME)                     \
-  ))
+    )                                                                          \
+  )
 
 #define PUT_STD_UNARY_COMPLEX_FUNCTION(NAME)                                   \
-  CUSTOMIZED_PUT_STD_UNARY_COMPLEX_FUNCTION(NAME, NAME)
+  CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(NAME, NAME)
 
-#define CUSTOMIZED_PUT_STD_BINARY_COMPLEX_FUNCTION(ONERUT_NAME, CPPSTD_NAME)   \
+#define CUSTOM_PUT_STD_BINARY_COMPLEX_FUNCTION(ONERUT_NAME, CPPSTD_NAME)       \
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
-    std::make_shared <BinaryComplexFunction < BinaryComplexFunPtrT >> (        \
+    std::make_shared<                                                          \
+      BinaryComplexFunction<BinaryComplexFunPtrT>                              \
+    >(                                                                         \
       static_cast<BinaryComplexFunPtrT> (&std::CPPSTD_NAME)                    \
- ))
+    )                                                                          \
+  )
 
 #define PUT_STD_BINARY_COMPLEX_FUNCTION(NAME)                                  \
-  CUSTOMIZED_PUT_STD_BINARY_COMPLEX_FUNCTION(NAME, NAME)
+  CUSTOM_PUT_STD_BINARY_COMPLEX_FUNCTION(NAME, NAME)
 
 // *****************************************************************************
 // *************   Macros that help overload real-complex functions   **********
 // *****************************************************************************
-#define CUSTOMIZED_PUT_STD_UNARY_REALCOMPLEX_FUNCTION(ONERUT_NAME, CPPSTD_NAME) \
+#define CUSTOM_PUT_STD_UNARY_REALCOMPLEX_FUNCTION(ONERUT_NAME, CPPSTD_NAME)    \
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
-    std::make_shared <UnaryRealComplexFunction < UnaryRealFunPtrT, UnaryComplexFunPtrT >> (  \
+    std::make_shared<                                                          \
+      UnaryRealComplexFunction<UnaryRealFunPtrT, UnaryComplexFunPtrT>          \
+    >(                                                                         \
       static_cast<UnaryRealFunPtrT> (&std::CPPSTD_NAME),                       \
       static_cast<UnaryComplexFunPtrT> (&std::CPPSTD_NAME)                     \
-  ))
+    )                                                                          \
+  )
 
 #define PUT_STD_UNARY_REALCOMPLEX_FUNCTION(NAME)                               \
-  CUSTOMIZED_PUT_STD_UNARY_REALCOMPLEX_FUNCTION(NAME, NAME)
+  CUSTOM_PUT_STD_UNARY_REALCOMPLEX_FUNCTION(NAME, NAME)
 
-#define CUSTOMIZED_PUT_STD_BINARY_REALCOMPLEX_FUNCTION(ONERUT_NAME, CPPSTD_NAME) \
+#define CUSTOM_PUT_STD_BINARY_REALCOMPLEX_FUNCTION(ONERUT_NAME, CPPSTD_NAME)   \
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
-    std::make_shared <BinaryRealComplexFunction < BinaryRealFunPtrT, BinaryComplexFunPtrT >> ( \
+    std::make_shared<                                                          \
+      BinaryRealComplexFunction<BinaryRealFunPtrT, BinaryComplexFunPtrT >      \
+    >(                                                                         \
       static_cast<BinaryRealFunPtrT> (&std::CPPSTD_NAME),                      \
       static_cast<BinaryComplexFunPtrT> (&std::CPPSTD_NAME)                    \
-  ))
+    )                                                                          \
+  )
 
 #define PUT_STD_BINARY_REALCOMPLEX_FUNCTION(NAME)                              \
-  CUSTOMIZED_PUT_STD_BINARY_REALCOMPLEX_FUNCTION(NAME, NAME)
+  CUSTOM_PUT_STD_BINARY_REALCOMPLEX_FUNCTION(NAME, NAME)
 
 namespace onerut_parser {
 
@@ -107,70 +138,71 @@ namespace onerut_parser {
     void GlobalFunctions::put_cmath() {
         using UnaryRealFunPtrT = double(*)(double);
         using BinaryRealFunPtrT = double(*)(double, double);
-        using cx_couble = std::complex<double>;
-        using UnaryComplexFunPtrT = cx_couble(*)(const cx_couble&);
-        using BinaryComplexFunPtrT = cx_couble(*)(const cx_couble&, const cx_couble&);
+        using cx_double = std::complex<double>;
+        using UnaryComplexFunPtrT = cx_double(*)(const cx_double&);
+        using UnaryComplexReturnsRealFunPtrT = double(*)(const cx_double&);
+        using BinaryComplexFunPtrT = cx_double(*)(const cx_double&, const cx_double&);
         // ******************************************************
-        // Functions for both real and complex numbers:
+        // **** Functions for both real and complex numbers: ****
         // ******************************************************
-        CUSTOMIZED_PUT_STD_UNARY_REAL_FUNCTION(re_cos, cos);
-        CUSTOMIZED_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_cos, cos);
+        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_cos, cos);
+        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_cos, cos);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(cos);
-        CUSTOMIZED_PUT_STD_UNARY_REAL_FUNCTION(re_sin, sin);
-        CUSTOMIZED_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_sin, sin);
+        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_sin, sin);
+        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_sin, sin);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(sin);
-        CUSTOMIZED_PUT_STD_UNARY_REAL_FUNCTION(re_tan, tan);
-        CUSTOMIZED_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_tan, tan);
+        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_tan, tan);
+        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_tan, tan);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(tan);
         // ------------------------------------------------------
-        CUSTOMIZED_PUT_STD_UNARY_REAL_FUNCTION(re_acos, acos);
-        CUSTOMIZED_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_acos, acos);
+        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_acos, acos);
+        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_acos, acos);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(acos);
-        CUSTOMIZED_PUT_STD_UNARY_REAL_FUNCTION(re_asin, asin);
-        CUSTOMIZED_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_asin, asin);
+        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_asin, asin);
+        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_asin, asin);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(asin);
-        CUSTOMIZED_PUT_STD_UNARY_REAL_FUNCTION(re_atan, atan);
-        CUSTOMIZED_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_atan, atan);
+        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_atan, atan);
+        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_atan, atan);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(atan);
         // ------------------------------------------------------
-        CUSTOMIZED_PUT_STD_UNARY_REAL_FUNCTION(re_cosh, cosh);
-        CUSTOMIZED_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_cosh, cosh);
+        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_cosh, cosh);
+        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_cosh, cosh);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(cosh);
-        CUSTOMIZED_PUT_STD_UNARY_REAL_FUNCTION(re_sinh, sinh);
-        CUSTOMIZED_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_sinh, sinh);
+        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_sinh, sinh);
+        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_sinh, sinh);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(sinh);
-        CUSTOMIZED_PUT_STD_UNARY_REAL_FUNCTION(re_tanh, tanh);
-        CUSTOMIZED_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_tanh, tanh);
+        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_tanh, tanh);
+        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_tanh, tanh);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(tanh);
         // ------------------------------------------------------
-        CUSTOMIZED_PUT_STD_UNARY_REAL_FUNCTION(re_acosh, acosh);
-        CUSTOMIZED_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_acosh, acosh);
+        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_acosh, acosh);
+        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_acosh, acosh);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(acosh);
-        CUSTOMIZED_PUT_STD_UNARY_REAL_FUNCTION(re_asinh, asinh);
-        CUSTOMIZED_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_asinh, asinh);
+        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_asinh, asinh);
+        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_asinh, asinh);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(asinh);
-        CUSTOMIZED_PUT_STD_UNARY_REAL_FUNCTION(re_atanh, atanh);
-        CUSTOMIZED_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_atanh, atanh);
+        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_atanh, atanh);
+        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_atanh, atanh);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(atanh);
         // ------------------------------------------------------        
-        CUSTOMIZED_PUT_STD_UNARY_REAL_FUNCTION(re_exp, exp);
-        CUSTOMIZED_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_exp, exp);
+        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_exp, exp);
+        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_exp, exp);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(exp);
-        CUSTOMIZED_PUT_STD_UNARY_REAL_FUNCTION(re_log, log);
-        CUSTOMIZED_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_log, log);
+        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_log, log);
+        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_log, log);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(log);
-        CUSTOMIZED_PUT_STD_UNARY_REAL_FUNCTION(re_log10, log10);
-        CUSTOMIZED_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_log10, log10);
+        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_log10, log10);
+        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_log10, log10);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(log10);
         // ------------------------------------------------------
-        CUSTOMIZED_PUT_STD_BINARY_REAL_FUNCTION(re_pow, pow);
-        CUSTOMIZED_PUT_STD_BINARY_COMPLEX_FUNCTION(cx_pow, pow);
+        CUSTOM_PUT_STD_BINARY_REAL_FUNCTION(re_pow, pow);
+        CUSTOM_PUT_STD_BINARY_COMPLEX_FUNCTION(cx_pow, pow);
         PUT_STD_BINARY_REALCOMPLEX_FUNCTION(pow);
-        CUSTOMIZED_PUT_STD_UNARY_REAL_FUNCTION(re_sqrt, sqrt);
-        CUSTOMIZED_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_sqrt, sqrt);
+        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_sqrt, sqrt);
+        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_sqrt, sqrt);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(sqrt);
         // ******************************************************
-        // Functions for real numbers:
+        // ****  Functions for real numbers: ********************
         // ******************************************************
         PUT_STD_BINARY_REAL_FUNCTION(atan2);
         PUT_STD_UNARY_REAL_FUNCTION(exp2);
@@ -190,20 +222,19 @@ namespace onerut_parser {
         PUT_STD_UNARY_REAL_FUNCTION(round);
         PUT_STD_BINARY_REAL_FUNCTION(remainder);
         PUT_STD_BINARY_REAL_FUNCTION(copysign);
-        CUSTOMIZED_PUT_STD_BINARY_REAL_FUNCTION(dim, fdim);
-        CUSTOMIZED_PUT_STD_BINARY_REAL_FUNCTION(max, fmax);
-        CUSTOMIZED_PUT_STD_BINARY_REAL_FUNCTION(min, fmin);
-        CUSTOMIZED_PUT_STD_UNARY_REAL_FUNCTION(abs, fabs);
+        CUSTOM_PUT_STD_BINARY_REAL_FUNCTION(dim, fdim);
+        CUSTOM_PUT_STD_BINARY_REAL_FUNCTION(max, fmax);
+        CUSTOM_PUT_STD_BINARY_REAL_FUNCTION(min, fmin);
+        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_abs, fabs);
         // ******************************************************
-        // Functions for complex numbers:
+        // **** Functions for complex numbers *******************
         // ******************************************************
-        CUSTOMIZED_PUT_STD_UNARY_COMPLEX_FUNCTION(conj, conj);
-        // real
-        // imag
-        // abs
-        // arg
-        // norm
-        // polar
+        PUT_STD_UNARY_COMPLEX_FUNCTION(conj);
+        PUT_STD_UNARY_COMPLEX_RETURNS_REAL_FUNCTION(real);
+        PUT_STD_UNARY_COMPLEX_RETURNS_REAL_FUNCTION(imag);
+        PUT_STD_UNARY_COMPLEX_RETURNS_REAL_FUNCTION(arg);
+        PUT_STD_UNARY_COMPLEX_RETURNS_REAL_FUNCTION(norm);
+        CUSTOM_PUT_STD_UNARY_COMPLEX_RETURNS_REAL_FUNCTION(cx_abs, abs);
     }
 }
 

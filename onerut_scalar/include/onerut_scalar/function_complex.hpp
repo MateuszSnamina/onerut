@@ -64,7 +64,7 @@ namespace onerut_scalar {
         const std::complex<double> y = callable(firts_x, second_x);
         return y;
     }
-    
+
 }
 
 #endif

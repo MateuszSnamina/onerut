@@ -15,6 +15,7 @@ namespace onerut_parser {
     template<typename Callable>
     class UnaryRealFunction : public UnaryFunction {
     public:
+        // Callable obj should support: obj(double) -> double
         UnaryRealFunction(Callable callable);
         CompileResult get_compile_result(CompileResult arg) const override;
     private:
@@ -42,6 +43,7 @@ namespace onerut_parser {
     template<typename Callable>
     class BinaryRealFunction : public BinaryFunction {
     public:
+        // Callable obj should support: obj(double, double) -> double
         BinaryRealFunction(Callable callable);
         CompileResult get_compile_result(CompileResult first_arg, CompileResult second_arg) const override;
     private:
@@ -69,8 +71,37 @@ namespace onerut_parser {
     // ---------------------------------------------------------------------------        
 
     template<typename Callable>
+    class UnaryComplexReturnsRealFunction : public UnaryFunction {
+    public:
+        // Callable obj should support: obj(const cx_double&) -> double
+        UnaryComplexReturnsRealFunction(Callable callable);
+        CompileResult get_compile_result(CompileResult arg) const override;
+    private:
+        Callable callable;
+    };
+
+    template<typename Callable>
+    UnaryComplexReturnsRealFunction<Callable>::UnaryComplexReturnsRealFunction(Callable callable) :
+    callable(callable) {
+    }
+
+    template<typename Callable>
+    CompileResult UnaryComplexReturnsRealFunction<Callable>::get_compile_result(CompileResult arg_compile_result) const {
+        const auto & arg_compile_result_deref = arg_compile_result.dereference();
+        if (!arg_compile_result_deref.is_either_value_or_type())
+            return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
+        if (!utility::is_real_or_integer_or_complex(arg_compile_result_deref))
+            return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        const auto & arg_complex = utility::to_complex(arg_compile_result_deref);
+        return CompileResult::from_value<onerut_scalar::Real>(std::make_shared<onerut_scalar::UnaryComplexReturnsRealFunction < Callable >> (callable, arg_complex));
+    }
+
+    // ---------------------------------------------------------------------------        
+
+    template<typename Callable>
     class UnaryComplexFunction : public UnaryFunction {
     public:
+        // Callable obj should support: obj(const cx_double&) -> cx_double
         UnaryComplexFunction(Callable callable);
         CompileResult get_compile_result(CompileResult arg) const override;
     private:
@@ -98,6 +129,7 @@ namespace onerut_parser {
     template<typename Callable>
     class BinaryComplexFunction : public BinaryFunction {
     public:
+        // Callable obj should support: obj(const cx_double&, const cx_double&) -> cx_double
         BinaryComplexFunction(Callable callable);
         CompileResult get_compile_result(CompileResult first_arg, CompileResult second_arg) const override;
     private:
