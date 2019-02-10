@@ -2,6 +2,7 @@
 #include<iostream>
 
 #include<string_utils/unicode_support.hpp>
+#include<string_utils/greek_support.hpp>
 #include<onerut_parser/print_chart.hpp>
 
 namespace onerut_parser {
@@ -31,28 +32,31 @@ namespace onerut_parser {
             }
         }
         // Print:
-        const std::u32string table_horizontal_line(input->size() + 2, U'▓');
+        const unsigned inpit_number_of_visible_characters = string_utils::to_greek_number_of_visible_characters_in_result(*input);
+        const std::u32string table_horizontal_line(inpit_number_of_visible_characters + 2, U'▓');
         std::cout << line_prefix << unicode_to_utf8(table_horizontal_line) << std::endl;
-        std::cout << line_prefix << "▓" << *input << "▓" << std::endl;
+        std::cout << line_prefix << "▓" << string_utils::to_greek(*input) << "▓" << std::endl;
         std::cout << line_prefix << unicode_to_utf8(table_horizontal_line) << std::endl;
         for (const auto & chart_line : chart) {
             std::cout << line_prefix << "▓";
             auto it = input->cbegin();
             for (const auto & style_bit : chart_line) {
                 {
-                    const unsigned length = style_bit.span.begin() - it;
-                    const std::u32string text_bit = std::u32string(length, chart_fill_character_1);
+                    const std::string_view text_view = to_string_view(it, style_bit.span.begin());
+                    const unsigned number_of_visible_characters = string_utils::to_greek_number_of_visible_characters_in_result(text_view);
+                    const std::u32string text_bit = std::u32string(number_of_visible_characters, chart_fill_character_1);
                     std::cout << unicode_to_utf8(text_bit);
                 }
                 {
                     const auto text_view = to_string_view(style_bit.span);
-                    std::cout << style_bit.esc_data << text_view;
+                    std::cout << style_bit.esc_data << string_utils::to_greek(text_view);
                 }
                 it = style_bit.span.end();
             }
             {
-                const unsigned length = input->cend() - it;
-                const std::u32string text_bit = std::u32string(length, chart_fill_character_1);
+                const std::string_view text_view = to_string_view(it, input->cend());
+                const unsigned number_of_visible_characters = string_utils::to_greek_number_of_visible_characters_in_result(text_view);
+                const std::u32string text_bit = std::u32string(number_of_visible_characters, chart_fill_character_1);
                 std::cout << unicode_to_utf8(text_bit);
             }
             std::cout << "▓" << std::endl;

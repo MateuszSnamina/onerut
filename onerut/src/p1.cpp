@@ -6,6 +6,7 @@
 
 #include<esc/esc_manip.hpp>
 #include<string_utils/string_span.hpp>
+#include<string_utils/greek_support.hpp>
 #include<onerut_parser/gramma_parser.hpp>
 #include<onerut_parser/ast_x3_to_ast_source.hpp>
 #include<onerut_parser/ast_compile_result.hpp>
@@ -20,7 +21,7 @@ bool
 execute_line(std::shared_ptr<std::string> line) {
     // #########################################################################
     std::cout << esc::manip::bg_yellow << "Processsing "
-            << esc::manip::blue << *line << esc::manip::color_default
+            << esc::manip::blue << string_utils::to_greek(*line) << esc::manip::color_default
             << "...";
     std::cout << std::endl;
     // #########################################################################
@@ -139,7 +140,7 @@ void temp_testing() {
     lines.push_back(std::make_shared<std::string>("new z := sqrt(2i)"));
     lines.push_back(std::make_shared<std::string>("re := real(z)"));
     lines.push_back(std::make_shared<std::string>("im := imag(z)"));
-    lines.push_back(std::make_shared<std::string>("xx := re+im"));
+    lines.push_back(std::make_shared<std::string>("xx := re+im+ pi + kupi + (2*7+7)+ alpha*9 + piwo*(3*8+Ups+ups+Up+up) + pi"));
 
     onerut_parser::GlobalIdentifiers::instance().put_e();
     onerut_parser::GlobalIdentifiers::instance().put_pi();

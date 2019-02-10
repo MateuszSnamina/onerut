@@ -88,6 +88,7 @@
     </df>
     <df root="string_utils" name="9">
       <df name="src">
+        <in>greek_support.cpp</in>
         <in>unicode_support.cpp</in>
       </df>
     </df>
@@ -244,6 +245,15 @@
             <pElem>onerut_scalar/include</pElem>
             <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut_scalar_tests</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <folder path="9">
+        <ccTool>
+          <incDir>
+            <pElem>string_utils/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/string_utils</pElem>
           </incDir>
         </ccTool>
       </folder>
@@ -530,6 +540,13 @@
         </ccTool>
       </item>
       <item path="onerut_scalar_tests/src/scalar_real.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="string_utils/src/greek_support.cpp"
             ex="false"
             tool="1"
             flavor2="11">

@@ -4,6 +4,8 @@
 #include<string>
 #include<string_view>
 
+//TODO namespace
+
 std::string unicode_to_utf8(const std::u32string & uni);
 std::string unicode_to_utf8(const std::u32string_view& uni);
 std::u32string unicode_from_utf8(const std::string & str);
