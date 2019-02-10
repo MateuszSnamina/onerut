@@ -52,26 +52,26 @@ execute_line(std::shared_ptr<std::string> line) {
     // -------------------------------------------------------------------------
     const auto ast_compile_result_chart = ast_compile_result_head->to_chart();
     //std::cout << "onerut_ast::compile_result:" << std::endl;
-    onerut_parser::print_chart(parsed_x3_info.input, ast_compile_result_chart);
+    onerut_parser::print_chart(parsed_x3_info.input, ast_compile_result_chart, "[diagram] ");
     // -------------------------------------------------------------------------
     onerut_parser::CompileResult compile_result = ast_compile_result_head->compile_result;
 
     if (compile_result.dereference().is_compile_error()) {
-        std::cout << "[receipt] expression is an error." << std::endl;
+        std::cout << "[receipt] Expression is an error." << std::endl;
         const auto error = *compile_result.dereference().compile_error_or_empty();
-        std::cout << error->what() << std::endl;
+        std::cout << "[receipt] Error message = " << error->what() << std::endl;
     } else if (compile_result.dereference().is_given_type<onerut_scalar::Integer>()) {
-        std::cout << "[receipt] expression is an integer number." << std::endl;
+        std::cout << "[receipt] Expression is an integer number." << std::endl;
         const auto result_integer = *(compile_result.dereference().typed_value_or_empty<onerut_scalar::Integer>());
-        std::cout << "[receipt] onerut_value = " << result_integer->value_integer() << std::endl;
+        std::cout << "[receipt] Value = " << result_integer->value_integer() << std::endl;
     } else if (compile_result.dereference().is_given_type<onerut_scalar::Real>()) {
-        std::cout << "[receipt] expression is a real number." << std::endl;
+        std::cout << "[receipt] Expression is a real number." << std::endl;
         const auto result_real = *(compile_result.dereference().typed_value_or_empty<onerut_scalar::Real>());
-        std::cout << "[receipt] onerut_value = " << result_real->value_real() << std::endl;
+        std::cout << "[receipt] Value = " << result_real->value_real() << std::endl;
     } else if (compile_result.dereference().is_given_type<onerut_scalar::Complex>()) {
         std::cout << "[receipt] expression is a complex number." << std::endl;
         const auto result_complex = *(compile_result.dereference().typed_value_or_empty<onerut_scalar::Complex>());
-        std::cout << "[receipt] onerut_value = " << result_complex->value_complex() << std::endl;
+        std::cout << "[receipt] Value = " << result_complex->value_complex() << std::endl;
     } else {
         std::cout << "[receipt] result is not an error nor a scalar." << std::endl;
     }
@@ -124,6 +124,12 @@ void temp_testing() {
     lines.push_back(std::make_shared < std::string>("3^2"));
     lines.push_back(std::make_shared < std::string>("5i"));
     lines.push_back(std::make_shared < std::string>("5i+6 + 7i"));
+    lines.push_back(std::make_shared < std::string>("conj(3i+5i*7.i)"));
+    lines.push_back(std::make_shared < std::string>("pow(2i,2)"));
+    lines.push_back(std::make_shared < std::string>("cx_pow(2i,2)"));
+    lines.push_back(std::make_shared < std::string>("pow(2,2)"));
+    lines.push_back(std::make_shared < std::string>("pow(2,2.0)"));
+    lines.push_back(std::make_shared < std::string>("pow(2,2.2)"));
     onerut_parser::GlobalIdentifiers::instance().put_e();
     onerut_parser::GlobalIdentifiers::instance().put_pi();
     onerut_parser::GlobalFunctions::instance().put_cmath();

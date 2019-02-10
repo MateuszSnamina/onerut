@@ -10,23 +10,10 @@
 
 namespace onerut_parser {
 
-    // -------------------------------------------------------------------------
     extern const char32_t chart_fill_character_1;
     extern const char32_t chart_fill_character_2;
     extern const char32_t chart_fill_character_3;
 
-    // -------------------------------------------------------------------------
-    // -------------- BASIC VERSION OF PRINT CHART -----------------------------
-    // -------------------------------------------------------------------------    
-
-    using LineBitInfo = string_const_span;
-    using LineInfo = std::vector<LineBitInfo>;
-    using LinesInfo = std::vector<LineInfo>;
-
-    void print_chart(
-            std::shared_ptr<const std::string> input,
-            const LinesInfo&chart);
-    
     // -------------------------------------------------------------------------
     // -------------- STYLED VERSION OF PRINT CHART ----------------------------
     // -------------------------------------------------------------------------
@@ -41,7 +28,8 @@ namespace onerut_parser {
 
     void print_chart(
             std::shared_ptr<const std::string> input,
-            const LinesStyledChartInfo&chart);
+            const LinesStyledChartInfo&chart,
+            std::string line_prefix = "");
 
     void print_styled_chart_example();
 }

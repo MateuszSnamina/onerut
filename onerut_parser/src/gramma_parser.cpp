@@ -335,7 +335,7 @@ namespace onerut_parser {
         std::cout << "hit_end:   " << info.hit_end() << std::endl;
         if (info.match) {
             std::cout << "to_oneliner: " << to_oneliner(info.ast_head) << std::endl;
-            LinesInfo chart = to_chart(info.ast_head, info.positions);
+            const auto& chart = to_chart(info.ast_head, info.positions);
             print_chart(info.input, chart);
         }
     }
