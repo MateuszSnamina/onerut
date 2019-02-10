@@ -141,6 +141,7 @@ void temp_testing() {
     lines.push_back(std::make_shared<std::string>("re := real(z)"));
     lines.push_back(std::make_shared<std::string>("im := imag(z)"));
     lines.push_back(std::make_shared<std::string>("xx := re+im+ pi + kupi + (2*7+7)+ alpha*9 + piwo*(3*8+Ups+ups+Up+up) + pi"));
+    lines.push_back(std::make_shared<std::string>("xx := e^[1i*pi]"));
 
     onerut_parser::GlobalIdentifiers::instance().put_e();
     onerut_parser::GlobalIdentifiers::instance().put_pi();
