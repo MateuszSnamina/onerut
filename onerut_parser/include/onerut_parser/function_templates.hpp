@@ -1,35 +1,14 @@
-#ifndef ONERUT_PARSER_FUNCTION
-#define ONERUT_PARSER_FUNCTION
+#ifndef ONERUT_PARSER_TEMPLATES
+#define ONERUT_PARSER_TEMPLATES
 
 #include<vector>
 
-#include<onerut_parser/compile_result.hpp>
+#include<onerut_parser/function_abstract.hpp>
 #include<onerut_parser/compile_result_utility.hpp>
-#include<onerut_scalar/function_real.hpp> // TODO move template classes to another header. Then remove this header
-#include<onerut_scalar/function_complex.hpp> // TODO move template classes to another header. Then remove this header
+#include<onerut_scalar/function_real.hpp>
+#include<onerut_scalar/function_complex.hpp>
 
 namespace onerut_parser {
-
-    class AbstractFunction {
-    public:
-        virtual CompileResult get_compile_result(std::vector<CompileResult> argv) const = 0;
-        virtual ~AbstractFunction() = default;
-    };
-
-
-    // ---------------------------------------------------------------------------
-
-    class UnaryFunction : public AbstractFunction {
-    public:
-        CompileResult get_compile_result(std::vector<CompileResult> argv) const final;
-        virtual CompileResult get_compile_result(CompileResult arg) const = 0;
-    };
-
-    class BinaryFunction : public AbstractFunction {
-    public:
-        CompileResult get_compile_result(std::vector<CompileResult> argv) const final;
-        virtual CompileResult get_compile_result(CompileResult first_arg, CompileResult second_arg) const = 0;
-    };
 
     // ---------------------------------------------------------------------------        
 
@@ -37,7 +16,6 @@ namespace onerut_parser {
     class UnaryRealFunction : public UnaryFunction {
     public:
         UnaryRealFunction(Callable callable);
-        UnaryRealFunction() = default; // TODO REMOVE?
         CompileResult get_compile_result(CompileResult arg) const override;
     private:
         Callable callable;
@@ -94,7 +72,6 @@ namespace onerut_parser {
     class UnaryComplexFunction : public UnaryFunction {
     public:
         UnaryComplexFunction(Callable callable);
-        UnaryComplexFunction() = default; // TODO REMOVE?
         CompileResult get_compile_result(CompileResult arg) const override;
     private:
         Callable callable;
@@ -152,7 +129,6 @@ namespace onerut_parser {
     class UnaryRealComplexFunction : public UnaryFunction {
     public:
         UnaryRealComplexFunction(CallableReal callable_real, CallableComplex callable_complex);
-        UnaryRealComplexFunction() = default; // TODO REMOVE?
         CompileResult get_compile_result(CompileResult arg) const override;
     private:
         CallableReal callable_real;

@@ -69,11 +69,11 @@ execute_line(std::shared_ptr<std::string> line) {
         const auto result_real = *(compile_result.dereference().typed_value_or_empty<onerut_scalar::Real>());
         std::cout << "[receipt] Value = " << result_real->value_real() << std::endl;
     } else if (compile_result.dereference().is_given_type<onerut_scalar::Complex>()) {
-        std::cout << "[receipt] expression is a complex number." << std::endl;
+        std::cout << "[receipt] Expression is a complex number." << std::endl;
         const auto result_complex = *(compile_result.dereference().typed_value_or_empty<onerut_scalar::Complex>());
         std::cout << "[receipt] Value = " << result_complex->value_complex() << std::endl;
     } else {
-        std::cout << "[receipt] result is not an error nor a scalar." << std::endl;
+        std::cout << "[receipt] Result is not an error nor a scalar." << std::endl;
     }
     std::cout << std::endl;
     return true;

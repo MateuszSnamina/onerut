@@ -1,98 +1,78 @@
 #include<cmath>
 #include<complex>
 #include<onerut_parser/function_global.hpp>
-#include<onerut_scalar/function_real.hpp>//TODO remove
-#include<onerut_scalar/function_complex.hpp>//TODO remove
+#include<onerut_parser/function_templates.hpp>
 
-// *************************************************************************************************************
-// For real functions:
-// *************************************************************************************************************
-#define FULL_CUSTOMIZED_PUT_STD_UNARY_REAL_FUNCTION(TYPE, ONERUT_NAME, CPPSTD_NAME) \
+// *****************************************************************************
+// *************   Macros that help to add real functions   ********************
+// *****************************************************************************
+#define CUSTOMIZED_PUT_STD_UNARY_REAL_FUNCTION(ONERUT_NAME, CPPSTD_NAME)       \
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
-    std::make_shared <UnaryRealFunction < TYPE >> (                            \
-      static_cast<TYPE> (&std::CPPSTD_NAME)                                    \
+    std::make_shared <UnaryRealFunction < UnaryRealFunPtrT >> (                \
+      static_cast<UnaryRealFunPtrT> (&std::CPPSTD_NAME)                        \
   ))
 
-#define CUSTOMIZED_PUT_STD_UNARY_REAL_FUNCTION(ONERUT_NAME, CPPSTD_NAME) \
-  FULL_CUSTOMIZED_PUT_STD_UNARY_REAL_FUNCTION(UnaryRealFunPtrT, ONERUT_NAME, CPPSTD_NAME)
-
-#define PUT_STD_UNARY_REAL_FUNCTION(NAME) \
+#define PUT_STD_UNARY_REAL_FUNCTION(NAME)                                      \
   CUSTOMIZED_PUT_STD_UNARY_REAL_FUNCTION(NAME, NAME)
 
-#define FULL_CUSTOMIZED_PUT_STD_BINARY_REAL_FUNCTION(TYPE, ONERUT_NAME, CPPSTD_NAME) \
+#define CUSTOMIZED_PUT_STD_BINARY_REAL_FUNCTION(ONERUT_NAME, CPPSTD_NAME)      \
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
-    std::make_shared <BinaryRealFunction < TYPE >> (                           \
-            static_cast<TYPE> (&std::CPPSTD_NAME)                              \
+    std::make_shared <BinaryRealFunction < BinaryRealFunPtrT >> (              \
+            static_cast<BinaryRealFunPtrT> (&std::CPPSTD_NAME)                 \
   ))
 
-#define CUSTOMIZED_PUT_STD_BINARY_REAL_FUNCTION(ONERUT_NAME, CPPSTD_NAME) \
-  FULL_CUSTOMIZED_PUT_STD_BINARY_REAL_FUNCTION(BinaryRealFunPtrT, ONERUT_NAME, CPPSTD_NAME)
-
-#define PUT_STD_BINARY_REAL_FUNCTION(NAME) \
+#define PUT_STD_BINARY_REAL_FUNCTION(NAME)                                     \
   CUSTOMIZED_PUT_STD_BINARY_REAL_FUNCTION(NAME, NAME)
 
-// *************************************************************************************************************
-// For complex functions:
-// *************************************************************************************************************
-#define FULL_CUSTOMIZED_PUT_STD_UNARY_COMPLEX_FUNCTION(TYPE, ONERUT_NAME, CPPSTD_NAME) \
+// *****************************************************************************
+// *************   Macros that help to add complex functions   *****************
+// *****************************************************************************
+#define CUSTOMIZED_PUT_STD_UNARY_COMPLEX_FUNCTION(ONERUT_NAME, CPPSTD_NAME)    \
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
-    std::make_shared <UnaryComplexFunction < TYPE >> (                         \
-      static_cast<TYPE> (&std::CPPSTD_NAME)                                    \
+    std::make_shared <UnaryComplexFunction < UnaryComplexFunPtrT >> (          \
+      static_cast<UnaryComplexFunPtrT> (&std::CPPSTD_NAME)                     \
   ))
 
-#define CUSTOMIZED_PUT_STD_UNARY_COMPLEX_FUNCTION(ONERUT_NAME, CPPSTD_NAME)    \
-  FULL_CUSTOMIZED_PUT_STD_UNARY_COMPLEX_FUNCTION(UnaryComplexFunPtrT, ONERUT_NAME, CPPSTD_NAME)
-
-#define PUT_STD_UNARY_COMPLEX_FUNCTION(NAME) \
+#define PUT_STD_UNARY_COMPLEX_FUNCTION(NAME)                                   \
   CUSTOMIZED_PUT_STD_UNARY_COMPLEX_FUNCTION(NAME, NAME)
 
-#define FULL_CUSTOMIZED_PUT_STD_BINARY_COMPLEX_FUNCTION(TYPE, ONERUT_NAME, CPPSTD_NAME) \
+#define CUSTOMIZED_PUT_STD_BINARY_COMPLEX_FUNCTION(ONERUT_NAME, CPPSTD_NAME)   \
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
-    std::make_shared <BinaryComplexFunction < TYPE >> (                        \
-      static_cast<TYPE> (&std::CPPSTD_NAME)                                    \
+    std::make_shared <BinaryComplexFunction < BinaryComplexFunPtrT >> (        \
+      static_cast<BinaryComplexFunPtrT> (&std::CPPSTD_NAME)                    \
  ))
 
-#define CUSTOMIZED_PUT_STD_BINARY_COMPLEX_FUNCTION(ONERUT_NAME, CPPSTD_NAME) \
-  FULL_CUSTOMIZED_PUT_STD_BINARY_COMPLEX_FUNCTION(BinaryComplexFunPtrT, ONERUT_NAME, CPPSTD_NAME)
-
-#define PUT_STD_BINARY_COMPLEX_FUNCTION(NAME) \
+#define PUT_STD_BINARY_COMPLEX_FUNCTION(NAME)                                  \
   CUSTOMIZED_PUT_STD_BINARY_COMPLEX_FUNCTION(NAME, NAME)
 
-// *************************************************************************************************************
-// For overload real-complex functions:
-// *************************************************************************************************************
-#define FULL_CUSTOMIZED_PUT_STD_UNARY_REALCOMPLEX_FUNCTION(TYPE_REAL, TYPE_COMPLEX, ONERUT_NAME, CPPSTD_NAME) \
+// *****************************************************************************
+// *************   Macros that help overload real-complex functions   **********
+// *****************************************************************************
+#define CUSTOMIZED_PUT_STD_UNARY_REALCOMPLEX_FUNCTION(ONERUT_NAME, CPPSTD_NAME) \
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
-    std::make_shared <UnaryRealComplexFunction < TYPE_REAL, TYPE_COMPLEX >> (  \
-      static_cast<TYPE_REAL> (&std::CPPSTD_NAME),                              \
-      static_cast<TYPE_COMPLEX> (&std::CPPSTD_NAME)                            \
+    std::make_shared <UnaryRealComplexFunction < UnaryRealFunPtrT, UnaryComplexFunPtrT >> (  \
+      static_cast<UnaryRealFunPtrT> (&std::CPPSTD_NAME),                       \
+      static_cast<UnaryComplexFunPtrT> (&std::CPPSTD_NAME)                     \
   ))
 
-#define CUSTOMIZED_PUT_STD_UNARY_REALCOMPLEX_FUNCTION(ONERUT_NAME, CPPSTD_NAME) \
-  FULL_CUSTOMIZED_PUT_STD_UNARY_REALCOMPLEX_FUNCTION(UnaryRealFunPtrT, UnaryComplexFunPtrT, ONERUT_NAME, CPPSTD_NAME)
-
-#define PUT_STD_UNARY_REALCOMPLEX_FUNCTION(NAME) \
+#define PUT_STD_UNARY_REALCOMPLEX_FUNCTION(NAME)                               \
   CUSTOMIZED_PUT_STD_UNARY_REALCOMPLEX_FUNCTION(NAME, NAME)
 
-#define FULL_CUSTOMIZED_PUT_STD_BINARY_REALCOMPLEX_FUNCTION(TYPE_REAL, TYPE_COMPLEX, ONERUT_NAME, CPPSTD_NAME) \
+#define CUSTOMIZED_PUT_STD_BINARY_REALCOMPLEX_FUNCTION(ONERUT_NAME, CPPSTD_NAME) \
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
-    std::make_shared <BinaryRealComplexFunction < TYPE_REAL, TYPE_COMPLEX >> ( \
-      static_cast<TYPE_REAL> (&std::CPPSTD_NAME),                              \
-      static_cast<TYPE_COMPLEX> (&std::CPPSTD_NAME)                            \
+    std::make_shared <BinaryRealComplexFunction < BinaryRealFunPtrT, BinaryComplexFunPtrT >> ( \
+      static_cast<BinaryRealFunPtrT> (&std::CPPSTD_NAME),                      \
+      static_cast<BinaryComplexFunPtrT> (&std::CPPSTD_NAME)                    \
   ))
 
-#define CUSTOMIZED_PUT_STD_BINARY_REALCOMPLEX_FUNCTION(ONERUT_NAME, CPPSTD_NAME) \
-  FULL_CUSTOMIZED_PUT_STD_BINARY_REALCOMPLEX_FUNCTION(BinaryRealFunPtrT, BinaryComplexFunPtrT, ONERUT_NAME, CPPSTD_NAME)
-
-#define PUT_STD_BINARY_REALCOMPLEX_FUNCTION(NAME) \
+#define PUT_STD_BINARY_REALCOMPLEX_FUNCTION(NAME)                              \
   CUSTOMIZED_PUT_STD_BINARY_REALCOMPLEX_FUNCTION(NAME, NAME)
-
 
 namespace onerut_parser {
 
@@ -131,7 +111,7 @@ namespace onerut_parser {
         using UnaryComplexFunPtrT = cx_couble(*)(const cx_couble&);
         using BinaryComplexFunPtrT = cx_couble(*)(const cx_couble&, const cx_couble&);
         // ******************************************************
-        // Functions for real and complex numbers:
+        // Functions for both real and complex numbers:
         // ******************************************************
         CUSTOMIZED_PUT_STD_UNARY_REAL_FUNCTION(re_cos, cos);
         CUSTOMIZED_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_cos, cos);
@@ -224,8 +204,6 @@ namespace onerut_parser {
         // arg
         // norm
         // polar
-
-
     }
 }
 

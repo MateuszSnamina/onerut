@@ -5,7 +5,7 @@
 #include<optional>
 #include<string>
 #include<map>
-#include<onerut_parser/function.hpp>
+#include<onerut_parser/function_abstract.hpp>
 
 namespace onerut_parser {
 
