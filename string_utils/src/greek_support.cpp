@@ -50,28 +50,23 @@ namespace {
         {"Ω", "Omega"},
         {"⇑", "up"},
         {"⇓", "down"},
-        {"⬆", "Up"},
-        {"⬇", "Down"},
-        {"⍐", "Boxup"},
-        {"⍗", "Boxdown"},
-        {"⍓", "BoxUp"},
-        {"⍌", "BoxDown"}};
-
-    // possible extension:        
-    //⇐
-    //⇑
-    //⇒
-    //⇓
-    //⇔
-    //⇌
-    //⇍
-    //⇏
-    //⇕
-    //⇖
-    //⇗
-    //⇘
-    //⇙
-    //⇙
+        {"⇐", "left"},
+        {"⇒", "right"},
+        {"⇖", "upLeft"},
+        {"⇗", "upRight"},
+        {"⇘", "downRight"},
+        {"⇙", "downLeft"},
+        {"⇕", "upDown"},
+        {"⇔", "leftRight"},
+        {"⇍", "notLeft"},
+        {"⇏", "notRight"},
+        {"⇌", "resonance"},
+        {"⬆", "up2"},
+        {"⬇", "down2"},
+        {"⍐", "boxUp"},
+        {"⍗", "boxDown"},
+        {"⍓", "boxUp2"},
+        {"⍌", "boxDown2"}};
 
     void _to_greek(
             std::string& str,

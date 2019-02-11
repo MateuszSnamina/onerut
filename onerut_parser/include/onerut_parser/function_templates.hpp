@@ -36,7 +36,10 @@ namespace onerut_parser {
         if (!utility::is_real_or_integer(arg_compile_result_deref))
             return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
         const auto & arg_real = utility::to_real(arg_compile_result_deref);
-        return CompileResult::from_value<onerut_scalar::Real>(std::make_shared<onerut_scalar::Function < Callable, onerut_scalar::ReturnReal, onerut_scalar::ArgReal> > (callable, arg_real));
+        using Return = onerut_scalar::ReturnReal;
+        using FunctionType = onerut_scalar::Function<Callable, Return, onerut_scalar::ArgReal>;
+        using ReturnOnerutBaseType = typename FunctionType::ReturnTag::OnerutBaseType;
+        return CompileResult::from_value<ReturnOnerutBaseType>(std::make_shared<FunctionType>(callable, arg_real));
     }
 
     // -------------------------------------------------------------------------
@@ -66,7 +69,10 @@ namespace onerut_parser {
             return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
         const auto & first_arg_real = utility::to_real(first_arg_compile_result_deref);
         const auto & second_arg_real = utility::to_real(second_arg_compile_result_deref);
-        return CompileResult::from_value<onerut_scalar::Real>(std::make_shared<onerut_scalar::Function < Callable, onerut_scalar::ReturnReal, onerut_scalar::ArgReal, onerut_scalar::ArgReal> > (callable, first_arg_real, second_arg_real));
+        using Return = onerut_scalar::ReturnReal;
+        using FunctionType = onerut_scalar::Function<Callable, Return, onerut_scalar::ArgReal, onerut_scalar::ArgReal>;
+        using ReturnOnerutBaseType = typename FunctionType::ReturnTag::OnerutBaseType;
+        return CompileResult::from_value<ReturnOnerutBaseType>(std::make_shared<FunctionType> (callable, first_arg_real, second_arg_real));
     }
 
     // ---------------------------------------------------------------------------        
@@ -94,7 +100,10 @@ namespace onerut_parser {
         if (!utility::is_real_or_integer_or_complex(arg_compile_result_deref))
             return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
         const auto & arg_complex = utility::to_complex(arg_compile_result_deref);
-        return CompileResult::from_value<onerut_scalar::Real>(std::make_shared<onerut_scalar::Function <Callable, onerut_scalar::ReturnReal, onerut_scalar::ArgComplex> > (callable, arg_complex));
+        using Return = onerut_scalar::ReturnReal;
+        using FunctionType = onerut_scalar::Function<Callable, Return, onerut_scalar::ArgComplex>;
+        using ReturnOnerutBaseType = typename FunctionType::ReturnTag::OnerutBaseType;
+        return CompileResult::from_value<ReturnOnerutBaseType>(std::make_shared<FunctionType> (callable, arg_complex));
     }
 
     // ---------------------------------------------------------------------------        
@@ -122,7 +131,10 @@ namespace onerut_parser {
         if (!utility::is_real_or_integer_or_complex(arg_compile_result_deref))
             return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
         const auto & arg_complex = utility::to_complex(arg_compile_result_deref);
-        return CompileResult::from_value<onerut_scalar::Complex>(std::make_shared<onerut_scalar::Function <Callable,  onerut_scalar::ReturnComplex, onerut_scalar::ArgComplex> > (callable, arg_complex));
+        using Return = onerut_scalar::ReturnComplex;
+        using FunctionType = onerut_scalar::Function<Callable, Return, onerut_scalar::ArgComplex>;
+        using ReturnOnerutBaseType = typename FunctionType::ReturnTag::OnerutBaseType;
+        return CompileResult::from_value<ReturnOnerutBaseType>(std::make_shared<FunctionType> (callable, arg_complex));
     }
 
     // -------------------------------------------------------------------------
@@ -153,7 +165,10 @@ namespace onerut_parser {
             return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
         const auto & first_arg_complex = utility::to_complex(first_arg_compile_result_deref);
         const auto & second_arg_complex = utility::to_complex(second_arg_compile_result_deref);
-        return CompileResult::from_value<onerut_scalar::Complex>(std::make_shared<onerut_scalar::Function < Callable, onerut_scalar::ReturnComplex, onerut_scalar::ArgComplex, onerut_scalar::ArgComplex> > (callable, first_arg_complex, second_arg_complex));
+        using Return = onerut_scalar::ReturnComplex;
+        using FunctionType = onerut_scalar::Function<Callable, Return, onerut_scalar::ArgComplex, onerut_scalar::ArgComplex>;
+        using ReturnOnerutBaseType = typename FunctionType::ReturnTag::OnerutBaseType;
+        return CompileResult::from_value<ReturnOnerutBaseType>(std::make_shared<FunctionType> (callable, first_arg_complex, second_arg_complex));
     }
 
     // -------------------------------------------------------------------------
@@ -181,11 +196,17 @@ namespace onerut_parser {
             return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
         if (utility::is_real_or_integer(arg_compile_result_deref)) {
             const auto & arg_real = utility::to_real(arg_compile_result_deref);
-            return CompileResult::from_value<onerut_scalar::Real>(std::make_shared<onerut_scalar::Function < CallableReal, onerut_scalar::ReturnReal, onerut_scalar::ArgReal> > (callable_real, arg_real));
+            using Return = onerut_scalar::ReturnReal;
+            using FunctionType = onerut_scalar::Function<CallableReal, Return, onerut_scalar::ArgReal>;
+            using ReturnOnerutBaseType = typename FunctionType::ReturnTag::OnerutBaseType;
+            return CompileResult::from_value<ReturnOnerutBaseType>(std::make_shared<FunctionType> (callable_real, arg_real));
         }
         if (utility::is_real_or_integer_or_complex(arg_compile_result_deref)) {
             const auto & arg_complex = utility::to_complex(arg_compile_result_deref);
-            return CompileResult::from_value<onerut_scalar::Complex>(std::make_shared<onerut_scalar::Function < CallableComplex, onerut_scalar::ReturnComplex, onerut_scalar::ArgComplex > > (callable_complex, arg_complex));
+            using Return = onerut_scalar::ReturnComplex;
+            using FunctionType = onerut_scalar::Function<CallableComplex, Return, onerut_scalar::ArgComplex>;
+            using ReturnOnerutBaseType = typename FunctionType::ReturnTag::OnerutBaseType;
+            return CompileResult::from_value<ReturnOnerutBaseType>(std::make_shared<FunctionType> (callable_complex, arg_complex));
         }
         return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
     }
@@ -218,13 +239,19 @@ namespace onerut_parser {
                 utility::is_real_or_integer(second_arg_compile_result_deref)) {
             const auto & first_arg_real = utility::to_real(first_arg_compile_result_deref);
             const auto & second_arg_real = utility::to_real(second_arg_compile_result_deref);
-            return CompileResult::from_value<onerut_scalar::Real>(std::make_shared<onerut_scalar::Function < CallableReal, onerut_scalar::ReturnReal, onerut_scalar::ArgReal, onerut_scalar::ArgReal> > (callable_real, first_arg_real, second_arg_real));
+            using Return = onerut_scalar::ReturnReal;
+            using FunctionType = onerut_scalar::Function < CallableReal, Return, onerut_scalar::ArgReal, onerut_scalar::ArgReal>;
+            using ReturnOnerutBaseType = typename FunctionType::ReturnTag::OnerutBaseType;
+            return CompileResult::from_value<ReturnOnerutBaseType>(std::make_shared<FunctionType> (callable_real, first_arg_real, second_arg_real));
         }
         if (utility::is_real_or_integer_or_complex(first_arg_compile_result_deref) &&
                 utility::is_real_or_integer_or_complex(second_arg_compile_result_deref)) {
             const auto & first_arg_complex = utility::to_complex(first_arg_compile_result_deref);
             const auto & second_arg_complex = utility::to_complex(second_arg_compile_result_deref);
-            return CompileResult::from_value<onerut_scalar::Complex>(std::make_shared<onerut_scalar::Function < CallableComplex, onerut_scalar::ReturnComplex, onerut_scalar::ArgComplex, onerut_scalar::ArgComplex> > (callable_complex, first_arg_complex, second_arg_complex));
+            using Return = onerut_scalar::ReturnComplex;
+            using FunctionType = onerut_scalar::Function<CallableComplex, Return, onerut_scalar::ArgComplex, onerut_scalar::ArgComplex>;
+            using ReturnOnerutBaseType = typename FunctionType::ReturnTag::OnerutBaseType;
+            return CompileResult::from_value<ReturnOnerutBaseType>(std::make_shared<FunctionType>(callable_complex, first_arg_complex, second_arg_complex));
         }
         return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
     }
