@@ -237,10 +237,8 @@ namespace onerut_scalar {
     }
 
     // #########################################################################
-    // ########## AUTO FUNCTION #################
+    // #########  AUTOMATIC API  ###############################################
     // #########################################################################
-
-    // -------------------------------------------------------------------------
 
     template<class T>
     struct BuildInCppType2ReturnTag {
@@ -269,8 +267,6 @@ namespace onerut_scalar {
         using DeducedReturnTag = typename BuildInCppType2ReturnTag<DeducedBuildInCppReturnType>::ReturnTag;
         using DeducedFunction = Function<_Callable, DeducedReturnTag, _Args...>;
     };
-
-    // -------------------------------------------------------------------------
 
     // #########################################################################
     // ########## ONERUT SCALAR FUNCTION CLASES -- CONCISE API #################

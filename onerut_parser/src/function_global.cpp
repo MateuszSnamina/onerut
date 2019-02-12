@@ -1,7 +1,7 @@
 #include<cmath>
 #include<complex>
 #include<onerut_parser/function_global.hpp>
-#include<onerut_parser/function_templates.hpp>
+#include<onerut_parser/function_scalar_function_wrapper.hpp>
 
 // *****************************************************************************
 // *************   Macros that help to add real functions   ********************
