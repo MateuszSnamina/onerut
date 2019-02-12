@@ -237,6 +237,42 @@ namespace onerut_scalar {
     }
 
     // #########################################################################
+    // ########## AUTO FUNCTION #################
+    // #########################################################################
+
+    // -------------------------------------------------------------------------
+
+    template<class T>
+    struct BuildInCppType2ReturnTag {
+    };
+
+    template<>
+    struct BuildInCppType2ReturnTag<long> {
+        using ReturnTag = ReturnInteger;
+    };
+
+    template<>
+    struct BuildInCppType2ReturnTag<double> {
+        using ReturnTag = ReturnReal;
+    };
+
+    template<>
+    struct BuildInCppType2ReturnTag<std::complex<double> > {
+        using ReturnTag = ReturnComplex;
+    };
+
+    // -------------------------------------------------------------------------
+
+    template <class _Callable, class... _Args>
+    struct DeduceFunction {
+        using DeducedBuildInCppReturnType = decltype(std::declval<_Callable>()(std::declval<typename _Args::BuildInCppType>()...));
+        using DeducedReturnTag = typename BuildInCppType2ReturnTag<DeducedBuildInCppReturnType>::ReturnTag;
+        using DeducedFunction = Function<_Callable, DeducedReturnTag, _Args...>;
+    };
+
+    // -------------------------------------------------------------------------
+
+    // #########################################################################
     // ########## ONERUT SCALAR FUNCTION CLASES -- CONCISE API #################
     // #########################################################################
     /*

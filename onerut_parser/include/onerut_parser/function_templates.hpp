@@ -5,10 +5,9 @@
 
 #include<onerut_parser/function_abstract.hpp>
 #include<onerut_parser/compile_result_utility.hpp>
-//#include<onerut_scalar/function_real.hpp>
-//#include<onerut_scalar/function_complex.hpp>
-#include<onerut_scalar/function_2.hpp>
+#include<onerut_scalar/function_2.hpp> //TODO zmienic  nazwe headera
 
+#include<iostream> //Debug TODO remove
 namespace onerut_parser {
 
     // ---------------------------------------------------------------------------        
@@ -37,8 +36,14 @@ namespace onerut_parser {
             return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
         const auto & arg_real = utility::to_real(arg_compile_result_deref);
         using Return = onerut_scalar::ReturnReal;
-        using FunctionType = onerut_scalar::Function<Callable, Return, onerut_scalar::ArgReal>;
+        using FunctionTypeOLD = onerut_scalar::Function<Callable, Return, onerut_scalar::ArgReal>;
+        static_assert(std::is_same<Callable, decltype(callable)>::value);
+        static_assert(std::is_same<Callable, double(*)(double) >::value);
+        using FunctionType = typename onerut_scalar::DeduceFunction<Callable, onerut_scalar::ArgReal>::DeducedFunction;
+        static_assert(std::is_same<FunctionTypeOLD, FunctionType>::value);
         using ReturnOnerutBaseType = typename FunctionType::ReturnTag::OnerutBaseType;
+        static_assert(std::is_same<ReturnOnerutBaseType, onerut_scalar::Real>::value);
+        std::cout << "AAAAAAAAA" << std::endl;
         return CompileResult::from_value<ReturnOnerutBaseType>(std::make_shared<FunctionType>(callable, arg_real));
     }
 

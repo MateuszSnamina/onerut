@@ -17,6 +17,8 @@
 
 #include<onerut_operator/operator.hpp>
 
+#include<type_traits>
+
 bool
 execute_line(std::shared_ptr<std::string> line) {
     // #########################################################################
@@ -112,7 +114,76 @@ bool execute_script_file(const std::filesystem::path& file_path) {
     return execute_script_lines(lines);
 }
 
+// -------------------------------
+
+struct CallableBuildInFunctionTag {
+};
+
+struct CallableNotBuildInFunctionTag {
+};
+
+template<typename T>
+struct CallableFlavour {
+    using Flavour = CallableNotBuildInFunctionTag;
+};
+
+template<typename R, typename... Args>
+struct CallableFlavour<R(*)(Args...)> {
+    using Flavour = CallableBuildInFunctionTag;
+};
+//--------------------------------------------
+
+struct InvalidCall {
+};
+
+template<typename Flavour, typename Callable, typename... Args>
+struct CallableReturnTypeImpl {
+    using ReturnType = InvalidCall;
+};
+
+template<typename Callable, typename... Args>
+struct CallableReturnTypeImpl<CallableBuildInFunctionTag, Callable, Args...> {
+    using ReturnType = decltype(std::declval<Callable>()(std::declval<Args>()...));
+};
+
+template<typename Callable, typename... Args>
+struct CallableReturnTypeImpl<CallableNotBuildInFunctionTag, Callable, Args...> {
+    using ReturnType = decltype(std::declval<Callable>()(std::declval<Args>()...));
+};
+
+//- ------
+
+template<typename Callable, typename... Args>
+struct CallableReturnType {
+    using Flavour = typename CallableFlavour<Callable>::Flavour;
+    using Impl = CallableReturnTypeImpl<Flavour, Callable, Args...>;
+    using ReturnType = typename Impl::ReturnType;
+};
+
+
+//--------------------------------------------
+//--------------------------------------------
+
+struct F {
+
+    double operator()(int) {
+        return 1;
+    }
+};
+
+double f() {
+    return 2;
+}
+
 void temp_testing() {
+
+    //    using fp = double(*)(int);
+    // using U = typename std::result_of < decltype(fp)>::type;
+    //using U = typename CallableReturnType<fp,int>::ReturnType;
+    //using U = typename CallableReturnType<F, int>::ReturnType;
+    //std::cout << std::is_same<U, int>::value << std::endl;
+
+    //exit(10);
 
     std::vector<std::shared_ptr<std::string> > lines;
     lines.push_back(std::make_shared<std::string>("x:=(2+4*3)+pi/2"));
@@ -142,6 +213,7 @@ void temp_testing() {
     lines.push_back(std::make_shared<std::string>("im := imag(z)"));
     lines.push_back(std::make_shared<std::string>("xx := re+im+ pi + kupi + (2*7+7)+ alpha*9 + piwo*(3*8+Ups+ups+Up+up) + pi"));
     lines.push_back(std::make_shared<std::string>("xx := e^[1i*pi]"));
+    lines.push_back(std::make_shared<std::string>("xx := re_sqrt(2)"));
 
     onerut_parser::GlobalIdentifiers::instance().put_e();
     onerut_parser::GlobalIdentifiers::instance().put_pi();
