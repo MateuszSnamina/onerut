@@ -214,6 +214,11 @@ void temp_testing() {
     lines.push_back(std::make_shared<std::string>("xx := re+im+ pi + kupi + (2*7+7)+ alpha*9 + piwo*(3*8+Ups+ups+Up+up) + pi"));
     lines.push_back(std::make_shared<std::string>("xx := e^[1i*pi]"));
     lines.push_back(std::make_shared<std::string>("xx := re_sqrt(2)"));
+    lines.push_back(std::make_shared<std::string>("re_sqrt(2)"));
+    lines.push_back(std::make_shared<std::string>("cx_sqrt(2)"));
+    lines.push_back(std::make_shared<std::string>("real(3i+5i*7.i)"));
+    lines.push_back(std::make_shared<std::string>("imag(3i+5i*7.i)"));
+    lines.push_back(std::make_shared<std::string>("conj(3i+5i*7.i)"));
 
     onerut_parser::GlobalIdentifiers::instance().put_e();
     onerut_parser::GlobalIdentifiers::instance().put_pi();

@@ -79,6 +79,7 @@
     </df>
     <df root="onerut_scalar_tests" name="8">
       <df name="src">
+        <in>function.cpp</in>
         <in>global_flags.cpp</in>
         <in>main.cpp</in>
         <in>scalar_complex.cpp</in>
@@ -511,6 +512,13 @@
         </ccTool>
       </item>
       <item path="onerut_scalar/src/scalar_real.cpp" ex="false" tool="1" flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_scalar_tests/src/function.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
         <ccTool flags="0">
         </ccTool>
       </item>

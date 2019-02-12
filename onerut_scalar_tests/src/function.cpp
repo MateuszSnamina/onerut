@@ -1,7 +1,7 @@
 #include<gtest/gtest.h>
 
 #include<onerut_scalar/scalar.hpp>
-#include<onerut_scalar/function_2.hpp>
+#include<onerut_scalar/function.hpp>
 
 using cx_double = std::complex<double>;
 

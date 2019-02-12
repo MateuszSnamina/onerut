@@ -19,11 +19,14 @@
 #define PUT_STD_UNARY_REAL_FUNCTION(NAME)                                      \
   CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(NAME, NAME)
 
+// -----------
+
+//TU JEST ZMIANA  TODO (usunac komentarz)
 #define CUSTOM_PUT_STD_UNARY_COMPLEX_RETURNS_REAL_FUNCTION(ONERUT_NAME, CPPSTD_NAME) \
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
     std::make_shared<                                                          \
-      UnaryComplexReturnsRealFunction < UnaryComplexReturnsRealFunPtrT >       \
+      UnaryComplexFunction < UnaryComplexReturnsRealFunPtrT >       \
     >(                                                                         \
       static_cast<UnaryComplexReturnsRealFunPtrT> (&std::CPPSTD_NAME)          \
     )                                                                          \
@@ -31,6 +34,8 @@
 
 #define PUT_STD_UNARY_COMPLEX_RETURNS_REAL_FUNCTION(NAME)                      \
   CUSTOM_PUT_STD_UNARY_COMPLEX_RETURNS_REAL_FUNCTION(NAME, NAME)
+
+// -----------
 
 #define CUSTOM_PUT_STD_BINARY_REAL_FUNCTION(ONERUT_NAME, CPPSTD_NAME)          \
   force_put(                                                                   \
