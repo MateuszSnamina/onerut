@@ -1,5 +1,5 @@
-#ifndef ONERUT_SCALAR_CALLABLE_ON_TUPLE
-#define ONERUT_SCALAR_CALLABLE_ON_TUPLE
+#ifndef ONERUT_SCALAR_UTILITY_CALLABLE_ON_TUPLE
+#define ONERUT_SCALAR_UTILITY_CALLABLE_ON_TUPLE
 
 // This header allows you to apply variadic callable on elements colected in a tuple.
 //

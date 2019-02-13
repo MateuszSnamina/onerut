@@ -8,31 +8,11 @@
 #include<onerut_scalar/scalar_abstract_complex.hpp>
 #include<onerut_scalar/scalar_abstract_real.hpp>
 #include<onerut_scalar/scalar_abstract_integer.hpp>
-#include<onerut_scalar/callable_on_tuple.hpp>
+#include<onerut_scalar/utility_callable_on_tuple.hpp>
+#include<onerut_scalar/utility_static_all_of.hpp>
 
 namespace onerut_scalar {
 
-    // #########################################################################
-
-    namespace utility {
-        template <typename ... Types>
-        struct static_all_of;
-
-        template <>
-        struct static_all_of<>
-        : std::true_type {
-        };
-
-        template <typename ... Types>
-        struct static_all_of<std::false_type, Types...>
-        : std::false_type {
-        };
-
-        template <typename ... Types>
-        struct static_all_of<std::true_type, Types...>
-        : static_all_of<Types...>::type {
-        };
-    }
     // #########################################################################
     // ########## HELPER CLASSES ###############################################
     // #########################################################################
@@ -172,6 +152,17 @@ namespace onerut_scalar {
         std::tuple<std::shared_ptr<typename _Args::OnerutBaseType>... > args;
     };
 
+    // -------------------------------------------------------------------------
+
+    template <class _Callable, class _ReturnTag>
+    class Function<_Callable, _ReturnTag> : public CommonInterface<typename _ReturnTag::OnerutBaseType > {
+    public:
+        using ReturnTag = _ReturnTag;
+        Function(_Callable callable);
+        typename _ReturnTag::BuildInCppType value() const final;
+    private:
+        _Callable callable;
+    };
 
     // -------------------------------------------------------------------------
     // -----   Implementation:   -----------------------------------------------
@@ -184,7 +175,9 @@ namespace onerut_scalar {
     args(args...) {
     }
 
-    // the functions extract(ptr) are used in conjuction with callable_on_tuple
+    // Functions extract(ptr) defined below 
+    // are used in conjuction with callable_on_tuple function
+    // used by Function<_Callable, _ReturnTag, _Args...>::value().
 
     long
     extract(std::shared_ptr<Integer> ptr) {
@@ -206,49 +199,41 @@ namespace onerut_scalar {
         return utility::callable_on_tuple(callable, args);
     }
 
+    // -------------------------------------------------------------------------
 
-    /*
-        template<typename _Callable, typename _ReturnTag, typename _Arg1>
-        Function<_Callable, _ReturnTag, _Arg1>::Function(
-                _Callable callable, std::shared_ptr<U1> arg) :
-        callable(callable),
-        arg(arg) {
-            assert(arg);
-        }
+    template<typename _Callable, typename _ReturnTag>
+    Function<_Callable, _ReturnTag>::Function(
+            _Callable callable) :
+    callable(callable) {
+    }
 
-        template<typename _Callable, typename _ReturnTag, typename _Arg1>
-        typename _ReturnTag::BuildInCppType
-        Function<_Callable, _ReturnTag, _Arg1>::value() const {
-            const auto& x = _Arg1().extract(arg);
-            const auto& y = callable(x);
-            return y;
-        }
+    template<typename _Callable, typename _ReturnTag>
+    typename _ReturnTag::BuildInCppType
+    Function<_Callable, _ReturnTag>::value() const {
+        const auto& y = callable();
+        return y;
+    }
 
-        // -------------------------------------------------------------------------
-
-        template<typename _Callable, typename _ReturnTag, typename _Arg1, typename _Arg2>
-        Function<_Callable, _ReturnTag, _Arg1, _Arg2>::Function(
-                _Callable callable, std::shared_ptr<U1> first_arg, std::shared_ptr<U2> second_arg) :
-        callable(callable),
-        first_arg(first_arg),
-        second_arg(second_arg) {
-            assert(first_arg);
-            assert(second_arg);
-        }
-
-        template<typename _Callable, typename _ReturnTag, typename _Arg1, typename _Arg2>
-        typename _ReturnTag::BuildInCppType
-        Function<_Callable, _ReturnTag, _Arg1, _Arg2>::value() const {
-            const auto& firts_x = _Arg1().extract(first_arg);
-            const auto& second_x = _Arg2().extract(second_arg);
-            const auto y = callable(firts_x, second_x);
-            return y;
-        }
-     */
     // #########################################################################
-    // #########  AUTOMATIC API  ###############################################
+    // ########## ONERUT-SCALAR-FUNCTION CLASES -- AUTOMATIC API ###############
     // #########################################################################
 
+    // When you need to create a onerut-scalar-function you have to provide its type.
+    // The explicite API above requires providing:
+    // (1) callable type, (2) return type, and (3) argument types 
+    // as template parameters.
+    //
+    // But the return type may be deduced from callable type and argumnet types.
+    // Automatic API defined below is to provide onerut-scalar-function type
+    // when callable type and argument types are provided by user,
+    // but the return type is left for the deduction.
+    
+    // Using autmatic API you
+    // no longer need to declare onerut-scalar-function type manually.
+    // You take it out from DeduceFunction helper template
+    // is which the desired onerut-scalar-function type is defined as
+    // DeducedFunction member type.
+    
     template<class T>
     struct BuildInCppType2ReturnTag {
     };
@@ -280,6 +265,7 @@ namespace onerut_scalar {
     // #########################################################################
     // ########## ONERUT SCALAR FUNCTION CLASES -- CONCISE API #################
     // #########################################################################
+    
     /*
     template<class T>
     struct DeducedArg {
