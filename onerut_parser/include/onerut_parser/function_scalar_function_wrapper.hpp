@@ -19,6 +19,7 @@ namespace onerut_parser {
     class ArgPreparator {
     };
 
+    //TODO -> zrobic ponizsze funkcje jako static!!!!! i usunac nawiasy konstrukora bo juz nie beda potrzebne().
     template<>
     struct ArgPreparator<onerut_scalar::ArgInteger> {
         bool do_match(const CompileResultDeref & arg) const;

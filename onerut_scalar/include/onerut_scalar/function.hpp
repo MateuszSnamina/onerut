@@ -3,13 +3,36 @@
 
 #include<cassert>
 #include<type_traits>
+#include<tuple>
 
 #include<onerut_scalar/scalar_abstract_complex.hpp>
 #include<onerut_scalar/scalar_abstract_real.hpp>
 #include<onerut_scalar/scalar_abstract_integer.hpp>
+#include<onerut_scalar/callable_on_tuple.hpp>
 
 namespace onerut_scalar {
 
+    // #########################################################################
+
+    namespace utility {
+        template <typename ... Types>
+        struct static_all_of;
+
+        template <>
+        struct static_all_of<>
+        : std::true_type {
+        };
+
+        template <typename ... Types>
+        struct static_all_of<std::false_type, Types...>
+        : std::false_type {
+        };
+
+        template <typename ... Types>
+        struct static_all_of<std::true_type, Types...>
+        : static_all_of<Types...>::type {
+        };
+    }
     // #########################################################################
     // ########## HELPER CLASSES ###############################################
     // #########################################################################
@@ -62,63 +85,39 @@ namespace onerut_scalar {
     struct ArgInteger {
         using OnerutBaseType = Integer;
         using BuildInCppType = long;
-        template<class T>
-        long extract(std::shared_ptr<T> arg) const;
     };
 
     struct ArgReal {
         using OnerutBaseType = Real;
         using BuildInCppType = double;
-        template<class T>
-        double extract(std::shared_ptr<T> arg) const;
     };
 
     struct ArgComplex {
         using OnerutBaseType = Complex;
         using BuildInCppType = std::complex<double>;
-        template<class T>
-        std::complex<double> extract(std::shared_ptr<T> arg) const;
     };
 
     // -------------------------------------------------------------------------
 
     template<class T>
     struct IsArg : public std::false_type {
+        using type = std::false_type;
     };
 
     template<>
     struct IsArg<ArgInteger> : public std::true_type {
+        using type = std::true_type;
     };
 
     template<>
     struct IsArg<ArgReal> : public std::true_type {
+        using type = std::true_type;
     };
 
     template<>
     struct IsArg<ArgComplex> : public std::true_type {
+        using type = std::true_type;
     };
-
-    // -------------------------------------------------------------------------
-    // -----   Implementation:   -----------------------------------------------
-    // -------------------------------------------------------------------------
-
-    template<class T>
-    long ArgInteger::extract(std::shared_ptr<T> arg) const {
-        static_assert(std::is_base_of<OnerutBaseType, T>::value);
-        return arg->value_integer();
-    }
-
-    template<class T>
-    double ArgReal::extract(std::shared_ptr<T> arg) const {
-        static_assert(std::is_base_of<OnerutBaseType, T>::value);
-        return arg->value_real();
-    }
-
-    template<class T>
-    std::complex<double> ArgComplex::extract(std::shared_ptr<T> arg) const {
-        static_assert(std::is_base_of<OnerutBaseType, T>::value);
-        return arg->value_complex();
-    }
 
     // #########################################################################
     // #######  ONERUT SCALAR FUNCTION RETURNS TYPE TAG-CLASSES  ###############
@@ -161,81 +160,91 @@ namespace onerut_scalar {
     // ########## ONERUT SCALAR FUNCTION CLASES -- VERBOSE API #################
     // #########################################################################
 
-    template <class _ReturnTag, class _Callable, class... _Args>
-    class Function;
-
-    // -------------------------------------------------------------------------
-
-    template<typename _Callable, typename _ReturnTag, typename _Arg1>
-    class Function<_Callable, _ReturnTag, _Arg1> : public CommonInterface<typename _ReturnTag::OnerutBaseType > {
+    template <class _Callable, class _ReturnTag, class... _Args>
+    class Function : public CommonInterface<typename _ReturnTag::OnerutBaseType > {
     public:
         using ReturnTag = _ReturnTag;
-        static_assert(IsArg<_Arg1>::value);
-        using U1 = typename _Arg1::OnerutBaseType;
-        Function(_Callable callable, std::shared_ptr<U1> arg);
+        static_assert(utility::static_all_of<typename IsArg<_Args>::type...>::value);
+        Function(_Callable callable, std::shared_ptr<typename _Args::OnerutBaseType>... args);
         typename _ReturnTag::BuildInCppType value() const final;
     private:
         _Callable callable;
-        const std::shared_ptr<U1> arg;
+        std::tuple<std::shared_ptr<typename _Args::OnerutBaseType>... > args;
     };
 
-    template<typename _Callable, typename _ReturnTag, typename _Arg1, typename _Arg2>
-    class Function<_Callable, _ReturnTag, _Arg1, _Arg2> : public CommonInterface<typename _ReturnTag::OnerutBaseType > {
-    public:
-        using ReturnTag = _ReturnTag;
-        static_assert(IsArg<_Arg1>::value);
-        static_assert(IsArg<_Arg2>::value);
-        using U1 = typename _Arg1::OnerutBaseType;
-        using U2 = typename _Arg2::OnerutBaseType;
-        Function(_Callable callable, std::shared_ptr<U1> first_arg, std::shared_ptr<U2> second_arg);
-        typename _ReturnTag::BuildInCppType value() const final;
-    private:
-        _Callable callable;
-        const std::shared_ptr<U1> first_arg;
-        const std::shared_ptr<U2> second_arg;
-    };
 
     // -------------------------------------------------------------------------
     // -----   Implementation:   -----------------------------------------------
-    // -------------------------------------------------------------------------
+    // -------------------------------------------------------------------------    
 
-    template<typename _Callable, typename _ReturnTag, typename _Arg1>
-    Function<_Callable, _ReturnTag, _Arg1>::Function(
-            _Callable callable, std::shared_ptr<U1> arg) :
+    template <class _Callable, class _ReturnTag, class... _Args>
+    Function<_Callable, _ReturnTag, _Args...>::Function(
+            _Callable callable, std::shared_ptr<typename _Args::OnerutBaseType>... args) :
     callable(callable),
-    arg(arg) {
-        assert(arg);
+    args(args...) {
     }
 
-    template<typename _Callable, typename _ReturnTag, typename _Arg1>
-    typename _ReturnTag::BuildInCppType
-    Function<_Callable, _ReturnTag, _Arg1>::value() const {
-        const auto& x = _Arg1().extract(arg);
-        const auto& y = callable(x);
-        return y;
+    // the functions extract(ptr) are used in conjuction with callable_on_tuple
+
+    long
+    extract(std::shared_ptr<Integer> ptr) {
+        return ptr->value_integer();
     }
 
-    // -------------------------------------------------------------------------
-
-    template<typename _Callable, typename _ReturnTag, typename _Arg1, typename _Arg2>
-    Function<_Callable, _ReturnTag, _Arg1, _Arg2>::Function(
-            _Callable callable, std::shared_ptr<U1> first_arg, std::shared_ptr<U2> second_arg) :
-    callable(callable),
-    first_arg(first_arg),
-    second_arg(second_arg) {
-        assert(first_arg);
-        assert(second_arg);
+    double
+    extract(std::shared_ptr<Real> ptr) {
+        return ptr->value_real();
     }
 
-    template<typename _Callable, typename _ReturnTag, typename _Arg1, typename _Arg2>
-    typename _ReturnTag::BuildInCppType
-    Function<_Callable, _ReturnTag, _Arg1, _Arg2>::value() const {
-        const auto& firts_x = _Arg1().extract(first_arg);
-        const auto& second_x = _Arg2().extract(second_arg);
-        const auto y = callable(firts_x, second_x);
-        return y;
+    std::complex<double>
+    extract(std::shared_ptr<Complex> ptr) {
+        return ptr->value_complex();
     }
 
+    template<typename _Callable, typename _ReturnTag, typename... _Args>
+    typename _ReturnTag::BuildInCppType Function<_Callable, _ReturnTag, _Args...>::value() const {
+        return utility::callable_on_tuple(callable, args);
+    }
+
+
+    /*
+        template<typename _Callable, typename _ReturnTag, typename _Arg1>
+        Function<_Callable, _ReturnTag, _Arg1>::Function(
+                _Callable callable, std::shared_ptr<U1> arg) :
+        callable(callable),
+        arg(arg) {
+            assert(arg);
+        }
+
+        template<typename _Callable, typename _ReturnTag, typename _Arg1>
+        typename _ReturnTag::BuildInCppType
+        Function<_Callable, _ReturnTag, _Arg1>::value() const {
+            const auto& x = _Arg1().extract(arg);
+            const auto& y = callable(x);
+            return y;
+        }
+
+        // -------------------------------------------------------------------------
+
+        template<typename _Callable, typename _ReturnTag, typename _Arg1, typename _Arg2>
+        Function<_Callable, _ReturnTag, _Arg1, _Arg2>::Function(
+                _Callable callable, std::shared_ptr<U1> first_arg, std::shared_ptr<U2> second_arg) :
+        callable(callable),
+        first_arg(first_arg),
+        second_arg(second_arg) {
+            assert(first_arg);
+            assert(second_arg);
+        }
+
+        template<typename _Callable, typename _ReturnTag, typename _Arg1, typename _Arg2>
+        typename _ReturnTag::BuildInCppType
+        Function<_Callable, _ReturnTag, _Arg1, _Arg2>::value() const {
+            const auto& firts_x = _Arg1().extract(first_arg);
+            const auto& second_x = _Arg2().extract(second_arg);
+            const auto y = callable(firts_x, second_x);
+            return y;
+        }
+     */
     // #########################################################################
     // #########  AUTOMATIC API  ###############################################
     // #########################################################################
