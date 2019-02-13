@@ -110,15 +110,15 @@ namespace onerut_scalar {
 
     // -------------------------------------------------------------------------
 
-    template <class _Callable, class _ReturnTag>
-    class Function<_Callable, _ReturnTag> : public CommonInterface<typename _ReturnTag::OnerutBaseType > {
-    public:
-        using ReturnTag = _ReturnTag;
-        Function(_Callable callable);
-        typename _ReturnTag::BuildInCppType value() const final;
-    private:
-        _Callable callable;
-    };
+    //    template <class _Callable, class _ReturnTag>
+    //    class Function<_Callable, _ReturnTag> : public CommonInterface<typename _ReturnTag::OnerutBaseType > {
+    //    public:
+    //        using ReturnTag = _ReturnTag;
+    //        Function(_Callable callable);
+    //        typename _ReturnTag::BuildInCppType value() const final;
+    //    private:
+    //        _Callable callable;
+    //    };
 
     // -------------------------------------------------------------------------
     // -----   Implementation:   -----------------------------------------------
@@ -157,18 +157,18 @@ namespace onerut_scalar {
 
     // -------------------------------------------------------------------------
 
-    template<typename _Callable, typename _ReturnTag>
-    Function<_Callable, _ReturnTag>::Function(
-            _Callable callable) :
-    callable(callable) {
-    }
-
-    template<typename _Callable, typename _ReturnTag>
-    typename _ReturnTag::BuildInCppType
-    Function<_Callable, _ReturnTag>::value() const {
-        const auto& y = callable();
-        return y;
-    }
+    //    template<typename _Callable, typename _ReturnTag>
+    //    Function<_Callable, _ReturnTag>::Function(
+    //            _Callable callable) :
+    //    callable(callable) {
+    //    }
+    //
+    //    template<typename _Callable, typename _ReturnTag>
+    //    typename _ReturnTag::BuildInCppType
+    //    Function<_Callable, _ReturnTag>::value() const {
+    //        const auto& y = callable();
+    //        return y;
+    //    }
 
     // #########################################################################
     // ########## ONERUT-SCALAR-FUNCTION CLASES -- AUTOMATIC API ###############

@@ -19,52 +19,51 @@ namespace onerut_parser {
     class ArgPreparator {
     };
 
-    //TODO -> zrobic ponizsze funkcje jako static!!!!! i usunac nawiasy konstrukora bo juz nie beda potrzebne().
     template<>
     struct ArgPreparator<onerut_scalar::ArgInteger> {
-        bool do_match(const CompileResultDeref & arg) const;
-        std::shared_ptr<onerut_scalar::Integer> extract(const CompileResultDeref & arg) const;
+        static bool do_match(const CompileResultDeref & arg);
+        static std::shared_ptr<onerut_scalar::Integer> extract(const CompileResultDeref & arg);
     };
 
     template<>
     struct ArgPreparator<onerut_scalar::ArgReal> {
-        bool do_match(const CompileResultDeref & arg) const;
-        std::shared_ptr<onerut_scalar::Real> extract(const CompileResultDeref & arg) const;
+        static bool do_match(const CompileResultDeref & arg);
+        static std::shared_ptr<onerut_scalar::Real> extract(const CompileResultDeref & arg);
     };
 
     template<>
     struct ArgPreparator<onerut_scalar::ArgComplex> {
-        bool do_match(const CompileResultDeref & arg) const;
-        std::shared_ptr<onerut_scalar::Complex> extract(const CompileResultDeref & arg) const;
+        static bool do_match(const CompileResultDeref & arg);
+        static std::shared_ptr<onerut_scalar::Complex> extract(const CompileResultDeref & arg);
     };
 
     bool
-    ArgPreparator<onerut_scalar::ArgInteger>::do_match(const CompileResultDeref & arg) const {
+    ArgPreparator<onerut_scalar::ArgInteger>::do_match(const CompileResultDeref & arg) {
         return utility::is_integer(arg);
     }
 
     std::shared_ptr<onerut_scalar::Integer>
-    ArgPreparator<onerut_scalar::ArgInteger>::extract(const CompileResultDeref & arg) const {
+    ArgPreparator<onerut_scalar::ArgInteger>::extract(const CompileResultDeref & arg) {
         return utility::to_integer(arg);
     }
 
     bool
-    ArgPreparator<onerut_scalar::ArgReal>::do_match(const CompileResultDeref & arg) const {
+    ArgPreparator<onerut_scalar::ArgReal>::do_match(const CompileResultDeref & arg) {
         return utility::is_real_or_integer(arg);
     }
 
     std::shared_ptr<onerut_scalar::Real>
-    ArgPreparator<onerut_scalar::ArgReal>::extract(const CompileResultDeref & arg) const {
+    ArgPreparator<onerut_scalar::ArgReal>::extract(const CompileResultDeref & arg) {
         return utility::to_real(arg);
     }
 
     bool
-    ArgPreparator<onerut_scalar::ArgComplex>::do_match(const CompileResultDeref & arg) const {
+    ArgPreparator<onerut_scalar::ArgComplex>::do_match(const CompileResultDeref & arg) {
         return utility::is_real_or_integer_or_complex(arg);
     }
 
     std::shared_ptr<onerut_scalar::Complex>
-    ArgPreparator<onerut_scalar::ArgComplex>::extract(const CompileResultDeref & arg) const {
+    ArgPreparator<onerut_scalar::ArgComplex>::extract(const CompileResultDeref & arg) {
         return utility::to_complex(arg);
     }
 
@@ -78,9 +77,9 @@ namespace onerut_parser {
         static_assert(onerut_scalar::IsArg<Arg>::value);
         const auto & arg_compile_result_deref = arg_compile_result.dereference();
         assert(arg_compile_result_deref.is_either_value_or_type());
-        if (!ArgPreparator<Arg>().do_match(arg_compile_result_deref))
+        if (!ArgPreparator<Arg>::do_match(arg_compile_result_deref))
             return std::nullopt;
-        const auto & arg_extracted = ArgPreparator<Arg>().extract(arg_compile_result_deref);
+        const auto & arg_extracted = ArgPreparator<Arg>::extract(arg_compile_result_deref);
         using OnerutScalarFunctionType = typename onerut_scalar::DeduceFunction<Callable, Arg>::DeducedFunction;
         using ReturnOnerutBaseType = typename OnerutScalarFunctionType::ReturnTag::OnerutBaseType;
         return CompileResult::from_value<ReturnOnerutBaseType>(
@@ -96,12 +95,12 @@ namespace onerut_parser {
         const auto & second_arg_compile_result_deref = second_arg_compile_result.dereference();
         assert(first_arg_compile_result_deref.is_either_value_or_type());
         assert(second_arg_compile_result_deref.is_either_value_or_type());
-        if (!ArgPreparator<Arg1>().do_match(first_arg_compile_result_deref))
+        if (!ArgPreparator<Arg1>::do_match(first_arg_compile_result_deref))
             return std::nullopt;
-        if (!ArgPreparator<Arg2>().do_match(second_arg_compile_result_deref))
+        if (!ArgPreparator<Arg2>::do_match(second_arg_compile_result_deref))
             return std::nullopt;
-        const auto & first_arg_extracted = ArgPreparator<Arg1>().extract(first_arg_compile_result_deref);
-        const auto & second_arg_extracted = ArgPreparator<Arg2>().extract(second_arg_compile_result_deref);
+        const auto & first_arg_extracted = ArgPreparator<Arg1>::extract(first_arg_compile_result_deref);
+        const auto & second_arg_extracted = ArgPreparator<Arg2>::extract(second_arg_compile_result_deref);
         using OnerutScalarFunctionType = typename onerut_scalar::DeduceFunction<Callable, Arg1, Arg2>::DeducedFunction;
         using ReturnOnerutBaseType = typename OnerutScalarFunctionType::ReturnTag::OnerutBaseType;
         return CompileResult::from_value<ReturnOnerutBaseType>(
