@@ -8,55 +8,11 @@
 #include<onerut_scalar/scalar_abstract_complex.hpp>
 #include<onerut_scalar/scalar_abstract_real.hpp>
 #include<onerut_scalar/scalar_abstract_integer.hpp>
+#include<onerut_scalar/scalar_common_interface.hpp>
 #include<onerut_scalar/utility_callable_on_tuple.hpp>
 #include<onerut_scalar/utility_static_all_of.hpp>
 
 namespace onerut_scalar {
-
-    // #########################################################################
-    // ########## HELPER CLASSES ###############################################
-    // #########################################################################
-
-    template<class OnerutBaseType>
-    class CommonInterface {
-    };
-
-    template<>
-    class CommonInterface<Integer> : public Integer {
-    public:
-        long value_integer() const final;
-        virtual long value() const = 0;
-    };
-
-    template<>
-    class CommonInterface<Real> : public Real {
-    public:
-        double value_real() const final;
-        virtual double value() const = 0;
-    };
-
-    template<>
-    class CommonInterface<Complex> : public Complex {
-    public:
-        std::complex<double> value_complex() const final;
-        virtual std::complex<double> value() const = 0;
-    };
-
-    // -------------------------------------------------------------------------
-    // -----   Implementation:   -----------------------------------------------
-    // -------------------------------------------------------------------------
-
-    long CommonInterface<Integer>::value_integer() const {
-        return value();
-    }
-
-    double CommonInterface<Real>::value_real() const {
-        return value();
-    }
-
-    std::complex<double> CommonInterface<Complex>::value_complex() const {
-        return value();
-    }
 
     // #########################################################################
     // #######  ONERUT SCALAR  FUNCTION ARGUMENT TYPE TAG-CLASSES  #############

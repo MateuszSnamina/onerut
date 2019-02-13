@@ -1,10 +1,11 @@
 #ifndef ONERUT_SCALAR_UTILITY_CALLABLE_ON_TUPLE
 #define ONERUT_SCALAR_UTILITY_CALLABLE_ON_TUPLE
 
-// This header allows you to apply variadic callable on elements colected in a tuple.
+// This header allows you to apply callable on elements collected in a tuple.
 //
 // In other words: it provides api to call a callable
 // in which the arguments of the callable are passed altogether in a single tuple instance.
+//
 //
 // More details and used names:
 //
