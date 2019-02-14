@@ -36,22 +36,22 @@ namespace onerut_scalar {
     // -------------------------------------------------------------------------
 
     template<class T>
-    struct IsArg : public std::false_type {
+    struct IsArgTag : public std::false_type {
         using type = std::false_type;
     };
 
     template<>
-    struct IsArg<ArgInteger> : public std::true_type {
+    struct IsArgTag<ArgInteger> : public std::true_type {
         using type = std::true_type;
     };
 
     template<>
-    struct IsArg<ArgReal> : public std::true_type {
+    struct IsArgTag<ArgReal> : public std::true_type {
         using type = std::true_type;
     };
 
     template<>
-    struct IsArg<ArgComplex> : public std::true_type {
+    struct IsArgTag<ArgComplex> : public std::true_type {
         using type = std::true_type;
     };
 
@@ -77,35 +77,36 @@ namespace onerut_scalar {
     // -------------------------------------------------------------------------
 
     template<class T>
-    struct IsReturn : public std::false_type {
+    struct IsReturnTag : public std::false_type {
     };
 
     template<>
-    struct IsReturn<ReturnInteger> : public std::true_type {
+    struct IsReturnTag<ReturnInteger> : public std::true_type {
     };
 
     template<>
-    struct IsReturn<ReturnReal> : public std::true_type {
+    struct IsReturnTag<ReturnReal> : public std::true_type {
     };
 
     template<>
-    struct IsReturn<ReturnComplex> : public std::true_type {
+    struct IsReturnTag<ReturnComplex> : public std::true_type {
     };
 
     // #########################################################################
     // ########## ONERUT SCALAR FUNCTION CLASES -- VERBOSE API #################
     // #########################################################################
 
-    template <class _Callable, class _ReturnTag, class... _Args>
+    template <class _Callable, class _ReturnTag, class... _ArgTags>
     class Function : public CommonInterface<typename _ReturnTag::OnerutBaseType > {
     public:
+        static_assert(IsReturnTag<_ReturnTag>::value);        
+        static_assert(utility::static_all_of<typename IsArgTag<_ArgTags>::type...>::value);
         using ReturnTag = _ReturnTag;
-        static_assert(utility::static_all_of<typename IsArg<_Args>::type...>::value);
-        Function(_Callable callable, std::shared_ptr<typename _Args::OnerutBaseType>... args);
+        Function(_Callable callable, std::shared_ptr<typename _ArgTags::OnerutBaseType>... args);
         typename _ReturnTag::BuildInCppType value() const final;
     private:
         _Callable callable;
-        std::tuple<std::shared_ptr<typename _Args::OnerutBaseType>... > args;
+        std::tuple<std::shared_ptr<typename _ArgTags::OnerutBaseType>... > args;
     };
 
     // -------------------------------------------------------------------------
@@ -124,34 +125,38 @@ namespace onerut_scalar {
     // -----   Implementation:   -----------------------------------------------
     // -------------------------------------------------------------------------    
 
-    template <class _Callable, class _ReturnTag, class... _Args>
-    Function<_Callable, _ReturnTag, _Args...>::Function(
-            _Callable callable, std::shared_ptr<typename _Args::OnerutBaseType>... args) :
+    template <class _Callable, class _ReturnTag, class... _ArgTags>
+    Function<_Callable, _ReturnTag, _ArgTags...>::Function(
+            _Callable callable, std::shared_ptr<typename _ArgTags::OnerutBaseType>... args) :
     callable(callable),
     args(args...) {
+        (assert(args), ...);
     }
 
     // Functions extract(ptr) defined below 
     // are used in conjuction with callable_on_tuple function
-    // used by Function<_Callable, _ReturnTag, _Args...>::value().
+    // used by Function<_Callable, _ReturnTag, _ArgTags...>::value().
 
     long
-    extract(std::shared_ptr<Integer> ptr) {
+    extract(const std::shared_ptr<Integer>& ptr) {
+        assert(ptr);
         return ptr->value_integer();
     }
 
     double
-    extract(std::shared_ptr<Real> ptr) {
+    extract(const std::shared_ptr<Real>& ptr) {
+        assert(ptr);
         return ptr->value_real();
     }
 
     std::complex<double>
-    extract(std::shared_ptr<Complex> ptr) {
+    extract(const std::shared_ptr<Complex>& ptr) {
+        assert(ptr);
         return ptr->value_complex();
     }
 
-    template<typename _Callable, typename _ReturnTag, typename... _Args>
-    typename _ReturnTag::BuildInCppType Function<_Callable, _ReturnTag, _Args...>::value() const {
+    template<typename _Callable, typename _ReturnTag, typename... _ArgTags>
+    typename _ReturnTag::BuildInCppType Function<_Callable, _ReturnTag, _ArgTags...>::value() const {
         return utility::callable_on_tuple(callable, args);
     }
 
@@ -183,16 +188,17 @@ namespace onerut_scalar {
     // Automatic API defined below is to provide onerut-scalar-function type
     // when callable type and argument types are provided by user,
     // but the return type is left for the deduction.
-    
+
     // Using autmatic API you
     // no longer need to declare onerut-scalar-function type manually.
     // You take it out from DeduceFunction helper template
     // is which the desired onerut-scalar-function type is defined as
     // DeducedFunction member type.
-    
+
+    // -------------------------------------------------------------------------
+
     template<class T>
-    struct BuildInCppType2ReturnTag {
-    };
+    struct BuildInCppType2ReturnTag;
 
     template<>
     struct BuildInCppType2ReturnTag<long> {
@@ -211,17 +217,18 @@ namespace onerut_scalar {
 
     // -------------------------------------------------------------------------
 
-    template <class _Callable, class... _Args>
+    template <class _Callable, class... _ArgTags>
     struct DeduceFunction {
-        using DeducedBuildInCppReturnType = decltype(std::declval<_Callable>()(std::declval<typename _Args::BuildInCppType>()...));
+        static_assert(utility::static_all_of<typename IsArgTag<_ArgTags>::type...>::value);        
+        using DeducedBuildInCppReturnType = decltype(std::declval<_Callable>()(std::declval<typename _ArgTags::BuildInCppType>()...));
         using DeducedReturnTag = typename BuildInCppType2ReturnTag<DeducedBuildInCppReturnType>::ReturnTag;
-        using DeducedFunction = Function<_Callable, DeducedReturnTag, _Args...>;
+        using DeducedFunction = Function<_Callable, DeducedReturnTag, _ArgTags...>;
     };
 
     // #########################################################################
     // ########## ONERUT SCALAR FUNCTION CLASES -- CONCISE API #################
     // #########################################################################
-    
+
     /*
     template<class T>
     struct DeducedArg {

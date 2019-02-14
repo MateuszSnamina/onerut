@@ -1,7 +1,7 @@
 #ifndef ONERUT_SCALAR_UTILITY_STATIC_ALL_OF
 #define ONERUT_SCALAR_UTILITY_STATIC_ALL_OF
 
-// The header defines static_all_of<TrueOrFalseTypes> template.
+// This header defines static_all_of<TrueOrFalseTypes> template.
 //
 // For a set of TrueOrFalseTypes being std::true_type or std::false_type 
 // static_all_of<TrueOrFalseTypes> inherits from std::true_type or std::false_type.

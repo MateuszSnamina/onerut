@@ -37,31 +37,37 @@ namespace onerut_parser {
         static std::shared_ptr<onerut_scalar::Complex> extract(const CompileResultDeref & arg);
     };
 
+    inline
     bool
     ArgPreparator<onerut_scalar::ArgInteger>::do_match(const CompileResultDeref & arg) {
         return utility::is_integer(arg);
     }
 
+    inline
     std::shared_ptr<onerut_scalar::Integer>
     ArgPreparator<onerut_scalar::ArgInteger>::extract(const CompileResultDeref & arg) {
         return utility::to_integer(arg);
     }
 
+    inline
     bool
     ArgPreparator<onerut_scalar::ArgReal>::do_match(const CompileResultDeref & arg) {
         return utility::is_real_or_integer(arg);
     }
 
+    inline
     std::shared_ptr<onerut_scalar::Real>
     ArgPreparator<onerut_scalar::ArgReal>::extract(const CompileResultDeref & arg) {
         return utility::to_real(arg);
     }
 
+    inline
     bool
     ArgPreparator<onerut_scalar::ArgComplex>::do_match(const CompileResultDeref & arg) {
         return utility::is_real_or_integer_or_complex(arg);
     }
 
+    inline
     std::shared_ptr<onerut_scalar::Complex>
     ArgPreparator<onerut_scalar::ArgComplex>::extract(const CompileResultDeref & arg) {
         return utility::to_complex(arg);
@@ -74,7 +80,7 @@ namespace onerut_parser {
     template<typename Callable, typename Arg>
     std::optional<CompileResult>
     _unary_function(Callable callable, CompileResult arg_compile_result) {
-        static_assert(onerut_scalar::IsArg<Arg>::value);
+        static_assert(onerut_scalar::IsArgTag<Arg>::value);
         const auto & arg_compile_result_deref = arg_compile_result.dereference();
         assert(arg_compile_result_deref.is_either_value_or_type());
         if (!ArgPreparator<Arg>::do_match(arg_compile_result_deref))
@@ -89,8 +95,8 @@ namespace onerut_parser {
     template<typename Callable, typename Arg1, typename Arg2>
     std::optional<CompileResult>
     _binary_function(Callable callable, CompileResult first_arg_compile_result, CompileResult second_arg_compile_result) {
-        static_assert(onerut_scalar::IsArg<Arg1>::value);
-        static_assert(onerut_scalar::IsArg<Arg2>::value);
+        static_assert(onerut_scalar::IsArgTag<Arg1>::value);
+        static_assert(onerut_scalar::IsArgTag<Arg2>::value);
         const auto & first_arg_compile_result_deref = first_arg_compile_result.dereference();
         const auto & second_arg_compile_result_deref = second_arg_compile_result.dereference();
         assert(first_arg_compile_result_deref.is_either_value_or_type());
@@ -106,6 +112,53 @@ namespace onerut_parser {
         return CompileResult::from_value<ReturnOnerutBaseType>(
                 std::make_shared<OnerutScalarFunctionType> (callable, first_arg_extracted, second_arg_extracted));
     }
+
+    /*
+     NOT USED:
+     
+    template<typename T>
+    struct ArgType2FunctionInputType{
+    };
+    
+    template<>
+    struct ArgType2FunctionInputType<onerut_scalar::ArgInteger>{
+        using FunctionInputType = std::enable_if<> CompileResult;
+    };
+     */
+
+
+    template<typename Callable, typename... ArgTags>
+    std::optional<CompileResult>
+    _function(Callable callable, typename std::enable_if<onerut_scalar::IsArgTag<ArgTags>::value, CompileResult>::type... arg_compile_results) {
+        (assert(arg_compile_results.dereference().is_either_value_or_type()), ...);
+        // TODO
+        //        static_assert(onerut_scalar::IsArgTag<Arg1>::value);
+        //        static_assert(onerut_scalar::IsArgTag<Arg2>::value);
+        //        const auto & first_arg_compile_result_deref = first_arg_compile_result.dereference();
+        //        const auto & second_arg_compile_result_deref = second_arg_compile_result.dereference();
+        //        assert(first_arg_compile_result_deref.is_either_value_or_type());
+        //        assert(second_arg_compile_result_deref.is_either_value_or_type());
+        //        if (!ArgPreparator<Arg1>::do_match(first_arg_compile_result_deref))
+        //            return std::nullopt;
+        //        if (!ArgPreparator<Arg2>::do_match(second_arg_compile_result_deref))
+        //            return std::nullopt;
+        //        const auto & first_arg_extracted = ArgPreparator<Arg1>::extract(first_arg_compile_result_deref);
+        //        const auto & second_arg_extracted = ArgPreparator<Arg2>::extract(second_arg_compile_result_deref);
+        //        using OnerutScalarFunctionType = typename onerut_scalar::DeduceFunction<Callable, Arg1, Arg2>::DeducedFunction;
+        //        using ReturnOnerutBaseType = typename OnerutScalarFunctionType::ReturnTag::OnerutBaseType;
+        //        return CompileResult::from_value<ReturnOnerutBaseType>(
+        //                std::make_shared<OnerutScalarFunctionType> (callable, first_arg_extracted, second_arg_extracted));
+    }
+
+
+
+    // *************************************************************************
+    // *********   generalized functions api                ********************
+    // *************************************************************************    
+    // Here Generalized means that a Callable may by a true callable or null_ptr.
+    // In the latter case no attempt to create CompileResult is made.
+
+    // TODO
 
     // *************************************************************************
     // *********         functions                 *****************************
@@ -131,7 +184,8 @@ namespace onerut_parser {
         const auto & arg_compile_result_deref = arg_compile_result.dereference();
         if (!arg_compile_result_deref.is_either_value_or_type())
             return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
-        if (const auto & result = _unary_function<Callable, onerut_scalar::ArgReal>(callable, arg_compile_result))
+        //if (const auto & result = _function<Callable, onerut_scalar::ArgReal>(callable, arg_compile_result)) // NEW FLAVOER!!! //DEBUG
+        if (const auto & result = _unary_function<Callable, onerut_scalar::ArgReal>(callable, arg_compile_result)) // TESTED
             return *result;
 
         return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
