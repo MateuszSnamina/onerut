@@ -78,9 +78,20 @@ namespace onerut_parser {
     // *********   basic function factory         ******************************
     // *************************************************************************    
 
+    /*
+    template<typename... ArgTags>
+    std::optional<CompileResult>
+    _function_factory(std::nullptr_t, typename std::enable_if<onerut_scalar::IsArgTag<ArgTags>::value, CompileResult>::type... arg_compile_results) {
+        static_assert(onerut_scalar::utility::static_all_of<typename onerut_scalar::IsArgTag<ArgTags>::type...>::value);
+        return std::nullopt;
+    }
+     */
+
+
     template<typename Callable, typename... ArgTags>
     std::optional<CompileResult>
-    _function_factory(Callable callable, typename std::enable_if<onerut_scalar::IsArgTag<ArgTags>::value, CompileResultDeref>::type... arg_compile_results_deref) {
+    _function_factory_2(Callable callable, typename std::enable_if<onerut_scalar::IsArgTag<ArgTags>::value, CompileResultDeref>::type... arg_compile_results_deref) {
+        static_assert(!std::is_same<Callable, std::nullptr_t>::value);
         static_assert(onerut_scalar::utility::static_all_of<typename onerut_scalar::IsArgTag<ArgTags>::type...>::value);
         (assert(arg_compile_results_deref.is_either_value_or_type()), ...);
         if (!(ArgPreparator<ArgTags>::do_match(arg_compile_results_deref) && ... && true))
@@ -94,24 +105,32 @@ namespace onerut_parser {
     template<typename Callable, typename... ArgTags>
     std::optional<CompileResult>
     _function_factory(Callable callable, typename std::enable_if<onerut_scalar::IsArgTag<ArgTags>::value, CompileResult>::type... arg_compile_results) {
+        static_assert(!std::is_same<Callable, std::nullptr_t>::value);
         static_assert(onerut_scalar::utility::static_all_of<typename onerut_scalar::IsArgTag<ArgTags>::type...>::value);
-        return _function_factory<Callable, ArgTags...>(callable, arg_compile_results.dereference()...);
+        return _function_factory_2<Callable, ArgTags...>(callable, arg_compile_results.dereference()...);
     }
 
-    // *************************************************************************
-    // *********   generalized function factory             ********************
-    // *************************************************************************    
-    
-    
-    // Here Generalized means that a Callable may by a true callable or null_ptr.
-    // In the latter case no attempt to create CompileResult is made.
+    template<typename Callable, typename... ArgTags>
+    struct FunctionFactory {
 
-    // TODO
+        static std::optional<CompileResult> make(Callable callable, typename std::enable_if<onerut_scalar::IsArgTag<ArgTags>::value, CompileResult>::type... arg_compile_results) {
+            return _function_factory<Callable, ArgTags...>(callable, arg_compile_results...);
+        }
+    };
+
+    template<typename... ArgTags>
+    struct FunctionFactory<std::nullptr_t, ArgTags...> {
+
+        static std::optional<CompileResult> make(std::nullptr_t, typename std::enable_if<onerut_scalar::IsArgTag<ArgTags>::value, CompileResult>::type... arg_compile_results) {
+            return std::nullopt;
+        };
+    };
 
     // *************************************************************************
     // *********         functions                 *****************************
     // *************************************************************************         
 
+    /*
     template<typename Callable>
     class UnaryRealFunction : public UnaryFunction {
     public:
@@ -137,7 +156,7 @@ namespace onerut_parser {
 
         return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
     }
-
+     */
     // -------------------------------------------------------------------------
 
     template<typename Callable>
@@ -169,6 +188,7 @@ namespace onerut_parser {
 
     // ---------------------------------------------------------------------------        
 
+    /*
     template<typename Callable>
     class UnaryComplexFunction : public UnaryFunction {
     public:
@@ -194,7 +214,7 @@ namespace onerut_parser {
 
         return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
     }
-
+     */
     // -------------------------------------------------------------------------
 
     template<typename Callable>
@@ -247,13 +267,23 @@ namespace onerut_parser {
         const auto & arg_compile_result_deref = arg_compile_result.dereference();
         if (!arg_compile_result_deref.is_either_value_or_type())
             return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
-        if (const auto & result = _function_factory<CallableReal, onerut_scalar::ArgReal>(callable_real, arg_compile_result))
+        if (const auto & result = FunctionFactory<CallableReal, onerut_scalar::ArgReal>::make(callable_real, arg_compile_result))
             return *result;
-        if (const auto & result = _function_factory<CallableComplex, onerut_scalar::ArgComplex>(callable_complex, arg_compile_result))
+        if (const auto & result = FunctionFactory<CallableComplex, onerut_scalar::ArgComplex>::make(callable_complex, arg_compile_result))
             return *result;
         return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
     }
 
+    // -------------------------------------------------------------------------
+    /*
+        template<typename CallableReal>
+        class UnaryRealFunction : UnaryRealComplexFunction<CallableReal, nullptr_t>{
+            public
+        
+        };
+
+        using UnaryRealFunction = UnaryRealComplexFunction<CallableReal, nullptr_t>;
+     */
     // -------------------------------------------------------------------------
 
     template<typename CallableReal, typename CallableComplex>
@@ -285,6 +315,7 @@ namespace onerut_parser {
             return *result;
         return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
     }
+    // -------------------------------------------------------------------------
 
 }
 

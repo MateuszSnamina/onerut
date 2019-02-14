@@ -10,9 +10,10 @@
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
     std::make_shared<                                                          \
-      UnaryRealFunction<UnaryRealFunPtrT>                                      \
+      UnaryRealComplexFunction<UnaryRealFunPtrT, std::nullptr_t>               \
     >(                                                                         \
-      static_cast<UnaryRealFunPtrT> (&std::CPPSTD_NAME)                        \
+      static_cast<UnaryRealFunPtrT> (&std::CPPSTD_NAME),                       \
+      nullptr                                                                  \
     )                                                                          \
   )
 
@@ -21,13 +22,13 @@
 
 // -----------
 
-//TU JEST ZMIANA  TODO (usunac komentarz)
 #define CUSTOM_PUT_STD_UNARY_COMPLEX_RETURNS_REAL_FUNCTION(ONERUT_NAME, CPPSTD_NAME) \
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
     std::make_shared<                                                          \
-      UnaryComplexFunction < UnaryComplexReturnsRealFunPtrT >       \
+      UnaryRealComplexFunction<std::nullptr_t, UnaryComplexReturnsRealFunPtrT >\
     >(                                                                         \
+      nullptr,                                                                 \
       static_cast<UnaryComplexReturnsRealFunPtrT> (&std::CPPSTD_NAME)          \
     )                                                                          \
   )
@@ -43,7 +44,7 @@
     std::make_shared<                                                          \
       BinaryRealFunction<BinaryRealFunPtrT>                                    \
     >(                                                                         \
-            static_cast<BinaryRealFunPtrT> (&std::CPPSTD_NAME)                 \
+      static_cast<BinaryRealFunPtrT> (&std::CPPSTD_NAME)                       \
     )                                                                          \
   )
 
@@ -57,10 +58,11 @@
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
     std::make_shared <                                                         \
-      UnaryComplexFunction<UnaryComplexFunPtrT>                                \
+      UnaryRealComplexFunction<std::nullptr_t, UnaryComplexFunPtrT>            \
     >(                                                                         \
+      nullptr,                                                                 \
       static_cast<UnaryComplexFunPtrT> (&std::CPPSTD_NAME)                     \
-    )                                                                          \
+     )                                                                         \
   )
 
 #define PUT_STD_UNARY_COMPLEX_FUNCTION(NAME)                                   \
