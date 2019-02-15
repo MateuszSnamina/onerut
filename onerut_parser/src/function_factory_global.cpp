@@ -4,6 +4,53 @@
 #include<onerut_parser/function_factory_scalar.hpp>
 
 
+// *****************************************************************************
+// *************   New Macros that help to add real functions   ****************
+// *****************************************************************************
+
+#define NEEEEW_CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(ONERUT_NAME, CPPSTD_NAME, RETURN_TYPE)    \
+  put_unary_real_function_factory(                                             \
+    #ONERUT_NAME,                                                              \
+    static_cast<RETURN_TYPE(*)(double)> (&std::CPPSTD_NAME)                    \
+  );
+
+#define NEEEEW_PUT_STD_UNARY_REAL_FUNCTION(NAME, RETURN_TYPE)    \
+  NEEEEW_CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(NAME, NAME, RETURN_TYPE)
+
+//-----------------------------------
+
+#define NEEEEW_CUSTOM_PUT_STD_BINARY_REAL_FUNCTION(ONERUT_NAME, CPPSTD_NAME, RETURN_TYPE)    \
+  put_binary_real_function_factory(                                                 \
+    #ONERUT_NAME,                                                              \
+    static_cast<RETURN_TYPE(*)(double, double)> (&std::CPPSTD_NAME)            \
+  );
+
+#define NEEEEW_PUT_STD_BINARY_REAL_FUNCTION(NAME, RETURN_TYPE)                 \
+  NEEEEW_CUSTOM_PUT_STD_BINARY_REAL_FUNCTION(NAME, NAME, RETURN_TYPE)
+
+/////////////////////////////////////////////////////////////////////////////////
+
+#define NEEEEW_CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(ONERUT_NAME, CPPSTD_NAME, RETURN_TYPE)    \
+  put_unary_complex_function_factory(                                                   \
+    #ONERUT_NAME,                                                              \
+    static_cast<RETURN_TYPE(*)(const cx_double&)> (&std::CPPSTD_NAME)                    \
+  );
+
+#define NEEEEW_PUT_STD_UNARY_COMPLEX_FUNCTION(NAME, RETURN_TYPE)    \
+  NEEEEW_CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(NAME, NAME, RETURN_TYPE)
+
+//-----------------------------------
+
+#define NEEEEW_CUSTOM_PUT_STD_BINARY_COMPLEX_FUNCTION(ONERUT_NAME, CPPSTD_NAME, RETURN_TYPE)    \
+  put_binary_complex_function_factory(                                                   \
+    #ONERUT_NAME,                                                              \
+    static_cast<RETURN_TYPE(*)(const cx_double&, const cx_double&)> (&std::CPPSTD_NAME)            \
+  );
+
+#define NEEEEW_PUT_STD_BINARY_COMPLEX_FUNCTION(NAME, RETURN_TYPE)                 \
+  NEEEEW_CUSTOM_PUT_STD_BINARY_COMPLEX_FUNCTION(NAME, NAME, RETURN_TYPE)
+
+
 
 
 // *****************************************************************************
@@ -156,101 +203,102 @@ namespace onerut_parser {
         using BinaryRealFunPtrT = double(*)(double, double);
         using cx_double = std::complex<double>;
         using UnaryComplexFunPtrT = cx_double(*)(const cx_double&);
-        using UnaryComplexReturnsRealFunPtrT = double(*)(const cx_double&);
+        //using UnaryComplexReturnsRealFunPtrT = double(*)(const cx_double&);
         using BinaryComplexFunPtrT = cx_double(*)(const cx_double&, const cx_double&);
         // ******************************************************
         // **** Functions for both real and complex numbers: ****
         // ******************************************************
-        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_cos, cos);
-        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_cos, cos);
+
+        NEEEEW_CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_cos, cos, double);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_cos, cos, cx_double);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(cos);
-        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_sin, sin);
-        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_sin, sin);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_sin, sin, double);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_sin, sin, cx_double);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(sin);
-        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_tan, tan);
-        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_tan, tan);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_tan, tan, double);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_tan, tan, cx_double);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(tan);
         // ------------------------------------------------------
-        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_acos, acos);
-        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_acos, acos);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_acos, acos, double);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_acos, acos, cx_double);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(acos);
-        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_asin, asin);
-        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_asin, asin);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_asin, asin, double);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_asin, asin, cx_double);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(asin);
-        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_atan, atan);
-        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_atan, atan);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_atan, atan, double);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_atan, atan, cx_double);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(atan);
         // ------------------------------------------------------
-        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_cosh, cosh);
-        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_cosh, cosh);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_cosh, cosh, double);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_cosh, cosh, cx_double);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(cosh);
-        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_sinh, sinh);
-        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_sinh, sinh);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_sinh, sinh, double);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_sinh, sinh, cx_double);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(sinh);
-        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_tanh, tanh);
-        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_tanh, tanh);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_tanh, tanh, double);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_tanh, tanh, cx_double);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(tanh);
         // ------------------------------------------------------
-        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_acosh, acosh);
-        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_acosh, acosh);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_acosh, acosh, double);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_acosh, acosh, cx_double);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(acosh);
-        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_asinh, asinh);
-        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_asinh, asinh);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_asinh, asinh, double);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_asinh, asinh, cx_double);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(asinh);
-        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_atanh, atanh);
-        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_atanh, atanh);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_atanh, atanh, double);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_atanh, atanh, cx_double);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(atanh);
         // ------------------------------------------------------        
-        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_exp, exp);
-        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_exp, exp);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_exp, exp, double);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_exp, exp, cx_double);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(exp);
-        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_log, log);
-        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_log, log);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_log, log, double);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_log, log, cx_double);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(log);
-        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_log10, log10);
-        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_log10, log10);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_log10, log10, double);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_log10, log10, cx_double);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(log10);
         // ------------------------------------------------------
-        CUSTOM_PUT_STD_BINARY_REAL_FUNCTION(re_pow, pow);
-        CUSTOM_PUT_STD_BINARY_COMPLEX_FUNCTION(cx_pow, pow);
+        NEEEEW_CUSTOM_PUT_STD_BINARY_REAL_FUNCTION(re_pow, pow, double);
+        NEEEEW_CUSTOM_PUT_STD_BINARY_COMPLEX_FUNCTION(cx_pow, pow, cx_double);
         PUT_STD_BINARY_REALCOMPLEX_FUNCTION(pow);
-        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_sqrt, sqrt);
-        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_sqrt, sqrt);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_sqrt, sqrt, double);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_sqrt, sqrt, cx_double);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(sqrt);
         // ******************************************************
         // ****  Functions for real numbers: ********************
         // ******************************************************
-        PUT_STD_BINARY_REAL_FUNCTION(atan2);
-        PUT_STD_UNARY_REAL_FUNCTION(exp2);
-        PUT_STD_UNARY_REAL_FUNCTION(expm1);
-        PUT_STD_UNARY_REAL_FUNCTION(log1p);
-        PUT_STD_UNARY_REAL_FUNCTION(log2);
-        PUT_STD_UNARY_REAL_FUNCTION(cbrt);
-        PUT_STD_BINARY_REAL_FUNCTION(hypot);
-        PUT_STD_UNARY_REAL_FUNCTION(erf);
-        PUT_STD_UNARY_REAL_FUNCTION(erfc);
-        PUT_STD_UNARY_REAL_FUNCTION(tgamma);
-        PUT_STD_UNARY_REAL_FUNCTION(lgamma);
-        PUT_STD_UNARY_REAL_FUNCTION(ceil);
-        PUT_STD_UNARY_REAL_FUNCTION(floor);
-        PUT_STD_BINARY_REAL_FUNCTION(fmod);
-        PUT_STD_UNARY_REAL_FUNCTION(trunc);
-        PUT_STD_UNARY_REAL_FUNCTION(round);
-        PUT_STD_BINARY_REAL_FUNCTION(remainder);
-        PUT_STD_BINARY_REAL_FUNCTION(copysign);
-        CUSTOM_PUT_STD_BINARY_REAL_FUNCTION(dim, fdim);
-        CUSTOM_PUT_STD_BINARY_REAL_FUNCTION(max, fmax);
-        CUSTOM_PUT_STD_BINARY_REAL_FUNCTION(min, fmin);
-        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_abs, fabs);
+        NEEEEW_PUT_STD_BINARY_REAL_FUNCTION(atan2, double);
+        NEEEEW_PUT_STD_UNARY_REAL_FUNCTION(exp2, double);
+        NEEEEW_PUT_STD_UNARY_REAL_FUNCTION(expm1, double);
+        NEEEEW_PUT_STD_UNARY_REAL_FUNCTION(log1p, double);
+        NEEEEW_PUT_STD_UNARY_REAL_FUNCTION(log2, double);
+        NEEEEW_PUT_STD_UNARY_REAL_FUNCTION(cbrt, double);
+        NEEEEW_PUT_STD_BINARY_REAL_FUNCTION(hypot, double);
+        NEEEEW_PUT_STD_UNARY_REAL_FUNCTION(erf, double);
+        NEEEEW_PUT_STD_UNARY_REAL_FUNCTION(erfc, double);
+        NEEEEW_PUT_STD_UNARY_REAL_FUNCTION(tgamma, double);
+        NEEEEW_PUT_STD_UNARY_REAL_FUNCTION(lgamma, double);
+        NEEEEW_PUT_STD_UNARY_REAL_FUNCTION(ceil, double);
+        NEEEEW_PUT_STD_UNARY_REAL_FUNCTION(floor, double);
+        NEEEEW_PUT_STD_BINARY_REAL_FUNCTION(fmod, double);
+        NEEEEW_PUT_STD_UNARY_REAL_FUNCTION(trunc, double);
+        NEEEEW_PUT_STD_UNARY_REAL_FUNCTION(round, double);
+        NEEEEW_PUT_STD_BINARY_REAL_FUNCTION(remainder, double);
+        NEEEEW_PUT_STD_BINARY_REAL_FUNCTION(copysign, double);
+        NEEEEW_CUSTOM_PUT_STD_BINARY_REAL_FUNCTION(dim, fdim, double);
+        NEEEEW_CUSTOM_PUT_STD_BINARY_REAL_FUNCTION(max, fmax, double);
+        NEEEEW_CUSTOM_PUT_STD_BINARY_REAL_FUNCTION(min, fmin, double);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_abs, fabs, double);
         // ******************************************************
         // **** Functions for complex numbers *******************
         // ******************************************************
-        PUT_STD_UNARY_COMPLEX_FUNCTION(conj);
-        PUT_STD_UNARY_COMPLEX_RETURNS_REAL_FUNCTION(real);
-        PUT_STD_UNARY_COMPLEX_RETURNS_REAL_FUNCTION(imag);
-        PUT_STD_UNARY_COMPLEX_RETURNS_REAL_FUNCTION(arg);
-        PUT_STD_UNARY_COMPLEX_RETURNS_REAL_FUNCTION(norm);
-        CUSTOM_PUT_STD_UNARY_COMPLEX_RETURNS_REAL_FUNCTION(cx_abs, abs);
+        NEEEEW_PUT_STD_UNARY_COMPLEX_FUNCTION(conj, cx_double);
+        NEEEEW_PUT_STD_UNARY_COMPLEX_FUNCTION(real, double);
+        NEEEEW_PUT_STD_UNARY_COMPLEX_FUNCTION(imag, double);
+        NEEEEW_PUT_STD_UNARY_COMPLEX_FUNCTION(arg, double);
+        NEEEEW_PUT_STD_UNARY_COMPLEX_FUNCTION(norm, double);
+        NEEEEW_CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_abs, abs, double);
     }
 }
 
