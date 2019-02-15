@@ -75,13 +75,14 @@ namespace onerut_parser {
     }
 
     // *************************************************************************
-    // *********   basic onerut-scalar-function factory         ****************
+    // *********   helper functions                             ****************
     // *************************************************************************    
-    
-    //TODO delete _2 suffix
+
     template<typename Callable, typename... ArgTags>
     std::optional<CompileResult>
-    _make_function_or_empty_2(Callable callable, typename std::enable_if<onerut_scalar::IsArgTag<ArgTags>::value, CompileResultDeref>::type... arg_compile_results_deref) {
+    _make_function_or_empty(
+            Callable callable,
+            typename std::enable_if<onerut_scalar::IsArgTag<ArgTags>::value, CompileResultDeref>::type... arg_compile_results_deref) {
         static_assert(!std::is_same<Callable, std::nullptr_t>::value);
         static_assert(onerut_scalar::utility::static_all_of<typename onerut_scalar::IsArgTag<ArgTags>::type...>::value);
         (assert(arg_compile_results_deref.is_either_value_or_type()), ...);
@@ -95,10 +96,12 @@ namespace onerut_parser {
 
     template<typename Callable, typename... ArgTags>
     std::optional<CompileResult>
-    _make_function_or_empty(Callable callable, typename std::enable_if<onerut_scalar::IsArgTag<ArgTags>::value, CompileResult>::type... arg_compile_results) {
+    _make_function_or_empty(
+            Callable callable,
+            typename std::enable_if<onerut_scalar::IsArgTag<ArgTags>::value, CompileResult>::type... arg_compile_results) {
         static_assert(!std::is_same<Callable, std::nullptr_t>::value);
         static_assert(onerut_scalar::utility::static_all_of<typename onerut_scalar::IsArgTag<ArgTags>::type...>::value);
-        return _make_function_or_empty_2<Callable, ArgTags...>(callable, arg_compile_results.dereference()...);
+        return _make_function_or_empty<Callable, ArgTags...>(callable, arg_compile_results.dereference()...);
     }
 
     // *************************************************************************
@@ -106,23 +109,36 @@ namespace onerut_parser {
     // *********   returning std::optional<CompileResult>        ***************
     // *********   (create a function or nullopt)                ***************    
     // *************************************************************************    
-    
-    
+
     template<typename Callable, typename... ArgTags>
     struct ScalarFunctionFactory {
-
-        static std::optional<CompileResult> make_function_or_empty(Callable callable, typename std::enable_if<onerut_scalar::IsArgTag<ArgTags>::value, CompileResult>::type... arg_compile_results) {
-            return _make_function_or_empty<Callable, ArgTags...>(callable, arg_compile_results...);
-        }
+        static std::optional<CompileResult> make_function_or_empty(
+                Callable callable,
+                typename std::enable_if<onerut_scalar::IsArgTag<ArgTags>::value, CompileResult>::type... arg_compile_results);
     };
 
     template<typename... ArgTags>
     struct ScalarFunctionFactory<std::nullptr_t, ArgTags...> {
-
-        static std::optional<CompileResult> make_function_or_empty(std::nullptr_t, typename std::enable_if<onerut_scalar::IsArgTag<ArgTags>::value, CompileResult>::type... arg_compile_results) {
-            return std::nullopt;
-        };
+        static std::optional<CompileResult> make_function_or_empty(
+                std::nullptr_t,
+                typename std::enable_if<onerut_scalar::IsArgTag<ArgTags>::value, CompileResult>::type... arg_compile_results);
     };
+
+    template<typename Callable, typename... ArgTags>
+    std::optional<CompileResult>
+    ScalarFunctionFactory<Callable, ArgTags...>::make_function_or_empty(
+            Callable callable,
+            typename std::enable_if<onerut_scalar::IsArgTag<ArgTags>::value, CompileResult>::type... arg_compile_results) {
+        return _make_function_or_empty<Callable, ArgTags...>(callable, arg_compile_results...);
+    }
+
+    template<typename... ArgTags>
+    std::optional<CompileResult>
+    ScalarFunctionFactory<std::nullptr_t, ArgTags...>::make_function_or_empty(
+            std::nullptr_t,
+            typename std::enable_if<onerut_scalar::IsArgTag<ArgTags>::value, CompileResult>::type... arg_compile_results) {
+        return std::nullopt;
+    }
 
     // *************************************************************************
     // *********   High level onerut-scalar-function factories    **************
@@ -134,25 +150,31 @@ namespace onerut_parser {
     // *********   and may be stored in                           **************
     // *********   GlobalFunctionFactories container              **************
     // *************************************************************************
-    
+
     template<typename CallableReal, typename CallableComplex>
-    class UnaryRealComplexFunctionFactory : public UnaryFunctionFactory {
+    class OverloadScalarUnaryFunctionFactory : public UnaryFunctionFactory {
     public:
-        UnaryRealComplexFunctionFactory(CallableReal callable_real, CallableComplex callable_complex);
-        CompileResult make_function_otherwise_make_error(CompileResult arg) const override;
+        OverloadScalarUnaryFunctionFactory(
+                CallableReal callable_real,
+                CallableComplex callable_complex);
+        CompileResult make_function_otherwise_make_error(
+                CompileResult arg) const override;
     private:
         CallableReal callable_real;
         CallableComplex callable_complex;
     };
 
     template<typename CallableReal, typename CallableComplex >
-    UnaryRealComplexFunctionFactory<CallableReal, CallableComplex>::UnaryRealComplexFunctionFactory(CallableReal callable_real, CallableComplex callable_complex) :
+    OverloadScalarUnaryFunctionFactory<CallableReal, CallableComplex>::OverloadScalarUnaryFunctionFactory(
+            CallableReal callable_real,
+            CallableComplex callable_complex) :
     callable_real(callable_real),
     callable_complex(callable_complex) {
     }
 
     template<typename CallableReal, typename CallableComplex >
-    CompileResult UnaryRealComplexFunctionFactory<CallableReal, CallableComplex>::make_function_otherwise_make_error(CompileResult arg_compile_result) const {
+    CompileResult OverloadScalarUnaryFunctionFactory<CallableReal, CallableComplex>::make_function_otherwise_make_error(
+            CompileResult arg_compile_result) const {
         const auto & arg_compile_result_deref = arg_compile_result.dereference();
         if (!arg_compile_result_deref.is_either_value_or_type())
             return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
@@ -166,23 +188,31 @@ namespace onerut_parser {
     // -------------------------------------------------------------------------
 
     template<typename CallableReal, typename CallableComplex>
-    class BinaryRealComplexFunctionFactory : public BinaryFunctionFactory {
+    class OverloadScalarBinaryFunctionFactory : public BinaryFunctionFactory {
     public:
-        BinaryRealComplexFunctionFactory(CallableReal callable_real, CallableComplex callable_complex);
-        CompileResult make_function_otherwise_make_error(CompileResult first_arg, CompileResult second_arg) const override;
+        OverloadScalarBinaryFunctionFactory(
+                CallableReal callable_real,
+                CallableComplex callable_complex);
+        CompileResult make_function_otherwise_make_error(
+                CompileResult first_arg,
+                CompileResult second_arg) const override;
     private:
         CallableReal callable_real;
         CallableComplex callable_complex;
     };
 
     template<typename CallableReal, typename CallableComplex >
-    BinaryRealComplexFunctionFactory<CallableReal, CallableComplex>::BinaryRealComplexFunctionFactory(CallableReal callable_real, CallableComplex callable_complex) :
+    OverloadScalarBinaryFunctionFactory<CallableReal, CallableComplex>::OverloadScalarBinaryFunctionFactory(
+            CallableReal callable_real,
+            CallableComplex callable_complex) :
     callable_real(callable_real),
     callable_complex(callable_complex) {
     }
 
     template<typename CallableReal, typename CallableComplex >
-    CompileResult BinaryRealComplexFunctionFactory<CallableReal, CallableComplex>::make_function_otherwise_make_error(CompileResult first_arg_compile_result, CompileResult second_arg_compile_result) const {
+    CompileResult OverloadScalarBinaryFunctionFactory<CallableReal, CallableComplex>::make_function_otherwise_make_error(
+            CompileResult first_arg_compile_result,
+            CompileResult second_arg_compile_result) const {
         const auto & first_arg_compile_result_deref = first_arg_compile_result.dereference();
         const auto & second_arg_compile_result_deref = second_arg_compile_result.dereference();
         if (!first_arg_compile_result_deref.is_either_value_or_type() || !second_arg_compile_result_deref.is_either_value_or_type())

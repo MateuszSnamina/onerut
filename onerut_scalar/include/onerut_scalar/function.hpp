@@ -99,7 +99,7 @@ namespace onerut_scalar {
     template <class _Callable, class _ReturnTag, class... _ArgTags>
     class Function : public CommonInterface<typename _ReturnTag::OnerutBaseType > {
     public:
-        static_assert(IsReturnTag<_ReturnTag>::value);        
+        static_assert(IsReturnTag<_ReturnTag>::value);
         static_assert(utility::static_all_of<typename IsArgTag<_ArgTags>::type...>::value);
         using ReturnTag = _ReturnTag;
         Function(_Callable callable, std::shared_ptr<typename _ArgTags::OnerutBaseType>... args);
@@ -137,18 +137,21 @@ namespace onerut_scalar {
     // are used in conjuction with callable_on_tuple function
     // used by Function<_Callable, _ReturnTag, _ArgTags...>::value().
 
+    inline
     long
     extract(const std::shared_ptr<Integer>& ptr) {
         assert(ptr);
         return ptr->value_integer();
     }
 
+    inline
     double
     extract(const std::shared_ptr<Real>& ptr) {
         assert(ptr);
         return ptr->value_real();
     }
 
+    inline
     std::complex<double>
     extract(const std::shared_ptr<Complex>& ptr) {
         assert(ptr);
@@ -219,7 +222,7 @@ namespace onerut_scalar {
 
     template <class _Callable, class... _ArgTags>
     struct DeduceFunction {
-        static_assert(utility::static_all_of<typename IsArgTag<_ArgTags>::type...>::value);        
+        static_assert(utility::static_all_of<typename IsArgTag<_ArgTags>::type...>::value);
         using DeducedBuildInCppReturnType = decltype(std::declval<_Callable>()(std::declval<typename _ArgTags::BuildInCppType>()...));
         using DeducedReturnTag = typename BuildInCppType2ReturnTag<DeducedBuildInCppReturnType>::ReturnTag;
         using DeducedFunction = Function<_Callable, DeducedReturnTag, _ArgTags...>;

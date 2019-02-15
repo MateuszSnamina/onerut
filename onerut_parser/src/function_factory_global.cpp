@@ -3,6 +3,9 @@
 #include<onerut_parser/function_factory_global.hpp>
 #include<onerut_parser/function_factory_scalar.hpp>
 
+
+
+
 // *****************************************************************************
 // *************   Macros that help to add real functions   ********************
 // *****************************************************************************
@@ -10,7 +13,7 @@
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
     std::make_shared<                                                          \
-      UnaryRealComplexFunctionFactory<UnaryRealFunPtrT, std::nullptr_t>               \
+      OverloadScalarUnaryFunctionFactory<UnaryRealFunPtrT, std::nullptr_t>               \
     >(                                                                         \
       static_cast<UnaryRealFunPtrT> (&std::CPPSTD_NAME),                       \
       nullptr                                                                  \
@@ -26,7 +29,7 @@
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
     std::make_shared<                                                          \
-      UnaryRealComplexFunctionFactory<std::nullptr_t, UnaryComplexReturnsRealFunPtrT >\
+      OverloadScalarUnaryFunctionFactory<std::nullptr_t, UnaryComplexReturnsRealFunPtrT >\
     >(                                                                         \
       nullptr,                                                                 \
       static_cast<UnaryComplexReturnsRealFunPtrT> (&std::CPPSTD_NAME)          \
@@ -42,7 +45,7 @@
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
     std::make_shared<                                                          \
-      BinaryRealComplexFunctionFactory<BinaryRealFunPtrT, std::nullptr_t>             \
+      OverloadScalarBinaryFunctionFactory<BinaryRealFunPtrT, std::nullptr_t>   \
     >(                                                                         \
       static_cast<BinaryRealFunPtrT> (&std::CPPSTD_NAME),                      \
       nullptr                                                                  \
@@ -59,7 +62,7 @@
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
     std::make_shared <                                                         \
-      UnaryRealComplexFunctionFactory<std::nullptr_t, UnaryComplexFunPtrT>            \
+      OverloadScalarUnaryFunctionFactory<std::nullptr_t, UnaryComplexFunPtrT>            \
     >(                                                                         \
       nullptr,                                                                 \
       static_cast<UnaryComplexFunPtrT> (&std::CPPSTD_NAME)                     \
@@ -73,7 +76,7 @@
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
     std::make_shared<                                                          \
-      BinaryRealComplexFunctionFactory<nullptr_t, BinaryComplexFunPtrT>               \
+      OverloadScalarBinaryFunctionFactory<nullptr_t, BinaryComplexFunPtrT>     \
     >(                                                                         \
       nullptr,                                                                 \
       static_cast<BinaryComplexFunPtrT> (&std::CPPSTD_NAME)                    \
@@ -90,7 +93,7 @@
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
     std::make_shared<                                                          \
-      UnaryRealComplexFunctionFactory<UnaryRealFunPtrT, UnaryComplexFunPtrT>          \
+      OverloadScalarUnaryFunctionFactory<UnaryRealFunPtrT, UnaryComplexFunPtrT>          \
     >(                                                                         \
       static_cast<UnaryRealFunPtrT> (&std::CPPSTD_NAME),                       \
       static_cast<UnaryComplexFunPtrT> (&std::CPPSTD_NAME)                     \
@@ -104,7 +107,7 @@
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
     std::make_shared<                                                          \
-      BinaryRealComplexFunctionFactory<BinaryRealFunPtrT, BinaryComplexFunPtrT >      \
+      OverloadScalarBinaryFunctionFactory<BinaryRealFunPtrT, BinaryComplexFunPtrT >      \
     >(                                                                         \
       static_cast<BinaryRealFunPtrT> (&std::CPPSTD_NAME),                      \
       static_cast<BinaryComplexFunPtrT> (&std::CPPSTD_NAME)                    \
@@ -122,6 +125,7 @@ namespace onerut_parser {
 
     GlobalFunctionFactories& GlobalFunctionFactories::instance() {
         static GlobalFunctionFactories _instance;
+
         return _instance;
     }
 
@@ -129,6 +133,7 @@ namespace onerut_parser {
         try {
             return functions.at(name);
         } catch (std::out_of_range&) {
+
             return std::optional<std::shared_ptr < AbstractFunctionFactory >> ();
         }
     }
@@ -137,10 +142,12 @@ namespace onerut_parser {
         if (functions.count(name))
             return false;
         functions[name] = function;
+
         return true;
     }
 
     void GlobalFunctionFactories::force_put(const std::string& name, std::shared_ptr<AbstractFunctionFactory> function) {
+
         functions[name] = function;
     }
 
