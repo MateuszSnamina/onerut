@@ -42,9 +42,10 @@
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
     std::make_shared<                                                          \
-      BinaryRealFunction<BinaryRealFunPtrT>                                    \
+      BinaryRealComplexFunction<BinaryRealFunPtrT, std::nullptr_t>             \
     >(                                                                         \
-      static_cast<BinaryRealFunPtrT> (&std::CPPSTD_NAME)                       \
+      static_cast<BinaryRealFunPtrT> (&std::CPPSTD_NAME),                      \
+      nullptr                                                                  \
     )                                                                          \
   )
 
@@ -72,8 +73,9 @@
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
     std::make_shared<                                                          \
-      BinaryComplexFunction<BinaryComplexFunPtrT>                              \
+      BinaryRealComplexFunction<nullptr_t, BinaryComplexFunPtrT>               \
     >(                                                                         \
+      nullptr,                                                                 \
       static_cast<BinaryComplexFunPtrT> (&std::CPPSTD_NAME)                    \
     )                                                                          \
   )

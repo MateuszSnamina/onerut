@@ -127,128 +127,14 @@ namespace onerut_parser {
     };
 
     // *************************************************************************
-    // *********         functions                 *****************************
+    // *********         functions wrappers        *****************************
     // *************************************************************************         
 
-    /*
-    template<typename Callable>
-    class UnaryRealFunction : public UnaryFunction {
-    public:
-        // Callable obj should support: obj(double) -> [long, double or cx_double]
-        UnaryRealFunction(Callable callable);
-        CompileResult get_compile_result(CompileResult arg) const override;
-    private:
-        Callable callable;
-    };
-
-    template<typename Callable >
-    UnaryRealFunction<Callable>::UnaryRealFunction(Callable callable) :
-    callable(callable) {
-    }
-
-    template<typename Callable >
-    CompileResult UnaryRealFunction<Callable>::get_compile_result(CompileResult arg_compile_result) const {
-        const auto & arg_compile_result_deref = arg_compile_result.dereference();
-        if (!arg_compile_result_deref.is_either_value_or_type())
-            return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
-        if (const auto & result = _function_factory<Callable, onerut_scalar::ArgReal>(callable, arg_compile_result)) // NEW FLAVOER!!! //DEBUG
-            return *result;
-
-        return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
-    }
-     */
-    // -------------------------------------------------------------------------
-
-    template<typename Callable>
-    class BinaryRealFunction : public BinaryFunction {
-    public:
-        // Callable obj should support: obj(double, double) -> [long, double or cx_double]
-        BinaryRealFunction(Callable callable);
-        CompileResult get_compile_result(CompileResult first_arg, CompileResult second_arg) const override;
-    private:
-        Callable callable;
-    };
-
-    template<typename Callable >
-    BinaryRealFunction<Callable>::BinaryRealFunction(Callable callable) :
-    callable(callable) {
-    }
-
-    template<typename Callable >
-    CompileResult BinaryRealFunction<Callable>::get_compile_result(CompileResult first_arg_compile_result, CompileResult second_arg_compile_result) const {
-        const auto & first_arg_compile_result_deref = first_arg_compile_result.dereference();
-        const auto & second_arg_compile_result_deref = second_arg_compile_result.dereference();
-        if (!first_arg_compile_result_deref.is_either_value_or_type() || !second_arg_compile_result_deref.is_either_value_or_type())
-            return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
-        if (const auto & result = _function_factory<Callable, onerut_scalar::ArgReal, onerut_scalar::ArgReal>(callable, first_arg_compile_result, second_arg_compile_result))
-            return *result;
-
-        return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
-    }
-
-    // ---------------------------------------------------------------------------        
-
-    /*
-    template<typename Callable>
-    class UnaryComplexFunction : public UnaryFunction {
-    public:
-        // Callable obj should support: obj(cx_double) -> [long, double or cx_double]
-        UnaryComplexFunction(Callable callable);
-        CompileResult get_compile_result(CompileResult arg) const override;
-    private:
-        Callable callable;
-    };
-
-    template<typename Callable >
-    UnaryComplexFunction<Callable>::UnaryComplexFunction(Callable callable) :
-    callable(callable) {
-    }
-
-    template<typename Callable >
-    CompileResult UnaryComplexFunction<Callable>::get_compile_result(CompileResult arg_compile_result) const {
-        const auto & arg_compile_result_deref = arg_compile_result.dereference();
-        if (!arg_compile_result_deref.is_either_value_or_type())
-            return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
-        if (const auto & result = _function_factory<Callable, onerut_scalar::ArgComplex>(callable, arg_compile_result))
-            return *result;
-
-        return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
-    }
-     */
-    // -------------------------------------------------------------------------
-
-    template<typename Callable>
-    class BinaryComplexFunction : public BinaryFunction {
-    public:
-        // Callable obj should support: obj(cx_double, cx_double) -> [long, double or cx_double]
-        BinaryComplexFunction(Callable callable);
-        CompileResult get_compile_result(CompileResult first_arg, CompileResult second_arg) const override;
-    private:
-        Callable callable;
-    };
-
-    template<typename Callable >
-    BinaryComplexFunction<Callable>::BinaryComplexFunction(Callable callable) :
-    callable(callable) {
-    }
-
-    template<typename Callable >
-    CompileResult BinaryComplexFunction<Callable>::get_compile_result(CompileResult first_arg_compile_result, CompileResult second_arg_compile_result) const {
-        const auto & first_arg_compile_result_deref = first_arg_compile_result.dereference();
-        const auto & second_arg_compile_result_deref = second_arg_compile_result.dereference();
-        if (!first_arg_compile_result_deref.is_either_value_or_type() || !second_arg_compile_result_deref.is_either_value_or_type())
-            return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
-        if (const auto & result = _function_factory<Callable, onerut_scalar::ArgComplex, onerut_scalar::ArgComplex>(callable, first_arg_compile_result, second_arg_compile_result))
-            return *result;
-        return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
-    }
-
-    // -------------------------------------------------------------------------
+    // TODO zchange names to include wrapper and delete RealComplex and add integer part.
 
     template<typename CallableReal, typename CallableComplex>
     class UnaryRealComplexFunction : public UnaryFunction {
     public:
-
         UnaryRealComplexFunction(CallableReal callable_real, CallableComplex callable_complex);
         CompileResult get_compile_result(CompileResult arg) const override;
     private:
@@ -275,16 +161,6 @@ namespace onerut_parser {
     }
 
     // -------------------------------------------------------------------------
-    /*
-        template<typename CallableReal>
-        class UnaryRealFunction : UnaryRealComplexFunction<CallableReal, nullptr_t>{
-            public
-        
-        };
-
-        using UnaryRealFunction = UnaryRealComplexFunction<CallableReal, nullptr_t>;
-     */
-    // -------------------------------------------------------------------------
 
     template<typename CallableReal, typename CallableComplex>
     class BinaryRealComplexFunction : public BinaryFunction {
@@ -309,9 +185,9 @@ namespace onerut_parser {
         const auto & second_arg_compile_result_deref = second_arg_compile_result.dereference();
         if (!first_arg_compile_result_deref.is_either_value_or_type() || !second_arg_compile_result_deref.is_either_value_or_type())
             return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
-        if (const auto & result = _function_factory<CallableReal, onerut_scalar::ArgReal, onerut_scalar::ArgReal>(callable_real, first_arg_compile_result, second_arg_compile_result))
+        if (const auto & result = FunctionFactory<CallableReal, onerut_scalar::ArgReal, onerut_scalar::ArgReal>::make(callable_real, first_arg_compile_result, second_arg_compile_result))
             return *result;
-        if (const auto & result = _function_factory<CallableComplex, onerut_scalar::ArgComplex, onerut_scalar::ArgComplex>(callable_complex, first_arg_compile_result, second_arg_compile_result))
+        if (const auto & result = FunctionFactory<CallableComplex, onerut_scalar::ArgComplex, onerut_scalar::ArgComplex>::make(callable_complex, first_arg_compile_result, second_arg_compile_result))
             return *result;
         return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
     }
