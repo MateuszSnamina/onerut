@@ -1,7 +1,7 @@
 #include<cmath>
 #include<complex>
-#include<onerut_parser/function_global.hpp>
-#include<onerut_parser/function_scalar_function_wrapper.hpp>
+#include<onerut_parser/function_factory_global.hpp>
+#include<onerut_parser/function_factory_scalar.hpp>
 
 // *****************************************************************************
 // *************   Macros that help to add real functions   ********************
@@ -10,7 +10,7 @@
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
     std::make_shared<                                                          \
-      UnaryRealComplexFunction<UnaryRealFunPtrT, std::nullptr_t>               \
+      UnaryRealComplexFunctionFactory<UnaryRealFunPtrT, std::nullptr_t>               \
     >(                                                                         \
       static_cast<UnaryRealFunPtrT> (&std::CPPSTD_NAME),                       \
       nullptr                                                                  \
@@ -26,7 +26,7 @@
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
     std::make_shared<                                                          \
-      UnaryRealComplexFunction<std::nullptr_t, UnaryComplexReturnsRealFunPtrT >\
+      UnaryRealComplexFunctionFactory<std::nullptr_t, UnaryComplexReturnsRealFunPtrT >\
     >(                                                                         \
       nullptr,                                                                 \
       static_cast<UnaryComplexReturnsRealFunPtrT> (&std::CPPSTD_NAME)          \
@@ -42,7 +42,7 @@
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
     std::make_shared<                                                          \
-      BinaryRealComplexFunction<BinaryRealFunPtrT, std::nullptr_t>             \
+      BinaryRealComplexFunctionFactory<BinaryRealFunPtrT, std::nullptr_t>             \
     >(                                                                         \
       static_cast<BinaryRealFunPtrT> (&std::CPPSTD_NAME),                      \
       nullptr                                                                  \
@@ -59,7 +59,7 @@
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
     std::make_shared <                                                         \
-      UnaryRealComplexFunction<std::nullptr_t, UnaryComplexFunPtrT>            \
+      UnaryRealComplexFunctionFactory<std::nullptr_t, UnaryComplexFunPtrT>            \
     >(                                                                         \
       nullptr,                                                                 \
       static_cast<UnaryComplexFunPtrT> (&std::CPPSTD_NAME)                     \
@@ -73,7 +73,7 @@
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
     std::make_shared<                                                          \
-      BinaryRealComplexFunction<nullptr_t, BinaryComplexFunPtrT>               \
+      BinaryRealComplexFunctionFactory<nullptr_t, BinaryComplexFunPtrT>               \
     >(                                                                         \
       nullptr,                                                                 \
       static_cast<BinaryComplexFunPtrT> (&std::CPPSTD_NAME)                    \
@@ -90,7 +90,7 @@
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
     std::make_shared<                                                          \
-      UnaryRealComplexFunction<UnaryRealFunPtrT, UnaryComplexFunPtrT>          \
+      UnaryRealComplexFunctionFactory<UnaryRealFunPtrT, UnaryComplexFunPtrT>          \
     >(                                                                         \
       static_cast<UnaryRealFunPtrT> (&std::CPPSTD_NAME),                       \
       static_cast<UnaryComplexFunPtrT> (&std::CPPSTD_NAME)                     \
@@ -104,7 +104,7 @@
   force_put(                                                                   \
     #ONERUT_NAME,                                                              \
     std::make_shared<                                                          \
-      BinaryRealComplexFunction<BinaryRealFunPtrT, BinaryComplexFunPtrT >      \
+      BinaryRealComplexFunctionFactory<BinaryRealFunPtrT, BinaryComplexFunPtrT >      \
     >(                                                                         \
       static_cast<BinaryRealFunPtrT> (&std::CPPSTD_NAME),                      \
       static_cast<BinaryComplexFunPtrT> (&std::CPPSTD_NAME)                    \
@@ -120,31 +120,31 @@ namespace onerut_parser {
     // #################### GLOBAL DATABASE ####################################
     // #########################################################################
 
-    GlobalFunctions& GlobalFunctions::instance() {
-        static GlobalFunctions _instance;
+    GlobalFunctionFactories& GlobalFunctionFactories::instance() {
+        static GlobalFunctionFactories _instance;
         return _instance;
     }
 
-    std::optional<std::shared_ptr<AbstractFunction>> GlobalFunctions::get_or_empty(const std::string& name) const {
+    std::optional<std::shared_ptr<AbstractFunctionFactory>> GlobalFunctionFactories::get_or_empty(const std::string& name) const {
         try {
             return functions.at(name);
         } catch (std::out_of_range&) {
-            return std::optional<std::shared_ptr < AbstractFunction >> ();
+            return std::optional<std::shared_ptr < AbstractFunctionFactory >> ();
         }
     }
 
-    bool GlobalFunctions::put(const std::string& name, std::shared_ptr<AbstractFunction> function) {
+    bool GlobalFunctionFactories::put(const std::string& name, std::shared_ptr<AbstractFunctionFactory> function) {
         if (functions.count(name))
             return false;
         functions[name] = function;
         return true;
     }
 
-    void GlobalFunctions::force_put(const std::string& name, std::shared_ptr<AbstractFunction> function) {
+    void GlobalFunctionFactories::force_put(const std::string& name, std::shared_ptr<AbstractFunctionFactory> function) {
         functions[name] = function;
     }
 
-    void GlobalFunctions::put_cmath() {
+    void GlobalFunctionFactories::put_cmath() {
         using UnaryRealFunPtrT = double(*)(double);
         using BinaryRealFunPtrT = double(*)(double, double);
         using cx_double = std::complex<double>;

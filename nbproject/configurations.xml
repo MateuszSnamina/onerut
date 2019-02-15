@@ -53,6 +53,8 @@
         <in>compile_result_to_esc_data.cpp</in>
         <in>compile_result_utility.cpp</in>
         <in>function.cpp</in>
+        <in>function_factory.cpp</in>
+        <in>function_factory_global.cpp</in>
         <in>function_global.cpp</in>
         <in>gramma_parser.cpp</in>
         <in>identifier.cpp</in>
@@ -429,6 +431,20 @@
         </ccTool>
       </item>
       <item path="onerut_parser/src/function.cpp" ex="false" tool="1" flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_parser/src/function_factory.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_parser/src/function_factory_global.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
         <ccTool flags="0">
         </ccTool>
       </item>

@@ -6,7 +6,7 @@
 #include<onerut_parser/compile_result_utility.hpp>
 #include<onerut_parser/ast_source.hpp>
 #include<onerut_parser/identifier_global.hpp>
-#include<onerut_parser/function_global.hpp>
+#include<onerut_parser/function_factory_global.hpp>
 #include<onerut_scalar/scalar.hpp>
 
 namespace {
@@ -79,8 +79,8 @@ namespace {
             onerut_parser::CompileResult second_arg_compile_result) {
         const auto first_arg_compile_result_deref = first_arg_compile_result.dereference();
         const auto second_arg_compile_result_deref = second_arg_compile_result.dereference();
-        if (auto function = onerut_parser::GlobalFunctions::instance().get_or_empty(function_name))
-            return (*function)->get_compile_result({first_arg_compile_result, second_arg_compile_result});
+        if (auto function_factory = onerut_parser::GlobalFunctionFactories::instance().get_or_empty(function_name))
+            return (*function_factory)->make_function_otherwise_make_error({first_arg_compile_result, second_arg_compile_result});
         return onerut_parser::CompileResult::from_compile_error(std::make_shared<onerut_parser::FunctionNotFoundError>(function_name));
     }
 
@@ -332,8 +332,8 @@ namespace onerut_parser::onerut_ast::source {
 
     CompileResult
     FunctionNode::basic_compile(std::vector<CompileResult> argv_compile_result) const {
-        if (auto function = GlobalFunctions::instance().get_or_empty(name))
-            return (*function)->get_compile_result(argv_compile_result);
+        if (auto function = GlobalFunctionFactories::instance().get_or_empty(name))
+            return (*function)->make_function_otherwise_make_error(argv_compile_result);
         return CompileResult::from_compile_error(std::make_shared<FunctionNotFoundError>(name));
     }
 

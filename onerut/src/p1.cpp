@@ -12,7 +12,7 @@
 #include<onerut_parser/ast_compile_result.hpp>
 #include<onerut_parser/print_chart.hpp>
 #include<onerut_parser/identifier_global.hpp>
-#include<onerut_parser/function_global.hpp>
+#include<onerut_parser/function_factory_global.hpp>
 #include<onerut_scalar/scalar_abstract.hpp>
 
 #include<onerut_operator/operator.hpp>
@@ -110,7 +110,7 @@ bool execute_script_file(const std::filesystem::path& file_path) {
     auto lines = load_script_lines_from_file(file_path);
     onerut_parser::GlobalIdentifiers::instance().put_e();
     onerut_parser::GlobalIdentifiers::instance().put_pi();
-    onerut_parser::GlobalFunctions::instance().put_cmath();
+    onerut_parser::GlobalFunctionFactories::instance().put_cmath();
     return execute_script_lines(lines);
 }
 
@@ -222,7 +222,7 @@ void temp_testing() {
 
     onerut_parser::GlobalIdentifiers::instance().put_e();
     onerut_parser::GlobalIdentifiers::instance().put_pi();
-    onerut_parser::GlobalFunctions::instance().put_cmath();
+    onerut_parser::GlobalFunctionFactories::instance().put_cmath();
     execute_script_lines(lines);
 
 }
