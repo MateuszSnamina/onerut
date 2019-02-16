@@ -14,5 +14,6 @@ namespace onerut_parser {
         return make_function_otherwise_make_error(argv[0], argv[1]);
     }
 
+    
 }
 

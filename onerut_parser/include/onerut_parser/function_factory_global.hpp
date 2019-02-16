@@ -52,7 +52,7 @@ namespace onerut_parser {
         template<typename CallableComplex>
         void put_binary_complex_function_factory(
                 std::string onerut_name,
-                CallableComplex callable_complex);        
+                CallableComplex callable_complex);
     };
 
     // -------------------------------------------------------------------------
@@ -67,7 +67,7 @@ namespace onerut_parser {
         force_put(
                 onerut_name,
                 std::make_shared<
-                OverloadScalarUnaryFunctionFactory<CallableReal, CallableComplex>
+                OverloadScalarFunctionFactory<1, CallableReal, CallableComplex>
                 >(callable_real, callable_complex)
                 );
     }
@@ -94,7 +94,7 @@ namespace onerut_parser {
         force_put(
                 onerut_name,
                 std::make_shared<
-                OverloadScalarBinaryFunctionFactory<CallableReal, CallableComplex>
+                OverloadScalarFunctionFactory<2, CallableReal, CallableComplex>
                 >(callable_real, callable_complex)
                 );
     }
@@ -111,7 +111,7 @@ namespace onerut_parser {
             std::string onerut_name,
             CallableComplex callable_complex) {
         put_binary_scalar_function_factory(onerut_name, nullptr, callable_complex);
-    }    
+    }
 }
 
 #endif

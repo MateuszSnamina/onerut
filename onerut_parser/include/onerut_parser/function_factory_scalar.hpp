@@ -1,6 +1,7 @@
 #ifndef ONERUT_PARSER_TEMPLATES
 #define ONERUT_PARSER_TEMPLATES
 
+#include<algorithm>
 #include<vector>
 
 #include<onerut_parser/function_factory_abstract.hpp>
@@ -224,7 +225,132 @@ namespace onerut_parser {
         return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
     }
     // -------------------------------------------------------------------------
+    //HELPER:
 
+    template<typename Callable, typename ArgTag, unsigned nary_left_to_add, typename... ArgTags>
+    struct NaryScalarFunctionFactoryImpl {
+        static_assert(onerut_scalar::IsArgTag<ArgTag>::value);
+        using ScalarFunctionFactoryType = typename NaryScalarFunctionFactoryImpl<Callable, ArgTag, nary_left_to_add - 1, ArgTag, ArgTags...>::ScalarFunctionFactoryType;
+    };
+
+    template<typename Callable, typename ArgTag, typename... ArgTags>
+    struct NaryScalarFunctionFactoryImpl<Callable, ArgTag, 0u, ArgTags...> {
+        static_assert(onerut_scalar::IsArgTag<ArgTag>::value);
+        using ScalarFunctionFactoryType = ScalarFunctionFactory<Callable, ArgTags...>;
+    };
+
+    template<typename Callable, typename ArgTag, unsigned nary>
+    struct NaryScalarFunctionFactory {
+        static_assert(onerut_scalar::IsArgTag<ArgTag>::value);
+        using ScalarFunctionFactoryType = typename NaryScalarFunctionFactoryImpl<Callable, ArgTag, nary>::ScalarFunctionFactoryType;
+    };
+
+    // -------------------------------------------------------------------------
+
+    //HELPER:
+
+    template<class ScalarFunctionFactory, unsigned nary, unsigned N>
+    struct _NaryMakeFunctionOrEmptyInpl {
+        using ArrayT = std::array<CompileResult, nary>;
+
+        template<typename Callable, typename... Args>
+        static inline std::optional<CompileResult>
+        apply(const Callable & callable, const ArrayT& array, Args&&... args) {
+            return _NaryMakeFunctionOrEmptyInpl<ScalarFunctionFactory, nary, N - 1 > ::apply(
+                    callable,
+                    array,
+                    array[N - 1], std::forward<Args>(args)...);
+        }
+    };
+
+    template<class ScalarFunctionFactory, unsigned nary>
+    struct _NaryMakeFunctionOrEmptyInpl<ScalarFunctionFactory, nary, 0> {
+        using ArrayT = std::array<CompileResult, nary>;
+
+        template<typename Callable, typename... Args>
+        static inline std::optional<CompileResult>
+        apply(const Callable & callable, const ArrayT& /*array*/, Args&&... args) {
+            return ScalarFunctionFactory::make_function_or_empty(callable, std::forward<Args>(args)...);
+            //return std::nullopt;
+        }
+    };
+
+    // -------------------------------------------------------------------------    
+    // -------------------------------------------------------------------------        
+
+    template<class ScalarFunctionFactory, unsigned nary, typename Callable>
+    inline
+    std::optional<CompileResult>
+    _nary_make_function_or_empty(const Callable & callable, const std::array<CompileResult, nary>& array) {
+        //    using ArrayT = std::array<CompileResult, nary>;
+        return _NaryMakeFunctionOrEmptyInpl<ScalarFunctionFactory, nary, nary>::apply(callable, array);
+    }
+
+    // -------------------------------------------------------------------------
+
+    // new style:
+
+    template<unsigned nary, typename CallableReal, typename CallableComplex>
+    class OverloadScalarFunctionFactory : public NaryFunctionFactory<nary> {
+    public:
+        OverloadScalarFunctionFactory(
+                CallableReal callable_real,
+                CallableComplex callable_complex);
+        CompileResult make_function_otherwise_make_error(
+                std::array<CompileResult, nary> args) const override;
+    private:
+        CallableReal callable_real;
+        CallableComplex callable_complex;
+    };
+
+    template<unsigned nary, typename CallableReal, typename CallableComplex >
+    OverloadScalarFunctionFactory<nary, CallableReal, CallableComplex>::OverloadScalarFunctionFactory(
+            CallableReal callable_real,
+            CallableComplex callable_complex) :
+    callable_real(callable_real),
+    callable_complex(callable_complex) {
+    }
+
+    template<unsigned nary, typename CallableReal, typename CallableComplex>
+    CompileResult OverloadScalarFunctionFactory<nary, CallableReal, CallableComplex>::make_function_otherwise_make_error(
+            std::array<CompileResult, nary> args_compile_result) const {
+        std::array<CompileResultDeref, nary> args_compile_result_deref;
+        std::transform(cbegin(args_compile_result), cend(args_compile_result), begin(args_compile_result_deref),
+                [](const CompileResult & compile_result)->CompileResultDeref {
+                    return compile_result.dereference();
+                });
+        if (!std::all_of(cbegin(args_compile_result_deref), cend(args_compile_result_deref),
+                [](const CompileResultDeref & compile_result_deref) {
+                    return compile_result_deref.is_either_value_or_type();
+                })) {
+        return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
+    }
+
+        using RealFunctionFactoryType = typename NaryScalarFunctionFactory<CallableReal, onerut_scalar::ArgReal, nary>::ScalarFunctionFactoryType;
+        using ComplexFunctionFactoryType = typename NaryScalarFunctionFactory<CallableComplex, onerut_scalar::ArgComplex, nary>::ScalarFunctionFactoryType;
+
+        if (const auto & result = _nary_make_function_or_empty<RealFunctionFactoryType, nary, CallableReal>(callable_real, args_compile_result))
+            return *result;
+
+        if (const auto & result = _nary_make_function_or_empty<ComplexFunctionFactoryType, nary, CallableComplex>(callable_complex, args_compile_result))
+            return *result;
+
+        //zxz
+
+
+
+        //       
+        //        const auto & first_arg_compile_result_deref = first_arg_compile_result.dereference();
+        //        const auto & second_arg_compile_result_deref = second_arg_compile_result.dereference();
+        //        if (!first_arg_compile_result_deref.is_either_value_or_type() || !second_arg_compile_result_deref.is_either_value_or_type())
+        //            return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
+        //        if (const auto & result = ScalarFunctionFactory<CallableReal, onerut_scalar::ArgReal, onerut_scalar::ArgReal>::make_function_or_empty(callable_real, first_arg_compile_result, second_arg_compile_result))
+        //            return *result;
+        //        if (const auto & result = ScalarFunctionFactory<CallableComplex, onerut_scalar::ArgComplex, onerut_scalar::ArgComplex>::make_function_or_empty(callable_complex, first_arg_compile_result, second_arg_compile_result))
+        //            return *result;
+        //        return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
+    }
 }
 
 #endif
