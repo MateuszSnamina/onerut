@@ -13,27 +13,9 @@ namespace onerut_parser {
         virtual CompileResult make_function_otherwise_make_error(std::vector<CompileResult> argv) const = 0; //TODO const vector&
         virtual ~AbstractFunctionFactory() = default;
     };
-
+   
     // ---------------------------------------------------------------------------
     // ---------------------------------------------------------------------------
-    // old style:
-    /*
-        class UnaryFunctionFactory : public AbstractFunctionFactory {
-        public:
-            CompileResult make_function_otherwise_make_error(std::vector<CompileResult> argv) const final;
-            virtual CompileResult make_function_otherwise_make_error(CompileResult arg) const = 0;
-        };
-
-        class BinaryFunctionFactory : public AbstractFunctionFactory {
-        public:
-            CompileResult make_function_otherwise_make_error(std::vector<CompileResult> argv) const final;
-            virtual CompileResult make_function_otherwise_make_error(CompileResult first_arg, CompileResult second_arg) const = 0;
-        };
-     */
-    
-    // ---------------------------------------------------------------------------
-    // ---------------------------------------------------------------------------
-    // new style:
 
     template<unsigned nary>
     class NaryFunctionFactory : public AbstractFunctionFactory {
