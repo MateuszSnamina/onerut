@@ -86,7 +86,7 @@ namespace onerut_parser {
     //      if all arg_compile_results are either value or type.
     // (1b) nullopt is created otherwise.
     // (2) For Callable being nullptr: nullopt is created.
-    
+
     template<typename Callable, typename... ArgTags>
     struct ScalarFunctionFactory {
         static std::optional<CompileResult> make_function_or_empty(
@@ -220,7 +220,6 @@ namespace onerut_parser {
         static inline std::optional<CompileResult>
         apply(const Callable & callable, const ArrayT& /*array*/, Args&&... args) {
             return ScalarFunctionFactory::make_function_or_empty(callable, std::forward<Args>(args)...);
-            //return std::nullopt;
         }
     };
 
@@ -230,7 +229,6 @@ namespace onerut_parser {
     inline
     std::optional<CompileResult>
     _nary_make_function_or_empty(const Callable & callable, const std::array<CompileResult, nary>& array) {
-        //    using ArrayT = std::array<CompileResult, nary>;
         return _NaryMakeFunctionOrEmptyInpl<ScalarFunctionFactory, nary, nary>::apply(callable, array);
     }
 
@@ -264,21 +262,20 @@ namespace onerut_parser {
             std::array<CompileResult, nary> args_compile_result) const {
         std::array<CompileResultDeref, nary> args_compile_result_deref;
         std::transform(cbegin(args_compile_result), cend(args_compile_result), begin(args_compile_result_deref),
-                [](const CompileResult & compile_result)->CompileResultDeref {
+                [](const CompileResult & compile_result) {
                     return compile_result.dereference();
                 });
+        const auto is_either_value_or_type_fun = [](const CompileResultDeref & compile_result_deref) {
+            return compile_result_deref.is_either_value_or_type();
+        };
         if (!std::all_of(cbegin(args_compile_result_deref), cend(args_compile_result_deref),
-                [](const CompileResultDeref & compile_result_deref) {
-                    return compile_result_deref.is_either_value_or_type();
-                })) {
-        return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
-    }
+                is_either_value_or_type_fun)) {
+            return CompileResult::from_compile_error(std::make_shared<CompileArgumentsError>());
+        }
         using RealFunctionFactoryType = typename NaryScalarFunctionFactory<CallableReal, onerut_scalar::ArgReal, nary>::ScalarFunctionFactoryType;
         using ComplexFunctionFactoryType = typename NaryScalarFunctionFactory<CallableComplex, onerut_scalar::ArgComplex, nary>::ScalarFunctionFactoryType;
-
         if (const auto & result = _nary_make_function_or_empty<RealFunctionFactoryType, nary, CallableReal>(callable_real, args_compile_result))
             return *result;
-
         if (const auto & result = _nary_make_function_or_empty<ComplexFunctionFactoryType, nary, CallableComplex>(callable_complex, args_compile_result))
             return *result;
         return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());

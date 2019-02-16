@@ -10,7 +10,7 @@ using cx_double = std::complex<double>;
 // *****************************************************************************
 
 #define CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(ONERUT_NAME, CPPSTD_NAME, RETURN_TYPE) \
-  put_unary_real_function_factory(                                             \
+  put_nary_real_function_factory<1>(                                             \
     #ONERUT_NAME,                                                              \
     static_cast<RETURN_TYPE(*)(double)> (&std::CPPSTD_NAME)                    \
   );
@@ -21,7 +21,7 @@ using cx_double = std::complex<double>;
 //------------------------------------------------------------------------------
 
 #define CUSTOM_PUT_STD_BINARY_REAL_FUNCTION(ONERUT_NAME, CPPSTD_NAME, RETURN_TYPE) \
-  put_binary_real_function_factory(                                            \
+  put_nary_real_function_factory<2>(                                            \
     #ONERUT_NAME,                                                              \
     static_cast<RETURN_TYPE(*)(double, double)> (&std::CPPSTD_NAME)            \
   );
@@ -32,7 +32,7 @@ using cx_double = std::complex<double>;
 ////////////////////////////////////////////////////////////////////////////////
 
 #define CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(ONERUT_NAME, CPPSTD_NAME, RETURN_TYPE) \
-  put_unary_complex_function_factory(                                          \
+  put_nary_complex_function_factory<1>(                                          \
     #ONERUT_NAME,                                                              \
     static_cast<RETURN_TYPE(*)(const cx_double&)> (&std::CPPSTD_NAME)          \
   );
@@ -43,7 +43,7 @@ using cx_double = std::complex<double>;
 //------------------------------------------------------------------------------
 
 #define CUSTOM_PUT_STD_BINARY_COMPLEX_FUNCTION(ONERUT_NAME, CPPSTD_NAME, RETURN_TYPE) \
-  put_binary_complex_function_factory(                                         \
+  put_nary_complex_function_factory<2>(                                         \
     #ONERUT_NAME,                                                              \
     static_cast<RETURN_TYPE(*)(const cx_double&, const cx_double&)> (&std::CPPSTD_NAME)            \
   );
@@ -54,7 +54,7 @@ using cx_double = std::complex<double>;
 ////////////////////////////////////////////////////////////////////////////////
 
 #define CUSTOM_PUT_STD_UNARY_REALCOMPLEX_FUNCTION(ONERUT_NAME, CPPSTD_NAME_REAL, CPPSTD_NAME_COMPLEX, RETURN_TYPE_REAL, RETURN_TYPE_COMPLEX) \
-  put_unary_scalar_function_factory(                                           \
+  put_nary_scalar_function_factory<1>(                                           \
     #ONERUT_NAME,                                                              \
     static_cast<RETURN_TYPE_REAL(*)(double)> (&std::CPPSTD_NAME_REAL),         \
     static_cast<RETURN_TYPE_COMPLEX(*)(const cx_double&)> (&std::CPPSTD_NAME_COMPLEX) \
@@ -66,7 +66,7 @@ using cx_double = std::complex<double>;
 //------------------------------------------------------------------------------
 
 #define CUSTOM_PUT_STD_BINARY_REALCOMPLEX_FUNCTION(ONERUT_NAME, CPPSTD_NAME_REAL, CPPSTD_NAME_COMPLEX, RETURN_TYPE_REAL, RETURN_TYPE_COMPLEX) \
-  put_binary_scalar_function_factory(                                          \
+  put_nary_scalar_function_factory<2>(                                          \
     #ONERUT_NAME,                                                              \
     static_cast<RETURN_TYPE_REAL(*)(double, double)> (&std::CPPSTD_NAME_REAL), \
     static_cast<RETURN_TYPE_COMPLEX(*)(const cx_double&, const cx_double&)> (&std::CPPSTD_NAME_COMPLEX) \
@@ -167,6 +167,10 @@ namespace onerut_parser {
         CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_sqrt, sqrt, double);
         CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_sqrt, sqrt, cx_double);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(sqrt);
+        // ------------------------------------------------------
+        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_abs, fabs, double);
+        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_abs, abs, double);
+        CUSTOM_PUT_STD_UNARY_REALCOMPLEX_FUNCTION(abs, fabs, abs, double, double)
         // ******************************************************
         // ****  Functions for real numbers: ********************
         // ******************************************************
@@ -191,7 +195,6 @@ namespace onerut_parser {
         CUSTOM_PUT_STD_BINARY_REAL_FUNCTION(dim, fdim, double);
         CUSTOM_PUT_STD_BINARY_REAL_FUNCTION(max, fmax, double);
         CUSTOM_PUT_STD_BINARY_REAL_FUNCTION(min, fmin, double);
-        CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_abs, fabs, double);
         // ******************************************************
         // **** Functions for complex numbers *******************
         // ******************************************************
@@ -200,7 +203,6 @@ namespace onerut_parser {
         PUT_STD_UNARY_COMPLEX_FUNCTION(imag, double);
         PUT_STD_UNARY_COMPLEX_FUNCTION(arg, double);
         PUT_STD_UNARY_COMPLEX_FUNCTION(norm, double);
-        CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_abs, abs, double);
     }
 }
 

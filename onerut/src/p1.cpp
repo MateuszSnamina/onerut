@@ -219,6 +219,8 @@ void temp_testing() {
     lines.push_back(std::make_shared<std::string>("real(3i+5i*7.i)"));
     lines.push_back(std::make_shared<std::string>("imag(3i+5i*7.i)"));
     lines.push_back(std::make_shared<std::string>("conj(3i+5i*7.i)"));
+    lines.push_back(std::make_shared<std::string>("abs(-7)"));    
+    lines.push_back(std::make_shared<std::string>("abs(1i+1)"));        
 
     onerut_parser::GlobalIdentifiers::instance().put_e();
     onerut_parser::GlobalIdentifiers::instance().put_pi();
