@@ -13,6 +13,11 @@
         <in>p1.cpp</in>
       </df>
     </df>
+    <df root="onerut_normal_operator" name="10">
+      <df name="src">
+        <in>normal_operator.cpp</in>
+      </df>
+    </df>
     <df root="onerut_op1e" name="2">
       <df name="src">
         <in>op1e.cpp</in>
@@ -111,6 +116,7 @@
     <Elem>onerut_op1e</Elem>
     <Elem>onerut_operator</Elem>
     <Elem>onerut_operator_tests</Elem>
+    <Elem>onerut_normal_operator</Elem>
     <Elem>esc</Elem>
     <Elem>string_utils</Elem>
   </sourceRootList>
@@ -175,6 +181,17 @@
           </incDir>
         </ccTool>
       </folder>
+      <folder path="10">
+        <ccTool>
+          <incDir>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_operator/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
       <folder path="2">
         <ccTool>
           <incDir>
@@ -189,7 +206,7 @@
         <ccTool>
           <incDir>
             <pElem>onerut_operator/include</pElem>
-            <pElem>esc/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
             <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut_operator</pElem>
           </incDir>
@@ -200,7 +217,7 @@
           <incDir>
             <pElem>onerut_operator_tests/include</pElem>
             <pElem>onerut_operator/include</pElem>
-            <pElem>esc/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
             <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut_operator_tests</pElem>
           </incDir>
@@ -262,6 +279,13 @@
         </ccTool>
       </folder>
       <item path="onerut/src/p1.cpp" ex="false" tool="1" flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_normal_operator/src/normal_operator.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
         <ccTool flags="0">
         </ccTool>
       </item>

@@ -18,6 +18,7 @@
                 <sourceRootElem>onerut_op1e</sourceRootElem>
                 <sourceRootElem>onerut_operator</sourceRootElem>
                 <sourceRootElem>onerut_operator_tests</sourceRootElem>
+                <sourceRootElem>onerut_normal_operator</sourceRootElem>
                 <sourceRootElem>esc</sourceRootElem>
                 <sourceRootElem>string_utils</sourceRootElem>
             </sourceRootList>

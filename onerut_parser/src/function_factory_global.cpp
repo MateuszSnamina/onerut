@@ -245,5 +245,3 @@ namespace onerut_parser {
     }
 
 }
-
-

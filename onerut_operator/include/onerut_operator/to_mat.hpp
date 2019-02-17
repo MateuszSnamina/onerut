@@ -1,12 +1,11 @@
-#ifndef ONERUT_TO_MAT
-#define ONERUT_TO_MAT
-
-#include<onerut_operator/operator_abstract.hpp>
+#ifndef ONERUT_OPERATOR_TO_MAT
+#define ONERUT_OPERATOR_TO_MAT
 
 #include<armadillo>
 
-namespace onerut_operator {
+#include<onerut_operator/operator_abstract.hpp>
 
+namespace onerut_operator {
     arma::mat to_mat(const AbstractOperator<unsigned>& op, unsigned spad_dim);
 }
 
