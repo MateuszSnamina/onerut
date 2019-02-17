@@ -82,7 +82,6 @@ execute_line(std::shared_ptr<std::string> line) {
         std::cout << "[receipt] Result is not an error nor a scalar." << std::endl;
     }
     std::cout << std::endl;
-
     return true;
 }
 
@@ -104,7 +103,6 @@ load_script_lines_from_file(const std::filesystem::path& file_path) {
     std::vector<std::shared_ptr < std::string >> lines;
     std::string line;
     while (std::getline(file, line)) {
-
         std::cout << "load line: " << line << std::endl;
         auto line_ptr = std::make_shared<std::string>(line);
         lines.push_back(line_ptr);
@@ -114,24 +112,12 @@ load_script_lines_from_file(const std::filesystem::path& file_path) {
 
 bool execute_script_file(const std::filesystem::path& file_path) {
     auto lines = load_script_lines_from_file(file_path);
-    //onerut_parser::GlobalIdentifiers::instance().put_e();
-    //onerut_parser::GlobalIdentifiers::instance().put_pi();
     onerut_parser::GlobalFunctionFactories::instance().put_cmath();
     onerut_parser::GlobalFunctionFactories::instance().put_onerut_functions();
-
     return execute_script_lines(lines);
 }
 
 void temp_testing() {
-
-    //    using fp = double(*)(int);
-    // using U = typename std::result_of < decltype(fp)>::type;
-    //using U = typename CallableReturnType<fp,int>::ReturnType;
-    //using U = typename CallableReturnType<F, int>::ReturnType;
-    //std::cout << std::is_same<U, int>::value << std::endl;
-
-    //exit(10);
-
     std::vector<std::shared_ptr<std::string> > lines;
     lines.push_back(std::make_shared<std::string>("x:=(2+4*3)+pi/2"));
     lines.push_back(std::make_shared<std::string>("x+7"));
@@ -176,8 +162,6 @@ void temp_testing() {
     lines.push_back(std::make_shared<std::string>("dh := d+h"));
     lines.push_back(std::make_shared<std::string>("normalop_print(dh, 6)"));
 
-    //onerut_parser::GlobalIdentifiers::instance().put_e();
-    //onerut_parser::GlobalIdentifiers::instance().put_pi();
     onerut_parser::GlobalFunctionFactories::instance().put_cmath();
     onerut_parser::GlobalFunctionFactories::instance().put_onerut_functions();
 

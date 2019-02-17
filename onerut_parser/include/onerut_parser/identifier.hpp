@@ -11,14 +11,6 @@ namespace onerut_parser {
         virtual ~AbstractCompileResultRef() = default;
     };
 
-    // TODO: przerobić na szczegolny przypadek CompileResultConstRef.
-    class ConstRealHolder : public AbstractCompileResultRef {
-    public:
-        ConstRealHolder(double value);
-        CompileResultDeref get_compile_result_deref() const override;
-        const double value;
-    };
-
     class CompileResultConstRef : public AbstractCompileResultRef {
     public:
         CompileResultConstRef(std::string name, CompileResultDeref value);

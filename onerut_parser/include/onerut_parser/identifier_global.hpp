@@ -14,8 +14,6 @@ namespace onerut_parser {
         std::optional<std::shared_ptr<AbstractCompileResultRef>> get_or_empty(const std::string& name) const;
         bool put(const std::string& name, std::shared_ptr<AbstractCompileResultRef> holder);
         void force_put(const std::string& name, std::shared_ptr<AbstractCompileResultRef> holder);
-        bool put_e();
-        bool put_pi();
     private:
         std::map<std::string, std::shared_ptr<AbstractCompileResultRef>> identifiers;
     };

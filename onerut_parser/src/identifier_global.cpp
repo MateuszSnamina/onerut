@@ -37,14 +37,4 @@ namespace onerut_parser {
         identifiers[name] = holder;
     }
 
-    bool GlobalIdentifiers::put_e() {
-        const auto e_holder = std::make_shared<ConstRealHolder>(e);
-        return put("e", e_holder);
-    }
-
-    bool GlobalIdentifiers::put_pi() {
-        const auto pi_holder = std::make_shared<ConstRealHolder>(pi);
-        return put("pi", pi_holder);
-    }
-
 }

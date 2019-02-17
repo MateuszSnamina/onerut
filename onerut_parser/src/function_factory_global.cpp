@@ -139,7 +139,6 @@ namespace onerut_parser {
         // ******************************************************
         // **** Functions for both real and complex numbers: ****
         // ******************************************************
-
         CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_cos, cos, double);
         CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_cos, cos, cx_double);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(cos);
