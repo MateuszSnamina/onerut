@@ -1,7 +1,8 @@
 #include<onerut_parser/compile_result_utility.hpp>
+#include<onerut_parser/function_factory_normal_operators.hpp>
+
 #include<onerut_operator/operator.hpp>
 
-#include<onerut_parser/function_factory_normal_operators.hpp>
 
 namespace onerut_parser {
 

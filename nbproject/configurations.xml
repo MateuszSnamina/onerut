@@ -53,6 +53,7 @@
         <in>compile_result_to_esc_data.cpp</in>
         <in>compile_result_utility.cpp</in>
         <in>function_factory.cpp</in>
+        <in>function_factory_constant.cpp</in>
         <in>function_factory_global.cpp</in>
         <in>function_factory_normal_operators.cpp</in>
         <in>gramma_parser.cpp</in>
@@ -72,7 +73,6 @@
     </df>
     <df root="onerut_scalar" name="7">
       <df name="src">
-        <in>scalar.cpp</in>
         <in>scalar_complex.cpp</in>
         <in>scalar_integer.cpp</in>
         <in>scalar_real.cpp</in>
@@ -438,6 +438,13 @@
         <ccTool flags="0">
         </ccTool>
       </item>
+      <item path="onerut_parser/src/function_factory_constant.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
       <item path="onerut_parser/src/function_factory_global.cpp"
             ex="false"
             tool="1"
@@ -503,10 +510,6 @@
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
-        </ccTool>
-      </item>
-      <item path="onerut_scalar/src/scalar.cpp" ex="false" tool="1" flavor2="11">
         <ccTool flags="0">
         </ccTool>
       </item>

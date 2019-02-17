@@ -1,3 +1,6 @@
+const pi := pi()
+const e := e()
+const i := i()
 kazdy_typ_ma_kolor := (abs(.5e+7 + ((1*7 + 1) / 2.) * 3i) + inf) + 8i
 dlugi_wzor := 3i + atan2(1+exp(-2+4*6^5) + expm1(sqrt([-2+4*6^5])*7+[5^(2*7)]*7+(4+5*9))+abs(-3)+abs(-3i) + pow(2,5), 3)
 sigma_1 := e^(2i*pi/3)

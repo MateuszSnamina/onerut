@@ -1,6 +1,7 @@
 #include<cmath>
 #include<complex>
 
+#include<onerut_parser/function_factory_constant.hpp>
 #include<onerut_parser/function_factory_normal_operators.hpp>
 #include<onerut_parser/function_factory_scalar.hpp>
 #include<onerut_parser/function_factory_global.hpp>
@@ -231,6 +232,12 @@ namespace onerut_parser {
         PUT_STD_UNARY_COMPLEX_FUNCTION(imag, double);
         PUT_STD_UNARY_COMPLEX_FUNCTION(arg, double);
         PUT_STD_UNARY_COMPLEX_FUNCTION(norm, double);
+        // ******************************************************
+        // **** Constants                     *******************
+        // ******************************************************
+        force_put("pi", std::make_unique<PiConstantFunctionFactory>());
+        force_put("e", std::make_unique<EulerConstantFunctionFactory>());
+        force_put("i", std::make_unique<ImaginaryUnitFunctionFactory>());
     }
 
     void GlobalFunctionFactories::put_onerut_functions() {

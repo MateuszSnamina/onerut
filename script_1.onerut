@@ -1,3 +1,6 @@
+const pi := pi()
+const e := e()
+const i := i()
 x := (2 + 4*3) + pi/2
 x + 7
 x := 40

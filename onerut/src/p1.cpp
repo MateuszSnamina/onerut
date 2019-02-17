@@ -114,9 +114,10 @@ load_script_lines_from_file(const std::filesystem::path& file_path) {
 
 bool execute_script_file(const std::filesystem::path& file_path) {
     auto lines = load_script_lines_from_file(file_path);
-    onerut_parser::GlobalIdentifiers::instance().put_e();
-    onerut_parser::GlobalIdentifiers::instance().put_pi();
+    //onerut_parser::GlobalIdentifiers::instance().put_e();
+    //onerut_parser::GlobalIdentifiers::instance().put_pi();
     onerut_parser::GlobalFunctionFactories::instance().put_cmath();
+    onerut_parser::GlobalFunctionFactories::instance().put_onerut_functions();
 
     return execute_script_lines(lines);
 }
@@ -175,8 +176,8 @@ void temp_testing() {
     lines.push_back(std::make_shared<std::string>("dh := d+h"));
     lines.push_back(std::make_shared<std::string>("normalop_print(dh, 6)"));
 
-    onerut_parser::GlobalIdentifiers::instance().put_e();
-    onerut_parser::GlobalIdentifiers::instance().put_pi();
+    //onerut_parser::GlobalIdentifiers::instance().put_e();
+    //onerut_parser::GlobalIdentifiers::instance().put_pi();
     onerut_parser::GlobalFunctionFactories::instance().put_cmath();
     onerut_parser::GlobalFunctionFactories::instance().put_onerut_functions();
 
