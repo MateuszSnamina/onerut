@@ -7,18 +7,21 @@
 
 namespace onerut_parser {
 
-    class PiConstantFunctionFactory : public NaryFunctionFactory<0> {
+    class RealConstantFunctionFactory : public NaryFunctionFactory<0> {
+    public:
+        RealConstantFunctionFactory(double);
         CompileResult make_function_otherwise_make_error(std::array<CompileResult, 0>) const override;
-    };
-
-    class EulerConstantFunctionFactory : public NaryFunctionFactory<0> {
+    private:
+        double value;
+    };    
+    
+    class ComplexConstantFunctionFactory : public NaryFunctionFactory<0> {
+    public:
+        ComplexConstantFunctionFactory(std::complex<double>);
         CompileResult make_function_otherwise_make_error(std::array<CompileResult, 0>) const override;
+    private:
+        std::complex<double> value;
     };
-
-    class ImaginaryUnitFunctionFactory : public NaryFunctionFactory<0> {
-        CompileResult make_function_otherwise_make_error(std::array<CompileResult, 0>) const override;
-    };
-
 }
 
 #endif

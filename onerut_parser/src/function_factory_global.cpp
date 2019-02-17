@@ -7,6 +7,9 @@
 #include<onerut_parser/function_factory_global.hpp>
 
 using cx_double = std::complex<double>;
+using namespace std::complex_literals;
+const double pi = 3.14159265358979323846;
+const double e = 2.71828182845904523536;
 
 // *****************************************************************************
 // *************   New Macros that help to add real functions   ****************
@@ -229,9 +232,9 @@ namespace onerut_parser {
         // ******************************************************
         // **** Constants                     *******************
         // ******************************************************
-        force_put("pi", std::make_unique<PiConstantFunctionFactory>());
-        force_put("e", std::make_unique<EulerConstantFunctionFactory>());
-        force_put("i", std::make_unique<ImaginaryUnitFunctionFactory>());
+        force_put("pi", std::make_unique<RealConstantFunctionFactory>(pi));
+        force_put("e", std::make_unique<RealConstantFunctionFactory>(e));
+        force_put("i", std::make_unique<ComplexConstantFunctionFactory>(1i));
     }
 
     void GlobalFunctionFactories::put_onerut_functions() {

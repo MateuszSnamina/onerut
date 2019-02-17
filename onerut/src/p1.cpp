@@ -84,20 +84,12 @@ execute_line(std::shared_ptr<std::string> line) {
     return true;
 }
 
-bool
-execute_script_lines(const std::vector<std::shared_ptr<std::string>>&lines) {
-    return std::all_of(cbegin(lines), cend(lines),
-            [](const std::shared_ptr<std::string> &line) {
-
-                return execute_line(line);
-            });
-}
-
 std::vector<std::shared_ptr<std::string>>
 load_script_lines_from_file(const std::filesystem::path& file_path) {
     std::ifstream file(file_path);
     if (!file) {
-        std::cerr << "Problem z otwarciem pliku" << std::endl;
+        std::cerr << "Input file opening error." << std::endl;
+        exit(1);
     }
     std::vector<std::shared_ptr < std::string >> lines;
     std::string line;
@@ -107,6 +99,14 @@ load_script_lines_from_file(const std::filesystem::path& file_path) {
         lines.push_back(line_ptr);
     }
     return lines;
+}
+
+bool
+execute_script_lines(const std::vector<std::shared_ptr<std::string>>&lines) {
+    return std::all_of(cbegin(lines), cend(lines),
+            [](const std::shared_ptr<std::string> &line) {
+                return execute_line(line);
+            });
 }
 
 bool execute_script_file(const std::filesystem::path& file_path) {
@@ -164,9 +164,7 @@ void temp_testing() {
     onerut_parser::GlobalFunctionFactories::instance().put_cmath();
     onerut_parser::GlobalFunctionFactories::instance().put_onerut_functions();
 
-
     execute_script_lines(lines);
-
 }
 
 int main(int argc, char** argv) {

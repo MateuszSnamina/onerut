@@ -2,29 +2,26 @@
 #include<onerut_scalar/scalar_real.hpp>
 #include<onerut_scalar/scalar_complex.hpp>
 
-using namespace std::complex_literals;
-const double pi = 3.14159265358979323846;
-const double e = 2.71828182845904523536;
-
-
 namespace onerut_parser {
 
-    CompileResult
-    PiConstantFunctionFactory::make_function_otherwise_make_error(std::array<CompileResult, 0>) const {
-        return CompileResult::from_value<onerut_scalar::Real>(
-                std::make_shared<onerut_scalar::LitReal>(pi));
+    RealConstantFunctionFactory::RealConstantFunctionFactory(double value) :
+    value(value) {
     }
 
     CompileResult
-    EulerConstantFunctionFactory::make_function_otherwise_make_error(std::array<CompileResult, 0>) const {
+    RealConstantFunctionFactory::make_function_otherwise_make_error(std::array<CompileResult, 0>) const {
         return CompileResult::from_value<onerut_scalar::Real>(
-                std::make_shared<onerut_scalar::LitReal>(e));
+                std::make_shared<onerut_scalar::LitReal>(value));
+    }
+
+    ComplexConstantFunctionFactory::ComplexConstantFunctionFactory(std::complex<double> value) :
+    value(value) {
     }
 
     CompileResult
-    ImaginaryUnitFunctionFactory::make_function_otherwise_make_error(std::array<CompileResult, 0>) const {
+    ComplexConstantFunctionFactory::make_function_otherwise_make_error(std::array<CompileResult, 0>) const {
         return CompileResult::from_value<onerut_scalar::Complex>(
-                std::make_shared<onerut_scalar::LitComplex>(1i));
+                std::make_shared<onerut_scalar::LitComplex>(value));
     }
 
 }
