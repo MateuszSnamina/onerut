@@ -91,6 +91,16 @@ namespace onerut_parser::utility {
                 arg.is_given_type<onerut_scalar::Real>() ||
                 arg.is_given_type<onerut_scalar::Complex>();
     }
+
+    bool
+    is_normal_operator(const onerut_parser::CompileResultDeref& arg) {
+        using OperatorT = onerut_operator::AbstractOperator<unsigned>;
+        assert(!arg.is_empty());
+        assert(!arg.is_compile_error());
+        return arg.is_given_type<OperatorT>();
+    }
+
+
     // -------------------------------------------------------------------------
 
     std::shared_ptr<onerut_scalar::Integer>
@@ -127,6 +137,15 @@ namespace onerut_parser::utility {
         }
         assert(arg_complex);
         return arg_complex;
+    }
+
+    std::shared_ptr<onerut_operator::AbstractOperator<unsigned> >
+    to_normal_operator(const onerut_parser::CompileResultDeref& arg) {
+        using OperatorT = onerut_operator::AbstractOperator<unsigned>;
+        assert(is_normal_operator(arg));
+        const auto& arg_normal_operator = *arg.typed_value_or_empty<OperatorT>();
+        assert(arg_normal_operator);
+        return arg_normal_operator;
     }
 
     // -------------------------------------------------------------------------

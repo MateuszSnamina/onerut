@@ -20,6 +20,7 @@ namespace onerut_parser::onerut_ast::x3 {
     std::string to_oneliner(const OpUnaryPlusMinusInfo& info);
     std::string to_oneliner(const Value2Info& info);
     std::string to_oneliner(const FunctionInfo& info);
+    std::string to_oneliner(const EmptyFunctionInfo& info);    
     std::string to_oneliner(const IdentifierInfo& info);
     std::string to_oneliner(const NestedExpression1Info& info);
     std::string to_oneliner(const NestedExpression2Info& info);

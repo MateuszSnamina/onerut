@@ -13,11 +13,108 @@
 #include<onerut_parser/print_chart.hpp>
 #include<onerut_parser/identifier_global.hpp>
 #include<onerut_parser/function_factory_global.hpp>
+#include<onerut_parser/function_factory_abstract.hpp>
+#include<onerut_parser/compile_result_utility.hpp>
+
 #include<onerut_scalar/scalar_abstract.hpp>
 
 #include<onerut_operator/operator.hpp>
 
 #include<type_traits>
+
+//--------------------------------------------
+
+class NormalOperatorZerosFunctionFactory : public onerut_parser::NaryFunctionFactory<0> {
+
+    onerut_parser::CompileResult make_function_otherwise_make_error(std::array<onerut_parser::CompileResult, 0> args_compile_result) const override {
+        using AbstractOperatorT = onerut_operator::AbstractOperator<unsigned>;
+        using OperatorT = onerut_operator::ZeroOperator<unsigned>;
+        return onerut_parser::CompileResult::from_value<AbstractOperatorT>(
+                std::make_shared<OperatorT>());
+    }
+
+};
+
+class NormalOperatorDiagFunctionFactory : public onerut_parser::NaryFunctionFactory<2> {
+
+    onerut_parser::CompileResult make_function_otherwise_make_error(std::array<onerut_parser::CompileResult, 2> args_compile_result) const override {
+        const auto & arg0_compile_result_deref = args_compile_result[0].dereference();
+        const auto & arg1_compile_result_deref = args_compile_result[1].dereference();
+        if (!arg0_compile_result_deref.is_either_value_or_type())
+            return onerut_parser::CompileResult::from_compile_error(std::make_shared<onerut_parser::CompileArgumentsError>());
+        if (!arg1_compile_result_deref.is_either_value_or_type())
+            return onerut_parser::CompileResult::from_compile_error(std::make_shared<onerut_parser::CompileArgumentsError>());
+        if (!onerut_parser::utility::is_real_or_integer(arg0_compile_result_deref))
+            return onerut_parser::CompileResult::from_compile_error(std::make_shared<onerut_parser::ArgumentMismatchError>());
+        if (!onerut_parser::utility::is_integer(arg1_compile_result_deref))
+            return onerut_parser::CompileResult::from_compile_error(std::make_shared<onerut_parser::ArgumentMismatchError>());
+        const auto value = onerut_parser::utility::to_real(arg0_compile_result_deref);
+        const auto site = onerut_parser::utility::to_integer(arg1_compile_result_deref);
+        using AbstractOperatorT = onerut_operator::AbstractOperator<unsigned>;
+        using OperatorT = onerut_operator::DiagOperator<unsigned>;
+        return onerut_parser::CompileResult::from_value<AbstractOperatorT>(
+                std::make_shared<OperatorT>(value->value_real(), static_cast<unsigned> (site->value_integer())));
+    }
+
+};
+
+class NormalOperatorHopFunctionFactory : public onerut_parser::NaryFunctionFactory<3> {
+
+    onerut_parser::CompileResult make_function_otherwise_make_error(std::array<onerut_parser::CompileResult, 3> args_compile_result) const override {
+        const auto & arg0_compile_result_deref = args_compile_result[0].dereference();
+        const auto & arg1_compile_result_deref = args_compile_result[1].dereference();
+        const auto & arg2_compile_result_deref = args_compile_result[2].dereference();
+        if (!arg0_compile_result_deref.is_either_value_or_type())
+            return onerut_parser::CompileResult::from_compile_error(std::make_shared<onerut_parser::CompileArgumentsError>());
+        if (!arg1_compile_result_deref.is_either_value_or_type())
+            return onerut_parser::CompileResult::from_compile_error(std::make_shared<onerut_parser::CompileArgumentsError>());
+        if (!arg2_compile_result_deref.is_either_value_or_type())
+            return onerut_parser::CompileResult::from_compile_error(std::make_shared<onerut_parser::CompileArgumentsError>());
+        if (!onerut_parser::utility::is_real_or_integer(arg0_compile_result_deref))
+            return onerut_parser::CompileResult::from_compile_error(std::make_shared<onerut_parser::ArgumentMismatchError>());
+        if (!onerut_parser::utility::is_integer(arg1_compile_result_deref))
+            return onerut_parser::CompileResult::from_compile_error(std::make_shared<onerut_parser::ArgumentMismatchError>());
+        if (!onerut_parser::utility::is_integer(arg2_compile_result_deref))
+            return onerut_parser::CompileResult::from_compile_error(std::make_shared<onerut_parser::ArgumentMismatchError>());
+        const auto value = onerut_parser::utility::to_real(arg0_compile_result_deref);
+        const auto site1 = onerut_parser::utility::to_integer(arg1_compile_result_deref);
+        const auto site2 = onerut_parser::utility::to_integer(arg2_compile_result_deref);
+        using AbstractOperatorT = onerut_operator::AbstractOperator<unsigned>;
+        using OperatorT = onerut_operator::HopOperator<unsigned>;
+        return onerut_parser::CompileResult::from_value<AbstractOperatorT>(
+                std::make_shared<OperatorT>(
+                value->value_real(),
+                static_cast<unsigned> (site1->value_integer()),
+                static_cast<unsigned> (site2->value_integer())
+                ));
+    }
+
+};
+
+class NormalOperatorPrintFactory : public onerut_parser::NaryFunctionFactory<2> {
+
+    onerut_parser::CompileResult make_function_otherwise_make_error(std::array<onerut_parser::CompileResult, 2> args_compile_result) const override {
+        const auto & arg0_compile_result_deref = args_compile_result[0].dereference();
+        const auto & arg1_compile_result_deref = args_compile_result[1].dereference();
+        if (!arg0_compile_result_deref.is_either_value_or_type())
+            return onerut_parser::CompileResult::from_compile_error(std::make_shared<onerut_parser::CompileArgumentsError>());
+        if (!arg1_compile_result_deref.is_either_value_or_type())
+            return onerut_parser::CompileResult::from_compile_error(std::make_shared<onerut_parser::CompileArgumentsError>());
+        if (!onerut_parser::utility::is_normal_operator(arg0_compile_result_deref))
+            return onerut_parser::CompileResult::from_compile_error(std::make_shared<onerut_parser::ArgumentMismatchError>());
+        if (!onerut_parser::utility::is_integer(arg1_compile_result_deref))
+            return onerut_parser::CompileResult::from_compile_error(std::make_shared<onerut_parser::ArgumentMismatchError>());
+        const auto normal_operator = onerut_parser::utility::to_normal_operator(arg0_compile_result_deref);
+        const auto dim = onerut_parser::utility::to_integer(arg1_compile_result_deref);
+        const arma::mat M = onerut_operator::to_mat(*normal_operator, dim->value_integer());
+        std::cout << M << std::endl;
+
+        return args_compile_result[0];
+    }
+
+};
+
+//--------------------------------------------
 
 bool
 execute_line(std::shared_ptr<std::string> line) {
@@ -79,6 +176,7 @@ execute_line(std::shared_ptr<std::string> line) {
         std::cout << "[receipt] Result is not an error nor a scalar." << std::endl;
     }
     std::cout << std::endl;
+
     return true;
 }
 
@@ -86,6 +184,7 @@ bool
 execute_script_lines(const std::vector<std::shared_ptr<std::string>>&lines) {
     return std::all_of(cbegin(lines), cend(lines),
             [](const std::shared_ptr<std::string> &line) {
+
                 return execute_line(line);
             });
 }
@@ -99,6 +198,7 @@ load_script_lines_from_file(const std::filesystem::path& file_path) {
     std::vector<std::shared_ptr < std::string >> lines;
     std::string line;
     while (std::getline(file, line)) {
+
         std::cout << "load line: " << line << std::endl;
         auto line_ptr = std::make_shared<std::string>(line);
         lines.push_back(line_ptr);
@@ -111,68 +211,8 @@ bool execute_script_file(const std::filesystem::path& file_path) {
     onerut_parser::GlobalIdentifiers::instance().put_e();
     onerut_parser::GlobalIdentifiers::instance().put_pi();
     onerut_parser::GlobalFunctionFactories::instance().put_cmath();
+
     return execute_script_lines(lines);
-}
-
-// -------------------------------
-
-struct CallableBuildInFunctionTag {
-};
-
-struct CallableNotBuildInFunctionTag {
-};
-
-template<typename T>
-struct CallableFlavour {
-    using Flavour = CallableNotBuildInFunctionTag;
-};
-
-template<typename R, typename... Args>
-struct CallableFlavour<R(*)(Args...)> {
-    using Flavour = CallableBuildInFunctionTag;
-};
-//--------------------------------------------
-
-struct InvalidCall {
-};
-
-template<typename Flavour, typename Callable, typename... Args>
-struct CallableReturnTypeImpl {
-    using ReturnType = InvalidCall;
-};
-
-template<typename Callable, typename... Args>
-struct CallableReturnTypeImpl<CallableBuildInFunctionTag, Callable, Args...> {
-    using ReturnType = decltype(std::declval<Callable>()(std::declval<Args>()...));
-};
-
-template<typename Callable, typename... Args>
-struct CallableReturnTypeImpl<CallableNotBuildInFunctionTag, Callable, Args...> {
-    using ReturnType = decltype(std::declval<Callable>()(std::declval<Args>()...));
-};
-
-//- ------
-
-template<typename Callable, typename... Args>
-struct CallableReturnType {
-    using Flavour = typename CallableFlavour<Callable>::Flavour;
-    using Impl = CallableReturnTypeImpl<Flavour, Callable, Args...>;
-    using ReturnType = typename Impl::ReturnType;
-};
-
-
-//--------------------------------------------
-//--------------------------------------------
-
-struct F {
-
-    double operator()(int) {
-        return 1;
-    }
-};
-
-double f() {
-    return 2;
 }
 
 void temp_testing() {
@@ -219,12 +259,23 @@ void temp_testing() {
     lines.push_back(std::make_shared<std::string>("real(3i+5i*7.i)"));
     lines.push_back(std::make_shared<std::string>("imag(3i+5i*7.i)"));
     lines.push_back(std::make_shared<std::string>("conj(3i+5i*7.i)"));
-    lines.push_back(std::make_shared<std::string>("abs(-7)"));    
-    lines.push_back(std::make_shared<std::string>("abs(1i+1)"));        
+    lines.push_back(std::make_shared<std::string>("abs(-7)"));
+    lines.push_back(std::make_shared<std::string>("abs(1i+1)"));
+    lines.push_back(std::make_shared<std::string>("op_to_mat(1i+1)"));
+    lines.push_back(std::make_shared<std::string>("normalop_zeros()"));
+    lines.push_back(std::make_shared<std::string>("normalop_print(normalop_zeros(),6)"));
+    lines.push_back(std::make_shared<std::string>("normalop_print(normalop_diag(7.8, 3),6)"));
+    lines.push_back(std::make_shared<std::string>("normalop_print(normalop_hop(7.2, 4, 5),6)"));
 
     onerut_parser::GlobalIdentifiers::instance().put_e();
     onerut_parser::GlobalIdentifiers::instance().put_pi();
     onerut_parser::GlobalFunctionFactories::instance().put_cmath();
+
+    
+    onerut_parser::GlobalFunctionFactories::instance().force_put("normalop_zeros", std::make_unique<NormalOperatorZerosFunctionFactory>());
+    onerut_parser::GlobalFunctionFactories::instance().force_put("normalop_diag", std::make_unique<NormalOperatorDiagFunctionFactory>());
+    onerut_parser::GlobalFunctionFactories::instance().force_put("normalop_hop", std::make_unique<NormalOperatorHopFunctionFactory>());
+    onerut_parser::GlobalFunctionFactories::instance().force_put("normalop_print", std::make_unique<NormalOperatorPrintFactory>());
     execute_script_lines(lines);
 
 }

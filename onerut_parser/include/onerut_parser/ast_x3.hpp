@@ -19,10 +19,12 @@ namespace onerut_parser::onerut_ast::x3 {
     struct NestedExpression1Info;
     struct NestedExpression2Info;
     struct FunctionInfo;
+    struct EmptyFunctionInfo;
 
     struct Value2Info : boost::spirit::x3::variant<
-    IdentifierInfo,
+    boost::spirit::x3::forward_ast<EmptyFunctionInfo>,
     boost::spirit::x3::forward_ast<FunctionInfo>,
+    IdentifierInfo,
     boost::spirit::x3::forward_ast<NestedExpression1Info>,
     boost::spirit::x3::forward_ast<NestedExpression2Info>
     > {
@@ -145,6 +147,10 @@ namespace onerut_parser::onerut_ast::x3 {
     struct FunctionInfo : boost::spirit::x3::position_tagged {
         IdentifierInfo name;
         std::vector<ExpressionInfo> argv;
+    };
+
+    struct EmptyFunctionInfo : boost::spirit::x3::position_tagged {
+        IdentifierInfo name;
     };
 
     struct NestedExpression1Info : boost::spirit::x3::position_tagged {

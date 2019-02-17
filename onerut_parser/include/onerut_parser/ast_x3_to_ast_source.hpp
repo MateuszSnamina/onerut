@@ -82,6 +82,11 @@ namespace onerut_parser::onerut_ast {
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions);
 
     std::shared_ptr<source::SourceNode> to_ast_source(
+            const x3::EmptyFunctionInfo& info,
+            std::shared_ptr<const std::string> input,
+            const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions);
+    
+    std::shared_ptr<source::SourceNode> to_ast_source(
             const x3::IdentifierInfo& info,
             std::shared_ptr<const std::string> input,
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions);

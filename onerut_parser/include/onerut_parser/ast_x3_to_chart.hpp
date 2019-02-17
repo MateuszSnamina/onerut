@@ -82,6 +82,11 @@ namespace onerut_parser::onerut_ast::x3 {
             unsigned deepness,
             LinesStyledChartInfo& chart);
     void to_chart(
+            const EmptyFunctionInfo& info,
+            const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
+            unsigned deepness,
+            LinesStyledChartInfo& chart);
+    void to_chart(
             const IdentifierInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
             unsigned deepness,

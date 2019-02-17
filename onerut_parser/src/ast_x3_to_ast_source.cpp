@@ -246,6 +246,19 @@ namespace onerut_parser::onerut_ast {
     }
 
     std::shared_ptr<source::SourceNode> to_ast_source(
+            const x3::EmptyFunctionInfo & info,
+            std::shared_ptr<const std::string> input,
+            const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions) {
+        const std::string name = info.name.name();
+        const std::vector<std::shared_ptr < source::SourceNode >> argv;
+        const string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
+        assert(input);
+        assert(input->cbegin() <= span.begin());
+        assert(span.end() <= input->cend());
+        return std::make_shared<source::FunctionNode>(input, span, name, argv);
+    }
+
+    std::shared_ptr<source::SourceNode> to_ast_source(
             const x3::IdentifierInfo & info,
             std::shared_ptr<const std::string> input,
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions) {

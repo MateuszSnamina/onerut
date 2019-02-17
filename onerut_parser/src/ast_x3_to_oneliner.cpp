@@ -151,6 +151,13 @@ namespace onerut_parser::onerut_ast::x3 {
         return result;
     }
 
+    std::string to_oneliner(const EmptyFunctionInfo& info) {
+        std::string result;
+        result += to_oneliner(info.name);
+        result += "[]";
+        return result;
+    }
+    
     std::string to_oneliner(const IdentifierInfo& info) {
         return info.name();
     }
