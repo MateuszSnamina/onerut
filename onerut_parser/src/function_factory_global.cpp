@@ -1,18 +1,42 @@
 #include<cmath>
 #include<complex>
-#include<onerut_parser/function_factory_global.hpp>
+
+#include<onerut_parser/function_factory_normal_operators.hpp>
 #include<onerut_parser/function_factory_scalar.hpp>
+#include<onerut_parser/function_factory_global.hpp>
 
 using cx_double = std::complex<double>;
+
+namespace onerut_parser {
+
+    // -------------------------------------------------------------------------
+    // ------- template functions implementation -------------------------------
+    // -------------------------------------------------------------------------
+
+    template<unsigned nary, typename CallableReal, typename CallableComplex>
+    void GlobalFunctionFactories::put_nary_scalar_function_factory(
+            std::string onerut_name,
+            CallableReal callable_real,
+            CallableComplex callable_complex) {
+        force_put(
+                onerut_name,
+                std::make_unique<
+                OverloadScalarFunctionFactory<nary, CallableReal, CallableComplex>
+                >(callable_real, callable_complex)
+                );
+    }
+
+}
 
 // *****************************************************************************
 // *************   New Macros that help to add real functions   ****************
 // *****************************************************************************
 
 #define CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(ONERUT_NAME, CPPSTD_NAME, RETURN_TYPE) \
-  put_nary_real_function_factory<1>(                                           \
+  put_nary_scalar_function_factory<1>(                                           \
     #ONERUT_NAME,                                                              \
-    static_cast<RETURN_TYPE(*)(double)> (&std::CPPSTD_NAME)                    \
+    static_cast<RETURN_TYPE(*)(double)> (&std::CPPSTD_NAME),                   \
+    nullptr                                                                    \
   );
 
 #define PUT_STD_UNARY_REAL_FUNCTION(NAME, RETURN_TYPE) \
@@ -21,9 +45,10 @@ using cx_double = std::complex<double>;
 //------------------------------------------------------------------------------
 
 #define CUSTOM_PUT_STD_BINARY_REAL_FUNCTION(ONERUT_NAME, CPPSTD_NAME, RETURN_TYPE) \
-  put_nary_real_function_factory<2>(                                           \
+  put_nary_scalar_function_factory<2>(                                           \
     #ONERUT_NAME,                                                              \
-    static_cast<RETURN_TYPE(*)(double, double)> (&std::CPPSTD_NAME)            \
+    static_cast<RETURN_TYPE(*)(double, double)> (&std::CPPSTD_NAME),           \
+    nullptr                                                                    \
   );
 
 #define PUT_STD_BINARY_REAL_FUNCTION(NAME, RETURN_TYPE) \
@@ -32,8 +57,9 @@ using cx_double = std::complex<double>;
 //******************************************************************************
 
 #define CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(ONERUT_NAME, CPPSTD_NAME, RETURN_TYPE) \
-  put_nary_complex_function_factory<1>(                                        \
+  put_nary_scalar_function_factory<1>(                                        \
     #ONERUT_NAME,                                                              \
+    nullptr,                                                                   \
     static_cast<RETURN_TYPE(*)(const cx_double&)> (&std::CPPSTD_NAME)          \
   );
 
@@ -43,8 +69,9 @@ using cx_double = std::complex<double>;
 //------------------------------------------------------------------------------
 
 #define CUSTOM_PUT_STD_BINARY_COMPLEX_FUNCTION(ONERUT_NAME, CPPSTD_NAME, RETURN_TYPE) \
-  put_nary_complex_function_factory<2>(                                        \
+  put_nary_scalar_function_factory<2>(                                        \
     #ONERUT_NAME,                                                              \
+    nullptr,                                                                   \
     static_cast<RETURN_TYPE(*)(const cx_double&, const cx_double&)> (&std::CPPSTD_NAME)            \
   );
 
@@ -85,7 +112,6 @@ namespace onerut_parser {
 
     GlobalFunctionFactories& GlobalFunctionFactories::instance() {
         static GlobalFunctionFactories _instance;
-
         return _instance;
     }
 
@@ -112,6 +138,7 @@ namespace onerut_parser {
         // ******************************************************
         // **** Functions for both real and complex numbers: ****
         // ******************************************************
+
         CUSTOM_PUT_STD_UNARY_REAL_FUNCTION(re_cos, cos, double);
         CUSTOM_PUT_STD_UNARY_COMPLEX_FUNCTION(cx_cos, cos, cx_double);
         PUT_STD_UNARY_REALCOMPLEX_FUNCTION(cos);
@@ -205,6 +232,14 @@ namespace onerut_parser {
         PUT_STD_UNARY_COMPLEX_FUNCTION(arg, double);
         PUT_STD_UNARY_COMPLEX_FUNCTION(norm, double);
     }
+
+    void GlobalFunctionFactories::put_onerut_functions() {
+        force_put("normalop_zeros", std::make_unique<NormalOperatorZerosFunctionFactory>());
+        force_put("normalop_diag", std::make_unique<NormalOperatorDiagFunctionFactory>());
+        force_put("normalop_hop", std::make_unique<NormalOperatorHopFunctionFactory>());
+        force_put("normalop_print", std::make_unique<NormalOperatorPrintFactory>());
+    }
+
 }
 
 

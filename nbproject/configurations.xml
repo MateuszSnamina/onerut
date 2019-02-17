@@ -54,6 +54,7 @@
         <in>compile_result_utility.cpp</in>
         <in>function_factory.cpp</in>
         <in>function_factory_global.cpp</in>
+        <in>function_factory_normal_operators.cpp</in>
         <in>gramma_parser.cpp</in>
         <in>identifier.cpp</in>
         <in>identifier_global.cpp</in>
@@ -438,6 +439,13 @@
         </ccTool>
       </item>
       <item path="onerut_parser/src/function_factory_global.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_parser/src/function_factory_normal_operators.cpp"
             ex="false"
             tool="1"
             flavor2="11">

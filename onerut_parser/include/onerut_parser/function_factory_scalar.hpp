@@ -1,5 +1,5 @@
-#ifndef ONERUT_PARSER_TEMPLATES
-#define ONERUT_PARSER_TEMPLATES
+#ifndef ONERUT_PARSER_FUNCTION_FACTORY_SCALAR
+#define ONERUT_PARSER_FUNCTION_FACTORY_SCALAR
 
 #include<algorithm>
 #include<vector>
@@ -8,8 +8,6 @@
 #include<onerut_parser/compile_result_utility.hpp>
 #include<onerut_scalar/function.hpp>
 #include<onerut_scalar/utility_static_all_of.hpp>
-
-//#include<iostream> //Debug TODO remove
 
 namespace onerut_parser {
 
