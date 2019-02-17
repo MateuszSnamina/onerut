@@ -9,4 +9,3 @@ const y := sqrt(4.0)
 new const z := max(x, y)
 new const w := sin(pi/4) / sqrt(2)
 p := 3^2
-z = zx

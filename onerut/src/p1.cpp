@@ -5,15 +5,13 @@
 #include<filesystem>
 
 #include<esc/esc_manip.hpp>
-#include<string_utils/string_span.hpp>
 #include<string_utils/greek_support.hpp>
+
 #include<onerut_parser/gramma_parser.hpp>
 #include<onerut_parser/ast_x3_to_ast_source.hpp>
 #include<onerut_parser/ast_compile_result.hpp>
 #include<onerut_parser/print_chart.hpp>
-#include<onerut_parser/identifier_global.hpp>
 #include<onerut_parser/function_factory_global.hpp>
-#include<onerut_parser/function_factory_abstract.hpp>
 #include<onerut_parser/compile_result_utility.hpp>
 
 #include<onerut_scalar/scalar_abstract.hpp>
@@ -35,13 +33,16 @@ execute_line(std::shared_ptr<std::string> line) {
     //std::cout << "onerut_ast::x3:" << std::endl;
     //    print(parsed_x3_info);
     if (!parsed_x3_info.succes()) {
-        //std::cout << "Fail to parse line: " << esc::manip::red << unicode_to_utf8(*line) << esc::manip::reset << "." << std::endl;
-        //std::cout << "match: " << parsed_x3_info.match << ", hit_end: " << parsed_x3_info.hit_end() << "." << std::endl;
-        const auto parsed_view = onerut_parser::to_string_view(parsed_x3_info.parsed_span());
-        const auto not_parsed_view = onerut_parser::to_string_view(parsed_x3_info.not_parsed_span());
-        std::cout << esc::manip::bg_green << parsed_view
-                << esc::manip::bg_red << not_parsed_view;
-        std::cout << std::endl;
+        if (!parsed_x3_info.match) {
+            std::cout << "Fail to parse line: " << std::endl;
+            std::cout << esc::manip::red << *line << esc::manip::reset << "." << std::endl;
+        } else {
+            const auto parsed_view = onerut_parser::to_string_view(parsed_x3_info.parsed_span());
+            const auto not_parsed_view = onerut_parser::to_string_view(parsed_x3_info.not_parsed_span());
+            std::cout << esc::manip::bg_green << parsed_view
+                    << esc::manip::bg_red << not_parsed_view;
+            std::cout << std::endl;
+        }
         return false;
     }
     // #########################################################################
@@ -51,13 +52,11 @@ execute_line(std::shared_ptr<std::string> line) {
             parsed_x3_info.positions);
     // -------------------------------------------------------------------------
     //    const auto ast_source_chart = ast_source_head->to_chart();
-    //    std::cout << "onerut_ast::source:" << std::endl;
-    //    onerut_parser::print_chart(parsed_x3_info.input, ast_source_chart);
+    //    onerut_parser::print_chart(parsed_x3_info.input, ast_source_chart, , "[source ] ");
     // #########################################################################
     const auto ast_compile_result_head = ast_source_head->compile();
     // -------------------------------------------------------------------------
     const auto ast_compile_result_chart = ast_compile_result_head->to_chart();
-    //std::cout << "onerut_ast::compile_result:" << std::endl;
     onerut_parser::print_chart(parsed_x3_info.input, ast_compile_result_chart, "[diagram] ");
     // -------------------------------------------------------------------------
     onerut_parser::CompileResult compile_result = ast_compile_result_head->compile_result;
@@ -165,7 +164,7 @@ void temp_testing() {
     onerut_parser::GlobalFunctionFactories::instance().put_cmath();
     onerut_parser::GlobalFunctionFactories::instance().put_onerut_functions();
 
-    
+
     execute_script_lines(lines);
 
 }
