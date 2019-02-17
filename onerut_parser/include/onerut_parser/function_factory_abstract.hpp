@@ -10,22 +10,24 @@ namespace onerut_parser {
 
     class AbstractFunctionFactory {
     public:
-        virtual CompileResult make_function_otherwise_make_error(std::vector<CompileResult> argv) const = 0; //TODO const vector&
+        virtual CompileResult make_function_otherwise_make_error(const std::vector<CompileResult>& argv) const = 0;
         virtual ~AbstractFunctionFactory() = default;
     };
    
-    // ---------------------------------------------------------------------------
-    // ---------------------------------------------------------------------------
-
     template<unsigned nary>
     class NaryFunctionFactory : public AbstractFunctionFactory {
     public:
-        CompileResult make_function_otherwise_make_error(std::vector<CompileResult> argv) const final;
+        CompileResult make_function_otherwise_make_error(const std::vector<CompileResult>& argv) const final;
         virtual CompileResult make_function_otherwise_make_error(std::array<CompileResult, nary> args) const = 0;
     };
 
+    // ---------------------------------------------------------------------------
+    // -------  template functions implementation  -------------------------------
+    // ---------------------------------------------------------------------------
+
     template<unsigned nary>
-    CompileResult NaryFunctionFactory<nary>::make_function_otherwise_make_error(std::vector<CompileResult> argv) const {
+    CompileResult
+    NaryFunctionFactory<nary>::make_function_otherwise_make_error(const std::vector<CompileResult>& argv) const {
         if (argv.size() != nary)
             return CompileResult::from_compile_error(std::make_shared<WrongNumberOfArgumentsError>());
         std::array<CompileResult, nary> args_array;

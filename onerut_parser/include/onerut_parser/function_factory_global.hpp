@@ -17,13 +17,6 @@ namespace onerut_parser {
         void put_cmath();
         void put_onerut_functions();
     private:
-        // helper functions:
-        template<unsigned nary, typename CallableReal, typename CallableComplex>
-        void put_nary_scalar_function_factory(
-                std::string onerut_name,
-                CallableReal callable_real,
-                CallableComplex callable_complex);
-        // the container:        
         std::map<std::string, std::shared_ptr<AbstractFunctionFactory>> functions;
     };
 

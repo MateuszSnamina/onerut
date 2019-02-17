@@ -12,7 +12,6 @@
 #include<onerut_parser/compile_result_deref.hpp>
 #include<onerut_parser/identifier.hpp>
 
-
 namespace onerut_parser {
 
     class CompileResult {
@@ -32,7 +31,7 @@ namespace onerut_parser {
         std::optional<std::shared_ptr<AbstractCompileResultRef>> reference_or_empty() const;
         std::optional<CompileResultDeref> dereferenced_compile_result_or_empty() const;
         CompileResultDeref dereference() const;
-        //TO DO _or_throw member functions.
+        // TODO: _or_throw member functions.
     private:
         using VariantType = std::variant<
                 std::shared_ptr<AbstractCompileResultRef>,
