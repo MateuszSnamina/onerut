@@ -102,11 +102,11 @@ namespace onerut_scalar {
         static_assert(IsReturnTag<_ReturnTag>::value);
         static_assert(utility::static_all_of<typename IsArgTag<_ArgTags>::type...>::value);
         using ReturnTag = _ReturnTag;
-        Function(_Callable callable, std::shared_ptr<typename _ArgTags::OnerutBaseType>... args);
+        Function(_Callable callable, std::shared_ptr<const typename _ArgTags::OnerutBaseType>... args);
         typename _ReturnTag::BuildInCppType value() const final;
     private:
         _Callable callable;
-        std::tuple<std::shared_ptr<typename _ArgTags::OnerutBaseType>... > args;
+        std::tuple<std::shared_ptr<const typename _ArgTags::OnerutBaseType>... > args;
     };
 
     // -------------------------------------------------------------------------
@@ -127,7 +127,7 @@ namespace onerut_scalar {
 
     template <class _Callable, class _ReturnTag, class... _ArgTags>
     Function<_Callable, _ReturnTag, _ArgTags...>::Function(
-            _Callable callable, std::shared_ptr<typename _ArgTags::OnerutBaseType>... args) :
+            _Callable callable, std::shared_ptr<const typename _ArgTags::OnerutBaseType>... args) :
     callable(callable),
     args(args...) {
         (assert(args), ...);
@@ -139,21 +139,21 @@ namespace onerut_scalar {
 
     inline
     long
-    extract(const std::shared_ptr<Integer>& ptr) {
+    extract(const std::shared_ptr<const Integer>& ptr) {
         assert(ptr);
         return ptr->value_integer();
     }
 
     inline
     double
-    extract(const std::shared_ptr<Real>& ptr) {
+    extract(const std::shared_ptr<const Real>& ptr) {
         assert(ptr);
         return ptr->value_real();
     }
 
     inline
     std::complex<double>
-    extract(const std::shared_ptr<Complex>& ptr) {
+    extract(const std::shared_ptr<const Complex>& ptr) {
         assert(ptr);
         return ptr->value_complex();
     }

@@ -24,19 +24,19 @@ namespace onerut_parser {
     template<>
     struct ArgPreparator<onerut_scalar::ArgInteger> {
         static bool do_match(const CompileResultDeref & arg);
-        static std::shared_ptr<onerut_scalar::Integer> extract(const CompileResultDeref & arg);
+        static std::shared_ptr<const onerut_scalar::Integer> extract(const CompileResultDeref & arg);
     };
 
     template<>
     struct ArgPreparator<onerut_scalar::ArgReal> {
         static bool do_match(const CompileResultDeref & arg);
-        static std::shared_ptr<onerut_scalar::Real> extract(const CompileResultDeref & arg);
+        static std::shared_ptr<const onerut_scalar::Real> extract(const CompileResultDeref & arg);
     };
 
     template<>
     struct ArgPreparator<onerut_scalar::ArgComplex> {
         static bool do_match(const CompileResultDeref & arg);
-        static std::shared_ptr<onerut_scalar::Complex> extract(const CompileResultDeref & arg);
+        static std::shared_ptr<const onerut_scalar::Complex> extract(const CompileResultDeref & arg);
     };
 
     inline
@@ -46,7 +46,7 @@ namespace onerut_parser {
     }
 
     inline
-    std::shared_ptr<onerut_scalar::Integer>
+    std::shared_ptr<const onerut_scalar::Integer>
     ArgPreparator<onerut_scalar::ArgInteger>::extract(const CompileResultDeref & arg) {
         return utility::to_integer(arg);
     }
@@ -58,7 +58,7 @@ namespace onerut_parser {
     }
 
     inline
-    std::shared_ptr<onerut_scalar::Real>
+    std::shared_ptr<const onerut_scalar::Real>
     ArgPreparator<onerut_scalar::ArgReal>::extract(const CompileResultDeref & arg) {
         return utility::to_real(arg);
     }
@@ -70,7 +70,7 @@ namespace onerut_parser {
     }
 
     inline
-    std::shared_ptr<onerut_scalar::Complex>
+    std::shared_ptr<const onerut_scalar::Complex>
     ArgPreparator<onerut_scalar::ArgComplex>::extract(const CompileResultDeref & arg) {
         return utility::to_complex(arg);
     }

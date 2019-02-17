@@ -17,17 +17,17 @@ namespace onerut_scalar {
     // -------------------------------------------------------------------------
 
     inline
-    Variant3T as_variant(std::shared_ptr<onerut_scalar::Complex> c) {
-        if (const auto & i = std::dynamic_pointer_cast<onerut_scalar::Integer>(c))
+    Variant3T as_variant(std::shared_ptr<const onerut_scalar::Complex> c) {
+        if (const auto & i = std::dynamic_pointer_cast<const onerut_scalar::Integer>(c))
             return Variant3T{std::in_place_type<long>, i->value_integer()};
-        if (const auto & r = std::dynamic_pointer_cast<onerut_scalar::Real>(c))
+        if (const auto & r = std::dynamic_pointer_cast<const onerut_scalar::Real>(c))
             return Variant3T{std::in_place_type<double>, r->value_real()};
         return Variant3T{std::in_place_type<std::complex<double>>, c->value_complex()};
     }
 
     inline
-    Variant2T as_variant(std::shared_ptr<onerut_scalar::Real> r) {
-        if (const auto & i = std::dynamic_pointer_cast<onerut_scalar::Integer>(r))
+    Variant2T as_variant(std::shared_ptr<const onerut_scalar::Real> r) {
+        if (const auto & i = std::dynamic_pointer_cast<const onerut_scalar::Integer>(r))
             return Variant2T{std::in_place_type<long>, i->value_integer()};
         return Variant2T{std::in_place_type<double>, r->value_real()};
     }
@@ -132,11 +132,13 @@ namespace onerut_scalar {
         return PromotionLevel::complex;
     }
 
+    inline
     PromotionLevel variant_to_promotion_level(Variant2T v) {
         const VariantToPromotionLevelVisitor variant_to_promotion_level_visitor;
         return std::visit(variant_to_promotion_level_visitor, v);
     }
 
+    inline
     PromotionLevel variant_to_promotion_level(Variant3T v) {
         const VariantToPromotionLevelVisitor variant_to_promotion_level_visitor;
         return std::visit(variant_to_promotion_level_visitor, v);
@@ -172,6 +174,7 @@ namespace onerut_scalar {
         return boost::numeric_cast<ToT> (x.real());
     }
 
+    inline
     std::complex<double>
     scalar_caster<std::complex<double>, std::complex<double>>::operator()(std::complex<double> x) {
         return x;

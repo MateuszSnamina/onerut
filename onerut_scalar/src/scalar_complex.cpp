@@ -26,7 +26,7 @@ namespace onerut_scalar {
     // -------------------------------------------------------------------------
 
     OpUnaryPlusMinusComplex::OpUnaryPlusMinusComplex(
-            std::shared_ptr<Complex> arg,
+            std::shared_ptr<const Complex> arg,
             char op) :
     arg(arg),
     op(op) {
@@ -43,14 +43,14 @@ namespace onerut_scalar {
     // -------------------------------------------------------------------------
 
     OpPlusMinusComplex::OpPlusMinusComplex(
-            std::shared_ptr<Complex> first_arg,
-            std::vector<std::shared_ptr<Complex>> other_argv,
+            std::shared_ptr<const Complex> first_arg,
+            std::vector<std::shared_ptr<const Complex>> other_argv,
             const std::vector<char>& opv) :
     first_arg(first_arg),
     other_argv(other_argv),
     opv(opv) {
         assert(first_arg);
-        assert(std::all_of(other_argv.cbegin(), other_argv.cend(), [](std::shared_ptr<Complex> ptr) {
+        assert(std::all_of(other_argv.cbegin(), other_argv.cend(), [](std::shared_ptr<const Complex> ptr) {
             return static_cast<bool> (ptr);
         }));
         assert(std::all_of(opv.cbegin(), opv.cend(), [](char op) {
@@ -74,14 +74,14 @@ namespace onerut_scalar {
     // -------------------------------------------------------------------------    
 
     OpProdDivComplex::OpProdDivComplex(
-            std::shared_ptr<Complex> first_arg,
-            std::vector<std::shared_ptr < Complex>> other_argv,
+            std::shared_ptr<const Complex> first_arg,
+            std::vector<std::shared_ptr <const  Complex>> other_argv,
             const std::vector<char>& opv) :
     first_arg(first_arg),
     other_argv(other_argv),
     opv(opv) {
         assert(first_arg);
-        assert(std::all_of(other_argv.cbegin(), other_argv.cend(), [](std::shared_ptr<Complex> ptr) {
+        assert(std::all_of(other_argv.cbegin(), other_argv.cend(), [](std::shared_ptr<const Complex> ptr) {
             return static_cast<bool> (ptr);
         }));
         assert(std::all_of(opv.cbegin(), opv.cend(), [](char op) {

@@ -26,11 +26,11 @@ namespace onerut_scalar {
     class OpUnaryPlusMinusInteger : public Integer {
     public:
         OpUnaryPlusMinusInteger(
-                std::shared_ptr<Integer> arg,
+                std::shared_ptr<const Integer> arg,
                 char op);
         long value_integer() const override;
     private:
-        const std::shared_ptr<Integer> arg;
+        const std::shared_ptr<const Integer> arg;
         const char op;
     };
 
@@ -41,13 +41,13 @@ namespace onerut_scalar {
     class OpPlusMinusInteger : public Integer {
     public:
         OpPlusMinusInteger(
-                std::shared_ptr<Integer> first_arg,
-                std::vector<std::shared_ptr<Integer>> other_argv,
+                std::shared_ptr<const Integer> first_arg,
+                std::vector<std::shared_ptr<const Integer>> other_argv,
                 const std::vector<char>& opv);
         long value_integer() const override;
     private:
-        const std::shared_ptr<Integer> first_arg;
-        const std::vector<std::shared_ptr<Integer>> other_argv;
+        const std::shared_ptr<const Integer> first_arg;
+        const std::vector<std::shared_ptr<const Integer>> other_argv;
         const std::vector<char> opv;
     };
 
@@ -58,13 +58,13 @@ namespace onerut_scalar {
     class OpProdDivInteger : public Integer {
     public:
         OpProdDivInteger(
-                std::shared_ptr<Integer> first_arg,
-                std::vector<std::shared_ptr<Integer>> other_argv,
+                std::shared_ptr<const Integer> first_arg,
+                std::vector<std::shared_ptr<const Integer>> other_argv,
                 const std::vector<char>& opv);
         long value_integer() const override;
     private:
-        const std::shared_ptr<Integer> first_arg;
-        const std::vector<std::shared_ptr<Integer>> other_argv;
+        const std::shared_ptr<const Integer> first_arg;
+        const std::vector<std::shared_ptr<const Integer>> other_argv;
         const std::vector<char> opv;
     };
 

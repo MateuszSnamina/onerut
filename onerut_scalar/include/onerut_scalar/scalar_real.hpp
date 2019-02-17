@@ -38,10 +38,10 @@ namespace onerut_scalar {
     class OpUnaryPlusMinusReal : public Real {
     public:
         OpUnaryPlusMinusReal(
-                std::shared_ptr<Real> arg,
+                std::shared_ptr<const Real> arg,
                 char op);
         double value_real() const override;
-        const std::shared_ptr<Real> arg;
+        const std::shared_ptr<const Real> arg;
         const char op;
     };
 
@@ -52,13 +52,13 @@ namespace onerut_scalar {
     class OpPlusMinusReal : public Real {
     public:
         OpPlusMinusReal(
-                std::shared_ptr<Real> first_arg,
-                std::vector<std::shared_ptr<Real>> other_argv,
+                std::shared_ptr<const Real> first_arg,
+                std::vector<std::shared_ptr<const Real>> other_argv,
                 const std::vector<char>& opv);
         double value_real() const override;
     private:
-        const std::shared_ptr<Real> first_arg;
-        const std::vector<std::shared_ptr<Real>> other_argv;
+        const std::shared_ptr<const Real> first_arg;
+        const std::vector<std::shared_ptr<const Real>> other_argv;
         const std::vector<char> opv;
     };
 
@@ -69,13 +69,13 @@ namespace onerut_scalar {
     class OpProdDivReal : public Real {
     public:
         OpProdDivReal(
-                std::shared_ptr<Real> first_arg,
-                std::vector<std::shared_ptr<Real>> other_argv,
+                std::shared_ptr<const Real> first_arg,
+                std::vector<std::shared_ptr<const Real>> other_argv,
                 const std::vector<char>& opv);
         double value_real() const override;
     private:
-        const std::shared_ptr<Real> first_arg;
-        const std::vector<std::shared_ptr<Real>> other_argv;
+        const std::shared_ptr<const Real> first_arg;
+        const std::vector<std::shared_ptr<const Real>> other_argv;
         const std::vector<char> opv;
     };
 

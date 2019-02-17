@@ -264,8 +264,10 @@ void temp_testing() {
     lines.push_back(std::make_shared<std::string>("op_to_mat(1i+1)"));
     lines.push_back(std::make_shared<std::string>("normalop_zeros()"));
     lines.push_back(std::make_shared<std::string>("normalop_print(normalop_zeros(),6)"));
-    lines.push_back(std::make_shared<std::string>("normalop_print(normalop_diag(7.8, 3),6)"));
-    lines.push_back(std::make_shared<std::string>("normalop_print(normalop_hop(7.2, 4, 5),6)"));
+    lines.push_back(std::make_shared<std::string>("d := normalop_diag(7.8, 3)"));
+    lines.push_back(std::make_shared<std::string>("h := normalop_hop(7.2, 4, 5)"));
+    lines.push_back(std::make_shared<std::string>("dh := d+h"));
+    lines.push_back(std::make_shared<std::string>("normalop_print(dh, 6)"));
 
     onerut_parser::GlobalIdentifiers::instance().put_e();
     onerut_parser::GlobalIdentifiers::instance().put_pi();

@@ -47,7 +47,7 @@ namespace onerut_scalar {
     // -------------------------------------------------------------------------
 
     OpUnaryPlusMinusReal::OpUnaryPlusMinusReal(
-            std::shared_ptr<Real> arg,
+            std::shared_ptr<const Real> arg,
             char op) :
     arg(arg),
     op(op) {
@@ -64,14 +64,14 @@ namespace onerut_scalar {
     // -------------------------------------------------------------------------
 
     OpPlusMinusReal::OpPlusMinusReal(
-            std::shared_ptr<Real> first_arg,
-            std::vector<std::shared_ptr<Real>> other_argv,
+            std::shared_ptr<const Real> first_arg,
+            std::vector<std::shared_ptr<const Real>> other_argv,
             const std::vector<char>& opv) :
     first_arg(first_arg),
     other_argv(other_argv),
     opv(opv) {
         assert(first_arg);
-        assert(std::all_of(other_argv.cbegin(), other_argv.cend(), [](std::shared_ptr<Real> ptr) {
+        assert(std::all_of(other_argv.cbegin(), other_argv.cend(), [](std::shared_ptr<const Real> ptr) {
             return static_cast<bool> (ptr);
         }));
         assert(std::all_of(opv.cbegin(), opv.cend(), [](char op) {
@@ -95,14 +95,14 @@ namespace onerut_scalar {
     // -------------------------------------------------------------------------    
 
     OpProdDivReal::OpProdDivReal(
-            std::shared_ptr<Real> first_arg,
-            std::vector<std::shared_ptr < Real>> other_argv,
+            std::shared_ptr<const Real> first_arg,
+            std::vector<std::shared_ptr <const  Real>> other_argv,
             const std::vector<char>& opv) :
     first_arg(first_arg),
     other_argv(other_argv),
     opv(opv) {
         assert(first_arg);
-        assert(std::all_of(other_argv.cbegin(), other_argv.cend(), [](std::shared_ptr<Real> ptr) {
+        assert(std::all_of(other_argv.cbegin(), other_argv.cend(), [](std::shared_ptr<const Real> ptr) {
             return static_cast<bool> (ptr);
         }));
         assert(std::all_of(opv.cbegin(), opv.cend(), [](char op) {

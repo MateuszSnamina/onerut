@@ -57,16 +57,16 @@ namespace onerut_parser::utility {
 
     // -------------------------------------------------------------------------
 
-    std::shared_ptr<onerut_scalar::Integer>
+    std::shared_ptr< const onerut_scalar::Integer>
     to_integer(const onerut_parser::CompileResultDeref&);
 
-    std::shared_ptr<onerut_scalar::Real>
+    std::shared_ptr< const onerut_scalar::Real>
     to_real(const onerut_parser::CompileResultDeref&);
 
-    std::shared_ptr<onerut_scalar::Complex>
+    std::shared_ptr< const onerut_scalar::Complex>
     to_complex(const onerut_parser::CompileResultDeref&);
 
-    std::shared_ptr<onerut_operator::AbstractOperator<unsigned> >
+    std::shared_ptr< const onerut_operator::AbstractOperator<unsigned> >
     to_normal_operator(const onerut_parser::CompileResultDeref&);
 
     //    std::shared_ptr<onerut_operator::AbstractOperator<FERMION_KET_T> >
@@ -77,14 +77,23 @@ namespace onerut_parser::utility {
 
     // -------------------------------------------------------------------------
 
-    std::vector<std::shared_ptr < onerut_scalar::Integer >>
+    std::vector<std::shared_ptr <const onerut_scalar::Integer > >
     many_to_integer(std::vector<onerut_parser::CompileResultDeref>);
 
-    std::vector<std::shared_ptr < onerut_scalar::Real >>
+    std::vector<std::shared_ptr <const onerut_scalar::Real > >
     many_to_real(std::vector<onerut_parser::CompileResultDeref>);
 
-    std::vector<std::shared_ptr < onerut_scalar::Complex >>
+    std::vector<std::shared_ptr <const onerut_scalar::Complex > >
     many_to_complex(std::vector<onerut_parser::CompileResultDeref>);
+
+    std::vector<std::shared_ptr < const onerut_operator::AbstractOperator<unsigned> > >
+    many_to_normal_operator(std::vector<onerut_parser::CompileResultDeref> argv_compile_result_deref);
+
+    //    std::vector<std::shared_ptr < onerut_operator::AbstractOperator<FERMION_KET_T> > >
+    //    many_to_fermion_operator(std::vector<onerut_parser::CompileResultDeref> argv_compile_result_deref);
+
+    //    std::vector<std::shared_ptr < onerut_operator::AbstractOperator<BOSON_KET_T> > >
+    //    many_to_bozon_operator(std::vector<onerut_parser::CompileResultDeref> argv_compile_result_deref);
 
 }
 

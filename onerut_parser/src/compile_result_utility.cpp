@@ -103,7 +103,7 @@ namespace onerut_parser::utility {
 
     // -------------------------------------------------------------------------
 
-    std::shared_ptr<onerut_scalar::Integer>
+    std::shared_ptr< const onerut_scalar::Integer>
     to_integer(const onerut_parser::CompileResultDeref& arg) {
         assert(is_integer(arg));
         const auto& arg_integer = *arg.typed_value_or_empty<onerut_scalar::Integer>();
@@ -111,7 +111,7 @@ namespace onerut_parser::utility {
         return arg_integer;
     }
 
-    std::shared_ptr<onerut_scalar::Real>
+    std::shared_ptr< const onerut_scalar::Real>
     to_real(const onerut_parser::CompileResultDeref& arg) {
         assert(is_real_or_integer(arg));
         std::shared_ptr<onerut_scalar::Real> arg_real;
@@ -124,7 +124,7 @@ namespace onerut_parser::utility {
         return arg_real;
     }
 
-    std::shared_ptr<onerut_scalar::Complex>
+    std::shared_ptr< const onerut_scalar::Complex>
     to_complex(const onerut_parser::CompileResultDeref& arg) {
         assert(is_real_or_integer_or_complex(arg));
         std::shared_ptr<onerut_scalar::Complex> arg_complex;
@@ -139,7 +139,7 @@ namespace onerut_parser::utility {
         return arg_complex;
     }
 
-    std::shared_ptr<onerut_operator::AbstractOperator<unsigned> >
+    std::shared_ptr< const onerut_operator::AbstractOperator<unsigned> >
     to_normal_operator(const onerut_parser::CompileResultDeref& arg) {
         using OperatorT = onerut_operator::AbstractOperator<unsigned>;
         assert(is_normal_operator(arg));
@@ -150,31 +150,39 @@ namespace onerut_parser::utility {
 
     // -------------------------------------------------------------------------
 
-    std::vector<std::shared_ptr < onerut_scalar::Integer >>
+    std::vector<std::shared_ptr < const onerut_scalar::Integer > >
     many_to_integer(std::vector<onerut_parser::CompileResultDeref> argv_compile_result_deref) {
-        std::vector<std::shared_ptr < onerut_scalar::Integer >> argv_integer;
+        std::vector<std::shared_ptr < const onerut_scalar::Integer > > argv_integer;
         argv_integer.reserve(argv_compile_result_deref.size());
         std::transform(argv_compile_result_deref.cbegin(), argv_compile_result_deref.cend(),
                 std::back_inserter(argv_integer), to_integer);
         return argv_integer;
     }
 
-    std::vector<std::shared_ptr < onerut_scalar::Real >>
+    std::vector<std::shared_ptr < const onerut_scalar::Real > >
     many_to_real(std::vector<onerut_parser::CompileResultDeref> argv_compile_result_deref) {
-        std::vector<std::shared_ptr < onerut_scalar::Real >> argv_real;
+        std::vector<std::shared_ptr < const onerut_scalar::Real > > argv_real;
         argv_real.reserve(argv_compile_result_deref.size());
         std::transform(argv_compile_result_deref.cbegin(), argv_compile_result_deref.cend(),
                 std::back_inserter(argv_real), to_real);
         return argv_real;
     }
 
-    std::vector<std::shared_ptr < onerut_scalar::Complex >>
+    std::vector<std::shared_ptr < const onerut_scalar::Complex > >
     many_to_complex(std::vector<onerut_parser::CompileResultDeref> argv_compile_result_deref) {
-        std::vector<std::shared_ptr < onerut_scalar::Complex >> argv_complex;
+        std::vector<std::shared_ptr < const onerut_scalar::Complex > > argv_complex;
         argv_complex.reserve(argv_compile_result_deref.size());
         std::transform(argv_compile_result_deref.cbegin(), argv_compile_result_deref.cend(),
                 std::back_inserter(argv_complex), to_complex);
         return argv_complex;
     }
 
+    std::vector<std::shared_ptr < const onerut_operator::AbstractOperator<unsigned> > >
+    many_to_normal_operator(std::vector<onerut_parser::CompileResultDeref> argv_compile_result_deref) {
+        std::vector< std::shared_ptr < const onerut_operator::AbstractOperator<unsigned> > > argv_operator;
+        argv_operator.reserve(argv_compile_result_deref.size());
+        std::transform(argv_compile_result_deref.cbegin(), argv_compile_result_deref.cend(),
+                std::back_inserter(argv_operator), to_normal_operator);
+        return argv_operator;
+    }
 }

@@ -7,6 +7,8 @@
 #include<onerut_scalar/utility.hpp>
 #include<onerut_scalar/scalar.hpp>
 
+// TODO: is this cpp needed?
+/*
 using Variant2T = std::variant<long, double>;
 using Variant3T = std::variant<long, double, std::complex<double>>;
 
@@ -73,7 +75,7 @@ namespace onerut_scalar {
     // -------------------------------------------------------------------------
 
     OpUnaryPlusMinusComplex::OpUnaryPlusMinusComplex(
-            std::shared_ptr<Complex> arg,
+            std::shared_ptr<const Complex> arg,
             char op) :
     arg(arg),
     op(op) {
@@ -88,7 +90,7 @@ namespace onerut_scalar {
     // -------------------------------------------------------------------------
 
     OpUnaryPlusMinusReal::OpUnaryPlusMinusReal(
-            std::shared_ptr<Real> arg,
+            std::shared_ptr<const Real> arg,
             char op) :
     arg(arg),
     op(op) {
@@ -103,7 +105,7 @@ namespace onerut_scalar {
     // -------------------------------------------------------------------------
 
     OpUnaryPlusMinusInteger::OpUnaryPlusMinusInteger(
-            std::shared_ptr<Integer> arg,
+            std::shared_ptr<const Integer> arg,
             char op) :
     arg(arg),
     op(op) {
@@ -120,14 +122,14 @@ namespace onerut_scalar {
     // -------------------------------------------------------------------------
 
     OpPlusMinusComplex::OpPlusMinusComplex(
-            std::shared_ptr<Complex> first_arg,
-            std::vector<std::shared_ptr<Complex>> other_argv,
+            std::shared_ptr<const Complex> first_arg,
+            std::vector<std::shared_ptr<const Complex>> other_argv,
             const std::vector<char>& opv) :
     first_arg(first_arg),
     other_argv(other_argv),
     opv(opv) {
         assert(first_arg);
-        assert(std::all_of(other_argv.cbegin(), other_argv.cend(), [](std::shared_ptr<Complex> ptr) {
+        assert(std::all_of(other_argv.cbegin(), other_argv.cend(), [](std::shared_ptr<const Complex> ptr) {
             return static_cast<bool> (ptr);
         }));
         assert(std::all_of(opv.cbegin(), opv.cend(), [](char op) {
@@ -156,7 +158,7 @@ namespace onerut_scalar {
     other_argv(other_argv),
     opv(opv) {
         assert(first_arg);
-        assert(std::all_of(other_argv.cbegin(), other_argv.cend(), [](std::shared_ptr<Real> ptr) {
+        assert(std::all_of(other_argv.cbegin(), other_argv.cend(), [](std::shared_ptr<const Real> ptr) {
             return static_cast<bool> (ptr);
         }));
         assert(std::all_of(opv.cbegin(), opv.cend(), [](char op) {
@@ -185,7 +187,7 @@ namespace onerut_scalar {
     other_argv(other_argv),
     opv(opv) {
         assert(first_arg);
-        assert(std::all_of(other_argv.cbegin(), other_argv.cend(), [](std::shared_ptr<Integer> ptr) {
+        assert(std::all_of(other_argv.cbegin(), other_argv.cend(), [](std::shared_ptr<const Integer> ptr) {
             return static_cast<bool> (ptr);
         }));
         assert(std::all_of(opv.cbegin(), opv.cend(), [](char op) {
@@ -207,14 +209,14 @@ namespace onerut_scalar {
     // -------------------------------------------------------------------------    
 
     OpProdDivComplex::OpProdDivComplex(
-            std::shared_ptr<Complex> first_arg,
-            std::vector<std::shared_ptr < Complex>> other_argv,
+            std::shared_ptr<const Complex> first_arg,
+            std::vector<std::shared_ptr <const Complex>> other_argv,
             const std::vector<char>& opv) :
     first_arg(first_arg),
     other_argv(other_argv),
     opv(opv) {
         assert(first_arg);
-        assert(std::all_of(other_argv.cbegin(), other_argv.cend(), [](std::shared_ptr<Complex> ptr) {
+        assert(std::all_of(other_argv.cbegin(), other_argv.cend(), [](std::shared_ptr<const Complex> ptr) {
             return static_cast<bool> (ptr);
         }));
         assert(std::all_of(opv.cbegin(), opv.cend(), [](char op) {
@@ -236,14 +238,14 @@ namespace onerut_scalar {
     // -------------------------------------------------------------------------
 
     OpProdDivReal::OpProdDivReal(
-            std::shared_ptr<Real> first_arg,
-            std::vector<std::shared_ptr < Real>> other_argv,
+            std::shared_ptr<const Real> first_arg,
+            std::vector<std::shared_ptr <const  Real>> other_argv,
             const std::vector<char>& opv) :
     first_arg(first_arg),
     other_argv(other_argv),
     opv(opv) {
         assert(first_arg);
-        assert(std::all_of(other_argv.cbegin(), other_argv.cend(), [](std::shared_ptr<Real> ptr) {
+        assert(std::all_of(other_argv.cbegin(), other_argv.cend(), [](std::shared_ptr<const Real> ptr) {
             return static_cast<bool> (ptr);
         }));
         assert(std::all_of(opv.cbegin(), opv.cend(), [](char op) {
@@ -290,3 +292,4 @@ namespace onerut_scalar {
     }
 }
 
+*/

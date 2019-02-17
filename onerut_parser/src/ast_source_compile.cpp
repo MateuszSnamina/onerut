@@ -8,6 +8,7 @@
 #include<onerut_parser/identifier_global.hpp>
 #include<onerut_parser/function_factory_global.hpp>
 #include<onerut_scalar/scalar.hpp>
+#include<onerut_operator/operator.hpp>
 
 namespace {
 
@@ -220,6 +221,13 @@ namespace onerut_parser::onerut_ast::source {
             const auto & other_argv_complex = utility::many_to_complex(other_argv_compile_result_deref);
             return CompileResult::from_value<onerut_scalar::Complex>(std::make_shared<onerut_scalar::OpPlusMinusComplex>(first_arg_complex, other_argv_complex, opv));
         }
+        if (utility::is_normal_operator(first_arg_compile_result_deref) &&
+                std::all_of(cbegin(other_argv_compile_result_deref), cend(other_argv_compile_result_deref), utility::is_normal_operator)) {
+            const auto & first_arg_operator = utility::to_normal_operator(first_arg_compile_result_deref);
+            const auto & other_argv_operator = utility::many_to_normal_operator(other_argv_compile_result_deref);
+            using AbstractOperatorT = onerut_operator::AbstractOperator<unsigned>;
+            return CompileResult::from_value<AbstractOperatorT>(std::make_shared<onerut_operator::OpPlusMinusOperator<unsigned> >(first_arg_operator, other_argv_operator, opv));
+        }
         return CompileResult::from_compile_error(std::make_shared<ArgumentMismatchError>());
     }
 
@@ -327,7 +335,7 @@ namespace onerut_parser::onerut_ast::source {
     LitPureComplexDoubleNode::basic_compile() const {
         return CompileResult::from_value<onerut_scalar::Complex>(std::make_shared<onerut_scalar::LitComplex>(std::complex(0.0, value)));
     }
-    
+
     // -------------------------------------------------------------------------
 
     CompileResult
