@@ -1,6 +1,8 @@
 #include<onerut_parser/compile_result_to_esc_data.hpp>
 #include<onerut_scalar/scalar_abstract.hpp>
-#include<onerut_operator/operator_abstract.hpp>
+#include<onerut_operator/operator_abstract.hpp>// TODO remove in future 
+#include<onerut_normal_operator/operator_abstract.hpp>
+
 namespace onerut_parser {
 
     esc::EscData compile_result_to_esc_data(const CompileResult& compile_result) {
@@ -18,9 +20,16 @@ namespace onerut_parser {
         if (compile_result.dereference().is_given_type<onerut_scalar::Real>())
             return esc::EscDataBuilder() << esc::manip::cyan << esc::manip::build_esc_data;
         if (compile_result.dereference().is_given_type<onerut_scalar::Complex>())
-            return esc::EscDataBuilder() << esc::manip::green << esc::manip::build_esc_data;        
+            return esc::EscDataBuilder() << esc::manip::green << esc::manip::build_esc_data;
         if (compile_result.dereference().is_given_type<onerut_operator::AbstractOperator<unsigned> >())
-            return esc::EscDataBuilder() << esc::manip::bold << esc::manip::yellow << esc::manip::build_esc_data;                
+            return esc::EscDataBuilder() << esc::manip::bold << esc::manip::yellow << esc::manip::build_esc_data; // TODO remove in future 
+        if (compile_result.dereference().is_given_type<onerut_nornal_operator::Domain>())
+            return esc::EscDataBuilder() << esc::manip::italic << esc::manip::yellow << esc::manip::build_esc_data;
+        if (compile_result.dereference().is_given_type<onerut_nornal_operator::StateIndex>())
+            return esc::EscDataBuilder() << esc::manip::italic << esc::manip::yellow << esc::manip::build_esc_data;
+        if (compile_result.dereference().is_given_type<onerut_nornal_operator::AbstractOperator>())
+            return esc::EscDataBuilder() << esc::manip::bold << esc::manip::yellow << esc::manip::build_esc_data;
+
         return esc::EscDataBuilder() << esc::manip::build_esc_data;
     }
 
