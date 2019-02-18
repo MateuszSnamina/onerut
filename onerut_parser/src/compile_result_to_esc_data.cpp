@@ -23,11 +23,11 @@ namespace onerut_parser {
             return esc::EscDataBuilder() << esc::manip::green << esc::manip::build_esc_data;
         if (compile_result.dereference().is_given_type<onerut_operator::AbstractOperator<unsigned> >())
             return esc::EscDataBuilder() << esc::manip::bold << esc::manip::yellow << esc::manip::build_esc_data; // TODO remove in future 
-        if (compile_result.dereference().is_given_type<onerut_nornal_operator::Domain>())
+        if (compile_result.dereference().is_given_type<onerut_normal_operator::Domain>())
             return esc::EscDataBuilder() << esc::manip::italic << esc::manip::yellow << esc::manip::build_esc_data;
-        if (compile_result.dereference().is_given_type<onerut_nornal_operator::StateIndex>())
+        if (compile_result.dereference().is_given_type<onerut_normal_operator::StateIndex>())
             return esc::EscDataBuilder() << esc::manip::italic << esc::manip::yellow << esc::manip::build_esc_data;
-        if (compile_result.dereference().is_given_type<onerut_nornal_operator::AbstractOperator>())
+        if (compile_result.dereference().is_given_type<onerut_normal_operator::AbstractOperator>())
             return esc::EscDataBuilder() << esc::manip::bold << esc::manip::yellow << esc::manip::build_esc_data;
 
         return esc::EscDataBuilder() << esc::manip::build_esc_data;

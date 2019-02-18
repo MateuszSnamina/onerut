@@ -3,7 +3,7 @@
 
 #include<onerut_operator/operator_scalled.hpp>
 
-namespace onerut_operator {
+namespace onerut_normal_operator {
 
     // -------------------------------------------------------------------------
     // ------------------ SCALLED OPERATOR  -------------------------------------

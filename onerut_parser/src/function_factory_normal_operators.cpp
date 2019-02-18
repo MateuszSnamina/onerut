@@ -2,7 +2,8 @@
 #include<onerut_parser/function_factory_normal_operators.hpp>
 #include<onerut_parser/identifier_global.hpp>
 #include<onerut_operator/operator.hpp>
-
+#include<onerut_normal_operator/operator_abstract.hpp>
+#include<onerut_normal_operator/operator_simple.hpp>
 
 namespace onerut_parser {
 
@@ -95,13 +96,13 @@ namespace onerut_parser {
         for (unsigned index = 0; index < argc; ++index)
             state_names.push_back(utility::name_of_identifier_not_found(argv[index].dereference()));
         // Make domain object:
-        //auto domain = std::make_shared<onerut_nornal_operator::Domain>(state_names);
-        std::shared_ptr<onerut_nornal_operator::Domain> domain(new onerut_nornal_operator::Domain(state_names));
-        auto domain_compile_result = CompileResult::from_value<onerut_nornal_operator::Domain>(domain);
+        //auto domain = std::make_shared<onerut_normal_operator::Domain>(state_names);
+        std::shared_ptr<onerut_normal_operator::Domain> domain(new onerut_normal_operator::Domain(state_names));
+        auto domain_compile_result = CompileResult::from_value<onerut_normal_operator::Domain>(domain);
         // Make state-index objects:
         for (unsigned index = 0; index < argc; ++index) {
             const std::string name = domain->state_names[index];
-            const auto state_compile_result_deref = CompileResultDeref::from_value<onerut_nornal_operator::StateIndex>(domain->crate_state(index));
+            const auto state_compile_result_deref = CompileResultDeref::from_value<onerut_normal_operator::StateIndex>(domain->crate_state(index));
             const auto state_ref = std::make_shared<CompileResultConstRef>(name, state_compile_result_deref);
             if (!GlobalIdentifiers::instance().put(name, state_ref)) {
                 return CompileResult::from_compile_error(std::make_shared<IllegalSecondAssignError>());

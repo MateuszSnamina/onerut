@@ -1,8 +1,8 @@
 #ifndef ONERUT_PARSER_FUNCTION_FACTORY_NORMAL_OPERATORS
 #define ONERUT_PARSER_FUNCTION_FACTORY_NORMAL_OPERATORS
 
-#include<onerut_parser/function_factory_abstract.hpp> //TODO: delete
-#include<onerut_normal_operator/operator_abstract.hpp>
+#include<onerut_parser/function_factory_abstract.hpp>
+
 
 namespace onerut_parser {
 

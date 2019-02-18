@@ -3,7 +3,7 @@
 
 #include<onerut_operator/operator_opprod.hpp>
 
-namespace onerut_operator {
+namespace onerut_normal_operator {
 /*
     // -------------------------------------------------------------------------
     // ------------------ OpProd OPERATOR  -------------------------------------

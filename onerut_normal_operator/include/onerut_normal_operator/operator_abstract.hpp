@@ -7,7 +7,7 @@
 
 #include<onerut_operator/operator_abstract.hpp>
 
-namespace onerut_nornal_operator {
+namespace onerut_normal_operator {
 
     // -------------------------------------------------------------------------
     // --------------  Domain  -------------------------------------------------

@@ -79,17 +79,17 @@ execute_line(std::shared_ptr<std::string> line) {
         std::cout << "[receipt] Expression is a complex-number." << std::endl;
         const auto result_complex = *(compile_result.dereference().typed_value_or_empty<onerut_scalar::Complex>());
         std::cout << "[receipt] Value = " << result_complex->value_complex() << std::endl;
-    } else if (compile_result.dereference().is_given_type<onerut_nornal_operator::StateIndex>()) {
+    } else if (compile_result.dereference().is_given_type<onerut_normal_operator::StateIndex>()) {
         std::cout << "[receipt] Expression is a normal-domain-state-index ." << std::endl;
-        const auto state = *(compile_result.dereference().typed_value_or_empty<onerut_nornal_operator::StateIndex>());
+        const auto state = *(compile_result.dereference().typed_value_or_empty<onerut_normal_operator::StateIndex>());
         std::cout << "[receipt] Value = " << state->to_str() << std::endl;
-    } else if (compile_result.dereference().is_given_type<onerut_nornal_operator::Domain>()) {
+    } else if (compile_result.dereference().is_given_type<onerut_normal_operator::Domain>()) {
         std::cout << "[receipt] Expression is a normal-domain." << std::endl;
-        const auto domain = *(compile_result.dereference().typed_value_or_empty<onerut_nornal_operator::Domain>());
+        const auto domain = *(compile_result.dereference().typed_value_or_empty<onerut_normal_operator::Domain>());
         std::cout << "[receipt] Value = " << domain->to_str() << std::endl;
-    } else if (compile_result.dereference().is_given_type<onerut_nornal_operator::AbstractOperator>()) {
+    } else if (compile_result.dereference().is_given_type<onerut_normal_operator::AbstractOperator>()) {
         std::cout << "[receipt] Expression is a normal-domain-operator." << std::endl;
-        const auto op = *(compile_result.dereference().typed_value_or_empty<onerut_nornal_operator::AbstractOperator>());
+        const auto op = *(compile_result.dereference().typed_value_or_empty<onerut_normal_operator::AbstractOperator>());
         std::cout << "[receipt] Operator domain = " << op->get_domain()->to_str() << std::endl;
     } else {
         std::cout << "[receipt] Result is not an error nor a scalar." << std::endl;

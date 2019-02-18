@@ -3,7 +3,7 @@
 
 #include<onerut_operator/operator_zero.hpp>
 
-namespace onerut_operator {
+namespace onerut_normal_operator {
 /*
     template<typename BraKetT>
     class ZeroOperatorIterator : public AbstractResultIterator<BraKetT> {
