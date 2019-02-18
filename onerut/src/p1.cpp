@@ -15,8 +15,10 @@
 #include<onerut_parser/compile_result_utility.hpp>
 
 #include<onerut_scalar/scalar_abstract.hpp>
+#include<onerut_normal_operator/operator_abstract.hpp>
 
 #include<type_traits>
+
 
 //--------------------------------------------
 
@@ -66,17 +68,29 @@ execute_line(std::shared_ptr<std::string> line) {
         const auto error = *compile_result.dereference().compile_error_or_empty();
         std::cout << "[receipt] Error message = " << error->what() << std::endl;
     } else if (compile_result.dereference().is_given_type<onerut_scalar::Integer>()) {
-        std::cout << "[receipt] Expression is an integer number." << std::endl;
+        std::cout << "[receipt] Expression is an integer-number." << std::endl;
         const auto result_integer = *(compile_result.dereference().typed_value_or_empty<onerut_scalar::Integer>());
         std::cout << "[receipt] Value = " << result_integer->value_integer() << std::endl;
     } else if (compile_result.dereference().is_given_type<onerut_scalar::Real>()) {
-        std::cout << "[receipt] Expression is a real number." << std::endl;
+        std::cout << "[receipt] Expression is a real-number." << std::endl;
         const auto result_real = *(compile_result.dereference().typed_value_or_empty<onerut_scalar::Real>());
         std::cout << "[receipt] Value = " << result_real->value_real() << std::endl;
     } else if (compile_result.dereference().is_given_type<onerut_scalar::Complex>()) {
-        std::cout << "[receipt] Expression is a complex number." << std::endl;
+        std::cout << "[receipt] Expression is a complex-number." << std::endl;
         const auto result_complex = *(compile_result.dereference().typed_value_or_empty<onerut_scalar::Complex>());
         std::cout << "[receipt] Value = " << result_complex->value_complex() << std::endl;
+    } else if (compile_result.dereference().is_given_type<onerut_nornal_operator::StateIndex>()) {
+        std::cout << "[receipt] Expression is a normal-domain-state-index ." << std::endl;
+        const auto state = *(compile_result.dereference().typed_value_or_empty<onerut_nornal_operator::StateIndex>());
+        std::cout << "[receipt] Value = " << state->to_str() << std::endl;
+    } else if (compile_result.dereference().is_given_type<onerut_nornal_operator::Domain>()) {
+        std::cout << "[receipt] Expression is a normal-domain." << std::endl;
+        const auto domain = *(compile_result.dereference().typed_value_or_empty<onerut_nornal_operator::Domain>());
+        std::cout << "[receipt] Value = " << domain->to_str() << std::endl;
+    } else if (compile_result.dereference().is_given_type<onerut_nornal_operator::AbstractOperator>()) {
+        std::cout << "[receipt] Expression is a normal-domain-operator." << std::endl;
+        const auto op = *(compile_result.dereference().typed_value_or_empty<onerut_nornal_operator::AbstractOperator>());
+        std::cout << "[receipt] Operator domain = " << op->get_domain()->to_str() << std::endl;
     } else {
         std::cout << "[receipt] Result is not an error nor a scalar." << std::endl;
     }
@@ -160,6 +174,16 @@ void temp_testing() {
     lines.push_back(std::make_shared<std::string>("h := normalop_hop(7.2, 4, 5)"));
     lines.push_back(std::make_shared<std::string>("dh := d+h"));
     lines.push_back(std::make_shared<std::string>("normalop_print(dh, 6)"));
+    lines.push_back(std::make_shared<std::string>("ELECTRON_DOMAIN := create_normal_domain(AC, CA, EG, GE)"));
+    lines.push_back(std::make_shared<std::string>("ELECTRON_DOMAIN"));
+    lines.push_back(std::make_shared<std::string>("EG"));
+    lines.push_back(std::make_shared<std::string>("create_normal_domain(AC2, CA2, EG2, GE2)"));    
+    lines.push_back(std::make_shared<std::string>("EG2"));
+    
+    
+    
+    
+    
 
     onerut_parser::GlobalFunctionFactories::instance().put_cmath();
     onerut_parser::GlobalFunctionFactories::instance().put_onerut_functions();

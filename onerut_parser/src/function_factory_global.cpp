@@ -241,7 +241,10 @@ namespace onerut_parser {
         force_put("normalop_zeros", std::make_unique<NormalOperatorZerosFunctionFactory>());
         force_put("normalop_diag", std::make_unique<NormalOperatorDiagFunctionFactory>());
         force_put("normalop_hop", std::make_unique<NormalOperatorHopFunctionFactory>());
-        force_put("normalop_print", std::make_unique<NormalOperatorPrintFactory>());
+        force_put("normalop_print", std::make_unique<NormalOperatorPrintFunctionFactory>());
+        
+        force_put("create_normal_domain", std::make_unique<CreateNormalDomainFunctionFactory>());
+               
     }
 
 }

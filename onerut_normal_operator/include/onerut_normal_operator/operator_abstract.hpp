@@ -2,62 +2,51 @@
 #define ONERUT_NORMAL_OPERATOR_ABSTRACT
 
 #include<memory>
-#include<utility>
+#include<string>
+#include<vector>
 
 #include<onerut_operator/operator_abstract.hpp>
 
 namespace onerut_nornal_operator {
 
-    struct Domain {
-        unsigned size;
+    // -------------------------------------------------------------------------
+    // --------------  Domain  -------------------------------------------------
+    // -------------------------------------------------------------------------
+
+    struct StateIndex;
+
+    class Domain : public std::enable_shared_from_this<Domain> {
+    public:
+        Domain(std::vector<std::string> state_names);
+        unsigned size() const;
+        std::unique_ptr<StateIndex> crate_state(unsigned index) const;
+        std::string to_str() const;
+        const std::vector<std::string> state_names;
     };
 
-    struct State {
-        const std::shared_ptr<Domain> domain;
+    // -------------------------------------------------------------------------
+    // ----------------  StateIndex  -------------------------------------------
+    // -------------------------------------------------------------------------
+
+    struct StateIndex {
+        const std::shared_ptr<const Domain> domain;
         const unsigned index;
+        std::string fetch_name() const;
+        std::string to_str() const;
+    private:
+        StateIndex(unsigned index, std::shared_ptr<const Domain> domain);
+        friend std::unique_ptr<StateIndex> Domain::crate_state(unsigned index) const;
     };
 
-//    class NormalOperator
-//    public:
-//        NormalOperator
-//        const std::shared_ptr<Domain> domain;
-//
-//    };
-
-    /*
-        // -------------------------------------------------------------------------
-        // ------------------  ABSTRACT OPERATOR  ----------------------------------
-        // -------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
+    // ----------------  AbstractOperator  -------------------------------------
+    // -------------------------------------------------------------------------    
     
-        template<typename BraKetT>
-        class AbstractOperator;
+    class AbstractOperator : public onerut_operator::AbstractOperator<unsigned> {
+    public:
+        virtual std::shared_ptr<const Domain> get_domain() const = 0;
+    };
 
-        template<typename BraKetT>
-        class AbstractResultIterator {
-        public:
-            using value_type = std::pair<double, BraKetT>;
-            using pointer = value_type*;
-            using reference = value_type&;
-            using AbstractOpT = AbstractOperator<BraKetT>;
-            using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
-            using AbstractIteratorT = AbstractResultIterator<BraKetT>;
-            using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
-            virtual value_type get_val_bra() const = 0;
-            virtual void next() = 0;
-            virtual bool is_end() const = 0;
-            virtual ~AbstractResultIterator() = default;
-        };
-
-        template<typename BraKetT>
-        class AbstractOperator {
-        public:
-            using AbstractOpT = AbstractOperator<BraKetT>;
-            using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
-            using AbstractIteratorT = AbstractResultIterator<BraKetT>;
-            using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;        
-            virtual AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const = 0;
-        };
-     */
 }
 
 #endif
