@@ -91,6 +91,8 @@ execute_line(std::shared_ptr<std::string> line) {
         std::cout << "[receipt] Expression is a normal-domain-operator." << std::endl;
         const auto op = *(compile_result.dereference().typed_value_or_empty<onerut_normal_operator::AbstractOperator>());
         std::cout << "[receipt] Operator domain = " << op->get_domain()->to_str() << std::endl;
+        //std::cout << "[receipt] Operator matrix = " << std::endl;
+        //std::cout << op->get_domain()->to_str() << std::endl;
     } else {
         std::cout << "[receipt] Result is not an error nor a scalar." << std::endl;
     }
@@ -177,13 +179,15 @@ void temp_testing() {
     lines.push_back(std::make_shared<std::string>("ELECTRON_DOMAIN := create_normal_domain(AC, CA, EG, GE)"));
     lines.push_back(std::make_shared<std::string>("ELECTRON_DOMAIN"));
     lines.push_back(std::make_shared<std::string>("EG"));
-    lines.push_back(std::make_shared<std::string>("create_normal_domain(AC2, CA2, EG2, GE2)"));    
+    lines.push_back(std::make_shared<std::string>("create_normal_domain(AC2, CA2, EG2, GE2)"));
     lines.push_back(std::make_shared<std::string>("EG2"));
-    
-    
-    
-    
-    
+    lines.push_back(std::make_shared<std::string>("h := normalop_hop(5, AC2, CA2)"));
+    lines.push_back(std::make_shared<std::string>("d := normalop_diag(7.8, EG2)"));
+    lines.push_back(std::make_shared<std::string>("normalop_diag(7.8, EG2)"));
+    lines.push_back(std::make_shared<std::string>("normalop_print(h)"));
+    lines.push_back(std::make_shared<std::string>("normalop_print(d)"));
+    lines.push_back(std::make_shared<std::string>("z := normalop_zero(ELECTRON_DOMAIN)"));
+    lines.push_back(std::make_shared<std::string>("normalop_print(z)"));
 
     onerut_parser::GlobalFunctionFactories::instance().put_cmath();
     onerut_parser::GlobalFunctionFactories::instance().put_onerut_functions();

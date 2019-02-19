@@ -93,8 +93,24 @@ namespace onerut_parser::utility {
     }
 
     bool
+    is_normal_operator_domain(const onerut_parser::CompileResultDeref& arg) {
+        using OperatorT = onerut_normal_operator::Domain;
+        assert(!arg.is_empty());
+        assert(!arg.is_compile_error());
+        return arg.is_given_type<OperatorT>();
+    }
+
+    bool
+    is_normal_operator_state_index(const onerut_parser::CompileResultDeref& arg) {
+        using OperatorT = onerut_normal_operator::StateIndex;
+        assert(!arg.is_empty());
+        assert(!arg.is_compile_error());
+        return arg.is_given_type<OperatorT>();
+    }
+
+    bool
     is_normal_operator(const onerut_parser::CompileResultDeref& arg) {
-        using OperatorT = onerut_operator::AbstractOperator<unsigned>;
+        using OperatorT = onerut_normal_operator::AbstractOperator;
         assert(!arg.is_empty());
         assert(!arg.is_compile_error());
         return arg.is_given_type<OperatorT>();
@@ -139,9 +155,25 @@ namespace onerut_parser::utility {
         return arg_complex;
     }
 
-    std::shared_ptr< const onerut_operator::AbstractOperator<unsigned> >
+    std::shared_ptr < const onerut_normal_operator::Domain >
+    to_normal_operator_domain(const onerut_parser::CompileResultDeref& arg) {
+        assert(is_normal_operator_domain(arg));
+        const auto& arg_typed = *arg.typed_value_or_empty<onerut_normal_operator::Domain>();
+        assert(arg_typed);
+        return arg_typed;
+    }
+
+    std::shared_ptr < const onerut_normal_operator::StateIndex >
+    to_normal_operator_state_index(const onerut_parser::CompileResultDeref& arg) {
+        assert(is_normal_operator_state_index(arg));
+        const auto& arg_typed = *arg.typed_value_or_empty<onerut_normal_operator::StateIndex>();
+        assert(arg_typed);
+        return arg_typed;
+    }
+
+    std::shared_ptr < const onerut_normal_operator::AbstractOperator >
     to_normal_operator(const onerut_parser::CompileResultDeref& arg) {
-        using OperatorT = onerut_operator::AbstractOperator<unsigned>;
+        using OperatorT = onerut_normal_operator::AbstractOperator;
         assert(is_normal_operator(arg));
         const auto& arg_normal_operator = *arg.typed_value_or_empty<OperatorT>();
         assert(arg_normal_operator);
@@ -177,9 +209,9 @@ namespace onerut_parser::utility {
         return argv_complex;
     }
 
-    std::vector<std::shared_ptr < const onerut_operator::AbstractOperator<unsigned> > >
+    std::vector<std::shared_ptr < const onerut_normal_operator::AbstractOperator > >
     many_to_normal_operator(std::vector<onerut_parser::CompileResultDeref> argv_compile_result_deref) {
-        std::vector< std::shared_ptr < const onerut_operator::AbstractOperator<unsigned> > > argv_operator;
+        std::vector< std::shared_ptr < const onerut_normal_operator::AbstractOperator > > argv_operator;
         argv_operator.reserve(argv_compile_result_deref.size());
         std::transform(argv_compile_result_deref.cbegin(), argv_compile_result_deref.cend(),
                 std::back_inserter(argv_operator), to_normal_operator);

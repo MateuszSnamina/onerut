@@ -5,7 +5,7 @@
 
 #include<onerut_parser/compile_result.hpp>
 #include<onerut_scalar/scalar_abstract.hpp>
-#include<onerut_operator/operator_abstract.hpp>
+#include<onerut_normal_operator/operator_abstract.hpp>
 
 namespace onerut_parser::utility {
 
@@ -47,6 +47,12 @@ namespace onerut_parser::utility {
     is_real_or_integer_or_complex(const onerut_parser::CompileResultDeref&);
 
     bool
+    is_normal_operator_domain(const onerut_parser::CompileResultDeref&);
+
+    bool
+    is_normal_operator_state_index(const onerut_parser::CompileResultDeref&);
+    
+    bool
     is_normal_operator(const onerut_parser::CompileResultDeref&);
 
     //bool
@@ -66,7 +72,13 @@ namespace onerut_parser::utility {
     std::shared_ptr< const onerut_scalar::Complex>
     to_complex(const onerut_parser::CompileResultDeref&);
 
-    std::shared_ptr< const onerut_operator::AbstractOperator<unsigned> >
+    std::shared_ptr < const onerut_normal_operator::Domain >
+    to_normal_operator_domain(const onerut_parser::CompileResultDeref&);
+
+    std::shared_ptr < const onerut_normal_operator::StateIndex >
+    to_normal_operator_state_index(const onerut_parser::CompileResultDeref&);
+
+    std::shared_ptr < const onerut_normal_operator::AbstractOperator >
     to_normal_operator(const onerut_parser::CompileResultDeref&);
 
     //    std::shared_ptr<onerut_operator::AbstractOperator<FERMION_KET_T> >
@@ -86,7 +98,7 @@ namespace onerut_parser::utility {
     std::vector<std::shared_ptr <const onerut_scalar::Complex > >
     many_to_complex(std::vector<onerut_parser::CompileResultDeref>);
 
-    std::vector<std::shared_ptr < const onerut_operator::AbstractOperator<unsigned> > >
+    std::vector<std::shared_ptr < const onerut_normal_operator::AbstractOperator > >
     many_to_normal_operator(std::vector<onerut_parser::CompileResultDeref> argv_compile_result_deref);
 
     //    std::vector<std::shared_ptr < onerut_operator::AbstractOperator<FERMION_KET_T> > >

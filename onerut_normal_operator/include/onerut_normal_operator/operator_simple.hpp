@@ -1,87 +1,109 @@
 #ifndef ONERUT_NORMAL_OPERATOR_SIMPLE
 #define ONERUT_NORMAL_OPERATOR_SIMPLE
 
-#include<onerut_scalar/scalar_abstract_integer.hpp>
+#include<onerut_scalar/scalar_abstract_real.hpp>
+#include<onerut_operator/operator_simple.hpp>
 #include<onerut_normal_operator/operator_abstract.hpp>
-#include<onerut_normal_operator/operator_simple.hpp>
+
+//TODO source to cpp.
 
 namespace onerut_normal_operator {
-
-    using BraKetT = unsigned; // TODO put into class as a literal.
-
-    AbstractOperator* x;
 
     class HopOperator : public AbstractOperator {
     public:
         using AbstractOpT = AbstractOperator;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
-        using AbstractIteratorT = onerut_operator::AbstractResultIterator<BraKetT>;
+        using AbstractIteratorT = onerut_operator::AbstractResultIterator<unsigned>;
         using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
-        using Iterator = onerut_operator::SimpleOperatorIterator<BraKetT>;
-        HopOperator(double value, const onerut_scalar::Integer& site_1, const onerut_scalar::Integer&site_2);
-        AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
+        using Iterator = onerut_operator::SimpleOperatorIterator<unsigned>;
+        HopOperator(std::shared_ptr<const onerut_scalar::Real> value,
+                std::shared_ptr<const StateIndex> state_1,
+                std::shared_ptr<const StateIndex> state_2);
+        AbstractIteratorPtrT begin_itptr(const unsigned& ket) const override;
         std::shared_ptr<const Domain> get_domain() const override;
     private:
-        const double value;
-        const onerut_scalar::Integer& site_1;
-        const onerut_scalar::Integer& site_2;
+        const std::shared_ptr<const onerut_scalar::Real> value;
+        const std::shared_ptr<const Domain> domain;
+        const unsigned site_1; // make simply std::shared_ptr<const StateIndex> state_1
+        const unsigned site_2; // make simply std::shared_ptr<const StateIndex> state_2
     };
 
-    /*
-        // -------------------------------------------------------------------------
-        // ------------------ SIMPLE OPERATOR --------------------------------------
-        // -------------------------------------------------------------------------        
+    class DiagOperator : public AbstractOperator {
+    public:
+        using AbstractOpT = AbstractOperator;
+        using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
+        using AbstractIteratorT = onerut_operator::AbstractResultIterator<unsigned>;
+        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
+        using Iterator = onerut_operator::SimpleOperatorIterator<unsigned>;
+        DiagOperator(std::shared_ptr<const onerut_scalar::Real> value,
+                std::shared_ptr<const StateIndex> state);
+        AbstractIteratorPtrT begin_itptr(const unsigned& ket) const override;
+        std::shared_ptr<const Domain> get_domain() const override;
+    private:
+        const std::shared_ptr<const onerut_scalar::Real> value;
+        const std::shared_ptr<const Domain> domain;
+        const unsigned site;
+    };
 
-        template<typename BraKetT>
-        class SimpleOperatorIterator : public AbstractResultIterator<BraKetT> {
-        public:
-            using AbstractOpT = AbstractOperator<BraKetT>;
-            using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
-            using AbstractIteratorT = AbstractResultIterator<BraKetT>;
-            using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;        
-            using Iterator = SimpleOperatorIterator<BraKetT>;        
-            static SimpleOperatorIterator create_the_one_valid_iterator(typename AbstractResultIterator<BraKetT>::value_type);
-            static SimpleOperatorIterator create_end_iterator();
-            typename AbstractResultIterator<BraKetT>::value_type get_val_bra() const override;
-            void next() override;
-            virtual bool is_end() const override;
-        private:
-            SimpleOperatorIterator() = default;
-            SimpleOperatorIterator(typename AbstractResultIterator<BraKetT>::value_type result);
-            std::optional<std::pair<double, BraKetT>> result; // no value for the end iterator.
-        };
 
-        template<typename BraKetT>
-        class HopOperator : public AbstractOperator<BraKetT> {
-        public:
-            using AbstractOpT = AbstractOperator<BraKetT>;
-            using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
-            using AbstractIteratorT = AbstractResultIterator<BraKetT>;
-            using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;       
-            using Iterator = SimpleOperatorIterator<BraKetT>;
-            HopOperator(double value, const BraKetT &site_1, const BraKetT &site_2);
-            AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
-        private:
-            const double value;
-            const BraKetT site_1;
-            const BraKetT site_2;
-        };
+    // -------------------------------------------------------------------------    
 
-        template<typename BraKetT>
-        class DiagOperator : public AbstractOperator<BraKetT> {
-        public:
-            using AbstractOpT = AbstractOperator<BraKetT>;
-            using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
-            using AbstractIteratorT = AbstractResultIterator<BraKetT>;
-            using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;        
-            using Iterator = SimpleOperatorIterator<BraKetT>;
-            DiagOperator(double value, const BraKetT &site);
-            AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
-        private:
-            const double value;
-            const BraKetT site;
-        };
-     */
+    inline
+    HopOperator::HopOperator(std::shared_ptr<const onerut_scalar::Real> value,
+            std::shared_ptr<const StateIndex> state_1,
+            std::shared_ptr<const StateIndex> state_2
+            ) :
+    value(value),
+    domain(state_1->domain),
+    site_1(state_1->index),
+    site_2(state_2->index) {
+        assert(value);
+        assert(state_1);
+        assert(state_2);
+        assert(&(*state_1->domain) == &(*state_2->domain)); // TODO: function encaptulation. TODO std::addressof
+        assert(state_1 != state_2);
+    }
+
+    inline
+    std::shared_ptr<const Domain> HopOperator::get_domain() const {
+        return domain;
+    }
+
+    inline
+    typename HopOperator::AbstractIteratorPtrT
+    HopOperator::begin_itptr(const unsigned& ket) const {
+        if (ket == site_1) {
+            return std::make_unique<Iterator>(Iterator::create_the_one_valid_iterator(std::make_pair(value->value_real(), site_2)));
+        } else if (ket == site_2) {
+            return std::make_unique<Iterator>(Iterator::create_the_one_valid_iterator(std::make_pair(value->value_real(), site_1)));
+        }
+        return std::make_unique<Iterator>(Iterator::create_end_iterator());
+    }
+
+    // -------------------------------------------------------------------------        
+
+    inline
+    DiagOperator::DiagOperator(std::shared_ptr<const onerut_scalar::Real> value,
+            std::shared_ptr<const StateIndex> state) :
+    value(value),
+    domain(state->domain),
+    site(state->index) {
+    }
+
+    inline
+    std::shared_ptr<const Domain> DiagOperator::get_domain() const {
+        return domain;
+    }
+
+    inline
+    typename DiagOperator::AbstractIteratorPtrT
+    DiagOperator::begin_itptr(const unsigned& ket) const {
+        if (ket == site) {
+            return std::make_unique<Iterator>(Iterator::create_the_one_valid_iterator(std::make_pair(value->value_real(), site)));
+        }
+        return std::make_unique<Iterator>(Iterator::create_end_iterator());
+    }
+
 }
 
 #endif

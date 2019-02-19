@@ -17,6 +17,7 @@
       <df name="src">
         <in>normal_operator.cpp</in>
         <in>operator_abstract.cpp</in>
+        <in>to_mat.cpp</in>
       </df>
     </df>
     <df root="onerut_op1e" name="2">
@@ -26,7 +27,7 @@
     </df>
     <df root="onerut_operator" name="3">
       <df name="src">
-        <in>to_mat.cpp.cpp</in>
+        <in>to_mat.cpp</in>
       </df>
     </df>
     <df root="onerut_operator_tests" name="4">
@@ -208,7 +209,6 @@
         <ccTool>
           <incDir>
             <pElem>onerut_operator/include</pElem>
-            <pElem>onerut_scalar/include</pElem>
             <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut_operator</pElem>
           </incDir>
@@ -219,7 +219,6 @@
           <incDir>
             <pElem>onerut_operator_tests/include</pElem>
             <pElem>onerut_operator/include</pElem>
-            <pElem>onerut_scalar/include</pElem>
             <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut_operator_tests</pElem>
           </incDir>
@@ -300,14 +299,18 @@
         <ccTool flags="0">
         </ccTool>
       </item>
+      <item path="onerut_normal_operator/src/to_mat.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
       <item path="onerut_op1e/src/op1e.cpp" ex="false" tool="1" flavor2="11">
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="onerut_operator/src/to_mat.cpp.cpp"
-            ex="false"
-            tool="1"
-            flavor2="11">
+      <item path="onerut_operator/src/to_mat.cpp" ex="false" tool="1" flavor2="11">
         <ccTool flags="0">
         </ccTool>
       </item>

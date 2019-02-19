@@ -6,29 +6,24 @@
 
 namespace onerut_parser {
 
-    
-    // DEV EXPERIMENT FUNCTIONS:
-    
-    class NormalOperatorZerosFunctionFactory : public NaryFunctionFactory<0> {
-        CompileResult make_function_otherwise_make_error(std::array<CompileResult, 0> args_compile_result) const override;
-    };
-
-    class NormalOperatorDiagFunctionFactory : public NaryFunctionFactory<2> {
-        CompileResult make_function_otherwise_make_error(std::array<CompileResult, 2> args_compile_result) const override;
+    class NormalOperatorZeroFunctionFactory : public NaryFunctionFactory<1> {
+        CompileResult make_function_otherwise_make_error(std::array<CompileResult, 1> args_compile_result) const override;
     };
 
     class NormalOperatorHopFunctionFactory : public NaryFunctionFactory<3> {
         CompileResult make_function_otherwise_make_error(std::array<CompileResult, 3> args_compile_result) const override;
     };
 
-    class NormalOperatorPrintFunctionFactory : public NaryFunctionFactory<2> {
+    class NormalOperatorDiagFunctionFactory : public NaryFunctionFactory<2> {
         CompileResult make_function_otherwise_make_error(std::array<CompileResult, 2> args_compile_result) const override;
     };
 
-    // TARGET FUNCTIONS EXPERIMENT FUNCTIONS:
-
     class CreateNormalDomainFunctionFactory : public AbstractFunctionFactory {
         virtual CompileResult make_function_otherwise_make_error(const std::vector<CompileResult>& argv) const override;
+    };
+
+    class NormalOperatorPrintFunctionFactory : public NaryFunctionFactory<1> {
+        CompileResult make_function_otherwise_make_error(std::array<CompileResult, 1> args_compile_result) const override;
     };
 
 }

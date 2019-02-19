@@ -3,63 +3,40 @@
 
 #include<onerut_operator/operator_zero.hpp>
 
+//TODO source to cpp.
+
 namespace onerut_normal_operator {
-/*
-    template<typename BraKetT>
-    class ZeroOperatorIterator : public AbstractResultIterator<BraKetT> {
+
+    class ZeroOperator : public AbstractOperator {
     public:
-        using AbstractOpT = AbstractOperator<BraKetT>;
+        using AbstractOpT = AbstractOperator;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
-        using AbstractIteratorT = AbstractResultIterator<BraKetT>;
+        using AbstractIteratorT = onerut_operator::AbstractResultIterator<unsigned>;
         using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
-        using Iterator = ZeroOperatorIterator<BraKetT>;
-        typename AbstractResultIterator<BraKetT>::value_type get_val_bra() const override;
-        void next() override;
-        virtual bool is_end() const override;
+        using Iterator = onerut_operator::ZeroOperatorIterator<unsigned>;
+        ZeroOperator(std::shared_ptr<const Domain> domain);
+        AbstractIteratorPtrT begin_itptr(const unsigned& ket) const override;
+        std::shared_ptr<const Domain> get_domain() const override;
+    private:
+        const std::shared_ptr<const Domain> domain;
     };
 
-    template<typename BraKetT>
-    class ZeroOperator : public AbstractOperator<BraKetT> {
-    public:
-        using AbstractOpT = AbstractOperator<BraKetT>;
-        using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
-        using AbstractIteratorT = AbstractResultIterator<BraKetT>;
-        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
-        using Iterator = ZeroOperatorIterator<BraKetT>;
-        AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
-    };
-
-    // -------------------------------------------------------------------------
-    // ------------------ SIMPLE OPERATOR - IMPLEMENTATION ---------------------
-    // -------------------------------------------------------------------------     
-
-    template<typename BraKetT>
-    typename AbstractResultIterator<BraKetT>::value_type
-    ZeroOperatorIterator<BraKetT>::get_val_bra() const {
-        assert(!is_end());
-        return std::make_pair(0, BraKetT());
+    inline
+    ZeroOperator::ZeroOperator(std::shared_ptr<const Domain> domain) :
+    domain(domain) {
     }
 
-    template<typename BraKetT>
-    void
-    ZeroOperatorIterator<BraKetT>::next() {
-        assert(!is_end());
+    inline
+    std::shared_ptr<const Domain> ZeroOperator::get_domain() const {
+        return domain;
     }
 
-    template<typename BraKetT>
-    bool
-    ZeroOperatorIterator<BraKetT>::is_end() const {
-        return true;
-    }
-
-    // -------------------------------------------------------------------------        
-
-    template<typename BraKetT>
-    typename ZeroOperator<BraKetT>::AbstractIteratorPtrT
-    ZeroOperator<BraKetT>::begin_itptr(const BraKetT& ket) const {
+    inline
+    typename ZeroOperator::AbstractIteratorPtrT
+    ZeroOperator::begin_itptr(const unsigned& ket) const {
         return std::make_unique<Iterator>();
     }
-*/
+
 }
 
 #endif

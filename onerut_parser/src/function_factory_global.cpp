@@ -118,8 +118,8 @@ namespace onerut_parser {
         try {
             return functions.at(name);
         } catch (std::out_of_range&) {
-            return std::optional<std::shared_ptr < AbstractFunctionFactory >> ();
-        }
+            return std::nullopt;
+        } //TODO change to if functions.count(name)==0
     }
 
     bool GlobalFunctionFactories::put(const std::string& name, std::shared_ptr<AbstractFunctionFactory> function) {
@@ -238,13 +238,11 @@ namespace onerut_parser {
     }
 
     void GlobalFunctionFactories::put_onerut_functions() {
-        force_put("normalop_zeros", std::make_unique<NormalOperatorZerosFunctionFactory>());
+        force_put("normalop_zero", std::make_unique<NormalOperatorZeroFunctionFactory>());
         force_put("normalop_diag", std::make_unique<NormalOperatorDiagFunctionFactory>());
         force_put("normalop_hop", std::make_unique<NormalOperatorHopFunctionFactory>());
         force_put("normalop_print", std::make_unique<NormalOperatorPrintFunctionFactory>());
-        
         force_put("create_normal_domain", std::make_unique<CreateNormalDomainFunctionFactory>());
-               
     }
 
 }
