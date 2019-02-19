@@ -2,8 +2,7 @@
 #define ONERUT_NORMAL_OPERATOR_ZERO
 
 #include<onerut_operator/operator_zero.hpp>
-
-//TODO source to cpp.
+#include<onerut_normal_operator/operator_abstract.hpp>
 
 namespace onerut_normal_operator {
 
@@ -20,22 +19,6 @@ namespace onerut_normal_operator {
     private:
         const std::shared_ptr<const Domain> domain;
     };
-
-    inline
-    ZeroOperator::ZeroOperator(std::shared_ptr<const Domain> domain) :
-    domain(domain) {
-    }
-
-    inline
-    std::shared_ptr<const Domain> ZeroOperator::get_domain() const {
-        return domain;
-    }
-
-    inline
-    typename ZeroOperator::AbstractIteratorPtrT
-    ZeroOperator::begin_itptr(const unsigned& ket) const {
-        return std::make_unique<Iterator>();
-    }
 
 }
 

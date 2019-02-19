@@ -1,6 +1,9 @@
 #ifndef ONERUT_OPERATOR_SIMPLE
 #define ONERUT_OPERATOR_SIMPLE
 
+#include<utility>
+#include<optional>
+
 #include<onerut_operator/operator_abstract.hpp>
 
 namespace onerut_operator {

@@ -1,9 +1,9 @@
 #ifndef ONERUT_NORMAL_OPERATOR_TO_MAT
 #define ONERUT_NORMAL_OPERATOR_TO_MAT
 
-#include<onerut_normal_operator/operator_abstract.hpp>
-
 #include<armadillo>
+
+#include<onerut_normal_operator/operator_abstract.hpp>
 
 namespace onerut_normal_operator {
 

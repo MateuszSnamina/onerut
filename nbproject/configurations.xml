@@ -17,6 +17,8 @@
       <df name="src">
         <in>normal_operator.cpp</in>
         <in>operator_abstract.cpp</in>
+        <in>operator_simple.cpp</in>
+        <in>operator_zero.cpp</in>
         <in>to_mat.cpp</in>
       </df>
     </df>
@@ -293,6 +295,20 @@
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/operator_abstract.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_normal_operator/src/operator_simple.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_normal_operator/src/operator_zero.cpp"
             ex="false"
             tool="1"
             flavor2="11">
