@@ -11,7 +11,7 @@
 #include<onerut_parser/ast_x3_to_ast_source.hpp>
 #include<onerut_parser/ast_asset.hpp>
 #include<onerut_parser/print_chart.hpp>
-#include<onerut_parser/function_factory_global.hpp>
+#include<onerut_parser/function_factory_container.hpp>
 #include<onerut_parser/asset_utility.hpp>
 
 #include<onerut_scalar/scalar_abstract.hpp>
@@ -130,8 +130,8 @@ execute_script_lines(const std::vector<std::shared_ptr<std::string>>&lines) {
 
 bool execute_script_file(const std::filesystem::path& file_path) {
     auto lines = load_script_lines_from_file(file_path);
-    onerut_parser::GlobalFunctionFactories::instance().put_cmath();
-    onerut_parser::GlobalFunctionFactories::instance().put_onerut_functions();
+    onerut_parser::FunctionFactoryContainer::global_instance().put_cmath();
+    onerut_parser::FunctionFactoryContainer::global_instance().put_onerut_functions();
     return execute_script_lines(lines);
 }
 
@@ -192,8 +192,8 @@ void temp_testing() {
     lines.push_back(std::make_shared<std::string>("zdh4 := zdh * zdh"));
     lines.push_back(std::make_shared<std::string>("normalop_print(zdh2)"));
 
-    onerut_parser::GlobalFunctionFactories::instance().put_cmath();
-    onerut_parser::GlobalFunctionFactories::instance().put_onerut_functions();
+    onerut_parser::FunctionFactoryContainer::global_instance().put_cmath();
+    onerut_parser::FunctionFactoryContainer::global_instance().put_onerut_functions();
 
     execute_script_lines(lines);
 }

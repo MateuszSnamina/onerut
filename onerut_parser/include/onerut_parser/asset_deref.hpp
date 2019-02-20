@@ -1,5 +1,5 @@
-#ifndef ONERUT_PARSER_BUILD_RESULT_DEREF
-#define ONERUT_PARSER_BUILD_RESULT_DEREF
+#ifndef ONERUT_PARSER_ASSET_DEREF
+#define ONERUT_PARSER_ASSET_DEREF
 
 #include<cassert>
 #include<memory>

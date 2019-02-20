@@ -191,7 +191,7 @@ namespace onerut_parser {
     // *********   These factories comply                         **************
     // *********   AbstractAbstracctFactory interface             **************
     // *********   and may be stored in                           **************
-    // *********   GlobalFunctionFactories container              **************
+    // *********   FunctionFactoryContainer container              **************
     // *************************************************************************
 
     // Helper classes:

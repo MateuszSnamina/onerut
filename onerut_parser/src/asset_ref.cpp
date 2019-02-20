@@ -1,5 +1,5 @@
 #include<onerut_scalar/scalar.hpp>
-#include<onerut_parser/identifier.hpp>
+#include<onerut_parser/asset_ref.hpp>
 
 namespace onerut_parser {
 

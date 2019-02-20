@@ -1,5 +1,5 @@
-#ifndef ONERUT_PARSER_BUILD_RESULT
-#define ONERUT_PARSER_BUILD_RESULT
+#ifndef ONERUT_PARSER_ASSET
+#define ONERUT_PARSER_ASSET
 
 #include<cassert>
 #include<memory>
@@ -10,7 +10,7 @@
 
 #include<onerut_parser/asset_error.hpp>
 #include<onerut_parser/asset_deref.hpp>
-#include<onerut_parser/identifier.hpp>
+#include<onerut_parser/asset_ref.hpp>
 
 namespace onerut_parser {
 

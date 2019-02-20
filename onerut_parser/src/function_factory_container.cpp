@@ -4,7 +4,7 @@
 #include<onerut_parser/function_factory_constant.hpp>
 #include<onerut_parser/function_factory_normal_operators.hpp>
 #include<onerut_parser/function_factory_scalar.hpp>
-#include<onerut_parser/function_factory_global.hpp>
+#include<onerut_parser/function_factory_container.hpp>
 
 using cx_double = std::complex<double>;
 using namespace std::complex_literals;
@@ -109,12 +109,12 @@ namespace onerut_parser {
     // #################### GLOBAL DATABASE ####################################
     // #########################################################################
 
-    GlobalFunctionFactories& GlobalFunctionFactories::instance() {
-        static GlobalFunctionFactories _instance;
+    FunctionFactoryContainer& FunctionFactoryContainer::global_instance() {
+        static FunctionFactoryContainer _instance;
         return _instance;
     }
 
-    std::optional<std::shared_ptr<AbstractFunctionFactory>> GlobalFunctionFactories::get_or_empty(const std::string& name) const {
+    std::optional<std::shared_ptr<AbstractFunctionFactory>> FunctionFactoryContainer::get_or_empty(const std::string& name) const {
         try {
             return functions.at(name);
         } catch (std::out_of_range&) {
@@ -122,18 +122,18 @@ namespace onerut_parser {
         } //TODO change to if functions.count(name)==0
     }
 
-    bool GlobalFunctionFactories::put(const std::string& name, std::shared_ptr<AbstractFunctionFactory> function) {
+    bool FunctionFactoryContainer::put(const std::string& name, std::shared_ptr<AbstractFunctionFactory> function) {
         if (functions.count(name))
             return false;
         functions[name] = function;
         return true;
     }
 
-    void GlobalFunctionFactories::force_put(const std::string& name, std::shared_ptr<AbstractFunctionFactory> function) {
+    void FunctionFactoryContainer::force_put(const std::string& name, std::shared_ptr<AbstractFunctionFactory> function) {
         functions[name] = function;
     }
 
-    void GlobalFunctionFactories::put_cmath() {
+    void FunctionFactoryContainer::put_cmath() {
         // ******************************************************
         // **** Functions for both real and complex numbers: ****
         // ******************************************************
@@ -237,7 +237,7 @@ namespace onerut_parser {
         force_put("i", std::make_unique<ComplexConstantFunctionFactory>(1i));
     }
 
-    void GlobalFunctionFactories::put_onerut_functions() {
+    void FunctionFactoryContainer::put_onerut_functions() {
         force_put("normalop_zero", std::make_unique<NormalOperatorZeroFunctionFactory>());
         force_put("normalop_diag", std::make_unique<NormalOperatorDiagFunctionFactory>());
         force_put("normalop_hop", std::make_unique<NormalOperatorHopFunctionFactory>());

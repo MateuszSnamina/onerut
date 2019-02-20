@@ -1,5 +1,5 @@
-#ifndef ONERUT_PARSER_FUNCTION_FACTORY_GLOBAL
-#define ONERUT_PARSER_FUNCTION_FACTORY_GLOBAL
+#ifndef ONERUT_PARSER_FUNCTION_FACTORY_CONTAINER
+#define ONERUT_PARSER_FUNCTION_FACTORY_CONTAINER
 
 #include<optional>
 #include<string>
@@ -8,9 +8,9 @@
 
 namespace onerut_parser {
 
-    class GlobalFunctionFactories {
+    class FunctionFactoryContainer {
     public:
-        static GlobalFunctionFactories& instance();
+        static FunctionFactoryContainer& global_instance();
         std::optional<std::shared_ptr<AbstractFunctionFactory>> get_or_empty(const std::string& name) const;
         bool put(const std::string& name, std::shared_ptr<AbstractFunctionFactory> function);
         void force_put(const std::string& name, std::shared_ptr<AbstractFunctionFactory> function);

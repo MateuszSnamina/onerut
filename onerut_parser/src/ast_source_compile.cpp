@@ -5,8 +5,8 @@
 #include<onerut_parser/ast_asset.hpp>
 #include<onerut_parser/asset_utility.hpp>
 #include<onerut_parser/ast_source.hpp>
-#include<onerut_parser/identifier_global.hpp>
-#include<onerut_parser/function_factory_global.hpp>
+#include<onerut_parser/asset_ref_container.hpp>
+#include<onerut_parser/function_factory_container.hpp>
 #include<onerut_scalar/scalar.hpp>
 #include<onerut_normal_operator/operator_opplusminus.hpp>
 #include<onerut_normal_operator/operator_opprod.hpp>
@@ -82,7 +82,7 @@ namespace {
             onerut_parser::Asset second_arg_asset) {
         const auto first_arg_asset_deref = first_arg_asset.deref();
         const auto second_arg_asset_deref = second_arg_asset.deref();
-        if (auto function_factory = onerut_parser::GlobalFunctionFactories::instance().get_or_empty(function_name))
+        if (auto function_factory = onerut_parser::FunctionFactoryContainer::global_instance().get_or_empty(function_name))
             return (*function_factory)->make_function_otherwise_make_error({first_arg_asset, second_arg_asset});
         return onerut_parser::Asset::from_compile_error(std::make_shared<onerut_parser::FunctionNotFoundError>(function_name));
     }
@@ -148,8 +148,8 @@ namespace onerut_parser::onerut_ast::source {
 
     Asset
     IdentifierNode::basic_compile() const {
-        if (auto holder = GlobalIdentifiers::instance().get_or_empty(name))
-            return Asset::from_reference(*holder);
+        if (auto ref = AssetRefContainer::global_instance().get_or_empty(name))
+            return Asset::from_reference(*ref);
         return Asset::from_reference(std::make_shared<AssetUnsetRef>(name));
         //return Asset::from_compile_error(std::make_shared<IdentifierNotFoundError>(name));
     }
@@ -178,7 +178,7 @@ namespace onerut_parser::onerut_ast::source {
             const std::shared_ptr<AbstractAssetRef> created_ref = const_flag ?
                     std::static_pointer_cast<AbstractAssetRef>(std::make_shared<AssetConstRef>(name, second_arg_asset_deref)) :
                     std::static_pointer_cast<AbstractAssetRef>(std::make_shared<AssetNotConstRef>(name, second_arg_asset_deref));
-            if (!GlobalIdentifiers::instance().put(name, created_ref)) {
+            if (!AssetRefContainer::global_instance().put(name, created_ref)) {
                 return Asset::from_compile_error(std::make_shared<IllegalSecondAssignError>());
             }
             return second_arg_asset;
@@ -190,7 +190,7 @@ namespace onerut_parser::onerut_ast::source {
             } else {
                 const auto name = ref->get_name();
                 const auto created_ref = std::make_shared<AssetConstRef>(name, second_arg_asset_deref);
-                GlobalIdentifiers::instance().force_put(name, created_ref);
+                AssetRefContainer::global_instance().force_put(name, created_ref);
             }
             return second_arg_asset;
         }
@@ -362,7 +362,7 @@ namespace onerut_parser::onerut_ast::source {
 
     Asset
     FunctionNode::basic_compile(std::vector<Asset> argv_asset) const {
-        if (auto function = GlobalFunctionFactories::instance().get_or_empty(name))
+        if (auto function = FunctionFactoryContainer::global_instance().get_or_empty(name))
             return (*function)->make_function_otherwise_make_error(argv_asset);
         return Asset::from_compile_error(std::make_shared<FunctionNotFoundError>(name));
     }
