@@ -187,6 +187,10 @@ void temp_testing() {
     lines.push_back(std::make_shared<std::string>("normalop_print(z)"));
     lines.push_back(std::make_shared<std::string>("zdh := z + d + h"));
     lines.push_back(std::make_shared<std::string>("normalop_print(zdh)"));
+    lines.push_back(std::make_shared<std::string>("zdh2 := 5 * zdh"));
+    lines.push_back(std::make_shared<std::string>("zdh3 := zdh * 5.0"));
+    lines.push_back(std::make_shared<std::string>("zdh4 := zdh * zdh"));
+    lines.push_back(std::make_shared<std::string>("normalop_print(zdh2)"));
 
     onerut_parser::GlobalFunctionFactories::instance().put_cmath();
     onerut_parser::GlobalFunctionFactories::instance().put_onerut_functions();

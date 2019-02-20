@@ -9,6 +9,8 @@
 #include<onerut_parser/function_factory_global.hpp>
 #include<onerut_scalar/scalar.hpp>
 #include<onerut_normal_operator/operator_opplusminus.hpp>
+#include<onerut_normal_operator/operator_opprod.hpp>
+#include<onerut_normal_operator/operator_scalled.hpp>
 
 namespace {
 
@@ -238,27 +240,45 @@ namespace onerut_parser::onerut_ast::source {
     Asset
     OpProdDivNode::basic_compile(Asset first_arg_asset, std::vector<Asset> other_argv_asset) const {
         assert(std::all_of(opv.cbegin(), opv.cend(), is_prod_div_char));
-        const auto & first_deref_arg_asset = first_arg_asset.deref();
+        const auto & first_arg_asset_deref = first_arg_asset.deref();
         const auto & other_argv_asset_deref = utility::many_deref(other_argv_asset);
-        if (!many_is_either_value_or_type(first_deref_arg_asset, other_argv_asset_deref))
+        if (!many_is_either_value_or_type(first_arg_asset_deref, other_argv_asset_deref))
             return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
-        if (utility::is_integer(first_deref_arg_asset) &&
+        if (utility::is_integer(first_arg_asset_deref) &&
                 std::all_of(cbegin(other_argv_asset_deref), cend(other_argv_asset_deref), utility::is_integer)) {
-            const auto & first_arg_integer = utility::to_integer(first_deref_arg_asset);
+            const auto & first_arg_integer = utility::to_integer(first_arg_asset_deref);
             const auto & other_argv_integer = utility::many_to_integer(other_argv_asset_deref);
             return Asset::from_value<onerut_scalar::Integer>(std::make_shared<onerut_scalar::OpProdDivInteger>(first_arg_integer, other_argv_integer, opv));
         }
-        if (utility::is_real_or_integer(first_deref_arg_asset) &&
+        if (utility::is_real_or_integer(first_arg_asset_deref) &&
                 std::all_of(cbegin(other_argv_asset_deref), cend(other_argv_asset_deref), utility::is_real_or_integer)) {
-            const auto & first_arg_real = utility::to_real(first_deref_arg_asset);
+            const auto & first_arg_real = utility::to_real(first_arg_asset_deref);
             const auto & other_argv_real = utility::many_to_real(other_argv_asset_deref);
             return Asset::from_value<onerut_scalar::Real>(std::make_shared<onerut_scalar::OpProdDivReal>(first_arg_real, other_argv_real, opv));
         }
-        if (utility::is_real_or_integer_or_complex(first_deref_arg_asset) &&
+        if (utility::is_real_or_integer_or_complex(first_arg_asset_deref) &&
                 std::all_of(cbegin(other_argv_asset_deref), cend(other_argv_asset_deref), utility::is_real_or_integer_or_complex)) {
-            const auto & first_arg_complex = utility::to_complex(first_deref_arg_asset);
+            const auto & first_arg_complex = utility::to_complex(first_arg_asset_deref);
             const auto & other_argv_complex = utility::many_to_complex(other_argv_asset_deref);
             return Asset::from_value<onerut_scalar::Complex>(std::make_shared<onerut_scalar::OpProdDivComplex>(first_arg_complex, other_argv_complex, opv));
+        }
+        if (utility::is_normal_operator(first_arg_asset_deref) &&
+                std::all_of(cbegin(other_argv_asset_deref), cend(other_argv_asset_deref), utility::is_normal_operator)) {
+            // TODO domain check.
+            // TODO check if all opv are '*'
+            //            const auto & first_arg_operator = utility::to_normal_operator(first_arg_asset_deref);
+            //            const auto & other_argv_operator = utility::many_to_normal_operator(other_argv_asset_deref);
+            //            using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
+            //            return Asset::from_value<AbstractOperatorT>(std::make_shared<onerut_normal_operator::OpProdOperator >(first_arg_operator, other_argv_operator));
+            return Asset::from_compile_error(std::make_shared<CompilerNotImplementedError>());
+        }
+        if (other_argv_asset_deref.size() == 1 && opv[0] == '*' &&
+                utility::is_real_or_integer(first_arg_asset_deref) &&
+                utility::is_normal_operator(other_argv_asset_deref[0])) {
+            const auto & first_arg_operator = utility::to_real(first_arg_asset_deref);
+            const auto & second_arg_operator = utility::to_normal_operator(other_argv_asset_deref[0]);
+            using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
+            return Asset::from_value<AbstractOperatorT>(std::make_shared<onerut_normal_operator::ScalledOperator >(first_arg_operator, second_arg_operator));
         }
         return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
     }
