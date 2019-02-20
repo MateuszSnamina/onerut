@@ -10,7 +10,7 @@ namespace onerut_parser {
     class RealConstantFunctionFactory : public NaryFunctionFactory<0> {
     public:
         RealConstantFunctionFactory(double);
-        CompileResult make_function_otherwise_make_error(std::array<CompileResult, 0>) const override;
+        Asset make_function_otherwise_make_error(std::array<Asset, 0>) const override;
     private:
         double value;
     };    
@@ -18,7 +18,7 @@ namespace onerut_parser {
     class ComplexConstantFunctionFactory : public NaryFunctionFactory<0> {
     public:
         ComplexConstantFunctionFactory(std::complex<double>);
-        CompileResult make_function_otherwise_make_error(std::array<CompileResult, 0>) const override;
+        Asset make_function_otherwise_make_error(std::array<Asset, 0>) const override;
     private:
         std::complex<double> value;
     };

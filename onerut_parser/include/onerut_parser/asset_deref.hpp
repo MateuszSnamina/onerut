@@ -8,7 +8,7 @@
 #include<any>
 #include<stdexcept>
 
-#include<onerut_parser/compile_result_error.hpp>
+#include<onerut_parser/asset_error.hpp>
 
 namespace onerut_parser {
 
@@ -16,17 +16,17 @@ namespace onerut_parser {
     // ********************** DEREFERENCED COMPILE RESULTS *********************
     // *************************************************************************
 
-    class CompileResultDeref {
+    class AssetDeref {
     public:
         // Construction:
-        CompileResultDeref() = default;
-        CompileResultDeref(const CompileResultDeref&) = default;
-        CompileResultDeref(CompileResultDeref&&) = default;
-        CompileResultDeref & operator=(const CompileResultDeref&) = default;
-        CompileResultDeref & operator=(CompileResultDeref&&) = default;
-        template<typename T> static CompileResultDeref from_type();
-        template<typename T> static CompileResultDeref from_value(std::shared_ptr<T> value);
-        static CompileResultDeref from_compile_error(std::shared_ptr<CompileError> error);
+        AssetDeref() = default;
+        AssetDeref(const AssetDeref&) = default;
+        AssetDeref(AssetDeref&&) = default;
+        AssetDeref & operator=(const AssetDeref&) = default;
+        AssetDeref & operator=(AssetDeref&&) = default;
+        template<typename T> static AssetDeref from_type();
+        template<typename T> static AssetDeref from_value(std::shared_ptr<T> value);
+        static AssetDeref from_compile_error(std::shared_ptr<CompileError> error);
         // Accessors and predicates:
         template<typename T> bool is_given_type() const;
         std::optional<std::any> value_or_empty() const;
@@ -44,13 +44,13 @@ namespace onerut_parser {
                 std::any>;
         VariantType _content;
         // We use the tag 'from_content' to mope up the overload issues:
-        // DereferencedCompileResult(VariantType) vs DereferencedCompileResult(DereferencedCompileResult&)
+        // DereferencedAsset(VariantType) vs DereferencedAsset(DereferencedAsset&)
         struct FromContentT;
         static const FromContentT from_content;
-        CompileResultDeref(const VariantType content, FromContentT);
+        AssetDeref(const VariantType content, FromContentT);
     };
 
-    struct CompileResultDeref::FromContentT {
+    struct AssetDeref::FromContentT {
     };
 
     // *************************************************************************
@@ -129,37 +129,37 @@ namespace onerut_parser {
     // *************************************************************************
 
     template<typename T>
-    CompileResultDeref CompileResultDeref::from_type() {
+    AssetDeref AssetDeref::from_type() {
         std::shared_ptr<T> value;
-        CompileResultDeref::VariantType content{
+        AssetDeref::VariantType content{
             std::in_place_type<std::any>,
             value};
-        return CompileResultDeref(content, from_content);
+        return AssetDeref(content, from_content);
     }
 
     template<typename T>
-    CompileResultDeref CompileResultDeref::from_value(std::shared_ptr<T> value) {
+    AssetDeref AssetDeref::from_value(std::shared_ptr<T> value) {
         assert(value);
-        CompileResultDeref::VariantType content{
+        AssetDeref::VariantType content{
             std::in_place_type<std::any>,
             value};
-        return CompileResultDeref(content, from_content);
+        return AssetDeref(content, from_content);
     }
 
     template<typename T>
-    bool CompileResultDeref::is_given_type() const {
+    bool AssetDeref::is_given_type() const {
         const IsGivenTypeVisitor<T> is_given_type_visitor;
         return std::visit(is_given_type_visitor, _content);
     }
 
     template<typename T>
-    std::optional<std::shared_ptr<T>> CompileResultDeref::typed_value_or_empty() const {
+    std::optional<std::shared_ptr<T>> AssetDeref::typed_value_or_empty() const {
         const TypedValueOrEmptyVisitor<T> type_value_or_empty_visitor;
         return std::visit(type_value_or_empty_visitor, _content);
     }
 
     template<typename T>
-    std::shared_ptr<T> CompileResultDeref::typed_value_or_throw() const {
+    std::shared_ptr<T> AssetDeref::typed_value_or_throw() const {
         const TypedValueOrThrowVisitor<T> type_value_or_throw_visitor;
         return std::visit(type_value_or_throw_visitor, _content);
     }

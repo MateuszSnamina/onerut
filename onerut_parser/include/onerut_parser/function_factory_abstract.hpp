@@ -4,21 +4,21 @@
 #include<array>
 #include<vector>
 
-#include<onerut_parser/compile_result.hpp>
+#include<onerut_parser/asset.hpp>
 
 namespace onerut_parser {
 
     class AbstractFunctionFactory {
     public:
-        virtual CompileResult make_function_otherwise_make_error(const std::vector<CompileResult>& argv) const = 0;
+        virtual Asset make_function_otherwise_make_error(const std::vector<Asset>& argv) const = 0;
         virtual ~AbstractFunctionFactory() = default;
     };
    
     template<unsigned nary>
     class NaryFunctionFactory : public AbstractFunctionFactory {
     public:
-        CompileResult make_function_otherwise_make_error(const std::vector<CompileResult>& argv) const final;
-        virtual CompileResult make_function_otherwise_make_error(std::array<CompileResult, nary> args) const = 0;
+        Asset make_function_otherwise_make_error(const std::vector<Asset>& argv) const final;
+        virtual Asset make_function_otherwise_make_error(std::array<Asset, nary> args) const = 0;
     };
 
     // ---------------------------------------------------------------------------
@@ -26,11 +26,11 @@ namespace onerut_parser {
     // ---------------------------------------------------------------------------
 
     template<unsigned nary>
-    CompileResult
-    NaryFunctionFactory<nary>::make_function_otherwise_make_error(const std::vector<CompileResult>& argv) const {
+    Asset
+    NaryFunctionFactory<nary>::make_function_otherwise_make_error(const std::vector<Asset>& argv) const {
         if (argv.size() != nary)
-            return CompileResult::from_compile_error(std::make_shared<WrongNumberOfArgumentsError>());
-        std::array<CompileResult, nary> args_array;
+            return Asset::from_compile_error(std::make_shared<WrongNumberOfArgumentsError>());
+        std::array<Asset, nary> args_array;
         std::copy(cbegin(argv), cend(argv), begin(args_array));
         return make_function_otherwise_make_error(args_array);
     }

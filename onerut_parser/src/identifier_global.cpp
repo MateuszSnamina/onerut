@@ -18,22 +18,22 @@ namespace onerut_parser {
         return _instance;
     }
 
-    std::optional<std::shared_ptr<AbstractCompileResultRef>> GlobalIdentifiers::get_or_empty(const std::string& name) const {
+    std::optional<std::shared_ptr<AbstractAssetRef>> GlobalIdentifiers::get_or_empty(const std::string& name) const {
         try {
             return identifiers.at(name);
         } catch (std::out_of_range&) {
-            return std::optional<std::shared_ptr < AbstractCompileResultRef >> ();
+            return std::optional<std::shared_ptr < AbstractAssetRef >> ();
         }
     }
 
-    bool GlobalIdentifiers::put(const std::string& name, std::shared_ptr<AbstractCompileResultRef> holder) {
+    bool GlobalIdentifiers::put(const std::string& name, std::shared_ptr<AbstractAssetRef> holder) {
         if (identifiers.count(name))
             return false;
         identifiers[name] = holder;
         return true;
     }
 
-    void GlobalIdentifiers::force_put(const std::string& name, std::shared_ptr<AbstractCompileResultRef> holder) {
+    void GlobalIdentifiers::force_put(const std::string& name, std::shared_ptr<AbstractAssetRef> holder) {
         identifiers[name] = holder;
     }
 

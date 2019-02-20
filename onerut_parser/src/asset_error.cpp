@@ -1,4 +1,4 @@
-#include<onerut_parser/compile_result.hpp>
+#include<onerut_parser/asset.hpp>
 
 namespace onerut_parser {
 
@@ -9,11 +9,6 @@ namespace onerut_parser {
     FunctionNotFoundError::FunctionNotFoundError(const std::string& function_name) :
     CompileError("FunctionNotFoundError! (Details: the function name = '" + function_name + "'.)"),
     function_name(function_name) {
-    }
-
-    IdentifierNotFoundError::IdentifierNotFoundError(const std::string& identifier_name) :
-    CompileError("Identifier not found error! (Details: the identifier name = '" + identifier_name + "'.)"),
-    identifier_name(identifier_name) {
     }
 
     CompileArgumentsError::CompileArgumentsError() :
@@ -36,8 +31,8 @@ namespace onerut_parser {
     CompileError("Illegal assign attempt to const reference error!") {
     }
 
-    IllegalAssignAttemptToReferenceError::IllegalAssignAttemptToReferenceError() :
-    CompileError("Illegal assign attempt to reference error!") {
+    IllegalAssignAttemptToSetReferenceError::IllegalAssignAttemptToSetReferenceError() :
+    CompileError("Illegal assign attempt to set reference error!") {
     }
 
     IllegalSecondAssignError::IllegalSecondAssignError() :

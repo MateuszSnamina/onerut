@@ -16,12 +16,6 @@ namespace onerut_parser {
         const std::string function_name;
     };
 
-    class IdentifierNotFoundError : public CompileError {
-    public:
-        IdentifierNotFoundError(const std::string& identifier_name);
-        const std::string identifier_name;
-    };
-
     class CompileArgumentsError : public CompileError {
     public:
         CompileArgumentsError();
@@ -47,9 +41,9 @@ namespace onerut_parser {
         IllegalAssignAttemptToConstReferenceError();
     };
 
-    class IllegalAssignAttemptToReferenceError : public CompileError {
+    class IllegalAssignAttemptToSetReferenceError : public CompileError {
     public:
-        IllegalAssignAttemptToReferenceError();
+        IllegalAssignAttemptToSetReferenceError();
     };
 
     class IllegalSecondAssignError : public CompileError {

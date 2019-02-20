@@ -8,9 +8,9 @@ namespace onerut_parser {
     value(value) {
     }
 
-    CompileResult
-    RealConstantFunctionFactory::make_function_otherwise_make_error(std::array<CompileResult, 0>) const {
-        return CompileResult::from_value<onerut_scalar::Real>(
+    Asset
+    RealConstantFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 0>) const {
+        return Asset::from_value<onerut_scalar::Real>(
                 std::make_shared<onerut_scalar::LitReal>(value));
     }
 
@@ -18,9 +18,9 @@ namespace onerut_parser {
     value(value) {
     }
 
-    CompileResult
-    ComplexConstantFunctionFactory::make_function_otherwise_make_error(std::array<CompileResult, 0>) const {
-        return CompileResult::from_value<onerut_scalar::Complex>(
+    Asset
+    ComplexConstantFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 0>) const {
+        return Asset::from_value<onerut_scalar::Complex>(
                 std::make_shared<onerut_scalar::LitComplex>(value));
     }
 

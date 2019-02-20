@@ -5,50 +5,50 @@ namespace onerut_parser {
 
     //------------------
 
-    CompileResultConstRef::CompileResultConstRef(std::string name, CompileResultDeref value) :
+    AssetConstRef::AssetConstRef(std::string name, AssetDeref value) :
     name(name),
     value(value) {
     }
 
-    std::string CompileResultConstRef::get_name() const {
+    std::string AssetConstRef::get_name() const {
         return name;
     }
 
-    CompileResultDeref CompileResultConstRef::get_compile_result_deref() const {
+    AssetDeref AssetConstRef::get_asset_deref() const {
         return value;
     }
 
     //------------------------------------
 
-    CompileResultNotConstRef::CompileResultNotConstRef(std::string name, CompileResultDeref value) :
+    AssetNotConstRef::AssetNotConstRef(std::string name, AssetDeref value) :
     name(name),
     value(value) {
     }
 
-    std::string CompileResultNotConstRef::get_name() const {
+    std::string AssetNotConstRef::get_name() const {
         return name;
     }
 
-    CompileResultDeref CompileResultNotConstRef::get_compile_result_deref() const {
+    AssetDeref AssetNotConstRef::get_asset_deref() const {
         return value;
     }
 
-    void CompileResultNotConstRef::set_compile_result(CompileResultDeref new_value) {
+    void AssetNotConstRef::set_asset(AssetDeref new_value) {
         value = new_value;
     }
 
     //------------------
 
-    CompileResultUnsetRef::CompileResultUnsetRef(std::string name) :
+    AssetUnsetRef::AssetUnsetRef(std::string name) :
     name(name) {
     }
 
-    std::string CompileResultUnsetRef::get_name() const {
+    std::string AssetUnsetRef::get_name() const {
         return name;
     }
 
-    CompileResultDeref CompileResultUnsetRef::get_compile_result_deref() const {
-        return CompileResultDeref();
+    AssetDeref AssetUnsetRef::get_asset_deref() const {
+        return AssetDeref();
     }
 
 }

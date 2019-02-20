@@ -1,41 +1,41 @@
 #ifndef ONERUT_PARSER_IDENTIFIER
 #define ONERUT_PARSER_IDENTIFIER
 
-#include<onerut_parser/compile_result_deref.hpp>
+#include<onerut_parser/asset_deref.hpp>
 
 namespace onerut_parser {
 
-    class AbstractCompileResultRef {
+    class AbstractAssetRef {
     public:
-        virtual CompileResultDeref get_compile_result_deref() const = 0;
-        virtual ~AbstractCompileResultRef() = default;
+        virtual AssetDeref get_asset_deref() const = 0;
+        virtual ~AbstractAssetRef() = default;
     };
 
-    class CompileResultConstRef : public AbstractCompileResultRef {
+    class AssetConstRef : public AbstractAssetRef {
     public:
-        CompileResultConstRef(std::string name, CompileResultDeref value);
-        CompileResultDeref get_compile_result_deref() const override;
+        AssetConstRef(std::string name, AssetDeref value);
+        AssetDeref get_asset_deref() const override;
         std::string get_name() const;
     private:
         const std::string name;
-        const CompileResultDeref value;
+        const AssetDeref value;
     };
 
-    class CompileResultNotConstRef : public AbstractCompileResultRef {
+    class AssetNotConstRef : public AbstractAssetRef {
     public:
-        CompileResultNotConstRef(std::string name, CompileResultDeref value);
-        CompileResultDeref get_compile_result_deref() const override;
-        void set_compile_result(CompileResultDeref new_value);
+        AssetNotConstRef(std::string name, AssetDeref value);
+        AssetDeref get_asset_deref() const override;
+        void set_asset(AssetDeref new_value);
         std::string get_name() const;
     private:
         const std::string name;
-        CompileResultDeref value;
+        AssetDeref value;
     };
 
-    class CompileResultUnsetRef : public AbstractCompileResultRef {
+    class AssetUnsetRef : public AbstractAssetRef {
     public:
-        CompileResultUnsetRef(std::string name);
-        CompileResultDeref get_compile_result_deref() const override;
+        AssetUnsetRef(std::string name);
+        AssetDeref get_asset_deref() const override;
         std::string get_name() const;
     private:
         const std::string name;
