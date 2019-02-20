@@ -32,6 +32,15 @@ namespace onerut_parser {
         CompileResultDeref value;
     };
 
+    class CompileResultUnsetRef : public AbstractCompileResultRef {
+    public:
+        CompileResultUnsetRef(std::string name);
+        CompileResultDeref get_compile_result_deref() const override;
+        std::string get_name() const;
+    private:
+        const std::string name;
+    };
+
 }
 
 #endif
