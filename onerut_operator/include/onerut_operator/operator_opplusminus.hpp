@@ -9,6 +9,7 @@
 #include<optional>
 
 #include<onerut_operator/operator_abstract.hpp>
+#include<type_traits>
 
 namespace onerut_operator {
 
@@ -19,17 +20,19 @@ namespace onerut_operator {
     template<typename BraKetT>
     class OpPlusMinusOperator;
 
-    template<typename BraKetT>
+    template<typename BraKetT, typename StoredAbstractOpT>
     class OpPlusMinusOperatorIterator : public AbstractResultIterator<BraKetT> {
     public:
         using AbstractOpT = AbstractOperator<BraKetT>;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
+        using StoredAbstractOpPtrT = std::shared_ptr<const StoredAbstractOpT>;
         using AbstractIteratorT = AbstractResultIterator<BraKetT>;
         using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
-        using Iterator = OpPlusMinusOperatorIterator<BraKetT>;
+        using Iterator = OpPlusMinusOperatorIterator<BraKetT, StoredAbstractOpT>;
+        static_assert(std::is_base_of<AbstractOpT, StoredAbstractOpT>::value);
         OpPlusMinusOperatorIterator(
-                const AbstractOpPtrT& first_arg,
-                const std::vector<AbstractOpPtrT>& other_argv,
+                const StoredAbstractOpPtrT& first_arg,
+                const std::vector<StoredAbstractOpPtrT>& other_argv,
                 const std::vector<char>& opv,
                 const BraKetT& ket);
         typename AbstractResultIterator<BraKetT>::value_type get_val_bra() const override;
@@ -37,8 +40,8 @@ namespace onerut_operator {
         virtual bool is_end() const override;
     private:
         AbstractIteratorPtrT _base_itptr;
-        typename std::vector<AbstractOpPtrT>::const_iterator _other_argv_it;
-        const typename std::vector<AbstractOpPtrT>::const_iterator _other_argv_end;
+        typename std::vector<StoredAbstractOpPtrT>::const_iterator _other_argv_it;
+        const typename std::vector<StoredAbstractOpPtrT>::const_iterator _other_argv_end;
         std::vector<char>::const_iterator _opv_it;
         const BraKetT _ket;
         bool _process_first;
@@ -52,12 +55,12 @@ namespace onerut_operator {
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
         using AbstractIteratorT = AbstractResultIterator<BraKetT>;
         using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
-        using Iterator = OpPlusMinusOperatorIterator<BraKetT>;
+        using Iterator = OpPlusMinusOperatorIterator<BraKetT, AbstractOpT>;
         OpPlusMinusOperator(
                 const AbstractOpPtrT& first_arg,
                 const std::vector<AbstractOpPtrT>& other_argv,
                 const std::vector<char>& opv);
-        std::unique_ptr<AbstractResultIterator<BraKetT>> begin_itptr(const BraKetT& ket) const override;
+        AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
     private:
         const AbstractOpPtrT first_arg;
         const std::vector<AbstractOpPtrT> other_argv;
@@ -68,13 +71,13 @@ namespace onerut_operator {
     // ------------------ PlusMinus OPERATOR - implementation  -----------------
     // -------------------------------------------------------------------------    
 
-    template<typename BraKetT>
-    OpPlusMinusOperatorIterator<BraKetT>::OpPlusMinusOperatorIterator(
-            const AbstractOpPtrT& first_arg,
-            const std::vector<AbstractOpPtrT>& other_argv,
+    template<typename BraKetT, typename StoredAbstractOpPtrT>
+    OpPlusMinusOperatorIterator<BraKetT, StoredAbstractOpPtrT>::OpPlusMinusOperatorIterator(
+            const StoredAbstractOpPtrT& first_arg,
+            const std::vector<StoredAbstractOpPtrT>& other_argv,
             const std::vector<char>& opv,
             const BraKetT& ket) :
-    _base_itptr(first_arg->begin_itptr(ket)),
+    _base_itptr(std::static_pointer_cast<const AbstractOpT>(first_arg)->begin_itptr(ket)),
     _other_argv_it(std::cbegin(other_argv)),
     _other_argv_end(std::cend(other_argv)),
     _opv_it(std::cbegin(opv)),
@@ -83,9 +86,9 @@ namespace onerut_operator {
         _goto_next_arg_if_base_itptr_is_end();
     }
 
-    template<typename BraKetT>
+    template<typename BraKetT, typename StoredAbstractOpPtrT>
     typename AbstractResultIterator<BraKetT>::value_type
-    OpPlusMinusOperatorIterator<BraKetT>::get_val_bra() const {
+    OpPlusMinusOperatorIterator<BraKetT, StoredAbstractOpPtrT>::get_val_bra() const {
         assert(!is_end());
         assert(!_base_itptr->is_end());
         if (_process_first || *_opv_it == '+') {
@@ -99,33 +102,33 @@ namespace onerut_operator {
         }
     }
 
-    template<typename BraKetT>
+    template<typename BraKetT, typename StoredAbstractOpPtrT>
     void
-    OpPlusMinusOperatorIterator<BraKetT>::next() {
+    OpPlusMinusOperatorIterator<BraKetT, StoredAbstractOpPtrT>::next() {
         assert(!is_end());
         _base_itptr->next();
         _goto_next_arg_if_base_itptr_is_end();
     }
 
-    template<typename BraKetT>
+    template<typename BraKetT, typename StoredAbstractOpPtrT>
     bool
-    OpPlusMinusOperatorIterator<BraKetT>::is_end() const {
+    OpPlusMinusOperatorIterator<BraKetT, StoredAbstractOpPtrT>::is_end() const {
         return (_other_argv_it == _other_argv_end) && _base_itptr->is_end();
     }
 
-    template<typename BraKetT>
+    template<typename BraKetT, typename StoredAbstractOpPtrT>
     void
-    OpPlusMinusOperatorIterator<BraKetT>::_goto_next_arg_if_base_itptr_is_end() {
+    OpPlusMinusOperatorIterator<BraKetT, StoredAbstractOpPtrT>::_goto_next_arg_if_base_itptr_is_end() {
         if (_base_itptr->is_end() && _process_first) {
             _process_first = false;
             if (_other_argv_it != _other_argv_end)
-                _base_itptr = (*_other_argv_it)->begin_itptr(_ket);
+                _base_itptr = std::static_pointer_cast<const AbstractOpT>((*_other_argv_it))->begin_itptr(_ket);
         }
         while (_base_itptr->is_end() && (_other_argv_it != _other_argv_end)) {
             _other_argv_it++;
             _opv_it++;
             if (_other_argv_it != _other_argv_end)
-                _base_itptr = (*_other_argv_it)->begin_itptr(_ket);
+                _base_itptr = std::static_pointer_cast<const AbstractOpT>((*_other_argv_it))->begin_itptr(_ket);
         }
     }
 

@@ -8,6 +8,7 @@ namespace onerut_parser {
     class AbstractAssetRef {
     public:
         virtual AssetDeref get_asset_deref() const = 0;
+        virtual std::string get_name() const = 0;
         virtual ~AbstractAssetRef() = default;
     };
 
@@ -15,7 +16,7 @@ namespace onerut_parser {
     public:
         AssetConstRef(std::string name, AssetDeref value);
         AssetDeref get_asset_deref() const override;
-        std::string get_name() const;
+        std::string get_name() const override;
     private:
         const std::string name;
         const AssetDeref value;
@@ -25,8 +26,8 @@ namespace onerut_parser {
     public:
         AssetNotConstRef(std::string name, AssetDeref value);
         AssetDeref get_asset_deref() const override;
+        std::string get_name() const override;
         void set_asset(AssetDeref new_value);
-        std::string get_name() const;
     private:
         const std::string name;
         AssetDeref value;
@@ -36,7 +37,7 @@ namespace onerut_parser {
     public:
         AssetUnsetRef(std::string name);
         AssetDeref get_asset_deref() const override;
-        std::string get_name() const;
+        std::string get_name() const override;
     private:
         const std::string name;
     };

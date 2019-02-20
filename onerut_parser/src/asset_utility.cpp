@@ -9,16 +9,16 @@ namespace onerut_parser::utility {
     // -------------------------------------------------------------------------
 
     bool
-    is_not_const_ref(const onerut_parser::Asset& result) {
-        if (const auto & reference = result.reference_or_empty())
+    is_not_const_ref(const onerut_parser::Asset& asset) {
+        if (const auto & reference = asset.reference_or_empty())
             if (std::dynamic_pointer_cast<const onerut_parser::AssetNotConstRef>(*reference))
                 return true;
         return false;
     }
 
     bool
-    is_const_ref(const onerut_parser::Asset& result) {
-        if (const auto & reference = result.reference_or_empty())
+    is_const_ref(const onerut_parser::Asset& asset) {
+        if (const auto & reference = asset.reference_or_empty())
             if (std::dynamic_pointer_cast<const onerut_parser::AssetConstRef>(*reference))
                 return true;
         return false;
@@ -115,7 +115,6 @@ namespace onerut_parser::utility {
         assert(!arg.is_compile_error());
         return arg.is_given_type<OperatorT>();
     }
-
 
     // -------------------------------------------------------------------------
 

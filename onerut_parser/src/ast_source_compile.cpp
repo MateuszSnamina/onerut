@@ -8,7 +8,7 @@
 #include<onerut_parser/identifier_global.hpp>
 #include<onerut_parser/function_factory_global.hpp>
 #include<onerut_scalar/scalar.hpp>
-#include<onerut_operator/operator.hpp>
+#include<onerut_normal_operator/operator_opplusminus.hpp>
 
 namespace {
 
@@ -222,13 +222,14 @@ namespace onerut_parser::onerut_ast::source {
             const auto & other_argv_complex = utility::many_to_complex(other_argv_asset_deref);
             return Asset::from_value<onerut_scalar::Complex>(std::make_shared<onerut_scalar::OpPlusMinusComplex>(first_arg_complex, other_argv_complex, opv));
         }
-        //        if (utility::is_normal_operator(first_arg_asset_deref) &&
-        //                std::all_of(cbegin(other_argv_asset_deref), cend(other_argv_asset_deref), utility::is_normal_operator)) {
-        //            const auto & first_arg_operator = utility::to_normal_operator(first_arg_asset_deref);
-        //            const auto & other_argv_operator = utility::many_to_normal_operator(other_argv_asset_deref);
-        //            using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
-        //            return Asset::from_value<AbstractOperatorT>(std::make_shared<onerut_normal_operator::OpPlusMinusOperator >(first_arg_operator, other_argv_operator, opv));
-        //        }
+        if (utility::is_normal_operator(first_arg_asset_deref) &&
+                std::all_of(cbegin(other_argv_asset_deref), cend(other_argv_asset_deref), utility::is_normal_operator)) {
+            // TODO domain check.
+            const auto & first_arg_operator = utility::to_normal_operator(first_arg_asset_deref);
+            const auto & other_argv_operator = utility::many_to_normal_operator(other_argv_asset_deref);
+            using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
+            return Asset::from_value<AbstractOperatorT>(std::make_shared<onerut_normal_operator::OpPlusMinusOperator >(first_arg_operator, other_argv_operator, opv));
+        }
         return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
     }
 

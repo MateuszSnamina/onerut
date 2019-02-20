@@ -62,8 +62,11 @@ execute_line(std::shared_ptr<std::string> line) {
     onerut_parser::print_chart(parsed_x3_info.input, ast_asset_chart, "[diagram] ");
     // -------------------------------------------------------------------------
     onerut_parser::Asset asset = ast_asset_head->asset;
-
-    if (asset.deref().is_compile_error()) {
+    if (onerut_parser::utility::is_unset_ref(asset)) {
+        std::cout << "[receipt] Expression is an unset reference." << std::endl;
+        const auto result_reference = *(asset.reference_or_empty());
+        std::cout << "[receipt] Name = " << result_reference->get_name() << std::endl;
+    } else if (asset.deref().is_compile_error()) {
         std::cout << "[receipt] Expression is an error." << std::endl;
         const auto error = *asset.deref().compile_error_or_empty();
         std::cout << "[receipt] Error message = " << error->what() << std::endl;
@@ -170,12 +173,6 @@ void temp_testing() {
     lines.push_back(std::make_shared<std::string>("abs(-7)"));
     lines.push_back(std::make_shared<std::string>("abs(1i+1)"));
     lines.push_back(std::make_shared<std::string>("op_to_mat(1i+1)"));
-    lines.push_back(std::make_shared<std::string>("normalop_zeros()"));
-    lines.push_back(std::make_shared<std::string>("normalop_print(normalop_zeros(),6)"));
-    lines.push_back(std::make_shared<std::string>("d := normalop_diag(7.8, 3)"));
-    lines.push_back(std::make_shared<std::string>("h := normalop_hop(7.2, 4, 5)"));
-    lines.push_back(std::make_shared<std::string>("dh := d+h"));
-    lines.push_back(std::make_shared<std::string>("normalop_print(dh, 6)"));
     lines.push_back(std::make_shared<std::string>("ELECTRON_DOMAIN := create_normal_domain(AC, CA, EG, GE)"));
     lines.push_back(std::make_shared<std::string>("ELECTRON_DOMAIN"));
     lines.push_back(std::make_shared<std::string>("EG"));
@@ -188,6 +185,8 @@ void temp_testing() {
     lines.push_back(std::make_shared<std::string>("normalop_print(d)"));
     lines.push_back(std::make_shared<std::string>("z := normalop_zero(ELECTRON_DOMAIN)"));
     lines.push_back(std::make_shared<std::string>("normalop_print(z)"));
+    lines.push_back(std::make_shared<std::string>("zdh := z + d + h"));
+    lines.push_back(std::make_shared<std::string>("normalop_print(zdh)"));
 
     onerut_parser::GlobalFunctionFactories::instance().put_cmath();
     onerut_parser::GlobalFunctionFactories::instance().put_onerut_functions();
