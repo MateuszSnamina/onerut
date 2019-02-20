@@ -191,6 +191,8 @@ void temp_testing() {
     lines.push_back(std::make_shared<std::string>("zdh3 := zdh * 5.0"));
     lines.push_back(std::make_shared<std::string>("zdh4 := zdh * zdh"));
     lines.push_back(std::make_shared<std::string>("normalop_print(zdh2)"));
+    lines.push_back(std::make_shared<std::string>("normalop_diag(7.8, EG2) + normalop_diag(7.8, AC)"));
+    lines.push_back(std::make_shared<std::string>("normalop_hop(5, EG2, CA)"));
 
     onerut_parser::FunctionFactoryContainer::global_instance().put_cmath();
     onerut_parser::FunctionFactoryContainer::global_instance().put_onerut_functions();

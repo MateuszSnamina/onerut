@@ -27,6 +27,11 @@ namespace onerut_normal_operator {
         return result;
     }
 
+    bool
+    are_the_same_domains(const Domain& domain1, const Domain& domain2) {
+        return std::addressof(domain1) == std::addressof(domain2);
+    }
+    
     // -------------------------------------------------------------------------
     // ----------------  StateIndex  -------------------------------------------
     // -------------------------------------------------------------------------

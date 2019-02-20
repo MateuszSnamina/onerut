@@ -14,7 +14,7 @@ namespace onerut_normal_operator {
         assert(value);
         assert(state_1);
         assert(state_2);
-        assert(&(*state_1->domain) == &(*state_2->domain)); // TODO: function encaptulation. TODO std::addressof
+        assert(are_the_same_domains(*state_1->domain, *state_2->domain));
         assert(state_1->index != state_2->index);
     }
 

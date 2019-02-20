@@ -6,6 +6,10 @@
 
 namespace onerut_parser {
 
+    class CreateNormalDomainFunctionFactory : public AbstractFunctionFactory {
+        virtual Asset make_function_otherwise_make_error(const std::vector<Asset>& argv) const override;
+    };
+
     class NormalOperatorZeroFunctionFactory : public NaryFunctionFactory<1> {
         Asset make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const override;
     };
@@ -16,10 +20,6 @@ namespace onerut_parser {
 
     class NormalOperatorDiagFunctionFactory : public NaryFunctionFactory<2> {
         Asset make_function_otherwise_make_error(std::array<Asset, 2> args_asset) const override;
-    };
-
-    class CreateNormalDomainFunctionFactory : public AbstractFunctionFactory {
-        virtual Asset make_function_otherwise_make_error(const std::vector<Asset>& argv) const override;
     };
 
     class NormalOperatorPrintFunctionFactory : public NaryFunctionFactory<1> {
