@@ -17,19 +17,22 @@ namespace onerut_operator {
     // ------------------ PlusMinus OPERATOR  ----------------------------------
     // -------------------------------------------------------------------------    
 
-    template<typename BraKetT>
+    template<typename _BraKetT>
     class OpPlusMinusOperator;
 
-    template<typename BraKetT, typename StoredAbstractOpT>
-    class OpPlusMinusOperatorIterator : public AbstractResultIterator<BraKetT> {
+    template<typename _BraKetT, typename _StoredAbstractOpT>
+    class OpPlusMinusOperatorIterator : public AbstractResultIterator<_BraKetT> {
     public:
+        using BraKetT = _BraKetT;
         using AbstractOpT = AbstractOperator<BraKetT>;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
+        using StoredAbstractOpT = _StoredAbstractOpT;
         using StoredAbstractOpPtrT = std::shared_ptr<const StoredAbstractOpT>;
         using AbstractIteratorT = AbstractResultIterator<BraKetT>;
         using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
         using Iterator = OpPlusMinusOperatorIterator<BraKetT, StoredAbstractOpT>;
         static_assert(std::is_base_of<AbstractOpT, StoredAbstractOpT>::value);
+        static_assert(std::is_same<typename StoredAbstractOpT::BraKetT, BraKetT>::value); // remove _BraKetT from the Iterator template parameter list!
         OpPlusMinusOperatorIterator(
                 const StoredAbstractOpPtrT& first_arg,
                 const std::vector<StoredAbstractOpPtrT>& other_argv,
@@ -48,9 +51,10 @@ namespace onerut_operator {
         void _goto_next_arg_if_base_itptr_is_end();
     };
 
-    template<typename BraKetT>
-    class OpPlusMinusOperator : public AbstractOperator<BraKetT> {
+    template<typename _BraKetT>
+    class OpPlusMinusOperator : public AbstractOperator<_BraKetT> {
     public:
+        using BraKetT = _BraKetT;
         using AbstractOpT = AbstractOperator<BraKetT>;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
         using AbstractIteratorT = AbstractResultIterator<BraKetT>;
@@ -71,8 +75,8 @@ namespace onerut_operator {
     // ------------------ PlusMinus OPERATOR - implementation  -----------------
     // -------------------------------------------------------------------------    
 
-    template<typename BraKetT, typename StoredAbstractOpPtrT>
-    OpPlusMinusOperatorIterator<BraKetT, StoredAbstractOpPtrT>::OpPlusMinusOperatorIterator(
+    template<typename _BraKetT, typename _StoredAbstractOpT>
+    OpPlusMinusOperatorIterator<_BraKetT, _StoredAbstractOpT>::OpPlusMinusOperatorIterator(
             const StoredAbstractOpPtrT& first_arg,
             const std::vector<StoredAbstractOpPtrT>& other_argv,
             const std::vector<char>& opv,
@@ -86,9 +90,9 @@ namespace onerut_operator {
         _goto_next_arg_if_base_itptr_is_end();
     }
 
-    template<typename BraKetT, typename StoredAbstractOpPtrT>
-    typename AbstractResultIterator<BraKetT>::value_type
-    OpPlusMinusOperatorIterator<BraKetT, StoredAbstractOpPtrT>::get_val_bra() const {
+    template<typename _BraKetT, typename _StoredAbstractOpT>
+    typename AbstractResultIterator<_BraKetT>::value_type
+    OpPlusMinusOperatorIterator<_BraKetT, _StoredAbstractOpT>::get_val_bra() const {
         assert(!is_end());
         assert(!_base_itptr->is_end());
         if (_process_first || *_opv_it == '+') {
@@ -102,23 +106,23 @@ namespace onerut_operator {
         }
     }
 
-    template<typename BraKetT, typename StoredAbstractOpPtrT>
+    template<typename _BraKetT, typename _StoredAbstractOpT>
     void
-    OpPlusMinusOperatorIterator<BraKetT, StoredAbstractOpPtrT>::next() {
+    OpPlusMinusOperatorIterator<_BraKetT, _StoredAbstractOpT>::next() {
         assert(!is_end());
         _base_itptr->next();
         _goto_next_arg_if_base_itptr_is_end();
     }
 
-    template<typename BraKetT, typename StoredAbstractOpPtrT>
+    template<typename _BraKetT, typename _StoredAbstractOpT>
     bool
-    OpPlusMinusOperatorIterator<BraKetT, StoredAbstractOpPtrT>::is_end() const {
+    OpPlusMinusOperatorIterator<_BraKetT, _StoredAbstractOpT>::is_end() const {
         return (_other_argv_it == _other_argv_end) && _base_itptr->is_end();
     }
 
-    template<typename BraKetT, typename StoredAbstractOpPtrT>
+    template<typename _BraKetT, typename _StoredAbstractOpT>
     void
-    OpPlusMinusOperatorIterator<BraKetT, StoredAbstractOpPtrT>::_goto_next_arg_if_base_itptr_is_end() {
+    OpPlusMinusOperatorIterator<_BraKetT, _StoredAbstractOpT>::_goto_next_arg_if_base_itptr_is_end() {
         if (_base_itptr->is_end() && _process_first) {
             _process_first = false;
             if (_other_argv_it != _other_argv_end)
@@ -134,8 +138,8 @@ namespace onerut_operator {
 
     // -------------------------------------------------------------------------
 
-    template<typename BraKetT>
-    OpPlusMinusOperator<BraKetT>::OpPlusMinusOperator(
+    template<typename _BraKetT>
+    OpPlusMinusOperator<_BraKetT>::OpPlusMinusOperator(
             const AbstractOpPtrT& first_arg,
             const std::vector<AbstractOpPtrT>& other_argv,
             const std::vector<char>& opv) :
@@ -144,9 +148,9 @@ namespace onerut_operator {
     opv(opv) {
     }
 
-    template<typename BraKetT>
-    typename OpPlusMinusOperator<BraKetT>::AbstractIteratorPtrT
-    OpPlusMinusOperator<BraKetT>::begin_itptr(const BraKetT& ket) const {
+    template<typename _BraKetT>
+    typename OpPlusMinusOperator<_BraKetT>::AbstractIteratorPtrT
+    OpPlusMinusOperator<_BraKetT>::begin_itptr(const BraKetT& ket) const {
         return std::make_unique<Iterator>(first_arg, other_argv, opv, ket);
     }
 

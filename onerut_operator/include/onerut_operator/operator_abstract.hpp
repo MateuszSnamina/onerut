@@ -10,12 +10,13 @@ namespace onerut_operator {
     // ------------------  ABSTRACT OPERATOR  ----------------------------------
     // -------------------------------------------------------------------------
     
-    template<typename BraKetT>
+    template<typename _BraKetT>
     class AbstractOperator;
 
-    template<typename BraKetT>
+    template<typename _BraKetT>
     class AbstractResultIterator {
     public:
+        using BraKetT = _BraKetT;
         using value_type = std::pair<double, BraKetT>;
         using pointer = value_type*;
         using reference = value_type&;
@@ -29,9 +30,10 @@ namespace onerut_operator {
         virtual ~AbstractResultIterator() = default;
     };
 
-    template<typename BraKetT>
+    template<typename _BraKetT>
     class AbstractOperator {
     public:
+        using BraKetT = _BraKetT;        
         using AbstractOpT = AbstractOperator<BraKetT>;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
         using AbstractIteratorT = AbstractResultIterator<BraKetT>;

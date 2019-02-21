@@ -46,6 +46,7 @@ namespace onerut_normal_operator {
 
     class AbstractOperator : public onerut_operator::AbstractOperator<unsigned> {
     public:
+        using BraKetT = unsigned;        
         virtual std::shared_ptr<const Domain> get_domain() const = 0;
     };
 
