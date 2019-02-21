@@ -29,13 +29,13 @@ namespace onerut_parser::onerut_ast::source {
         virtual ~SourceNode() = 0;
         virtual std::string to_oneliner() const = 0;
         virtual std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> compile() const = 0;
-        LinesStyledChartInfo to_chart() const;
-        virtual void to_chart(
+        LinesStyledChartInfo to_ast_chart() const;
+        virtual void to_ast_chart(
                 unsigned deepness,
-                LinesStyledChartInfo& chart) const = 0;
-        virtual void to_chart_disregard_subsource(
+                LinesStyledChartInfo& ast_chart) const = 0;
+        virtual void to_ast_chart_disregard_subsource(
                 unsigned deepness,
-                LinesStyledChartInfo& chart) const;
+                LinesStyledChartInfo& ast_chart) const;
     };
 
     // -------------------------------------------------------------------------
@@ -45,9 +45,9 @@ namespace onerut_parser::onerut_ast::source {
         WithNoSubsourcesNode(
                 std::shared_ptr<const std::string> input,
                 string_const_span span);
-        void to_chart(
+        void to_ast_chart(
                 unsigned deepness,
-                LinesStyledChartInfo& chart) const final;
+                LinesStyledChartInfo& ast_chart) const final;
         virtual std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> compile() const final;
         virtual Asset basic_compile() const = 0;
     };
@@ -58,9 +58,9 @@ namespace onerut_parser::onerut_ast::source {
                 std::shared_ptr<const std::string> input,
                 string_const_span span,
                 const std::shared_ptr<SourceNode> arg);
-        void to_chart(
+        void to_ast_chart(
                 unsigned deepness,
-                LinesStyledChartInfo& chart) const final;
+                LinesStyledChartInfo& ast_chart) const final;
         virtual std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> compile() const final;
         virtual Asset basic_compile(Asset arg_asset) const = 0;
         const std::shared_ptr<SourceNode> arg;
@@ -73,9 +73,9 @@ namespace onerut_parser::onerut_ast::source {
                 string_const_span span,
                 std::shared_ptr<SourceNode> first_arg,
                 std::shared_ptr<SourceNode> second_arg);
-        void to_chart(
+        void to_ast_chart(
                 unsigned deepness,
-                LinesStyledChartInfo& chart) const final;
+                LinesStyledChartInfo& ast_chart) const final;
         virtual std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> compile() const final;
         virtual Asset basic_compile(Asset first_arg_asset, Asset second_arg_asset) const = 0;
         const std::shared_ptr<SourceNode> first_arg;
@@ -89,9 +89,9 @@ namespace onerut_parser::onerut_ast::source {
                 string_const_span span,
                 std::shared_ptr<SourceNode> first_arg,
                 std::vector<std::shared_ptr<SourceNode>> other_argv);
-        void to_chart(
+        void to_ast_chart(
                 unsigned deepness,
-                LinesStyledChartInfo& chart) const final;
+                LinesStyledChartInfo& ast_chart) const final;
         virtual std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> compile() const final;
         virtual Asset basic_compile(Asset first_arg_asset, std::vector<Asset> other_argv_asset) const = 0;
         const std::shared_ptr<SourceNode> first_arg;
@@ -104,9 +104,9 @@ namespace onerut_parser::onerut_ast::source {
                 std::shared_ptr<const std::string> input,
                 string_const_span span,
                 std::vector<std::shared_ptr<SourceNode>> argv);
-        void to_chart(
+        void to_ast_chart(
                 unsigned deepness,
-                LinesStyledChartInfo& chart) const final;
+                LinesStyledChartInfo& ast_chart) const final;
         virtual std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> compile() const final;
         virtual Asset basic_compile(std::vector<Asset> argv_asset) const = 0;
         const std::vector<std::shared_ptr<SourceNode>> argv;

@@ -53,13 +53,13 @@ execute_line(std::shared_ptr<std::string> line) {
             parsed_x3_info.input,
             parsed_x3_info.positions);
     // -------------------------------------------------------------------------
-    //    const auto ast_source_chart = ast_source_head->to_chart();
-    //    onerut_parser::print_chart(parsed_x3_info.input, ast_source_chart, , "[source ] ");
+    //    const auto ast_source_ast_chart = ast_source_head->to_ast_chart();
+    //    onerut_parser::print_ast_chart(parsed_x3_info.input, ast_source_ast_chart, , "[source ] ");
     // #########################################################################
     const auto ast_asset_head = ast_source_head->compile();
     // -------------------------------------------------------------------------
-    const auto ast_asset_chart = ast_asset_head->to_chart();
-    onerut_parser::print_chart(parsed_x3_info.input, ast_asset_chart, "[diagram] ");
+    const auto ast_asset_ast_chart = ast_asset_head->to_ast_chart();
+    onerut_parser::print_ast_chart(parsed_x3_info.input, ast_asset_ast_chart, "[diagram] ");
     // -------------------------------------------------------------------------
     onerut_parser::Asset asset = ast_asset_head->asset;
     if (onerut_parser::utility::is_unset_ref(asset)) {

@@ -8,6 +8,9 @@
 #include<onerut_parser/print_chart.hpp>
 #include<onerut_parser/ast_source.hpp>
 
+//TO DO IN ANOTHER HPP:
+
+
 namespace onerut_parser::onerut_ast::asset {
 
     class AssetNode {
@@ -35,17 +38,19 @@ namespace onerut_parser::onerut_ast::asset {
                 std::vector<std::shared_ptr<AssetNode>> subsources,
                 Asset asset);
         virtual ~AssetNode() = default;
-        // To-chart functions:
-        LinesStyledChartInfo to_chart() const;
-        // Internal data:
+        // -----------------------
+        LinesStyledChartInfo to_ast_chart() const;
+        ErrorsChartInfo to_errors_chart() const;
+        // -----Internal data: ---
         const std::shared_ptr<const source::SourceNode> source;
         const std::vector<std::shared_ptr<AssetNode>> subsources;
         const Asset asset;
     private:
-        void to_chart(
+        void to_ast_chart(
                 unsigned deepness,
-                LinesStyledChartInfo& chart) const;
-
+                LinesStyledChartInfo& ast_chart) const;
+        void to_errors_chart(
+                ErrorsChartInfo& erros_chart) const;        
     };
 
 }

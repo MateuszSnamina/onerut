@@ -67,15 +67,15 @@ void _basis_onerut_test(T _cpp_value, std::shared_ptr<std::string> _onerut_inupu
     // --------------------------------------------------
     if (onerut_verbose) {
         std::cout << "[test][common] Parsed info (onerut_ast::dyn):" << std::endl;
-        const auto ast_source_chart = _ast_source_head->to_chart();
-        onerut_parser::print_chart(_parsed_x3_info.input, ast_source_chart);
+        const auto ast_source_ast_chart = _ast_source_head->to_ast_chart();
+        onerut_parser::print_ast_chart(_parsed_x3_info.input, ast_source_ast_chart);
     }
     // #########################################################################
     const auto _ast_asset_head = _ast_source_head->compile();
     // -------------------------------------------------------------------------
-    const auto ast_asset_chart = _ast_asset_head->to_chart();
+    const auto ast_asset_ast_chart = _ast_asset_head->to_ast_chart();
     std::cout << "Parsed info: (onerut_ast::asset):" << std::endl;
-    onerut_parser::print_chart(_parsed_x3_info.input, ast_asset_chart);
+    onerut_parser::print_ast_chart(_parsed_x3_info.input, ast_asset_ast_chart);
     // #########################################################################
     onerut_parser::Asset _asset = _ast_asset_head->asset;
     // --------------------------------------------------    

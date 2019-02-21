@@ -23,15 +23,32 @@ namespace onerut_parser {
         esc::EscData esc_data;
     };
 
+    //--------------------------------------------------------------------------
+
     using LineStyledChartInfo = std::vector<LineBitStyledChartInfo>;
     using LinesStyledChartInfo = std::vector<LineStyledChartInfo>;
 
-    void print_chart(
+    void print_ast_chart(//TODO ast ast_chart
             std::shared_ptr<const std::string> input,
-            const LinesStyledChartInfo&chart,
+            const LinesStyledChartInfo& lines_info,
             std::string line_prefix = "");
 
-    void print_styled_chart_example();
+    void print_styled_ast_chart_example();
+
+    //--------------------------------------------------------------------------
+
+    struct ErrorChartInfo {
+        const string_const_span span;
+        const std::string message;
+    };
+
+    using ErrorsChartInfo = std::vector<ErrorChartInfo>;
+
+    void print_error_chart(
+            std::shared_ptr<const std::string> input,
+            const ErrorsChartInfo& errors_info,
+            std::string line_prefix = "");
+
 }
 
 #endif
