@@ -27,7 +27,7 @@ namespace onerut_parser {
             const std::string name = domain->state_names[index];
             const auto state_asset_deref = AssetDeref::from_value<onerut_normal_operator::StateIndex>(domain->crate_state(index));
             const auto state_ref = std::make_shared<AssetConstRef>(name, state_asset_deref);
-            if (!AssetRefContainer::global_instance().put(name, state_ref)) {
+            if (!AssetRefContainer::global_instance().put(state_ref)) {
                 return Asset::from_compile_error(std::make_shared<IllegalSecondAssignError>());
             }
         }

@@ -17,21 +17,23 @@ namespace onerut_operator {
     // ------------------ OpProd OPERATOR  -------------------------------------
     // -------------------------------------------------------------------------    
 
-    template<typename BraKetT>
+    template<typename BraKetT, typename StoredAbstractOpT>
     class OpProdOperatorIterator : public AbstractResultIterator<BraKetT> {
     public:
         using AbstractOpT = AbstractOperator<BraKetT>;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
+        using StoredAbstractOpPtrT = std::shared_ptr<const StoredAbstractOpT>;
         using AbstractIteratorT = AbstractResultIterator<BraKetT>;
         using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
-        using Iterator = OpProdOperatorIterator<BraKetT>;
+        using Iterator = OpProdOperatorIterator<BraKetT, StoredAbstractOpT>;
+        static_assert(std::is_base_of<AbstractOpT, StoredAbstractOpT>::value);
         OpProdOperatorIterator(
-                const std::vector<AbstractOpPtrT>& argv, const BraKetT& ket);
+                const std::vector<StoredAbstractOpPtrT>& argv, const BraKetT& ket);
         typename AbstractResultIterator<BraKetT>::value_type get_val_bra() const override;
         void next() override;
         virtual bool is_end() const override;
     private:
-        std::vector<AbstractOpPtrT> _argv;
+        std::vector<StoredAbstractOpPtrT> _argv; //TODO reference
         std::vector<AbstractIteratorPtrT> _base_itptr;
         std::vector<double> _factor;
         std::optional<BraKetT> _bra;
@@ -46,7 +48,7 @@ namespace onerut_operator {
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
         using AbstractIteratorT = AbstractResultIterator<BraKetT>;
         using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
-        using Iterator = OpProdOperatorIterator<BraKetT>;
+        using Iterator = OpProdOperatorIterator<BraKetT, AbstractOpT>; //TODO: add BraKetT as a using type, and remove it from the Iterator parameter list.
         OpProdOperator(std::vector<AbstractOpPtrT> argv);
         AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
     private:
@@ -55,26 +57,27 @@ namespace onerut_operator {
 
     // -------------------------------------------------------------------------
 
-    template<typename BraKetT>
-    OpProdOperatorIterator<BraKetT>::OpProdOperatorIterator(
-            const std::vector<AbstractOpPtrT>& argv, const BraKetT& ket) :
+    template<typename BraKetT, typename StoredAbstractOpT>
+    OpProdOperatorIterator<BraKetT, StoredAbstractOpT>::OpProdOperatorIterator(
+            const std::vector<StoredAbstractOpPtrT>& argv, const BraKetT& ket) :
     _argv(argv),
     _base_itptr(argv.size()),
     _factor(argv.size()),
     _bra(std::nullopt) {
-        if (_argv.empty())
+        if (_argv.empty()) {
             _bra = ket;
-        else
+        } else {
             _bra = _init(_argv.size() - 1, ket);
+        }
     }
 
-    template<typename BraKetT>
+    template<typename BraKetT, typename StoredAbstractOpT>
     std::optional<BraKetT>
-    OpProdOperatorIterator<BraKetT>::_init(unsigned arg_number, BraKetT ket) {
+    OpProdOperatorIterator<BraKetT, StoredAbstractOpT>::_init(unsigned arg_number, BraKetT ket) {
         assert(_base_itptr.size() == _argv.size());
         assert(_base_itptr.size() == _factor.size());
         assert(arg_number < _argv.size());
-        _base_itptr[arg_number] = _argv[arg_number]->begin_itptr(ket);
+        _base_itptr[arg_number] = std::static_pointer_cast<const AbstractOpT>(_argv[arg_number])->begin_itptr(ket);
         while (!_base_itptr[arg_number]->is_end()) {
             const auto& val_bra = _base_itptr[arg_number]->get_val_bra();
             const double& val = val_bra.first;
@@ -92,17 +95,17 @@ namespace onerut_operator {
         return std::nullopt;
     }
 
-    template<typename BraKetT>
+    template<typename BraKetT, typename StoredAbstractOpT>
     typename AbstractResultIterator<BraKetT>::value_type
-    OpProdOperatorIterator<BraKetT>::get_val_bra() const {
+    OpProdOperatorIterator<BraKetT, StoredAbstractOpT>::get_val_bra() const {
         assert(!is_end());
         const double value = std::accumulate(begin(_factor), end(_factor), 1.0, std::multiplies<double>());
         return std::make_pair(value, *_bra);
     }
 
-    template<typename BraKetT>
+    template<typename BraKetT, typename StoredAbstractOpT>
     void
-    OpProdOperatorIterator<BraKetT>::next() {
+    OpProdOperatorIterator<BraKetT, StoredAbstractOpT>::next() {
         assert(!is_end());
         if (_argv.empty())
             _bra.reset();
@@ -110,9 +113,9 @@ namespace onerut_operator {
             _bra = _next(0);
     }
 
-    template<typename BraKetT >
+    template<typename BraKetT, typename StoredAbstractOpT>
     std::optional<BraKetT>
-    OpProdOperatorIterator<BraKetT>::_next(unsigned arg_number) {
+    OpProdOperatorIterator<BraKetT, StoredAbstractOpT>::_next(unsigned arg_number) {
         assert(_base_itptr.size() == _argv.size());
         assert(_base_itptr.size() == _factor.size());
         assert(arg_number < _argv.size());
@@ -123,7 +126,7 @@ namespace onerut_operator {
                 return std::nullopt;
             } else {
                 if (const auto& intermediate = _next(arg_number + 1)) {
-                    _base_itptr[arg_number] = _argv[arg_number]->begin_itptr(*intermediate);
+                    _base_itptr[arg_number] = std::static_pointer_cast<const AbstractOpT>(_argv[arg_number])->begin_itptr(*intermediate);
                 } else {
                     return std::nullopt;
                 }
@@ -137,11 +140,13 @@ namespace onerut_operator {
         return bra;
     }
 
-    template<typename BraKetT>
+    template<typename BraKetT, typename StoredAbstractOpT>
     bool
-    OpProdOperatorIterator<BraKetT>::is_end() const {
+    OpProdOperatorIterator<BraKetT, StoredAbstractOpT>::is_end() const {
         return !_bra.has_value();
     }
+
+    // -------------------------------------------------------------------------
 
     template<typename BraKetT >
     OpProdOperator<BraKetT>::OpProdOperator(std::vector<AbstractOpPtrT> argv) :
