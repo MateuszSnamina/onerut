@@ -9,4 +9,3 @@ suma_pierwiastkow := 1 + sigma_1 + sigma_2
 const phi := asin(0.5)
 sin(phi)
 phi := 7 + [exp(6) * (7i+tan(0.5))]
-

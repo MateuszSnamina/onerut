@@ -178,7 +178,7 @@ namespace onerut_parser::onerut_ast::source {
             const std::shared_ptr<AbstractAssetRef> created_ref = const_flag ?
                     std::static_pointer_cast<AbstractAssetRef>(std::make_shared<AssetConstRef>(name, second_arg_asset_deref)) :
                     std::static_pointer_cast<AbstractAssetRef>(std::make_shared<AssetNotConstRef>(name, second_arg_asset_deref));
-            if (!AssetRefContainer::global_instance().put(name, created_ref)) {
+            if (!AssetRefContainer::global_instance().put(created_ref)) {
                 return Asset::from_compile_error(std::make_shared<IllegalSecondAssignError>());
             }
             return second_arg_asset;
@@ -190,7 +190,7 @@ namespace onerut_parser::onerut_ast::source {
             } else {
                 const auto name = ref->get_name();
                 const auto created_ref = std::make_shared<AssetConstRef>(name, second_arg_asset_deref);
-                AssetRefContainer::global_instance().force_put(name, created_ref);
+                AssetRefContainer::global_instance().force_put(created_ref);
             }
             return second_arg_asset;
         }

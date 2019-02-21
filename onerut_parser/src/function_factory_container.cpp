@@ -115,11 +115,11 @@ namespace onerut_parser {
     }
 
     std::optional<std::shared_ptr<AbstractFunctionFactory>> FunctionFactoryContainer::get_or_empty(const std::string& name) const {
-        try {
+        if (functions.count(name) == 1) {
             return functions.at(name);
-        } catch (std::out_of_range&) {
+        } else {
             return std::nullopt;
-        } //TODO change to if functions.count(name)==0
+        }
     }
 
     bool FunctionFactoryContainer::put(const std::string& name, std::shared_ptr<AbstractFunctionFactory> function) {
