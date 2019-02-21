@@ -37,12 +37,12 @@ execute_line(std::shared_ptr<std::string> line) {
     if (!parsed_x3_info.succes()) {
         if (!parsed_x3_info.match) {
             std::cout << "Fail to parse line: " << std::endl;
-            std::cout << esc::manip::red << *line << esc::manip::reset << "." << std::endl;
+            std::cout << esc::manip::red << string_utils::to_greek(*line) << esc::manip::reset << "." << std::endl;
         } else {
             const auto parsed_view = onerut_parser::to_string_view(parsed_x3_info.parsed_span());
             const auto not_parsed_view = onerut_parser::to_string_view(parsed_x3_info.not_parsed_span());
-            std::cout << esc::manip::bg_green << parsed_view
-                    << esc::manip::bg_red << not_parsed_view;
+            std::cout << esc::manip::bg_green << string_utils::to_greek(parsed_view)
+                    << esc::manip::bg_red << string_utils::to_greek(not_parsed_view);
             std::cout << std::endl;
         }
         return false;
@@ -58,8 +58,10 @@ execute_line(std::shared_ptr<std::string> line) {
     // #########################################################################
     const auto ast_asset_head = ast_source_head->compile();
     // -------------------------------------------------------------------------
-    const auto ast_asset_ast_chart = ast_asset_head->to_ast_chart();
-    onerut_parser::print_ast_chart(parsed_x3_info.input, ast_asset_ast_chart, "[diagram] ");
+    const auto asset_ast_chart = ast_asset_head->to_ast_chart();
+    onerut_parser::print_ast_chart(parsed_x3_info.input, asset_ast_chart, "[diagram] ");
+    const auto asset_errors_chart = ast_asset_head->to_errors_chart();
+    onerut_parser::print_errors_chart(parsed_x3_info.input, asset_errors_chart, "[errors ] ");
     // -------------------------------------------------------------------------
     onerut_parser::Asset asset = ast_asset_head->asset;
     if (onerut_parser::utility::is_unset_ref(asset)) {
@@ -193,6 +195,7 @@ void temp_testing() {
     lines.push_back(std::make_shared<std::string>("normalop_print(zdh2)"));
     lines.push_back(std::make_shared<std::string>("normalop_diag(7.8, EG2) + normalop_diag(7.8, AC)"));
     lines.push_back(std::make_shared<std::string>("normalop_hop(5, EG2, CA)"));
+    lines.push_back(std::make_shared<std::string>("yyy := 6 + 8 * (4 + hh(7+8) + t + omega(rho_1(chi_7))) + pi"));    
 
     onerut_parser::FunctionFactoryContainer::global_instance().put_cmath();
     onerut_parser::FunctionFactoryContainer::global_instance().put_onerut_functions();

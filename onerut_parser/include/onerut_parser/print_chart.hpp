@@ -25,6 +25,7 @@ namespace onerut_parser {
 
     //--------------------------------------------------------------------------
 
+    // TODO: remove Styled adj. 
     using LineStyledChartInfo = std::vector<LineBitStyledChartInfo>;
     using LinesStyledChartInfo = std::vector<LineStyledChartInfo>;
 
@@ -44,7 +45,7 @@ namespace onerut_parser {
 
     using ErrorsChartInfo = std::vector<ErrorChartInfo>;
 
-    void print_error_chart(
+    void print_errors_chart(
             std::shared_ptr<const std::string> input,
             const ErrorsChartInfo& errors_info,
             std::string line_prefix = "");

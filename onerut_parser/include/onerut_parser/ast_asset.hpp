@@ -21,21 +21,21 @@ namespace onerut_parser::onerut_ast::asset {
                 );
         AssetNode(
                 std::shared_ptr<const source::SourceNode> source,
-                std::shared_ptr<AssetNode> subsource,
+                std::shared_ptr<AssetNode> subasset,
                 Asset asset);
         AssetNode(
                 std::shared_ptr<const source::SourceNode> source,
-                std::shared_ptr<AssetNode> first_subsource,
-                std::shared_ptr<AssetNode> second_subsource,
+                std::shared_ptr<AssetNode> first_subasset,
+                std::shared_ptr<AssetNode> second_subasset,
                 Asset asset);
         AssetNode(
                 std::shared_ptr<const source::SourceNode> source,
-                std::shared_ptr<AssetNode> first_subsource,
-                std::vector<std::shared_ptr<AssetNode>> others_subsources,
+                std::shared_ptr<AssetNode> first_subasset,
+                std::vector<std::shared_ptr<AssetNode>> others_subassets,
                 Asset asset);
         AssetNode(
                 std::shared_ptr<const source::SourceNode> source,
-                std::vector<std::shared_ptr<AssetNode>> subsources,
+                std::vector<std::shared_ptr<AssetNode>> subassets,
                 Asset asset);
         virtual ~AssetNode() = default;
         // -----------------------
@@ -43,7 +43,7 @@ namespace onerut_parser::onerut_ast::asset {
         ErrorsChartInfo to_errors_chart() const;
         // -----Internal data: ---
         const std::shared_ptr<const source::SourceNode> source;
-        const std::vector<std::shared_ptr<AssetNode>> subsources;
+        const std::vector<std::shared_ptr<AssetNode>> subassets;//TODO change_to_subassets!!
         const Asset asset;
     private:
         void to_ast_chart(

@@ -22,45 +22,45 @@ namespace onerut_parser::onerut_ast::asset {
             Asset asset
             ) :
     source(source),
-    subsources({}),
+    subassets({}),
     asset(asset) {
     }
 
     AssetNode::AssetNode(
             std::shared_ptr<const source::SourceNode> source,
-            std::shared_ptr<AssetNode> subsource,
+            std::shared_ptr<AssetNode> subasset,
             Asset asset) :
     source(source),
-    subsources({subsource}),
+    subassets({subasset}),
     asset(asset) {
     }
 
     AssetNode::AssetNode(
             std::shared_ptr<const source::SourceNode> source,
-            std::shared_ptr<AssetNode> first_subsource,
-            std::shared_ptr<AssetNode> second_subsource,
+            std::shared_ptr<AssetNode> first_subasset,
+            std::shared_ptr<AssetNode> second_subasset,
             Asset asset) :
     source(source),
-    subsources({first_subsource, second_subsource}),
+    subassets({first_subasset, second_subasset}),
     asset(asset) {
     }
 
     AssetNode::AssetNode(
             std::shared_ptr<const source::SourceNode> source,
-            std::shared_ptr<AssetNode> first_subsource,
-            std::vector<std::shared_ptr<AssetNode>> others_subsources,
+            std::shared_ptr<AssetNode> first_subasset,
+            std::vector<std::shared_ptr<AssetNode>> others_subassets,
             Asset asset) :
     source(source),
-    subsources(cat(first_subsource, others_subsources)),
+    subassets(cat(first_subasset, others_subassets)),
     asset(asset) {
     }
 
     AssetNode::AssetNode(
             std::shared_ptr<const source::SourceNode> source,
-            std::vector<std::shared_ptr<AssetNode>> subsources,
+            std::vector<std::shared_ptr<AssetNode>> subassets,
             Asset asset) :
     source(source),
-    subsources(subsources),
+    subassets(subassets),
     asset(asset) {
     }
 

@@ -66,7 +66,7 @@ namespace onerut_parser {
 
     // -------------------------------------------------------------------------
 
-    void print_error_chart(
+    void print_errors_chart(
             std::shared_ptr<const std::string> input,
             const ErrorsChartInfo& errors_info,
             std::string line_prefix) {
