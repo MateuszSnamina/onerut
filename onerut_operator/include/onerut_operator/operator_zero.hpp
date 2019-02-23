@@ -5,9 +5,10 @@
 
 namespace onerut_operator {
 
-    template<typename BraKetT>
-    class ZeroOperatorIterator : public AbstractResultIterator<BraKetT> {
+    template<typename _BraKetT>
+    class ZeroOperatorIterator : public AbstractResultIterator<_BraKetT> {
     public:
+        using BraKetT = _BraKetT;        
         using AbstractOpT = AbstractOperator<BraKetT>;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
         using AbstractIteratorT = AbstractResultIterator<BraKetT>;
@@ -18,13 +19,14 @@ namespace onerut_operator {
         virtual bool is_end() const override;
     };
 
-    template<typename BraKetT>
-    class ZeroOperator : public AbstractOperator<BraKetT> {
+    template<typename _BraKetT>
+    class ZeroOperator : public AbstractOperator<_BraKetT> {
     public:
+        using BraKetT = _BraKetT;
         using AbstractOpT = AbstractOperator<BraKetT>;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
         using AbstractIteratorT = AbstractResultIterator<BraKetT>;
-        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
+        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>; 
         using Iterator = ZeroOperatorIterator<BraKetT>;
         AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
     };
@@ -33,30 +35,30 @@ namespace onerut_operator {
     // ------------------ SIMPLE OPERATOR - IMPLEMENTATION ---------------------
     // -------------------------------------------------------------------------     
 
-    template<typename BraKetT>
-    typename AbstractResultIterator<BraKetT>::value_type
-    ZeroOperatorIterator<BraKetT>::get_val_bra() const {
+    template<typename _BraKetT>
+    typename AbstractResultIterator<_BraKetT>::value_type
+    ZeroOperatorIterator<_BraKetT>::get_val_bra() const {
         assert(!is_end());
         return std::make_pair(0, BraKetT());
     }
 
-    template<typename BraKetT>
+    template<typename _BraKetT>
     void
-    ZeroOperatorIterator<BraKetT>::next() {
+    ZeroOperatorIterator<_BraKetT>::next() {
         assert(!is_end());
     }
 
-    template<typename BraKetT>
+    template<typename _BraKetT>
     bool
-    ZeroOperatorIterator<BraKetT>::is_end() const {
+    ZeroOperatorIterator<_BraKetT>::is_end() const {
         return true;
     }
 
     // -------------------------------------------------------------------------        
 
-    template<typename BraKetT>
-    typename ZeroOperator<BraKetT>::AbstractIteratorPtrT
-    ZeroOperator<BraKetT>::begin_itptr(const BraKetT& ket) const {
+    template<typename _BraKetT>
+    typename ZeroOperator<_BraKetT>::AbstractIteratorPtrT
+    ZeroOperator<_BraKetT>::begin_itptr(const BraKetT& ket) const {
         return std::make_unique<Iterator>();
     }
 

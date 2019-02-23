@@ -22,6 +22,7 @@
         <in>operator_simple.cpp</in>
         <in>operator_zero.cpp</in>
         <in>to_mat.cpp</in>
+        <in>to_string.cpp</in>
       </df>
     </df>
     <df root="onerut_op1e" name="3">
@@ -205,6 +206,7 @@
             <pElem>onerut_normal_operator/include</pElem>
             <pElem>onerut_scalar/include</pElem>
             <pElem>onerut_operator/include</pElem>
+            <pElem>string_utils/include</pElem>
             <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut_normal_operator</pElem>
           </incDir>
@@ -333,6 +335,13 @@
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/to_mat.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_normal_operator/src/to_string.cpp"
             ex="false"
             tool="1"
             flavor2="11">
@@ -634,6 +643,11 @@
             tool="1"
             flavor2="11">
         <ccTool flags="0">
+          <incDir>
+            <pElem>string_utils/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/string_utils</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="string_utils/src/unicode_support.cpp"
@@ -641,6 +655,13 @@
             tool="1"
             flavor2="11">
         <ccTool flags="0">
+          <incDir>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_operator/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator</pElem>
+          </incDir>
         </ccTool>
       </item>
     </conf>

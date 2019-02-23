@@ -1,5 +1,6 @@
 #include<cassert>
 #include<cctype>
+#include<iomanip>
 #include<utility>
 #include<vector>
 
@@ -146,5 +147,21 @@ namespace string_utils {
         return length;
     }
 
+    // ------------------------
+
+    StreamToGreek::StreamToGreek(const std::string_view& not_translated) :
+    not_translated(not_translated) {
+    }
+
+    std::ostream& operator<<(std::ostream& stream, const StreamToGreek& t) {
+        const unsigned visible_length = stream.width(0);
+        const std::string translated = string_utils::to_greek(t.not_translated);
+        const unsigned number_of_visible_characters = string_utils::to_greek_number_of_visible_characters_in_result(t.not_translated);
+        const unsigned number_of_bytes = translated.size();
+        assert(number_of_bytes >= number_of_visible_characters);
+        const unsigned width_bytes = visible_length + (number_of_bytes - number_of_visible_characters);
+        stream << std::setw(width_bytes) << translated;
+        return stream;
+    }
 
 }

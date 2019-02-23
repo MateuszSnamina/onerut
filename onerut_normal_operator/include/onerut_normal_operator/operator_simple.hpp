@@ -9,10 +9,11 @@ namespace onerut_normal_operator {
 
     class HopOperator : public AbstractOperator {
     public:
-        using AbstractOpT = AbstractOperator;
-        using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
-        using AbstractIteratorT = onerut_operator::AbstractResultIterator<unsigned>;
-        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
+        using AbstractOperator::BraKetT;
+        using AbstractOperator::AbstractOpT;
+        using AbstractOperator::AbstractOpPtrT;
+        using AbstractOperator::AbstractIteratorT;
+        using AbstractOperator::AbstractIteratorPtrT;
         using Iterator = onerut_operator::SimpleOperatorIterator<unsigned>;
         HopOperator(std::shared_ptr<const onerut_scalar::Real> value,
                 std::shared_ptr<const StateIndex> state_1,
@@ -27,10 +28,11 @@ namespace onerut_normal_operator {
 
     class DiagOperator : public AbstractOperator {
     public:
-        using AbstractOpT = AbstractOperator;
-        using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
-        using AbstractIteratorT = onerut_operator::AbstractResultIterator<unsigned>;
-        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
+        using AbstractOperator::BraKetT;
+        using AbstractOperator::AbstractOpT;
+        using AbstractOperator::AbstractOpPtrT;
+        using AbstractOperator::AbstractIteratorT;
+        using AbstractOperator::AbstractIteratorPtrT;
         using Iterator = onerut_operator::SimpleOperatorIterator<unsigned>;
         DiagOperator(std::shared_ptr<const onerut_scalar::Real> value,
                 std::shared_ptr<const StateIndex> state);

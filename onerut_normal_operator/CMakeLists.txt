@@ -22,4 +22,4 @@ endif()
 
 add_library("${TARGET_NAME}" ${src} ${inc})
 target_include_directories("${TARGET_NAME}" PUBLIC include)
-target_link_libraries("${TARGET_NAME}" onerut_scalar onerut_operator)
+target_link_libraries("${TARGET_NAME}" onerut_scalar onerut_operator string_utils) #DOTO: remove string utils when log is created.

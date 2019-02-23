@@ -24,8 +24,6 @@ namespace onerut_normal_operator {
         const std::vector<std::string> state_names;
     };
 
-    bool are_the_same_domains(const Domain& domain1, const Domain& domain2);
-    
     // -------------------------------------------------------------------------
     // ----------------  StateIndex  -------------------------------------------
     // -------------------------------------------------------------------------
@@ -46,10 +44,26 @@ namespace onerut_normal_operator {
 
     class AbstractOperator : public onerut_operator::AbstractOperator<unsigned> {
     public:
-        using BraKetT = unsigned;        
+        using typename onerut_operator::AbstractOperator<unsigned>::BraKetT;
+        using AbstractOpT = AbstractOperator;
+        using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
+        using typename onerut_operator::AbstractOperator<unsigned>::AbstractIteratorT;
+        using typename onerut_operator::AbstractOperator<unsigned>::AbstractIteratorPtrT;
         virtual std::shared_ptr<const Domain> get_domain() const = 0;
     };
 
+    // -------------------------------------------------------------------------
+    // ----------------  Helper functions  -------------------------------------
+    // -------------------------------------------------------------------------    
+
+    bool are_the_same_domains(const Domain& first_domain, const Domain& second_domain);
+    bool are_the_same_domains(const Domain& first_domain, const std::vector<Domain>& other_domains);
+    bool are_the_same_domains(
+            const std::shared_ptr<const AbstractOperator>& first_operator,
+            const std::vector<std::shared_ptr<const AbstractOperator> >& other_operators);
+
 }
+
+
 
 #endif

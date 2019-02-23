@@ -35,7 +35,7 @@ namespace onerut_parser {
         const unsigned inpit_number_of_visible_characters = string_utils::to_greek_number_of_visible_characters_in_result(*input);
         const std::u32string table_horizontal_line(inpit_number_of_visible_characters + 2, U'▓');
         std::cout << line_prefix << string_utils::unicode_to_utf8(table_horizontal_line) << std::endl;
-        std::cout << line_prefix << "▓" << string_utils::to_greek(*input) << "▓" << std::endl;
+        std::cout << line_prefix << "▓" << string_utils::StreamToGreek(*input) << "▓" << std::endl;
         std::cout << line_prefix << string_utils::unicode_to_utf8(table_horizontal_line) << std::endl;
         for (const auto & line_line : lines_info) {
             std::cout << line_prefix << "▓";
@@ -49,7 +49,7 @@ namespace onerut_parser {
                 }
                 {
                     const auto text_view = to_string_view(style_info.span);
-                    std::cout << style_info.esc_data << string_utils::to_greek(text_view);
+                    std::cout << style_info.esc_data << string_utils::StreamToGreek(text_view);
                 }
                 it = style_info.span.end();
             }
@@ -81,9 +81,9 @@ namespace onerut_parser {
             const auto pre_text_view = to_string_view(input->cbegin(), error_info.span.begin());
             const auto error_text_view = to_string_view(error_info.span);
             const auto post_text_view = to_string_view(error_info.span.end(), input->cend());
-            std::cout << esc::manip::bg_gray << string_utils::to_greek(pre_text_view) << esc::manip::reset;
-            std::cout << esc::manip::bg_red << string_utils::to_greek(error_text_view) << esc::manip::reset;
-            std::cout << esc::manip::bg_gray << string_utils::to_greek(post_text_view) << esc::manip::reset;
+            std::cout << esc::manip::bg_gray << string_utils::StreamToGreek(pre_text_view) << esc::manip::reset;
+            std::cout << esc::manip::bg_red << string_utils::StreamToGreek(error_text_view) << esc::manip::reset;
+            std::cout << esc::manip::bg_gray << string_utils::StreamToGreek(post_text_view) << esc::manip::reset;
             std::cout << std::endl;
             std::cout << line_prefix;
             std::cout << esc::manip::red << error_info.message << esc::manip::reset;

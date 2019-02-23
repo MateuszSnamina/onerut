@@ -58,7 +58,7 @@ namespace onerut_operator {
         using AbstractOpT = AbstractOperator<BraKetT>;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
         using AbstractIteratorT = AbstractResultIterator<BraKetT>;
-        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
+        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>; 
         using Iterator = OpPlusMinusOperatorIterator<BraKetT, AbstractOpT>;
         OpPlusMinusOperator(
                 const AbstractOpPtrT& first_arg,

@@ -12,11 +12,11 @@ namespace onerut_normal_operator {
 
     class OpPlusMinusOperator : public AbstractOperator {
     public:
-        using BraKetT = unsigned;
-        using AbstractOpT = AbstractOperator;
-        using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
-        using AbstractIteratorT = onerut_operator::AbstractResultIterator<unsigned>;
-        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
+        using AbstractOperator::BraKetT;
+        using AbstractOperator::AbstractOpT;
+        using AbstractOperator::AbstractOpPtrT;
+        using AbstractOperator::AbstractIteratorT;
+        using AbstractOperator::AbstractIteratorPtrT;
         using Iterator = onerut_operator::OpPlusMinusOperatorIterator<unsigned, AbstractOpT>;
         OpPlusMinusOperator(
                 const AbstractOpPtrT& first_arg,

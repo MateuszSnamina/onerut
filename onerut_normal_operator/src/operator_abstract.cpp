@@ -1,4 +1,5 @@
 #include<cassert>
+#include<algorithm>
 
 #include<onerut_normal_operator/operator_abstract.hpp>
 
@@ -27,11 +28,6 @@ namespace onerut_normal_operator {
         return result;
     }
 
-    bool
-    are_the_same_domains(const Domain& domain1, const Domain& domain2) {
-        return std::addressof(domain1) == std::addressof(domain2);
-    }
-    
     // -------------------------------------------------------------------------
     // ----------------  StateIndex  -------------------------------------------
     // -------------------------------------------------------------------------
@@ -50,6 +46,32 @@ namespace onerut_normal_operator {
         std::string result;
         result = "【#" + std::to_string(index) + "»" + fetch_name() + "】";
         return result;
+    }
+
+    // -------------------------------------------------------------------------
+    // ----------------  Helper functions  -------------------------------------
+    // -------------------------------------------------------------------------    
+
+    bool
+    are_the_same_domains(const Domain& first_domain, const Domain& second_domain) {
+        return std::addressof(first_domain) == std::addressof(second_domain);
+    }
+
+    bool
+    are_the_same_domains(const Domain& first_domain, const std::vector<Domain>& other_domains) {
+        return std::all_of(begin(other_domains), end(other_domains),
+                [&first_domain](const Domain & other_domain) {
+                    return are_the_same_domains(first_domain, other_domain);
+                });
+    }
+
+    bool are_the_same_domains(
+            const std::shared_ptr<const AbstractOperator>& first_operator,
+            const std::vector<std::shared_ptr<const AbstractOperator> >& other_operators) {
+        return std::all_of(begin(other_operators), end(other_operators),
+                [&first_operator](const std::shared_ptr<const AbstractOperator> & other_operator) {
+                    return are_the_same_domains(*first_operator->get_domain(), *other_operator->get_domain());
+                });
     }
 
 }

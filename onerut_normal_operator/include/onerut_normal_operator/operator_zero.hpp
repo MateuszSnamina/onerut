@@ -8,10 +8,11 @@ namespace onerut_normal_operator {
 
     class ZeroOperator : public AbstractOperator {
     public:
-        using AbstractOpT = AbstractOperator;
-        using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
-        using AbstractIteratorT = onerut_operator::AbstractResultIterator<unsigned>;
-        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
+        using AbstractOperator::BraKetT;
+        using AbstractOperator::AbstractOpT;
+        using AbstractOperator::AbstractOpPtrT;
+        using AbstractOperator::AbstractIteratorT;
+        using AbstractOperator::AbstractIteratorPtrT;
         using Iterator = onerut_operator::ZeroOperatorIterator<unsigned>;
         ZeroOperator(std::shared_ptr<const Domain> domain);
         AbstractIteratorPtrT begin_itptr(const unsigned& ket) const override;

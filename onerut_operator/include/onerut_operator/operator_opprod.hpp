@@ -51,7 +51,7 @@ namespace onerut_operator {
         using AbstractOpT = AbstractOperator<BraKetT>;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
         using AbstractIteratorT = AbstractResultIterator<BraKetT>;
-        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
+        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>; 
         using Iterator = OpProdOperatorIterator<BraKetT, AbstractOpT>; //TODO: remove BraKetT when refactor OpProdOperatorIterator
         OpProdOperator(std::vector<AbstractOpPtrT> argv);
         AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;

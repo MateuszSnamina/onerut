@@ -9,9 +9,10 @@ namespace onerut_operator {
     // ------------------ SCALLED OPERATOR  -------------------------------------
     // -------------------------------------------------------------------------    
 
-    template<typename BraKetT>
-    class ScalledOperatorIterator : public AbstractResultIterator<BraKetT> {
+    template<typename _BraKetT>
+    class ScalledOperatorIterator : public AbstractResultIterator<_BraKetT> {
     public:
+        using BraKetT = _BraKetT;
         using AbstractOpT = AbstractOperator<BraKetT>;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
         using AbstractIteratorT = AbstractResultIterator<BraKetT>;
@@ -26,13 +27,14 @@ namespace onerut_operator {
         const AbstractIteratorPtrT _base_itptr;
     };
 
-    template<typename BraKetT>
-    class ScalledOperator : public AbstractOperator<BraKetT> {
+    template<typename _BraKetT>
+    class ScalledOperator : public AbstractOperator<_BraKetT> {
     public:
+        using BraKetT = _BraKetT;
         using AbstractOpT = AbstractOperator<BraKetT>;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
         using AbstractIteratorT = AbstractResultIterator<BraKetT>;
-        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
+        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>; 
         using Iterator = ScalledOperatorIterator<BraKetT>;
         ScalledOperator(double factor, AbstractOpPtrT arg);
         AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
@@ -45,17 +47,17 @@ namespace onerut_operator {
     // ------------------ SCALLED OPERATOR - IMPLEMENTATION ---------------------
     // -------------------------------------------------------------------------    
 
-    template<typename BraKetT>
-    ScalledOperatorIterator<BraKetT>::ScalledOperatorIterator(
+    template<typename _BraKetT>
+    ScalledOperatorIterator<_BraKetT>::ScalledOperatorIterator(
             double factor,
             const AbstractOpPtrT & arg, const BraKetT& ket) :
     _factor(factor),
     _base_itptr(arg->begin_itptr(ket)) {
     }
 
-    template<typename BraKetT>
-    typename AbstractResultIterator<BraKetT>::value_type
-    ScalledOperatorIterator<BraKetT>::get_val_bra() const {
+    template<typename _BraKetT>
+    typename AbstractResultIterator<_BraKetT>::value_type
+    ScalledOperatorIterator<_BraKetT>::get_val_bra() const {
         assert(!_base_itptr->is_end());
         const auto& val_bra = _base_itptr->get_val_bra();
         const double& value = val_bra.first;
@@ -63,32 +65,32 @@ namespace onerut_operator {
         return std::make_pair(_factor*value, bra);
     }
 
-    template<typename BraKetT>
+    template<typename _BraKetT>
     void
-    ScalledOperatorIterator<BraKetT>::next() {
+    ScalledOperatorIterator<_BraKetT>::next() {
         assert(!_base_itptr->is_end());
         _base_itptr->next();
     }
 
-    template<typename BraKetT>
+    template<typename _BraKetT>
     bool
-    ScalledOperatorIterator<BraKetT>::is_end() const {
+    ScalledOperatorIterator<_BraKetT>::is_end() const {
         return _base_itptr->is_end();
     }
 
     // -------------------------------------------------------------------------
 
-    template<typename BraKetT>
-    ScalledOperator<BraKetT>::ScalledOperator(
+    template<typename _BraKetT>
+    ScalledOperator<_BraKetT>::ScalledOperator(
             double factor,
             AbstractOpPtrT arg) :
     factor(factor),
     arg(arg) {
     }
 
-    template<typename BraKetT>
-    typename ScalledOperator<BraKetT>::AbstractIteratorPtrT
-    ScalledOperator<BraKetT>::begin_itptr(const BraKetT& ket) const {
+    template<typename _BraKetT>
+    typename ScalledOperator<_BraKetT>::AbstractIteratorPtrT
+    ScalledOperator<_BraKetT>::begin_itptr(const BraKetT& ket) const {
         return std::make_unique<Iterator>(factor, arg, ket);
     }
 

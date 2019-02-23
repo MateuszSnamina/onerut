@@ -16,12 +16,17 @@ namespace {
 
     bool
     is_plus_munis_char(char op) {
-        return op == L'+' || op == L'-';
+        return op == '+' || op == '-';
     }
 
     bool
     is_prod_div_char(char op) {
-        return op == L'*' || op == L'/';
+        return op == '*' || op == '/';
+    }
+
+    bool
+    is_prod_char(char op) {
+        return op == '*';
     }
 
     std::vector<std::shared_ptr < onerut_parser::onerut_ast::asset::AssetNode>>
@@ -226,9 +231,10 @@ namespace onerut_parser::onerut_ast::source {
         }
         if (utility::is_normal_operator(first_arg_asset_deref) &&
                 std::all_of(cbegin(other_argv_asset_deref), cend(other_argv_asset_deref), utility::is_normal_operator)) {
-            // TODO domain check.
             const auto & first_arg_operator = utility::to_normal_operator(first_arg_asset_deref);
             const auto & other_argv_operator = utility::many_to_normal_operator(other_argv_asset_deref);
+            if (!are_the_same_domains(first_arg_operator, other_argv_operator))
+                return Asset::from_compile_error(std::make_shared<CompileError>("Incompatible state domains."));
             using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
             return Asset::from_value<AbstractOperatorT>(std::make_shared<onerut_normal_operator::OpPlusMinusOperator >(first_arg_operator, other_argv_operator, opv));
         }
@@ -264,12 +270,14 @@ namespace onerut_parser::onerut_ast::source {
         }
         if (utility::is_normal_operator(first_arg_asset_deref) &&
                 std::all_of(cbegin(other_argv_asset_deref), cend(other_argv_asset_deref), utility::is_normal_operator)) {
-            // TODO domain check.
-            // TODO check if all opv are '*'
+            //            if (std::all_of(opv.cbegin(), opv.cend(), is_prod_char)){
             //            const auto & first_arg_operator = utility::to_normal_operator(first_arg_asset_deref);
             //            const auto & other_argv_operator = utility::many_to_normal_operator(other_argv_asset_deref);
+            //            if (!are_the_same_domains(first_arg_operator, other_argv_operator))
+            //              return Asset::from_compile_error(std::make_shared<CompileError>("Incompatible state domains."));
             //            using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
             //            return Asset::from_value<AbstractOperatorT>(std::make_shared<onerut_normal_operator::OpProdOperator >(first_arg_operator, other_argv_operator));
+            //            }
             return Asset::from_compile_error(std::make_shared<CompilerNotImplementedError>());
         }
         if (other_argv_asset_deref.size() == 1 && opv[0] == '*' &&
@@ -295,7 +303,6 @@ namespace onerut_parser::onerut_ast::source {
     Asset
     OpAtNode::basic_compile(Asset first_arg_asset, Asset second_arg_asset) const {
         return behave_like_a_binary_function("at", first_arg_asset, second_arg_asset);
-
     }
 
     // -------------------------------------------------------------------------
@@ -303,7 +310,6 @@ namespace onerut_parser::onerut_ast::source {
     Asset
     OpArrowNode::basic_compile(Asset first_arg_asset, Asset second_arg_asset) const {
         return behave_like_a_binary_function("arrow", first_arg_asset, second_arg_asset);
-
     }
 
     // -------------------------------------------------------------------------
