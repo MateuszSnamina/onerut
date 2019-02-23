@@ -97,7 +97,7 @@ execute_line(std::shared_ptr<const std::string> line) {
         std::cout << "[receipt] Expression is a " << esc::manip::italic << "normal-domain-operator" << esc::manip::reset << "." << std::endl;
         const auto op = *(asset.deref().typed_value_or_empty<onerut_normal_operator::AbstractOperator>());
         //std::cout << "[receipt] Operator domain = " << onerut_normal_operator::to_string(*op->get_domain()) << std::endl;
-        std::cout << onerut_normal_operator::to_string(*op, "[receipt] ") << std::endl;
+        std::cout << onerut_normal_operator::to_string(*op, "[receipt] ");
     } else {
         std::cout << "[receipt] Result is not an error nor a scalar." << std::endl;
     }
