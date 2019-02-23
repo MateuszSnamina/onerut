@@ -344,7 +344,7 @@ namespace onerut_parser {
         if (info.match) {
             std::cout << "to_oneliner: " << to_oneliner(info.ast_head) << std::endl;
             const auto& ast_chart = to_ast_chart(info.ast_head, info.positions);
-            print_ast_chart(info.input, ast_chart);
+            print_ast_chart(std::cout, info.input, ast_chart);
         }
     }
 }

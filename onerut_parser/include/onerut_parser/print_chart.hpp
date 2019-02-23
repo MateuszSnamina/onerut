@@ -29,7 +29,8 @@ namespace onerut_parser {
     using LineStyledChartInfo = std::vector<LineBitStyledChartInfo>;
     using LinesStyledChartInfo = std::vector<LineStyledChartInfo>;
 
-    void print_ast_chart(//TODO ast ast_chart
+    void print_ast_chart(
+            std::ostream& stream,
             std::shared_ptr<const std::string> input,
             const LinesStyledChartInfo& lines_info,
             std::string line_prefix = "");
@@ -46,6 +47,7 @@ namespace onerut_parser {
     using ErrorsChartInfo = std::vector<ErrorChartInfo>;
 
     void print_errors_chart(
+            std::ostream& stream,
             std::shared_ptr<const std::string> input,
             const ErrorsChartInfo& errors_info,
             std::string line_prefix = "");

@@ -16,6 +16,7 @@ namespace onerut_parser {
     // -------------------------------------------------------------------------
 
     void print_ast_chart(
+            std::ostream& stream,
             std::shared_ptr<const std::string> input,
             const LinesStyledChartInfo& lines_info,
             std::string line_prefix) {
@@ -34,22 +35,22 @@ namespace onerut_parser {
         // Print:
         const unsigned inpit_number_of_visible_characters = string_utils::to_greek_number_of_visible_characters_in_result(*input);
         const std::u32string table_horizontal_line(inpit_number_of_visible_characters + 2, U'▓');
-        std::cout << line_prefix << string_utils::unicode_to_utf8(table_horizontal_line) << std::endl;
-        std::cout << line_prefix << "▓" << string_utils::StreamToGreek(*input) << "▓" << std::endl;
-        std::cout << line_prefix << string_utils::unicode_to_utf8(table_horizontal_line) << std::endl;
+        stream << line_prefix << string_utils::unicode_to_utf8(table_horizontal_line) << std::endl;
+        stream << line_prefix << "▓" << string_utils::StreamToGreek(*input) << "▓" << std::endl;
+        stream << line_prefix << string_utils::unicode_to_utf8(table_horizontal_line) << std::endl;
         for (const auto & line_line : lines_info) {
-            std::cout << line_prefix << "▓";
+            stream << line_prefix << "▓";
             auto it = input->cbegin();
             for (const auto & style_info : line_line) {
                 {
                     const std::string_view text_view = to_string_view(it, style_info.span.begin());
                     const unsigned number_of_visible_characters = string_utils::to_greek_number_of_visible_characters_in_result(text_view);
                     const std::u32string text_bit = std::u32string(number_of_visible_characters, chart_fill_character_1);
-                    std::cout << string_utils::unicode_to_utf8(text_bit);
+                    stream << string_utils::unicode_to_utf8(text_bit);
                 }
                 {
                     const auto text_view = to_string_view(style_info.span);
-                    std::cout << style_info.esc_data << string_utils::StreamToGreek(text_view);
+                    stream << style_info.esc_data << string_utils::StreamToGreek(text_view);
                 }
                 it = style_info.span.end();
             }
@@ -57,16 +58,17 @@ namespace onerut_parser {
                 const std::string_view text_view = to_string_view(it, input->cend());
                 const unsigned number_of_visible_characters = string_utils::to_greek_number_of_visible_characters_in_result(text_view);
                 const std::u32string text_bit = std::u32string(number_of_visible_characters, chart_fill_character_1);
-                std::cout << string_utils::unicode_to_utf8(text_bit);
+                stream << string_utils::unicode_to_utf8(text_bit);
             }
-            std::cout << "▓" << std::endl;
+            stream << "▓" << std::endl;
         }
-        std::cout << line_prefix << string_utils::unicode_to_utf8(table_horizontal_line) << std::endl;
+        stream << line_prefix << string_utils::unicode_to_utf8(table_horizontal_line) << std::endl;
     }
 
     // -------------------------------------------------------------------------
 
     void print_errors_chart(
+            std::ostream& stream,
             std::shared_ptr<const std::string> input,
             const ErrorsChartInfo& errors_info,
             std::string line_prefix) {
@@ -77,17 +79,17 @@ namespace onerut_parser {
             assert(error_info.span.end() <= input->cend());
         }
         for (const auto & error_info : errors_info) {
-            std::cout << line_prefix;
+            stream << line_prefix;
             const auto pre_text_view = to_string_view(input->cbegin(), error_info.span.begin());
             const auto error_text_view = to_string_view(error_info.span);
             const auto post_text_view = to_string_view(error_info.span.end(), input->cend());
-            std::cout << esc::manip::bg_gray << string_utils::StreamToGreek(pre_text_view) << esc::manip::reset;
-            std::cout << esc::manip::bg_red << string_utils::StreamToGreek(error_text_view) << esc::manip::reset;
-            std::cout << esc::manip::bg_gray << string_utils::StreamToGreek(post_text_view) << esc::manip::reset;
-            std::cout << std::endl;
-            std::cout << line_prefix;
-            std::cout << esc::manip::red << error_info.message << esc::manip::reset;
-            std::cout << std::endl;
+            stream << esc::manip::bg_gray << string_utils::StreamToGreek(pre_text_view) << esc::manip::reset;
+            stream << esc::manip::bg_red << string_utils::StreamToGreek(error_text_view) << esc::manip::reset;
+            stream << esc::manip::bg_gray << string_utils::StreamToGreek(post_text_view) << esc::manip::reset;
+            stream << std::endl;
+            stream << line_prefix;
+            stream << esc::manip::red << error_info.message << esc::manip::reset;
+            stream << std::endl;
         }
     }
 
@@ -114,6 +116,6 @@ namespace onerut_parser {
         const LineStyledChartInfo l1{bi1, bi2};
         const LinesStyledChartInfo ls{l0, l1};
 
-        print_ast_chart(input, ls);
+        print_ast_chart(std::cout, input, ls);
     }
 }

@@ -59,14 +59,14 @@ execute_line(std::shared_ptr<const std::string> line) {
     const auto ast_asset_head = ast_source_head->compile();
     // -------------------------------------------------------------------------
     const auto asset_ast_chart = ast_asset_head->to_ast_chart();
-    onerut_parser::print_ast_chart(parsed_x3_info.input, asset_ast_chart, "[diagram] ");
+    onerut_parser::print_ast_chart(std::cout, parsed_x3_info.input, asset_ast_chart, "[diagram] ");
     const auto asset_errors_chart = ast_asset_head->to_errors_chart();
-    onerut_parser::print_errors_chart(parsed_x3_info.input, asset_errors_chart, "[errors ] ");
+    onerut_parser::print_errors_chart(std::cout, parsed_x3_info.input, asset_errors_chart, "[errors ] ");
     const auto& asset = ast_asset_head->asset;
     onerut_parser::print_receipt(std::cout, asset, "[receipt] ");
     // *************************************************************************
     std::cout << std::endl;
-    return true;
+    return true;// TODO
 }
 
 std::vector<std::shared_ptr<const std::string>>
