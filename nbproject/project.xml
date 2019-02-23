@@ -21,6 +21,7 @@
                 <sourceRootElem>onerut_normal_operator</sourceRootElem>
                 <sourceRootElem>esc</sourceRootElem>
                 <sourceRootElem>string_utils</sourceRootElem>
+                <sourceRootElem>log_utils</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>

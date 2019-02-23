@@ -66,40 +66,38 @@ execute_line(std::shared_ptr<const std::string> line) {
     // -------------------------------------------------------------------------
     onerut_parser::Asset asset = ast_asset_head->asset;
     if (onerut_parser::utility::is_unset_ref(asset)) {
-        std::cout << "[receipt] Expression is an unset reference." << std::endl;
+        std::cout << "[receipt] Expression is an " << esc::manip::italic << "unset reference." << std::endl;
         const auto result_reference = *(asset.reference_or_empty());
         std::cout << "[receipt] Name = " << result_reference->get_name() << std::endl;
     } else if (asset.deref().is_compile_error()) {
-        std::cout << "[receipt] Expression is an error." << std::endl;
+        std::cout << "[receipt] Expression is an " << esc::manip::italic << "error." << std::endl;
         const auto error = *asset.deref().compile_error_or_empty();
         std::cout << "[receipt] Error message = " << error->what() << std::endl;
     } else if (asset.deref().is_given_type<onerut_scalar::Integer>()) {
-        std::cout << "[receipt] Expression is an integer-number." << std::endl;
+        std::cout << "[receipt] Expression is an " << esc::manip::italic << "integer-number." << std::endl;
         const auto result_integer = *(asset.deref().typed_value_or_empty<onerut_scalar::Integer>());
         std::cout << "[receipt] Value = " << result_integer->value_integer() << std::endl;
     } else if (asset.deref().is_given_type<onerut_scalar::Real>()) {
-        std::cout << "[receipt] Expression is a real-number." << std::endl;
+        std::cout << "[receipt] Expression is a " << esc::manip::italic << "real-number." << std::endl;
         const auto result_real = *(asset.deref().typed_value_or_empty<onerut_scalar::Real>());
         std::cout << "[receipt] Value = " << result_real->value_real() << std::endl;
     } else if (asset.deref().is_given_type<onerut_scalar::Complex>()) {
-        std::cout << "[receipt] Expression is a complex-number." << std::endl;
+        std::cout << "[receipt] Expression is a " << esc::manip::italic << "complex-number." << std::endl;
         const auto result_complex = *(asset.deref().typed_value_or_empty<onerut_scalar::Complex>());
         std::cout << "[receipt] Value = " << result_complex->value_complex() << std::endl;
     } else if (asset.deref().is_given_type<onerut_normal_operator::StateIndex>()) {
-        std::cout << "[receipt] Expression is a normal-domain-state-index ." << std::endl;
+        std::cout << "[receipt] Expression is a " << esc::manip::italic << "normal-domain-state-index ." << std::endl;
         const auto state = *(asset.deref().typed_value_or_empty<onerut_normal_operator::StateIndex>());
         std::cout << "[receipt] Value = " << state->to_str() << std::endl;
     } else if (asset.deref().is_given_type<onerut_normal_operator::Domain>()) {
-        std::cout << "[receipt] Expression is a normal-domain." << std::endl;
+        std::cout << "[receipt] Expression is a " << esc::manip::italic << "normal-domain." << std::endl;
         const auto domain = *(asset.deref().typed_value_or_empty<onerut_normal_operator::Domain>());
-        std::cout << "[receipt] Value = " << domain->to_str() << std::endl;
+        std::cout << "[receipt] Value = " << onerut_normal_operator::to_string(*domain) << std::endl;
     } else if (asset.deref().is_given_type<onerut_normal_operator::AbstractOperator>()) {
-        std::cout << "[receipt] Expression is a normal-domain-operator." << std::endl;
+        std::cout << "[receipt] Expression is a " << esc::manip::italic << "normal-domain-operator" << esc::manip::reset << "." << std::endl;
         const auto op = *(asset.deref().typed_value_or_empty<onerut_normal_operator::AbstractOperator>());
-        std::cout << "[receipt] Operator domain = " << op->get_domain()->to_str() << std::endl;
-        std::cout << onerut_normal_operator::to_string(*op) << std::endl;
-        //std::cout << "[receipt] Operator matrix = " << std::endl;
-        //std::cout << op->get_domain()->to_str() << std::endl;
+        //std::cout << "[receipt] Operator domain = " << onerut_normal_operator::to_string(*op->get_domain()) << std::endl;
+        std::cout << onerut_normal_operator::to_string(*op, "[receipt] ") << std::endl;
     } else {
         std::cout << "[receipt] Result is not an error nor a scalar." << std::endl;
     }
@@ -114,7 +112,7 @@ load_script_lines_from_file(const std::filesystem::path& file_path) {
         std::cerr << "Input file opening error." << std::endl;
         exit(1);
     }
-    std::vector<std::shared_ptr <const  std::string >> lines;
+    std::vector<std::shared_ptr <const std::string >> lines;
     std::string line;
     while (std::getline(file, line)) {
         std::cout << "load line: " << line << std::endl;
@@ -184,20 +182,20 @@ void temp_testing() {
     lines.push_back(std::make_shared<const std::string>("EG2"));
     lines.push_back(std::make_shared<const std::string>("h := normalop_hop(5, AC2_alpha_bcdefgh, CA2)"));
     lines.push_back(std::make_shared<const std::string>("d := normalop_diag(70000000000000.8, GE2)"));
-//    lines.push_back(std::make_shared<const std::string>("normalop_diag(7.8, EG2)"));
-//    lines.push_back(std::make_shared<const std::string>("normalop_print(h)"));
-//    lines.push_back(std::make_shared<const std::string>("normalop_print(d)"));
-//    lines.push_back(std::make_shared<const std::string>("z := normalop_zero(ELECTRON_DOMAIN)"));
-//    lines.push_back(std::make_shared<const std::string>("normalop_print(z)"));
-//    lines.push_back(std::make_shared<const std::string>("zdh := z + d + h"));
-//    lines.push_back(std::make_shared<const std::string>("normalop_print(zdh)"));
-//    lines.push_back(std::make_shared<const std::string>("zdh2 := 5 * zdh"));
-//    lines.push_back(std::make_shared<const std::string>("zdh3 := zdh * 5.0"));
-//    lines.push_back(std::make_shared<const std::string>("zdh4 := zdh * zdh"));
-//    lines.push_back(std::make_shared<const std::string>("normalop_print(zdh2)"));
-//    lines.push_back(std::make_shared<const std::string>("normalop_diag(7.8, EG2) + normalop_diag(7.8, AC)"));
-//    lines.push_back(std::make_shared<const std::string>("normalop_hop(5, EG2, CA)"));
-//    lines.push_back(std::make_shared<const std::string>("yyy := 6 + 8 * (4 + hh(7+8) + t + omega(rho_1(chi_7))) + pi"));    
+    //    lines.push_back(std::make_shared<const std::string>("normalop_diag(7.8, EG2)"));
+    //    lines.push_back(std::make_shared<const std::string>("normalop_print(h)"));
+    //    lines.push_back(std::make_shared<const std::string>("normalop_print(d)"));
+    //    lines.push_back(std::make_shared<const std::string>("z := normalop_zero(ELECTRON_DOMAIN)"));
+    //    lines.push_back(std::make_shared<const std::string>("normalop_print(z)"));
+    //    lines.push_back(std::make_shared<const std::string>("zdh := z + d + h"));
+    //    lines.push_back(std::make_shared<const std::string>("normalop_print(zdh)"));
+    //    lines.push_back(std::make_shared<const std::string>("zdh2 := 5 * zdh"));
+    //    lines.push_back(std::make_shared<const std::string>("zdh3 := zdh * 5.0"));
+    //    lines.push_back(std::make_shared<const std::string>("zdh4 := zdh * zdh"));
+    //    lines.push_back(std::make_shared<const std::string>("normalop_print(zdh2)"));
+    //    lines.push_back(std::make_shared<const std::string>("normalop_diag(7.8, EG2) + normalop_diag(7.8, AC)"));
+    //    lines.push_back(std::make_shared<const std::string>("normalop_hop(5, EG2, CA)"));
+    //    lines.push_back(std::make_shared<const std::string>("yyy := 6 + 8 * (4 + hh(7+8) + t + omega(rho_1(chi_7))) + pi"));    
 
     onerut_parser::FunctionFactoryContainer::global_instance().put_cmath();
     onerut_parser::FunctionFactoryContainer::global_instance().put_onerut_functions();

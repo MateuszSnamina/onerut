@@ -20,7 +20,7 @@ namespace onerut_normal_operator {
         Domain(std::vector<std::string> state_names);
         unsigned size() const;
         std::unique_ptr<StateIndex> crate_state(unsigned index) const;
-        std::string to_str() const;
+    public:
         const std::vector<std::string> state_names;
     };
 

@@ -21,13 +21,6 @@ namespace onerut_normal_operator {
         return std::unique_ptr<StateIndex>(new StateIndex{index, shared_from_this()});
     }
 
-    std::string Domain::to_str() const {
-        std::string result;
-        for (unsigned index = 0; index < state_names.size(); ++index)
-            result += "【#" + std::to_string(index) + "»" + state_names[index] + "】";
-        return result;
-    }
-
     // -------------------------------------------------------------------------
     // ----------------  StateIndex  -------------------------------------------
     // -------------------------------------------------------------------------
