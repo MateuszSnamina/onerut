@@ -58,6 +58,7 @@
         <in>asset.cpp</in>
         <in>asset_deref.cpp</in>
         <in>asset_error.cpp</in>
+        <in>asset_receipt.cpp</in>
         <in>asset_ref.cpp</in>
         <in>asset_ref_container.cpp</in>
         <in>asset_to_esc_data.cpp</in>
@@ -449,6 +450,13 @@
         </ccTool>
       </item>
       <item path="onerut_parser/src/asset_error.cpp" ex="false" tool="1" flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_parser/src/asset_receipt.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
         <ccTool flags="0">
         </ccTool>
       </item>

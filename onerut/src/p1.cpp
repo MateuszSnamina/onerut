@@ -10,30 +10,25 @@
 #include<onerut_parser/gramma_parser.hpp>
 #include<onerut_parser/ast_x3_to_ast_source.hpp>
 #include<onerut_parser/ast_asset.hpp>
-#include<onerut_parser/print_chart.hpp>
 #include<onerut_parser/function_factory_container.hpp>
+#include<onerut_parser/print_chart.hpp>
 #include<onerut_parser/asset_utility.hpp>
-
-#include<onerut_scalar/scalar_abstract.hpp>
-#include<onerut_normal_operator/operator_abstract.hpp>
-#include<onerut_normal_operator/to_string.hpp>
-
-#include<type_traits>
-
+#include<onerut_parser/asset_receipt.hpp>
 
 //--------------------------------------------
 
 bool
 execute_line(std::shared_ptr<const std::string> line) {
-    // #########################################################################
+    // *************************************************************************
     std::cout << esc::manip::bg_yellow << "Processsing "
             << esc::manip::blue << string_utils::StreamToGreek(*line) << esc::manip::color_default
             << "...";
     std::cout << std::endl;
-    // #########################################################################
+    // *************************************************************************
+    // *************  The Parser stage    **************************************
+    // *************************************************************************    
     const auto parsed_x3_info = onerut_parser::parse(line);
     // -------------------------------------------------------------------------
-    //std::cout << "onerut_ast::x3:" << std::endl;
     //    print(parsed_x3_info);
     if (!parsed_x3_info.succes()) {
         if (!parsed_x3_info.match) {
@@ -48,59 +43,28 @@ execute_line(std::shared_ptr<const std::string> line) {
         }
         return false;
     }
-    // #########################################################################
+    // *************************************************************************
+    // *************  The source creation stage:     ***************************
+    // *************************************************************************    
     const auto ast_source_head = onerut_parser::onerut_ast::to_ast_source(
             parsed_x3_info.ast_head,
             parsed_x3_info.input,
             parsed_x3_info.positions);
     // -------------------------------------------------------------------------
-    //    const auto ast_source_ast_chart = ast_source_head->to_ast_chart();
-    //    onerut_parser::print_ast_chart(parsed_x3_info.input, ast_source_ast_chart, , "[source ] ");
-    // #########################################################################
+    // const auto ast_source_ast_chart = ast_source_head->to_ast_chart();
+    // onerut_parser::print_ast_chart(parsed_x3_info.input, ast_source_ast_chart, , "[source ] ");
+    // *************************************************************************
+    // *************  Compilation stage:     ***********************************
+    // *************************************************************************
     const auto ast_asset_head = ast_source_head->compile();
     // -------------------------------------------------------------------------
     const auto asset_ast_chart = ast_asset_head->to_ast_chart();
     onerut_parser::print_ast_chart(parsed_x3_info.input, asset_ast_chart, "[diagram] ");
     const auto asset_errors_chart = ast_asset_head->to_errors_chart();
     onerut_parser::print_errors_chart(parsed_x3_info.input, asset_errors_chart, "[errors ] ");
-    // -------------------------------------------------------------------------
-    onerut_parser::Asset asset = ast_asset_head->asset;
-    if (onerut_parser::utility::is_unset_ref(asset)) {
-        std::cout << "[receipt] Expression is an " << esc::manip::italic << "unset reference." << std::endl;
-        const auto result_reference = *(asset.reference_or_empty());
-        std::cout << "[receipt] Name = " << result_reference->get_name() << std::endl;
-    } else if (asset.deref().is_compile_error()) {
-        std::cout << "[receipt] Expression is an " << esc::manip::italic << "error." << std::endl;
-        const auto error = *asset.deref().compile_error_or_empty();
-        std::cout << "[receipt] Error message = " << error->what() << std::endl;
-    } else if (asset.deref().is_given_type<onerut_scalar::Integer>()) {
-        std::cout << "[receipt] Expression is an " << esc::manip::italic << "integer-number." << std::endl;
-        const auto result_integer = *(asset.deref().typed_value_or_empty<onerut_scalar::Integer>());
-        std::cout << "[receipt] Value = " << result_integer->value_integer() << std::endl;
-    } else if (asset.deref().is_given_type<onerut_scalar::Real>()) {
-        std::cout << "[receipt] Expression is a " << esc::manip::italic << "real-number." << std::endl;
-        const auto result_real = *(asset.deref().typed_value_or_empty<onerut_scalar::Real>());
-        std::cout << "[receipt] Value = " << result_real->value_real() << std::endl;
-    } else if (asset.deref().is_given_type<onerut_scalar::Complex>()) {
-        std::cout << "[receipt] Expression is a " << esc::manip::italic << "complex-number." << std::endl;
-        const auto result_complex = *(asset.deref().typed_value_or_empty<onerut_scalar::Complex>());
-        std::cout << "[receipt] Value = " << result_complex->value_complex() << std::endl;
-    } else if (asset.deref().is_given_type<onerut_normal_operator::StateIndex>()) {
-        std::cout << "[receipt] Expression is a " << esc::manip::italic << "normal-domain-state-index ." << std::endl;
-        const auto state = *(asset.deref().typed_value_or_empty<onerut_normal_operator::StateIndex>());
-        std::cout << "[receipt] Value = " << state->to_str() << std::endl;
-    } else if (asset.deref().is_given_type<onerut_normal_operator::Domain>()) {
-        std::cout << "[receipt] Expression is a " << esc::manip::italic << "normal-domain." << std::endl;
-        const auto domain = *(asset.deref().typed_value_or_empty<onerut_normal_operator::Domain>());
-        std::cout << "[receipt] Value = " << onerut_normal_operator::to_string(*domain) << std::endl;
-    } else if (asset.deref().is_given_type<onerut_normal_operator::AbstractOperator>()) {
-        std::cout << "[receipt] Expression is a " << esc::manip::italic << "normal-domain-operator" << esc::manip::reset << "." << std::endl;
-        const auto op = *(asset.deref().typed_value_or_empty<onerut_normal_operator::AbstractOperator>());
-        //std::cout << "[receipt] Operator domain = " << onerut_normal_operator::to_string(*op->get_domain()) << std::endl;
-        std::cout << onerut_normal_operator::to_string(*op, "[receipt] ");
-    } else {
-        std::cout << "[receipt] Result is not an error nor a scalar." << std::endl;
-    }
+    const auto& asset = ast_asset_head->asset;
+    onerut_parser::print_receipt(std::cout, asset, "[receipt] ");
+    // *************************************************************************
     std::cout << std::endl;
     return true;
 }
