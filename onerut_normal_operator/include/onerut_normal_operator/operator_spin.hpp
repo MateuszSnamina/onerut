@@ -11,7 +11,6 @@ namespace onerut_normal_operator {
     class SpinDomain : public Domain {
     public:
         SpinDomain(unsigned multiplicity);
-        //int n_stars_to_doubled_m(unsigned n_stars) const;
         const unsigned multiplicity;
         const unsigned n_max_stars;
     };

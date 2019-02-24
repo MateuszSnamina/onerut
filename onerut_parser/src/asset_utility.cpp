@@ -108,13 +108,13 @@ namespace onerut_parser::utility {
         return arg.is_given_type<OperatorT>();
     }
 
-    //    bool
-    //    is_spin_operator_domain(const onerut_parser::AssetDeref& arg) {
-    //        using OperatorT = onerut_normal_operator::SpinDomain;
-    //        assert(!arg.is_empty());
-    //        assert(!arg.is_compile_error());
-    //        return arg.is_given_type<OperatorT>();
-    //    }
+    bool
+    is_spin_operator_domain(const onerut_parser::AssetDeref& arg) {
+        using OperatorT = onerut_normal_operator::SpinDomain;
+        assert(!arg.is_empty());
+        assert(!arg.is_compile_error());
+        return arg.is_given_type<OperatorT>();
+    }
 
     bool
     is_normal_operator_state_index(const onerut_parser::AssetDeref& arg) {
@@ -186,13 +186,13 @@ namespace onerut_parser::utility {
         return arg_typed;
     }
 
-    //    std::shared_ptr < const onerut_normal_operator::SpinDomain >
-    //    to_spin_operator_domain(const onerut_parser::AssetDeref& arg) {
-    //        assert(is_spin_operator_domain(arg));
-    //        const auto& arg_typed = *arg.typed_value_or_empty<onerut_normal_operator::SpinDomain>();
-    //        assert(arg_typed);
-    //        return arg_typed;
-    //    }
+    std::shared_ptr < const onerut_normal_operator::SpinDomain >
+    to_spin_operator_domain(const onerut_parser::AssetDeref& arg) {
+        assert(is_spin_operator_domain(arg));
+        const auto& arg_typed = *arg.typed_value_or_empty<onerut_normal_operator::SpinDomain>();
+        assert(arg_typed);
+        return arg_typed;
+    }
 
     std::shared_ptr < const onerut_normal_operator::StateIndex >
     to_normal_operator_state_index(const onerut_parser::AssetDeref& arg) {

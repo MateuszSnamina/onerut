@@ -1,5 +1,6 @@
 #include<cassert>
 #include<cmath>
+#include<string>
 
 #include<onerut_normal_operator/operator_oscilator.hpp>
 

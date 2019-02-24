@@ -162,6 +162,25 @@ void temp_testing() {
     lines.push_back(std::make_shared<const std::string>("c*a"));
     lines.push_back(std::make_shared<const std::string>("10*(c*a)"));
     lines.push_back(std::make_shared<const std::string>("10*(a*c)"));
+    lines.push_back(std::make_shared<const std::string>("SD := spin_domain(2)"));
+    lines.push_back(std::make_shared<const std::string>("Sz(SD)"));
+    lines.push_back(std::make_shared<const std::string>("Sp(SD)"));
+    lines.push_back(std::make_shared<const std::string>("Sm(SD)"));
+    lines.push_back(std::make_shared<const std::string>("ST := spin_domain(3)"));
+    lines.push_back(std::make_shared<const std::string>("Sz(ST)"));
+    lines.push_back(std::make_shared<const std::string>("Sp(ST)"));
+    lines.push_back(std::make_shared<const std::string>("Sm(ST)"));
+
+    lines.push_back(std::make_shared<const std::string>("SQ := spin_domain(4)"));
+    lines.push_back(std::make_shared<const std::string>("Sz(SQ)"));
+    lines.push_back(std::make_shared<const std::string>("Sp(SQ)"));
+    lines.push_back(std::make_shared<const std::string>("Sm(SQ)"));
+
+    lines.push_back(std::make_shared<const std::string>("SQW := spin_domain(5)"));
+    lines.push_back(std::make_shared<const std::string>("Sz(SQW)"));
+    lines.push_back(std::make_shared<const std::string>("Sp(SQW)"));
+    lines.push_back(std::make_shared<const std::string>("Sm(SQW)"));
+
 
     //lines.push_back(std::make_shared<const std::string>("EG"));
     //lines.push_back(std::make_shared<const std::string>("create_normal_domain(AC2_alpha_bcdefgh, CA2, EG2_gamma_2, GE2)"));

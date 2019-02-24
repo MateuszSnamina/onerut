@@ -7,17 +7,13 @@
 
 namespace {
 
-    int _n_stars_to_doubled_m(unsigned multiplicity, unsigned n_stars) {
-        return boost::numeric_cast<int>(multiplicity) - 1 - 2 * boost::numeric_cast<int>(n_stars);
-    }
-
     std::string _doubled_halfs_to_string(int doubled_halfs) {
         if (doubled_halfs % 2 == 0)
             return std::to_string(doubled_halfs / 2);
         return std::to_string(doubled_halfs) + "/2";
     }
 
-    int _n_stats_to_doubled_m(unsigned multiplicity, unsigned n_stars) {
+    int _n_stars_to_doubled_m(unsigned multiplicity, unsigned n_stars) {
         assert(multiplicity > 0);
         const unsigned doubled_l = multiplicity - 1;
         const int doubled_m = boost::numeric_cast<int>(doubled_l) - 2 * boost::numeric_cast<int>(n_stars);
@@ -65,6 +61,7 @@ namespace onerut_normal_operator {
         const double value = boost::numeric_cast<double>(doubled_m) / 2;
         return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(value, ket)));
     }
+    
     // -------------------------------------------------------------------------
 
     SpinPlusOperator::SpinPlusOperator(std::shared_ptr<const SpinDomain> domain) :
@@ -78,11 +75,11 @@ namespace onerut_normal_operator {
 
     typename SpinPlusOperator::AbstractIteratorPtrT
     SpinPlusOperator::begin_itptr(const unsigned& ket) const {
-        assert(0); //TODO implement it.
-        /*        
-                const double coef = std::sqrt(ket + 1);
-                return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(coef, ket + 1)));
-         */
+        const int doubled_l = _n_stars_to_doubled_m(domain->multiplicity, 0);
+        const int doubled_m = _n_stars_to_doubled_m(domain->multiplicity, ket);
+        const double temp = boost::numeric_cast<double>(doubled_l * (doubled_l + 2) - doubled_m * (doubled_m + 2));
+        const double value = std::sqrt(temp / 4.0);
+        return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(value, ket - 1)));
     }
 
     // -------------------------------------------------------------------------
@@ -98,14 +95,11 @@ namespace onerut_normal_operator {
 
     typename SpinMinusOperator::AbstractIteratorPtrT
     SpinMinusOperator::begin_itptr(const unsigned& ket) const {
-        assert(0); //TODO implement it.
-        /*
-        if (ket >= 1) {
-            const double coef = std::sqrt(ket);
-            return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(coef, ket - 1)));
-        }
-        return std::make_unique<IteratorT>(IteratorT::create_end_iterator());
-         */
+        const int doubled_l = _n_stars_to_doubled_m(domain->multiplicity, 0);
+        const int doubled_m = _n_stars_to_doubled_m(domain->multiplicity, ket);
+        const double temp = boost::numeric_cast<double>(doubled_l * (doubled_l + 2) - doubled_m * (doubled_m - 2));
+        const double value = std::sqrt(temp / 4.0);
+        return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(value, ket + 1)));
     }
 
 }

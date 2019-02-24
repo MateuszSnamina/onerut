@@ -28,6 +28,7 @@
         <in>operator_oscilator.cpp</in>
         <in>operator_scalled.cpp</in>
         <in>operator_simple.cpp</in>
+        <in>operator_spin.cpp</in>
         <in>operator_zero.cpp</in>
         <in>to_mat.cpp</in>
         <in>to_string.cpp</in>
@@ -377,6 +378,13 @@
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/operator_simple.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_normal_operator/src/operator_spin.cpp"
             ex="false"
             tool="1"
             flavor2="11">

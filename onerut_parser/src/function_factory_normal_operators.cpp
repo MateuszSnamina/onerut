@@ -153,8 +153,6 @@ namespace onerut_parser {
                 );
     }
 
-    // *************************************************************************
-
     Asset
     CreateCreationOperatorFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const {
         const auto & arg0_asset_deref = args_asset[0].deref();
@@ -201,6 +199,95 @@ namespace onerut_parser {
 
     // *************************************************************************
 
+    Asset
+    CreateSpinDomainFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const {
+        const auto & arg0_asset_deref = args_asset[0].deref();
+        // ---------------------------------------------------------------------
+        if (arg0_asset_deref.is_compile_error())
+            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+        // ---------------------------------------------------------------------
+        if (!arg0_asset_deref.is_either_value_or_type())
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        // ---------------------------------------------------------------------
+        if (!utility::is_integer(arg0_asset_deref))
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        // ---------------------------------------------------------------------
+        const auto dimension = utility::to_integer(arg0_asset_deref);
+        const auto dimension_buildin = boost::numeric_cast<unsigned>(dimension->value_integer());
+        // ---------------------------------------------------------------------        
+        return Asset::from_value<onerut_normal_operator::SpinDomain>(
+                std::make_shared<onerut_normal_operator::SpinDomain>(dimension_buildin)
+                );
+    }
+
+    Asset
+    CreateSpinZetOperatorFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const {
+        const auto & arg0_asset_deref = args_asset[0].deref();
+        // ---------------------------------------------------------------------
+        if (arg0_asset_deref.is_compile_error())
+            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+        // ---------------------------------------------------------------------
+        if (!arg0_asset_deref.is_either_value_or_type())
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        // ---------------------------------------------------------------------
+        if (!utility::is_spin_operator_domain(arg0_asset_deref))
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        // ---------------------------------------------------------------------
+        const auto domain = utility::to_spin_operator_domain(arg0_asset_deref);
+        // ---------------------------------------------------------------------        
+        using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
+        using OperatorT = onerut_normal_operator::SpinZetOperator;
+        return Asset::from_value<AbstractOperatorT>(
+                std::make_shared<OperatorT>(domain)
+                );
+    }
+
+    Asset
+    CreateSpinPlusOperatorFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const {
+        const auto & arg0_asset_deref = args_asset[0].deref();
+        // ---------------------------------------------------------------------
+        if (arg0_asset_deref.is_compile_error())
+            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+        // ---------------------------------------------------------------------
+        if (!arg0_asset_deref.is_either_value_or_type())
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        // ---------------------------------------------------------------------
+        if (!utility::is_spin_operator_domain(arg0_asset_deref))
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        // ---------------------------------------------------------------------
+        const auto domain = utility::to_spin_operator_domain(arg0_asset_deref);
+        // ---------------------------------------------------------------------        
+        using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
+        using OperatorT = onerut_normal_operator::SpinPlusOperator;
+        return Asset::from_value<AbstractOperatorT>(
+                std::make_shared<OperatorT>(domain)
+                );
+    }
+
+    Asset
+    CreateSpinMinusOperatorFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const {
+        const auto & arg0_asset_deref = args_asset[0].deref();
+        // ---------------------------------------------------------------------
+        if (arg0_asset_deref.is_compile_error())
+            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+        // ---------------------------------------------------------------------
+        if (!arg0_asset_deref.is_either_value_or_type())
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        // ---------------------------------------------------------------------
+        if (!utility::is_spin_operator_domain(arg0_asset_deref))
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        // ---------------------------------------------------------------------
+        const auto domain = utility::to_spin_operator_domain(arg0_asset_deref);
+        // ---------------------------------------------------------------------        
+        using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
+        using OperatorT = onerut_normal_operator::SpinMinusOperator;
+        return Asset::from_value<AbstractOperatorT>(
+                std::make_shared<OperatorT>(domain)
+                );
+    } 
+    
+    // *************************************************************************
+    
     Asset NormalOperatorPrintFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const {
         const auto & arg0_asset_deref = args_asset[0].deref();
         // ---------------------------------------------------------------------        

@@ -33,11 +33,29 @@ namespace onerut_parser {
     class CreateCreationOperatorFunctionFactory : public NaryFunctionFactory<1> {
         virtual Asset make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const override;
     };
-    
+
     class CreateAnihilationOperatorFunctionFactory : public NaryFunctionFactory<1> {
         virtual Asset make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const override;
     };
-        
+
+    // -------------
+
+    class CreateSpinDomainFunctionFactory : public NaryFunctionFactory<1> {
+        virtual Asset make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const override;
+    };
+
+    class CreateSpinZetOperatorFunctionFactory : public NaryFunctionFactory<1> {
+        virtual Asset make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const override;
+    };
+    
+    class CreateSpinPlusOperatorFunctionFactory : public NaryFunctionFactory<1> {
+        virtual Asset make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const override;
+    };
+
+    class CreateSpinMinusOperatorFunctionFactory : public NaryFunctionFactory<1> {
+        virtual Asset make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const override;
+    };
+    
     // -------------
 
     class NormalOperatorPrintFunctionFactory : public NaryFunctionFactory<1> {
