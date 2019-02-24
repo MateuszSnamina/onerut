@@ -5,6 +5,7 @@
 #include<onerut_normal_operator/operator_opplusminus.hpp>
 #include<onerut_normal_operator/operator_opprod.hpp>
 #include<onerut_normal_operator/operator_scalled.hpp>
+#include<onerut_normal_operator/operator_opunaryplusminus.hpp>
 #include<onerut_parser/vector_cat.hpp>
 #include<onerut_parser/share_from.hpp>
 #include<onerut_parser/ast_source.hpp>
@@ -13,7 +14,7 @@
 #include<onerut_parser/asset_ref_container.hpp>
 #include<onerut_parser/function_factory_container.hpp>
 
-#include<iostream> //TODO remove.
+//#include<iostream> //TODO remove.
 
 namespace {
 
@@ -357,6 +358,11 @@ namespace onerut_parser::onerut_ast::source {
         if (utility::is_real_or_integer_or_complex(arg_asset_deref)) {
             const auto & arg_complex = utility::to_complex(arg_asset_deref);
             return Asset::from_value<onerut_scalar::Complex>(std::make_shared<onerut_scalar::OpUnaryPlusMinusComplex>(arg_complex, op));
+        }
+        if (utility::is_normal_operator(arg_asset_deref)) {
+            const auto & arg_operator = utility::to_normal_operator(arg_asset_deref);
+            using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
+            return Asset::from_value<AbstractOperatorT>(std::make_shared<onerut_normal_operator::OpUnaryPlusMinusOperator>(arg_operator, op));
         }
         return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
     }
