@@ -1,8 +1,23 @@
-OSCILLATOR_SPACR := oscillator_domain(5)
-cr := cr(OSCILLATOR_SPACR)
-an := an(OSCILLATOR_SPACR)
-x  := (1/sqrt(2)) * ( cr + an)
-ip := (1/sqrt(2)) * (-cr + an)
-H1 := (1./2) * (x*x - ip*ip)
-n := cr * an
-H2 := cr * an + (1./2) * eye(OSCILLATOR_SPACR)
+# Define the vibronic space for one oscillator
+OSCILLATOR_DOMAIN := oscillator_domain(5) # use 5 lower vibronic states
+
+# Define handy references for standard vibronic operators:
+new const cr := cr(OSCILLATOR_DOMAIN)     # creation operator
+new const an := an(OSCILLATOR_DOMAIN)     # anihilation operator
+new const eye := eye(OSCILLATOR_DOMAIN)   # identity operator
+new const x  := (1/sqrt(2)) * ( cr + an)  # position operator
+new const ip := (1/sqrt(2)) * (-cr + an)  # momentum operator times imaginary unit
+new const n := cr * an
+
+# Standard oscilator
+H_1 := (1./2) * (x*x - ip*ip) # The first way to define the oscilator Hamiltonian
+H_2 := n + (1./2) * eye       # The second way to define the oscilator Hamiltonian
+
+# The displaced oscilator
+lambda := 0.3 # displacement
+x_shift := x - lambda * eye # displaced posion operator
+H_lambda_1 := (1./2) * (x_shift*x_shift - ip*ip) # The first way to define the displaced oscilator Hamiltonian
+H_lambda_2 := n + (1./2) * eye - lambda * x      # The second way to define the oscilator Hamiltonian
+
+#Diagonalize the displaced hamiltonian:
+#diag()

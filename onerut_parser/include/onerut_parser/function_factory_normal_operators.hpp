@@ -28,6 +28,9 @@ namespace onerut_parser {
         Asset make_function_otherwise_make_error(std::array<Asset, 2> args_asset) const override;
     };
 
+    class NormalOperatorEyeFunctionFactory : public NaryFunctionFactory<1> {
+        Asset make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const override;
+    };
     // -------------
 
     class CreateOscillatorDomainFunctionFactory : public NaryFunctionFactory<1> {

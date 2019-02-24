@@ -158,6 +158,27 @@ namespace onerut_parser {
                 );
     }
 
+    Asset
+    NormalOperatorEyeFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const {
+        const auto & arg0_asset_deref = args_asset[0].deref();
+        // ---------------------------------------------------------------------
+        if (arg0_asset_deref.is_compile_error())
+            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+        // ---------------------------------------------------------------------
+        if (!arg0_asset_deref.is_either_value_or_type())
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        // ---------------------------------------------------------------------
+        if (!utility::is_normal_operator_domain(arg0_asset_deref))
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        // ---------------------------------------------------------------------
+        const auto domain = utility::to_normal_operator_domain(arg0_asset_deref);
+        // ---------------------------------------------------------------------
+        using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
+        using OperatorT = onerut_normal_operator::EyeOperator;
+        return Asset::from_value<AbstractOperatorT>(
+                std::make_shared<OperatorT>(domain));
+    }
+    
     // *************************************************************************
 
     Asset

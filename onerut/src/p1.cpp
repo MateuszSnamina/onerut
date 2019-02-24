@@ -3,6 +3,7 @@
 #include<iomanip>
 #include<optional>
 #include<filesystem>
+#include<boost/algorithm/string.hpp>
 
 #include<esc/esc_manip.hpp>
 #include<string_utils/greek_support.hpp>
@@ -69,6 +70,13 @@ execute_line(std::shared_ptr<const std::string> line) {
     return true; // TODO
 }
 
+const std::string preprocesor(const std::string& line) {
+    const auto pos = line.find('#');
+    std::string result{line, 0, pos};
+    boost::trim_right(result);
+    return result;
+}
+
 std::vector<std::shared_ptr<const std::string>>
 load_script_lines_from_file(const std::filesystem::path& file_path) {
     std::ifstream file(file_path);
@@ -80,8 +88,10 @@ load_script_lines_from_file(const std::filesystem::path& file_path) {
     std::string line;
     while (std::getline(file, line)) {
         std::cout << "load line: " << line << std::endl;
-        auto line_ptr = std::make_shared<const std::string>(line);
-        lines.push_back(line_ptr);
+        const auto preprocesed_line = preprocesor(line);
+        const auto line_ptr = std::make_shared<const std::string>(preprocesed_line);
+        if (!preprocesed_line.empty())
+            lines.push_back(line_ptr);
     }
     return lines;
 }
@@ -170,8 +180,8 @@ void temp_testing() {
     lines.push_back(std::make_shared<const std::string>("H1 := (1./2)*(x*x - ip*ip)"));
     lines.push_back(std::make_shared<const std::string>("n := cr * an"));
     lines.push_back(std::make_shared<const std::string>("H2 := cr * an + 1/2 * eye(OSCILLATOR_SPACR)"));
-    
- 
+
+
     onerut_parser::FunctionFactoryContainer::global_instance().put_cmath();
     onerut_parser::FunctionFactoryContainer::global_instance().put_onerut_functions();
 

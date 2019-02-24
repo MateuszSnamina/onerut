@@ -244,6 +244,7 @@ namespace onerut_parser {
         force_put("zero", std::make_unique<NormalOperatorZeroFunctionFactory>());
         force_put("diag", std::make_unique<NormalOperatorDiagFunctionFactory>());
         force_put("hop", std::make_unique<NormalOperatorHopFunctionFactory>());
+        force_put("eye", std::make_unique<NormalOperatorEyeFunctionFactory>());        
         // Normal operator for oscillator algebra functions:
         force_put("oscillator_domain", std::make_unique<CreateOscillatorDomainFunctionFactory>());
         force_put("cr", std::make_unique<CreateCreationOperatorFunctionFactory>());

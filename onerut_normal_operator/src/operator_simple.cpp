@@ -52,5 +52,20 @@ namespace onerut_normal_operator {
         return std::make_unique<IteratorT>(IteratorT::create_end_iterator());
     }
 
+    // -------------------------------------------------------------------------        
+
+    EyeOperator::EyeOperator(std::shared_ptr<const Domain> domain) :
+    domain(domain) {
+    }
+
+    std::shared_ptr<const Domain> EyeOperator::get_domain() const {
+        return domain;
+    }
+
+    typename EyeOperator::AbstractIteratorPtrT
+    EyeOperator::begin_itptr(const unsigned& ket) const {
+        return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(1.0, ket)));
+    }
+
 }
 

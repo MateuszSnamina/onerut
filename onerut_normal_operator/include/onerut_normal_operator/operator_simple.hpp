@@ -37,7 +37,7 @@ namespace onerut_normal_operator {
         using AbstractOperator::AbstractIteratorT;
         using AbstractOperator::AbstractIteratorPtrT;
         using IteratorT = onerut_typed_operator::SimpleOperatorIterator<unsigned>;
-        static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);        
+        static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);
         DiagOperator(std::shared_ptr<const onerut_scalar::Real> value,
                 std::shared_ptr<const StateIndex> state);
         AbstractIteratorPtrT begin_itptr(const unsigned& ket) const override;
@@ -45,6 +45,22 @@ namespace onerut_normal_operator {
     private:
         const std::shared_ptr<const onerut_scalar::Real> value;
         const std::shared_ptr<const StateIndex> state;
+    };
+
+    class EyeOperator : public AbstractOperator {
+    public:
+        using AbstractOperator::BraKetT;
+        using AbstractOperator::AbstractOpT;
+        using AbstractOperator::AbstractOpPtrT;
+        using AbstractOperator::AbstractIteratorT;
+        using AbstractOperator::AbstractIteratorPtrT;
+        using IteratorT = onerut_typed_operator::SimpleOperatorIterator<unsigned>;
+        static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);
+        EyeOperator(std::shared_ptr<const Domain> domain);
+        AbstractIteratorPtrT begin_itptr(const unsigned& ket) const override;
+        std::shared_ptr<const Domain> get_domain() const override;
+    private:
+        const std::shared_ptr<const Domain> domain;
     };
 
 }
