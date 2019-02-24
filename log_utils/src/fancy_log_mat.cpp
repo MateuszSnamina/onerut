@@ -2,12 +2,20 @@
 #include<iomanip>
 #include<algorithm>
 
+#include<esc/esc_manip.hpp>
 #include<string_utils/greek_support.hpp>
 #include<string_utils/unicode_support.hpp>
 #include<log_utils/fancy_visible_size_comparator.hpp>
 #include<log_utils/fancy_log_mat.hpp>
 
 namespace fancy_logging {
+
+    const esc::EscData value_esc_data(double value) {
+        if (value == 0) {
+            return esc::EscDataBuilder() << esc::manip::gray << esc::manip::build_esc_data;
+        }
+        return esc::EscDataBuilder() << esc::manip::build_esc_data;
+    }
 
     void
     log(std::ostream& stream,
@@ -77,7 +85,8 @@ namespace fancy_logging {
             stream << std::setw(adequate_row_label_visible_length) << string_utils::StreamToGreek(row_labels[i]);
             stream << "│";
             for (unsigned j = 0; j < matrix.n_cols; ++j) {
-                stream << std::setw(adequate_reguler_visible_length) << matrix(i, j);
+                const auto esc_data = value_esc_data(matrix(i, j));
+                stream << esc_data << std::setw(adequate_reguler_visible_length) << matrix(i, j) << esc::manip::reset;
                 stream << "│";
             }
             stream << std::endl;

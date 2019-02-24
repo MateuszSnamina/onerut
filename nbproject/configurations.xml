@@ -191,13 +191,10 @@
       <folder path="1">
         <ccTool>
           <incDir>
-            <pElem>onerut_normal_operator/include</pElem>
-            <pElem>onerut_scalar/include</pElem>
-            <pElem>onerut_operator/include</pElem>
-            <pElem>external_packages/include</pElem>
-            <pElem>build_netbeanns/onerut_normal_operator</pElem>
             <pElem>log_utils/include</pElem>
             <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/log_utils</pElem>
           </incDir>
         </ccTool>
@@ -226,6 +223,7 @@
             <pElem>onerut_scalar/include</pElem>
             <pElem>log_utils/include</pElem>
             <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
             <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut_normal_operator</pElem>
           </incDir>
