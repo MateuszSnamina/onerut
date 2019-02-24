@@ -1,0 +1,30 @@
+# Define the electronic space for the pentacene dimer:
+DOMAIN := normal_domain(TT, EG, GE, AC, CA)
+
+# Values taken from:
+# The Low-Lying Electronic States of Pentacene and Their Roles in Singlet Fission
+# Tao Zeng, Roald Hoffmann, and Nandini Ananth
+# J. Am. Chem. Soc., 2014, 136 (15), pp 5755–5764
+
+E_tt := 1900
+E_eg := 2005
+E_ge := 2010
+E_ac := 2266
+E_ca := 3063
+
+D_e_eg := +79
+D_e_ge := +75
+D_h_eg := +99
+D_h_ge := +86
+C_tt_ac := -90
+C_tt_ca := -64
+
+# Hamiltonian definition:
+H_diag := diag(E_tt, TT) + diag(E_eg, EG) + diag(E_ge, GE) + diag(E_ac, AC) + diag(E_ca, CA)
+H_hop_h := hop(D_h_eg, EG, AC) + hop(D_h_ge, GE, CA)
+H_hop_e := hop(D_e_eg, EG, CA) + hop(D_e_ge, GE, AC)
+H_hop_tt := hop(C_tt_ac, TT, AC) + hop(C_tt_ca, TT, CA)
+H := H_diag + H_hop_h + H_hop_e + H_hop_tt
+
+#Diagonalize the displaced hamiltonian:
+#diag()
