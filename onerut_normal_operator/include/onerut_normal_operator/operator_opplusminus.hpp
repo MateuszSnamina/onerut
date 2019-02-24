@@ -1,7 +1,7 @@
 #ifndef ONERUT_NORMAL_OPERATOR_OPPLUSMINUS
 #define ONERUT_NORMAL_OPERATOR_OPPLUSMINUS
 
-#include<onerut_operator/iterator_opplusminus.hpp>
+#include<onerut_typed_operator/iterator_opplusminus.hpp>
 #include<onerut_normal_operator/operator_abstract.hpp>
 
 namespace onerut_normal_operator {

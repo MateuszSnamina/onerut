@@ -2,7 +2,7 @@
 #define ONERUT_NORMAL_OPERATOR_SIMPLE
 
 #include<onerut_scalar/scalar_abstract_real.hpp>
-#include<onerut_operator/iterator_simple.hpp>
+#include<onerut_typed_operator/iterator_simple.hpp>
 #include<onerut_normal_operator/operator_abstract.hpp>
 
 namespace onerut_normal_operator {
@@ -33,7 +33,7 @@ namespace onerut_normal_operator {
         using AbstractOperator::AbstractOpPtrT;
         using AbstractOperator::AbstractIteratorT;
         using AbstractOperator::AbstractIteratorPtrT;
-        using Iterator = onerut_operator::SimpleOperatorIterator<unsigned>;
+        using Iterator = onerut_typed_operator::SimpleOperatorIterator<unsigned>;
         DiagOperator(std::shared_ptr<const onerut_scalar::Real> value,
                 std::shared_ptr<const StateIndex> state);
         AbstractIteratorPtrT begin_itptr(const unsigned& ket) const override;

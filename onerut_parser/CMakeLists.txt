@@ -22,4 +22,4 @@ endif()
 
 add_library("${TARGET_NAME}" ${src} ${inc})
 target_include_directories("${TARGET_NAME}" PUBLIC include)
-target_link_libraries("${TARGET_NAME}" string_utils esc onerut_scalar onerut_normal_operator onerut_operator Boost::boost Boost::system) #TODO delete onerut_operator
+target_link_libraries("${TARGET_NAME}" string_utils esc onerut_scalar onerut_normal_operator Boost::boost Boost::system)

@@ -5,7 +5,7 @@
 #include<string>
 #include<vector>
 
-#include<onerut_operator/operator_abstract.hpp>
+#include<onerut_typed_operator/operator_abstract.hpp>
 
 namespace onerut_normal_operator {
 
