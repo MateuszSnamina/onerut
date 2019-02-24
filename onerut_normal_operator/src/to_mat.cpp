@@ -11,7 +11,14 @@ namespace onerut_normal_operator {
                 const std::pair<double, unsigned>& val_bra = it_ptr->get_val_bra();
                 const double& value = val_bra.first;
                 const unsigned& bra = val_bra.second;
-                result(bra, ket) += value;
+                if (bra < spad_dim) {
+                    result(bra, ket) += value;
+                }
+                // The we need to check (bra < spad_dim)
+                // as the operator may go out of the space.
+                // As an example:
+                // The oscilator creation operator may be implemented to
+                // retrun bra=ket+1 for every ket.
                 it_ptr->next();
             }
         }

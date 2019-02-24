@@ -66,7 +66,7 @@ execute_line(std::shared_ptr<const std::string> line) {
     onerut_parser::print_receipt(std::cout, asset, "[receipt] ");
     // *************************************************************************
     std::cout << std::endl;
-    return true;// TODO
+    return true; // TODO
 }
 
 std::vector<std::shared_ptr<const std::string>>
@@ -141,38 +141,46 @@ void temp_testing() {
     lines.push_back(std::make_shared<const std::string>("op_to_mat(1i+1)"));
     lines.push_back(std::make_shared<const std::string>("ELECTRON_DOMAIN := create_normal_domain(AC, CA, EG, GE)"));
     lines.push_back(std::make_shared<const std::string>("ELECTRON_DOMAIN"));
-    lines.push_back(std::make_shared<const std::string>("op1 := normalop_hop(5, AC, CA)"));
-    lines.push_back(std::make_shared<const std::string>("op2 := normalop_hop(3, CA, EG)"));
+    lines.push_back(std::make_shared<const std::string>("op1 :=  hop(5, AC, CA)"));
+    lines.push_back(std::make_shared<const std::string>("op2 :=  hop(3, CA, EG)"));
     lines.push_back(std::make_shared<const std::string>("op1 * op2"));
     lines.push_back(std::make_shared<const std::string>("op2 * op1"));
     lines.push_back(std::make_shared<const std::string>("xxxx"));
     lines.push_back(std::make_shared<const std::string>("exp(xxxx)"));
     lines.push_back(std::make_shared<const std::string>("xxxx+yyyy"));
     lines.push_back(std::make_shared<const std::string>("5+(xxxx+yyyy)+7+(aaaa+bbbb)+6"));
-    lines.push_back(std::make_shared<const std::string>("3+1"));    
+    lines.push_back(std::make_shared<const std::string>("3+1"));
     lines.push_back(std::make_shared<const std::string>("log(exp(xxxx))"));
     lines.push_back(std::make_shared<const std::string>("-(-(-xxxx))"));
-    lines.push_back(std::make_shared<const std::string>("exp(normalop_hop(5, AC, CAz))"));    
-    lines.push_back(std::make_shared<const std::string>("exp(pow(5, 6))"));    
-    
+    lines.push_back(std::make_shared<const std::string>("exp( hop(5, AC, CAz))"));
+    lines.push_back(std::make_shared<const std::string>("exp(pow(5, 6))"));
+    lines.push_back(std::make_shared<const std::string>("OSCILATOR_DOMAIN_2 := oscilator_domain(2)"));
+    lines.push_back(std::make_shared<const std::string>("OSCILATOR_DOMAIN_5 := oscilator_domain(2+3)"));
+    lines.push_back(std::make_shared<const std::string>("a := an(OSCILATOR_DOMAIN_5)"));
+    lines.push_back(std::make_shared<const std::string>("c :=cr(OSCILATOR_DOMAIN_5)"));
+    lines.push_back(std::make_shared<const std::string>("a*c"));
+    lines.push_back(std::make_shared<const std::string>("c*a"));
+    lines.push_back(std::make_shared<const std::string>("10*(c*a)"));
+    lines.push_back(std::make_shared<const std::string>("10*(a*c)"));
+
     //lines.push_back(std::make_shared<const std::string>("EG"));
     //lines.push_back(std::make_shared<const std::string>("create_normal_domain(AC2_alpha_bcdefgh, CA2, EG2_gamma_2, GE2)"));
     //lines.push_back(std::make_shared<const std::string>("EG2"));
-    //lines.push_back(std::make_shared<const std::string>("h := normalop_hop(5, AC2_alpha_bcdefgh, CA2)"));
-    //lines.push_back(std::make_shared<const std::string>("d := normalop_diag(70000000000000.8, GE2)"));
-    //    lines.push_back(std::make_shared<const std::string>("normalop_diag(7.8, EG2)"));
-    //    lines.push_back(std::make_shared<const std::string>("normalop_print(h)"));
-    //    lines.push_back(std::make_shared<const std::string>("normalop_print(d)"));
-    //    lines.push_back(std::make_shared<const std::string>("z := normalop_zero(ELECTRON_DOMAIN)"));
-    //    lines.push_back(std::make_shared<const std::string>("normalop_print(z)"));
+    //lines.push_back(std::make_shared<const std::string>("h :=  hop(5, AC2_alpha_bcdefgh, CA2)"));
+    //lines.push_back(std::make_shared<const std::string>("d :=  diag(70000000000000.8, GE2)"));
+    //    lines.push_back(std::make_shared<const std::string>(" diag(7.8, EG2)"));
+    //    lines.push_back(std::make_shared<const std::string>(" print(h)"));
+    //    lines.push_back(std::make_shared<const std::string>(" print(d)"));
+    //    lines.push_back(std::make_shared<const std::string>("z :=  zero(ELECTRON_DOMAIN)"));
+    //    lines.push_back(std::make_shared<const std::string>(" print(z)"));
     //    lines.push_back(std::make_shared<const std::string>("zdh := z + d + h"));
-    //    lines.push_back(std::make_shared<const std::string>("normalop_print(zdh)"));
+    //    lines.push_back(std::make_shared<const std::string>(" print(zdh)"));
     //    lines.push_back(std::make_shared<const std::string>("zdh2 := 5 * zdh"));
     //    lines.push_back(std::make_shared<const std::string>("zdh3 := zdh * 5.0"));
     //    lines.push_back(std::make_shared<const std::string>("zdh4 := zdh * zdh"));
-    //    lines.push_back(std::make_shared<const std::string>("normalop_print(zdh2)"));
-    //    lines.push_back(std::make_shared<const std::string>("normalop_diag(7.8, EG2) + normalop_diag(7.8, AC)"));
-    //    lines.push_back(std::make_shared<const std::string>("normalop_hop(5, EG2, CA)"));
+    //    lines.push_back(std::make_shared<const std::string>(" print(zdh2)"));
+    //    lines.push_back(std::make_shared<const std::string>(" diag(7.8, EG2) +  diag(7.8, AC)"));
+    //    lines.push_back(std::make_shared<const std::string>(" hop(5, EG2, CA)"));
     //    lines.push_back(std::make_shared<const std::string>("yyy := 6 + 8 * (4 + hh(7+8) + t + omega(rho_1(chi_7))) + pi"));    
 
     onerut_parser::FunctionFactoryContainer::global_instance().put_cmath();

@@ -238,11 +238,18 @@ namespace onerut_parser {
     }
 
     void FunctionFactoryContainer::put_onerut_functions() {
-        force_put("normalop_zero", std::make_unique<NormalOperatorZeroFunctionFactory>());
-        force_put("normalop_diag", std::make_unique<NormalOperatorDiagFunctionFactory>());
-        force_put("normalop_hop", std::make_unique<NormalOperatorHopFunctionFactory>());
+        force_put("normal_domain", std::make_unique<CreateNormalDomainFunctionFactory>());
+
+        force_put("zero", std::make_unique<NormalOperatorZeroFunctionFactory>());
+        force_put("diag", std::make_unique<NormalOperatorDiagFunctionFactory>());
+        force_put("hop", std::make_unique<NormalOperatorHopFunctionFactory>());
+
+        force_put("oscilator_domain", std::make_unique<CreateOscilatorDomainFunctionFactory>());
+        force_put("cr", std::make_unique<CreateCreationOperatorFunctionFactory>());
+        force_put("an", std::make_unique<CreateAnihilationOperatorFunctionFactory>());
+
         force_put("normalop_print", std::make_unique<NormalOperatorPrintFunctionFactory>());
-        force_put("create_normal_domain", std::make_unique<CreateNormalDomainFunctionFactory>());
     }
+
 
 }
