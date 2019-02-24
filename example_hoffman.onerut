@@ -26,5 +26,5 @@ H_hop_e := hop(D_e_eg, EG, CA) + hop(D_e_ge, GE, AC)
 H_hop_tt := hop(C_tt_ac, TT, AC) + hop(C_tt_ca, TT, CA)
 H := H_diag + H_hop_h + H_hop_e + H_hop_tt
 
-#Diagonalize the displaced hamiltonian:
-#diag()
+# Diagonalize the displaced hamiltonian:
+# diag()

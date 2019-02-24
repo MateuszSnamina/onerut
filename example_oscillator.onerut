@@ -19,5 +19,5 @@ x_shift := x - lambda * eye # displaced posion operator
 H_lambda_1 := (1./2) * (x_shift*x_shift - ip*ip) # The first way to define the displaced oscilator Hamiltonian
 H_lambda_2 := n + (1./2) * eye - lambda * x      # The second way to define the oscilator Hamiltonian
 
-#Diagonalize the displaced hamiltonian:
+# Diagonalize the displaced hamiltonian:
 #diag()
