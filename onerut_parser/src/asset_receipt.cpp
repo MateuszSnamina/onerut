@@ -61,18 +61,18 @@ namespace onerut_parser {
             stream << line_prefix << "[deref] " << "Asset-defer is a " << esc::manip::italic << "normal-domain." << std::endl;
             const auto domain = *(asset.deref().typed_value_or_empty<onerut_normal_operator::Domain>());
             stream << line_prefix << "[deref] " << "dimension = " << domain->state_names.size() << std::endl;
-            stream << line_prefix << "[deref] " << "states = " << onerut_normal_operator::to_string(*domain) << std::endl;
+            stream << line_prefix << "[deref] " << "states = " << string_utils::StreamToGreek(onerut_normal_operator::to_string(*domain)) << std::endl;
         } else if (asset.deref().is_given_type<onerut_normal_operator::OscillatorDomain>()) {
             stream << line_prefix << "[deref] " << "Asset-defer is a " << esc::manip::italic << "oscillator-type-normal-domain." << std::endl;
             const auto domain = *(asset.deref().typed_value_or_empty<onerut_normal_operator::OscillatorDomain>());
             stream << line_prefix << "[deref] " << "dimension = " << domain->state_names.size() << std::endl;
-            stream << line_prefix << "[deref] " << "states = " << onerut_normal_operator::to_string(*domain) << std::endl;
+            stream << line_prefix << "[deref] " << "states = " << string_utils::StreamToGreek(onerut_normal_operator::to_string(*domain)) << std::endl;
         } else if (asset.deref().is_given_type<onerut_normal_operator::SpinDomain>()) {
             stream << line_prefix << "[deref] " << "Asset-defer is a " << esc::manip::italic << "spin-type-normal-domain." << std::endl;
             const auto domain = *(asset.deref().typed_value_or_empty<onerut_normal_operator::SpinDomain>());
             stream << line_prefix << "[deref] " << "dimension = " << domain->n_max_stars << std::endl;
             stream << line_prefix << "[deref] " << "multiplicity = " << domain->multiplicity << std::endl;
-            stream << line_prefix << "[deref] " << "states = " << onerut_normal_operator::to_string(*domain) << std::endl;
+            stream << line_prefix << "[deref] " << "states = " << string_utils::StreamToGreek(onerut_normal_operator::to_string(*domain)) << std::endl;
         } else if (asset.deref().is_given_type<onerut_normal_operator::AbstractOperator>()) {
             stream << line_prefix << "[deref] " << "Asset-defer is a " << esc::manip::italic << "normal-domain-operator" << esc::manip::reset << "." << std::endl;
             const auto op = *(asset.deref().typed_value_or_empty<onerut_normal_operator::AbstractOperator>());

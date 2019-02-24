@@ -1,0 +1,8 @@
+OSCILLATOR_SPACR := oscillator_domain(5)
+cr := cr(OSCILLATOR_SPACR)
+an := an(OSCILLATOR_SPACR)
+x  := (1/sqrt(2)) * ( cr + an)
+ip := (1/sqrt(2)) * (-cr + an)
+H1 := (1./2) * (x*x - ip*ip)
+n := cr * an
+H2 := cr * an + (1./2) * eye(OSCILLATOR_SPACR)

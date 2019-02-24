@@ -162,6 +162,15 @@ void temp_testing() {
     lines.push_back(std::make_shared<const std::string>("S5 := state_index(SQW,2)"));
     lines.push_back(std::make_shared<const std::string>("S6 := state_index(SQW,3)"));
     lines.push_back(std::make_shared<const std::string>("S6 := Sz(SQW) + hop(10.6,S5,S6)"));
+    lines.push_back(std::make_shared<const std::string>("OSCILLATOR_SPACR := oscillator_domain(5)"));
+    lines.push_back(std::make_shared<const std::string>("cr := cr(OSCILLATOR_SPACR)"));
+    lines.push_back(std::make_shared<const std::string>("an := an(OSCILLATOR_SPACR)"));
+    lines.push_back(std::make_shared<const std::string>("x  := (1/sqrt(2)) * ( cr + an)"));
+    lines.push_back(std::make_shared<const std::string>("ip := (1/sqrt(2)) * (-cr + an)"));
+    lines.push_back(std::make_shared<const std::string>("H1 := (1./2)*(x*x - ip*ip)"));
+    lines.push_back(std::make_shared<const std::string>("n := cr * an"));
+    lines.push_back(std::make_shared<const std::string>("H2 := cr * an + 1/2 * eye(OSCILLATOR_SPACR)"));
+    
  
     onerut_parser::FunctionFactoryContainer::global_instance().put_cmath();
     onerut_parser::FunctionFactoryContainer::global_instance().put_onerut_functions();
