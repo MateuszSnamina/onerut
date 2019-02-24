@@ -145,6 +145,15 @@ void temp_testing() {
     lines.push_back(std::make_shared<const std::string>("op2 := normalop_hop(3, CA, EG)"));
     lines.push_back(std::make_shared<const std::string>("op1 * op2"));
     lines.push_back(std::make_shared<const std::string>("op2 * op1"));
+    lines.push_back(std::make_shared<const std::string>("xxxx"));
+    lines.push_back(std::make_shared<const std::string>("exp(xxxx)"));
+    lines.push_back(std::make_shared<const std::string>("xxxx+yyyy"));
+    lines.push_back(std::make_shared<const std::string>("5+(xxxx+yyyy)+7+(aaaa+bbbb)+6"));
+    lines.push_back(std::make_shared<const std::string>("3+1"));    
+    lines.push_back(std::make_shared<const std::string>("log(exp(xxxx))"));
+    lines.push_back(std::make_shared<const std::string>("-(-(-xxxx))"));
+    lines.push_back(std::make_shared<const std::string>("exp(normalop_hop(5, AC, CAz))"));    
+    lines.push_back(std::make_shared<const std::string>("exp(pow(5, 6))"));    
     
     //lines.push_back(std::make_shared<const std::string>("EG"));
     //lines.push_back(std::make_shared<const std::string>("create_normal_domain(AC2_alpha_bcdefgh, CA2, EG2_gamma_2, GE2)"));

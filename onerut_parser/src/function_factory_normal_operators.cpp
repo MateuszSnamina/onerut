@@ -11,9 +11,11 @@ namespace onerut_parser {
 
     Asset CreateNormalDomainFunctionFactory::make_function_otherwise_make_error(const std::vector<Asset>& argv) const {
         const auto argc = argv.size();
+        // ---------------------------------------------------------------------        
         for (unsigned index = 0; index < argc; ++index)
             if (!utility::is_unset_ref(argv[index]))
-                return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+                return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        // ---------------------------------------------------------------------        
         // Take out state names:
         std::vector<std::string> state_names;
         state_names.reserve(argc);
@@ -38,11 +40,18 @@ namespace onerut_parser {
     Asset
     NormalOperatorZeroFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const {
         const auto & arg0_asset_deref = args_asset[0].deref();
-        if (!arg0_asset_deref.is_either_value_or_type())
+        // ---------------------------------------------------------------------
+        if (arg0_asset_deref.is_compile_error())
             return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+        // ---------------------------------------------------------------------
+        if (!arg0_asset_deref.is_either_value_or_type())
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        // ---------------------------------------------------------------------
         if (!utility::is_normal_operator_domain(arg0_asset_deref))
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        // ---------------------------------------------------------------------
         const auto domain = utility::to_normal_operator_domain(arg0_asset_deref);
+        // ---------------------------------------------------------------------
         using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
         using OperatorT = onerut_normal_operator::ZeroOperator;
         return Asset::from_value<AbstractOperatorT>(
@@ -53,16 +62,25 @@ namespace onerut_parser {
     NormalOperatorDiagFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 2> args_asset) const {
         const auto & arg0_asset_deref = args_asset[0].deref();
         const auto & arg1_asset_deref = args_asset[1].deref();
+        // ---------------------------------------------------------------------        
+        if (arg0_asset_deref.is_compile_error())
+            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+        if (arg1_asset_deref.is_compile_error())
+            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+        // ---------------------------------------------------------------------        
         if (!arg0_asset_deref.is_either_value_or_type())
-            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         if (!arg1_asset_deref.is_either_value_or_type())
-            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        // ---------------------------------------------------------------------        
         if (!utility::is_real_or_integer(arg0_asset_deref))
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         if (!utility::is_normal_operator_state_index(arg1_asset_deref))
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        // ---------------------------------------------------------------------        
         const auto value = utility::to_real(arg0_asset_deref);
         const auto site = utility::to_normal_operator_state_index(arg1_asset_deref);
+        // ---------------------------------------------------------------------        
         using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
         using OperatorT = onerut_normal_operator::DiagOperator;
         return Asset::from_value<AbstractOperatorT>(
@@ -74,21 +92,32 @@ namespace onerut_parser {
         const auto & arg0_asset_deref = args_asset[0].deref();
         const auto & arg1_asset_deref = args_asset[1].deref();
         const auto & arg2_asset_deref = args_asset[2].deref();
+        // ---------------------------------------------------------------------
+        if (arg0_asset_deref.is_compile_error())
+            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+        if (arg1_asset_deref.is_compile_error())
+            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+        if (arg2_asset_deref.is_compile_error())
+            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+        // ---------------------------------------------------------------------
         if (!arg0_asset_deref.is_either_value_or_type())
-            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         if (!arg1_asset_deref.is_either_value_or_type())
-            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         if (!arg2_asset_deref.is_either_value_or_type())
-            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        // ---------------------------------------------------------------------
         if (!utility::is_real_or_integer(arg0_asset_deref))
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         if (!utility::is_normal_operator_state_index(arg1_asset_deref))
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         if (!utility::is_normal_operator_state_index(arg2_asset_deref))
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        // ---------------------------------------------------------------------
         const auto value = utility::to_real(arg0_asset_deref);
         const auto site1 = utility::to_normal_operator_state_index(arg1_asset_deref);
         const auto site2 = utility::to_normal_operator_state_index(arg2_asset_deref);
+        // ---------------------------------------------------------------------        
         if (!onerut_normal_operator::are_the_same_domains(*site1->domain, *site2->domain))
             return Asset::from_compile_error(std::make_shared<CompileError>("Incompatible state domains."));
         using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
@@ -100,11 +129,18 @@ namespace onerut_parser {
 
     Asset NormalOperatorPrintFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const {
         const auto & arg0_asset_deref = args_asset[0].deref();
-        if (!arg0_asset_deref.is_either_value_or_type())
+        // ---------------------------------------------------------------------        
+        if (arg0_asset_deref.is_compile_error())
             return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+        // ---------------------------------------------------------------------        
+        if (!arg0_asset_deref.is_either_value_or_type())
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        // ---------------------------------------------------------------------        
         if (!utility::is_normal_operator(arg0_asset_deref))
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        // ---------------------------------------------------------------------        
         const auto normal_operator = utility::to_normal_operator(arg0_asset_deref);
+        // ---------------------------------------------------------------------        
         const arma::mat M = onerut_normal_operator::to_mat(*normal_operator);
         std::cout << "Normal operator:" << std::endl;
         std::cout << M << std::endl;

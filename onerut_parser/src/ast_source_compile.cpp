@@ -13,6 +13,8 @@
 #include<onerut_parser/asset_ref_container.hpp>
 #include<onerut_parser/function_factory_container.hpp>
 
+#include<iostream> //TODO remove.
+
 namespace {
 
     bool
@@ -54,8 +56,19 @@ namespace {
         return argv_asset;
     }
 
+    bool
+    any_of_is_compile_error(
+            onerut_parser::AssetDeref first_arg_asset,
+            std::vector<onerut_parser::AssetDeref> other_argv_asset) {
+        return first_arg_asset.is_compile_error() ||
+                std::any_of(other_argv_asset.cbegin(), other_argv_asset.cend(),
+                [](const onerut_parser::AssetDeref & asset) {
+                    return asset.is_compile_error();
+                });
+    }
+
     //    bool
-    //    many_is_either_value_or_type(
+    //    all_of_is_either_value_or_type(
     //            onerut_parser::AssetDeref first_arg_asset,
     //            onerut_parser::AssetDeref second_arg_asset) {
     //        return first_arg_asset.is_either_value_or_type() &&
@@ -63,7 +76,7 @@ namespace {
     //    }
 
     bool
-    many_is_either_value_or_type(
+    all_of_is_either_value_or_type(
             onerut_parser::AssetDeref first_arg_asset,
             std::vector<onerut_parser::AssetDeref> other_argv_asset) {
         return first_arg_asset.is_either_value_or_type() &&
@@ -74,7 +87,7 @@ namespace {
     }
 
     //    bool
-    //    many_is_either_value_or_type(std::vector<onerut_parser::AssetDeref> argv_asset) {
+    //    all_of_is_either_value_or_type(std::vector<onerut_parser::AssetDeref> argv_asset) {
     //        return std::all_of(argv_asset.cbegin(), argv_asset.cend(),
     //                [](const onerut_parser::AssetDeref & asset) {
     //                    return asset.is_either_value_or_type();
@@ -209,8 +222,10 @@ namespace onerut_parser::onerut_ast::source {
         assert(std::all_of(opv.cbegin(), opv.cend(), is_plus_munis_char));
         const auto & first_arg_asset_deref = first_arg_asset.deref();
         const auto & other_argv_asset_deref = utility::many_deref(other_argv_asset);
-        if (!many_is_either_value_or_type(first_arg_asset_deref, other_argv_asset_deref))
+        if (any_of_is_compile_error(first_arg_asset_deref, other_argv_asset_deref))
             return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+        if (!all_of_is_either_value_or_type(first_arg_asset_deref, other_argv_asset_deref))
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         if (utility::is_integer(first_arg_asset_deref) &&
                 std::all_of(cbegin(other_argv_asset_deref), cend(other_argv_asset_deref), utility::is_integer)) {
             const auto & first_arg_integer = utility::to_integer(first_arg_asset_deref);
@@ -248,8 +263,10 @@ namespace onerut_parser::onerut_ast::source {
         assert(std::all_of(opv.cbegin(), opv.cend(), is_prod_div_char));
         const auto & first_arg_asset_deref = first_arg_asset.deref();
         const auto & other_argv_asset_deref = utility::many_deref(other_argv_asset);
-        if (!many_is_either_value_or_type(first_arg_asset_deref, other_argv_asset_deref))
+        if (any_of_is_compile_error(first_arg_asset_deref, other_argv_asset_deref))
             return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+        if (!all_of_is_either_value_or_type(first_arg_asset_deref, other_argv_asset_deref))
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         if (utility::is_integer(first_arg_asset_deref) &&
                 std::all_of(cbegin(other_argv_asset_deref), cend(other_argv_asset_deref), utility::is_integer)) {
             const auto & first_arg_integer = utility::to_integer(first_arg_asset_deref);
@@ -324,9 +341,11 @@ namespace onerut_parser::onerut_ast::source {
     UnaryPlusMinusNode::basic_compile(Asset arg_asset) const {
         const auto arg_asset_deref = arg_asset.deref();
         assert(is_plus_munis_char(op));
-        assert(!arg_asset_deref.is_empty());
+        if (arg_asset_deref.is_compile_error())
+            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
         if (!arg_asset_deref.is_either_value_or_type())
-            const Asset asset = Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        assert(!arg_asset_deref.is_empty());
         if (utility::is_integer(arg_asset_deref)) {
             const auto & arg_integer = utility::to_integer(arg_asset_deref);
             return Asset::from_value<onerut_scalar::Integer>(std::make_shared<onerut_scalar::OpUnaryPlusMinusInteger>(arg_integer, op));

@@ -263,12 +263,19 @@ namespace onerut_parser {
                 [](const Asset & asset) {
                     return asset.deref();
                 });
+        const auto is_compile_error_fun = [](const AssetDeref & asset_deref) {
+            return asset_deref.is_compile_error();
+        };
+        if (std::any_of(cbegin(args_asset_deref), cend(args_asset_deref),
+                is_compile_error_fun)) {
+            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+        }
         const auto is_either_value_or_type_fun = [](const AssetDeref & asset_deref) {
             return asset_deref.is_either_value_or_type();
         };
         if (!std::all_of(cbegin(args_asset_deref), cend(args_asset_deref),
                 is_either_value_or_type_fun)) {
-            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         }
         using RealFunctionFactoryType = typename NaryScalarFunctionFactory<CallableReal, onerut_scalar::ArgReal, nary>::ScalarFunctionFactoryType;
         using ComplexFunctionFactoryType = typename NaryScalarFunctionFactory<CallableComplex, onerut_scalar::ArgComplex, nary>::ScalarFunctionFactoryType;
