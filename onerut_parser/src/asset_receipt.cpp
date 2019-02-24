@@ -22,17 +22,17 @@ namespace onerut_parser {
         if (onerut_parser::utility::is_unset_ref(asset)) {
             stream << line_prefix << "[ref] " << "Asset is an " << esc::manip::italic << "unset reference" << esc::manip::reset << "." << std::endl;
             const auto result_reference = *(asset.reference_or_empty());
-            stream << line_prefix << "[ref] " << "Reference name = " << string_utils::StreamToGreek(result_reference->get_name()) << std::endl;
+            stream << line_prefix << "[ref] " << "reference name = " << string_utils::StreamToGreek(result_reference->get_name()) << std::endl;
         } else if (onerut_parser::utility::is_const_ref(asset)) {
             stream << line_prefix << "[ref] " << "Asset is a " << esc::manip::italic << "const reference" << esc::manip::reset << "." << std::endl;
             const auto result_reference = *(asset.reference_or_empty());
-            stream << line_prefix << "[ref] " << "Reference name = " << string_utils::StreamToGreek(result_reference->get_name()) << std::endl;
+            stream << line_prefix << "[ref] " << "reference name = " << string_utils::StreamToGreek(result_reference->get_name()) << std::endl;
         } else if (onerut_parser::utility::is_not_const_ref(asset)) {
             stream << line_prefix << "[ref] " << "Asset is a " << esc::manip::italic << "not const reference" << esc::manip::reset << "." << std::endl;
             const auto result_reference = *(asset.reference_or_empty());
-            stream << line_prefix << "[ref] " << "Reference name = " << string_utils::StreamToGreek(result_reference->get_name()) << std::endl;
+            stream << line_prefix << "[ref] " << "reference name = " << string_utils::StreamToGreek(result_reference->get_name()) << std::endl;
         } else {
-            stream << line_prefix << "[ref] " << "Asset is not a reference." << std::endl;            
+            stream << line_prefix << "[ref] " << "Asset is not a reference." << std::endl;
         }
         // ---------------------------------------------------------------------
         if (asset.deref().is_empty()) {
@@ -40,27 +40,39 @@ namespace onerut_parser {
         } else if (asset.deref().is_compile_error()) {
             stream << line_prefix << "[deref] " << "Asset-defer is an " << esc::manip::italic << "error." << std::endl;
             const auto error = *asset.deref().compile_error_or_empty();
-            stream << line_prefix << "[deref] " << "Error message = " << error->what() << std::endl;
+            stream << line_prefix << "[deref] " << "error message = " << error->what() << std::endl;
         } else if (asset.deref().is_given_type<onerut_scalar::Integer>()) {
             stream << line_prefix << "[deref] " << "Asset-defer is an " << esc::manip::italic << "integer-number." << std::endl;
             const auto result_integer = *(asset.deref().typed_value_or_empty<onerut_scalar::Integer>());
-            stream << line_prefix << "[deref] " << "Value = " << result_integer->value_integer() << std::endl;
+            stream << line_prefix << "[deref] " << "value = " << result_integer->value_integer() << std::endl;
         } else if (asset.deref().is_given_type<onerut_scalar::Real>()) {
             stream << line_prefix << "[deref] " << "Asset-defer is a " << esc::manip::italic << "real-number." << std::endl;
             const auto result_real = *(asset.deref().typed_value_or_empty<onerut_scalar::Real>());
-            stream << line_prefix << "[deref] " << "Value = " << result_real->value_real() << std::endl;
+            stream << line_prefix << "[deref] " << "value = " << result_real->value_real() << std::endl;
         } else if (asset.deref().is_given_type<onerut_scalar::Complex>()) {
             stream << line_prefix << "[deref] " << "Asset-defer is a " << esc::manip::italic << "complex-number." << std::endl;
             const auto result_complex = *(asset.deref().typed_value_or_empty<onerut_scalar::Complex>());
-            stream << line_prefix << "[deref] " << "Value = " << result_complex->value_complex() << std::endl;
+            stream << line_prefix << "[deref] " << "value = " << result_complex->value_complex() << std::endl;
         } else if (asset.deref().is_given_type<onerut_normal_operator::StateIndex>()) {
             stream << line_prefix << "[deref] " << "Asset-defer is a " << esc::manip::italic << "normal-domain-state-index ." << std::endl;
             const auto state = *(asset.deref().typed_value_or_empty<onerut_normal_operator::StateIndex>());
-            stream << line_prefix << "[deref] " << "Value = " << state->to_str() << std::endl;
+            stream << line_prefix << "[deref] " << "value = " << state->to_str() << std::endl;
         } else if (asset.deref().is_given_type<onerut_normal_operator::Domain>()) {
             stream << line_prefix << "[deref] " << "Asset-defer is a " << esc::manip::italic << "normal-domain." << std::endl;
             const auto domain = *(asset.deref().typed_value_or_empty<onerut_normal_operator::Domain>());
-            stream << line_prefix << "[deref] " << "Value = " << onerut_normal_operator::to_string(*domain) << std::endl;
+            stream << line_prefix << "[deref] " << "dimension = " << domain->state_names.size() << std::endl;
+            stream << line_prefix << "[deref] " << "states = " << onerut_normal_operator::to_string(*domain) << std::endl;
+        } else if (asset.deref().is_given_type<onerut_normal_operator::OscilatorDomain>()) {
+            stream << line_prefix << "[deref] " << "Asset-defer is a " << esc::manip::italic << "oscillator-type-normal-domain." << std::endl;
+            const auto domain = *(asset.deref().typed_value_or_empty<onerut_normal_operator::OscilatorDomain>());
+            stream << line_prefix << "[deref] " << "dimension = " << domain->state_names.size() << std::endl;
+            stream << line_prefix << "[deref] " << "states = " << onerut_normal_operator::to_string(*domain) << std::endl;
+        } else if (asset.deref().is_given_type<onerut_normal_operator::SpinDomain>()) {
+            stream << line_prefix << "[deref] " << "Asset-defer is a " << esc::manip::italic << "spin-type-normal-domain." << std::endl;
+            const auto domain = *(asset.deref().typed_value_or_empty<onerut_normal_operator::SpinDomain>());
+            stream << line_prefix << "[deref] " << "dimension = " << domain->n_max_stars << std::endl;
+            stream << line_prefix << "[deref] " << "multiplicity = " << domain->multiplicity << std::endl;
+            stream << line_prefix << "[deref] " << "states = " << onerut_normal_operator::to_string(*domain) << std::endl;
         } else if (asset.deref().is_given_type<onerut_normal_operator::AbstractOperator>()) {
             stream << line_prefix << "[deref] " << "Asset-defer is a " << esc::manip::italic << "normal-domain-operator" << esc::manip::reset << "." << std::endl;
             const auto op = *(asset.deref().typed_value_or_empty<onerut_normal_operator::AbstractOperator>());
