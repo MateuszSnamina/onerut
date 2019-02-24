@@ -12,6 +12,10 @@ namespace onerut_parser {
         virtual Asset make_function_otherwise_make_error(const std::vector<Asset>& argv) const override;
     };
 
+    class CreateNormalDomainStateIndexFunctionFactory : public NaryFunctionFactory<2> {
+        virtual Asset make_function_otherwise_make_error(std::array<Asset, 2> argv) const override;
+    };
+
     class NormalOperatorZeroFunctionFactory : public NaryFunctionFactory<1> {
         Asset make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const override;
     };
@@ -26,7 +30,7 @@ namespace onerut_parser {
 
     // -------------
 
-    class CreateOscilatorDomainFunctionFactory : public NaryFunctionFactory<1> {
+    class CreateOscillatorDomainFunctionFactory : public NaryFunctionFactory<1> {
         virtual Asset make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const override;
     };
 
@@ -47,7 +51,7 @@ namespace onerut_parser {
     class CreateSpinZetOperatorFunctionFactory : public NaryFunctionFactory<1> {
         virtual Asset make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const override;
     };
-    
+
     class CreateSpinPlusOperatorFunctionFactory : public NaryFunctionFactory<1> {
         virtual Asset make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const override;
     };
@@ -55,7 +59,7 @@ namespace onerut_parser {
     class CreateSpinMinusOperatorFunctionFactory : public NaryFunctionFactory<1> {
         virtual Asset make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const override;
     };
-    
+
     // -------------
 
     class NormalOperatorPrintFunctionFactory : public NaryFunctionFactory<1> {

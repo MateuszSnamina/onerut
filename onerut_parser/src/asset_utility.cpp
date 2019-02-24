@@ -95,14 +95,18 @@ namespace onerut_parser::utility {
     bool
     is_normal_operator_domain(const onerut_parser::AssetDeref& arg) {
         using OperatorT = onerut_normal_operator::Domain;
+        using OperatorOscillatorT = onerut_normal_operator::OscillatorDomain;
+        using OperatorSpinT = onerut_normal_operator::SpinDomain;
         assert(!arg.is_empty());
         assert(!arg.is_compile_error());
-        return arg.is_given_type<OperatorT>();
+        return arg.is_given_type<OperatorT>() ||
+                arg.is_given_type<OperatorOscillatorT>() ||
+                arg.is_given_type<OperatorSpinT>();
     }
 
     bool
-    is_oscilator_operator_domain(const onerut_parser::AssetDeref& arg) {
-        using OperatorT = onerut_normal_operator::OscilatorDomain;
+    is_oscillator_operator_domain(const onerut_parser::AssetDeref& arg) {
+        using OperatorT = onerut_normal_operator::OscillatorDomain;
         assert(!arg.is_empty());
         assert(!arg.is_compile_error());
         return arg.is_given_type<OperatorT>();
@@ -158,10 +162,10 @@ namespace onerut_parser::utility {
     std::shared_ptr< const onerut_scalar::Complex>
     to_complex(const onerut_parser::AssetDeref& arg) {
         assert(is_real_or_integer_or_complex(arg));
-        std::shared_ptr<onerut_scalar::Complex> arg_complex;
-        if (auto temp = arg.typed_value_or_empty<onerut_scalar::Integer>()) {
+        std::shared_ptr<const onerut_scalar::Complex> arg_complex;
+        if (const auto temp = arg.typed_value_or_empty<onerut_scalar::Integer>()) {
             arg_complex = *temp;
-        } else if (auto temp = arg.typed_value_or_empty<onerut_scalar::Real>()) {
+        } else if (const auto temp = arg.typed_value_or_empty<onerut_scalar::Real>()) {
             arg_complex = *temp;
         } else {
             arg_complex = *arg.typed_value_or_empty<onerut_scalar::Complex>();
@@ -173,15 +177,22 @@ namespace onerut_parser::utility {
     std::shared_ptr < const onerut_normal_operator::Domain >
     to_normal_operator_domain(const onerut_parser::AssetDeref& arg) {
         assert(is_normal_operator_domain(arg));
-        const auto& arg_typed = *arg.typed_value_or_empty<onerut_normal_operator::Domain>();
-        assert(arg_typed);
-        return arg_typed;
+        std::shared_ptr<const onerut_normal_operator::Domain> arg_domain;
+        if (const auto temp = arg.typed_value_or_empty<onerut_normal_operator::Domain>()) {
+            arg_domain = *temp;
+        } else if (const auto temp = arg.typed_value_or_empty<onerut_normal_operator::OscillatorDomain>()) {
+            arg_domain = *temp;
+        } else {
+            arg_domain = *arg.typed_value_or_empty<onerut_normal_operator::SpinDomain>();
+        }
+        assert(arg_domain);
+        return arg_domain;
     }
 
-    std::shared_ptr < const onerut_normal_operator::OscilatorDomain >
-    to_oscilator_operator_domain(const onerut_parser::AssetDeref& arg) {
-        assert(is_oscilator_operator_domain(arg));
-        const auto& arg_typed = *arg.typed_value_or_empty<onerut_normal_operator::OscilatorDomain>();
+    std::shared_ptr < const onerut_normal_operator::OscillatorDomain >
+    to_oscillator_operator_domain(const onerut_parser::AssetDeref& arg) {
+        assert(is_oscillator_operator_domain(arg));
+        const auto& arg_typed = *arg.typed_value_or_empty<onerut_normal_operator::OscillatorDomain>();
         assert(arg_typed);
         return arg_typed;
     }

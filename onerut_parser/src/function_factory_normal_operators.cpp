@@ -7,7 +7,7 @@
 #include<onerut_normal_operator/operator_abstract.hpp>
 #include<onerut_normal_operator/operator_simple.hpp>
 #include<onerut_normal_operator/operator_zero.hpp>
-#include<onerut_normal_operator/operator_oscilator.hpp>
+#include<onerut_normal_operator/operator_oscillator.hpp>
 #include<onerut_normal_operator/to_mat.hpp>
 
 namespace onerut_parser {
@@ -38,6 +38,34 @@ namespace onerut_parser {
         }
         // Return domain compile result.
         return domain_asset;
+    }
+
+    Asset
+    CreateNormalDomainStateIndexFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 2> args_asset) const {
+        const auto & arg0_asset_deref = args_asset[0].deref();
+        const auto & arg1_asset_deref = args_asset[1].deref();
+        // ---------------------------------------------------------------------        
+        if (arg0_asset_deref.is_compile_error())
+            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+        if (arg1_asset_deref.is_compile_error())
+            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+        // ---------------------------------------------------------------------        
+        if (!arg0_asset_deref.is_either_value_or_type())
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        if (!arg1_asset_deref.is_either_value_or_type())
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        // ---------------------------------------------------------------------        
+        if (!utility::is_normal_operator_domain(arg0_asset_deref))
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        if (!utility::is_integer(arg1_asset_deref))
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        // ---------------------------------------------------------------------        
+        const auto domain = utility::to_normal_operator_domain(arg0_asset_deref);
+        const auto index = utility::to_integer(arg1_asset_deref);
+        const auto index_buildin = boost::numeric_cast<unsigned>(index->value_integer());
+        // ---------------------------------------------------------------------        
+        using AssetT = onerut_normal_operator::StateIndex;
+        return Asset::from_value<AssetT>(domain->crate_state(index_buildin));
     }
 
     Asset
@@ -133,7 +161,7 @@ namespace onerut_parser {
     // *************************************************************************
 
     Asset
-    CreateOscilatorDomainFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const {
+    CreateOscillatorDomainFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const {
         const auto & arg0_asset_deref = args_asset[0].deref();
         // ---------------------------------------------------------------------
         if (arg0_asset_deref.is_compile_error())
@@ -148,8 +176,8 @@ namespace onerut_parser {
         const auto dimension = utility::to_integer(arg0_asset_deref);
         const auto dimension_buildin = boost::numeric_cast<unsigned>(dimension->value_integer());
         // ---------------------------------------------------------------------        
-        return Asset::from_value<onerut_normal_operator::OscilatorDomain>(
-                std::make_shared<onerut_normal_operator::OscilatorDomain>(dimension_buildin)
+        return Asset::from_value<onerut_normal_operator::OscillatorDomain>(
+                std::make_shared<onerut_normal_operator::OscillatorDomain>(dimension_buildin)
                 );
     }
 
@@ -163,10 +191,10 @@ namespace onerut_parser {
         if (!arg0_asset_deref.is_either_value_or_type())
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         // ---------------------------------------------------------------------
-        if (!utility::is_oscilator_operator_domain(arg0_asset_deref))
+        if (!utility::is_oscillator_operator_domain(arg0_asset_deref))
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         // ---------------------------------------------------------------------
-        const auto domain = utility::to_oscilator_operator_domain(arg0_asset_deref);
+        const auto domain = utility::to_oscillator_operator_domain(arg0_asset_deref);
         // ---------------------------------------------------------------------        
         using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
         using OperatorT = onerut_normal_operator::CreationOperator;
@@ -185,10 +213,10 @@ namespace onerut_parser {
         if (!arg0_asset_deref.is_either_value_or_type())
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         // ---------------------------------------------------------------------
-        if (!utility::is_oscilator_operator_domain(arg0_asset_deref))
+        if (!utility::is_oscillator_operator_domain(arg0_asset_deref))
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         // ---------------------------------------------------------------------
-        const auto domain = utility::to_oscilator_operator_domain(arg0_asset_deref);
+        const auto domain = utility::to_oscillator_operator_domain(arg0_asset_deref);
         // ---------------------------------------------------------------------        
         using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
         using OperatorT = onerut_normal_operator::AnihilationOperator;
@@ -284,10 +312,10 @@ namespace onerut_parser {
         return Asset::from_value<AbstractOperatorT>(
                 std::make_shared<OperatorT>(domain)
                 );
-    } 
-    
+    }
+
     // *************************************************************************
-    
+
     Asset NormalOperatorPrintFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const {
         const auto & arg0_asset_deref = args_asset[0].deref();
         // ---------------------------------------------------------------------        

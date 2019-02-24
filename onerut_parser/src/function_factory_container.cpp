@@ -238,21 +238,22 @@ namespace onerut_parser {
     }
 
     void FunctionFactoryContainer::put_onerut_functions() {
+        // Basic normal operator functions:
         force_put("normal_domain", std::make_unique<CreateNormalDomainFunctionFactory>());
-
+        force_put("state_index", std::make_unique<CreateNormalDomainStateIndexFunctionFactory>());
         force_put("zero", std::make_unique<NormalOperatorZeroFunctionFactory>());
         force_put("diag", std::make_unique<NormalOperatorDiagFunctionFactory>());
         force_put("hop", std::make_unique<NormalOperatorHopFunctionFactory>());
-
-        force_put("oscilator_domain", std::make_unique<CreateOscilatorDomainFunctionFactory>());
+        // Normal operator for oscillator algebra functions:
+        force_put("oscillator_domain", std::make_unique<CreateOscillatorDomainFunctionFactory>());
         force_put("cr", std::make_unique<CreateCreationOperatorFunctionFactory>());
         force_put("an", std::make_unique<CreateAnihilationOperatorFunctionFactory>());
-
+        // Normal operator for spin algebra functions:
         force_put("spin_domain", std::make_unique<CreateSpinDomainFunctionFactory>());
-        force_put("Sz", std::make_unique<CreateSpinZetOperatorFunctionFactory>());        
+        force_put("Sz", std::make_unique<CreateSpinZetOperatorFunctionFactory>());
         force_put("Sp", std::make_unique<CreateSpinPlusOperatorFunctionFactory>());
         force_put("Sm", std::make_unique<CreateSpinMinusOperatorFunctionFactory>());
-        
+        // To be deleted in the future:
         force_put("normalop_print", std::make_unique<NormalOperatorPrintFunctionFactory>());
     }
 

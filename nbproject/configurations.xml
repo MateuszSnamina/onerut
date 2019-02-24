@@ -25,7 +25,7 @@
         <in>operator_opplusminus.cpp</in>
         <in>operator_opprod.cpp</in>
         <in>operator_opunaryplusminus.cpp</in>
-        <in>operator_oscilator.cpp</in>
+        <in>operator_oscillator.cpp</in>
         <in>operator_scalled.cpp</in>
         <in>operator_simple.cpp</in>
         <in>operator_spin.cpp</in>
@@ -277,33 +277,19 @@
       <folder path="7">
         <ccTool>
           <incDir>
-            <pElem>onerut_normal_operator/include</pElem>
             <pElem>onerut_scalar/include</pElem>
-            <pElem>onerut_operator/include</pElem>
             <pElem>external_packages/include</pElem>
-            <pElem>build_netbeanns/onerut_normal_operator</pElem>
-            <pElem>onerut_parser/include</pElem>
-            <pElem>string_utils/include</pElem>
-            <pElem>esc/include</pElem>
-            <pElem>log_utils/include</pElem>
-            <pElem>build_netbeanns/onerut_parser</pElem>
+            <pElem>build_netbeanns/onerut_scalar</pElem>
           </incDir>
         </ccTool>
       </folder>
       <folder path="8">
         <ccTool>
           <incDir>
-            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_scalar_tests/include</pElem>
             <pElem>onerut_scalar/include</pElem>
-            <pElem>onerut_operator/include</pElem>
             <pElem>external_packages/include</pElem>
-            <pElem>build_netbeanns/onerut_normal_operator</pElem>
-            <pElem>onerut_parser_tests/include</pElem>
-            <pElem>onerut_parser/include</pElem>
-            <pElem>string_utils/include</pElem>
-            <pElem>esc/include</pElem>
-            <pElem>log_utils/include</pElem>
-            <pElem>build_netbeanns/onerut_parser_tests</pElem>
+            <pElem>build_netbeanns/onerut_scalar_tests</pElem>
           </incDir>
         </ccTool>
       </folder>
@@ -363,7 +349,7 @@
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="onerut_normal_operator/src/operator_oscilator.cpp"
+      <item path="onerut_normal_operator/src/operator_oscillator.cpp"
             ex="false"
             tool="1"
             flavor2="11">

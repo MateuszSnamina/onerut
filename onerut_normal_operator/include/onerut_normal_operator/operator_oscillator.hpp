@@ -8,9 +8,9 @@
 
 namespace onerut_normal_operator {
 
-    class OscilatorDomain : public Domain {
+    class OscillatorDomain : public Domain {
     public:
-        OscilatorDomain(unsigned n_max_stars);
+        OscillatorDomain(unsigned n_max_stars);
     };
     
     // -------------------------------------------------------------------------
@@ -24,11 +24,11 @@ namespace onerut_normal_operator {
         using AbstractOperator::AbstractIteratorPtrT;
         using IteratorT = onerut_typed_operator::SimpleOperatorIterator<unsigned>;
         static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);
-        CreationOperator(std::shared_ptr<const OscilatorDomain> domain);
+        CreationOperator(std::shared_ptr<const OscillatorDomain> domain);
         AbstractIteratorPtrT begin_itptr(const unsigned& ket) const override;
         std::shared_ptr<const Domain> get_domain() const override;
     private:
-        std::shared_ptr<const OscilatorDomain> domain;
+        std::shared_ptr<const OscillatorDomain> domain;
     };
 
     class AnihilationOperator : public AbstractOperator {
@@ -40,11 +40,11 @@ namespace onerut_normal_operator {
         using AbstractOperator::AbstractIteratorPtrT;
         using IteratorT = onerut_typed_operator::SimpleOperatorIterator<unsigned>;
         static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);
-        AnihilationOperator(std::shared_ptr<const OscilatorDomain> domain);
+        AnihilationOperator(std::shared_ptr<const OscillatorDomain> domain);
         AbstractIteratorPtrT begin_itptr(const unsigned& ket) const override;
         std::shared_ptr<const Domain> get_domain() const override;
     private:
-        std::shared_ptr<const OscilatorDomain> domain;
+        std::shared_ptr<const OscillatorDomain> domain;
     };    
 }
 

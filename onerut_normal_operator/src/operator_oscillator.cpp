@@ -2,7 +2,7 @@
 #include<cmath>
 #include<string>
 
-#include<onerut_normal_operator/operator_oscilator.hpp>
+#include<onerut_normal_operator/operator_oscillator.hpp>
 
 namespace {
 
@@ -20,13 +20,13 @@ namespace {
 
 namespace onerut_normal_operator {
 
-    OscilatorDomain::OscilatorDomain(unsigned n_max_stars) :
+    OscillatorDomain::OscillatorDomain(unsigned n_max_stars) :
     Domain(_generate_state_names(n_max_stars)) {
     }
 
     // -------------------------------------------------------------------------
 
-    CreationOperator::CreationOperator(std::shared_ptr<const OscilatorDomain> domain) :
+    CreationOperator::CreationOperator(std::shared_ptr<const OscillatorDomain> domain) :
     domain(domain) {
         assert(domain);
     }
@@ -43,7 +43,7 @@ namespace onerut_normal_operator {
 
     // -------------------------------------------------------------------------
 
-    AnihilationOperator::AnihilationOperator(std::shared_ptr<const OscilatorDomain> domain) :
+    AnihilationOperator::AnihilationOperator(std::shared_ptr<const OscillatorDomain> domain) :
     domain(domain) {
         assert(domain);
     }

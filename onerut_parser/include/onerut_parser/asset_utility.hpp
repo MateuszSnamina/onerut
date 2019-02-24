@@ -6,7 +6,7 @@
 #include<onerut_parser/asset.hpp>
 #include<onerut_scalar/scalar_abstract.hpp>
 #include<onerut_normal_operator/operator_abstract.hpp>
-#include<onerut_normal_operator/operator_oscilator.hpp>
+#include<onerut_normal_operator/operator_oscillator.hpp>
 #include<onerut_normal_operator/operator_spin.hpp>
 
 namespace onerut_parser::utility {
@@ -52,7 +52,7 @@ namespace onerut_parser::utility {
     is_normal_operator_domain(const onerut_parser::AssetDeref&);
 
     bool
-    is_oscilator_operator_domain(const onerut_parser::AssetDeref&);
+    is_oscillator_operator_domain(const onerut_parser::AssetDeref&);
 
     bool
     is_spin_operator_domain(const onerut_parser::AssetDeref&);
@@ -81,10 +81,10 @@ namespace onerut_parser::utility {
     to_complex(const onerut_parser::AssetDeref&);
 
     std::shared_ptr < const onerut_normal_operator::Domain >
-    to_normal_operator_domain(const onerut_parser::AssetDeref&);
+    to_normal_operator_domain(const onerut_parser::AssetDeref&); // includes spin and oscillator.
 
-    std::shared_ptr < const onerut_normal_operator::OscilatorDomain >
-    to_oscilator_operator_domain(const onerut_parser::AssetDeref&);
+    std::shared_ptr < const onerut_normal_operator::OscillatorDomain >
+    to_oscillator_operator_domain(const onerut_parser::AssetDeref&);
 
     std::shared_ptr < const onerut_normal_operator::SpinDomain >
     to_spin_operator_domain(const onerut_parser::AssetDeref&);

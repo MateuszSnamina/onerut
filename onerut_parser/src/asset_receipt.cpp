@@ -62,9 +62,9 @@ namespace onerut_parser {
             const auto domain = *(asset.deref().typed_value_or_empty<onerut_normal_operator::Domain>());
             stream << line_prefix << "[deref] " << "dimension = " << domain->state_names.size() << std::endl;
             stream << line_prefix << "[deref] " << "states = " << onerut_normal_operator::to_string(*domain) << std::endl;
-        } else if (asset.deref().is_given_type<onerut_normal_operator::OscilatorDomain>()) {
+        } else if (asset.deref().is_given_type<onerut_normal_operator::OscillatorDomain>()) {
             stream << line_prefix << "[deref] " << "Asset-defer is a " << esc::manip::italic << "oscillator-type-normal-domain." << std::endl;
-            const auto domain = *(asset.deref().typed_value_or_empty<onerut_normal_operator::OscilatorDomain>());
+            const auto domain = *(asset.deref().typed_value_or_empty<onerut_normal_operator::OscillatorDomain>());
             stream << line_prefix << "[deref] " << "dimension = " << domain->state_names.size() << std::endl;
             stream << line_prefix << "[deref] " << "states = " << onerut_normal_operator::to_string(*domain) << std::endl;
         } else if (asset.deref().is_given_type<onerut_normal_operator::SpinDomain>()) {

@@ -17,7 +17,7 @@ namespace onerut_normal_operator {
                 // The we need to check (bra < spad_dim)
                 // as the operator may go out of the space.
                 // As an example:
-                // The oscilator creation operator may be implemented to
+                // The oscillator creation operator may be implemented to
                 // retrun bra=ket+1 for every ket.
                 it_ptr->next();
             }
