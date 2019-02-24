@@ -2,7 +2,7 @@
 #define ONERUT_NORMAL_OPERATOR_SIMPLE
 
 #include<onerut_scalar/scalar_abstract_real.hpp>
-#include<onerut_operator/operator_simple.hpp>
+#include<onerut_operator/iterator_simple.hpp>
 #include<onerut_normal_operator/operator_abstract.hpp>
 
 namespace onerut_normal_operator {

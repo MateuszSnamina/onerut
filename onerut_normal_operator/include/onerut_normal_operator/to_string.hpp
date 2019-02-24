@@ -3,11 +3,11 @@
 
 #include<string>
 #include<onerut_normal_operator/operator_abstract.hpp>
+
 namespace onerut_normal_operator {
 
     std::string to_string(const Domain& domain);
     std::string to_string(const AbstractOperator& op, std::string line_prefix = "");
-
 
 }
 

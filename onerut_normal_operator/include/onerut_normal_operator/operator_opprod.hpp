@@ -1,7 +1,7 @@
 #ifndef ONERUT_NORMAL_OPERATOR_OPPROD
 #define ONERUT_NORMAL_OPERATOR_OPPROD
 
-#include<onerut_operator/operator_opprod.hpp>
+#include<onerut_operator/iterator_opprod.hpp>
 #include<onerut_normal_operator/operator_abstract.hpp>
 
 namespace onerut_normal_operator {
