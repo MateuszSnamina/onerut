@@ -1,13 +1,6 @@
 #ifndef ONERUT_TYPED_OPERATOR_OPERATOR_OPPLUSMINUS
 #define ONERUT_TYPED_OPERATOR_OPERATOR_OPPLUSMINUS
 
-#include<any>
-#include<memory>
-#include<algorithm>
-#include<iterator>
-#include<vector>
-#include<optional>
-
 #include<onerut_typed_operator/operator_abstract.hpp>
 #include<onerut_typed_operator/iterator_opplusminus.hpp>
 
@@ -25,7 +18,7 @@ namespace onerut_typed_operator {
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
         using AbstractIteratorT = AbstractResultIterator<BraKetT>;
         using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
-        using Iterator = OpPlusMinusOperatorIterator<BraKetT, AbstractOpT>;
+        using IteratorT = OpPlusMinusOperatorIterator<BraKetT, AbstractOpT>;
         OpPlusMinusOperator(
                 const AbstractOpPtrT& first_arg,
                 const std::vector<AbstractOpPtrT>& other_argv,
@@ -54,7 +47,7 @@ namespace onerut_typed_operator {
     template<typename _BraKetT>
     typename OpPlusMinusOperator<_BraKetT>::AbstractIteratorPtrT
     OpPlusMinusOperator<_BraKetT>::begin_itptr(const BraKetT& ket) const {
-        return std::make_unique<Iterator>(first_arg, other_argv, opv, ket);
+        return std::make_unique<IteratorT>(first_arg, other_argv, opv, ket);
     }
 
 }

@@ -1,16 +1,17 @@
 #include<algorithm>
 #include<iterator>
 
-#include<onerut_parser/share_from.hpp>
-#include<onerut_parser/ast_asset.hpp>
-#include<onerut_parser/asset_utility.hpp>
-#include<onerut_parser/ast_source.hpp>
-#include<onerut_parser/asset_ref_container.hpp>
-#include<onerut_parser/function_factory_container.hpp>
 #include<onerut_scalar/scalar.hpp>
 #include<onerut_normal_operator/operator_opplusminus.hpp>
 #include<onerut_normal_operator/operator_opprod.hpp>
 #include<onerut_normal_operator/operator_scalled.hpp>
+#include<onerut_parser/vector_cat.hpp>
+#include<onerut_parser/share_from.hpp>
+#include<onerut_parser/ast_source.hpp>
+#include<onerut_parser/ast_asset.hpp>
+#include<onerut_parser/asset_utility.hpp>
+#include<onerut_parser/asset_ref_container.hpp>
+#include<onerut_parser/function_factory_container.hpp>
 
 namespace {
 
@@ -156,7 +157,6 @@ namespace onerut_parser::onerut_ast::source {
         if (auto ref = AssetRefContainer::global_instance().get_or_empty(name))
             return Asset::from_reference(*ref);
         return Asset::from_reference(std::make_shared<AssetUnsetRef>(name));
-        //return Asset::from_compile_error(std::make_shared<IdentifierNotFoundError>(name));
     }
 
     // -------------------------------------------------------------------------
@@ -268,17 +268,16 @@ namespace onerut_parser::onerut_ast::source {
             const auto & other_argv_complex = utility::many_to_complex(other_argv_asset_deref);
             return Asset::from_value<onerut_scalar::Complex>(std::make_shared<onerut_scalar::OpProdDivComplex>(first_arg_complex, other_argv_complex, opv));
         }
-        if (utility::is_normal_operator(first_arg_asset_deref) &&
+        if (std::all_of(opv.cbegin(), opv.cend(), is_prod_char) &&
+                utility::is_normal_operator(first_arg_asset_deref) &&
                 std::all_of(cbegin(other_argv_asset_deref), cend(other_argv_asset_deref), utility::is_normal_operator)) {
-            //            if (std::all_of(opv.cbegin(), opv.cend(), is_prod_char)){
-            //            const auto & first_arg_operator = utility::to_normal_operator(first_arg_asset_deref);
-            //            const auto & other_argv_operator = utility::many_to_normal_operator(other_argv_asset_deref);
-            //            if (!are_the_same_domains(first_arg_operator, other_argv_operator))
-            //              return Asset::from_compile_error(std::make_shared<CompileError>("Incompatible state domains."));
-            //            using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
-            //            return Asset::from_value<AbstractOperatorT>(std::make_shared<onerut_normal_operator::OpProdOperator >(first_arg_operator, other_argv_operator));
-            //            }
-            return Asset::from_compile_error(std::make_shared<CompilerNotImplementedError>());
+            const auto & first_arg_operator = utility::to_normal_operator(first_arg_asset_deref);
+            const auto & other_argv_operator = utility::many_to_normal_operator(other_argv_asset_deref);
+            if (!are_the_same_domains(first_arg_operator, other_argv_operator))
+                return Asset::from_compile_error(std::make_shared<CompileError>("Incompatible state domains."));
+            const auto argv_operator = cat(first_arg_operator, other_argv_operator);
+            using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
+            return Asset::from_value<AbstractOperatorT>(std::make_shared<onerut_normal_operator::OpProdOperator >(argv_operator));
         }
         if (other_argv_asset_deref.size() == 1 && opv[0] == '*' &&
                 utility::is_real_or_integer(first_arg_asset_deref) &&

@@ -18,7 +18,7 @@ namespace onerut_typed_operator {
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
         using AbstractIteratorT = AbstractResultIterator<BraKetT>;
         using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
-        using Iterator = OpUnaryPlusMinusOperatorIterator<BraKetT>;
+        using IteratorT = OpUnaryPlusMinusOperatorIterator<BraKetT>;
         OpUnaryPlusMinusOperator(char op, AbstractOpPtrT arg);
         AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
     private:
@@ -41,7 +41,7 @@ namespace onerut_typed_operator {
     template<typename _BraKetT>
     typename OpUnaryPlusMinusOperator<_BraKetT>::AbstractIteratorPtrT
     OpUnaryPlusMinusOperator<_BraKetT>::begin_itptr(const BraKetT& ket) const {
-        return std::make_unique<Iterator>(op, arg, ket);
+        return std::make_unique<IteratorT>(op, arg, ket);
     }
 
 }

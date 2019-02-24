@@ -2,12 +2,10 @@
 #define ONERUT_TYPED_OPERATOR_ITERATOR_OPPROD
 
 #include<memory>
-#include<algorithm>
-#include<iterator>
 #include<vector>
 #include<optional>
-#include<numeric>
-#include<functional>
+#include<numeric> // std::accumulate
+#include<functional> // std::multiplies
 
 #include<onerut_typed_operator/operator_abstract.hpp>
 

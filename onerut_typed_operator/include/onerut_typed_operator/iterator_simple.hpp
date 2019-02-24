@@ -1,7 +1,6 @@
 #ifndef ONERUT_TYPED_OPERATOR_ITERATOR_SIMPLE
 #define ONERUT_TYPED_OPERATOR_ITERATOR_SIMPLE
 
-#include<utility>
 #include<optional>
 
 #include<onerut_typed_operator/operator_abstract.hpp>

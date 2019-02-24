@@ -18,7 +18,7 @@ namespace onerut_typed_operator {
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
         using AbstractIteratorT = AbstractResultIterator<BraKetT>;
         using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>; 
-        using Iterator = ScalledOperatorIterator<BraKetT>;
+        using IteratorT = ScalledOperatorIterator<BraKetT>;
         ScalledOperator(double factor, AbstractOpPtrT arg);
         AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
     private:
@@ -41,7 +41,7 @@ namespace onerut_typed_operator {
     template<typename _BraKetT>
     typename ScalledOperator<_BraKetT>::AbstractIteratorPtrT
     ScalledOperator<_BraKetT>::begin_itptr(const BraKetT& ket) const {
-        return std::make_unique<Iterator>(factor, arg, ket);
+        return std::make_unique<IteratorT>(factor, arg, ket);
     }
 
 }

@@ -216,4 +216,5 @@ namespace onerut_parser::utility {
                 std::back_inserter(argv_operator), to_normal_operator);
         return argv_operator;
     }
+    
 }

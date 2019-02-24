@@ -14,7 +14,7 @@ namespace onerut_typed_operator {
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
         using AbstractIteratorT = AbstractResultIterator<BraKetT>;
         using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>; 
-        using Iterator = ZeroOperatorIterator<BraKetT>;
+        using IteratorT = ZeroOperatorIterator<BraKetT>;
         AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
     };
 
@@ -25,7 +25,7 @@ namespace onerut_typed_operator {
     template<typename _BraKetT>
     typename ZeroOperator<_BraKetT>::AbstractIteratorPtrT
     ZeroOperator<_BraKetT>::begin_itptr(const BraKetT& ket) const {
-        return std::make_unique<Iterator>();
+        return std::make_unique<IteratorT>();
     }
 
 }

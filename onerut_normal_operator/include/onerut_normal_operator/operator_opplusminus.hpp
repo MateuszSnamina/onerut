@@ -1,6 +1,8 @@
 #ifndef ONERUT_NORMAL_OPERATOR_OPPLUSMINUS
 #define ONERUT_NORMAL_OPERATOR_OPPLUSMINUS
 
+#include<type_traits>
+
 #include<onerut_typed_operator/iterator_opplusminus.hpp>
 #include<onerut_normal_operator/operator_abstract.hpp>
 
@@ -17,7 +19,8 @@ namespace onerut_normal_operator {
         using AbstractOperator::AbstractOpPtrT;
         using AbstractOperator::AbstractIteratorT;
         using AbstractOperator::AbstractIteratorPtrT;
-        using Iterator = onerut_typed_operator::OpPlusMinusOperatorIterator<unsigned, AbstractOpT>;
+        using IteratorT = onerut_typed_operator::OpPlusMinusOperatorIterator<unsigned, AbstractOpT>;
+        static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);
         OpPlusMinusOperator(
                 const AbstractOpPtrT& first_arg,
                 const std::vector<AbstractOpPtrT>& other_argv,

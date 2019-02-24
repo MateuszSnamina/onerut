@@ -141,11 +141,16 @@ void temp_testing() {
     lines.push_back(std::make_shared<const std::string>("op_to_mat(1i+1)"));
     lines.push_back(std::make_shared<const std::string>("ELECTRON_DOMAIN := create_normal_domain(AC, CA, EG, GE)"));
     lines.push_back(std::make_shared<const std::string>("ELECTRON_DOMAIN"));
-    lines.push_back(std::make_shared<const std::string>("EG"));
-    lines.push_back(std::make_shared<const std::string>("create_normal_domain(AC2_alpha_bcdefgh, CA2, EG2_gamma_2, GE2)"));
-    lines.push_back(std::make_shared<const std::string>("EG2"));
-    lines.push_back(std::make_shared<const std::string>("h := normalop_hop(5, AC2_alpha_bcdefgh, CA2)"));
-    lines.push_back(std::make_shared<const std::string>("d := normalop_diag(70000000000000.8, GE2)"));
+    lines.push_back(std::make_shared<const std::string>("op1 := normalop_hop(5, AC, CA)"));
+    lines.push_back(std::make_shared<const std::string>("op2 := normalop_hop(3, CA, EG)"));
+    lines.push_back(std::make_shared<const std::string>("op1 * op2"));
+    lines.push_back(std::make_shared<const std::string>("op2 * op1"));
+    
+    //lines.push_back(std::make_shared<const std::string>("EG"));
+    //lines.push_back(std::make_shared<const std::string>("create_normal_domain(AC2_alpha_bcdefgh, CA2, EG2_gamma_2, GE2)"));
+    //lines.push_back(std::make_shared<const std::string>("EG2"));
+    //lines.push_back(std::make_shared<const std::string>("h := normalop_hop(5, AC2_alpha_bcdefgh, CA2)"));
+    //lines.push_back(std::make_shared<const std::string>("d := normalop_diag(70000000000000.8, GE2)"));
     //    lines.push_back(std::make_shared<const std::string>("normalop_diag(7.8, EG2)"));
     //    lines.push_back(std::make_shared<const std::string>("normalop_print(h)"));
     //    lines.push_back(std::make_shared<const std::string>("normalop_print(d)"));

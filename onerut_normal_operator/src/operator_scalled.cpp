@@ -12,7 +12,7 @@ namespace onerut_normal_operator {
 
     typename ScalledOperator::AbstractIteratorPtrT
     ScalledOperator::begin_itptr(const unsigned& ket) const {
-        return std::make_unique<Iterator>(factor->value_real(), arg, ket);
+        return std::make_unique<IteratorT>(factor->value_real(), arg, ket);
     }
 
     std::shared_ptr<const Domain> ScalledOperator::get_domain() const {

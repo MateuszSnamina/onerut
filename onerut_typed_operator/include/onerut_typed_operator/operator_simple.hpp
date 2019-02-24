@@ -21,7 +21,7 @@ namespace onerut_typed_operator {
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
         using AbstractIteratorT = AbstractResultIterator<BraKetT>;
         using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;     
-        using Iterator = SimpleOperatorIterator<BraKetT>;
+        using IteratorT = SimpleOperatorIterator<BraKetT>;
         HopOperator(double value, const BraKetT &site_1, const BraKetT &site_2);
         AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
     private:
@@ -38,7 +38,7 @@ namespace onerut_typed_operator {
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
         using AbstractIteratorT = AbstractResultIterator<BraKetT>;
         using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;  
-        using Iterator = SimpleOperatorIterator<BraKetT>;
+        using IteratorT = SimpleOperatorIterator<BraKetT>;
         DiagOperator(double value, const BraKetT &site);
         AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
     private:
@@ -62,11 +62,11 @@ namespace onerut_typed_operator {
     typename HopOperator<_BraKetT>::AbstractIteratorPtrT
     HopOperator<_BraKetT>::begin_itptr(const BraKetT& ket) const {
         if (ket == site_1) {
-            return std::make_unique<Iterator>(Iterator::create_the_one_valid_iterator(std::make_pair(value, site_2)));
+            return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(value, site_2)));
         } else if (ket == site_2) {
-            return std::make_unique<Iterator>(Iterator::create_the_one_valid_iterator(std::make_pair(value, site_1)));
+            return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(value, site_1)));
         }
-        return std::make_unique<Iterator>(Iterator::create_end_iterator());
+        return std::make_unique<IteratorT>(IteratorT::create_end_iterator());
     }
 
     // -------------------------------------------------------------------------        
@@ -81,9 +81,9 @@ namespace onerut_typed_operator {
     typename DiagOperator<_BraKetT>::AbstractIteratorPtrT
     DiagOperator<_BraKetT>::begin_itptr(const BraKetT& ket) const {
         if (ket == site) {
-            return std::make_unique<Iterator>(Iterator::create_the_one_valid_iterator(std::make_pair(value, site)));
+            return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(value, site)));
         }
-        return std::make_unique<Iterator>(Iterator::create_end_iterator());
+        return std::make_unique<IteratorT>(IteratorT::create_end_iterator());
     }
 
 }

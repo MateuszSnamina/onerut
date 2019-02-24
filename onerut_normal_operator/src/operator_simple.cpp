@@ -25,11 +25,11 @@ namespace onerut_normal_operator {
     typename HopOperator::AbstractIteratorPtrT
     HopOperator::begin_itptr(const unsigned& ket) const {
         if (ket == state_1->index) {
-            return std::make_unique<Iterator>(Iterator::create_the_one_valid_iterator(std::make_pair(value->value_real(), state_2->index)));
+            return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(value->value_real(), state_2->index)));
         } else if (ket == state_2->index) {
-            return std::make_unique<Iterator>(Iterator::create_the_one_valid_iterator(std::make_pair(value->value_real(), state_1->index)));
+            return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(value->value_real(), state_1->index)));
         }
-        return std::make_unique<Iterator>(Iterator::create_end_iterator());
+        return std::make_unique<IteratorT>(IteratorT::create_end_iterator());
     }
 
     // -------------------------------------------------------------------------        
@@ -47,9 +47,9 @@ namespace onerut_normal_operator {
     typename DiagOperator::AbstractIteratorPtrT
     DiagOperator::begin_itptr(const unsigned& ket) const {
         if (ket == state->index) {
-            return std::make_unique<Iterator>(Iterator::create_the_one_valid_iterator(std::make_pair(value->value_real(), state->index)));
+            return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(value->value_real(), state->index)));
         }
-        return std::make_unique<Iterator>(Iterator::create_end_iterator());
+        return std::make_unique<IteratorT>(IteratorT::create_end_iterator());
     }
 
 }

@@ -1,24 +1,18 @@
 #ifndef ONERUT_TYPED_OPERATOR_ITERATOR_OPPLUSMINUS
 #define ONERUT_TYPED_OPERATOR_ITERATOR_OPPLUSMINUS
 
-#include<any>
+#include<type_traits>
+#include<cassert>
 #include<memory>
-#include<algorithm>
-#include<iterator>
 #include<vector>
-#include<optional>
 
 #include<onerut_typed_operator/operator_abstract.hpp>
-#include<type_traits>
 
 namespace onerut_typed_operator {
 
     // -------------------------------------------------------------------------
     // ------------------ PlusMinus OPERATOR  ----------------------------------
     // -------------------------------------------------------------------------    
-
-    //template<typename _BraKetT>
-    //class OpPlusMinusOperator; //TODO do we need this forward decl ??
 
     template<typename _BraKetT, typename _StoredAbstractOpT>
     class OpPlusMinusOperatorIterator : public AbstractResultIterator<_BraKetT> {

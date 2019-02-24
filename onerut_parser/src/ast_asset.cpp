@@ -1,19 +1,8 @@
+#include<onerut_parser/vector_cat.hpp>
 #include<onerut_parser/ast_asset.hpp>
 
 #include<cassert>
 #include<algorithm>
-
-namespace {
-
-    template <typename T>
-    std::vector<T> cat(T first, std::vector<T> others) {
-        std::vector<T> result;
-        result.reserve(others.size());
-        result.push_back(first);
-        std::copy(cbegin(others), cend(others), back_inserter(result));
-        return result;
-    }
-}
 
 namespace onerut_parser::onerut_ast::asset {
 

@@ -44,11 +44,12 @@ namespace onerut_normal_operator {
 
     class AbstractOperator : public onerut_typed_operator::AbstractOperator<unsigned> {
     public:
-        using typename onerut_typed_operator::AbstractOperator<unsigned>::BraKetT;
+        using BraKetT = unsigned;
         using AbstractOpT = AbstractOperator;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
-        using typename onerut_typed_operator::AbstractOperator<unsigned>::AbstractIteratorT;
-        using typename onerut_typed_operator::AbstractOperator<unsigned>::AbstractIteratorPtrT;
+        using AbstractIteratorT = onerut_typed_operator::AbstractResultIterator<BraKetT>;
+        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
+        virtual AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const = 0;
         virtual std::shared_ptr<const Domain> get_domain() const = 0;
     };
 
@@ -58,9 +59,13 @@ namespace onerut_normal_operator {
 
     bool are_the_same_domains(const Domain& first_domain, const Domain& second_domain);
     bool are_the_same_domains(const Domain& first_domain, const std::vector<Domain>& other_domains);
+    bool are_the_same_domains(const std::vector<Domain>& domains);
+
     bool are_the_same_domains(
             const std::shared_ptr<const AbstractOperator>& first_operator,
             const std::vector<std::shared_ptr<const AbstractOperator> >& other_operators);
+    bool are_the_same_domains(
+            const std::vector<std::shared_ptr<const AbstractOperator> >& operators);
 
 }
 
