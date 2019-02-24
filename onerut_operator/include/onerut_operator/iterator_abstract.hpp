@@ -4,7 +4,7 @@
 #include<memory>
 #include<utility>
 
-namespace onerut_operator {
+namespace onerut_typed_operator {
 
     // -------------------------------------------------------------------------
     // ------------------  ABSTRACT OPERATOR  ----------------------------------

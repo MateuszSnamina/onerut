@@ -4,7 +4,7 @@
 #include<onerut_operator/operator_abstract.hpp>
 #include<onerut_operator/iterator_zero.hpp>
 
-namespace onerut_operator {
+namespace onerut_typed_operator {
 
     template<typename _BraKetT>
     class ZeroOperator : public AbstractOperator<_BraKetT> {

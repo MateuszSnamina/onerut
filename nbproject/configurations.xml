@@ -390,9 +390,15 @@
             flavor2="11">
         <ccTool flags="0">
           <incDir>
-            <pElem>onerut_operator_tests/include</pElem>
+            <pElem>onerut_parser/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
             <pElem>onerut_operator/include</pElem>
             <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_parser</pElem>
+            <pElem>onerut_operator_tests/include</pElem>
             <pElem>build_netbeanns/onerut_operator_tests</pElem>
           </incDir>
         </ccTool>
@@ -437,9 +443,15 @@
             flavor2="11">
         <ccTool flags="0">
           <incDir>
-            <pElem>onerut_operator_tests/include</pElem>
+            <pElem>onerut_parser/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
             <pElem>onerut_operator/include</pElem>
             <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_parser</pElem>
+            <pElem>onerut_operator_tests/include</pElem>
             <pElem>build_netbeanns/onerut_operator_tests</pElem>
           </incDir>
         </ccTool>
@@ -507,15 +519,9 @@
             flavor2="11">
         <ccTool flags="0">
           <incDir>
-            <pElem>onerut_parser/include</pElem>
-            <pElem>string_utils/include</pElem>
-            <pElem>esc/include</pElem>
-            <pElem>onerut_scalar/include</pElem>
-            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_operator_tests/include</pElem>
             <pElem>onerut_operator/include</pElem>
             <pElem>external_packages/include</pElem>
-            <pElem>build_netbeanns/onerut_parser</pElem>
-            <pElem>onerut_operator_tests/include</pElem>
             <pElem>build_netbeanns/onerut_operator_tests</pElem>
           </incDir>
         </ccTool>

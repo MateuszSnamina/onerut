@@ -11,7 +11,7 @@
 
 #include<onerut_operator/operator_abstract.hpp>
 
-namespace onerut_operator {
+namespace onerut_typed_operator {
 
     // -------------------------------------------------------------------------
     // ------------------ OpProd OPERATOR  -------------------------------------

@@ -13,7 +13,7 @@ namespace onerut_normal_operator {
         using AbstractOperator::AbstractOpPtrT;
         using AbstractOperator::AbstractIteratorT;
         using AbstractOperator::AbstractIteratorPtrT;
-        using Iterator = onerut_operator::ZeroOperatorIterator<unsigned>;
+        using Iterator = onerut_typed_operator::ZeroOperatorIterator<unsigned>;
         ZeroOperator(std::shared_ptr<const Domain> domain);
         AbstractIteratorPtrT begin_itptr(const unsigned& ket) const override;
         std::shared_ptr<const Domain> get_domain() const override;

@@ -11,7 +11,7 @@
 #include<onerut_operator/operator_abstract.hpp>
 #include<type_traits>
 
-namespace onerut_operator {
+namespace onerut_typed_operator {
 
     // -------------------------------------------------------------------------
     // ------------------ PlusMinus OPERATOR  ----------------------------------

@@ -17,7 +17,7 @@ namespace onerut_normal_operator {
         using AbstractOperator::AbstractOpPtrT;
         using AbstractOperator::AbstractIteratorT;
         using AbstractOperator::AbstractIteratorPtrT;
-        using Iterator = onerut_operator::OpPlusMinusOperatorIterator<unsigned, AbstractOpT>;
+        using Iterator = onerut_typed_operator::OpPlusMinusOperatorIterator<unsigned, AbstractOpT>;
         OpPlusMinusOperator(
                 const AbstractOpPtrT& first_arg,
                 const std::vector<AbstractOpPtrT>& other_argv,

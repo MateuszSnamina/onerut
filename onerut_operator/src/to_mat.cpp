@@ -1,6 +1,6 @@
 #include<onerut_operator/to_mat.hpp>
 
-namespace onerut_operator {
+namespace onerut_typed_operator {
 
     arma::mat to_mat(const AbstractOperator<unsigned>& op, unsigned spad_dim) {
         arma::mat result(spad_dim, spad_dim, arma::fill::zeros);

@@ -14,7 +14,7 @@ namespace onerut_normal_operator {
         using AbstractOperator::AbstractOpPtrT;
         using AbstractOperator::AbstractIteratorT;
         using AbstractOperator::AbstractIteratorPtrT;
-        using Iterator = onerut_operator::SimpleOperatorIterator<unsigned>;
+        using Iterator = onerut_typed_operator::SimpleOperatorIterator<unsigned>;
         HopOperator(std::shared_ptr<const onerut_scalar::Real> value,
                 std::shared_ptr<const StateIndex> state_1,
                 std::shared_ptr<const StateIndex> state_2);

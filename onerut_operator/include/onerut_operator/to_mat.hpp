@@ -5,7 +5,7 @@
 
 #include<onerut_operator/operator_abstract.hpp>
 
-namespace onerut_operator {
+namespace onerut_typed_operator {
     arma::mat to_mat(const AbstractOperator<unsigned>& op, unsigned spad_dim);
 }
 

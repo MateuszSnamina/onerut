@@ -18,7 +18,7 @@ namespace onerut_normal_operator {
         using AbstractOperator::AbstractOpPtrT;
         using AbstractOperator::AbstractIteratorT;
         using AbstractOperator::AbstractIteratorPtrT;
-        using Iterator = OpUnaryPlusMinusOperatorIterator<unsigned>;
+        using Iterator = onerut_typed_operator::OpUnaryPlusMinusOperatorIterator<unsigned>;
         OpUnaryPlusMinusOperator(char op, AbstractOpPtrT arg);
         AbstractIteratorPtrT begin_itptr(const unsigned& ket) const override;
     private:

@@ -6,7 +6,7 @@
 
 #include<onerut_operator/iterator_abstract.hpp>
 
-namespace onerut_operator {
+namespace onerut_typed_operator {
 
     // -------------------------------------------------------------------------
     // ------------------  ABSTRACT OPERATOR  ----------------------------------

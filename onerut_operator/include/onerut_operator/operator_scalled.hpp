@@ -4,7 +4,7 @@
 #include<onerut_operator/operator_abstract.hpp>
 #include<onerut_operator/iterator_scalled.hpp>
 
-namespace onerut_operator {
+namespace onerut_typed_operator {
 
     // -------------------------------------------------------------------------
     // ------------------ SCALLED OPERATOR  -------------------------------------

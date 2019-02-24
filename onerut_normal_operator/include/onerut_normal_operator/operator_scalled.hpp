@@ -14,7 +14,7 @@ namespace onerut_normal_operator {
         using AbstractOperator::AbstractOpPtrT;
         using AbstractOperator::AbstractIteratorT;
         using AbstractOperator::AbstractIteratorPtrT;
-        using Iterator = onerut_operator::ScalledOperatorIterator<unsigned>;
+        using Iterator = onerut_typed_operator::ScalledOperatorIterator<unsigned>;
         ScalledOperator(std::shared_ptr<const onerut_scalar::Real> factor, AbstractOpPtrT arg);
         AbstractIteratorPtrT begin_itptr(const unsigned& ket) const override;
         std::shared_ptr<const Domain> get_domain() const override;        

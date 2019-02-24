@@ -42,13 +42,13 @@ namespace onerut_normal_operator {
     // ----------------  AbstractOperator  -------------------------------------
     // -------------------------------------------------------------------------    
 
-    class AbstractOperator : public onerut_operator::AbstractOperator<unsigned> {
+    class AbstractOperator : public onerut_typed_operator::AbstractOperator<unsigned> {
     public:
-        using typename onerut_operator::AbstractOperator<unsigned>::BraKetT;
+        using typename onerut_typed_operator::AbstractOperator<unsigned>::BraKetT;
         using AbstractOpT = AbstractOperator;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
-        using typename onerut_operator::AbstractOperator<unsigned>::AbstractIteratorT;
-        using typename onerut_operator::AbstractOperator<unsigned>::AbstractIteratorPtrT;
+        using typename onerut_typed_operator::AbstractOperator<unsigned>::AbstractIteratorT;
+        using typename onerut_typed_operator::AbstractOperator<unsigned>::AbstractIteratorPtrT;
         virtual std::shared_ptr<const Domain> get_domain() const = 0;
     };
 

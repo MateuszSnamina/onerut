@@ -12,7 +12,7 @@
 #include<onerut_operator/operator_abstract.hpp>
 #include<onerut_operator/iterator_opprod.hpp>
 
-namespace onerut_operator {
+namespace onerut_typed_operator {
 
     // -------------------------------------------------------------------------
     // ------------------ OpProd OPERATOR  -------------------------------------
