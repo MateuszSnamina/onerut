@@ -2,8 +2,8 @@
 #include<complex>
 
 #include<onerut_parser/function_factory_constant.hpp>
-#include<onerut_parser/function_factory_normal_operators.hpp>
 #include<onerut_parser/function_factory_scalar.hpp>
+#include<onerut_parser/function_factory_normal_operators.hpp>
 #include<onerut_parser/function_factory_container.hpp>
 
 using cx_double = std::complex<double>;
@@ -254,6 +254,8 @@ namespace onerut_parser {
         force_put("Sz", std::make_unique<CreateSpinZetOperatorFunctionFactory>());
         force_put("Sp", std::make_unique<CreateSpinPlusOperatorFunctionFactory>());
         force_put("Sm", std::make_unique<CreateSpinMinusOperatorFunctionFactory>());
+        // Calculations trigger:        
+        force_put("diag_request", std::make_unique<NormalOperatorDiagRequestFactory>());        
         // To be deleted in the future:
         force_put("normalop_print", std::make_unique<NormalOperatorPrintFunctionFactory>());
     }

@@ -1,8 +1,8 @@
 #ifndef ONERUT_PARSER_FUNCTION_FACTORY_NORMAL_OPERATORS
 #define ONERUT_PARSER_FUNCTION_FACTORY_NORMAL_OPERATORS
 
+#include<onerut_parser/diag_request.hpp>
 #include<onerut_parser/function_factory_abstract.hpp>
-
 
 namespace onerut_parser {
 
@@ -31,6 +31,7 @@ namespace onerut_parser {
     class NormalOperatorEyeFunctionFactory : public NaryFunctionFactory<1> {
         Asset make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const override;
     };
+
     // -------------
 
     class CreateOscillatorDomainFunctionFactory : public NaryFunctionFactory<1> {
@@ -65,9 +66,30 @@ namespace onerut_parser {
 
     // -------------
 
+    // diag request to another file.//TODO delete
+
+    /*
+    struct DiagRequest : public AssetDeref {
+        DiagRequest(std::shared_ptr<const onerut_normal_operator::AbstractOperator> hamiltonian);
+        std::shared_ptr<const onerut_normal_operator::AbstractOperator> hamiltonian;
+    };
+
+    inline
+    DiagRequest::DiagRequest(std::shared_ptr<const onerut_normal_operator::AbstractOperator> hamiltonian) :
+    hamiltonian(hamiltonian) {
+    }
+     */
+
+    class NormalOperatorDiagRequestFactory : public NaryFunctionFactory<1> {
+        Asset make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const override;
+    };
+
+    // -------------
+
     class NormalOperatorPrintFunctionFactory : public NaryFunctionFactory<1> {
         Asset make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const override;
     };
+
 
 }
 

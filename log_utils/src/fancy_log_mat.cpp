@@ -64,7 +64,9 @@ namespace fancy_logging {
         stream << std::setw(adequate_row_label_visible_length) << "";
         stream << "│";
         for (unsigned j = 0; j < matrix.n_cols; ++j) {
-            stream << std::setw(adequate_reguler_visible_length) << string_utils::StreamToGreek(col_labels[j]);
+            stream << esc::manip::yellow <<
+                    std::setw(adequate_reguler_visible_length) << string_utils::StreamToGreek(col_labels[j]) <<
+                    esc::manip::reset;
             stream << "│";
         }
         stream << std::endl;
@@ -82,7 +84,9 @@ namespace fancy_logging {
         for (unsigned i = 0; i < matrix.n_rows; ++i) {
             stream << line_prefix;
             stream << "│";
-            stream << std::setw(adequate_row_label_visible_length) << string_utils::StreamToGreek(row_labels[i]);
+            stream << esc::manip::yellow <<
+                    std::setw(adequate_row_label_visible_length) << string_utils::StreamToGreek(row_labels[i])
+                    << esc::manip::reset;
             stream << "│";
             for (unsigned j = 0; j < matrix.n_cols; ++j) {
                 const auto esc_data = value_esc_data(matrix(i, j));
@@ -102,6 +106,31 @@ namespace fancy_logging {
         }
         stream << std::endl;
         // ---------------------------------------------------------------------
+        stream.width(stream_visible_length);
     }
 
+    void
+    log(std::ostream& stream,
+            const std::vector<std::string>& row_labels,
+            const std::vector<std::string>& col_labels,
+            arma::mat matrix,
+            unsigned chunk_size,
+            std::string line_prefix) {
+        // ---------------------------------------------------------------------
+        assert(chunk_size > 0);
+        assert(row_labels.size() == matrix.n_rows);
+        assert(col_labels.size() == matrix.n_cols);
+        // ---------------------------------------------------------------------
+        for (unsigned first = 0; first < matrix.n_cols; first += chunk_size) {
+            const unsigned last = std::min<unsigned>(first + chunk_size, matrix.n_cols);
+            //const arma::span span{first, last - 1};
+            const std::vector<std::string> sub_col_labels(col_labels.begin() + first, col_labels.begin() + last); // would be better to use some kind of view.
+            log(stream,
+                    row_labels,
+                    sub_col_labels,
+                    matrix.cols(first, last - 1),
+                    line_prefix);
+        }
+
+    }
 }

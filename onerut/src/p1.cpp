@@ -8,6 +8,8 @@
 #include<esc/esc_manip.hpp>
 #include<string_utils/greek_support.hpp>
 
+#include<onerut_normal_operator/diagonalizator.hpp>
+
 #include<onerut_parser/gramma_parser.hpp>
 #include<onerut_parser/ast_x3_to_ast_source.hpp>
 #include<onerut_parser/ast_asset.hpp>
@@ -15,6 +17,12 @@
 #include<onerut_parser/print_chart.hpp>
 #include<onerut_parser/asset_utility.hpp>
 #include<onerut_parser/asset_receipt.hpp>
+
+#include<onerut_parser/diag_request.hpp>
+
+//--------------------------------------------
+
+std::shared_ptr<onerut_normal_operator::Diagonalizator> diagonalizator;
 
 //--------------------------------------------
 
@@ -65,6 +73,13 @@ execute_line(std::shared_ptr<const std::string> line) {
     onerut_parser::print_errors_chart(std::cout, parsed_x3_info.input, asset_errors_chart, "[errors ] ");
     const auto& asset = ast_asset_head->asset;
     onerut_parser::print_receipt(std::cout, asset, "[receipt] ");
+    // *************************************************************************
+    // *************  Requests stage:        ***********************************
+    // *************************************************************************
+    if (const auto request = asset.deref().typed_value_or_empty<onerut_parser::DiagRequest>()) {
+        diagonalizator = std::make_shared<onerut_normal_operator::Diagonalizator>((*request)->hamiltonian);
+        diagonalizator->diag(std::cout, "[diag] ");
+    }
     // *************************************************************************
     std::cout << std::endl;
     return true; // TODO

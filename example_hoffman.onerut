@@ -27,4 +27,4 @@ H_hop_tt := hop(C_tt_ac, TT, AC) + hop(C_tt_ca, TT, CA)
 H := H_diag + H_hop_h + H_hop_e + H_hop_tt
 
 # Diagonalize the displaced hamiltonian:
-# diag()
+diag_request(H)

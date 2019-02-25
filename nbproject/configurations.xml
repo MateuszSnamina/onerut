@@ -21,6 +21,7 @@
     </df>
     <df root="onerut_normal_operator" name="3">
       <df name="src">
+        <in>diagonalizator.cpp</in>
         <in>operator_abstract.cpp</in>
         <in>operator_opplusminus.cpp</in>
         <in>operator_opprod.cpp</in>
@@ -59,6 +60,7 @@
         <in>ast_x3_to_ast_source.cpp</in>
         <in>ast_x3_to_chart.cpp</in>
         <in>ast_x3_to_oneliner.cpp</in>
+        <in>diag_request.cpp</in>
         <in>function_factory.cpp</in>
         <in>function_factory_constant.cpp</in>
         <in>function_factory_container.cpp</in>
@@ -321,6 +323,13 @@
         <ccTool flags="0">
         </ccTool>
       </item>
+      <item path="onerut_normal_operator/src/diagonalizator.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
       <item path="onerut_normal_operator/src/operator_abstract.cpp"
             ex="false"
             tool="1"
@@ -501,6 +510,13 @@
         </ccTool>
       </item>
       <item path="onerut_parser/src/ast_x3_to_oneliner.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_parser/src/diag_request.cpp"
             ex="false"
             tool="1"
             flavor2="11">
