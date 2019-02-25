@@ -338,25 +338,26 @@ namespace onerut_parser {
 
     // *************************************************************************
 
-    Asset NormalOperatorPrintFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const {
-        const auto & arg0_asset_deref = args_asset[0].deref();
-        // ---------------------------------------------------------------------        
-        if (arg0_asset_deref.is_compile_error())
-            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
-        // ---------------------------------------------------------------------        
-        if (!arg0_asset_deref.is_either_value_or_type())
-            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
-        // ---------------------------------------------------------------------        
-        if (!utility::is_normal_operator(arg0_asset_deref))
-            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
-        // ---------------------------------------------------------------------        
-        const auto normal_operator = utility::to_normal_operator(arg0_asset_deref);
-        // ---------------------------------------------------------------------        
-        const arma::mat M = onerut_normal_operator::to_mat(*normal_operator);
-        std::cout << "Normal operator:" << std::endl;
-        std::cout << M << std::endl;
-        return args_asset[0];
-    }
+    // TODO:remove
+    //    Asset NormalOperatorPrintFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const {
+    //        const auto & arg0_asset_deref = args_asset[0].deref();
+    //        // ---------------------------------------------------------------------        
+    //        if (arg0_asset_deref.is_compile_error())
+    //            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+    //        // ---------------------------------------------------------------------        
+    //        if (!arg0_asset_deref.is_either_value_or_type())
+    //            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+    //        // ---------------------------------------------------------------------        
+    //        if (!utility::is_normal_operator(arg0_asset_deref))
+    //            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+    //        // ---------------------------------------------------------------------        
+    //        const auto normal_operator = utility::to_normal_operator(arg0_asset_deref);
+    //        // ---------------------------------------------------------------------        
+    //        const arma::mat M = onerut_normal_operator::to_mat(*normal_operator);
+    //        std::cout << "Normal operator:" << std::endl;
+    //        std::cout << M << std::endl;
+    //        return args_asset[0];
+    //    }
 
     // *************************************************************************
 
@@ -378,5 +379,38 @@ namespace onerut_parser {
                 std::make_shared<DiagRequest>(normal_operator)
                 );
     }
+
+    Asset NormalOperatorMeanRequestFactory::make_function_otherwise_make_error(std::array<Asset, 2> args_asset) const {
+        const auto & arg0_asset_deref = args_asset[0].deref();
+        const auto & arg1_asset_deref = args_asset[1].deref();
+        // ---------------------------------------------------------------------        
+        if (arg0_asset_deref.is_compile_error())
+            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+        if (arg1_asset_deref.is_compile_error())
+            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+        // ---------------------------------------------------------------------        
+        if (!arg0_asset_deref.is_either_value_or_type())
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        if (!arg1_asset_deref.is_either_value_or_type())
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        // ---------------------------------------------------------------------        
+        if (!utility::is_normal_operator(arg0_asset_deref))
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        if (!utility::is_normal_operator_state_index(arg1_asset_deref))
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        // ---------------------------------------------------------------------        
+        const auto normal_operator = utility::to_normal_operator(arg0_asset_deref);
+        const auto state_index = utility::to_normal_operator_state_index(arg1_asset_deref);
+        // ---------------------------------------------------------------------        
+        assert(0); //TODO implement
+        //return Asset::from_value<DiagRequest>(
+        //        std::make_shared<DiagRequest>(normal_operator)
+        //        );
+    }
+
+    Asset NormalOperatorThermalMeanRequestFactory::make_function_otherwise_make_error(std::array<Asset, 2> args_asset) const {
+        assert(0); //TODO implement
+    };
+
 
 }

@@ -4,6 +4,7 @@
 
 #include<log_utils/fancy_log_mat.hpp> 
 #include<onerut_normal_operator/to_mat.hpp> 
+#include<onerut_normal_operator/calculate_mean.hpp>
 #include<onerut_normal_operator/diagonalizator.hpp>
 
 namespace {
@@ -20,18 +21,6 @@ namespace {
 }
 
 namespace onerut_normal_operator {
-
-    void Diagonalizator::print_energies(std::ostream& stream, unsigned chunk_size, std::string line_prefix) {
-        fancy_logging::log(stream,{"Energy"}, eig_names,
-                arma::trans(energies),
-                chunk_size, line_prefix);
-    }
-
-    void Diagonalizator::print_beta(std::ostream& stream, unsigned chunk_size, std::string line_prefix) {
-        fancy_logging::log(stream, hamiltonian->get_domain()->state_names, eig_names,
-                beta,
-                chunk_size, line_prefix);
-    }
 
     Diagonalizator::Diagonalizator(std::shared_ptr<const AbstractOperator> hamiltonian) :
     hamiltonian(hamiltonian) {
@@ -61,6 +50,34 @@ namespace onerut_normal_operator {
         stream.flags(flags);
         // --------------------------------------------------------------------- 
         stream << line_prefix << "[progress] Has successfully diagonalized." << std::endl;
+    }
+
+    const arma::mat& Diagonalizator::get_beta() const {
+        return beta;
+    }
+
+    const arma::vec& Diagonalizator::get_energies() const {
+        return energies;
+    }
+
+    void Diagonalizator::print_energies(std::ostream& stream, unsigned chunk_size, std::string line_prefix) {
+        fancy_logging::log(stream,{"Energy"}, eig_names,
+                arma::trans(energies),
+                chunk_size, line_prefix);
+    }
+
+    void Diagonalizator::print_beta(std::ostream& stream, unsigned chunk_size, std::string line_prefix) {
+        fancy_logging::log(stream, hamiltonian->get_domain()->state_names, eig_names,
+                beta,
+                chunk_size, line_prefix);
+    }
+
+    double Diagonalizator::calculate_mean(std::shared_ptr<const AbstractOperator> op, unsigned eig_number) const {
+        if (!op)
+            return arma::datum::nan;
+        if (eig_number >= beta.n_cols)
+            return arma::datum::nan;
+        return onerut_normal_operator::calculate_mean(*op, beta.col(eig_number));
     }
 
 }

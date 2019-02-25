@@ -12,11 +12,11 @@ namespace onerut_normal_operator {
     public:
         Diagonalizator(std::shared_ptr<const AbstractOperator> hamiltonian);
         void diag(std::ostream& stream, std::string line_prefix = "");
-        void print_energies(std::ostream& stream, unsigned chunk_size = 5, std::string line_prefix = "");
-        void print_beta(std::ostream& stream, unsigned chunk_size = 5, std::string line_prefix = "");
         const arma::mat& get_beta() const;
         const arma::vec& get_energies() const;
-        double get_mean(std::shared_ptr<const AbstractOperator> op) const;
+        void print_energies(std::ostream& stream, unsigned chunk_size = 5, std::string line_prefix = "");
+        void print_beta(std::ostream& stream, unsigned chunk_size = 5, std::string line_prefix = "");
+        double calculate_mean(std::shared_ptr<const AbstractOperator> op, unsigned eig_number) const;
     public:
         std::shared_ptr<const AbstractOperator> hamiltonian;
         arma::mat beta;

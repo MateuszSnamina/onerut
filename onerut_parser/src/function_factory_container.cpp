@@ -244,7 +244,7 @@ namespace onerut_parser {
         force_put("zero", std::make_unique<NormalOperatorZeroFunctionFactory>());
         force_put("diag", std::make_unique<NormalOperatorDiagFunctionFactory>());
         force_put("hop", std::make_unique<NormalOperatorHopFunctionFactory>());
-        force_put("eye", std::make_unique<NormalOperatorEyeFunctionFactory>());        
+        force_put("eye", std::make_unique<NormalOperatorEyeFunctionFactory>());
         // Normal operator for oscillator algebra functions:
         force_put("oscillator_domain", std::make_unique<CreateOscillatorDomainFunctionFactory>());
         force_put("cr", std::make_unique<CreateCreationOperatorFunctionFactory>());
@@ -255,10 +255,9 @@ namespace onerut_parser {
         force_put("Sp", std::make_unique<CreateSpinPlusOperatorFunctionFactory>());
         force_put("Sm", std::make_unique<CreateSpinMinusOperatorFunctionFactory>());
         // Calculations trigger:        
-        force_put("diag_request", std::make_unique<NormalOperatorDiagRequestFactory>());        
-        // To be deleted in the future:
-        force_put("normalop_print", std::make_unique<NormalOperatorPrintFunctionFactory>());
+        force_put("diag_request", std::make_unique<NormalOperatorDiagRequestFactory>());
+        force_put("mean", std::make_unique<NormalOperatorMeanRequestFactory>());
+        force_put("thermal_mean", std::make_unique<NormalOperatorThermalMeanRequestFactory>());
     }
-
 
 }
