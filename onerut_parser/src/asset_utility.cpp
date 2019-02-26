@@ -80,7 +80,8 @@ namespace onerut_parser::utility {
         assert(!arg.is_empty());
         assert(!arg.is_compile_error());
         return arg.is_given_type<onerut_scalar::Integer>() ||
-                arg.is_given_type<onerut_scalar::Real>();
+                arg.is_given_type<onerut_scalar::Real>() ||
+                arg.is_given_type<onerut_normal_operator::Mean>();
     }
 
     bool
@@ -89,7 +90,8 @@ namespace onerut_parser::utility {
         assert(!arg.is_compile_error());
         return arg.is_given_type<onerut_scalar::Integer>() ||
                 arg.is_given_type<onerut_scalar::Real>() ||
-                arg.is_given_type<onerut_scalar::Complex>();
+                arg.is_given_type<onerut_scalar::Complex>() ||
+                arg.is_given_type<onerut_normal_operator::Mean>();
     }
 
     bool
@@ -160,8 +162,10 @@ namespace onerut_parser::utility {
         std::shared_ptr<onerut_scalar::Real> arg_real;
         if (auto temp = arg.typed_value_or_empty<onerut_scalar::Integer>()) {
             arg_real = *temp;
+        } else if (auto temp = arg.typed_value_or_empty<onerut_scalar::Real>()) {
+            arg_real = *temp;
         } else {
-            arg_real = *arg.typed_value_or_empty<onerut_scalar::Real>();
+            arg_real = *arg.typed_value_or_empty<onerut_normal_operator::Mean>();
         }
         assert(arg_real);
         return arg_real;
@@ -175,8 +179,10 @@ namespace onerut_parser::utility {
             arg_complex = *temp;
         } else if (const auto temp = arg.typed_value_or_empty<onerut_scalar::Real>()) {
             arg_complex = *temp;
+        } else if (auto temp = arg.typed_value_or_empty<onerut_scalar::Complex>()) {
+            arg_complex = *temp;
         } else {
-            arg_complex = *arg.typed_value_or_empty<onerut_scalar::Complex>();
+            arg_complex = *arg.typed_value_or_empty<onerut_normal_operator::Mean>();
         }
         assert(arg_complex);
         return arg_complex;
@@ -229,7 +235,6 @@ namespace onerut_parser::utility {
         assert(arg_normal_operator);
         return arg_normal_operator;
     }
-
 
     std::shared_ptr < onerut_normal_operator::Eigs >
     to_normal_operator_eigs(const onerut_parser::AssetDeref& arg) {

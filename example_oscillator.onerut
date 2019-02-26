@@ -14,12 +14,19 @@ H_1 := (1./2) * (x*x - ip*ip) # The first way to define the oscilator Hamiltonia
 H_2 := n + (1./2) * eye       # The second way to define the oscilator Hamiltonian
 
 # The displaced oscilator
-lambda := 0.7 # displacement
+lambda := 2.5 # displacement
 x_shift := x - lambda * eye # displaced posion operator
 H_lambda_1 := (1./2) * (x_shift*x_shift - ip*ip) # The first way to define the displaced oscilator Hamiltonian
 H_lambda_2 := n + (1./2) * eye - lambda * x      # The second way to define the oscilator Hamiltonian
 
 # Diagonalize the displaced hamiltonian:
-eigs(H_1)
+H_1_eigs := eigs(H_1)
+H_1_eigs
+exec(H_1_eigs)
+H_1_eigs
 
-eigs(H_lambda_1)
+H_lambda_1_eigs := eigs(H_lambda_1)
+vacuum_state := state_index(OSCILLATOR_DOMAIN, 0)
+mean_x := mean(H_lambda_1_eigs, x, 0)
+
+2 * mean_x

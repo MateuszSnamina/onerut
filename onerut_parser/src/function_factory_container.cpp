@@ -258,7 +258,7 @@ namespace onerut_parser {
         force_put("eigs", std::make_unique<NormalOperatorEigsFunctionFactory>());
         force_put("mean", std::make_unique<NormalOperatorMeanFunctionFactory>());
         force_put("thermal_mean", std::make_unique<NormalOperatorThermalMeanFunctionFactory>());
-        force_put("exec_request", std::make_unique<NormalOperatorExecRequestFunctionFactory>());
+        force_put("exec", std::make_unique<NormalOperatorExecRequestFunctionFactory>());
 
     }
 

@@ -5,6 +5,7 @@
 #include<armadillo>
 
 #include<onerut_scalar/scalar_real.hpp>
+#include<onerut_scalar/scalar_integer.hpp>
 #include<onerut_normal_operator/operator_abstract.hpp>
 
 namespace onerut_normal_operator {
@@ -26,26 +27,31 @@ namespace onerut_normal_operator {
     class Eigs {
     public:
         Eigs(std::shared_ptr<const AbstractOperator> hamiltonian);
-        EigsResult diag(std::ostream& stream, std::string line_prefix = "") const;
-        EigsResult _diag(std::ostream& stream, std::string line_prefix = "") const;
+        EigsResult diag(std::ostream& stream, std::string line_prefix = "") const; //TODO change to value
+        EigsResult _diag(std::ostream& stream, std::string line_prefix = "") const; //TODO change to _value
         void exec(std::ostream& stream, std::string line_prefix = "");
         void free(std::ostream& stream, std::string line_prefix = "");
     public:
         std::shared_ptr<const AbstractOperator> hamiltonian;
         std::optional<EigsResult> cached_result;
     };
-    /*
-        class Mean : public onerut_scalar::Real {
-        public:
-            Mean(std::shared_ptr<const Eigs>,
-                    std::shared_ptr<const AbstractOperator> op,
-                    std::shared_ptr<StateIndex> state_index);
-            double value_real() const override;
- 
-      /////        //   double calculate_mean(std::shared_ptr<const AbstractOperator> op, std::shared_ptr<StateIndex> state_index) const;
 
-        };
-     */
+    class Mean : public onerut_scalar::Real {
+    public:
+        Mean(std::shared_ptr<const Eigs> eigs,
+                std::shared_ptr<const AbstractOperator> op,
+                std::shared_ptr<const onerut_scalar::Integer> eigen_state);
+        double value_real() const override;
+        double _value_real(std::ostream& stream, std::string line_prefix = "") const;
+        void exec(std::ostream& stream, std::string line_prefix = "");
+        void free(std::ostream& stream, std::string line_prefix = "");
+    public:
+        std::shared_ptr<const Eigs>eigs;
+        std::shared_ptr<const AbstractOperator> op;
+        std::shared_ptr<const onerut_scalar::Integer> eigen_state;
+        std::optional<double> cached_result;
+    };
+
 }
 
 #endif

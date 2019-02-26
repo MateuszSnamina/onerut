@@ -61,7 +61,7 @@
         <in>ast_x3_to_ast_source.cpp</in>
         <in>ast_x3_to_chart.cpp</in>
         <in>ast_x3_to_oneliner.cpp</in>
-        <in>diag_request.cpp</in>
+        <in>exec_request.cpp</in>
         <in>function_factory.cpp</in>
         <in>function_factory_constant.cpp</in>
         <in>function_factory_container.cpp</in>
@@ -524,7 +524,7 @@
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="onerut_parser/src/diag_request.cpp"
+      <item path="onerut_parser/src/exec_request.cpp"
             ex="false"
             tool="1"
             flavor2="11">

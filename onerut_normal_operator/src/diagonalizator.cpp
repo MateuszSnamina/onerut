@@ -88,27 +88,45 @@ namespace onerut_normal_operator {
 
     // ******************************
 
-    //    const arma::mat& Eigs::get_beta() const {
-    //        return beta;
-    //    }
+    Mean::Mean(std::shared_ptr<const Eigs> eigs,
+            std::shared_ptr<const AbstractOperator> op,
+            std::shared_ptr<const onerut_scalar::Integer> eigen_state) :
+    eigs(eigs),
+    op(op),
+    eigen_state(eigen_state) {
+        assert(eigs);
+        assert(op);
+        assert(eigs);
+    }
 
-    //    const arma::vec& Eigs::get_energies() const {
-    //        return energies;
-    //    }
-
-    /*
-    double Eigs::calculate_mean(std::shared_ptr<const AbstractOperator> op, std::shared_ptr<StateIndex> state_index) const {
+    double Mean::_value_real(std::ostream& stream, std::string line_prefix) const {
+        const EigsResult eig_results = eigs->diag(stream, line_prefix);
         if (!op)
             return arma::datum::nan;
-        if (!state_index)
+        //if (!state_index)
+        //    return arma::datum::nan;
+        //if (are_the_same_domains(*op->get_domain(), *state_index->domain))
+        //    return arma::datum::nan;
+        const auto eig_number = eigen_state->value_integer();
+        // TODO handle negative
+        if (eig_number >= eig_results.beta.n_cols)// TODO fix comparison incompatibility
             return arma::datum::nan;
-        if (are_the_same_domains(*op->get_domain(), *state_index->domain))
-            return arma::datum::nan;
-        const auto eig_number = state_index->index;
-        if (eig_number >= beta.n_cols)
-            return arma::datum::nan;
-        return onerut_normal_operator::calculate_mean(*op, beta.col(eig_number));
+        return onerut_normal_operator::calculate_mean(*op, eig_results.beta.col(eig_number));
     }
-     */
+
+    double Mean::value_real() const {
+        return ( cached_result ?
+                *cached_result :
+                _value_real(std::cout, "xxxxxx"));
+    }
+
+    void Mean::exec(std::ostream& stream, std::string line_prefix) {
+        cached_result = _value_real(stream, line_prefix);
+    }
+
+    void Mean::free(std::ostream& stream, std::string line_prefix) {
+        cached_result = std::nullopt;
+    }
+
 
 }

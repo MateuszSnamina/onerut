@@ -3,7 +3,8 @@
 
 #include<onerut_parser/asset_utility.hpp>
 #include<onerut_parser/function_factory_normal_operators.hpp>
-#include<onerut_parser/asset_ref_container.hpp>
+#include<onerut_parser/exec_request.hpp>
+#include<onerut_parser/asset_ref_container.hpp> //TODO remove??
 #include<onerut_normal_operator/operator_abstract.hpp>
 #include<onerut_normal_operator/operator_simple.hpp>
 #include<onerut_normal_operator/operator_zero.hpp>
@@ -380,56 +381,63 @@ namespace onerut_parser {
                 );
     }
 
-    Asset NormalOperatorMeanFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 2> args_asset) const {
+    Asset NormalOperatorMeanFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 3> args_asset) const {
         const auto & arg0_asset_deref = args_asset[0].deref();
         const auto & arg1_asset_deref = args_asset[1].deref();
+        const auto & arg2_asset_deref = args_asset[2].deref();
         // ---------------------------------------------------------------------        
         if (arg0_asset_deref.is_compile_error())
             return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
         if (arg1_asset_deref.is_compile_error())
+            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+        if (arg2_asset_deref.is_compile_error())
             return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
         // ---------------------------------------------------------------------        
         if (!arg0_asset_deref.is_either_value_or_type())
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         if (!arg1_asset_deref.is_either_value_or_type())
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
-        // ---------------------------------------------------------------------        
-        if (!utility::is_normal_operator(arg0_asset_deref))
-            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
-        if (!utility::is_normal_operator_state_index(arg1_asset_deref))
+        if (!arg2_asset_deref.is_either_value_or_type())
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         // ---------------------------------------------------------------------        
-        const auto normal_operator = utility::to_normal_operator(arg0_asset_deref);
-        const auto state_index = utility::to_normal_operator_state_index(arg1_asset_deref);
+        if (!utility::is_normal_operator_eigs(arg0_asset_deref))
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        if (!utility::is_normal_operator(arg1_asset_deref))
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        if (!utility::is_integer(arg2_asset_deref))
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         // ---------------------------------------------------------------------        
-        assert(0); //TODO implement
-        //return Asset::from_value<DiagRequest>(
-        //        std::make_shared<DiagRequest>(normal_operator)
-        //        );
+        const auto normal_operator_eigs = utility::to_normal_operator_eigs(arg0_asset_deref);
+        const auto normal_operator = utility::to_normal_operator(arg1_asset_deref);
+        const auto state = utility::to_integer(arg2_asset_deref);
+        // ---------------------------------------------------------------------                
+        return Asset::from_value<onerut_normal_operator::Mean>(
+                std::make_shared<onerut_normal_operator::Mean>(normal_operator_eigs, normal_operator, state)
+                );
     }
 
-    Asset NormalOperatorThermalMeanFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 2> args_asset) const {
+    Asset NormalOperatorThermalMeanFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 4> args_asset) const {
         assert(0); //TODO implement
     }
 
     Asset NormalOperatorExecRequestFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const {
-        //        const auto & arg0_asset_deref = args_asset[0].deref();
-        //        // ---------------------------------------------------------------------        
-        //        if (arg0_asset_deref.is_compile_error())
-        //            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
-        //        // ---------------------------------------------------------------------        
-        //        if (!arg0_asset_deref.is_either_value_or_type())
-        //            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
-        //        // ---------------------------------------------------------------------        
-        //        if (!utility::is_normal_operator(arg0_asset_deref))
-        //            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
-        //        // ---------------------------------------------------------------------        
-        //        const auto normal_operator = utility::to_normal_operator(arg0_asset_deref);
-        //        // ---------------------------------------------------------------------        
-        //        return Asset::from_value<DiagRequest>(
-        //                std::make_shared<DiagRequest>(normal_operator)
-        //                );
-        assert(0);
+        const auto & arg0_asset_deref = args_asset[0].deref();
+        // ---------------------------------------------------------------------        
+        if (arg0_asset_deref.is_compile_error())
+            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+        // ---------------------------------------------------------------------        
+        if (!arg0_asset_deref.is_either_value_or_type())
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        // ---------------------------------------------------------------------        
+        if (!utility::is_normal_operator_eigs(arg0_asset_deref))
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        // ---------------------------------------------------------------------        
+        const auto normal_operator_eigs = utility::to_normal_operator_eigs(arg0_asset_deref);
+        // ---------------------------------------------------------------------        
+        return Asset::from_value<onerut_parser::ExecRequest>(
+                std::make_shared<onerut_parser::ExecRequestTyped<onerut_normal_operator::Eigs> >(normal_operator_eigs)
+                );
+        //assert(0);
     }
 
 }

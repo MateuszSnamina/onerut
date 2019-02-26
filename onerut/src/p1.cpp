@@ -76,9 +76,8 @@ execute_line(std::shared_ptr<const std::string> line) {
     // *************************************************************************
     // *************  Requests stage:        ***********************************
     // *************************************************************************
-    if (const auto request = asset.deref().typed_value_or_empty<onerut_parser::DiagRequest>()) {
-        diagonalizator = std::make_shared<onerut_normal_operator::Eigs>((*request)->hamiltonian);
-        diagonalizator->diag(std::cout, "[diag] ");
+    if (const auto request = asset.deref().typed_value_or_empty<onerut_parser::ExecRequest>()) {
+        (*request)->exec(std::cout, "[exec] ");
     }
     // *************************************************************************
     std::cout << std::endl;
