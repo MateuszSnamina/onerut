@@ -30,8 +30,9 @@ namespace onerut_normal_operator {
 
     std::string to_string(const Eigs& eigs, std::string line_prefix) {
         std::ostringstream sstream;
-        const auto eigs_results = eigs.diag(sstream, line_prefix);
+        const auto eigs_results = eigs.value();
         eigs_results.log(sstream, line_prefix);
         return sstream.str();
     }
+    
 }

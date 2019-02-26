@@ -52,9 +52,7 @@ namespace onerut_normal_operator {
         assert(hamiltonian);
     }
 
-    EigsResult Eigs::_diag(std::ostream& stream, std::string line_prefix) const {
-        // ---------------------------------------------------------------------
-        stream << line_prefix << "[progress] About to diagonalize." << std::endl;
+    EigsResult Eigs::_value() const {
         // ---------------------------------------------------------------------
         const std::vector<std::string> eig_names = _eig_names(hamiltonian->get_domain()->size());
         // ---------------------------------------------------------------------
@@ -62,27 +60,20 @@ namespace onerut_normal_operator {
         arma::mat beta;
         const arma::mat hamiltonian_mat = to_mat(*hamiltonian);
         const bool success = arma::eig_sym(energies, beta, hamiltonian_mat);
-        if (!success) {
-            stream << line_prefix << "[progress] Fail to diagonalize." << std::endl;
-        }
-        // ---------------------------------------------------------------------
-        stream << line_prefix << "[progress] Has successfully diagonalized." << std::endl;
         // ---------------------------------------------------------------------
         const EigsResult result = {hamiltonian, success, eig_names, energies, beta};
         return result;
     }
 
-    EigsResult Eigs::diag(std::ostream& stream, std::string line_prefix) const {
-        return ( cached_result ?
-                *cached_result :
-                _diag(stream, line_prefix));
+    EigsResult Eigs::value() const {
+        return ( cached_result ? *cached_result : _value());
     }
 
-    void Eigs::exec(std::ostream& stream, std::string line_prefix) {
-        cached_result.emplace(_diag(stream, line_prefix));
+    void Eigs::exec() {
+        cached_result.emplace(_value());
     }
 
-    void Eigs::free(std::ostream& stream, std::string line_prefix) {
+    void Eigs::free() {
         cached_result = std::nullopt;
     }
 
@@ -99,14 +90,10 @@ namespace onerut_normal_operator {
         assert(eigs);
     }
 
-    double Mean::_value_real(std::ostream& stream, std::string line_prefix) const {
-        const EigsResult eig_results = eigs->diag(stream, line_prefix);
+    double Mean::_value_real() const {
+        const EigsResult eig_results = eigs->value();
         if (!op)
             return arma::datum::nan;
-        //if (!state_index)
-        //    return arma::datum::nan;
-        //if (are_the_same_domains(*op->get_domain(), *state_index->domain))
-        //    return arma::datum::nan;
         const auto eig_number = eigen_state->value_integer();
         // TODO handle negative
         if (eig_number >= eig_results.beta.n_cols)// TODO fix comparison incompatibility
@@ -115,16 +102,14 @@ namespace onerut_normal_operator {
     }
 
     double Mean::value_real() const {
-        return ( cached_result ?
-                *cached_result :
-                _value_real(std::cout, "xxxxxx"));
+        return ( cached_result ? *cached_result : _value_real());
     }
 
-    void Mean::exec(std::ostream& stream, std::string line_prefix) {
-        cached_result = _value_real(stream, line_prefix);
+    void Mean::exec() {
+        cached_result = _value_real();
     }
 
-    void Mean::free(std::ostream& stream, std::string line_prefix) {
+    void Mean::free() {
         cached_result = std::nullopt;
     }
 

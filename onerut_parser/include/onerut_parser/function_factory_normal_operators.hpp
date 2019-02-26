@@ -1,7 +1,6 @@
 #ifndef ONERUT_PARSER_FUNCTION_FACTORY_NORMAL_OPERATORS
 #define ONERUT_PARSER_FUNCTION_FACTORY_NORMAL_OPERATORS
 
-#include<onerut_parser/exec_request.hpp>
 #include<onerut_parser/function_factory_abstract.hpp>
 
 namespace onerut_parser {
@@ -76,12 +75,6 @@ namespace onerut_parser {
 
     class NormalOperatorThermalMeanFunctionFactory : public NaryFunctionFactory<4> {
         Asset make_function_otherwise_make_error(std::array<Asset, 4> args_asset) const override;
-    };
-
-    // -------------
-
-    class NormalOperatorExecRequestFunctionFactory : public NaryFunctionFactory<1> {
-        Asset make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const override;
     };
 
 }

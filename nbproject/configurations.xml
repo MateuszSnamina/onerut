@@ -61,10 +61,10 @@
         <in>ast_x3_to_ast_source.cpp</in>
         <in>ast_x3_to_chart.cpp</in>
         <in>ast_x3_to_oneliner.cpp</in>
-        <in>exec_request.cpp</in>
         <in>function_factory.cpp</in>
         <in>function_factory_constant.cpp</in>
         <in>function_factory_container.cpp</in>
+        <in>function_factory_imperative_request.cpp</in>
         <in>function_factory_normal_operators.cpp</in>
         <in>gramma_parser.cpp</in>
         <in>print_chart.cpp</in>
@@ -524,13 +524,6 @@
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="onerut_parser/src/exec_request.cpp"
-            ex="false"
-            tool="1"
-            flavor2="11">
-        <ccTool flags="0">
-        </ccTool>
-      </item>
       <item path="onerut_parser/src/function_factory.cpp"
             ex="false"
             tool="1"
@@ -546,6 +539,13 @@
         </ccTool>
       </item>
       <item path="onerut_parser/src/function_factory_container.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_parser/src/function_factory_imperative_request.cpp"
             ex="false"
             tool="1"
             flavor2="11">

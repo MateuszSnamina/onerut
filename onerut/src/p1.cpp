@@ -18,7 +18,7 @@
 #include<onerut_parser/asset_utility.hpp>
 #include<onerut_parser/asset_receipt.hpp>
 
-#include<onerut_parser/exec_request.hpp>
+#include<onerut_parser/imperative_request.hpp>
 
 //--------------------------------------------
 
@@ -77,7 +77,7 @@ execute_line(std::shared_ptr<const std::string> line) {
     // *************  Requests stage:        ***********************************
     // *************************************************************************
     if (const auto request = asset.deref().typed_value_or_empty<onerut_parser::ExecRequest>()) {
-        (*request)->exec(std::cout, "[exec] ");
+        (*request)->exec();
     }
     // *************************************************************************
     std::cout << std::endl;
@@ -120,8 +120,7 @@ execute_script_lines(const std::vector<std::shared_ptr<const std::string>>&lines
 
 bool execute_script_file(const std::filesystem::path& file_path) {
     auto lines = load_script_lines_from_file(file_path);
-    onerut_parser::FunctionFactoryContainer::global_instance().put_cmath();
-    onerut_parser::FunctionFactoryContainer::global_instance().put_onerut_functions();
+    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
     return execute_script_lines(lines);
 }
 
@@ -195,9 +194,7 @@ void temp_testing() {
     lines.push_back(std::make_shared<const std::string>("n := cr * an"));
     lines.push_back(std::make_shared<const std::string>("H2 := cr * an + 1/2 * eye(OSCILLATOR_SPACR)"));
 
-
-    onerut_parser::FunctionFactoryContainer::global_instance().put_cmath();
-    onerut_parser::FunctionFactoryContainer::global_instance().put_onerut_functions();
+    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
 
     execute_script_lines(lines);
 }

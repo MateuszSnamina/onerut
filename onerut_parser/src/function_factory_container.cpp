@@ -1,6 +1,7 @@
 #include<cmath>
 #include<complex>
 
+#include<onerut_parser/function_factory_imperative_request.hpp>
 #include<onerut_parser/function_factory_constant.hpp>
 #include<onerut_parser/function_factory_scalar.hpp>
 #include<onerut_parser/function_factory_normal_operators.hpp>
@@ -254,12 +255,20 @@ namespace onerut_parser {
         force_put("Sz", std::make_unique<CreateSpinZetOperatorFunctionFactory>());
         force_put("Sp", std::make_unique<CreateSpinPlusOperatorFunctionFactory>());
         force_put("Sm", std::make_unique<CreateSpinMinusOperatorFunctionFactory>());
-        // Calculations trigger:        
+        // Calculation functions:        
         force_put("eigs", std::make_unique<NormalOperatorEigsFunctionFactory>());
         force_put("mean", std::make_unique<NormalOperatorMeanFunctionFactory>());
         force_put("thermal_mean", std::make_unique<NormalOperatorThermalMeanFunctionFactory>());
-        force_put("exec", std::make_unique<NormalOperatorExecRequestFunctionFactory>());
+    }
 
+    void FunctionFactoryContainer::put_imparative_request_functions() {
+        force_put("exec", std::make_unique<NormalOperatorExecRequestFunctionFactory>());
+    }
+
+    void FunctionFactoryContainer::put_all() {
+        put_cmath();
+        put_onerut_functions();
+        put_imparative_request_functions();
     }
 
 }

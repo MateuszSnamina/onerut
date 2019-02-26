@@ -2,6 +2,7 @@
 OSCILLATOR_DOMAIN := oscillator_domain(7) # use 5 lower vibronic states
 
 # Define handy references for standard vibronic operators:
+new const vacuum_state := state_index(OSCILLATOR_DOMAIN, 0) # the vacuum state
 new const cr := cr(OSCILLATOR_DOMAIN)     # creation operator
 new const an := an(OSCILLATOR_DOMAIN)     # anihilation operator
 new const eye := eye(OSCILLATOR_DOMAIN)   # identity operator
@@ -14,7 +15,7 @@ H_1 := (1./2) * (x*x - ip*ip) # The first way to define the oscilator Hamiltonia
 H_2 := n + (1./2) * eye       # The second way to define the oscilator Hamiltonian
 
 # The displaced oscilator
-lambda := 2.5 # displacement
+lambda := 0.8 # displacement
 x_shift := x - lambda * eye # displaced posion operator
 H_lambda_1 := (1./2) * (x_shift*x_shift - ip*ip) # The first way to define the displaced oscilator Hamiltonian
 H_lambda_2 := n + (1./2) * eye - lambda * x      # The second way to define the oscilator Hamiltonian
@@ -26,7 +27,8 @@ exec(H_1_eigs)
 H_1_eigs
 
 H_lambda_1_eigs := eigs(H_lambda_1)
-vacuum_state := state_index(OSCILLATOR_DOMAIN, 0)
-mean_x := mean(H_lambda_1_eigs, x, 0)
 
+mean_x := mean(H_lambda_1_eigs, x, 0)
 2 * mean_x
+
+exec(H_1_eigs)

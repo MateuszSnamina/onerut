@@ -16,9 +16,6 @@ namespace onerut_normal_operator {
         const std::vector<std::string> eig_names;
         const arma::vec energies;
         const arma::mat beta;
-        //const arma::mat& get_eig_names() const;//TODO delete
-        //const arma::mat& get_beta() const;
-        //const arma::vec& get_energies() const;
         void print_energies(std::ostream& stream, unsigned chunk_size = 5, std::string line_prefix = "") const;
         void print_beta(std::ostream& stream, unsigned chunk_size = 5, std::string line_prefix = "") const;
         void log(std::ostream& stream, std::string line_prefix = "") const;
@@ -27,12 +24,13 @@ namespace onerut_normal_operator {
     class Eigs {
     public:
         Eigs(std::shared_ptr<const AbstractOperator> hamiltonian);
-        EigsResult diag(std::ostream& stream, std::string line_prefix = "") const; //TODO change to value
-        EigsResult _diag(std::ostream& stream, std::string line_prefix = "") const; //TODO change to _value
-        void exec(std::ostream& stream, std::string line_prefix = "");
-        void free(std::ostream& stream, std::string line_prefix = "");
+        EigsResult value() const;
+        void exec();
+        void free();
     public:
         std::shared_ptr<const AbstractOperator> hamiltonian;
+    private:
+        EigsResult _value() const;
         std::optional<EigsResult> cached_result;
     };
 
@@ -42,13 +40,14 @@ namespace onerut_normal_operator {
                 std::shared_ptr<const AbstractOperator> op,
                 std::shared_ptr<const onerut_scalar::Integer> eigen_state);
         double value_real() const override;
-        double _value_real(std::ostream& stream, std::string line_prefix = "") const;
-        void exec(std::ostream& stream, std::string line_prefix = "");
-        void free(std::ostream& stream, std::string line_prefix = "");
+        void exec();
+        void free();
     public:
         std::shared_ptr<const Eigs>eigs;
         std::shared_ptr<const AbstractOperator> op;
         std::shared_ptr<const onerut_scalar::Integer> eigen_state;
+    private:
+        double _value_real() const;
         std::optional<double> cached_result;
     };
 
