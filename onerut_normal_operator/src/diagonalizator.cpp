@@ -22,24 +22,19 @@ namespace {
 
 namespace onerut_normal_operator {
 
-    Diagonalizator::Diagonalizator(std::shared_ptr<const AbstractOperator> hamiltonian) :
-    hamiltonian(hamiltonian) {
-        assert(hamiltonian);
+    void EigsResult::print_energies(std::ostream& stream, unsigned chunk_size, std::string line_prefix) const {
+        fancy_logging::log(stream,{"Energy"}, eig_names,
+                arma::trans(energies),
+                chunk_size, line_prefix);
     }
 
-    void Diagonalizator::diag(std::ostream& stream, std::string line_prefix) {
-        // ---------------------------------------------------------------------
-        stream << line_prefix << "[progress] About to diagonalize." << std::endl;
-        // ---------------------------------------------------------------------
-        eig_names = _eig_names(hamiltonian->get_domain()->size());
-        // ---------------------------------------------------------------------
-        const arma::mat hamiltonian_mat = to_mat(*hamiltonian);
-        success = arma::eig_sym(energies, beta, hamiltonian_mat);
-        if (!success) {
-            stream << line_prefix << "[progress] Fail to diagonalize." << std::endl;
-        }
-        // ---------------------------------------------------------------------
-        // Log the results:
+    void EigsResult::print_beta(std::ostream& stream, unsigned chunk_size, std::string line_prefix) const {
+        fancy_logging::log(stream, hamiltonian->get_domain()->state_names, eig_names,
+                beta,
+                chunk_size, line_prefix);
+    }
+
+    void EigsResult::log(std::ostream& stream, std::string line_prefix) const {
         auto flags = stream.flags();
         stream << std::scientific << std::showpos;
         stream.width(10);
@@ -48,36 +43,72 @@ namespace onerut_normal_operator {
         print_beta(stream, log_chunk_size, line_prefix);
         stream.width(0);
         stream.flags(flags);
-        // --------------------------------------------------------------------- 
+    }
+
+    // ******************************
+
+    Eigs::Eigs(std::shared_ptr<const AbstractOperator> hamiltonian) :
+    hamiltonian(hamiltonian) {
+        assert(hamiltonian);
+    }
+
+    EigsResult Eigs::_diag(std::ostream& stream, std::string line_prefix) const {
+        // ---------------------------------------------------------------------
+        stream << line_prefix << "[progress] About to diagonalize." << std::endl;
+        // ---------------------------------------------------------------------
+        const std::vector<std::string> eig_names = _eig_names(hamiltonian->get_domain()->size());
+        // ---------------------------------------------------------------------
+        arma::vec energies;
+        arma::mat beta;
+        const arma::mat hamiltonian_mat = to_mat(*hamiltonian);
+        const bool success = arma::eig_sym(energies, beta, hamiltonian_mat);
+        if (!success) {
+            stream << line_prefix << "[progress] Fail to diagonalize." << std::endl;
+        }
+        // ---------------------------------------------------------------------
         stream << line_prefix << "[progress] Has successfully diagonalized." << std::endl;
+        // ---------------------------------------------------------------------
+        const EigsResult result = {hamiltonian, success, eig_names, energies, beta};
+        return result;
     }
 
-    const arma::mat& Diagonalizator::get_beta() const {
-        return beta;
+    EigsResult Eigs::diag(std::ostream& stream, std::string line_prefix) const {
+        return ( cached_result ?
+                *cached_result :
+                _diag(stream, line_prefix));
     }
 
-    const arma::vec& Diagonalizator::get_energies() const {
-        return energies;
+    void Eigs::exec(std::ostream& stream, std::string line_prefix) {
+        cached_result.emplace(_diag(stream, line_prefix));
     }
 
-    void Diagonalizator::print_energies(std::ostream& stream, unsigned chunk_size, std::string line_prefix) {
-        fancy_logging::log(stream,{"Energy"}, eig_names,
-                arma::trans(energies),
-                chunk_size, line_prefix);
+    void Eigs::free(std::ostream& stream, std::string line_prefix) {
+        cached_result = std::nullopt;
     }
 
-    void Diagonalizator::print_beta(std::ostream& stream, unsigned chunk_size, std::string line_prefix) {
-        fancy_logging::log(stream, hamiltonian->get_domain()->state_names, eig_names,
-                beta,
-                chunk_size, line_prefix);
-    }
+    // ******************************
 
-    double Diagonalizator::calculate_mean(std::shared_ptr<const AbstractOperator> op, unsigned eig_number) const {
+    //    const arma::mat& Eigs::get_beta() const {
+    //        return beta;
+    //    }
+
+    //    const arma::vec& Eigs::get_energies() const {
+    //        return energies;
+    //    }
+
+    /*
+    double Eigs::calculate_mean(std::shared_ptr<const AbstractOperator> op, std::shared_ptr<StateIndex> state_index) const {
         if (!op)
             return arma::datum::nan;
+        if (!state_index)
+            return arma::datum::nan;
+        if (are_the_same_domains(*op->get_domain(), *state_index->domain))
+            return arma::datum::nan;
+        const auto eig_number = state_index->index;
         if (eig_number >= beta.n_cols)
             return arma::datum::nan;
         return onerut_normal_operator::calculate_mean(*op, beta.col(eig_number));
     }
+     */
 
 }

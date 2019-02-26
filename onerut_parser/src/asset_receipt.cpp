@@ -6,6 +6,7 @@
 
 #include<onerut_scalar/scalar_abstract.hpp>
 #include<onerut_normal_operator/operator_abstract.hpp>
+#include<onerut_normal_operator/diagonalizator.hpp>
 #include<onerut_normal_operator/to_string.hpp>
 
 #include<onerut_parser/asset.hpp>
@@ -13,7 +14,7 @@
 
 #include<onerut_parser/asset_receipt.hpp>
 
-#include "string_utils/greek_support.hpp"
+#include<string_utils/greek_support.hpp>
 
 namespace onerut_parser {
 
@@ -78,10 +79,17 @@ namespace onerut_parser {
             const auto op = *(asset.deref().typed_value_or_empty<onerut_normal_operator::AbstractOperator>());
             //stream << line_prefix << "Operator domain = " << onerut_normal_operator::to_string(*op->get_domain()) << std::endl;
             stream << onerut_normal_operator::to_string(*op, line_prefix + "[deref] ");
+        } else if (asset.deref().is_given_type<onerut_normal_operator::Eigs>()) {
+            stream << line_prefix << "[deref] " << "Asset-defer is " << esc::manip::italic << "normal-domain-eigs" << esc::manip::reset << "." << std::endl;
+            const auto eigs = *(asset.deref().typed_value_or_empty<onerut_normal_operator::Eigs>());
+            stream << onerut_normal_operator::to_string(*eigs, line_prefix + "[deref] ");            
         } else {
             stream << line_prefix << "[deref] " << "Asset-defer type is not supported by receipt." << std::endl;
         }
-        // ---------------------------------------------------------------------
+
+        
+
+                // ---------------------------------------------------------------------
     }
 
 }

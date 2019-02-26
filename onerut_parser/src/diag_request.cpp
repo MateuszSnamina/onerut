@@ -1,8 +1,8 @@
-#include<onerut_parser/diag_request.hpp>
+#include<onerut_parser/exec_request.hpp>
 
 namespace onerut_parser {
 
-    DiagRequest::DiagRequest(std::shared_ptr<const onerut_normal_operator::AbstractOperator> hamiltonian) :
+    ExecRequest::ExecRequest(std::shared_ptr<const onerut_normal_operator::AbstractOperator> hamiltonian) :
     hamiltonian(hamiltonian) {
     }
 

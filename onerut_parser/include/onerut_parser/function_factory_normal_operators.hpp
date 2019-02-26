@@ -1,7 +1,7 @@
 #ifndef ONERUT_PARSER_FUNCTION_FACTORY_NORMAL_OPERATORS
 #define ONERUT_PARSER_FUNCTION_FACTORY_NORMAL_OPERATORS
 
-#include<onerut_parser/diag_request.hpp>
+#include<onerut_parser/exec_request.hpp>
 #include<onerut_parser/function_factory_abstract.hpp>
 
 namespace onerut_parser {
@@ -66,20 +66,23 @@ namespace onerut_parser {
 
     // -------------
 
-    class NormalOperatorDiagRequestFactory : public NaryFunctionFactory<1> {
+    class NormalOperatorEigsFunctionFactory : public NaryFunctionFactory<1> {
         Asset make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const override;
+    };
+
+    class NormalOperatorMeanFunctionFactory : public NaryFunctionFactory<2> {
+        Asset make_function_otherwise_make_error(std::array<Asset, 2> args_asset) const override;
+    };
+
+    class NormalOperatorThermalMeanFunctionFactory : public NaryFunctionFactory<2> {
+        Asset make_function_otherwise_make_error(std::array<Asset, 2> args_asset) const override;
     };
 
     // -------------
 
-    class NormalOperatorMeanRequestFactory : public NaryFunctionFactory<2> {
-        Asset make_function_otherwise_make_error(std::array<Asset, 2> args_asset) const override;
+    class NormalOperatorExecRequestFunctionFactory : public NaryFunctionFactory<1> {
+        Asset make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const override;
     };
-
-    class NormalOperatorThermalMeanRequestFactory : public NaryFunctionFactory<2> {
-        Asset make_function_otherwise_make_error(std::array<Asset, 2> args_asset) const override;
-    };
-
 
 }
 

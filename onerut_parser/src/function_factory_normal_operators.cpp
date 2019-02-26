@@ -361,7 +361,7 @@ namespace onerut_parser {
 
     // *************************************************************************
 
-    Asset NormalOperatorDiagRequestFactory::make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const {
+    Asset NormalOperatorEigsFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const {
         const auto & arg0_asset_deref = args_asset[0].deref();
         // ---------------------------------------------------------------------        
         if (arg0_asset_deref.is_compile_error())
@@ -375,12 +375,12 @@ namespace onerut_parser {
         // ---------------------------------------------------------------------        
         const auto normal_operator = utility::to_normal_operator(arg0_asset_deref);
         // ---------------------------------------------------------------------        
-        return Asset::from_value<DiagRequest>(
-                std::make_shared<DiagRequest>(normal_operator)
+        return Asset::from_value<onerut_normal_operator::Eigs>(
+                std::make_shared<onerut_normal_operator::Eigs>(normal_operator)
                 );
     }
 
-    Asset NormalOperatorMeanRequestFactory::make_function_otherwise_make_error(std::array<Asset, 2> args_asset) const {
+    Asset NormalOperatorMeanFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 2> args_asset) const {
         const auto & arg0_asset_deref = args_asset[0].deref();
         const auto & arg1_asset_deref = args_asset[1].deref();
         // ---------------------------------------------------------------------        
@@ -408,9 +408,28 @@ namespace onerut_parser {
         //        );
     }
 
-    Asset NormalOperatorThermalMeanRequestFactory::make_function_otherwise_make_error(std::array<Asset, 2> args_asset) const {
+    Asset NormalOperatorThermalMeanFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 2> args_asset) const {
         assert(0); //TODO implement
-    };
+    }
 
+    Asset NormalOperatorExecRequestFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const {
+        //        const auto & arg0_asset_deref = args_asset[0].deref();
+        //        // ---------------------------------------------------------------------        
+        //        if (arg0_asset_deref.is_compile_error())
+        //            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+        //        // ---------------------------------------------------------------------        
+        //        if (!arg0_asset_deref.is_either_value_or_type())
+        //            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        //        // ---------------------------------------------------------------------        
+        //        if (!utility::is_normal_operator(arg0_asset_deref))
+        //            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        //        // ---------------------------------------------------------------------        
+        //        const auto normal_operator = utility::to_normal_operator(arg0_asset_deref);
+        //        // ---------------------------------------------------------------------        
+        //        return Asset::from_value<DiagRequest>(
+        //                std::make_shared<DiagRequest>(normal_operator)
+        //                );
+        assert(0);
+    }
 
 }

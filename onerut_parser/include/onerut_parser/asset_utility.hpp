@@ -8,6 +8,7 @@
 #include<onerut_normal_operator/operator_abstract.hpp>
 #include<onerut_normal_operator/operator_oscillator.hpp>
 #include<onerut_normal_operator/operator_spin.hpp>
+#include<onerut_normal_operator/diagonalizator.hpp>
 
 namespace onerut_parser::utility {
 
@@ -69,6 +70,9 @@ namespace onerut_parser::utility {
     //bool
     //is_boson_operator(const onerut_parser::AssetDeref&);
 
+    bool
+    is_normal_operator_eigs(const onerut_parser::AssetDeref&);
+
     // -------------------------------------------------------------------------
 
     std::shared_ptr< const onerut_scalar::Integer>
@@ -100,6 +104,9 @@ namespace onerut_parser::utility {
 
     //    std::shared_ptr<onerut_operator::AbstractOperator<BOSON_KET_T> >
     //    to_boson_operator(const onerut_parser::AssetDeref&);
+
+    std::shared_ptr < onerut_normal_operator::Eigs >
+    to_normal_operator_eigs(const onerut_parser::AssetDeref&);
 
     // -------------------------------------------------------------------------
 

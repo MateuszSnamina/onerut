@@ -18,11 +18,11 @@
 #include<onerut_parser/asset_utility.hpp>
 #include<onerut_parser/asset_receipt.hpp>
 
-#include<onerut_parser/diag_request.hpp>
+#include<onerut_parser/exec_request.hpp>
 
 //--------------------------------------------
 
-std::shared_ptr<onerut_normal_operator::Diagonalizator> diagonalizator;
+std::shared_ptr<onerut_normal_operator::Eigs> diagonalizator;
 
 //--------------------------------------------
 
@@ -77,7 +77,7 @@ execute_line(std::shared_ptr<const std::string> line) {
     // *************  Requests stage:        ***********************************
     // *************************************************************************
     if (const auto request = asset.deref().typed_value_or_empty<onerut_parser::DiagRequest>()) {
-        diagonalizator = std::make_shared<onerut_normal_operator::Diagonalizator>((*request)->hamiltonian);
+        diagonalizator = std::make_shared<onerut_normal_operator::Eigs>((*request)->hamiltonian);
         diagonalizator->diag(std::cout, "[diag] ");
     }
     // *************************************************************************

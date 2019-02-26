@@ -22,4 +22,4 @@ endif()
 
 add_library("${TARGET_NAME}" ${src} ${inc})
 target_include_directories("${TARGET_NAME}" PUBLIC include)
-target_link_libraries("${TARGET_NAME}" onerut_typed_operator onerut_scalar log_utils)
+target_link_libraries("${TARGET_NAME}" onerut_typed_operator onerut_scalar log_utils lapack blas)

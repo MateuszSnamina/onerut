@@ -4,27 +4,48 @@
 #include<memory>
 #include<armadillo>
 
+#include<onerut_scalar/scalar_real.hpp>
 #include<onerut_normal_operator/operator_abstract.hpp>
 
 namespace onerut_normal_operator {
 
-    class Diagonalizator {
-    public:
-        Diagonalizator(std::shared_ptr<const AbstractOperator> hamiltonian);
-        void diag(std::ostream& stream, std::string line_prefix = "");
-        const arma::mat& get_beta() const;
-        const arma::vec& get_energies() const;
-        void print_energies(std::ostream& stream, unsigned chunk_size = 5, std::string line_prefix = "");
-        void print_beta(std::ostream& stream, unsigned chunk_size = 5, std::string line_prefix = "");
-        double calculate_mean(std::shared_ptr<const AbstractOperator> op, unsigned eig_number) const;
-    public:
-        std::shared_ptr<const AbstractOperator> hamiltonian;
-        arma::mat beta;
-        arma::vec energies;
-        std::vector<std::string> eig_names;
-        bool success;
+    struct EigsResult {
+        const std::shared_ptr<const AbstractOperator> hamiltonian;
+        const bool success;
+        const std::vector<std::string> eig_names;
+        const arma::vec energies;
+        const arma::mat beta;
+        //const arma::mat& get_eig_names() const;//TODO delete
+        //const arma::mat& get_beta() const;
+        //const arma::vec& get_energies() const;
+        void print_energies(std::ostream& stream, unsigned chunk_size = 5, std::string line_prefix = "") const;
+        void print_beta(std::ostream& stream, unsigned chunk_size = 5, std::string line_prefix = "") const;
+        void log(std::ostream& stream, std::string line_prefix = "") const;
     };
 
+    class Eigs {
+    public:
+        Eigs(std::shared_ptr<const AbstractOperator> hamiltonian);
+        EigsResult diag(std::ostream& stream, std::string line_prefix = "") const;
+        EigsResult _diag(std::ostream& stream, std::string line_prefix = "") const;
+        void exec(std::ostream& stream, std::string line_prefix = "");
+        void free(std::ostream& stream, std::string line_prefix = "");
+    public:
+        std::shared_ptr<const AbstractOperator> hamiltonian;
+        std::optional<EigsResult> cached_result;
+    };
+    /*
+        class Mean : public onerut_scalar::Real {
+        public:
+            Mean(std::shared_ptr<const Eigs>,
+                    std::shared_ptr<const AbstractOperator> op,
+                    std::shared_ptr<StateIndex> state_index);
+            double value_real() const override;
+ 
+      /////        //   double calculate_mean(std::shared_ptr<const AbstractOperator> op, std::shared_ptr<StateIndex> state_index) const;
+
+        };
+     */
 }
 
 #endif

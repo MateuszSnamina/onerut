@@ -19,7 +19,6 @@ namespace onerut_normal_operator {
         sstream << std::fixed;
         sstream << std::showpos;
         sstream << std::setprecision(6);
-        //sstream << std::setw(30);
         const arma::mat matrix = to_mat(op);
         fancy_logging::log(sstream,
                 op.get_domain()->state_names,
@@ -29,4 +28,10 @@ namespace onerut_normal_operator {
         return sstream.str();
     }
 
+    std::string to_string(const Eigs& eigs, std::string line_prefix) {
+        std::ostringstream sstream;
+        const auto eigs_results = eigs.diag(sstream, line_prefix);
+        eigs_results.log(sstream, line_prefix);
+        return sstream.str();
+    }
 }

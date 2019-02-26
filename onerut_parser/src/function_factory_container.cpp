@@ -255,9 +255,11 @@ namespace onerut_parser {
         force_put("Sp", std::make_unique<CreateSpinPlusOperatorFunctionFactory>());
         force_put("Sm", std::make_unique<CreateSpinMinusOperatorFunctionFactory>());
         // Calculations trigger:        
-        force_put("diag_request", std::make_unique<NormalOperatorDiagRequestFactory>());
-        force_put("mean", std::make_unique<NormalOperatorMeanRequestFactory>());
-        force_put("thermal_mean", std::make_unique<NormalOperatorThermalMeanRequestFactory>());
+        force_put("eigs", std::make_unique<NormalOperatorEigsFunctionFactory>());
+        force_put("mean", std::make_unique<NormalOperatorMeanFunctionFactory>());
+        force_put("thermal_mean", std::make_unique<NormalOperatorThermalMeanFunctionFactory>());
+        force_put("exec_request", std::make_unique<NormalOperatorExecRequestFunctionFactory>());
+
     }
 
 }

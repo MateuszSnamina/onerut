@@ -20,6 +20,6 @@ H_lambda_1 := (1./2) * (x_shift*x_shift - ip*ip) # The first way to define the d
 H_lambda_2 := n + (1./2) * eye - lambda * x      # The second way to define the oscilator Hamiltonian
 
 # Diagonalize the displaced hamiltonian:
-diag_request(H_1)
+eigs(H_1)
 
-diag_request(H_lambda_1)
+eigs(H_lambda_1)
