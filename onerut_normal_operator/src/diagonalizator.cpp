@@ -113,5 +113,4 @@ namespace onerut_normal_operator {
         cached_result = std::nullopt;
     }
 
-
 }
