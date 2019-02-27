@@ -5,10 +5,13 @@
 
 namespace onerut_parser {
 
-    class NormalOperatorExecRequestFunctionFactory : public NaryFunctionFactory<1> {
+    class LatchRequestFunctionFactory : public NaryFunctionFactory<1> {
         Asset make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const override;
     };
 
+    class ResetRequestFunctionFactory : public NaryFunctionFactory<1> {
+        Asset make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const override;
+    };
 }
 
 #endif

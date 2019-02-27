@@ -66,8 +66,10 @@
         <in>function_factory_container.cpp</in>
         <in>function_factory_imperative_request.cpp</in>
         <in>function_factory_normal_operators.cpp</in>
+        <in>function_factory_print_value_request.cpp</in>
         <in>gramma_parser.cpp</in>
         <in>print_chart.cpp</in>
+        <in>request_print_value.cpp</in>
       </df>
     </df>
     <df root="onerut_parser_tests" name="6">
@@ -559,6 +561,13 @@
         <ccTool flags="0">
         </ccTool>
       </item>
+      <item path="onerut_parser/src/function_factory_print_value_request.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
       <item path="onerut_parser/src/gramma_parser.cpp"
             ex="false"
             tool="1"
@@ -567,6 +576,13 @@
         </ccTool>
       </item>
       <item path="onerut_parser/src/print_chart.cpp" ex="false" tool="1" flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_parser/src/request_print_value.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
         <ccTool flags="0">
         </ccTool>
       </item>

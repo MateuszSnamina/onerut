@@ -25,8 +25,8 @@ namespace onerut_normal_operator {
     public:
         Eigs(std::shared_ptr<const AbstractOperator> hamiltonian);
         EigsResult value() const;
-        void exec();
-        void free();
+        void latch();
+        void reset();
     public:
         std::shared_ptr<const AbstractOperator> hamiltonian;
     private:
@@ -40,8 +40,8 @@ namespace onerut_normal_operator {
                 std::shared_ptr<const AbstractOperator> op,
                 std::shared_ptr<const onerut_scalar::Integer> eigen_state);
         double value_real() const override;
-        void exec();
-        void free();
+        void latch();
+        void reset();
     public:
         std::shared_ptr<const Eigs>eigs;
         std::shared_ptr<const AbstractOperator> op;

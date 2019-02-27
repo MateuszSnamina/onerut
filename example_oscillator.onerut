@@ -1,7 +1,12 @@
-# Define the vibronic space for one oscillator
-OSCILLATOR_DOMAIN := oscillator_domain(7) # use 5 lower vibronic states
+########################################
+# Define the vibronic Hilbert space    #
+########################################
+OSCILLATOR_DOMAIN := oscillator_domain(5) # use 5 lower vibronic states
 
-# Define handy references for standard vibronic operators:
+########################################
+# Define handy references              #
+# for standard vibronic operators      #
+########################################
 new const vacuum_state := state_index(OSCILLATOR_DOMAIN, 0) # the vacuum state
 new const cr := cr(OSCILLATOR_DOMAIN)     # creation operator
 new const an := an(OSCILLATOR_DOMAIN)     # anihilation operator
@@ -10,25 +15,64 @@ new const x  := (1/sqrt(2)) * ( cr + an)  # position operator
 new const ip := (1/sqrt(2)) * (-cr + an)  # momentum operator times imaginary unit
 new const n := cr * an
 
-# Standard oscilator
-H_1 := (1./2) * (x*x - ip*ip) # The first way to define the oscilator Hamiltonian
-H_2 := n + (1./2) * eye       # The second way to define the oscilator Hamiltonian
+########################################
+# Standard oscilator                  ##
+########################################
+H_1 := (1./2) * (x*x - ip*ip) # The first way 
+                              # to define the Hamiltonian
+H_2 := n + (1./2) * eye       # The second (equivalent) way
+                              # to define the Hamiltonian
+VALUE(H_1) # execute and print value
+VALUE(H_2) # execute and print value
 
-# The displaced oscilator
-lambda := 0.8 # displacement
+########################################
+###  The displaced oscilator         ###
+########################################
+lambda := 0.8 # a displacement
 x_shift := x - lambda * eye # displaced posion operator
-H_lambda_1 := (1./2) * (x_shift*x_shift - ip*ip) # The first way to define the displaced oscilator Hamiltonian
-H_lambda_2 := n + (1./2) * eye - lambda * x      # The second way to define the oscilator Hamiltonian
+H_lambda_1 := (1 / 2.) * (x_shift*x_shift - ip*ip)             # The first way to define
+                                                               # to define the Hamiltonian 
+huang_rys := lambda^2 / 2.0                   
+H_lambda_2 := n + (1/2.) * eye - lambda * x + huang_rys * eye  # The second (equivalent) way
+                                                               # to define the Hamiltonian
+VALUE(H_lambda_1) # execute and print value
+VALUE(H_lambda_2) # execute and print value
 
-# Diagonalize the displaced hamiltonian:
-H_1_eigs := eigs(H_1)
-H_1_eigs
-exec(H_1_eigs)
-H_1_eigs
+################################################
+# Eigenstates of the displaced hamiltonian    ##
+################################################
 
-H_lambda_1_eigs := eigs(H_lambda_1)
+eigs := eigs(H_lambda_1)
+LATCH(eigs) # execute and latch value - performance optimization
+VALUE(eigs) # print executed value
 
-mean_x := mean(H_lambda_1_eigs, x, 0)
-2 * mean_x
+##################################################
+# Calculate <x>, <x*x> in the first eigenstate   #
+##################################################
+mean_x := mean(eigs, x, 0)
+mean_x2 := mean(eigs, x * x, 0)
+LATCH(mean_x) # should be equel lambda
+LATCH(mean_x2)
+VALUE(mean_x)
+VALUE(mean_x2)
 
-exec(H_1_eigs)
+##################################################
+# Calculate <p>, <p*p> in the first eigenstate   #
+##################################################
+mean_ip := mean(eigs, ip, 0)
+mean_ip2 := mean(eigs, ip * ip, 0)
+LATCH(mean_ip)
+LATCH(mean_ip2)
+VALUE(mean_ip)
+VALUE(mean_ip2)
+
+##################################################
+# Uncertainty principle in the first eigenstate  #
+##################################################
+sigma_x := sqrt( + mean_x2 - mean_x^2 )   # position standard deviation 
+sigma_p := sqrt( - mean_ip2 + mean_ip^2 ) # momentum standard deviation 
+sigma_join := sigma_x * sigma_p
+VALUE(sigma_x)
+VALUE(sigma_p)
+VALUE(sigma_join) # should be equel 1/2
+

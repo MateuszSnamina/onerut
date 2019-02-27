@@ -69,11 +69,11 @@ namespace onerut_normal_operator {
         return ( cached_result ? *cached_result : _value());
     }
 
-    void Eigs::exec() {
+    void Eigs::latch() {
         cached_result.emplace(_value());
     }
 
-    void Eigs::free() {
+    void Eigs::reset() {
         cached_result = std::nullopt;
     }
 
@@ -105,11 +105,11 @@ namespace onerut_normal_operator {
         return ( cached_result ? *cached_result : _value_real());
     }
 
-    void Mean::exec() {
+    void Mean::latch() {
         cached_result = _value_real();
     }
 
-    void Mean::free() {
+    void Mean::reset() {
         cached_result = std::nullopt;
     }
 

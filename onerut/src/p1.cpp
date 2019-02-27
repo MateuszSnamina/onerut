@@ -18,7 +18,8 @@
 #include<onerut_parser/asset_utility.hpp>
 #include<onerut_parser/asset_receipt.hpp>
 
-#include<onerut_parser/imperative_request.hpp>
+#include<onerut_parser/request_imperative.hpp>
+#include<onerut_parser/request_print_value.hpp>
 
 //--------------------------------------------
 
@@ -76,8 +77,11 @@ execute_line(std::shared_ptr<const std::string> line) {
     // *************************************************************************
     // *************  Requests stage:        ***********************************
     // *************************************************************************
-    if (const auto request = asset.deref().typed_value_or_empty<onerut_parser::ExecRequest>()) {
+    if (const auto request = asset.deref().typed_value_or_empty<onerut_parser::ImperativeRequest>()) {
         (*request)->exec();
+    }
+    if (const auto request = asset.deref().typed_value_or_empty<onerut_parser::PrintValueRequest>()) {
+        (*request)->print(std::cout, "[request] ");
     }
     // *************************************************************************
     std::cout << std::endl;

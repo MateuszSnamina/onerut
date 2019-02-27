@@ -1,10 +1,11 @@
 #include<cmath>
 #include<complex>
 
-#include<onerut_parser/function_factory_imperative_request.hpp>
 #include<onerut_parser/function_factory_constant.hpp>
 #include<onerut_parser/function_factory_scalar.hpp>
 #include<onerut_parser/function_factory_normal_operators.hpp>
+#include<onerut_parser/function_factory_imperative_request.hpp>
+#include<onerut_parser/function_factory_print_value_request.hpp>
 #include<onerut_parser/function_factory_container.hpp>
 
 using cx_double = std::complex<double>;
@@ -262,7 +263,9 @@ namespace onerut_parser {
     }
 
     void FunctionFactoryContainer::put_imparative_request_functions() {
-        force_put("exec", std::make_unique<NormalOperatorExecRequestFunctionFactory>());
+        force_put("LATCH", std::make_unique<LatchRequestFunctionFactory>());
+        force_put("RESET", std::make_unique<ResetRequestFunctionFactory>());
+        force_put("VALUE", std::make_unique<PrintValueRequestFunctionFactory>());
     }
 
     void FunctionFactoryContainer::put_all() {
