@@ -73,6 +73,9 @@ namespace onerut_parser::utility {
     bool
     is_normal_operator_eigs(const onerut_parser::AssetDeref&);
 
+    bool
+    is_normal_operator_mean(const onerut_parser::AssetDeref&);
+
     // -------------------------------------------------------------------------
 
     std::shared_ptr< const onerut_scalar::Integer>
@@ -107,6 +110,9 @@ namespace onerut_parser::utility {
 
     std::shared_ptr < onerut_normal_operator::Eigs >
     to_normal_operator_eigs(const onerut_parser::AssetDeref&);
+
+    std::shared_ptr < onerut_normal_operator::Mean >
+    to_normal_operator_mean(const onerut_parser::AssetDeref&);
 
     // -------------------------------------------------------------------------
 

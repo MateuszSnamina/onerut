@@ -146,6 +146,14 @@ namespace onerut_parser::utility {
         return arg.is_given_type<EigsT>();
     }
 
+    bool
+    is_normal_operator_mean(const onerut_parser::AssetDeref& arg) {
+        using MeanT = onerut_normal_operator::Mean;
+        assert(!arg.is_empty());
+        assert(!arg.is_compile_error());
+        return arg.is_given_type<MeanT>();
+    }
+
     // -------------------------------------------------------------------------
 
     std::shared_ptr< const onerut_scalar::Integer>
@@ -241,6 +249,15 @@ namespace onerut_parser::utility {
         using EigsT = onerut_normal_operator::Eigs;
         assert(is_normal_operator_eigs(arg));
         const auto& arg_normal_operator = *arg.typed_value_or_empty<EigsT>();
+        assert(arg_normal_operator);
+        return arg_normal_operator;
+    }
+
+    std::shared_ptr < onerut_normal_operator::Mean >
+    to_normal_operator_mean(const onerut_parser::AssetDeref& arg) {
+        using MeanT = onerut_normal_operator::Mean;
+        assert(is_normal_operator_mean(arg));
+        const auto& arg_normal_operator = *arg.typed_value_or_empty<MeanT>();
         assert(arg_normal_operator);
         return arg_normal_operator;
     }

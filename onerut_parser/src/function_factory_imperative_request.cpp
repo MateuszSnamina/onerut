@@ -13,14 +13,21 @@ namespace onerut_parser {
         if (!arg0_asset_deref.is_either_value_or_type())
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         // ---------------------------------------------------------------------        
-        if (!utility::is_normal_operator_eigs(arg0_asset_deref))
-            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        if (utility::is_normal_operator_eigs(arg0_asset_deref)) {
+            const auto normal_operator_eigs = utility::to_normal_operator_eigs(arg0_asset_deref);
+            return Asset::from_value<onerut_parser::ImperativeRequest>(
+                    std::make_shared<onerut_parser::LatchRequestTyped<onerut_normal_operator::Eigs> >(normal_operator_eigs)
+                    );
+        }
         // ---------------------------------------------------------------------        
-        const auto normal_operator_eigs = utility::to_normal_operator_eigs(arg0_asset_deref);
+        if (utility::is_normal_operator_mean(arg0_asset_deref)) {
+            const auto normal_operator_mean = utility::to_normal_operator_mean(arg0_asset_deref);
+            return Asset::from_value<onerut_parser::ImperativeRequest>(
+                    std::make_shared<onerut_parser::LatchRequestTyped<onerut_normal_operator::Mean> >(normal_operator_mean)
+                    );
+        }
         // ---------------------------------------------------------------------        
-        return Asset::from_value<onerut_parser::ImperativeRequest>(
-                std::make_shared<onerut_parser::LatchRequestTyped<onerut_normal_operator::Eigs> >(normal_operator_eigs)
-                );
+        return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
     }
 
     Asset ResetRequestFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const {
@@ -32,14 +39,21 @@ namespace onerut_parser {
         if (!arg0_asset_deref.is_either_value_or_type())
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         // ---------------------------------------------------------------------        
-        if (!utility::is_normal_operator_eigs(arg0_asset_deref))
-            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        if (utility::is_normal_operator_eigs(arg0_asset_deref)) {
+            const auto normal_operator_eigs = utility::to_normal_operator_eigs(arg0_asset_deref);
+            return Asset::from_value<onerut_parser::ImperativeRequest>(
+                    std::make_shared<onerut_parser::ResetRequestTyped<onerut_normal_operator::Eigs> >(normal_operator_eigs)
+                    );
+        }
         // ---------------------------------------------------------------------        
-        const auto normal_operator_eigs = utility::to_normal_operator_eigs(arg0_asset_deref);
+        if (utility::is_normal_operator_mean(arg0_asset_deref)) {
+            const auto normal_operator_mean = utility::to_normal_operator_mean(arg0_asset_deref);
+            return Asset::from_value<onerut_parser::ImperativeRequest>(
+                    std::make_shared<onerut_parser::ResetRequestTyped<onerut_normal_operator::Mean> >(normal_operator_mean)
+                    );
+        }
         // ---------------------------------------------------------------------        
-        return Asset::from_value<onerut_parser::ImperativeRequest>(
-                std::make_shared<onerut_parser::ResetRequestTyped<onerut_normal_operator::Eigs> >(normal_operator_eigs)
-                );
+        return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
     }
 
 }
