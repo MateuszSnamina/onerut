@@ -74,11 +74,14 @@
     </df>
     <df root="onerut_parser_tests" name="6">
       <df name="src">
+        <in>box_mix_integer_real.cpp</in>
+        <in>box_pure_integer.cpp</in>
+        <in>box_pure_real.cpp</in>
         <in>global_flags.cpp</in>
         <in>main.cpp</in>
-        <in>mix_int_real.cpp</in>
-        <in>pure_int.cpp</in>
-        <in>pure_real.cpp</in>
+        <in>source_mix_integer_real.cpp</in>
+        <in>source_pure_integer.cpp</in>
+        <in>source_pure_real.cpp</in>
       </df>
     </df>
     <df root="onerut_scalar" name="7">
@@ -586,6 +589,27 @@
         <ccTool flags="0">
         </ccTool>
       </item>
+      <item path="onerut_parser_tests/src/box_mix_integer_real.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_parser_tests/src/box_pure_integer.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_parser_tests/src/box_pure_real.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
       <item path="onerut_parser_tests/src/global_flags.cpp"
             ex="false"
             tool="1"
@@ -597,21 +621,21 @@
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="onerut_parser_tests/src/mix_int_real.cpp"
+      <item path="onerut_parser_tests/src/source_mix_integer_real.cpp"
             ex="false"
             tool="1"
             flavor2="11">
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="onerut_parser_tests/src/pure_int.cpp"
+      <item path="onerut_parser_tests/src/source_pure_integer.cpp"
             ex="false"
             tool="1"
             flavor2="11">
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="onerut_parser_tests/src/pure_real.cpp"
+      <item path="onerut_parser_tests/src/source_pure_real.cpp"
             ex="false"
             tool="1"
             flavor2="11">

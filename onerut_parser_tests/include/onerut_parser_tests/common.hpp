@@ -22,31 +22,60 @@
 
 const double inf = std::numeric_limits<double>::infinity();
 
+inline
+void onerut_source_test(const std::string & _expect, const std::string onerut_inuput) {
+    auto _onerut_inuput = std::make_shared<const std::string>(onerut_inuput);
+    // #########################################################################
+    const auto _parsed_x3_info = onerut_parser::parse(_onerut_inuput);
+    // --------------------------------------------------
+    if (onerut_verbose) {
+        std::cout << "[test][common] Parsed info (onerut_ast::x3):" << std::endl;
+        print(_parsed_x3_info);
+    }
+    // --------------------------------------------------
+    ASSERT_TRUE(_parsed_x3_info.succes());
+    // #########################################################################
+    const auto _ast_source_head = onerut_parser::onerut_ast::to_ast_source(
+            _parsed_x3_info.ast_head,
+            _parsed_x3_info.input,
+            _parsed_x3_info.positions);
+    // --------------------------------------------------
+    if (onerut_verbose) {
+        const auto ast_source_ast_chart = _ast_source_head->to_ast_chart();
+        onerut_parser::print_ast_chart(std::cout, _parsed_x3_info.input, ast_source_ast_chart, "[test][common][source][diagram]");
+    }
+    // #########################################################################    
+    const std::string _got = _ast_source_head->to_oneliner();
+    ASSERT_EQ(_expect, _got);
+}
+
+
 template<typename T>
-void _basis_onerut_test(T _cpp_value, std::shared_ptr<std::string> _onerut_inuput);
+void basis_onerut_test(T cpp_value, const std::string onerut_inuput);
 
 #define BASIC_ONERUT_TEST(CPP_EXPRESSION, ONERUT_EXPRESSION)                     \
 std::cout << "[test][common] cpp_expression:" << (#CPP_EXPRESSION) << std::endl; \
 auto _cpp_value = CPP_EXPRESSION;                                                \
-auto _onerut_inuput = std::make_shared<std::string>(#ONERUT_EXPRESSION); \
-_basis_onerut_test(_cpp_value, _onerut_inuput);
+basis_onerut_test(_cpp_value, #ONERUT_EXPRESSION);
 
 #define ONERUT_TEST(EXPRESSION)  \
 BASIC_ONERUT_TEST(EXPRESSION, EXPRESSION)
+
 
 // -----------------------------------------------------------
 // ---------- TEMPLATE FUNCTIONS IMPLEMENTATION --------------
 // -----------------------------------------------------------
 
 template<typename T>
-void _basis_onerut_test(T _cpp_value, std::shared_ptr<std::string> _onerut_inuput) {
+void basis_onerut_test(T cpp_value, const std::string onerut_inuput) {
+    auto _onerut_inuput = std::make_shared<const std::string>(onerut_inuput);
     // #########################################################################
-    std::cout << "[test][common] cpp_value: " << _cpp_value << std::endl;
+    std::cout << "[test][common] cpp_value: " << cpp_value << std::endl;
     bool _cpp_is_int =
-            std::is_same < decltype(_cpp_value), long>::value ||
-            std::is_same < decltype(_cpp_value), int>::value;
+            std::is_same < decltype(cpp_value), long>::value ||
+            std::is_same < decltype(cpp_value), int>::value;
     bool _cpp_is_double =
-            std::is_same < decltype(_cpp_value), double>::value;
+            std::is_same < decltype(cpp_value), double>::value;
     if (onerut_verbose) {
         std::cout << "[test][common] cpp_is_int: " << _cpp_is_int << std::endl;
         std::cout << "[test][common] cpp_is_double: " << _cpp_is_double << std::endl;
@@ -88,12 +117,12 @@ void _basis_onerut_test(T _cpp_value, std::shared_ptr<std::string> _onerut_inupu
     if (_cpp_is_int) {
         std::shared_ptr<onerut_scalar::Integer> result_integer = *(_asset.deref().typed_value_or_empty<onerut_scalar::Integer>());
         auto _onerut_value = result_integer->value_integer();
-        EXPECT_EQ(_cpp_value, _onerut_value);
+        EXPECT_EQ(cpp_value, _onerut_value);
     }
     if (_cpp_is_double) {
         std::shared_ptr<onerut_scalar::Real> result_real = *(_asset.deref().typed_value_or_empty<onerut_scalar::Real>());
         auto _onerut_value = result_real->value_real();
-        EXPECT_EQ(_cpp_value, _onerut_value);
+        EXPECT_EQ(cpp_value, _onerut_value);
     }
 
 }
