@@ -168,4 +168,3 @@ TEST(box_pure_integer, op_plus_minus_prod_div_grouping_9) {
 TEST(box_pure_integer, op_plus_minus_prod_div_grouping_10) {
     ONERUT_TEST(-54 / (75 + 764));
 }
-

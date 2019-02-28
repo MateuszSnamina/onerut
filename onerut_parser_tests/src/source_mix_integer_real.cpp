@@ -80,5 +80,3 @@ TEST(source_mix_integer_real, op_plus_minus_prod_div_grouping_9) {
 TEST(source_mix_integer_real, op_plus_minus_prod_div_grouping_10) {
     onerut_source_test("OpProdDiv(/,LitLong(-54),OpPlusMinus(+,LitDouble(75.800000),LitDouble(764.300000)))", "-54 / (75.8 + 764.3)");
 }
-
-

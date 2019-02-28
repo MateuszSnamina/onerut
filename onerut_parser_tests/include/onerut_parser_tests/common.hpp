@@ -3,18 +3,22 @@
 
 #include<limits>
 #include<memory>
+#include<optional>
 #include<string>
-#include<type_traits>
+#include<complex>
 
 #include<gtest/gtest.h>
 
+#include<onerut_scalar/scalar_abstract.hpp>
 #include<onerut_parser/gramma_parser.hpp>
 #include<onerut_parser/ast_x3_to_ast_source.hpp>
 #include<onerut_parser/ast_asset.hpp>
 #include<onerut_parser/print_chart.hpp>
 #include<onerut_parser/asset_receipt.hpp>
-#include<onerut_scalar/scalar_abstract.hpp>
+#include<onerut_parser/function_factory_container.hpp>
 #include<onerut_parser_tests/global_flags.hpp>
+
+using namespace std::complex_literals;
 
 // -----------------------------------------------------------
 // ---------- API --------------------------------------------
@@ -54,9 +58,9 @@ template<typename T>
 void basis_onerut_test(T cpp_value, const std::string onerut_inuput);
 
 #define BASIC_ONERUT_TEST(CPP_EXPRESSION, ONERUT_EXPRESSION)                     \
-std::cout << "[test][common] cpp_expression:" << (#CPP_EXPRESSION) << std::endl; \
-auto _cpp_value = CPP_EXPRESSION;                                                \
-basis_onerut_test(_cpp_value, #ONERUT_EXPRESSION);
+std::cout << "[test][common] cpp_expression    : " << (#CPP_EXPRESSION) << std::endl; \
+std::cout << "[test][common] onerut_expression : " << (#ONERUT_EXPRESSION) << std::endl; \
+basis_onerut_test(CPP_EXPRESSION, #ONERUT_EXPRESSION);
 
 #define ONERUT_TEST(EXPRESSION)  \
 BASIC_ONERUT_TEST(EXPRESSION, EXPRESSION)
@@ -66,20 +70,34 @@ BASIC_ONERUT_TEST(EXPRESSION, EXPRESSION)
 // ---------- TEMPLATE FUNCTIONS IMPLEMENTATION --------------
 // -----------------------------------------------------------
 
-template<typename T>
-void basis_onerut_test(T cpp_value, const std::string onerut_inuput) {
+template<class T>
+struct PromotedType {
+};
+
+template<>
+struct PromotedType<long> {
+    using Type = long;
+};
+
+template<>
+struct PromotedType<int> {
+    using Type = long;
+};
+
+template<>
+struct PromotedType<double> {
+    using Type = double;
+};
+
+template<>
+struct PromotedType<std::complex<double> > {
+    using Type = std::complex<double>;
+};
+
+inline
+std::optional<onerut_parser::Asset> onerut_inuput_2_asset(const std::string onerut_inuput) {
+    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
     auto _onerut_inuput = std::make_shared<const std::string>(onerut_inuput);
-    // #########################################################################
-    std::cout << "[test][common] cpp_value: " << cpp_value << std::endl;
-    bool _cpp_is_int =
-            std::is_same < decltype(cpp_value), long>::value ||
-            std::is_same < decltype(cpp_value), int>::value;
-    bool _cpp_is_double =
-            std::is_same < decltype(cpp_value), double>::value;
-    if (onerut_verbose) {
-        std::cout << "[test][common] cpp_is_int: " << _cpp_is_int << std::endl;
-        std::cout << "[test][common] cpp_is_double: " << _cpp_is_double << std::endl;
-    }
     // #########################################################################
     const auto _parsed_x3_info = onerut_parser::parse(_onerut_inuput);
     // --------------------------------------------------
@@ -88,7 +106,8 @@ void basis_onerut_test(T cpp_value, const std::string onerut_inuput) {
         print(_parsed_x3_info);
     }
     // --------------------------------------------------
-    ASSERT_TRUE(_parsed_x3_info.succes());
+    if (!_parsed_x3_info.succes())
+        return std::nullopt;
     // #########################################################################
     const auto _ast_source_head = onerut_parser::onerut_ast::to_ast_source(
             _parsed_x3_info.ast_head,
@@ -102,29 +121,71 @@ void basis_onerut_test(T cpp_value, const std::string onerut_inuput) {
     // #########################################################################
     const auto _ast_asset_head = _ast_source_head->compile();
     // -------------------------------------------------------------------------
-    const auto ast_asset_ast_chart = _ast_asset_head->to_ast_chart();
-    onerut_parser::print_ast_chart(std::cout, _parsed_x3_info.input, ast_asset_ast_chart, "[test][common][asset][diagram]");
+    if (onerut_verbose) {
+        const auto ast_asset_ast_chart = _ast_asset_head->to_ast_chart();
+        onerut_parser::print_ast_chart(std::cout, _parsed_x3_info.input, ast_asset_ast_chart, "[test][common][asset][diagram]");
+    }
     // #########################################################################
     onerut_parser::Asset _asset = _ast_asset_head->asset;
     // --------------------------------------------------    
     if (onerut_verbose)
         onerut_parser::print_receipt(std::cout, _asset, "[test][common] ");
     // --------------------------------------------------    
-    // --------------------------------------------------    
-    ASSERT_TRUE(!_asset.deref().is_compile_error()); // bedzie is_value_or_type
-    ASSERT_EQ(_cpp_is_int, _asset.deref().is_given_type<onerut_scalar::Integer>());
-    ASSERT_EQ(_cpp_is_double, _asset.deref().is_given_type<onerut_scalar::Real>());
-    if (_cpp_is_int) {
-        std::shared_ptr<onerut_scalar::Integer> result_integer = *(_asset.deref().typed_value_or_empty<onerut_scalar::Integer>());
-        auto _onerut_value = result_integer->value_integer();
-        EXPECT_EQ(cpp_value, _onerut_value);
-    }
-    if (_cpp_is_double) {
-        std::shared_ptr<onerut_scalar::Real> result_real = *(_asset.deref().typed_value_or_empty<onerut_scalar::Real>());
-        auto _onerut_value = result_real->value_real();
-        EXPECT_EQ(cpp_value, _onerut_value);
-    }
+    return _asset;
+}
 
+template<class T>
+struct BasisOnerutTest {
+};
+
+template<>
+struct BasisOnerutTest<std::complex<double> > {
+
+    static void test(std::complex<double> cpp_value, const std::string onerut_inuput) {
+        std::cout << "[test][common] cpp is complex." << std::endl;
+        const auto _asset = onerut_inuput_2_asset(onerut_inuput);
+        ASSERT_TRUE(_asset);
+        ASSERT_TRUE(!_asset->deref().is_compile_error()); // TODO bedzie is_value_or_type
+        const auto result_complex = _asset->deref().typed_value_or_empty<onerut_scalar::Complex>();
+        ASSERT_TRUE(result_complex);
+        const auto onerut_value = (*result_complex)->value_complex();
+        EXPECT_EQ(cpp_value, onerut_value);
+    }
+};
+
+template<>
+struct BasisOnerutTest<double> {
+
+    static void test(double cpp_value, const std::string onerut_inuput) {
+        std::cout << "[test][common] cpp is real." << std::endl;
+        const auto _asset = onerut_inuput_2_asset(onerut_inuput);
+        ASSERT_TRUE(_asset);
+        ASSERT_TRUE(!_asset->deref().is_compile_error()); // TODO bedzie is_value_or_type
+        const auto result_complex = _asset->deref().typed_value_or_empty<onerut_scalar::Real>();
+        ASSERT_TRUE(result_complex);
+        const auto onerut_value = (*result_complex)->value_real();
+        EXPECT_EQ(cpp_value, onerut_value);
+    }
+};
+
+template<>
+struct BasisOnerutTest<long> {
+
+    static void test(long cpp_value, const std::string onerut_inuput) {
+        const auto _asset = onerut_inuput_2_asset(onerut_inuput);
+        ASSERT_TRUE(_asset);
+        ASSERT_TRUE(!_asset->deref().is_compile_error()); // TODO bedzie is_value_or_type
+        const auto result_integer = _asset->deref().typed_value_or_empty<onerut_scalar::Integer>();
+        ASSERT_TRUE(result_integer);
+        const auto onerut_value = (*result_integer)->value_integer();
+        EXPECT_EQ(cpp_value, onerut_value);
+    }
+};
+
+template<typename T>
+void basis_onerut_test(T cpp_value, const std::string onerut_inuput) {
+    using Type = typename PromotedType<T>::Type;
+    BasisOnerutTest<Type>::test(cpp_value, onerut_inuput);
 }
 
 #endif

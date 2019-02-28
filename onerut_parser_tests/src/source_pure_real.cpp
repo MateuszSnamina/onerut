@@ -54,5 +54,3 @@ TEST(source_pure_real, op_plus_minus_prod_div_grouping_5) {
 TEST(source_pure_real, op_plus_minus_prod_div_grouping_6) {
     onerut_source_test("OpProdDiv(/,LitDouble(-540.500000),OpProdDiv(/,LitDouble(75.800000),LitDouble(764.300000)))", "-540.5 / (75.8 / 764.3)");
 }
-
-

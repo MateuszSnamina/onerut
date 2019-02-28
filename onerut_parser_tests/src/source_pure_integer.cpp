@@ -168,4 +168,3 @@ TEST(source_pure_integer, op_plus_minus_prod_div_grouping_9) {
 TEST(source_pure_integer, op_plus_minus_prod_div_grouping_10) {
     onerut_source_test("OpProdDiv(/,LitLong(-54),OpPlusMinus(+,LitLong(75),LitLong(764)))", "-54 / (75 + 764)");
 }
-

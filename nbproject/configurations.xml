@@ -75,11 +75,13 @@
     <df root="onerut_parser_tests" name="6">
       <df name="src">
         <in>box_mix_integer_real.cpp</in>
+        <in>box_pure_complex.cpp</in>
         <in>box_pure_integer.cpp</in>
         <in>box_pure_real.cpp</in>
         <in>global_flags.cpp</in>
         <in>main.cpp</in>
         <in>source_mix_integer_real.cpp</in>
+        <in>source_pure_complex.cpp</in>
         <in>source_pure_integer.cpp</in>
         <in>source_pure_real.cpp</in>
       </df>
@@ -596,6 +598,13 @@
         <ccTool flags="0">
         </ccTool>
       </item>
+      <item path="onerut_parser_tests/src/box_pure_complex.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
       <item path="onerut_parser_tests/src/box_pure_integer.cpp"
             ex="false"
             tool="1"
@@ -622,6 +631,13 @@
         </ccTool>
       </item>
       <item path="onerut_parser_tests/src/source_mix_integer_real.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_parser_tests/src/source_pure_complex.cpp"
             ex="false"
             tool="1"
             flavor2="11">
