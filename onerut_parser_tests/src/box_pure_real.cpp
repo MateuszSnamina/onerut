@@ -1,5 +1,5 @@
 #include<gtest/gtest.h>
-#include<onerut_parser_tests/common.hpp>
+#include<onerut_parser_tests/box_common.hpp>
 
 // -----------------------------------------------------------------------------
 // --------------------  test cases  -------------------------------------------
