@@ -1,3 +1,6 @@
+#include<cctype> // to script.cpp
+#include<iterator> // to script.cpp
+
 #include<iostream>
 #include<fstream>
 #include<iomanip>
@@ -89,10 +92,15 @@ execute_line(std::shared_ptr<const std::string> line) {
 }
 
 const std::string preprocesor(const std::string& line) {
-    const auto pos = line.find('#');
-    std::string result{line, 0, pos};
-    boost::trim_right(result);
-    return result;
+    auto it = std::find_if(line.cbegin(), line.cend(),
+            [](char ch) {
+                return ch == '#';
+            });
+    it = std::find_if(std::make_reverse_iterator(it), line.crend(),
+            [](char ch) {
+                return !std::isspace(ch);
+            }).base();
+    return {line.begin(), it};
 }
 
 std::vector<std::shared_ptr<const std::string>>
