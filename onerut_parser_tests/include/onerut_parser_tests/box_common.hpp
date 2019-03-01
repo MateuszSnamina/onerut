@@ -4,8 +4,11 @@
 #include<limits>
 #include<memory>
 #include<optional>
-#include<string>
 #include<complex>
+#include<string>
+#include<iostream>
+#include<iomanip>
+
 
 #include<gtest/gtest.h>
 
@@ -19,8 +22,9 @@
 // ---------- API --------------------------------------------
 // -----------------------------------------------------------
 
-using namespace std::complex_literals;
-const double inf = std::numeric_limits<double>::infinity();
+using namespace std; //to allow CPP_EXPRESSION such as abs(4.5).
+using namespace std::complex_literals; //to allow CPP_EXPRESSION such as 5i.
+const double inf = std::numeric_limits<double>::infinity(); //to allow CPP_EXPRESSION containing inf.
 
 template<typename T>
 void basis_onerut_test(T cpp_value, const std::string onerut_inuput);
@@ -97,8 +101,11 @@ struct BasisOnerutTest<double> {
         const auto result_complex = asset.deref().typed_value_or_empty<onerut_scalar::Real>();
         ASSERT_TRUE(result_complex);
         const auto onerut_value = (*result_complex)->value_real();
+        const auto stream_flags = std::cout.flags();
+        std::cout << std::setprecision(18);
         std::cout << "[test][common] cpp_value    : " << cpp_value << std::endl;
         std::cout << "[test][common] onerut_value : " << onerut_value << std::endl;
+        std::cout.flags(stream_flags);
         EXPECT_EQ(cpp_value, onerut_value);
     }
 };

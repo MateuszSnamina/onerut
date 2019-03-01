@@ -46,8 +46,7 @@ namespace onerut_scalar {
     };
 
     template<>
-    class is_onerut_scalar<std::complex<double>> : public std::true_type
-    {
+    class is_onerut_scalar<std::complex<double> > : public std::true_type {
     };
 
     // -------------------------------------------------------------------------
