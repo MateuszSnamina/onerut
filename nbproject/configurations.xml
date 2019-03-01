@@ -74,6 +74,7 @@
     </df>
     <df root="onerut_parser_tests" name="6">
       <df name="src">
+        <in>box_functions.cpp</in>
         <in>box_mix_integer_real.cpp</in>
         <in>box_pure_complex.cpp</in>
         <in>box_pure_integer.cpp</in>
@@ -585,6 +586,13 @@
         </ccTool>
       </item>
       <item path="onerut_parser/src/request_print_value.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="onerut_parser_tests/src/box_functions.cpp"
             ex="false"
             tool="1"
             flavor2="11">
