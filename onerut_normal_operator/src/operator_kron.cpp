@@ -40,10 +40,10 @@ namespace {
     std::vector<unsigned> domain_sizes_2_weights(
             const std::vector<unsigned> & domain_sizes) {
         std::vector<unsigned> weights(domain_sizes.size() + 1);
-        weights[0] = 1;
+        weights.back() = 1;
         std::partial_sum(
-                cbegin(domain_sizes), cend(domain_sizes),
-                begin(weights) + 1, std::multiplies<unsigned>());
+                crbegin(domain_sizes), crend(domain_sizes),
+                rbegin(weights) + 1, std::multiplies<unsigned>());
         return weights;
     }
 
@@ -59,7 +59,7 @@ namespace {
             unsigned site,
             unsigned ket) {
         assert(site < weights.size() - 1);
-        return _get_site_intex(weights[site], weights[site + 1], ket);
+        return _get_site_intex(weights[site +1], weights[site], ket);
     }
 
 }
@@ -76,7 +76,7 @@ namespace onerut_normal_operator {
     }
 
     unsigned KronDomain::size() const {
-        return weights.back();
+        return weights.front();
     }
 
     std::string KronDomain::state_name(unsigned index) const {
