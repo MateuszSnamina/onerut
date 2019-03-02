@@ -24,6 +24,7 @@
         <in>calculate_mean.cpp</in>
         <in>diagonalizator.cpp</in>
         <in>operator_abstract.cpp</in>
+        <in>operator_kron.cpp</in>
         <in>operator_opplusminus.cpp</in>
         <in>operator_opprod.cpp</in>
         <in>operator_opunaryplusminus.cpp</in>
@@ -340,6 +341,13 @@
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/operator_abstract.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+        </ccTool>
+      </item>
+      <item path="onerut_normal_operator/src/operator_kron.cpp"
             ex="false"
             tool="1"
             flavor2="11">

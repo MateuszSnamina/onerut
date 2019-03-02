@@ -4,8 +4,9 @@
 
 #include<onerut_normal_operator/operator_oscillator.hpp>
 
+/*
 namespace {
-
+    // TODO : delete
     std::vector<std::string>
     _generate_state_names(unsigned n_max_stars) {
         std::vector<std::string> names;
@@ -17,11 +18,22 @@ namespace {
         return names;
     }
 }
+ */
 
 namespace onerut_normal_operator {
 
     OscillatorDomain::OscillatorDomain(unsigned n_max_stars) :
-    Domain(_generate_state_names(n_max_stars)) {
+    n_max_stars(n_max_stars) {
+    }
+
+    unsigned OscillatorDomain::size() const {
+        return n_max_stars;
+    }
+
+    std::string OscillatorDomain::state_name(unsigned index) const {
+        const auto & n_stars = index;
+        const std::string name = "nu_" + std::to_string(n_stars);
+        return name;
     }
 
     // -------------------------------------------------------------------------

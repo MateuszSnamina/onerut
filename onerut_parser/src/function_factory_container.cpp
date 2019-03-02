@@ -241,8 +241,8 @@ namespace onerut_parser {
 
     void FunctionFactoryContainer::put_onerut_functions() {
         // Basic normal operator functions:
-        force_put("normal_domain", std::make_unique<CreateNormalDomainFunctionFactory>());
-        force_put("state_index", std::make_unique<CreateNormalDomainStateIndexFunctionFactory>());
+        force_put("custom_domain", std::make_unique<CreateNormalOperatorCustomDomainFunctionFactory>());
+        force_put("state_index", std::make_unique<CreateNormalOperatorDomainStateIndexFunctionFactory>());
         force_put("zero", std::make_unique<NormalOperatorZeroFunctionFactory>());
         force_put("diag", std::make_unique<NormalOperatorDiagFunctionFactory>());
         force_put("hop", std::make_unique<NormalOperatorHopFunctionFactory>());
@@ -256,6 +256,8 @@ namespace onerut_parser {
         force_put("Sz", std::make_unique<CreateSpinZetOperatorFunctionFactory>());
         force_put("Sp", std::make_unique<CreateSpinPlusOperatorFunctionFactory>());
         force_put("Sm", std::make_unique<CreateSpinMinusOperatorFunctionFactory>());
+        // Normal operator for kron algebra functions:
+        force_put("kron_domain", std::make_unique<CreateKronDomainFunctionFactory>());        
         // Calculation functions:        
         force_put("eigs", std::make_unique<NormalOperatorEigsFunctionFactory>());
         force_put("mean", std::make_unique<NormalOperatorMeanFunctionFactory>());

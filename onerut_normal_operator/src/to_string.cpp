@@ -9,8 +9,8 @@ namespace onerut_normal_operator {
 
     std::string to_string(const Domain& domain) {
         std::string result;
-        for (unsigned index = 0; index < domain.state_names.size(); ++index)
-            result += "【#" + std::to_string(index) + "»" + domain.state_names[index] + "】";
+        for (unsigned index = 0; index < domain.size(); ++index)
+            result += "【#" + std::to_string(index) + "»" + domain.state_name(index) + "】";
         return result;
     }
 
@@ -21,8 +21,8 @@ namespace onerut_normal_operator {
         sstream << std::setprecision(6);
         const arma::mat matrix = to_mat(op);
         fancy_logging::log(sstream,
-                op.get_domain()->state_names,
-                op.get_domain()->state_names,
+                op.get_domain()->state_names(),
+                op.get_domain()->state_names(),
                 matrix,
                 line_prefix);
         return sstream.str();

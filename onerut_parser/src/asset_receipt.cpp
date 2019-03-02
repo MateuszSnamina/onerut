@@ -89,9 +89,9 @@ namespace onerut_parser {
             stream << line_prefix << "[asset-deref] "
                     << "Asset-defer is a " << esc::manip::italic << "normal-domain-state-index" << esc::manip::reset << "."
                     << std::endl;
-        } else if (asset.deref().is_given_type<onerut_normal_operator::Domain>()) {
+        } else if (asset.deref().is_given_type<onerut_normal_operator::CustomDomain>()) {
             stream << line_prefix << "[asset-deref] "
-                    << "Asset-defer is a " << esc::manip::italic << "normal-domain" << esc::manip::reset << "."
+                    << "Asset-defer is a " << esc::manip::italic << "custom-type-normal-domain" << esc::manip::reset << "."
                     << std::endl;
         } else if (asset.deref().is_given_type<onerut_normal_operator::OscillatorDomain>()) {
             stream << line_prefix << "[asset-deref] "

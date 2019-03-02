@@ -1,5 +1,8 @@
 #include<onerut_scalar/scalar_abstract.hpp>
 #include<onerut_normal_operator/operator_abstract.hpp>
+#include<onerut_normal_operator/operator_oscillator.hpp>//TODO operator -> domain when domain header will be created.
+#include<onerut_normal_operator/operator_spin.hpp>//TODO operator -> domain when domain header will be created.
+#include<onerut_normal_operator/operator_kron.hpp> //TODO operator -> domain when domain header will be created.
 
 #include<onerut_parser/asset_utility.hpp>
 #include<onerut_parser/asset_to_esc_data.hpp>
@@ -24,7 +27,10 @@ namespace onerut_parser {
             return esc::EscDataBuilder() << esc::manip::cyan << esc::manip::build_esc_data;
         if (asset.deref().is_given_type<onerut_scalar::Complex>())
             return esc::EscDataBuilder() << esc::manip::green << esc::manip::build_esc_data;
-        if (asset.deref().is_given_type<onerut_normal_operator::Domain>())
+        if (asset.deref().is_given_type<onerut_normal_operator::CustomDomain>() ||
+                asset.deref().is_given_type<onerut_normal_operator::OscillatorDomain>() ||
+                asset.deref().is_given_type<onerut_normal_operator::SpinDomain>() ||
+                asset.deref().is_given_type<onerut_normal_operator::KronDomain>())
             return esc::EscDataBuilder() << esc::manip::italic << esc::manip::yellow << esc::manip::build_esc_data;
         if (asset.deref().is_given_type<onerut_normal_operator::StateIndex>())
             return esc::EscDataBuilder() << esc::manip::italic << esc::manip::yellow << esc::manip::build_esc_data;

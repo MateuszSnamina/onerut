@@ -17,11 +17,19 @@ namespace onerut_normal_operator {
 
     class Domain : public std::enable_shared_from_this<Domain> {
     public:
-        Domain(std::vector<std::string> state_names);
-        unsigned size() const;
+        virtual unsigned size() const = 0;
+        virtual std::string state_name(unsigned index) const = 0;
+        virtual std::vector<std::string> state_names() const;
         std::unique_ptr<StateIndex> crate_state(unsigned index) const;
+    };
+
+    class CustomDomain : public Domain {
     public:
-        const std::vector<std::string> state_names;
+        CustomDomain(std::vector<std::string> state_names);
+        unsigned size() const override;
+        std::string state_name(unsigned index) const override;
+    public:
+        const std::vector<std::string> _state_names;
     };
 
     // -------------------------------------------------------------------------

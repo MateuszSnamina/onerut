@@ -66,15 +66,15 @@ namespace onerut_parser {
 
     // *************************************************************************
 
-    PrintValueRequestTyped<onerut_normal_operator::Domain>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
+    PrintValueRequestTyped<onerut_normal_operator::CustomDomain>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
     instance(instance) {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_normal_operator::Domain>::print(std::ostream& stream, std::string line_prefix) const {
+    void PrintValueRequestTyped<onerut_normal_operator::CustomDomain>::print(std::ostream& stream, std::string line_prefix) const {
         assert(instance);
         stream << line_prefix << "[value] "
-                << "dimension = " << instance->state_names.size()
+                << "dimension = " << instance->size()
                 << std::endl;
         stream << line_prefix << "[value] "
                 << "states = " << string_utils::StreamToGreek(onerut_normal_operator::to_string(*instance))
@@ -91,7 +91,7 @@ namespace onerut_parser {
     void PrintValueRequestTyped<onerut_normal_operator::OscillatorDomain>::print(std::ostream& stream, std::string line_prefix) const {
         assert(instance);
         stream << line_prefix << "[value] "
-                << "dimension = " << instance->state_names.size()
+                << "dimension = " << instance->size()
                 << std::endl;
         stream << line_prefix << "[value] "
                 << "vibronic states = " << string_utils::StreamToGreek(onerut_normal_operator::to_string(*instance))

@@ -96,14 +96,16 @@ namespace onerut_parser::utility {
 
     bool
     is_normal_operator_domain(const onerut_parser::AssetDeref& arg) {
-        using OperatorT = onerut_normal_operator::Domain;
-        using OperatorOscillatorT = onerut_normal_operator::OscillatorDomain;
-        using OperatorSpinT = onerut_normal_operator::SpinDomain;
+        using CustomDomainT = onerut_normal_operator::CustomDomain;
+        using OscillatorDomainT = onerut_normal_operator::OscillatorDomain;
+        using SpinDomainT = onerut_normal_operator::SpinDomain;
+        using KronDomainT = onerut_normal_operator::KronDomain;
         assert(!arg.is_empty());
         assert(!arg.is_compile_error());
-        return arg.is_given_type<OperatorT>() ||
-                arg.is_given_type<OperatorOscillatorT>() ||
-                arg.is_given_type<OperatorSpinT>();
+        return arg.is_given_type<CustomDomainT>() ||
+                arg.is_given_type<OscillatorDomainT>() ||
+                arg.is_given_type<SpinDomainT>() ||
+                arg.is_given_type<KronDomainT>();
     }
 
     bool
@@ -117,6 +119,14 @@ namespace onerut_parser::utility {
     bool
     is_spin_operator_domain(const onerut_parser::AssetDeref& arg) {
         using OperatorT = onerut_normal_operator::SpinDomain;
+        assert(!arg.is_empty());
+        assert(!arg.is_compile_error());
+        return arg.is_given_type<OperatorT>();
+    }
+
+    bool
+    is_kron_operator_domain(const onerut_parser::AssetDeref& arg) {
+        using OperatorT = onerut_normal_operator::KronDomain;
         assert(!arg.is_empty());
         assert(!arg.is_compile_error());
         return arg.is_given_type<OperatorT>();
@@ -200,12 +210,14 @@ namespace onerut_parser::utility {
     to_normal_operator_domain(const onerut_parser::AssetDeref& arg) {
         assert(is_normal_operator_domain(arg));
         std::shared_ptr<const onerut_normal_operator::Domain> arg_domain;
-        if (const auto temp = arg.typed_value_or_empty<onerut_normal_operator::Domain>()) {
+        if (const auto temp = arg.typed_value_or_empty<onerut_normal_operator::CustomDomain>()) {
             arg_domain = *temp;
         } else if (const auto temp = arg.typed_value_or_empty<onerut_normal_operator::OscillatorDomain>()) {
             arg_domain = *temp;
+        } else if (const auto temp = arg.typed_value_or_empty<onerut_normal_operator::SpinDomain>()) {
+            arg_domain = *temp;
         } else {
-            arg_domain = *arg.typed_value_or_empty<onerut_normal_operator::SpinDomain>();
+            arg_domain = *arg.typed_value_or_empty<onerut_normal_operator::KronDomain>();
         }
         assert(arg_domain);
         return arg_domain;
@@ -223,6 +235,14 @@ namespace onerut_parser::utility {
     to_spin_operator_domain(const onerut_parser::AssetDeref& arg) {
         assert(is_spin_operator_domain(arg));
         const auto& arg_typed = *arg.typed_value_or_empty<onerut_normal_operator::SpinDomain>();
+        assert(arg_typed);
+        return arg_typed;
+    }
+
+    std::shared_ptr < const onerut_normal_operator::KronDomain >
+    to_kron_operator_domain(const onerut_parser::AssetDeref& arg) {
+        assert(is_kron_operator_domain(arg));
+        const auto& arg_typed = *arg.typed_value_or_empty<onerut_normal_operator::KronDomain>();
         assert(arg_typed);
         return arg_typed;
     }
@@ -298,6 +318,59 @@ namespace onerut_parser::utility {
         std::transform(argv_asset_deref.cbegin(), argv_asset_deref.cend(),
                 std::back_inserter(argv_operator), to_normal_operator);
         return argv_operator;
+    }
+
+    std::vector<std::shared_ptr < const onerut_normal_operator::Domain > >
+    many_to_normal_operator_domain(std::vector<onerut_parser::AssetDeref> argv_asset_deref) {
+        std::vector< std::shared_ptr < const onerut_normal_operator::Domain > > argv_operator;
+        argv_operator.reserve(argv_asset_deref.size());
+        std::transform(argv_asset_deref.cbegin(), argv_asset_deref.cend(),
+                std::back_inserter(argv_operator), to_normal_operator_domain);
+        return argv_operator;
+    }
+
+    // -------------------------------------------------------------------------
+
+    bool
+    any_of_is_compile_error(
+            std::vector<onerut_parser::AssetDeref> argv_asset) {
+        return
+        std::any_of(argv_asset.cbegin(), argv_asset.cend(),
+                [](const onerut_parser::AssetDeref & asset) {
+                    return asset.is_compile_error();
+                });
+    }
+
+    bool
+    any_of_is_compile_error(
+            onerut_parser::AssetDeref first_arg_asset,
+            std::vector<onerut_parser::AssetDeref> other_argv_asset) {
+        return first_arg_asset.is_compile_error() ||
+                std::any_of(other_argv_asset.cbegin(), other_argv_asset.cend(),
+                [](const onerut_parser::AssetDeref & asset) {
+                    return asset.is_compile_error();
+                });
+    }
+
+    bool
+    all_of_is_either_value_or_type(
+            std::vector<onerut_parser::AssetDeref> argv_asset) {
+        return
+        std::all_of(argv_asset.cbegin(), argv_asset.cend(),
+                [](const onerut_parser::AssetDeref & asset) {
+                    return asset.is_either_value_or_type();
+                });
+    }
+
+    bool
+    all_of_is_either_value_or_type(
+            onerut_parser::AssetDeref first_arg_asset,
+            std::vector<onerut_parser::AssetDeref> other_argv_asset) {
+        return first_arg_asset.is_either_value_or_type() &&
+                std::all_of(other_argv_asset.cbegin(), other_argv_asset.cend(),
+                [](const onerut_parser::AssetDeref & asset) {
+                    return asset.is_either_value_or_type();
+                });
     }
 
 }

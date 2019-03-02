@@ -9,16 +9,32 @@ namespace onerut_normal_operator {
     // --------------  Domain  -------------------------------------------------
     // -------------------------------------------------------------------------
 
-    Domain::Domain(std::vector<std::string> state_names) :
-    state_names(state_names) {
-    }
-
-    unsigned Domain::size() const {
-        return state_names.size();
+    inline
+    std::vector<std::string> Domain::state_names() const {
+        std::vector<std::string> result;
+        for (unsigned index = 0; index < size(); ++index) {
+            result.push_back(state_name(index));
+        }
+        return result;
     }
 
     std::unique_ptr<StateIndex> Domain::crate_state(unsigned index) const {
         return std::unique_ptr<StateIndex>(new StateIndex{index, shared_from_this()});
+    }
+
+    //--------------------------------------------------------------------------    
+
+    CustomDomain::CustomDomain(std::vector<std::string> state_names) :
+    _state_names(state_names) {
+    }
+
+    unsigned CustomDomain::size() const {
+        return _state_names.size();
+    }
+
+    std::string CustomDomain::state_name(unsigned index) const {
+        assert(index < _state_names.size());
+        return _state_names[index];
     }
 
     // -------------------------------------------------------------------------
@@ -32,7 +48,7 @@ namespace onerut_normal_operator {
     }
 
     std::string StateIndex::fetch_name() const {
-        return domain->state_names.at(index);
+        return domain->state_name(index);
     }
 
     std::string StateIndex::to_str() const {

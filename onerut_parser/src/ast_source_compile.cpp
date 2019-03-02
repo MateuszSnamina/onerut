@@ -57,44 +57,6 @@ namespace {
         return argv_asset;
     }
 
-    bool
-    any_of_is_compile_error(
-            onerut_parser::AssetDeref first_arg_asset,
-            std::vector<onerut_parser::AssetDeref> other_argv_asset) {
-        return first_arg_asset.is_compile_error() ||
-                std::any_of(other_argv_asset.cbegin(), other_argv_asset.cend(),
-                [](const onerut_parser::AssetDeref & asset) {
-                    return asset.is_compile_error();
-                });
-    }
-
-    //    bool
-    //    all_of_is_either_value_or_type(
-    //            onerut_parser::AssetDeref first_arg_asset,
-    //            onerut_parser::AssetDeref second_arg_asset) {
-    //        return first_arg_asset.is_either_value_or_type() &&
-    //                second_arg_asset.is_either_value_or_type();
-    //    }
-
-    bool
-    all_of_is_either_value_or_type(
-            onerut_parser::AssetDeref first_arg_asset,
-            std::vector<onerut_parser::AssetDeref> other_argv_asset) {
-        return first_arg_asset.is_either_value_or_type() &&
-                std::all_of(other_argv_asset.cbegin(), other_argv_asset.cend(),
-                [](const onerut_parser::AssetDeref & asset) {
-                    return asset.is_either_value_or_type();
-                });
-    }
-
-    //    bool
-    //    all_of_is_either_value_or_type(std::vector<onerut_parser::AssetDeref> argv_asset) {
-    //        return std::all_of(argv_asset.cbegin(), argv_asset.cend(),
-    //                [](const onerut_parser::AssetDeref & asset) {
-    //                    return asset.is_either_value_or_type();
-    //                });
-    //    }
-
     onerut_parser::Asset
     behave_like_a_binary_function(
             const std::string function_name,
@@ -223,9 +185,9 @@ namespace onerut_parser::onerut_ast::source {
         assert(std::all_of(opv.cbegin(), opv.cend(), is_plus_munis_char));
         const auto & first_arg_asset_deref = first_arg_asset.deref();
         const auto & other_argv_asset_deref = utility::many_deref(other_argv_asset);
-        if (any_of_is_compile_error(first_arg_asset_deref, other_argv_asset_deref))
+        if (utility::any_of_is_compile_error(first_arg_asset_deref, other_argv_asset_deref))
             return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
-        if (!all_of_is_either_value_or_type(first_arg_asset_deref, other_argv_asset_deref))
+        if (!utility::all_of_is_either_value_or_type(first_arg_asset_deref, other_argv_asset_deref))
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         if (utility::is_integer(first_arg_asset_deref) &&
                 std::all_of(cbegin(other_argv_asset_deref), cend(other_argv_asset_deref), utility::is_integer)) {
@@ -264,9 +226,9 @@ namespace onerut_parser::onerut_ast::source {
         assert(std::all_of(opv.cbegin(), opv.cend(), is_prod_div_char));
         const auto & first_arg_asset_deref = first_arg_asset.deref();
         const auto & other_argv_asset_deref = utility::many_deref(other_argv_asset);
-        if (any_of_is_compile_error(first_arg_asset_deref, other_argv_asset_deref))
+        if (utility::any_of_is_compile_error(first_arg_asset_deref, other_argv_asset_deref))
             return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
-        if (!all_of_is_either_value_or_type(first_arg_asset_deref, other_argv_asset_deref))
+        if (!utility::all_of_is_either_value_or_type(first_arg_asset_deref, other_argv_asset_deref))
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         if (utility::is_integer(first_arg_asset_deref) &&
                 std::all_of(cbegin(other_argv_asset_deref), cend(other_argv_asset_deref), utility::is_integer)) {

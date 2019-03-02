@@ -7,11 +7,11 @@ namespace onerut_parser {
 
     // -------------
 
-    class CreateNormalDomainFunctionFactory : public AbstractFunctionFactory {
+    class CreateNormalOperatorCustomDomainFunctionFactory : public AbstractFunctionFactory {
         virtual Asset make_function_otherwise_make_error(const std::vector<Asset>& argv) const override;
     };
 
-    class CreateNormalDomainStateIndexFunctionFactory : public NaryFunctionFactory<2> {
+    class CreateNormalOperatorDomainStateIndexFunctionFactory : public NaryFunctionFactory<2> {
         virtual Asset make_function_otherwise_make_error(std::array<Asset, 2> argv) const override;
     };
 
@@ -61,6 +61,12 @@ namespace onerut_parser {
 
     class CreateSpinMinusOperatorFunctionFactory : public NaryFunctionFactory<1> {
         virtual Asset make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const override;
+    };
+
+    // -------------    
+
+    class CreateKronDomainFunctionFactory : public AbstractFunctionFactory {
+        virtual Asset make_function_otherwise_make_error(const std::vector<Asset>& argv) const override;
     };
 
     // -------------

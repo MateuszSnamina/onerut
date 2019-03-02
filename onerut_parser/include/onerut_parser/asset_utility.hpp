@@ -6,8 +6,9 @@
 #include<onerut_parser/asset.hpp>
 #include<onerut_scalar/scalar_abstract.hpp>
 #include<onerut_normal_operator/operator_abstract.hpp>
-#include<onerut_normal_operator/operator_oscillator.hpp>
-#include<onerut_normal_operator/operator_spin.hpp>
+#include<onerut_normal_operator/operator_oscillator.hpp> //TODO change operator to domain when the domain header will be created.
+#include<onerut_normal_operator/operator_spin.hpp> //TODO change operator to domain when the domain header will be created.
+#include<onerut_normal_operator/operator_kron.hpp> //TODO change operator to domain when the domain header will be created.
 #include<onerut_normal_operator/diagonalizator.hpp>
 
 namespace onerut_parser::utility {
@@ -59,6 +60,9 @@ namespace onerut_parser::utility {
     is_spin_operator_domain(const onerut_parser::AssetDeref&);
 
     bool
+    is_kron_operator_domain(const onerut_parser::AssetDeref&);
+
+    bool
     is_normal_operator_state_index(const onerut_parser::AssetDeref&);
 
     bool
@@ -96,6 +100,9 @@ namespace onerut_parser::utility {
     std::shared_ptr < const onerut_normal_operator::SpinDomain >
     to_spin_operator_domain(const onerut_parser::AssetDeref&);
 
+    std::shared_ptr < const onerut_normal_operator::KronDomain >
+    to_kron_operator_domain(const onerut_parser::AssetDeref&);    
+    
     std::shared_ptr < const onerut_normal_operator::StateIndex >
     to_normal_operator_state_index(const onerut_parser::AssetDeref&);
 
@@ -126,13 +133,36 @@ namespace onerut_parser::utility {
     many_to_complex(std::vector<onerut_parser::AssetDeref>);
 
     std::vector<std::shared_ptr < const onerut_normal_operator::AbstractOperator > >
-    many_to_normal_operator(std::vector<onerut_parser::AssetDeref> argv_asset_deref);
+    many_to_normal_operator(std::vector<onerut_parser::AssetDeref>);
 
     //    std::vector<std::shared_ptr < onerut_operator::AbstractOperator<FERMION_KET_T> > >
     //    many_to_fermion_operator(std::vector<onerut_parser::AssetDeref> argv_asset_deref);
 
     //    std::vector<std::shared_ptr < onerut_operator::AbstractOperator<BOSON_KET_T> > >
     //    many_to_bozon_operator(std::vector<onerut_parser::AssetDeref> argv_asset_deref);
+
+    std::vector<std::shared_ptr < const onerut_normal_operator::Domain > >
+    many_to_normal_operator_domain(std::vector<onerut_parser::AssetDeref>);
+
+    // -------------------------------------------------------------------------
+
+    bool
+    any_of_is_compile_error(
+            std::vector<onerut_parser::AssetDeref>);
+    bool
+    any_of_is_compile_error(
+            onerut_parser::AssetDeref,
+            std::vector<onerut_parser::AssetDeref>);
+
+    bool
+    all_of_is_either_value_or_type(
+            std::vector<onerut_parser::AssetDeref>);
+
+    bool
+    all_of_is_either_value_or_type(
+            onerut_parser::AssetDeref,
+            std::vector<onerut_parser::AssetDeref>);
+
 
 }
 

@@ -11,10 +11,15 @@ namespace onerut_normal_operator {
     class OscillatorDomain : public Domain {
     public:
         OscillatorDomain(unsigned n_max_stars);
+        unsigned size() const override;
+        std::string state_name(unsigned index) const override;
+        const unsigned n_max_stars;
     };
-    
+
+
+
     // -------------------------------------------------------------------------
-    
+
     class CreationOperator : public AbstractOperator {
     public:
         using AbstractOperator::BraKetT;
@@ -45,7 +50,7 @@ namespace onerut_normal_operator {
         std::shared_ptr<const Domain> get_domain() const override;
     private:
         std::shared_ptr<const OscillatorDomain> domain;
-    };    
+    };
 }
 
 #endif

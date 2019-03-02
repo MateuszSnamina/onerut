@@ -29,7 +29,7 @@ namespace onerut_normal_operator {
     }
 
     void EigsResult::print_beta(std::ostream& stream, unsigned chunk_size, std::string line_prefix) const {
-        fancy_logging::log(stream, hamiltonian->get_domain()->state_names, eig_names,
+        fancy_logging::log(stream, hamiltonian->get_domain()->state_names(), eig_names,
                 beta,
                 chunk_size, line_prefix);
     }
