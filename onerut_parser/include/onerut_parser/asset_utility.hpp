@@ -6,9 +6,10 @@
 #include<onerut_parser/asset.hpp>
 #include<onerut_scalar/scalar_abstract.hpp>
 #include<onerut_normal_operator/operator_abstract.hpp>
-#include<onerut_normal_operator/operator_oscillator.hpp> //TODO change operator to domain when the domain header will be created.
-#include<onerut_normal_operator/operator_spin.hpp> //TODO change operator to domain when the domain header will be created.
-#include<onerut_normal_operator/operator_kron.hpp> //TODO change operator to domain when the domain header will be created.
+#include<onerut_normal_operator/domain_custom.hpp>
+#include<onerut_normal_operator/domain_oscillator.hpp>
+#include<onerut_normal_operator/domain_spin.hpp>
+#include<onerut_normal_operator/domain_kron.hpp>
 #include<onerut_normal_operator/diagonalizator.hpp>
 
 namespace onerut_parser::utility {
@@ -101,8 +102,8 @@ namespace onerut_parser::utility {
     to_spin_operator_domain(const onerut_parser::AssetDeref&);
 
     std::shared_ptr < const onerut_normal_operator::KronDomain >
-    to_kron_operator_domain(const onerut_parser::AssetDeref&);    
-    
+    to_kron_operator_domain(const onerut_parser::AssetDeref&);
+
     std::shared_ptr < const onerut_normal_operator::StateIndex >
     to_normal_operator_state_index(const onerut_parser::AssetDeref&);
 

@@ -1,9 +1,9 @@
 #include<onerut_scalar/scalar_abstract.hpp>
 #include<onerut_normal_operator/operator_abstract.hpp>
-#include<onerut_normal_operator/operator_oscillator.hpp>//TODO operator -> domain when domain header will be created.
-#include<onerut_normal_operator/operator_spin.hpp>//TODO operator -> domain when domain header will be created.
-#include<onerut_normal_operator/operator_kron.hpp> //TODO operator -> domain when domain header will be created.
-
+#include<onerut_normal_operator/domain_custom.hpp>
+#include<onerut_normal_operator/domain_oscillator.hpp>
+#include<onerut_normal_operator/domain_spin.hpp>
+#include<onerut_normal_operator/domain_kron.hpp>
 #include<onerut_parser/asset_utility.hpp>
 #include<onerut_parser/asset_to_esc_data.hpp>
 

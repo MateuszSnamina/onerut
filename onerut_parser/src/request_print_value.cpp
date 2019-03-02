@@ -120,6 +120,23 @@ namespace onerut_parser {
 
     // *************************************************************************
 
+    PrintValueRequestTyped<onerut_normal_operator::KronDomain>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
+    instance(instance) {
+        assert(instance);
+    }
+
+    void PrintValueRequestTyped<onerut_normal_operator::KronDomain>::print(std::ostream& stream, std::string line_prefix) const {
+        assert(instance);
+        stream << line_prefix << "[value] "
+                << "dimension = " << instance->size()
+                << std::endl;
+        stream << line_prefix << "[value] "
+                << "kron states = " << string_utils::StreamToGreek(onerut_normal_operator::to_string(*instance))
+                << std::endl;
+    }
+
+    // *************************************************************************
+
     PrintValueRequestTyped<onerut_normal_operator::StateIndex>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
     instance(instance) {
         assert(instance);

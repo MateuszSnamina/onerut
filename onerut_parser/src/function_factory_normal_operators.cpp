@@ -9,6 +9,7 @@
 #include<onerut_normal_operator/operator_simple.hpp>
 #include<onerut_normal_operator/operator_zero.hpp>
 #include<onerut_normal_operator/operator_oscillator.hpp>
+#include<onerut_normal_operator/operator_spin.hpp>
 #include<onerut_normal_operator/operator_kron.hpp>
 #include<onerut_normal_operator/diagonalizator.hpp>
 

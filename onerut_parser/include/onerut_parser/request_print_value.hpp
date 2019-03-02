@@ -6,8 +6,10 @@
 
 #include<onerut_scalar/scalar_abstract.hpp>
 #include<onerut_normal_operator/operator_abstract.hpp>
-#include<onerut_normal_operator/operator_oscillator.hpp>
-#include<onerut_normal_operator/operator_spin.hpp>
+#include<onerut_normal_operator/domain_custom.hpp>
+#include<onerut_normal_operator/domain_oscillator.hpp>
+#include<onerut_normal_operator/domain_spin.hpp>
+#include<onerut_normal_operator/domain_kron.hpp>
 #include<onerut_normal_operator/diagonalizator.hpp>
 #include<onerut_parser/asset_error.hpp>
 
@@ -77,6 +79,14 @@ namespace onerut_parser {
         const std::shared_ptr<Type> instance;
     };
 
+    template<>
+    struct PrintValueRequestTyped<onerut_normal_operator::KronDomain> : public PrintValueRequest {
+        using Type = onerut_normal_operator::KronDomain;
+        PrintValueRequestTyped(std::shared_ptr<Type> instance);
+        void print(std::ostream& stream, std::string line_prefix) const override;
+        const std::shared_ptr<Type> instance;
+    };
+    
     template<>
     struct PrintValueRequestTyped<onerut_normal_operator::StateIndex> : public PrintValueRequest {
         using Type = onerut_normal_operator::StateIndex;

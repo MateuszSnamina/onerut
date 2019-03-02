@@ -203,12 +203,13 @@ void temp_testing() {
     lines.push_back(std::make_shared<const std::string>("MU_DOMAIN := custom_domain(M0, M1, M2)"));
     lines.push_back(std::make_shared<const std::string>("TA_DOMAIN := custom_domain(T0, T1)"));
     lines.push_back(std::make_shared<const std::string>("DOMAIN3 := kron_domain(EL_DOMAIN, MU_DOMAIN, TA_DOMAIN)"));
+    lines.push_back(std::make_shared<const std::string>("VALUE(DOMAIN3)"));
     lines.push_back(std::make_shared<const std::string>("E3 := eye(DOMAIN3)"));
     lines.push_back(std::make_shared<const std::string>("VALUE(E3)"));
     lines.push_back(std::make_shared<const std::string>("DOMAIN2 := kron_domain(EL_DOMAIN, MU_DOMAIN)"));
     lines.push_back(std::make_shared<const std::string>("E2 := eye(DOMAIN2)"));
+    lines.push_back(std::make_shared<const std::string>("VALUE(DOMAIN2)"));
     lines.push_back(std::make_shared<const std::string>("VALUE(E2)"));
-
 
     onerut_parser::FunctionFactoryContainer::global_instance().put_all();
 

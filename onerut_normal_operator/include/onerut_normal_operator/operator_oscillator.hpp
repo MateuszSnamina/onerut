@@ -5,20 +5,9 @@
 
 #include<onerut_typed_operator/iterator_simple.hpp>
 #include<onerut_normal_operator/operator_abstract.hpp>
+#include<onerut_normal_operator/domain_oscillator.hpp>
 
 namespace onerut_normal_operator {
-
-    class OscillatorDomain : public Domain {
-    public:
-        OscillatorDomain(unsigned n_max_stars);
-        unsigned size() const override;
-        std::string state_name(unsigned index) const override;
-        const unsigned n_max_stars;
-    };
-
-
-
-    // -------------------------------------------------------------------------
 
     class CreationOperator : public AbstractOperator {
     public:
