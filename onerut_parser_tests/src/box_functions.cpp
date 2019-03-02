@@ -5,168 +5,115 @@
 // --------------------  test cases  -------------------------------------------
 // -----------------------------------------------------------------------------
 
-/*
-TEST(box_functions, literal_1) {
-    ONERUT_TEST(6445);
+TEST(box_functions, re_cx_overload_1) {
+    BASIC_ONERUT_TEST(sin(-.45), re_sin(-.45));
+    BASIC_ONERUT_TEST(sin(-.45 + 0i), cx_sin(-.45));
+    ONERUT_TEST(sin(-.45));
 }
 
-TEST(box_functions, literal_2) {
-    ONERUT_TEST(-6445);
+TEST(box_functions, re_cx_overload_2) {
+    BASIC_ONERUT_TEST(asin(-.45), re_asin(-.45));
+    BASIC_ONERUT_TEST(asin(-.45 + 0i), cx_asin(-.45));
+    ONERUT_TEST(asin(-.45));
 }
 
-TEST(box_functions, literal_3) {
-    ONERUT_TEST(+6445);
+TEST(box_functions, re_cx_overload_3) {
+    BASIC_ONERUT_TEST(sqrt(-.45), re_sqrt(-.45));
+    BASIC_ONERUT_TEST(sqrt(-.45 + 0i), cx_sqrt(-.45));
+    ONERUT_TEST(sqrt(-.45));
 }
 
-TEST(box_functions, op_plus_munis_1) {
-    ONERUT_TEST(540 + 75);
+TEST(box_functions, re_cx_overload_4) {
+    BASIC_ONERUT_TEST(sqrt(+.45), re_sqrt(+.45));
+    BASIC_ONERUT_TEST(sqrt(+.45 + 0i), cx_sqrt(+.45));
+    ONERUT_TEST(sqrt(+.45));
 }
 
-TEST(box_functions, op_plus_munis_2) {
-    ONERUT_TEST(540 - 75);
+TEST(box_functions, re_cx_overload_5) {
+    // EXTREME !!
+    // TODO
+    /*
+    std::cout << std::setprecision(18) << std::endl;
+    std::cout << std::cbrt(.45) << std::endl;
+    std::cout << cbrt(.45) << std::endl;
+    using TTT = double(*)(double);
+    TTT fp = static_cast<TTT> (std::cbrt);
+    std::cout << fp(.45) << std::endl;
+    BASIC_ONERUT_TEST(.45, .45);
+    BASIC_ONERUT_TEST(static_cast<double> (std::cbrt(.45)), cbrt(.45));
+    //ONERUT_TEST(cbrt(-.45));
+     */
 }
 
-TEST(box_functions, op_plus_munis_3) {
-    ONERUT_TEST(+540 - 75);
+TEST(box_functions, re_cx_overload_6) {
+    BASIC_ONERUT_TEST(pow(2, 5), re_pow(2, 5));
+    BASIC_ONERUT_TEST(pow(2. + 0i, 5. + 0i), cx_pow(2, 5));
+    ONERUT_TEST(pow(2, 5));
 }
 
-TEST(box_functions, op_plus_munis_4) {
-    ONERUT_TEST(-540 + 75);
+TEST(box_functions, re_cx_overload_7) {
+    BASIC_ONERUT_TEST(pow(2, 5.7), re_pow(2, 5.7));
+    BASIC_ONERUT_TEST(pow(2. + 0i, 5.7 + 0i), cx_pow(2, 5.7));
+    ONERUT_TEST(pow(2, 5.7));
 }
 
-TEST(box_functions, op_plus_munis_5) {
-    ONERUT_TEST(540 + 75 + 764);
+TEST(box_functions, re_cx_overload_8) {
+    BASIC_ONERUT_TEST(pow(2.7, 5), re_pow(2.7, 5));
+    BASIC_ONERUT_TEST(pow(2.7 + 0i, 5. + 0i), cx_pow(2.7, 5));
+    ONERUT_TEST(pow(2.7, 5));
 }
 
-TEST(box_functions, op_plus_munis_6) {
-    ONERUT_TEST(540 + 75 + 764);
+TEST(box_functions, re_cx_overload_9) {
+    BASIC_ONERUT_TEST(pow(2.7, 5.7), re_pow(2.7, 5.7));
+    BASIC_ONERUT_TEST(pow(2.7 + 0i, 5.7 + 0i), cx_pow(2.7, 5.7));
+    ONERUT_TEST(pow(2.7, 5.7));
 }
 
-TEST(box_functions, op_plus_munis_7) {
-    ONERUT_TEST(540 - 75 + 764);
+TEST(box_functions, re_cx_overload_10) {
+    BASIC_ONERUT_TEST(exp(-.45), re_exp(-.45));
+    BASIC_ONERUT_TEST(exp(-.45 + 0i), cx_exp(-.45));
+    ONERUT_TEST(exp(-.45));
 }
 
-TEST(box_functions, op_plus_munis_8) {
-    ONERUT_TEST(-540 - 75 + 764);
+TEST(box_functions, re_cx_overload_11) {
+    BASIC_ONERUT_TEST(log(-.45), re_log(-.45));
+    BASIC_ONERUT_TEST(log(-.45 + 0i), cx_log(-.45));
+    ONERUT_TEST(log(-.45));
 }
 
-TEST(box_functions, op_plus_munis_9) {
-    ONERUT_TEST(-540 - 75 - 764);
+TEST(box_functions, re_cx_overload_12) {
+    BASIC_ONERUT_TEST(log(.45), re_log(.45));
+    BASIC_ONERUT_TEST(log(.45 + 0i), cx_log(.45));
+    ONERUT_TEST(log(.45));
 }
 
-TEST(box_functions, op_plus_munis_10) {
-    BASIC_ONERUT_TEST(10000000000000000l + 1, 10000000000000000 + 1);
+TEST(box_functions, re_cx_overload_13) {
+    BASIC_ONERUT_TEST(log10(.45), re_log10(.45));
+    BASIC_ONERUT_TEST(log10(.45 + 0i), cx_log10(.45));
+    ONERUT_TEST(log10(.45));
 }
 
-TEST(box_functions, op_prod_div_1) {
-    ONERUT_TEST(540 * 75);
+TEST(box_functions, re_1) {
+    ONERUT_TEST(expm1(2));
+    ONERUT_TEST(expm1(2.7));
 }
 
-TEST(box_functions, op_prod_div_2) {
-    ONERUT_TEST(540 / 75);
+TEST(box_functions, cx_1) {
+    ONERUT_TEST(real(2.7));
+    ONERUT_TEST(real(2.7 + 3i));
 }
 
-TEST(box_functions, op_prod_div_3) {
-    ONERUT_TEST(+540 / 75);
+TEST(box_functions, cx_2) {
+    ONERUT_TEST(imag(2.7));
+    ONERUT_TEST(imag(2.7 + 3i));
 }
 
-TEST(box_functions, op_prod_div_4) {
-    ONERUT_TEST(-540 * 75);
+TEST(box_functions, cx_3) {
+    ONERUT_TEST(conj(2.7));
+    ONERUT_TEST(conj(2.7 + 3i));
 }
 
-TEST(box_functions, op_prod_div_5) {
-    ONERUT_TEST(540 * 75 * 764);
+TEST(box_functions, cx_4) {
+    ONERUT_TEST(abs(2.7));
+    ONERUT_TEST(abs(2.7 + 3i));
 }
-
-TEST(box_functions, op_prod_div_6) {
-    ONERUT_TEST(540 * 75 * 764);
-}
-
-TEST(box_functions, op_prod_div_7) {
-    ONERUT_TEST(540 / 75 * 764);
-}
-
-TEST(box_functions, op_prod_div_8) {
-    ONERUT_TEST(-540 / 75 / 764);
-}
-
-TEST(box_functions, op_plus_minus_prod_div_1) {
-    ONERUT_TEST(-54 - 75 * 764);
-}
-
-TEST(box_functions, op_plus_minus_prod_div_2) {
-    ONERUT_TEST(-54 * 75 + 764);
-}
-
-TEST(box_functions, op_plus_minus_prod_div_3) {
-    ONERUT_TEST(-54 - 75 / 764);
-}
-
-TEST(box_functions, op_plus_minus_prod_div_4) {
-    ONERUT_TEST(-54 / 75 + 764);
-}
-
-TEST(box_functions, simple_grouping_1) {
-    ONERUT_TEST((45));
-}
-
-TEST(box_functions, simple_grouping_2) {
-    ONERUT_TEST(+(45));
-}
-
-TEST(box_functions, simple_grouping_3) {
-    ONERUT_TEST(-(45));
-}
-
-TEST(box_functions, simple_grouping_4) {
-    ONERUT_TEST(+(-45));
-}
-
-TEST(box_functions, simple_grouping_5) {
-    ONERUT_TEST(-(-45));
-}
-
-TEST(box_functions, simple_grouping_6) {
-    ONERUT_TEST(-((-45)));
-}
-
-TEST(box_functions, simple_grouping_7) {
-    BASIC_ONERUT_TEST(-((-45)), -([-45]));
-}
-
-TEST(box_functions, op_plus_minus_prod_div_grouping_1) {
-    ONERUT_TEST((540 * 75 * 764));
-}
-
-TEST(box_functions, op_plus_minus_prod_div_grouping_2) {
-    ONERUT_TEST((540 * 75) * 764);
-}
-
-TEST(box_functions, op_plus_minus_prod_div_grouping_4) {
-    ONERUT_TEST((540 / 75) * 764);
-}
-
-TEST(box_functions, op_plus_minus_prod_div_grouping_5) {
-    ONERUT_TEST(540 / (75 * 764));
-}
-
-TEST(box_functions, op_plus_minus_prod_div_grouping_6) {
-    ONERUT_TEST((-540 / 75) / 764);
-}
-
-TEST(box_functions, op_plus_minus_prod_div_grouping_7) {
-    ONERUT_TEST(-540 / (75 / 764));
-}
-
-TEST(box_functions, op_plus_minus_prod_div_grouping_8) {
-    ONERUT_TEST((-54 - 75) * 764);
-}
-
-TEST(box_functions, op_plus_minus_prod_div_grouping_9) {
-    ONERUT_TEST(-54 - (75 * 764));
-}
-
-TEST(box_functions, op_plus_minus_prod_div_grouping_10) {
-    ONERUT_TEST(-54 / (75 + 764));
-}
- */

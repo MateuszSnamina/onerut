@@ -11,8 +11,6 @@
 #include<esc/esc_manip.hpp>
 #include<string_utils/greek_support.hpp>
 
-#include<onerut_normal_operator/diagonalizator.hpp>
-
 #include<onerut_parser/gramma_parser.hpp>
 #include<onerut_parser/ast_x3_to_ast_source.hpp>
 #include<onerut_parser/ast_asset.hpp>
@@ -23,10 +21,6 @@
 
 #include<onerut_parser/request_imperative.hpp>
 #include<onerut_parser/request_print_value.hpp>
-
-//--------------------------------------------
-
-std::shared_ptr<onerut_normal_operator::Eigs> diagonalizator;
 
 //--------------------------------------------
 
@@ -205,6 +199,9 @@ void temp_testing() {
     lines.push_back(std::make_shared<const std::string>("H1 := (1./2)*(x*x - ip*ip)"));
     lines.push_back(std::make_shared<const std::string>("n := cr * an"));
     lines.push_back(std::make_shared<const std::string>("H2 := cr * an + 1/2 * eye(OSCILLATOR_SPACR)"));
+    lines.push_back(std::make_shared<const std::string>("cx_log10(5)"));
+    
+    
 
     onerut_parser::FunctionFactoryContainer::global_instance().put_all();
 
