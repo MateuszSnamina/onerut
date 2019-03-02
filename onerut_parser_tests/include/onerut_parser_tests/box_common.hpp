@@ -78,67 +78,80 @@ struct ValueTest {
 
 template<>
 struct ValueTest<std::complex<double> > {
-
     static void test(
             const std::complex<double> &cpp_value,
-            const onerut_parser::Asset& asset) {
-        std::cout << "[test][common] complex numbers comparison test." << std::endl;
-        ASSERT_TRUE(!asset.deref().is_compile_error()) << "Expected an asset being a value asset.";
-        ASSERT_TRUE(!asset.deref().is_empty()) << "Expected an asset being a value asset.";
-        const auto result_complex = asset.deref().typed_value_or_empty<onerut_scalar::Complex>();
-        ASSERT_TRUE(result_complex) << "Expected an asset being a complex number.";
-        const auto onerut_value = (*result_complex)->value_complex();
-        std::cout << "[test][common] cpp_value    : " << cpp_value << std::endl;
-        std::cout << "[test][common] onerut_value : " << onerut_value << std::endl;
-        if (!std::isnan(real(cpp_value)) || !std::isnan(real(onerut_value))) {
-            ASSERT_DOUBLE_EQ(real(cpp_value), real(onerut_value)) << "Comparison of real part of the numbers failed.";
-        }
-        if (!std::isnan(imag(cpp_value)) || !std::isnan(imag(onerut_value))) {
-            ASSERT_DOUBLE_EQ(imag(cpp_value), imag(onerut_value)) << "Comparison of imag part of the numbers failed.";
-        }
-    }
+            const onerut_parser::Asset& asset);
 };
 
 template<>
 struct ValueTest<double> {
-
     static void test(
             double cpp_value,
-            const onerut_parser::Asset& asset) {
-        std::cout << "[test][common] real numbers comparison test." << std::endl;
-        ASSERT_TRUE(!asset.deref().is_compile_error()) << "Expected an asset being a value asset.";
-        ASSERT_TRUE(!asset.deref().is_empty()) << "Expected an asset being a value asset.";
-        const auto result_complex = asset.deref().typed_value_or_empty<onerut_scalar::Real>();
-        ASSERT_TRUE(result_complex) << "Expected an asset being a real number.";
-        const auto onerut_value = (*result_complex)->value_real();
-        const auto stream_flags = std::cout.flags();
-        std::cout << std::setprecision(18);
-        std::cout << "[test][common] cpp_value    : " << cpp_value << std::endl;
-        std::cout << "[test][common] onerut_value : " << onerut_value << std::endl;
-        std::cout.flags(stream_flags);
-        if (!std::isnan(cpp_value) || !std::isnan(onerut_value)) {
-            ASSERT_DOUBLE_EQ(cpp_value, onerut_value) << "Comparison (double-eq) of the numbers failed.";
-        }
-    }
+            const onerut_parser::Asset& asset);
 };
 
 template<>
 struct ValueTest<long> {
-
     static void test(
             long cpp_value,
-            const onerut_parser::Asset& asset) {
-        std::cout << "[test][common] integer numbers comparison test." << std::endl;
-        ASSERT_TRUE(!asset.deref().is_compile_error()) << "Expected an asset being a value asset.";
-        ASSERT_TRUE(!asset.deref().is_empty()) << "Expected an asset being a value asset.";
-        const auto result_integer = asset.deref().typed_value_or_empty<onerut_scalar::Integer>();
-        ASSERT_TRUE(result_integer) << "Expected an asset being an integer number.";
-        const auto onerut_value = (*result_integer)->value_integer();
-        std::cout << "[test][common] cpp_value    : " << cpp_value << std::endl;
-        std::cout << "[test][common] onerut_value : " << onerut_value << std::endl;
-        EXPECT_EQ(cpp_value, onerut_value) << "Comparison (long-eq) of the numbers failed.";
-    }
+            const onerut_parser::Asset& asset);
 };
+
+inline
+void ValueTest<std::complex<double> >::test(
+        const std::complex<double> &cpp_value,
+        const onerut_parser::Asset& asset) {
+    std::cout << "[test][common] complex numbers comparison test." << std::endl;
+    ASSERT_TRUE(!asset.deref().is_compile_error()) << "Expected an asset being a value asset.";
+    ASSERT_TRUE(!asset.deref().is_empty()) << "Expected an asset being a value asset.";
+    const auto result_complex = asset.deref().typed_value_or_empty<onerut_scalar::Complex>();
+    ASSERT_TRUE(result_complex) << "Expected an asset being a complex number.";
+    const auto onerut_value = (*result_complex)->value_complex();
+    std::cout << "[test][common] cpp_value    : " << cpp_value << std::endl;
+    std::cout << "[test][common] onerut_value : " << onerut_value << std::endl;
+    if (!std::isnan(real(cpp_value)) || !std::isnan(real(onerut_value))) {
+        ASSERT_DOUBLE_EQ(real(cpp_value), real(onerut_value)) << "Comparison of real part of the numbers failed.";
+    }
+    if (!std::isnan(imag(cpp_value)) || !std::isnan(imag(onerut_value))) {
+        ASSERT_DOUBLE_EQ(imag(cpp_value), imag(onerut_value)) << "Comparison of imag part of the numbers failed.";
+    }
+}
+
+inline
+void ValueTest<double>::test(
+        double cpp_value,
+        const onerut_parser::Asset& asset) {
+    std::cout << "[test][common] real numbers comparison test." << std::endl;
+    ASSERT_TRUE(!asset.deref().is_compile_error()) << "Expected an asset being a value asset.";
+    ASSERT_TRUE(!asset.deref().is_empty()) << "Expected an asset being a value asset.";
+    const auto result_complex = asset.deref().typed_value_or_empty<onerut_scalar::Real>();
+    ASSERT_TRUE(result_complex) << "Expected an asset being a real number.";
+    const auto onerut_value = (*result_complex)->value_real();
+    const auto stream_flags = std::cout.flags();
+    std::cout << std::setprecision(18);
+    std::cout << "[test][common] cpp_value    : " << cpp_value << std::endl;
+    std::cout << "[test][common] onerut_value : " << onerut_value << std::endl;
+    std::cout.flags(stream_flags);
+    if (!std::isnan(cpp_value) || !std::isnan(onerut_value)) {
+        ASSERT_DOUBLE_EQ(cpp_value, onerut_value) << "Comparison (double-eq) of the numbers failed.";
+    }
+}
+
+inline
+void ValueTest<long>::test(
+        long cpp_value,
+        const onerut_parser::Asset& asset) {
+    std::cout << "[test][common] integer numbers comparison test." << std::endl;
+    ASSERT_TRUE(!asset.deref().is_compile_error()) << "Expected an asset being a value asset.";
+    ASSERT_TRUE(!asset.deref().is_empty()) << "Expected an asset being a value asset.";
+    const auto result_integer = asset.deref().typed_value_or_empty<onerut_scalar::Integer>();
+    ASSERT_TRUE(result_integer) << "Expected an asset being an integer number.";
+    const auto onerut_value = (*result_integer)->value_integer();
+    std::cout << "[test][common] cpp_value    : " << cpp_value << std::endl;
+    std::cout << "[test][common] onerut_value : " << onerut_value << std::endl;
+    EXPECT_EQ(cpp_value, onerut_value) << "Comparison (long-eq) of the numbers failed.";
+}
+
 
 //------------------------------------------------------------------------------
 

@@ -34,7 +34,7 @@ TEST(box_pure_complex, literal_7) {
 }
 
 TEST(box_pure_complex, literal_8) {
-    BASIC_ONERUT_BOX_VALUE_TEST(inf * 1i, infi);
+    BASIC_ONERUT_BOX_VALUE_TEST(std::complex<double>(0, inf), infi);
 }
 
 TEST(box_pure_complex, literal_9) {
@@ -46,7 +46,7 @@ TEST(box_pure_complex, literal_10) {
 }
 
 TEST(box_pure_complex, literal_11) {
-    BASIC_ONERUT_BOX_VALUE_TEST(-inf * 1i, -infi);
+    BASIC_ONERUT_BOX_VALUE_TEST(std::complex<double>(0, -inf), -infi);
 }
 
 TEST(box_pure_complex, op_plus_munis_1) {
@@ -174,7 +174,7 @@ TEST(box_pure_complex, op_plus_minus_prod_div_grouping_2) {
 }
 
 TEST(box_pure_complex, op_plus_minus_prod_div_grouping_3) {
-    ONERUT_BOX_VALUE_TEST((540.5i / 75.8i) * 764.3i);    
+    ONERUT_BOX_VALUE_TEST((540.5i / 75.8i) * 764.3i);
 }
 
 TEST(box_pure_complex, op_plus_minus_prod_div_grouping_4) {
@@ -198,5 +198,5 @@ TEST(box_pure_complex, op_plus_minus_prod_div_grouping_8) {
 }
 
 TEST(box_pure_complex, op_plus_minus_prod_div_grouping_9) {
-    ONERUT_BOX_VALUE_TEST(-54i / (75.8i + 764.3i));    
+    ONERUT_BOX_VALUE_TEST(-54i / (75.8i + 764.3i));
 }
