@@ -160,6 +160,7 @@
       </toolsSet>
       <flagsDictionary>
         <element flagsID="0" commonFlags="-pedantic -ffast-math -std=gnu++1z"/>
+        <element flagsID="1" commonFlags="-pedantic -std=gnu++1z"/>
       </flagsDictionary>
       <codeAssistance>
       </codeAssistance>
@@ -177,26 +178,22 @@
         </preBuild>
       </makefileType>
       <item path="esc/src/esc_codes.cpp" ex="false" tool="1" flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="esc/src/esc_manip.cpp" ex="false" tool="1" flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="esc/src/esc_manip_examples.cpp" ex="false" tool="1" flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <folder path="0">
         <ccTool>
           <incDir>
-            <pElem>onerut_normal_operator/include</pElem>
-            <pElem>onerut_scalar/include</pElem>
-            <pElem>onerut_operator/include</pElem>
-            <pElem>external_packages/include</pElem>
-            <pElem>build_netbeanns/onerut_normal_operator</pElem>
             <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/esc</pElem>
           </incDir>
         </ccTool>
@@ -307,120 +304,116 @@
       <folder path="9">
         <ccTool>
           <incDir>
-            <pElem>onerut_normal_operator/include</pElem>
-            <pElem>onerut_scalar/include</pElem>
-            <pElem>onerut_operator/include</pElem>
+            <pElem>string_utils/include</pElem>
             <pElem>external_packages/include</pElem>
-            <pElem>build_netbeanns/onerut_normal_operator</pElem>
-            <pElem>onerut_scalar_tests/include</pElem>
-            <pElem>build_netbeanns/onerut_scalar_tests</pElem>
+            <pElem>build_netbeanns/string_utils</pElem>
           </incDir>
         </ccTool>
       </folder>
       <item path="log_utils/src/fancy_log_mat.cpp" ex="false" tool="1" flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="log_utils/src/fancy_to_visible_size.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut/src/p1.cpp" ex="false" tool="1" flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/calculate_mean.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/diagonalizator.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/operator_abstract.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/operator_opplusminus.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/operator_opprod.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/operator_opunaryplusminus.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/operator_oscillator.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/operator_scalled.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/operator_simple.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/operator_spin.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/operator_zero.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/to_mat.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/to_string.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_op1e/src/op1e.cpp" ex="false" tool="1" flavor2="11">
@@ -428,306 +421,306 @@
         </ccTool>
       </item>
       <item path="onerut_parser/src/asset.cpp" ex="false" tool="1" flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/asset_deref.cpp" ex="false" tool="1" flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/asset_error.cpp" ex="false" tool="1" flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/asset_receipt.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/asset_ref.cpp" ex="false" tool="1" flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/asset_ref_container.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/asset_to_esc_data.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/asset_utility.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/ast_asset.cpp" ex="false" tool="1" flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/ast_asset_to_chart.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/ast_source.cpp" ex="false" tool="1" flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/ast_source_compile.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/ast_source_to_chart.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/ast_source_to_oneliner.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/ast_x3.cpp" ex="false" tool="1" flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/ast_x3_to_ast_source.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/ast_x3_to_chart.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/ast_x3_to_oneliner.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/function_factory.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/function_factory_constant.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/function_factory_container.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/function_factory_imperative_request.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/function_factory_normal_operators.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/function_factory_print_value_request.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/gramma_parser.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/print_chart.cpp" ex="false" tool="1" flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/request_print_value.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser_tests/src/box_functions.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser_tests/src/box_mix_integer_real.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser_tests/src/box_pure_complex.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser_tests/src/box_pure_integer.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser_tests/src/box_pure_real.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser_tests/src/global_flags.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser_tests/src/main.cpp" ex="false" tool="1" flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser_tests/src/source_mix_integer_real.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser_tests/src/source_pure_complex.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser_tests/src/source_pure_integer.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser_tests/src/source_pure_real.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_scalar/src/scalar_complex.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_scalar/src/scalar_integer.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_scalar/src/scalar_real.cpp" ex="false" tool="1" flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_scalar_tests/src/function.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_scalar_tests/src/global_flags.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_scalar_tests/src/main.cpp" ex="false" tool="1" flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_scalar_tests/src/scalar_complex.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_scalar_tests/src/scalar_integer.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_scalar_tests/src/scalar_real.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_typed_operator/src/to_mat.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
           <incDir>
             <pElem>onerut_typed_operator/include</pElem>
             <pElem>external_packages/include</pElem>
@@ -739,7 +732,7 @@
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
           <incDir>
             <pElem>onerut_typed_operator_tests/include</pElem>
             <pElem>onerut_typed_operator/include</pElem>
@@ -752,7 +745,7 @@
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
           <incDir>
             <pElem>onerut_typed_operator_tests/include</pElem>
             <pElem>onerut_typed_operator/include</pElem>
@@ -765,7 +758,7 @@
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
           <incDir>
             <pElem>onerut_typed_operator_tests/include</pElem>
             <pElem>onerut_typed_operator/include</pElem>
@@ -778,7 +771,7 @@
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
           <incDir>
             <pElem>onerut_typed_operator_tests/include</pElem>
             <pElem>onerut_typed_operator/include</pElem>
@@ -791,7 +784,7 @@
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
           <incDir>
             <pElem>onerut_typed_operator_tests/include</pElem>
             <pElem>onerut_typed_operator/include</pElem>
@@ -804,7 +797,7 @@
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
           <incDir>
             <pElem>onerut_typed_operator_tests/include</pElem>
             <pElem>onerut_typed_operator/include</pElem>
@@ -817,7 +810,7 @@
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
           <incDir>
             <pElem>onerut_typed_operator_tests/include</pElem>
             <pElem>onerut_typed_operator/include</pElem>
@@ -830,7 +823,7 @@
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
           <incDir>
             <pElem>onerut_typed_operator_tests/include</pElem>
             <pElem>onerut_typed_operator/include</pElem>
@@ -843,18 +836,14 @@
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
-          <incDir>
-            <pElem>string_utils/include</pElem>
-            <pElem>build_netbeanns/string_utils</pElem>
-          </incDir>
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="string_utils/src/unicode_support.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="0">
+        <ccTool flags="1">
         </ccTool>
       </item>
     </conf>

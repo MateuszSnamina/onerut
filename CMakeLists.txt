@@ -9,8 +9,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #set(CMAKE_CXX_EXTENSIONS OFF)
 add_compile_options(-Wall)
 add_compile_options(-pedantic)
-add_compile_options(-ffast-math)
+#add_compile_options(-ffast-math) 
 add_compile_options(-pthread)
+# Note: fast-math disables isnan that is used in a test module.
+# When fast-math is enable the concerning NaN values may fail.
 
 #################################################################
 if (NOT (UNIX OR CYGWIN))

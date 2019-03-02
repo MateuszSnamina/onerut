@@ -199,13 +199,7 @@ void temp_testing() {
     lines.push_back(std::make_shared<const std::string>("H1 := (1./2)*(x*x - ip*ip)"));
     lines.push_back(std::make_shared<const std::string>("n := cr * an"));
     lines.push_back(std::make_shared<const std::string>("H2 := cr * an + 1/2 * eye(OSCILLATOR_SPACR)"));
-    lines.push_back(std::make_shared<const std::string>("cx_log10(5)"));
-    lines.push_back(std::make_shared<const std::string>("x"));
-    lines.push_back(std::make_shared<const std::string>("x1"));
-    lines.push_back(std::make_shared<const std::string>("x12"));
-    lines.push_back(std::make_shared<const std::string>("x_2"));
-    lines.push_back(std::make_shared<const std::string>("x_a2"));
-    
+   
     
 
     onerut_parser::FunctionFactoryContainer::global_instance().put_all();
