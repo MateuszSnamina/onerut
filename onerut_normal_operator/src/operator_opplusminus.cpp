@@ -18,7 +18,7 @@ namespace onerut_normal_operator {
     }
 
     typename OpPlusMinusOperator::AbstractIteratorPtrT
-    OpPlusMinusOperator::begin_itptr(const unsigned& ket) const {
+    OpPlusMinusOperator::begin_itptr(const BraKetT& ket) const {
         assert(are_the_same_domains(first_arg, other_argv));        
         return std::make_unique<IteratorT>(first_arg, other_argv, opv, ket);
     }

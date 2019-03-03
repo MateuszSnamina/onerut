@@ -17,8 +17,8 @@ namespace onerut_normal_operator {
     }
 
     typename SpinZetOperator::AbstractIteratorPtrT
-    SpinZetOperator::begin_itptr(const unsigned& ket) const {
-        const int doubled_m = utility::_n_stars_to_doubled_m(domain->multiplicity, ket);
+    SpinZetOperator::begin_itptr(const BraKetT& ket) const {
+        const auto doubled_m = utility::_n_stars_to_doubled_m(domain->multiplicity, ket);
         const double value = boost::numeric_cast<double>(doubled_m) / 2;
         return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(value, ket)));
     }
@@ -35,9 +35,9 @@ namespace onerut_normal_operator {
     }
 
     typename SpinPlusOperator::AbstractIteratorPtrT
-    SpinPlusOperator::begin_itptr(const unsigned& ket) const {
-        const int doubled_l = utility::_n_stars_to_doubled_m(domain->multiplicity, 0);
-        const int doubled_m = utility::_n_stars_to_doubled_m(domain->multiplicity, ket);
+    SpinPlusOperator::begin_itptr(const BraKetT& ket) const {
+        const auto doubled_l = utility::_n_stars_to_doubled_m(domain->multiplicity, 0);
+        const auto doubled_m = utility::_n_stars_to_doubled_m(domain->multiplicity, ket);
         const double temp = boost::numeric_cast<double>(doubled_l * (doubled_l + 2) - doubled_m * (doubled_m + 2));
         const double value = std::sqrt(temp / 4.0);
         return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(value, ket - 1)));
@@ -55,9 +55,9 @@ namespace onerut_normal_operator {
     }
 
     typename SpinMinusOperator::AbstractIteratorPtrT
-    SpinMinusOperator::begin_itptr(const unsigned& ket) const {
-        const int doubled_l = utility::_n_stars_to_doubled_m(domain->multiplicity, 0);
-        const int doubled_m = utility::_n_stars_to_doubled_m(domain->multiplicity, ket);
+    SpinMinusOperator::begin_itptr(const BraKetT& ket) const {
+        const auto doubled_l = utility::_n_stars_to_doubled_m(domain->multiplicity, 0);
+        const auto doubled_m = utility::_n_stars_to_doubled_m(domain->multiplicity, ket);
         const double temp = boost::numeric_cast<double>(doubled_l * (doubled_l + 2) - doubled_m * (doubled_m - 2));
         const double value = std::sqrt(temp / 4.0);
         return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(value, ket + 1)));

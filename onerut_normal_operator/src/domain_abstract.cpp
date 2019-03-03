@@ -12,13 +12,13 @@ namespace onerut_normal_operator {
     inline
     std::vector<std::string> Domain::state_names() const {
         std::vector<std::string> result;
-        for (unsigned index = 0; index < size(); ++index) {
+        for (uint32_t index = 0; index < size(); ++index) {
             result.push_back(state_name(index));
         }
         return result;
     }
 
-    std::unique_ptr<StateIndex> Domain::crate_state(unsigned index) const {
+    std::unique_ptr<StateIndex> Domain::crate_state(uint32_t index) const {
         return std::unique_ptr<StateIndex>(new StateIndex{shared_from_this(), index});
     }
 
@@ -26,7 +26,7 @@ namespace onerut_normal_operator {
     // ----------------  StateIndex  -------------------------------------------
     // -------------------------------------------------------------------------
 
-    StateIndex::StateIndex(std::shared_ptr<const Domain> domain, unsigned index) :
+    StateIndex::StateIndex(std::shared_ptr<const Domain> domain, uint32_t index) :
     domain(domain),
     index(index) {
         assert(index <= domain->size());

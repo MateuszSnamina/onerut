@@ -15,10 +15,10 @@ namespace onerut_normal_operator {
         using AbstractOperator::AbstractOpPtrT;
         using AbstractOperator::AbstractIteratorT;
         using AbstractOperator::AbstractIteratorPtrT;
-        using IteratorT = onerut_typed_operator::ZeroOperatorIterator<unsigned>;
-        static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);        
+        using IteratorT = onerut_typed_operator::ZeroOperatorIterator<BraKetT>;
+        static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);
         ZeroOperator(std::shared_ptr<const Domain> domain);
-        AbstractIteratorPtrT begin_itptr(const unsigned& ket) const override;
+        AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
         std::shared_ptr<const Domain> get_domain() const override;
     private:
         const std::shared_ptr<const Domain> domain;

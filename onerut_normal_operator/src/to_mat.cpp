@@ -3,14 +3,14 @@
 namespace onerut_normal_operator {
 
     arma::mat to_mat(const AbstractOperator& op) {
-        const unsigned spad_dim = op.get_domain()->size();
+        const auto spad_dim = op.get_domain()->size();
         arma::mat result(spad_dim, spad_dim, arma::fill::zeros);
-        for (unsigned ket = 0; ket < spad_dim; ket++) {
+        for (AbstractOperator::BraKetT ket = 0; ket < spad_dim; ket++) {
             auto it_ptr = op.begin_itptr(ket);
             while (!it_ptr->is_end()) {
-                const std::pair<double, unsigned>& val_bra = it_ptr->get_val_bra();
+                const auto& val_bra = it_ptr->get_val_bra();
                 const double& value = val_bra.first;
-                const unsigned& bra = val_bra.second;
+                const auto& bra = val_bra.second;
                 if (bra < spad_dim) {
                     result(bra, ket) += value;
                 }

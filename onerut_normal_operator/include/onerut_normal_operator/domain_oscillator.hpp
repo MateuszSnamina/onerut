@@ -7,10 +7,10 @@ namespace onerut_normal_operator {
 
     class OscillatorDomain : public Domain {
     public:
-        OscillatorDomain(unsigned n_max_stars);
-        unsigned size() const override;
-        std::string state_name(unsigned index) const override;
-        const unsigned n_max_stars;
+        OscillatorDomain(uint32_t n_max_stars);
+        uint32_t size() const override;
+        std::string state_name(uint32_t index) const override;
+        const uint32_t n_max_stars;
     };
 
 }

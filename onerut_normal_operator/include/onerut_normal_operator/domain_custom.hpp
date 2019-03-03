@@ -12,8 +12,8 @@ namespace onerut_normal_operator {
     class CustomDomain : public Domain {
     public:
         CustomDomain(std::vector<std::string> state_names);
-        unsigned size() const override;
-        std::string state_name(unsigned index) const override;
+        uint32_t size() const override;
+        std::string state_name(uint32_t index) const override;
     public:
         const std::vector<std::string> _state_names;
     };

@@ -9,10 +9,10 @@
 
 namespace {
 
-    std::vector<std::string> _eig_names(unsigned size) {
+    std::vector<std::string> _eig_names(uint32_t size) {
         std::vector<std::string> eig_names;
         eig_names.reserve(size);
-        for (unsigned i = 0; i < size; ++i) {
+        for (uint32_t i = 0; i < size; ++i) {
             eig_names.push_back("Eig" + std::to_string(i));
         }
         return eig_names;

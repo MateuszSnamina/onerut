@@ -16,16 +16,16 @@ namespace {
 
 namespace onerut_normal_operator {
 
-    SpinDomain::SpinDomain(unsigned multiplicity) :
+    SpinDomain::SpinDomain(uint32_t multiplicity) :
     multiplicity(multiplicity),
     n_max_stars(multiplicity) {
     }
 
-    unsigned SpinDomain::size() const {
+    uint32_t SpinDomain::size() const {
         return n_max_stars;
     }
 
-    std::string SpinDomain::state_name(unsigned index) const {
+    std::string SpinDomain::state_name(uint32_t index) const {
         assert(index <= size());
         const auto & n_stars = index;
         const std::string name =

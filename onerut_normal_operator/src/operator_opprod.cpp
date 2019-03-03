@@ -9,7 +9,7 @@ namespace onerut_normal_operator {
     }
 
     typename OpProdOperator::AbstractIteratorPtrT
-    OpProdOperator::begin_itptr(const BraKetT & ket) const {
+    OpProdOperator::begin_itptr(const BraKetT& ket) const {
         assert(are_the_same_domains(argv));
         return std::make_unique<IteratorT>(argv, ket);
     }

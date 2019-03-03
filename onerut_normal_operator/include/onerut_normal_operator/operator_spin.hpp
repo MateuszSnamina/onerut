@@ -17,10 +17,10 @@ namespace onerut_normal_operator {
         using AbstractOperator::AbstractOpPtrT;
         using AbstractOperator::AbstractIteratorT;
         using AbstractOperator::AbstractIteratorPtrT;
-        using IteratorT = onerut_typed_operator::SimpleOperatorIterator<unsigned>;
+        using IteratorT = onerut_typed_operator::SimpleOperatorIterator<BraKetT>;
         static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);
         SpinZetOperator(std::shared_ptr<const SpinDomain> domain);
-        AbstractIteratorPtrT begin_itptr(const unsigned& ket) const override;
+        AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
         std::shared_ptr<const Domain> get_domain() const override;
     private:
         std::shared_ptr<const SpinDomain> domain;
@@ -33,10 +33,10 @@ namespace onerut_normal_operator {
         using AbstractOperator::AbstractOpPtrT;
         using AbstractOperator::AbstractIteratorT;
         using AbstractOperator::AbstractIteratorPtrT;
-        using IteratorT = onerut_typed_operator::SimpleOperatorIterator<unsigned>;
+        using IteratorT = onerut_typed_operator::SimpleOperatorIterator<BraKetT>;
         static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);
         SpinPlusOperator(std::shared_ptr<const SpinDomain> domain);
-        AbstractIteratorPtrT begin_itptr(const unsigned& ket) const override;
+        AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
         std::shared_ptr<const Domain> get_domain() const override;
     private:
         std::shared_ptr<const SpinDomain> domain;
@@ -49,10 +49,10 @@ namespace onerut_normal_operator {
         using AbstractOperator::AbstractOpPtrT;
         using AbstractOperator::AbstractIteratorT;
         using AbstractOperator::AbstractIteratorPtrT;
-        using IteratorT = onerut_typed_operator::SimpleOperatorIterator<unsigned>;
+        using IteratorT = onerut_typed_operator::SimpleOperatorIterator<BraKetT>;
         static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);
         SpinMinusOperator(std::shared_ptr<const SpinDomain> domain);
-        AbstractIteratorPtrT begin_itptr(const unsigned& ket) const override;
+        AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
         std::shared_ptr<const Domain> get_domain() const override;
     private:
         std::shared_ptr<const SpinDomain> domain;

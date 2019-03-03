@@ -1,6 +1,7 @@
 #ifndef ONERUT_NORMAL_OPERATOR_DOMAIN_ABSTRACT
 #define ONERUT_NORMAL_OPERATOR_DOMAIN_ABSTRACT
 
+#include<cstdint>
 #include<memory>
 #include<string>
 #include<vector>
@@ -17,10 +18,10 @@ namespace onerut_normal_operator {
 
     class Domain : public std::enable_shared_from_this<Domain> {
     public:
-        virtual unsigned size() const = 0;
-        virtual std::string state_name(unsigned index) const = 0;
+        virtual uint32_t size() const = 0;
+        virtual std::string state_name(uint32_t index) const = 0;
         virtual std::vector<std::string> state_names() const;
-        std::unique_ptr<StateIndex> crate_state(unsigned index) const;
+        std::unique_ptr<StateIndex> crate_state(uint32_t index) const;
     };
 
     // -------------------------------------------------------------------------
@@ -29,12 +30,12 @@ namespace onerut_normal_operator {
 
     struct StateIndex {
         const std::shared_ptr<const Domain> domain;
-        const unsigned index;
+        const uint32_t index;
         std::string fetch_name() const;
         std::string to_str() const;
     private:
-        StateIndex(std::shared_ptr<const Domain> domain, unsigned index);
-        friend std::unique_ptr<StateIndex> Domain::crate_state(unsigned index) const;
+        StateIndex(std::shared_ptr<const Domain> domain, uint32_t index);
+        friend std::unique_ptr<StateIndex> Domain::crate_state(uint32_t index) const;
     };
 
     // -------------------------------------------------------------------------

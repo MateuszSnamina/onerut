@@ -19,10 +19,10 @@ namespace onerut_normal_operator {
         using AbstractOperator::AbstractOpPtrT;
         using AbstractOperator::AbstractIteratorT;
         using AbstractOperator::AbstractIteratorPtrT;
-        using IteratorT = onerut_typed_operator::OpProdOperatorIterator<unsigned, AbstractOpT>;
+        using IteratorT = onerut_typed_operator::OpProdOperatorIterator<BraKetT, AbstractOpT>;
         static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);
         OpProdOperator(std::vector<AbstractOpPtrT> argv);
-        AbstractIteratorPtrT begin_itptr(const unsigned& ket) const override;
+        AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
         std::shared_ptr<const Domain> get_domain() const override;
     private:
         std::vector<AbstractOpPtrT> argv;

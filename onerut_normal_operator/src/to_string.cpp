@@ -1,15 +1,27 @@
 #include<iomanip>
+#include<type_traits>
 
 #include<log_utils/fancy_log_mat.hpp>
 
 #include<onerut_normal_operator/to_mat.hpp>
 #include<onerut_normal_operator/to_string.hpp>
 
+namespace cpp20 {
+
+    template< class T >
+    struct remove_cvref {
+        typedef std::remove_cv_t<std::remove_reference_t<T> > type;
+    };
+    
+}
+
 namespace onerut_normal_operator {
 
     std::string to_string(const Domain& domain) {
         std::string result;
-        for (unsigned index = 0; index < domain.size(); ++index)
+        const auto domain_size = domain.size();
+        using BraKetT = typename cpp20::remove_cvref<decltype(domain_size)>::type;
+        for (BraKetT index = 0; index < domain_size; ++index)
             result += "【#" + std::to_string(index) + "»" + domain.state_name(index) + "】";
         return result;
     }
@@ -34,5 +46,5 @@ namespace onerut_normal_operator {
         eigs_results.log(sstream, line_prefix);
         return sstream.str();
     }
-    
+
 }

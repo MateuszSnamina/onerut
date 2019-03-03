@@ -13,7 +13,7 @@ namespace onerut_normal_operator {
     }
 
     typename ZeroOperator::AbstractIteratorPtrT
-    ZeroOperator::begin_itptr(const unsigned& ket) const {
+    ZeroOperator::begin_itptr(const BraKetT& ket) const {
         return std::make_unique<IteratorT>();
     }
 

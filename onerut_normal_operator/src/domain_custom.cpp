@@ -8,11 +8,11 @@ namespace onerut_normal_operator {
     _state_names(state_names) {
     }
 
-    unsigned CustomDomain::size() const {
+    uint32_t CustomDomain::size() const {
         return _state_names.size();
     }
 
-    std::string CustomDomain::state_name(unsigned index) const {
+    std::string CustomDomain::state_name(uint32_t index) const {
         assert(index < _state_names.size());
         return _state_names[index];
     }

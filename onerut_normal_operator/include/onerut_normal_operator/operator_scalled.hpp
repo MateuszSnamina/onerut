@@ -16,10 +16,10 @@ namespace onerut_normal_operator {
         using AbstractOperator::AbstractOpPtrT;
         using AbstractOperator::AbstractIteratorT;
         using AbstractOperator::AbstractIteratorPtrT;
-        using IteratorT = onerut_typed_operator::ScalledOperatorIterator<unsigned>;
+        using IteratorT = onerut_typed_operator::ScalledOperatorIterator<BraKetT>;
         static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);        
         ScalledOperator(std::shared_ptr<const onerut_scalar::Real> factor, AbstractOpPtrT arg);
-        AbstractIteratorPtrT begin_itptr(const unsigned& ket) const override;
+        AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
         std::shared_ptr<const Domain> get_domain() const override;        
     private:
         const std::shared_ptr<const onerut_scalar::Real> factor;

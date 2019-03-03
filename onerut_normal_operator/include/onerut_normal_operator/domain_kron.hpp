@@ -15,13 +15,13 @@ namespace onerut_normal_operator {
     class KronDomain : public Domain {
     public:
         KronDomain(std::vector<std::shared_ptr<const Domain> > domains);
-        unsigned size() const override;
-        std::string state_name(unsigned index) const override;
+        uint32_t size() const override;
+        std::string state_name(uint32_t index) const override;
         std::unique_ptr<KronPlaceholder> crate_placeholder(unsigned place) const;
     public:
         const std::vector<std::shared_ptr<const Domain> > domains;
-        const std::vector<unsigned> domain_sizes;
-        const std::vector<unsigned> weights;
+        const std::vector<uint32_t> domain_sizes;
+        const std::vector<uint32_t> weights;
     };
 
     // -------------------------------------------------------------------------

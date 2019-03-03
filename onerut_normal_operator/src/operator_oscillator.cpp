@@ -15,7 +15,7 @@ namespace onerut_normal_operator {
     }
 
     typename CreationOperator::AbstractIteratorPtrT
-    CreationOperator::begin_itptr(const unsigned& ket) const {
+    CreationOperator::begin_itptr(const BraKetT& ket) const {
         const double coef = std::sqrt(ket + 1);
         return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(coef, ket + 1)));
     }
@@ -32,7 +32,7 @@ namespace onerut_normal_operator {
     }
 
     typename AnihilationOperator::AbstractIteratorPtrT
-    AnihilationOperator::begin_itptr(const unsigned& ket) const {
+    AnihilationOperator::begin_itptr(const BraKetT& ket) const {
         if (ket >= 1) {
             const double coef = std::sqrt(ket);
             return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(coef, ket - 1)));
@@ -40,6 +40,4 @@ namespace onerut_normal_operator {
         return std::make_unique<IteratorT>(IteratorT::create_end_iterator());
     }
 
-
 }
-

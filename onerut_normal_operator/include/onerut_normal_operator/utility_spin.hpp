@@ -7,10 +7,10 @@
 namespace onerut_normal_operator::utility {
 
     inline
-    int _n_stars_to_doubled_m(unsigned multiplicity, unsigned n_stars) {
+    int _n_stars_to_doubled_m(uint32_t multiplicity, uint32_t n_stars) {
         assert(multiplicity > 0);
-        const unsigned doubled_l = multiplicity - 1;
-        const int doubled_m = boost::numeric_cast<int>(doubled_l) - 2 * boost::numeric_cast<int>(n_stars);
+        const uint32_t doubled_l = multiplicity - 1;
+        const int32_t doubled_m = boost::numeric_cast<int32_t>(doubled_l) - 2 * boost::numeric_cast<int32_t>(n_stars);
         return doubled_m;
     }
 

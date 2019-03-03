@@ -23,7 +23,7 @@ namespace onerut_normal_operator {
     }
 
     typename HopOperator::AbstractIteratorPtrT
-    HopOperator::begin_itptr(const unsigned& ket) const {
+    HopOperator::begin_itptr(const BraKetT& ket) const {
         if (ket == state_1->index) {
             return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(value->value_real(), state_2->index)));
         } else if (ket == state_2->index) {
@@ -45,7 +45,7 @@ namespace onerut_normal_operator {
     }
 
     typename DiagOperator::AbstractIteratorPtrT
-    DiagOperator::begin_itptr(const unsigned& ket) const {
+    DiagOperator::begin_itptr(const BraKetT& ket) const {
         if (ket == state->index) {
             return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(value->value_real(), state->index)));
         }
@@ -63,7 +63,7 @@ namespace onerut_normal_operator {
     }
 
     typename EyeOperator::AbstractIteratorPtrT
-    EyeOperator::begin_itptr(const unsigned& ket) const {
+    EyeOperator::begin_itptr(const BraKetT& ket) const {
         return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(1.0, ket)));
     }
 

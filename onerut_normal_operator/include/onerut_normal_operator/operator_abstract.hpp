@@ -14,9 +14,9 @@ namespace onerut_normal_operator {
     // ----------------  AbstractOperator  -------------------------------------
     // -------------------------------------------------------------------------    
 
-    class AbstractOperator : public onerut_typed_operator::AbstractOperator<unsigned> {
+    class AbstractOperator : public onerut_typed_operator::AbstractOperator<uint32_t> {
     public:
-        using BraKetT = unsigned;
+        using BraKetT = uint32_t;
         using AbstractOpT = AbstractOperator;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
         using AbstractIteratorT = onerut_typed_operator::AbstractResultIterator<BraKetT>;

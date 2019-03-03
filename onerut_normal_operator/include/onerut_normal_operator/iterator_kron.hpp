@@ -9,12 +9,12 @@ namespace onerut_normal_operator {
     // ------------------ KRON OPERATOR  ---------------------------------------
     // -------------------------------------------------------------------------    
 
-    class KronIterator : public onerut_typed_operator::AbstractResultIterator<unsigned> {
+    class KronIterator : public onerut_typed_operator::AbstractResultIterator<uint32_t> {
     public:
-        using BraKetT = unsigned;
+        using BraKetT = uint32_t;
         using AbstractOpT = AbstractOperator;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
-        using AbstractIteratorT = onerut_typed_operator::AbstractResultIterator<unsigned>;
+        using AbstractIteratorT = onerut_typed_operator::AbstractResultIterator<uint32_t>;
         using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
         using Iterator = KronIterator;
         KronIterator(BraKetT weight, BraKetT base, const AbstractOpPtrT& subdomain_op, const BraKetT& subdomain_ket);

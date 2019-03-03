@@ -11,7 +11,7 @@ namespace onerut_normal_operator {
     }
 
     typename ScalledOperator::AbstractIteratorPtrT
-    ScalledOperator::begin_itptr(const unsigned& ket) const {
+    ScalledOperator::begin_itptr(const BraKetT& ket) const {
         return std::make_unique<IteratorT>(factor->value_real(), arg, ket);
     }
 

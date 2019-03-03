@@ -10,9 +10,9 @@
 
 namespace {
 
-    std::vector<unsigned> domains_2_domain_sizes(
+    std::vector<uint32_t> domains_2_domain_sizes(
             const std::vector<std::shared_ptr<const onerut_normal_operator::Domain> > & domains) {
-        std::vector<unsigned> domain_sizes;
+        std::vector<uint32_t> domain_sizes;
         std::transform(
                 cbegin(domains), cend(domains),
                 std::back_inserter(domain_sizes),
@@ -23,13 +23,13 @@ namespace {
         return domain_sizes;
     }
 
-    std::vector<unsigned> domain_sizes_2_weights(
-            const std::vector<unsigned> & domain_sizes) {
-        std::vector<unsigned> weights(domain_sizes.size() + 1);
+    std::vector<uint32_t> domain_sizes_2_weights(
+            const std::vector<uint32_t> & domain_sizes) {
+        std::vector<uint32_t> weights(domain_sizes.size() + 1);
         weights.back() = 1;
         std::partial_sum(
                 crbegin(domain_sizes), crend(domain_sizes),
-                rbegin(weights) + 1, std::multiplies<unsigned>());
+                rbegin(weights) + 1, std::multiplies<uint32_t>());
         return weights;
     }
 
@@ -47,22 +47,22 @@ namespace onerut_normal_operator {
     weights(domain_sizes_2_weights(domain_sizes)) {
     }
 
-    unsigned KronDomain::size() const {
+    uint32_t KronDomain::size() const {
         return weights.front();
     }
 
-    std::string KronDomain::state_name(unsigned index) const {
+    std::string KronDomain::state_name(uint32_t index) const {
         assert(index <= size());
         std::string result;
         std::vector<std::string> site_state_names;
-        for (unsigned site = 0; site < domains.size(); ++site) {
-            const unsigned index_on_site = utility::_get_site_intex(weights, site, index);
+        for (uint32_t site = 0; site < domains.size(); ++site) {
+            const uint32_t index_on_site = utility::_get_site_intex(weights, site, index);
             site_state_names.push_back(domains[site]->state_name(index_on_site));
         }
         return boost::join(site_state_names, ":");
     }
 
-    std::unique_ptr<KronPlaceholder> KronDomain::crate_placeholder(unsigned place) const {
+    std::unique_ptr<KronPlaceholder> KronDomain::crate_placeholder(uint32_t place) const {
         assert(place <= domains.size());
         return std::unique_ptr<KronPlaceholder>(new KronPlaceholder{shared_from(this), place});
     }
@@ -71,7 +71,7 @@ namespace onerut_normal_operator {
     // --------------  Placeholder  --------------------------------------------
     // -------------------------------------------------------------------------
 
-    KronPlaceholder::KronPlaceholder(std::shared_ptr<const KronDomain> domain, unsigned place) :
+    KronPlaceholder::KronPlaceholder(std::shared_ptr<const KronDomain> domain, uint32_t place) :
     domain(domain),
     place(place) {
         assert(place <= domain->domains.size());
