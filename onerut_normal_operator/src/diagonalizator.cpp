@@ -22,6 +22,10 @@ namespace {
 
 namespace onerut_normal_operator {
 
+    // *************************************************************************
+    // *************  Eig   ****************************************************
+    // *************************************************************************
+
     void EigResult::print_energies(std::ostream& stream, unsigned chunk_size, std::string line_prefix) const {
         fancy_logging::log(stream,{"Energy"}, eig_names,
                 arma::trans(energies),
@@ -48,26 +52,27 @@ namespace onerut_normal_operator {
     // *************************************************************************
 
     Eig::Eig(std::shared_ptr<const AbstractOperator> hamiltonian) :
-    hamiltonian(hamiltonian) {
+    hamiltonian(hamiltonian),
+    cached_result(std::nullopt) {
         assert(hamiltonian);
     }
 
+    EigResult Eig::value() const {
+        return ( cached_result ? *cached_result : _value());
+    }
+
+    void Eig::latch() {
+        cached_result.emplace(_value());
+    }
+
+    void Eig::reset() {
+        cached_result = std::nullopt;
+    }
+    
     // *************************************************************************
 
     EigDense::EigDense(std::shared_ptr<const AbstractOperator> hamiltonian) :
     Eig(hamiltonian) {
-    }
-
-    EigResult EigDense::value() const {
-        return ( cached_result ? *cached_result : _value());
-    }
-
-    void EigDense::latch() {
-        cached_result.emplace(_value());
-    }
-
-    void EigDense::reset() {
-        cached_result = std::nullopt;
     }
 
     EigResult EigDense::_value() const {
@@ -93,18 +98,6 @@ namespace onerut_normal_operator {
     numer_of_states_to_calculate(numer_of_states_to_calculate) {
     }
 
-    EigResult EigSparse::value() const {
-        return ( cached_result ? *cached_result : _value());
-    }
-
-    void EigSparse::latch() {
-        cached_result.emplace(_value());
-    }
-
-    void EigSparse::reset() {
-        cached_result = std::nullopt;
-    }
-
     EigResult EigSparse::_value() const {
         assert(0); // TODO implement
         //        // ---------------------------------------------------------------------
@@ -119,18 +112,17 @@ namespace onerut_normal_operator {
         //        return result;
     }
 
-
-    // ******************************
+    // *************************************************************************
+    // *************  Mean  ****************************************************
+    // *************************************************************************
 
     Mean::Mean(std::shared_ptr<const Eig> eig,
-            std::shared_ptr<const AbstractOperator> op,
-            std::shared_ptr<const onerut_scalar::Integer> eigen_state) :
+            std::shared_ptr<const AbstractOperator> op) :
     eig(eig),
     op(op),
-    eigen_state(eigen_state) {
+    cached_result(std::nullopt) {
         assert(eig);
         assert(op);
-        assert(eig);
     }
 
     double Mean::value_real() const {
@@ -145,7 +137,17 @@ namespace onerut_normal_operator {
         cached_result = std::nullopt;
     }
 
-    double Mean::_value_real() const {
+    // *************************************************************************
+
+    MeanInEigenState::MeanInEigenState(std::shared_ptr<const Eig> eig,
+            std::shared_ptr<const AbstractOperator> op,
+            std::shared_ptr<const onerut_scalar::Integer> eigen_state) :
+    Mean(eig, op),
+    eigen_state(eigen_state) {
+        assert(eigen_state);
+    }
+
+    double MeanInEigenState::_value_real() const {
         const EigResult eig_results = eig->value();
         if (!op)
             return arma::datum::nan;
@@ -154,6 +156,28 @@ namespace onerut_normal_operator {
         if (eig_number >= eig_results.beta.n_cols)// TODO fix comparison incompatibility
             return arma::datum::nan;
         return onerut_normal_operator::calculate_mean(*op, eig_results.beta.col(eig_number));
+    }
+
+    // *************************************************************************
+
+    MeanThermal::MeanThermal(std::shared_ptr<const Eig> eig,
+            std::shared_ptr<const AbstractOperator> op,
+            std::shared_ptr<const onerut_scalar::Real> temperature) :
+    Mean(eig, op),
+    temperature(temperature) {
+        assert(temperature);
+    }
+
+    double MeanThermal::_value_real() const {
+        assert(0); // TODO implement
+        //        const EigResult eig_results = eig->value();
+        //        if (!op)
+        //            return arma::datum::nan;
+        //        const auto eig_number = eigen_state->value_integer();
+        //        // TODO handle negative
+        //        if (eig_number >= eig_results.beta.n_cols)// TODO fix comparison incompatibility
+        //            return arma::datum::nan;
+        //        return onerut_normal_operator::calculate_mean(*op, eig_results.beta.col(eig_number));
     }
 
 }

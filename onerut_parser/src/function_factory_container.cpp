@@ -263,8 +263,8 @@ namespace onerut_parser {
         // Calculation functions:        
         force_put("eigd", std::make_unique<NormalOperatorEigDenseFunctionFactory>());
         force_put("eigs", std::make_unique<NormalOperatorEigSparseFunctionFactory>());
-        force_put("mean", std::make_unique<NormalOperatorMeanFunctionFactory>());
-        force_put("thermal_mean", std::make_unique<NormalOperatorThermalMeanFunctionFactory>());
+        force_put("mean_in_eigenstate", std::make_unique<NormalOperatorMeanInEigenStateFunctionFactory>());
+        force_put("thermal_mean", std::make_unique<NormalOperatorMeanThermalFunctionFactory>());
     }
 
     void FunctionFactoryContainer::put_imparative_request_functions() {

@@ -10,6 +10,10 @@
 
 namespace onerut_normal_operator {
 
+    // *************************************************************************
+    // *************  Eig   ****************************************************
+    // *************************************************************************
+
     struct EigResult {
         const std::shared_ptr<const AbstractOperator> hamiltonian;
         const bool success;
@@ -21,55 +25,80 @@ namespace onerut_normal_operator {
         void log(std::ostream& stream, std::string line_prefix = "") const;
     };
 
+    // -------------------------------------------------------------------------
+
     class Eig {
     public:
         Eig(std::shared_ptr<const AbstractOperator> hamiltonian);
-        virtual EigResult value() const = 0;
-        virtual void latch() = 0;
-        virtual void reset() = 0;
-    public:
+        virtual EigResult value() const;
+        virtual void latch();
+        virtual void reset();
         std::shared_ptr<const AbstractOperator> hamiltonian;
+    private:
+        virtual EigResult _value() const = 0;
+        std::optional<EigResult> cached_result;
     };
+
+    // -------------------------------------------------------------------------
 
     class EigDense : public Eig {
     public:
         EigDense(std::shared_ptr<const AbstractOperator> hamiltonian);
-        EigResult value() const override;
-        void latch() override;
-        void reset() override;
     private:
-        EigResult _value() const;
-        std::optional<EigResult> cached_result;
+        EigResult _value() const override;
     };
+
+    // -------------------------------------------------------------------------
 
     class EigSparse : public Eig {
     public:
         EigSparse(std::shared_ptr<const AbstractOperator> hamiltonian,
                 std::shared_ptr<const onerut_scalar::Integer> numer_of_states_to_calculate);
-        EigResult value() const override;
-        void latch() override;
-        void reset() override;
-    private:
-        EigResult _value() const;
-        std::optional<EigResult> cached_result;
         std::shared_ptr<const onerut_scalar::Integer> numer_of_states_to_calculate;
+    private:
+        EigResult _value() const override;
     };
+
+    // *************************************************************************
+    // *************  Mean  ****************************************************
+    // *************************************************************************
 
     class Mean : public onerut_scalar::Real {
     public:
         Mean(std::shared_ptr<const Eig> eig,
+                std::shared_ptr<const AbstractOperator> op);
+        double value_real() const override;
+        virtual void latch();
+        virtual void reset();
+        const std::shared_ptr<const Eig> eig;
+        const std::shared_ptr<const AbstractOperator> op;
+    private:
+        virtual double _value_real() const = 0;
+        std::optional<double> cached_result;
+    };
+
+    // -------------------------------------------------------------------------
+
+    class MeanInEigenState : public Mean {
+    public:
+        MeanInEigenState(std::shared_ptr<const Eig> eig,
                 std::shared_ptr<const AbstractOperator> op,
                 std::shared_ptr<const onerut_scalar::Integer> eigen_state);
-        double value_real() const override;
-        void latch();
-        void reset();
-    public:
-        std::shared_ptr<const Eig> eig;
-        std::shared_ptr<const AbstractOperator> op;
-        std::shared_ptr<const onerut_scalar::Integer> eigen_state;
+        const std::shared_ptr<const onerut_scalar::Integer> eigen_state;
     private:
         double _value_real() const;
-        std::optional<double> cached_result;
+    };
+
+    // -------------------------------------------------------------------------
+
+    class MeanThermal : public Mean {
+    public:
+        MeanThermal(std::shared_ptr<const Eig> eig,
+                std::shared_ptr<const AbstractOperator> op,
+                std::shared_ptr<const onerut_scalar::Real> temperature);
+        const std::shared_ptr<const onerut_scalar::Real> temperature;
+    private:
+        double _value_real() const;
     };
 
 }

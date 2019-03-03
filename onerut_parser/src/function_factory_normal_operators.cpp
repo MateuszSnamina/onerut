@@ -490,7 +490,7 @@ namespace onerut_parser {
         return Asset::from_compile_error(std::make_shared<CompilerNotImplementedError>());
     }
 
-    Asset NormalOperatorMeanFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 3> args_asset) const {
+    Asset NormalOperatorMeanInEigenStateFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 3> args_asset) const {
         const auto & arg0_asset_deref = args_asset[0].deref();
         const auto & arg1_asset_deref = args_asset[1].deref();
         const auto & arg2_asset_deref = args_asset[2].deref();
@@ -521,15 +521,13 @@ namespace onerut_parser {
         const auto state = utility::to_integer(arg2_asset_deref);
         // ---------------------------------------------------------------------                
         return Asset::from_value<onerut_normal_operator::Mean>(
-                std::make_shared<onerut_normal_operator::Mean>(normal_operator_eig, normal_operator, state)
+                std::make_shared<onerut_normal_operator::MeanInEigenState>(normal_operator_eig, normal_operator, state)
                 );
     }
 
-    Asset NormalOperatorThermalMeanFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 4> args_asset) const {
+    Asset NormalOperatorMeanThermalFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 3> args_asset) const {
         // TODO
         return Asset::from_compile_error(std::make_shared<CompilerNotImplementedError>());
     }
-
-
 
 }

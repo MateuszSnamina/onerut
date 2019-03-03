@@ -87,12 +87,12 @@ namespace onerut_parser {
         Asset make_function_otherwise_make_error(std::array<Asset, 2> args_asset) const override;
     };
     
-    class NormalOperatorMeanFunctionFactory : public NaryFunctionFactory<3> {
+    class NormalOperatorMeanInEigenStateFunctionFactory : public NaryFunctionFactory<3> {
         Asset make_function_otherwise_make_error(std::array<Asset, 3> args_asset) const override;
     };
 
-    class NormalOperatorThermalMeanFunctionFactory : public NaryFunctionFactory<4> {
-        Asset make_function_otherwise_make_error(std::array<Asset, 4> args_asset) const override;
+    class NormalOperatorMeanThermalFunctionFactory : public NaryFunctionFactory<3> {
+        Asset make_function_otherwise_make_error(std::array<Asset, 3> args_asset) const override;
     };
 
 }
