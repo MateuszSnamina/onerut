@@ -45,14 +45,32 @@ namespace onerut_normal_operator {
         stream.flags(flags);
     }
 
-    // ******************************
+    // *************************************************************************
 
     Eig::Eig(std::shared_ptr<const AbstractOperator> hamiltonian) :
     hamiltonian(hamiltonian) {
         assert(hamiltonian);
     }
 
-    EigResult Eig::_value() const {
+    // *************************************************************************
+
+    EigDense::EigDense(std::shared_ptr<const AbstractOperator> hamiltonian) :
+    Eig(hamiltonian) {
+    }
+
+    EigResult EigDense::value() const {
+        return ( cached_result ? *cached_result : _value());
+    }
+
+    void EigDense::latch() {
+        cached_result.emplace(_value());
+    }
+
+    void EigDense::reset() {
+        cached_result = std::nullopt;
+    }
+
+    EigResult EigDense::_value() const {
         // ---------------------------------------------------------------------
         const std::vector<std::string> eig_names = _eig_names(hamiltonian->get_domain()->size());
         // ---------------------------------------------------------------------
@@ -65,17 +83,42 @@ namespace onerut_normal_operator {
         return result;
     }
 
-    EigResult Eig::value() const {
+
+    // *************************************************************************
+
+    EigSparse::EigSparse(
+            std::shared_ptr<const AbstractOperator> hamiltonian,
+            std::shared_ptr<const onerut_scalar::Integer> numer_of_states_to_calculate) :
+    Eig(hamiltonian),
+    numer_of_states_to_calculate(numer_of_states_to_calculate) {
+    }
+
+    EigResult EigSparse::value() const {
         return ( cached_result ? *cached_result : _value());
     }
 
-    void Eig::latch() {
+    void EigSparse::latch() {
         cached_result.emplace(_value());
     }
 
-    void Eig::reset() {
+    void EigSparse::reset() {
         cached_result = std::nullopt;
     }
+
+    EigResult EigSparse::_value() const {
+        assert(0); // TODO implement
+        //        // ---------------------------------------------------------------------
+        //        const std::vector<std::string> eig_names = _eig_names(hamiltonian->get_domain()->size());
+        //        // ---------------------------------------------------------------------
+        //        arma::vec energies;
+        //        arma::mat beta;
+        //        const arma::mat hamiltonian_mat = to_mat(*hamiltonian);
+        //        const bool success = arma::eig_sym(energies, beta, hamiltonian_mat);
+        //        // ---------------------------------------------------------------------
+        //        const EigResult result = {hamiltonian, success, eig_names, energies, beta};
+        //        return result;
+    }
+
 
     // ******************************
 
@@ -90,17 +133,6 @@ namespace onerut_normal_operator {
         assert(eig);
     }
 
-    double Mean::_value_real() const {
-        const EigResult eig_results = eig->value();
-        if (!op)
-            return arma::datum::nan;
-        const auto eig_number = eigen_state->value_integer();
-        // TODO handle negative
-        if (eig_number >= eig_results.beta.n_cols)// TODO fix comparison incompatibility
-            return arma::datum::nan;
-        return onerut_normal_operator::calculate_mean(*op, eig_results.beta.col(eig_number));
-    }
-
     double Mean::value_real() const {
         return ( cached_result ? *cached_result : _value_real());
     }
@@ -111,6 +143,17 @@ namespace onerut_normal_operator {
 
     void Mean::reset() {
         cached_result = std::nullopt;
+    }
+
+    double Mean::_value_real() const {
+        const EigResult eig_results = eig->value();
+        if (!op)
+            return arma::datum::nan;
+        const auto eig_number = eigen_state->value_integer();
+        // TODO handle negative
+        if (eig_number >= eig_results.beta.n_cols)// TODO fix comparison incompatibility
+            return arma::datum::nan;
+        return onerut_normal_operator::calculate_mean(*op, eig_results.beta.col(eig_number));
     }
 
 }

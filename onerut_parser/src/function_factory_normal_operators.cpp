@@ -383,7 +383,7 @@ namespace onerut_parser {
         // --------------------------------------------------------------------- 
         const auto kron_domain = utility::to_kron_operator_domain(arg0_asset_deref);
         // --------------------------------------------------------------------- 
-        if (argc != 1 + kron_domain->domains.size())
+        if (argc != 1 + kron_domain->sub_domains.size())
             return Asset::from_compile_error(std::make_shared<WrongNumberOfArgumentsError>());
         // --------------------------------------------------------------------- 
         // Take out placeholder names:
@@ -458,7 +458,7 @@ namespace onerut_parser {
         const auto normal_operator = utility::to_normal_operator(arg0_asset_deref);
         // ---------------------------------------------------------------------        
         return Asset::from_value<onerut_normal_operator::Eig>(
-                std::make_shared<onerut_normal_operator::Eig>(normal_operator)
+                std::make_shared<onerut_normal_operator::EigDense>(normal_operator)
                 );
     }
 
@@ -484,11 +484,9 @@ namespace onerut_parser {
         const auto normal_operator = utility::to_normal_operator(arg0_asset_deref);
         const auto numer_of_states_to_calculate = utility::to_integer(arg1_asset_deref);
         // ---------------------------------------------------------------------        
-        //        return Asset::from_value<onerut_normal_operator::EigSparse>(
-        //                std::make_shared<onerut_normal_operator::EigSparse>(normal_operator)
-        //                );
-
-        //TODO implement
+        return Asset::from_value<onerut_normal_operator::EigSparse>(
+                std::make_shared<onerut_normal_operator::EigSparse>(normal_operator, numer_of_states_to_calculate)
+                );
         return Asset::from_compile_error(std::make_shared<CompilerNotImplementedError>());
     }
 

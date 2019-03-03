@@ -24,14 +24,35 @@ namespace onerut_normal_operator {
     class Eig {
     public:
         Eig(std::shared_ptr<const AbstractOperator> hamiltonian);
-        EigResult value() const;
-        void latch();
-        void reset();
+        virtual EigResult value() const = 0;
+        virtual void latch() = 0;
+        virtual void reset() = 0;
     public:
         std::shared_ptr<const AbstractOperator> hamiltonian;
+    };
+
+    class EigDense : public Eig {
+    public:
+        EigDense(std::shared_ptr<const AbstractOperator> hamiltonian);
+        EigResult value() const override;
+        void latch() override;
+        void reset() override;
     private:
         EigResult _value() const;
         std::optional<EigResult> cached_result;
+    };
+
+    class EigSparse : public Eig {
+    public:
+        EigSparse(std::shared_ptr<const AbstractOperator> hamiltonian,
+                std::shared_ptr<const onerut_scalar::Integer> numer_of_states_to_calculate);
+        EigResult value() const override;
+        void latch() override;
+        void reset() override;
+    private:
+        EigResult _value() const;
+        std::optional<EigResult> cached_result;
+        std::shared_ptr<const onerut_scalar::Integer> numer_of_states_to_calculate;
     };
 
     class Mean : public onerut_scalar::Real {

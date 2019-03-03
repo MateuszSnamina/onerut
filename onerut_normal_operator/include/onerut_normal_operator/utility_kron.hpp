@@ -25,7 +25,7 @@ namespace onerut_normal_operator::utility {
             const KronDomain& domain,
             uint32_t place,
             uint32_t index) {
-        assert(place < domain.domains.size());
+        assert(place < domain.sub_domains.size());
         return _get_sub_index(domain.get_place_weight(place), domain.get_next_place_weight(place), index);
     }
 
