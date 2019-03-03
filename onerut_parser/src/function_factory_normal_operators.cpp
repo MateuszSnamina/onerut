@@ -368,14 +368,17 @@ namespace onerut_parser {
         if (argc == 0)
             return Asset::from_compile_error(std::make_shared<WrongNumberOfArgumentsError>());
         // --------------------------------------------------------------------- 
-        const auto & arg0_asset_deref = argv_asset_deref[0];
+        const auto arg0_asset_deref = argv_asset_deref[0];
         // --------------------------------------------------------------------- 
         if (utility::any_of_is_compile_error(argv_asset_deref))
             return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
         // --------------------------------------------------------------------- 
+        if (!arg0_asset_deref.is_either_value_or_type())
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());        
+        // --------------------------------------------------------------------- 
         if (!utility::is_kron_operator_domain(arg0_asset_deref))
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
-        if (!std::all_of(cbegin(argv) + 1, cend(argv), utility::is_unset_ref))//TODO zrobic podobnie w create custom domain.(bez+1 przy begin)
+        if (!std::all_of(cbegin(argv) + 1, cend(argv), utility::is_unset_ref)) // TODO zrobic podobnie w create custom domain.(bez+1 przy begin)
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         // --------------------------------------------------------------------- 
         const auto kron_domain = utility::to_kron_operator_domain(arg0_asset_deref);
@@ -384,7 +387,7 @@ namespace onerut_parser {
             return Asset::from_compile_error(std::make_shared<WrongNumberOfArgumentsError>());
         // --------------------------------------------------------------------- 
         // Take out placeholder names:
-        std::vector<std::string> reference_names; //TODO zrobic podobnie w create custom domain.(bez+1 przy begin)
+        std::vector<std::string> reference_names; // TODO zrobic podobnie w create custom domain.(bez+1 przy begin)
         reference_names.reserve(argc - 1);
         std::transform(
                 cbegin(argv) + 1, cend(argv),
@@ -401,7 +404,7 @@ namespace onerut_parser {
                 return Asset::from_compile_error(std::make_shared<IllegalSecondAssignError>());
             }
         }
-        // Return kron_domain compile result.
+        // Return -- forward kron-domain.
         return argv[0];
     }
 
@@ -466,17 +469,17 @@ namespace onerut_parser {
         if (arg0_asset_deref.is_compile_error())
             return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
         if (arg1_asset_deref.is_compile_error())
-            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());        
+            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
         // ---------------------------------------------------------------------        
         if (!arg0_asset_deref.is_either_value_or_type())
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         if (!arg1_asset_deref.is_either_value_or_type())
-            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());        
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         // ---------------------------------------------------------------------        
         if (!utility::is_normal_operator(arg0_asset_deref))
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         if (!utility::is_integer(arg1_asset_deref))
-            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());        
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         // ---------------------------------------------------------------------        
         const auto normal_operator = utility::to_normal_operator(arg0_asset_deref);
         const auto numer_of_states_to_calculate = utility::to_integer(arg1_asset_deref);
@@ -484,7 +487,7 @@ namespace onerut_parser {
         //        return Asset::from_value<onerut_normal_operator::EigSparse>(
         //                std::make_shared<onerut_normal_operator::EigSparse>(normal_operator)
         //                );
-        
+
         //TODO implement
         return Asset::from_compile_error(std::make_shared<CompilerNotImplementedError>());
     }
