@@ -436,7 +436,6 @@ namespace onerut_parser {
         using OperatorT = onerut_normal_operator::KronAtOperator;
         return Asset::from_value<AbstractOperatorT>(
                 std::make_shared<OperatorT>(normal_op, placeholder));
-        //        return Asset::from_compile_error(std::make_shared<CompilerNotImplementedError>()); //TODO remove
     }
 
     // *************************************************************************

@@ -237,9 +237,7 @@ void temp_testing() {
     lines.push_back(std::make_shared<const std::string>("S2m := Sm(DOM_SPIN2)"));
     lines.push_back(std::make_shared<const std::string>("S3z := Sz(DOM_SPIN3)"));
     lines.push_back(std::make_shared<const std::string>("S3p := Sp(DOM_SPIN3)"));
-    lines.push_back(std::make_shared<const std::string>("S3m := Sm(DOM_SPIN3)"));
-    //    lines.push_back(std::make_shared<const std::string>("Sz_1:= at(S2z, p_1)"));
-    //    lines.push_back(std::make_shared<const std::string>("Sz_2:= at(S3z, p_2)"));    
+    lines.push_back(std::make_shared<const std::string>("S3m := Sm(DOM_SPIN3)"));   
     lines.push_back(std::make_shared<const std::string>("Sz_1:= S2z@p_1"));
     lines.push_back(std::make_shared<const std::string>("Sz_2:= S3z@p_2"));
     lines.push_back(std::make_shared<const std::string>("VALUE(Sz_1)"));

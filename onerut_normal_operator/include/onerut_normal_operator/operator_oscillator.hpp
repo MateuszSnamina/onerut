@@ -4,8 +4,8 @@
 #include<type_traits>
 
 #include<onerut_typed_operator/iterator_simple.hpp>
-#include<onerut_normal_operator/operator_abstract.hpp>
 #include<onerut_normal_operator/domain_oscillator.hpp>
+#include<onerut_normal_operator/operator_abstract.hpp>
 
 namespace onerut_normal_operator {
 

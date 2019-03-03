@@ -4,23 +4,9 @@
 #include<functional> // std::multiplies
 #include<boost/algorithm/string.hpp>
 
-#include<cassert>
-
 #include<onerut_normal_operator/share_from.hpp>
+#include<onerut_normal_operator/utility_kron.hpp>
 #include<onerut_normal_operator/domain_kron.hpp>
-
-#include<iostream> //debug TODO delete
-
-//namespace {
-//
-//    void print_vector(std::vector<unsigned> v) {
-//        for (unsigned i = 0; i < v.size(); ++i) {
-//            std::cout << v[i] << " ";
-//        }
-//        std::cout << std::endl;
-//
-//    }
-//}
 
 namespace {
 
@@ -47,21 +33,6 @@ namespace {
         return weights;
     }
 
-    unsigned _get_site_intex(
-            unsigned my_weight,
-            unsigned next_weight,
-            unsigned ket) {
-        return (ket % next_weight) / my_weight;
-    }
-
-    unsigned _get_site_intex(
-            const std::vector<unsigned>& weights,
-            unsigned site,
-            unsigned ket) {
-        assert(site < weights.size() - 1);
-        return _get_site_intex(weights[site + 1], weights[site], ket);
-    }
-
 }
 
 namespace onerut_normal_operator {
@@ -85,7 +56,7 @@ namespace onerut_normal_operator {
         std::string result;
         std::vector<std::string> site_state_names;
         for (unsigned site = 0; site < domains.size(); ++site) {
-            const unsigned index_on_site = _get_site_intex(weights, site, index);
+            const unsigned index_on_site = utility::_get_site_intex(weights, site, index);
             site_state_names.push_back(domains[site]->state_name(index_on_site));
         }
         return boost::join(site_state_names, ":");

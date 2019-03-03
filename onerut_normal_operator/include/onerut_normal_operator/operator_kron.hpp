@@ -4,8 +4,8 @@
 #include<type_traits>
 
 #include<onerut_normal_operator/iterator_kron.hpp>
-#include<onerut_normal_operator/operator_abstract.hpp>
 #include<onerut_normal_operator/domain_kron.hpp>
+#include<onerut_normal_operator/operator_abstract.hpp>
 
 namespace onerut_normal_operator {
 

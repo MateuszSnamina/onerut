@@ -1,6 +1,7 @@
 #include<cassert>
 #include<boost/cast.hpp>
 
+#include<onerut_normal_operator/utility_spin.hpp>
 #include<onerut_normal_operator/domain_spin.hpp>
 
 namespace {
@@ -9,13 +10,6 @@ namespace {
         if (doubled_halfs % 2 == 0)
             return std::to_string(doubled_halfs / 2);
         return std::to_string(doubled_halfs) + "/2";
-    }
-
-    int _n_stars_to_doubled_m(unsigned multiplicity, unsigned n_stars) {
-        assert(multiplicity > 0);
-        const unsigned doubled_l = multiplicity - 1;
-        const int doubled_m = boost::numeric_cast<int>(doubled_l) - 2 * boost::numeric_cast<int>(n_stars);
-        return doubled_m;
     }
 
 }
@@ -35,9 +29,9 @@ namespace onerut_normal_operator {
         assert(index <= size());
         const auto & n_stars = index;
         const std::string name =
-                _doubled_halfs_to_string(_n_stars_to_doubled_m(multiplicity, 0)) +
+                _doubled_halfs_to_string(utility::_n_stars_to_doubled_m(multiplicity, 0)) +
                 "," +
-                _doubled_halfs_to_string(_n_stars_to_doubled_m(multiplicity, n_stars));
+                _doubled_halfs_to_string(utility::_n_stars_to_doubled_m(multiplicity, n_stars));
         return name;
     }
 
