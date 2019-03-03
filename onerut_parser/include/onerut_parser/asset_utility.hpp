@@ -67,6 +67,9 @@ namespace onerut_parser::utility {
     is_normal_operator_state_index(const onerut_parser::AssetDeref&);
 
     bool
+    is_kron_operator_domain_placeholder(const onerut_parser::AssetDeref&);
+
+    bool
     is_normal_operator(const onerut_parser::AssetDeref&);
 
     //bool
@@ -107,6 +110,9 @@ namespace onerut_parser::utility {
     std::shared_ptr < const onerut_normal_operator::StateIndex >
     to_normal_operator_state_index(const onerut_parser::AssetDeref&);
 
+    std::shared_ptr < const onerut_normal_operator::KronPlaceholder >
+    to_kron_operator_domain_placeholder(const onerut_parser::AssetDeref&);
+    
     std::shared_ptr < const onerut_normal_operator::AbstractOperator >
     to_normal_operator(const onerut_parser::AssetDeref&);
 

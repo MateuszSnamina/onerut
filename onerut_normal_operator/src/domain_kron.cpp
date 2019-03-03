@@ -105,6 +105,10 @@ namespace onerut_normal_operator {
     place(place) {
         assert(place <= domain->domains.size());
     }
-    
+
+    std::shared_ptr<const Domain> KronPlaceholder::fetch_domain() const {
+        return domain->domains[place];
+    }
+
 }
 
