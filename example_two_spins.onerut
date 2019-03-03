@@ -1,0 +1,37 @@
+########################################
+# Define the spin-dublet Hilbert space #
+########################################
+DUBLET_DOMAIN := spin_domain(2)
+
+########################################
+# Define handy references              #
+# for standard vibronic operators      #
+########################################
+new const Sz := Sz(DUBLET_DOMAIN)
+new const Sp := Sp(DUBLET_DOMAIN)
+new const Sm := Sm(DUBLET_DOMAIN)
+
+########################################
+# Define the many-body Hilbert space   #
+########################################
+MANY_DOMAIN := kron_domain(DUBLET_DOMAIN, DUBLET_DOMAIN)
+#MANY_DOMAIN := kron_domain(DOM_SPIN2, DOM_SPIN2) # DOTO sprawdzic crash
+#kron_placeholders(_1, _2) # TODO sprawdzić crash
+kron_placeholders(MANY_DOMAIN, _1, _2)
+
+########################################
+# Define many-body operators           #
+########################################
+
+H22_ising := Sz@_1 * Sz@_2
+H22_quant := 0.5 * ( Sp@_1 * Sm@_2 + Sm@_1 * Sp@_2 )
+H22_heins := H22_ising + H22_quant
+VALUE(H22_ising)
+VALUE(H22_quant)
+VALUE(H22_heins)
+
+########################################
+# Diagonalize Hamiltonian              #
+########################################
+eig := eigd(H22_heins)
+VALUE(eig)

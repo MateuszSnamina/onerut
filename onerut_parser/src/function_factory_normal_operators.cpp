@@ -475,7 +475,7 @@ namespace onerut_parser {
         // ---------------------------------------------------------------------        
         if (!utility::is_normal_operator(arg0_asset_deref))
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
-        if (!utility::is_integer(arg0_asset_deref))
+        if (!utility::is_integer(arg1_asset_deref))
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());        
         // ---------------------------------------------------------------------        
         const auto normal_operator = utility::to_normal_operator(arg0_asset_deref);
