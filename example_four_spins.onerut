@@ -1,0 +1,50 @@
+########################################
+# Define the spin-dublet Hilbert space #
+########################################
+DUBLET_DOMAIN := spin_domain(2)
+
+########################################
+# Define handy references              #
+# for standard vibronic operators      #
+########################################
+new const Sz := Sz(DUBLET_DOMAIN)
+new const Sp := Sp(DUBLET_DOMAIN)
+new const Sm := Sm(DUBLET_DOMAIN)
+
+########################################
+# Define the many-body Hilbert space   #
+########################################
+MANY_DOMAIN := kron_domain(DUBLET_DOMAIN, DUBLET_DOMAIN, DUBLET_DOMAIN, DUBLET_DOMAIN)
+#MANY_DOMAIN := kron_domain(DOM_SPIN2, DOM_SPIN2) # DOTO sprawdzic crash
+#kron_placeholders(_1, _2) # TODO sprawdzić crash
+kron_placeholders(MANY_DOMAIN, _1, _2, _3, _4)
+
+########################################
+# Define many-body operators           #
+########################################
+
+H_ising_12 := Sz@_1 * Sz@_2
+H_quant_12 := 0.5 * ( Sp@_1 * Sm@_2 + Sm@_1 * Sp@_2 )
+H_heins_12 := H_ising_12 + H_quant_12
+
+H_ising_23 := Sz@_2 * Sz@_3
+H_quant_23 := 0.5 * ( Sp@_2 * Sm@_3 + Sm@_2 * Sp@_3 )
+H_heins_23 := H_ising_23 + H_quant_23
+
+H_ising_34 := Sz@_3 * Sz@_4
+H_quant_34 := 0.5 * ( Sp@_3 * Sm@_4 + Sm@_3 * Sp@_4 )
+H_heins_34 := H_ising_34 + H_quant_34
+
+H_ising_41 := Sz@_4 * Sz@_1
+H_quant_41 := 0.5 * ( Sp@_4 * Sm@_1 + Sm@_4 * Sp@_1 )
+H_heins_41 := H_ising_41 + H_quant_41
+
+H_heins :=  H_heins_12 + H_heins_23 + H_heins_34 + H_heins_41
+
+VALUE(H_heins)
+
+########################################
+# Diagonalize Hamiltonian              #
+########################################
+eig := eigd(H_heins)
+VALUE(eig)
