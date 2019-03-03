@@ -7,7 +7,7 @@
 namespace {
 
     std::string _doubled_halfs_to_string_doublet(int32_t doubled_halfs) {
-        return (doubled_halfs > 0 ? "up" : "down"); //TODO "up2" : "down2" cause crash
+        return (doubled_halfs > 0 ? "UUp" : "DDown");
     }
 
     std::string _doubled_halfs_to_string(int32_t doubled_halfs) {

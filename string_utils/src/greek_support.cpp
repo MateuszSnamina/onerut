@@ -37,7 +37,7 @@ namespace {
         {"π", "pi"},
         {"Π", "Pi"},
         {"ρ", "rho"},
-        //{"ς", "final_sigma"},
+        //{"ς", "finalSigma"},
         {"σ", "sigma"},
         {"Σ", "Sigma"},
         {"τ", "tau"},
@@ -62,12 +62,14 @@ namespace {
         {"⇍", "notLeft"},
         {"⇏", "notRight"},
         {"⇌", "resonance"},
-        {"⬆", "up2"},
-        {"⬇", "down2"},
+        {"⬆", "Up"},
+        {"⬇", "Down"},
+        {"▲", "UUp"},
+        {"▼", "DDown"},
         {"⍐", "boxUp"},
         {"⍗", "boxDown"},
-        {"⍓", "boxUp2"},
-        {"⍌", "boxDown2"}};
+        {"⍓", "BoxUp"},
+        {"⍌", "BoxDown"}};
 
     void _to_greek(
             std::string& str,

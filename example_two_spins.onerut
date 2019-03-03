@@ -15,8 +15,7 @@ new const Sm := Sm(DUBLET_DOMAIN)
 # Define the many-body Hilbert space   #
 ########################################
 MANY_DOMAIN := kron_domain(DUBLET_DOMAIN, DUBLET_DOMAIN)
-#MANY_DOMAIN := kron_domain(DOM_SPIN2, DOM_SPIN2) # DOTO sprawdzic crash
-#kron_placeholders(_1, _2) # TODO sprawdzić crash
+VALUE(MANY_DOMAIN)
 kron_placeholders(MANY_DOMAIN, _1, _2)
 
 ########################################
