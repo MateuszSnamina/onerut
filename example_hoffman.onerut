@@ -2,7 +2,7 @@
 # Define the electronic Hilbert space  #
 ########################################
 
-DOMAIN := normal_domain(TT, EG, GE, AC, CA)
+DOMAIN := custom_domain(TT, EG, GE, AC, CA)
 
 ########################################
 # Define parameters                    #

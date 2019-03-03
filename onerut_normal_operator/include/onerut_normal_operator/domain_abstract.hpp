@@ -33,7 +33,7 @@ namespace onerut_normal_operator {
         std::string fetch_name() const;
         std::string to_str() const;
     private:
-        StateIndex(unsigned index, std::shared_ptr<const Domain> domain);
+        StateIndex(std::shared_ptr<const Domain> domain, unsigned index);
         friend std::unique_ptr<StateIndex> Domain::crate_state(unsigned index) const;
     };
 

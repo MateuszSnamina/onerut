@@ -10,23 +10,23 @@
 namespace onerut_normal_operator {
 
     // -------------------------------------------------------------------------
-    /*
-        class KronAtOperator : public AbstractOperator {
-        public:
-            using AbstractOperator::BraKetT;
-            using AbstractOperator::AbstractOpT;
-            using AbstractOperator::AbstractOpPtrT;
-            using AbstractOperator::AbstractIteratorT;
-            using AbstractOperator::AbstractIteratorPtrT;
-            using IteratorT = onerut_typed_operator::SimpleOperatorIterator<unsigned>;
-            static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);
-            KronAtOperator(std::shared_ptr<const SpinDomain> domain);
-            AbstractIteratorPtrT begin_itptr(const unsigned& ket) const override;
-            std::shared_ptr<const Domain> get_domain() const override;
-        private:
-            std::shared_ptr<const KronDomain> domain;
-        };
-     */
+
+    //    class KronAtOperator : public AbstractOperator {
+    //    public:
+    //        using AbstractOperator::BraKetT;
+    //        using AbstractOperator::AbstractOpT;
+    //        using AbstractOperator::AbstractOpPtrT;
+    //        using AbstractOperator::AbstractIteratorT;
+    //        using AbstractOperator::AbstractIteratorPtrT;
+    //        using IteratorT = onerut_typed_operator::SimpleOperatorIterator<unsigned>;
+    //        static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);
+    //        KronAtOperator(std::shared_ptr<const SpinDomain> domain);
+    //        AbstractIteratorPtrT begin_itptr(const unsigned& ket) const override;
+    //        std::shared_ptr<const Domain> get_domain() const override;
+    //    private:
+    //        std::shared_ptr<const KronDomain> domain;
+    //    };
+
 }
 
 #endif

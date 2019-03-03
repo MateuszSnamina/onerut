@@ -5,21 +5,36 @@
 
 namespace onerut_normal_operator {
 
+
+    class KronPlaceholder;
+
+    // -------------------------------------------------------------------------
+    // --------------  Domain  -------------------------------------------------
+    // -------------------------------------------------------------------------
+    
     class KronDomain : public Domain {
     public:
         KronDomain(std::vector<std::shared_ptr<const Domain> > domains);
         unsigned size() const override;
         std::string state_name(unsigned index) const override;
-        std::vector<std::shared_ptr<const Domain> > domains;
+        std::unique_ptr<KronPlaceholder> crate_placeholder(unsigned place) const;
+    public:
+        const std::vector<std::shared_ptr<const Domain> > domains;
         const std::vector<unsigned> domain_sizes;
         const std::vector<unsigned> weights;
     };
 
-    class SiteIndex { //TODO change into placeholder
+    // -------------------------------------------------------------------------
+    // --------------  Placeholder  --------------------------------------------
+    // -------------------------------------------------------------------------
+    
+    class KronPlaceholder {
     public:
-        SiteIndex(std::shared_ptr<const KronDomain> domain, unsigned index); //TODO private
-        unsigned index;
         std::shared_ptr<const KronDomain> domain;
+        unsigned place;
+    private:
+        KronPlaceholder(std::shared_ptr<const KronDomain> domain, unsigned place);
+        friend std::unique_ptr<KronPlaceholder> KronDomain::crate_placeholder(unsigned place) const;
     };
 
 }

@@ -1,5 +1,4 @@
 #include<cassert>
-#include<string>
 
 #include<onerut_normal_operator/domain_oscillator.hpp>
 
@@ -14,6 +13,7 @@ namespace onerut_normal_operator {
     }
 
     std::string OscillatorDomain::state_name(unsigned index) const {
+        assert(index <= size());
         const auto & n_stars = index;
         const std::string name = "nu_" + std::to_string(n_stars);
         return name;

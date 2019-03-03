@@ -96,6 +96,14 @@ namespace onerut_parser {
     };
 
     template<>
+    struct PrintValueRequestTyped<onerut_normal_operator::KronPlaceholder> : public PrintValueRequest {
+        using Type = onerut_normal_operator::KronPlaceholder;
+        PrintValueRequestTyped(std::shared_ptr<Type> instance);
+        void print(std::ostream& stream, std::string line_prefix) const override;
+        const std::shared_ptr<Type> instance;
+    };
+    
+    template<>
     struct PrintValueRequestTyped<onerut_normal_operator::AbstractOperator> : public PrintValueRequest {
         using Type = onerut_normal_operator::AbstractOperator;
         PrintValueRequestTyped(std::shared_ptr<Type> instance);

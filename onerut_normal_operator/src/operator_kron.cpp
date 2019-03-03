@@ -6,20 +6,20 @@
 
 namespace {
 
-    unsigned _get_site_intex(
-            unsigned my_weight,
-            unsigned next_weight,
-            unsigned ket) {
-        return (ket % next_weight) / my_weight;
-    }
-
-    unsigned _get_site_intex(
-            const std::vector<unsigned>& weights,
-            unsigned site,
-            unsigned ket) {
-        assert(site < weights.size() - 1);
-        return _get_site_intex(weights[site +1], weights[site], ket);
-    }
+    //    unsigned _get_site_intex(
+    //            unsigned my_weight,
+    //            unsigned next_weight,
+    //            unsigned ket) {
+    //        return (ket % next_weight) / my_weight;
+    //    }
+    //
+    //    unsigned _get_site_intex(
+    //            const std::vector<unsigned>& weights,
+    //            unsigned site,
+    //            unsigned ket) {
+    //        assert(site < weights.size() - 1);
+    //        return _get_site_intex(weights[site +1], weights[site], ket);
+    //    }
 
 }
 

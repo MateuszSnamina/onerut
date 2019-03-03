@@ -19,14 +19,14 @@ namespace onerut_normal_operator {
     }
 
     std::unique_ptr<StateIndex> Domain::crate_state(unsigned index) const {
-        return std::unique_ptr<StateIndex>(new StateIndex{index, shared_from_this()});
+        return std::unique_ptr<StateIndex>(new StateIndex{shared_from_this(), index});
     }
 
     // -------------------------------------------------------------------------
     // ----------------  StateIndex  -------------------------------------------
     // -------------------------------------------------------------------------
 
-    StateIndex::StateIndex(unsigned index, std::shared_ptr<const Domain> domain) :
+    StateIndex::StateIndex(std::shared_ptr<const Domain> domain, unsigned index) :
     domain(domain),
     index(index) {
         assert(index <= domain->size());

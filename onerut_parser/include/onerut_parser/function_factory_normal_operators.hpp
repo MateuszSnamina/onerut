@@ -69,6 +69,14 @@ namespace onerut_parser {
         virtual Asset make_function_otherwise_make_error(const std::vector<Asset>& argv) const override;
     };
 
+    class CreateNormalOperatorKronPlaceholdersFunctionFactory : public AbstractFunctionFactory {
+        virtual Asset make_function_otherwise_make_error(const std::vector<Asset>& argv) const override;
+    };
+
+    class CreateNormalOperatorAtOperatorFunctionFactory : public NaryFunctionFactory<2> {
+        virtual Asset make_function_otherwise_make_error(std::array<Asset, 2> args_asset) const override;
+    };
+
     // -------------
 
     class NormalOperatorEigsFunctionFactory : public NaryFunctionFactory<1> {

@@ -4,7 +4,7 @@
 #include<onerut_parser/asset_utility.hpp>
 #include<onerut_parser/function_factory_normal_operators.hpp>
 #include<onerut_parser/request_imperative.hpp>
-#include<onerut_parser/asset_ref_container.hpp> //TODO remove??
+#include<onerut_parser/asset_ref_container.hpp>
 #include<onerut_normal_operator/operator_abstract.hpp>
 #include<onerut_normal_operator/operator_simple.hpp>
 #include<onerut_normal_operator/operator_zero.hpp>
@@ -360,6 +360,54 @@ namespace onerut_parser {
                 );
     }
 
+    Asset CreateNormalOperatorKronPlaceholdersFunctionFactory::make_function_otherwise_make_error(const std::vector<Asset>& argv) const {
+        const auto argc = argv.size();
+        const auto & argv_asset_deref = utility::many_deref(argv);
+        // --------------------------------------------------------------------- 
+        if (argc == 0)
+            return Asset::from_compile_error(std::make_shared<WrongNumberOfArgumentsError>());
+        // --------------------------------------------------------------------- 
+        const auto & arg0_asset_deref = argv_asset_deref[0];
+        // --------------------------------------------------------------------- 
+        if (utility::any_of_is_compile_error(argv_asset_deref))
+            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+        // --------------------------------------------------------------------- 
+        if (!utility::is_kron_operator_domain(arg0_asset_deref))
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        if (!std::all_of(cbegin(argv) + 1, cend(argv), utility::is_unset_ref))//TODO zrobic podobnie w create custom domain.(bez+1 przy begin)
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        // --------------------------------------------------------------------- 
+        const auto kron_domain = utility::to_kron_operator_domain(arg0_asset_deref);
+        // --------------------------------------------------------------------- 
+        if (argc != 1 + kron_domain->domains.size())
+            return Asset::from_compile_error(std::make_shared<WrongNumberOfArgumentsError>());
+        // --------------------------------------------------------------------- 
+        // Take out placeholder names:
+        std::vector<std::string> reference_names; //TODO zrobic podobnie w create custom domain.(bez+1 przy begin)
+        reference_names.reserve(argc - 1);
+        std::transform(
+                cbegin(argv) + 1, cend(argv),
+                std::back_inserter(reference_names),
+                [](const Asset & asset) {
+                    return utility::name_of_unset_ref(asset);
+                }
+        );
+        // Make placeholder objects:
+        for (unsigned place = 0; place < argc - 1; ++place) {
+            const auto placeholder_asset_deref = AssetDeref::from_value<onerut_normal_operator::KronPlaceholder>(kron_domain->crate_placeholder(place));
+            const auto placeholder_ref = std::make_shared<AssetConstRef>(reference_names[place], placeholder_asset_deref);
+            if (!AssetRefContainer::global_instance().put(placeholder_ref)) {
+                return Asset::from_compile_error(std::make_shared<IllegalSecondAssignError>());
+            }
+        }
+        // Return kron_domain compile result.
+        return argv[0];
+    }
+
+    Asset CreateNormalOperatorAtOperatorFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 2> args_asset) const {
+        assert(0);//TODO implement
+    }
+
     // *************************************************************************
 
     Asset NormalOperatorEigsFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const {
@@ -376,6 +424,7 @@ namespace onerut_parser {
         // ---------------------------------------------------------------------        
         const auto normal_operator = utility::to_normal_operator(arg0_asset_deref);
         // ---------------------------------------------------------------------        
+
         return Asset::from_value<onerut_normal_operator::Eigs>(
                 std::make_shared<onerut_normal_operator::Eigs>(normal_operator)
                 );
@@ -411,6 +460,7 @@ namespace onerut_parser {
         const auto normal_operator = utility::to_normal_operator(arg1_asset_deref);
         const auto state = utility::to_integer(arg2_asset_deref);
         // ---------------------------------------------------------------------                
+
         return Asset::from_value<onerut_normal_operator::Mean>(
                 std::make_shared<onerut_normal_operator::Mean>(normal_operator_eigs, normal_operator, state)
                 );

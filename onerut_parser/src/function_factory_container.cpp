@@ -257,7 +257,9 @@ namespace onerut_parser {
         force_put("Sp", std::make_unique<CreateSpinPlusOperatorFunctionFactory>());
         force_put("Sm", std::make_unique<CreateSpinMinusOperatorFunctionFactory>());
         // Normal operator for kron algebra functions:
-        force_put("kron_domain", std::make_unique<CreateKronDomainFunctionFactory>());        
+        force_put("kron_domain", std::make_unique<CreateKronDomainFunctionFactory>());      
+        force_put("kron_placeholders", std::make_unique<CreateNormalOperatorKronPlaceholdersFunctionFactory>());
+        force_put("at", std::make_unique<CreateNormalOperatorAtOperatorFunctionFactory>());
         // Calculation functions:        
         force_put("eigs", std::make_unique<NormalOperatorEigsFunctionFactory>());
         force_put("mean", std::make_unique<NormalOperatorMeanFunctionFactory>());

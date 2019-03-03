@@ -6,6 +6,7 @@
 
 #include<cassert>
 
+#include<onerut_normal_operator/share_from.hpp>
 #include<onerut_normal_operator/domain_kron.hpp>
 
 #include<iostream> //debug TODO delete
@@ -63,8 +64,11 @@ namespace {
 
 }
 
-
 namespace onerut_normal_operator {
+
+    // -------------------------------------------------------------------------
+    // --------------  Domain  -------------------------------------------------
+    // -------------------------------------------------------------------------
 
     KronDomain::KronDomain(std::vector<std::shared_ptr<const Domain> > domains) :
     domains(domains),
@@ -77,6 +81,7 @@ namespace onerut_normal_operator {
     }
 
     std::string KronDomain::state_name(unsigned index) const {
+        assert(index <= size());
         std::string result;
         std::vector<std::string> site_state_names;
         for (unsigned site = 0; site < domains.size(); ++site) {
@@ -86,5 +91,20 @@ namespace onerut_normal_operator {
         return boost::join(site_state_names, ":");
     }
 
+    std::unique_ptr<KronPlaceholder> KronDomain::crate_placeholder(unsigned place) const {
+        assert(place <= domains.size());
+        return std::unique_ptr<KronPlaceholder>(new KronPlaceholder{shared_from(this), place});
+    }
+
+    // -------------------------------------------------------------------------
+    // --------------  Placeholder  --------------------------------------------
+    // -------------------------------------------------------------------------
+
+    KronPlaceholder::KronPlaceholder(std::shared_ptr<const KronDomain> domain, unsigned place) :
+    domain(domain),
+    place(place) {
+        assert(place <= domain->domains.size());
+    }
+    
 }
 

@@ -151,6 +151,20 @@ namespace onerut_parser {
 
     // *************************************************************************
 
+    PrintValueRequestTyped<onerut_normal_operator::KronPlaceholder>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
+    instance(instance) {
+        assert(instance);
+    }
+
+    void PrintValueRequestTyped<onerut_normal_operator::KronPlaceholder>::print(std::ostream& stream, std::string line_prefix) const {
+        assert(instance);
+        stream << line_prefix << "[value] "
+                << "place = " << instance->place
+                << std::endl;
+    }
+
+    // *************************************************************************
+
     PrintValueRequestTyped<onerut_normal_operator::AbstractOperator>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
     instance(instance) {
         assert(instance);

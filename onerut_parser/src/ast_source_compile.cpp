@@ -14,8 +14,6 @@
 #include<onerut_parser/asset_ref_container.hpp>
 #include<onerut_parser/function_factory_container.hpp>
 
-//#include<iostream> //TODO remove.
-
 namespace {
 
     bool

@@ -210,6 +210,16 @@ void temp_testing() {
     lines.push_back(std::make_shared<const std::string>("E2 := eye(DOMAIN2)"));
     lines.push_back(std::make_shared<const std::string>("VALUE(DOMAIN2)"));
     lines.push_back(std::make_shared<const std::string>("VALUE(E2)"));
+    lines.push_back(std::make_shared<const std::string>("kron_placeholders(DOMAIN2)"));
+    lines.push_back(std::make_shared<const std::string>("kron_placeholders(DOMAIN2,xx)"));
+    lines.push_back(std::make_shared<const std::string>("kron_placeholders(DOMAIN2,xx,yy)"));
+    lines.push_back(std::make_shared<const std::string>("kron_placeholders(DOMAIN2,xx,yy)"));    
+    lines.push_back(std::make_shared<const std::string>("kron_placeholders(DOMAIN2,xxx,yyy,zzz)"));
+    lines.push_back(std::make_shared<const std::string>("kron_placeholders(DOMAIN2,4,5)"));
+    lines.push_back(std::make_shared<const std::string>("xx"));    
+    lines.push_back(std::make_shared<const std::string>("yy"));    
+    lines.push_back(std::make_shared<const std::string>("VALUE(xx)"));
+    lines.push_back(std::make_shared<const std::string>("VALUE(yy)"));
 
     onerut_parser::FunctionFactoryContainer::global_instance().put_all();
 

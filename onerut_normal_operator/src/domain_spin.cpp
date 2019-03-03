@@ -1,5 +1,4 @@
 #include<cassert>
-#include<string>
 #include<boost/cast.hpp>
 
 #include<onerut_normal_operator/domain_spin.hpp>
@@ -33,6 +32,7 @@ namespace onerut_normal_operator {
     }
 
     std::string SpinDomain::state_name(unsigned index) const {
+        assert(index <= size());
         const auto & n_stars = index;
         const std::string name =
                 _doubled_halfs_to_string(_n_stars_to_doubled_m(multiplicity, 0)) +
