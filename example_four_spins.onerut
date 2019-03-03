@@ -48,3 +48,14 @@ VALUE(H_heins)
 ########################################
 eig := eigd(H_heins)
 VALUE(eig)
+
+# Note:
+# Dimension of MANY_DOMAIN is equal to 2 * 2 * 2 * 2 = 16
+# The product of the four dublets decomposes into a sum of:
+# a quintet, three triplets and two singlets:
+# 2 x 2 x 2 x 2 = 5 + 3 + 3 + 3 + 1 + 1.
+# The considered Hamiltonian sectrum is following:
+# energy = +1, deg=5 (quintet)
+# energy = -0, deg=7 (triplet, triplet, singlet)
+# energy = -1, deg=3 (triplet)
+# energy = -2, deg=1 (singlet)
