@@ -79,7 +79,7 @@ namespace onerut_parser::utility {
     //is_boson_operator(const onerut_parser::AssetDeref&);
 
     bool
-    is_normal_operator_eigs(const onerut_parser::AssetDeref&);
+    is_normal_operator_eig(const onerut_parser::AssetDeref&);
 
     bool
     is_normal_operator_mean(const onerut_parser::AssetDeref&);
@@ -122,8 +122,8 @@ namespace onerut_parser::utility {
     //    std::shared_ptr<onerut_operator::AbstractOperator<BOSON_KET_T> >
     //    to_boson_operator(const onerut_parser::AssetDeref&);
 
-    std::shared_ptr < onerut_normal_operator::Eigs >
-    to_normal_operator_eigs(const onerut_parser::AssetDeref&);
+    std::shared_ptr < onerut_normal_operator::Eig >
+    to_normal_operator_eig(const onerut_parser::AssetDeref&);
 
     std::shared_ptr < onerut_normal_operator::Mean >
     to_normal_operator_mean(const onerut_parser::AssetDeref&);

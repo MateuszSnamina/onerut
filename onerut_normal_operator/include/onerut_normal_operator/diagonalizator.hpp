@@ -10,7 +10,7 @@
 
 namespace onerut_normal_operator {
 
-    struct EigsResult {
+    struct EigResult {
         const std::shared_ptr<const AbstractOperator> hamiltonian;
         const bool success;
         const std::vector<std::string> eig_names;
@@ -21,29 +21,29 @@ namespace onerut_normal_operator {
         void log(std::ostream& stream, std::string line_prefix = "") const;
     };
 
-    class Eigs {
+    class Eig {
     public:
-        Eigs(std::shared_ptr<const AbstractOperator> hamiltonian);
-        EigsResult value() const;
+        Eig(std::shared_ptr<const AbstractOperator> hamiltonian);
+        EigResult value() const;
         void latch();
         void reset();
     public:
         std::shared_ptr<const AbstractOperator> hamiltonian;
     private:
-        EigsResult _value() const;
-        std::optional<EigsResult> cached_result;
+        EigResult _value() const;
+        std::optional<EigResult> cached_result;
     };
 
     class Mean : public onerut_scalar::Real {
     public:
-        Mean(std::shared_ptr<const Eigs> eigs,
+        Mean(std::shared_ptr<const Eig> eig,
                 std::shared_ptr<const AbstractOperator> op,
                 std::shared_ptr<const onerut_scalar::Integer> eigen_state);
         double value_real() const override;
         void latch();
         void reset();
     public:
-        std::shared_ptr<const Eigs>eigs;
+        std::shared_ptr<const Eig> eig;
         std::shared_ptr<const AbstractOperator> op;
         std::shared_ptr<const onerut_scalar::Integer> eigen_state;
     private:

@@ -42,15 +42,15 @@ VALUE(H_lambda_2) # execute and print value
 # Eigenstates of the displaced hamiltonian    ##
 ################################################
 
-eigs := eigs(H_lambda_1)
-LATCH(eigs) # execute and latch value - performance optimization
-VALUE(eigs) # print executed value
+eig := eigd(H_lambda_1)
+LATCH(eig) # execute and latch value - performance optimization
+VALUE(eig) # print executed value
 
 ##################################################
 # Calculate <x>, <x*x> in the first eigenstate   #
 ##################################################
-mean_x := mean(eigs, x, 0)
-mean_x2 := mean(eigs, x * x, 0)
+mean_x := mean(eig, x, 0)
+mean_x2 := mean(eig, x * x, 0)
 LATCH(mean_x) # should be equel lambda
 LATCH(mean_x2)
 VALUE(mean_x)
@@ -59,8 +59,8 @@ VALUE(mean_x2)
 ##################################################
 # Calculate <p>, <p*p> in the first eigenstate   #
 ##################################################
-mean_ip := mean(eigs, ip, 0)
-mean_ip2 := mean(eigs, ip * ip, 0)
+mean_ip := mean(eig, ip, 0)
+mean_ip2 := mean(eig, ip * ip, 0)
 LATCH(mean_ip)
 LATCH(mean_ip2)
 VALUE(mean_ip)

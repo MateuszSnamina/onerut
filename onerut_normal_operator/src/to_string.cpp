@@ -40,7 +40,7 @@ namespace onerut_normal_operator {
         return sstream.str();
     }
 
-    std::string to_string(const Eigs& eigs, std::string line_prefix) {
+    std::string to_string(const Eig& eigs, std::string line_prefix) {
         std::ostringstream sstream;
         const auto eigs_results = eigs.value();
         eigs_results.log(sstream, line_prefix);

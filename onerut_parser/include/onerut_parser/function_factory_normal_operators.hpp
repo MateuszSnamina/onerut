@@ -79,10 +79,14 @@ namespace onerut_parser {
 
     // -------------
 
-    class NormalOperatorEigsFunctionFactory : public NaryFunctionFactory<1> {
+    class NormalOperatorEigDenseFunctionFactory : public NaryFunctionFactory<1> {
         Asset make_function_otherwise_make_error(std::array<Asset, 1> args_asset) const override;
     };
 
+    class NormalOperatorEigSparseFunctionFactory : public NaryFunctionFactory<2> {
+        Asset make_function_otherwise_make_error(std::array<Asset, 2> args_asset) const override;
+    };
+    
     class NormalOperatorMeanFunctionFactory : public NaryFunctionFactory<3> {
         Asset make_function_otherwise_make_error(std::array<Asset, 3> args_asset) const override;
     };

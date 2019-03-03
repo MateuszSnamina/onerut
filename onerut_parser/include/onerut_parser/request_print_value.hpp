@@ -112,8 +112,8 @@ namespace onerut_parser {
     };
 
     template<>
-    struct PrintValueRequestTyped<onerut_normal_operator::Eigs> : public PrintValueRequest {
-        using Type = onerut_normal_operator::Eigs;
+    struct PrintValueRequestTyped<onerut_normal_operator::Eig> : public PrintValueRequest {
+        using Type = onerut_normal_operator::Eig;
         PrintValueRequestTyped(std::shared_ptr<Type> instance);
         void print(std::ostream& stream, std::string line_prefix) const override;
         const std::shared_ptr<Type> instance;

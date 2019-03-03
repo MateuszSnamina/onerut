@@ -13,10 +13,10 @@ namespace onerut_parser {
         if (!arg0_asset_deref.is_either_value_or_type())
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         // ---------------------------------------------------------------------        
-        if (utility::is_normal_operator_eigs(arg0_asset_deref)) {
-            const auto normal_operator_eigs = utility::to_normal_operator_eigs(arg0_asset_deref);
+        if (utility::is_normal_operator_eig(arg0_asset_deref)) {
+            const auto normal_operator_eig = utility::to_normal_operator_eig(arg0_asset_deref);
             return Asset::from_value<onerut_parser::ImperativeRequest>(
-                    std::make_shared<onerut_parser::LatchRequestTyped<onerut_normal_operator::Eigs> >(normal_operator_eigs)
+                    std::make_shared<onerut_parser::LatchRequestTyped<onerut_normal_operator::Eig> >(normal_operator_eig)
                     );
         }
         // ---------------------------------------------------------------------        
@@ -39,10 +39,10 @@ namespace onerut_parser {
         if (!arg0_asset_deref.is_either_value_or_type())
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         // ---------------------------------------------------------------------        
-        if (utility::is_normal_operator_eigs(arg0_asset_deref)) {
-            const auto normal_operator_eigs = utility::to_normal_operator_eigs(arg0_asset_deref);
+        if (utility::is_normal_operator_eig(arg0_asset_deref)) {
+            const auto normal_operator_eig = utility::to_normal_operator_eig(arg0_asset_deref);
             return Asset::from_value<onerut_parser::ImperativeRequest>(
-                    std::make_shared<onerut_parser::ResetRequestTyped<onerut_normal_operator::Eigs> >(normal_operator_eigs)
+                    std::make_shared<onerut_parser::ResetRequestTyped<onerut_normal_operator::Eig> >(normal_operator_eig)
                     );
         }
         // ---------------------------------------------------------------------        

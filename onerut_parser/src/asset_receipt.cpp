@@ -113,9 +113,9 @@ namespace onerut_parser {
             stream << line_prefix << "[asset-deref] "
                     << "Asset-defer is a " << esc::manip::italic << "normal-domain-operator" << esc::manip::reset << "."
                     << std::endl;
-        } else if (asset.deref().is_given_type<onerut_normal_operator::Eigs>()) {
+        } else if (asset.deref().is_given_type<onerut_normal_operator::Eig>()) {
             stream << line_prefix << "[asset-deref] "
-                    << "Asset-defer is " << esc::manip::italic << "normal-domain-eigs" << esc::manip::reset << "."
+                    << "Asset-defer is " << esc::manip::italic << "normal-domain-eig" << esc::manip::reset << "."
                     << std::endl;
         } else if (asset.deref().is_given_type<onerut_normal_operator::Mean>()) {
             stream << line_prefix << "[asset-deref] "

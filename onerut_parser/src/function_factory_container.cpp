@@ -261,7 +261,8 @@ namespace onerut_parser {
         force_put("kron_placeholders", std::make_unique<CreateNormalOperatorKronPlaceholdersFunctionFactory>());
         force_put("at", std::make_unique<CreateNormalOperatorAtOperatorFunctionFactory>());
         // Calculation functions:        
-        force_put("eigs", std::make_unique<NormalOperatorEigsFunctionFactory>());
+        force_put("eigd", std::make_unique<NormalOperatorEigDenseFunctionFactory>());
+        force_put("eigs", std::make_unique<NormalOperatorEigSparseFunctionFactory>());
         force_put("mean", std::make_unique<NormalOperatorMeanFunctionFactory>());
         force_put("thermal_mean", std::make_unique<NormalOperatorThermalMeanFunctionFactory>());
     }

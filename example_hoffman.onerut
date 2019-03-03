@@ -39,5 +39,5 @@ VALUE(H)
 ########################################
 # Diagonalization                      #
 ########################################
-eigs := eigs(H)
+eigs := eigd(H)
 VALUE(eigs)

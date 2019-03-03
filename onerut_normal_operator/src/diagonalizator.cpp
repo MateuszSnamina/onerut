@@ -22,19 +22,19 @@ namespace {
 
 namespace onerut_normal_operator {
 
-    void EigsResult::print_energies(std::ostream& stream, unsigned chunk_size, std::string line_prefix) const {
+    void EigResult::print_energies(std::ostream& stream, unsigned chunk_size, std::string line_prefix) const {
         fancy_logging::log(stream,{"Energy"}, eig_names,
                 arma::trans(energies),
                 chunk_size, line_prefix);
     }
 
-    void EigsResult::print_beta(std::ostream& stream, unsigned chunk_size, std::string line_prefix) const {
+    void EigResult::print_beta(std::ostream& stream, unsigned chunk_size, std::string line_prefix) const {
         fancy_logging::log(stream, hamiltonian->get_domain()->state_names(), eig_names,
                 beta,
                 chunk_size, line_prefix);
     }
 
-    void EigsResult::log(std::ostream& stream, std::string line_prefix) const {
+    void EigResult::log(std::ostream& stream, std::string line_prefix) const {
         auto flags = stream.flags();
         stream << std::scientific << std::showpos;
         stream.width(10);
@@ -47,12 +47,12 @@ namespace onerut_normal_operator {
 
     // ******************************
 
-    Eigs::Eigs(std::shared_ptr<const AbstractOperator> hamiltonian) :
+    Eig::Eig(std::shared_ptr<const AbstractOperator> hamiltonian) :
     hamiltonian(hamiltonian) {
         assert(hamiltonian);
     }
 
-    EigsResult Eigs::_value() const {
+    EigResult Eig::_value() const {
         // ---------------------------------------------------------------------
         const std::vector<std::string> eig_names = _eig_names(hamiltonian->get_domain()->size());
         // ---------------------------------------------------------------------
@@ -61,37 +61,37 @@ namespace onerut_normal_operator {
         const arma::mat hamiltonian_mat = to_mat(*hamiltonian);
         const bool success = arma::eig_sym(energies, beta, hamiltonian_mat);
         // ---------------------------------------------------------------------
-        const EigsResult result = {hamiltonian, success, eig_names, energies, beta};
+        const EigResult result = {hamiltonian, success, eig_names, energies, beta};
         return result;
     }
 
-    EigsResult Eigs::value() const {
+    EigResult Eig::value() const {
         return ( cached_result ? *cached_result : _value());
     }
 
-    void Eigs::latch() {
+    void Eig::latch() {
         cached_result.emplace(_value());
     }
 
-    void Eigs::reset() {
+    void Eig::reset() {
         cached_result = std::nullopt;
     }
 
     // ******************************
 
-    Mean::Mean(std::shared_ptr<const Eigs> eigs,
+    Mean::Mean(std::shared_ptr<const Eig> eig,
             std::shared_ptr<const AbstractOperator> op,
             std::shared_ptr<const onerut_scalar::Integer> eigen_state) :
-    eigs(eigs),
+    eig(eig),
     op(op),
     eigen_state(eigen_state) {
-        assert(eigs);
+        assert(eig);
         assert(op);
-        assert(eigs);
+        assert(eig);
     }
 
     double Mean::_value_real() const {
-        const EigsResult eig_results = eigs->value();
+        const EigResult eig_results = eig->value();
         if (!op)
             return arma::datum::nan;
         const auto eig_number = eigen_state->value_integer();

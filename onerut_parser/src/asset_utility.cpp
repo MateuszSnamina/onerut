@@ -157,11 +157,11 @@ namespace onerut_parser::utility {
     }
 
     bool
-    is_normal_operator_eigs(const onerut_parser::AssetDeref& arg) {
-        using EigsT = onerut_normal_operator::Eigs;
+    is_normal_operator_eig(const onerut_parser::AssetDeref& arg) {
+        using EigT = onerut_normal_operator::Eig;
         assert(!arg.is_empty());
         assert(!arg.is_compile_error());
-        return arg.is_given_type<EigsT>();
+        return arg.is_given_type<EigT>();
     }
 
     bool
@@ -289,11 +289,11 @@ namespace onerut_parser::utility {
         return arg_normal_operator;
     }
 
-    std::shared_ptr < onerut_normal_operator::Eigs >
-    to_normal_operator_eigs(const onerut_parser::AssetDeref& arg) {
-        using EigsT = onerut_normal_operator::Eigs;
-        assert(is_normal_operator_eigs(arg));
-        const auto& arg_normal_operator = *arg.typed_value_or_empty<EigsT>();
+    std::shared_ptr < onerut_normal_operator::Eig >
+    to_normal_operator_eig(const onerut_parser::AssetDeref& arg) {
+        using EigT = onerut_normal_operator::Eig;
+        assert(is_normal_operator_eig(arg));
+        const auto& arg_normal_operator = *arg.typed_value_or_empty<EigT>();
         assert(arg_normal_operator);
         return arg_normal_operator;
     }
