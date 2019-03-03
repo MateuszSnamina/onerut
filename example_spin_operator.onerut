@@ -1,0 +1,34 @@
+########################################
+# Define the spin-dublet Hilbert space #
+########################################
+DUBLET_DOMAIN := spin_domain(2)
+TRYPLET_DOMAIN := spin_domain(3)
+QUARTET_DOMAIN := spin_domain(4)
+
+########################################
+# Define handy references              #
+# for standard vibronic operators      #
+########################################
+new const S2z := Sz(DUBLET_DOMAIN)
+new const S2p := Sp(DUBLET_DOMAIN)
+new const S2m := Sm(DUBLET_DOMAIN)
+
+new const S3z := Sz(TRYPLET_DOMAIN)
+new const S3p := Sp(TRYPLET_DOMAIN)
+new const S3m := Sm(TRYPLET_DOMAIN)
+
+new const S4z := Sz(QUARTET_DOMAIN)
+new const S4p := Sp(QUARTET_DOMAIN)
+new const S4m := Sm(QUARTET_DOMAIN)
+
+VALUE(S2z)
+VALUE(S2p)
+VALUE(S2m)
+
+VALUE(S3z)
+VALUE(S3p)
+VALUE(S3m)
+
+VALUE(S4z)
+VALUE(S4p)
+VALUE(S4m)
