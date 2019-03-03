@@ -404,7 +404,7 @@ namespace onerut_parser {
                 return Asset::from_compile_error(std::make_shared<IllegalSecondAssignError>());
             }
         }
-        // Return -- forward kron-domain.
+        // Return -- forward kron-domain:
         return argv[0];
     }
 

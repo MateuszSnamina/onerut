@@ -6,7 +6,11 @@
 
 namespace {
 
-    std::string _doubled_halfs_to_string(int doubled_halfs) {
+    std::string _doubled_halfs_to_string_doublet(int32_t doubled_halfs) {
+        return (doubled_halfs > 0 ? "up" : "down"); //TODO "up2" : "down2" cause crash
+    }
+
+    std::string _doubled_halfs_to_string(int32_t doubled_halfs) {
         if (doubled_halfs % 2 == 0)
             return std::to_string(doubled_halfs / 2);
         return std::to_string(doubled_halfs) + "/2";
@@ -28,6 +32,9 @@ namespace onerut_normal_operator {
     std::string SpinDomain::state_name(uint32_t index) const {
         assert(index <= size());
         const auto & n_stars = index;
+        if (multiplicity == 2) {
+            return _doubled_halfs_to_string_doublet(utility::_n_stars_to_doubled_m(multiplicity, n_stars));
+        }
         const std::string name =
                 _doubled_halfs_to_string(utility::_n_stars_to_doubled_m(multiplicity, 0)) +
                 "," +

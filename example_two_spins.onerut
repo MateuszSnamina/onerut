@@ -23,15 +23,15 @@ kron_placeholders(MANY_DOMAIN, _1, _2)
 # Define many-body operators           #
 ########################################
 
-H22_ising := Sz@_1 * Sz@_2
-H22_quant := 0.5 * ( Sp@_1 * Sm@_2 + Sm@_1 * Sp@_2 )
-H22_heins := H22_ising + H22_quant
-VALUE(H22_ising)
-VALUE(H22_quant)
-VALUE(H22_heins)
+H_ising := Sz@_1 * Sz@_2
+H_quant := 0.5 * ( Sp@_1 * Sm@_2 + Sm@_1 * Sp@_2 )
+H_heins := H_ising + H_quant
+VALUE(H_ising)
+VALUE(H_quant)
+VALUE(H_heins)
 
 ########################################
 # Diagonalize Hamiltonian              #
 ########################################
-eig := eigd(H22_heins)
+eig := eigd(H_heins)
 VALUE(eig)
