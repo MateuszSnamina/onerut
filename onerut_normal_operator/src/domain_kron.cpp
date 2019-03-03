@@ -42,9 +42,9 @@ namespace onerut_normal_operator {
     // -------------------------------------------------------------------------
 
     KronDomain::KronDomain(std::vector<std::shared_ptr<const Domain> > domains) :
-    domains(domains),
-    domain_sizes(domains_2_domain_sizes(domains)),
-    weights(domain_sizes_2_weights(domain_sizes)) {
+    sub_domains(domains),
+    sub_domain_sizes(domains_2_domain_sizes(domains)),
+    weights(domain_sizes_2_weights(sub_domain_sizes)) {
     }
 
     uint32_t KronDomain::size() const {
@@ -55,16 +55,26 @@ namespace onerut_normal_operator {
         assert(index <= size());
         std::string result;
         std::vector<std::string> site_state_names;
-        for (uint32_t site = 0; site < domains.size(); ++site) {
-            const uint32_t index_on_site = utility::_get_site_intex(weights, site, index);
-            site_state_names.push_back(domains[site]->state_name(index_on_site));
+        for (uint32_t place = 0; place < sub_domains.size(); ++place) {
+            const uint32_t index_on_site = utility::get_sub_index(*this, place, index);
+            site_state_names.push_back(sub_domains[place]->state_name(index_on_site));
         }
         return boost::join(site_state_names, ":");
     }
 
     std::unique_ptr<KronPlaceholder> KronDomain::crate_placeholder(uint32_t place) const {
-        assert(place <= domains.size());
+        assert(place <= sub_domains.size());
         return std::unique_ptr<KronPlaceholder>(new KronPlaceholder{shared_from(this), place});
+    }
+
+    uint32_t KronDomain::get_place_weight(unsigned place) const {
+        assert(place < sub_domains.size());
+        return weights[place + 1];
+    }
+
+    uint32_t KronDomain::get_next_place_weight(unsigned place) const {
+        assert(place < sub_domains.size());
+        return weights[place];
     }
 
     // -------------------------------------------------------------------------
@@ -74,11 +84,11 @@ namespace onerut_normal_operator {
     KronPlaceholder::KronPlaceholder(std::shared_ptr<const KronDomain> domain, uint32_t place) :
     domain(domain),
     place(place) {
-        assert(place <= domain->domains.size());
+        assert(place <= domain->sub_domains.size());
     }
 
     std::shared_ptr<const Domain> KronPlaceholder::fetch_domain() const {
-        return domain->domains[place];
+        return domain->sub_domains[place];
     }
 
 }

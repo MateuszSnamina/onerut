@@ -18,8 +18,9 @@ namespace onerut_normal_operator {
     typename KronAtOperator::AbstractIteratorPtrT
     KronAtOperator::begin_itptr(const BraKetT& ket) const {
         const unsigned place = placeholder->place;
-        const BraKetT weight = placeholder->domain->weights[place + 1];
-        const BraKetT subdomain_ket = utility::_get_site_intex(placeholder->domain->weights, place, ket);
+        const BraKetT weight = placeholder->domain->get_place_weight(place);
+        const auto & domain = placeholder->domain;
+        const BraKetT subdomain_ket = utility::get_sub_index(*domain, place, ket);
         const BraKetT base = ket - subdomain_ket * weight;
         return std::make_unique<IteratorT>(weight, base, subdomain_op, subdomain_ket);
     }

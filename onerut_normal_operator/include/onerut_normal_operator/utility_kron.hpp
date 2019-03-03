@@ -4,24 +4,29 @@
 #include<cassert>
 #include<cstdint>
 #include<vector>
+#include<onerut_normal_operator/domain_kron.hpp>
 
-namespace onerut_normal_operator::utility {
+namespace {
 
     inline
-    uint32_t _get_site_intex(
+    uint32_t _get_sub_index(
             uint32_t my_weight,
             uint32_t next_weight,
-            uint32_t ket) {
-        return (ket % next_weight) / my_weight;
+            uint32_t index) {
+        return (index % next_weight) / my_weight;
     }
+    
+}
 
+namespace onerut_normal_operator::utility {
+    
     inline
-    uint32_t _get_site_intex(
-            const std::vector<uint32_t>& weights,
+    uint32_t get_sub_index(
+            const KronDomain& domain,
             uint32_t place,
-            uint32_t ket) {
-        assert(place < weights.size() - 1);
-        return _get_site_intex(weights[place + 1], weights[place], ket);
+            uint32_t index) {
+        assert(place < domain.domains.size());
+        return _get_sub_index(domain.get_place_weight(place), domain.get_next_place_weight(place), index);
     }
 
 }
