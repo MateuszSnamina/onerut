@@ -25,23 +25,26 @@ namespace {
 
 namespace onerut_normal_operator {
 
-    /*
-        // -------------------------------------------------------------------------
+    KronAtOperator::KronAtOperator(AbstractOpPtrT subdomain_op, std::shared_ptr<const KronPlaceholder> placeholder) :
+    subdomain_op(subdomain_op),
+    placeholder(placeholder) {
 
-        KronAtOperator::SpinZetOperator(std::shared_ptr<const SpinDomain> domain) :
-        domain(domain) {
-            assert(domain);
-        }
+    }
 
-        std::shared_ptr<const Domain> KronAtOperator::get_domain() const {
-            return domain;
-        }
+    std::shared_ptr<const Domain> KronAtOperator::get_domain() const {
+        return placeholder->domain;
+    }
 
-        typename KronAtOperator::AbstractIteratorPtrT
-        SpinZetOperator::begin_itptr(const unsigned& ket) const {          
-            return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(value, ket)));
-        }
-   
-     */
+    typename KronAtOperator::AbstractIteratorPtrT
+    KronAtOperator::begin_itptr(const unsigned& ket) const {
+        const BraKetT weight = 0;
+        const BraKetT base = 0;
+        const BraKetT subdomain_ket = 0;
+        assert(0);
+        //const AbstractOpPtrT& subdomain_op;
+        //const BraKetT& subdomain_ket;
+        return std::make_unique<IteratorT>(weight, base, subdomain_op, subdomain_ket);
+    }
+
 }
 

@@ -1,5 +1,5 @@
-#ifndef ONERUT_NORMAL_DOMAIN_SPIN
-#define ONERUT_NORMAL_DOMAIN_SPIN
+#ifndef ONERUT_NORMAL_OPERATOR_DOMAIN_SPIN
+#define ONERUT_NORMAL_OPERATOR_DOMAIN_SPIN
 
 #include<onerut_normal_operator/domain_abstract.hpp>
 

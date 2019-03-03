@@ -1,5 +1,5 @@
-#ifndef ONERUT_NORMAL_DOMAIN_KRON
-#define ONERUT_NORMAL_DOMAIN_KRON
+#ifndef ONERUT_NORMAL_OPERATOR_DOMAIN_KRON
+#define ONERUT_NORMAL_OPERATOR_DOMAIN_KRON
 
 #include<onerut_normal_operator/domain_abstract.hpp>
 

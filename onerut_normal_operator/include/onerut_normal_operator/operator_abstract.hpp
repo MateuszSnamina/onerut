@@ -32,6 +32,7 @@ namespace onerut_normal_operator {
     bool are_the_same_domains(
             const std::shared_ptr<const AbstractOperator>& first_operator,
             const std::vector<std::shared_ptr<const AbstractOperator> >& other_operators);
+    
     bool are_the_same_domains(
             const std::vector<std::shared_ptr<const AbstractOperator> >& operators);
 }

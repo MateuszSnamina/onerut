@@ -1,5 +1,5 @@
-#ifndef ONERUT_NORMAL_DOMAIN_CUSTOM
-#define ONERUT_NORMAL_DOMAIN_CUSTOM
+#ifndef ONERUT_NORMAL_OPERATOR_DOMAIN_CUSTOM
+#define ONERUT_NORMAL_OPERATOR_DOMAIN_CUSTOM
 
 #include<onerut_normal_operator/domain_abstract.hpp>
 
