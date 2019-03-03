@@ -432,12 +432,11 @@ namespace onerut_parser {
         if (!onerut_normal_operator::are_the_same_domains(*domain_operator, *domain_placeholder))
             return Asset::from_compile_error(std::make_shared<CompileError>("Incompatible state domains."));
         // ---------------------------------------------------------------------        
-        // TODO:
-        //        using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
-        //        using OperatorT = onerut_normal_operator::KronAtOperator;
-        //        return Asset::from_value<AbstractOperatorT>(
-        //                std::make_shared<OperatorT>(kron_domain, placeholder));
-        return Asset::from_compile_error(std::make_shared<CompilerNotImplementedError>()); //TODO remove
+        using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
+        using OperatorT = onerut_normal_operator::KronAtOperator;
+        return Asset::from_value<AbstractOperatorT>(
+                std::make_shared<OperatorT>(normal_op, placeholder));
+        //        return Asset::from_compile_error(std::make_shared<CompilerNotImplementedError>()); //TODO remove
     }
 
     // *************************************************************************
