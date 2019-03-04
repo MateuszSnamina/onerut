@@ -384,7 +384,7 @@ namespace onerut_parser {
         // --------------------------------------------------------------------- 
         const auto kron_domain = utility::to_kron_operator_domain(arg0_asset_deref);
         // --------------------------------------------------------------------- 
-        if (argc != 1 + kron_domain->sub_domains.size())
+        if (argc != 1 + kron_domain->subdomains.size())
             return Asset::from_compile_error(std::make_shared<WrongNumberOfArgumentsError>());
         // --------------------------------------------------------------------- 
         // Take out placeholder names:
@@ -432,7 +432,7 @@ namespace onerut_parser {
         const auto placeholder = utility::to_kron_operator_domain_placeholder(arg1_asset_deref);
         // ---------------------------------------------------------------------        
         const auto domain_operator = normal_op->get_domain();
-        const auto domain_placeholder = placeholder->fetch_domain();
+        const auto domain_placeholder = placeholder->fetch_subdomain();
         if (!onerut_normal_operator::are_the_same_domains(*domain_operator, *domain_placeholder))
             return Asset::from_compile_error(std::make_shared<CompileError>("Incompatible state domains."));
         // ---------------------------------------------------------------------        

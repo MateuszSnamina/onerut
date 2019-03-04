@@ -31,8 +31,10 @@ void compare(const arma::mat& M_expected, std::shared_ptr<onerut_normal_operator
         std::cout << "M_expected:" << std::endl;
         std::cout << M_expected;
     }
-    for (unsigned i = 0; i < 4; i++)
-        for (unsigned j = 0; j < 4; j++)
+    ASSERT_EQ(M_expected.n_rows, op->get_domain()->size());
+    ASSERT_EQ(M_expected.n_cols, op->get_domain()->size());
+    for (unsigned i = 0; i < M_expected.n_rows; i++)
+        for (unsigned j = 0; j < M_expected.n_cols; j++)
             EXPECT_DOUBLE_EQ(M_got(i, j), M_expected(i, j)); //TODO add <<
 }
 
@@ -57,6 +59,7 @@ arma::mat second_compound_matrix() {
 }
 
 std::shared_ptr<onerut_normal_operator::AbstractOperator> first_compound_operator(std::shared_ptr<onerut_normal_operator::Domain> domain) {
+    assert(domain->size() == 4);
     using OpT = onerut_normal_operator::AbstractOperator;
     using OpPtrT = std::shared_ptr<const OpT>;
     auto op1 = std::make_shared<onerut_normal_operator::HopOperator>(3.2_R, domain->crate_state(2), domain->crate_state(1));
@@ -73,6 +76,7 @@ std::shared_ptr<onerut_normal_operator::AbstractOperator> first_compound_operato
 }
 
 std::shared_ptr<onerut_normal_operator::AbstractOperator> second_compound_operator(std::shared_ptr<onerut_normal_operator::Domain> domain) {
+    assert(domain->size() == 4);
     using OpT = onerut_normal_operator::AbstractOperator;
     using OpPtrT = std::shared_ptr<const OpT>;
     auto op1 = std::make_shared<onerut_normal_operator::HopOperator>(2.1_R, domain->crate_state(2), domain->crate_state(1));

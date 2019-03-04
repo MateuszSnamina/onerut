@@ -36,7 +36,7 @@ namespace onerut_normal_operator {
     }
 
     std::string SpinDomain::state_name(uint32_t index) const {
-        assert(index <= size());
+        assert(index < size());
         const auto & n_stars = index;
         if (multiplicity == 2) {
             return _doubled_halfs_to_string_doublet(utility::_n_stars_to_doubled_m(multiplicity, n_stars));

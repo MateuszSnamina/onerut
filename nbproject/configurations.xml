@@ -44,11 +44,9 @@
       </df>
     </df>
     <df root="onerut_normal_operator_tests" name="12">
-      <df name="include">
-        <df name="onerut_normal_operator_tests">
-          <in>common.hpp</in>
-          <in>global_flags.hpp</in>
-        </df>
+      <df name="src">
+        <in>test_operator_kron.cpp</in>
+        <in>test_operator_zero.cpp</in>
       </df>
     </df>
     <df root="onerut_op1e" name="4">
@@ -230,6 +228,21 @@
             <pElem>esc/include</pElem>
             <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/log_utils</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <folder path="12">
+        <ccTool>
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
           </incDir>
         </ccTool>
       </folder>
@@ -489,16 +502,6 @@
         <ccTool flags="1">
         </ccTool>
       </item>
-      <item path="onerut_normal_operator_tests/include/onerut_normal_operator_tests/common.hpp"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="onerut_normal_operator_tests/include/onerut_normal_operator_tests/global_flags.hpp"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
       <item path="onerut_normal_operator_tests/src/common.cpp"
             ex="false"
             tool="1"
@@ -551,6 +554,13 @@
             <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
           </incDir>
+        </ccTool>
+      </item>
+      <item path="onerut_normal_operator_tests/src/test_operator_kron.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_normal_operator_tests/src/test_operator_opplusminus.cpp"
@@ -641,6 +651,13 @@
             <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
           </incDir>
+        </ccTool>
+      </item>
+      <item path="onerut_normal_operator_tests/src/test_operator_zero.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_op1e/src/op1e.cpp" ex="false" tool="1" flavor2="11">

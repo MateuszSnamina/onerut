@@ -7,9 +7,11 @@
 // -----------------------------------------------------------------------------
 // --------------------  test cases  -------------------------------------------
 // -----------------------------------------------------------------------------
-/*
+
 TEST(operator_diag1, test_1) {
-    const auto op = std::make_shared<onerut_normal_operator::DiagOperator>(7.7, 2);
+    using DomainT = onerut_normal_operator::CustomDomain;
+    const auto domain = std::make_shared<DomainT>(std::vector<std::string>{"AA", "BB", "CC", "DD"});
+    const auto op = std::make_shared<onerut_normal_operator::DiagOperator>(7.7_R, domain->crate_state(2));
     const arma::mat M_expected = {
         {0.0, 0.0, 0.0, 0.0},
         {0.0, 0.0, 0.0, 0.0},
@@ -20,7 +22,9 @@ TEST(operator_diag1, test_1) {
 }
 
 TEST(operator_hop, test_1) {
-    const auto op = std::make_shared<onerut_normal_operator::HopOperator>(3.2, 2, 1);
+    using DomainT = onerut_normal_operator::CustomDomain;
+    const auto domain = std::make_shared<DomainT>(std::vector<std::string>{"AA", "BB", "CC", "DD"});
+    const auto op = std::make_shared<onerut_normal_operator::HopOperator>(3.2_R, domain->crate_state(2), domain->crate_state(1));
     const arma::mat M_expected = {
         {0.0, 0.0, 0.0, 0.0},
         {0.0, 0.0, 3.2, 0.0},
@@ -29,4 +33,12 @@ TEST(operator_hop, test_1) {
     };
     compare(M_expected, op);
 }
-*/
+
+TEST(operator_eye, test_1) {
+    using DomainT = onerut_normal_operator::CustomDomain;
+    const auto domain = std::make_shared<DomainT>(std::vector<std::string>{"AA", "BB", "CC", "DD"});
+    const auto op = std::make_shared<onerut_normal_operator::EyeOperator>(domain);
+    const arma::mat M_expected = arma::eye(4,4);
+    compare(M_expected, op);
+}
+

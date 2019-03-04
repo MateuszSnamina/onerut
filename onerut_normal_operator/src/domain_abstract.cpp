@@ -19,6 +19,7 @@ namespace onerut_normal_operator {
     }
 
     std::unique_ptr<StateIndex> Domain::crate_state(uint32_t index) const {
+        assert(index < size());
         return std::unique_ptr<StateIndex>(new StateIndex{shared_from_this(), index});
     }
 
@@ -29,7 +30,7 @@ namespace onerut_normal_operator {
     StateIndex::StateIndex(std::shared_ptr<const Domain> domain, uint32_t index) :
     domain(domain),
     index(index) {
-        assert(index <= domain->size());
+        assert(index < domain->size());
     }
 
     std::string StateIndex::fetch_name() const {

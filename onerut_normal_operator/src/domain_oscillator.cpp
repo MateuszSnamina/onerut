@@ -13,7 +13,7 @@ namespace onerut_normal_operator {
     }
 
     std::string OscillatorDomain::state_name(uint32_t index) const {
-        assert(index <= size());
+        assert(index < size());
         const auto & n_stars = index;
         const std::string name = "nu_" + std::to_string(n_stars);
         return name;
