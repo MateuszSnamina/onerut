@@ -11,7 +11,8 @@
 #include<onerut_normal_operator/operator_oscillator.hpp>
 #include<onerut_normal_operator/operator_spin.hpp>
 #include<onerut_normal_operator/operator_kron.hpp>
-#include<onerut_normal_operator/diagonalizator.hpp>
+#include<onerut_normal_operator/eig.hpp>
+#include<onerut_normal_operator/mean.hpp>
 
 namespace onerut_parser {
 

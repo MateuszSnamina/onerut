@@ -10,7 +10,8 @@
 #include<onerut_normal_operator/domain_oscillator.hpp>
 #include<onerut_normal_operator/domain_spin.hpp>
 #include<onerut_normal_operator/domain_kron.hpp>
-#include<onerut_normal_operator/diagonalizator.hpp>
+#include<onerut_normal_operator/eig.hpp>
+#include<onerut_normal_operator/mean.hpp>
 #include<onerut_parser/asset_error.hpp>
 
 namespace onerut_parser {

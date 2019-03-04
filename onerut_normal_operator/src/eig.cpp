@@ -5,8 +5,7 @@
 
 #include<log_utils/fancy_log_mat.hpp> 
 #include<onerut_normal_operator/to_mat.hpp> 
-#include<onerut_normal_operator/calculate_mean.hpp>
-#include<onerut_normal_operator/diagonalizator.hpp>
+#include<onerut_normal_operator/eig.hpp>
 
 namespace {
 
@@ -162,140 +161,7 @@ namespace onerut_normal_operator {
         beta = beta.cols(arma::span(0, requested_numer_of_states_to_calculate - 1));
         // ------------------------------
         const EigResult result = {hamiltonian, success, eig_names, energies, beta};
-        return result;
-        // ------------------------------
-        //    AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        //    AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        //    AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        // https://github.com/MateuszSnamina/stars-ring/blob/master/starsring_app/stars_ring_numerical/src/standard_calculator.cpp
-        //         
-        //        if (!arma::eigs_sym(_energies, _states, _hamiltonian_sparse,
-        //                      _n_calculated_states, "sa")) {
-        //    if (_hamiltonian_sparse.n_rows < 100) {
-        //      std::cout << "[INFO   ] [SPARSE] Armadillo failed to diagonalize the "
-        //                   "hamiltonian!"
-        //                << std::endl;
-        //      std::cout << "[INFO   ] [SPARSE] [FALL-BACK DENSE] Armadillo failed to "
-        //                   "diagonalize the "
-        //                   "hamiltonian as a dense matrix!"
-        //                << std::endl;
-        //      if (!arma::eig_sym(_energies, _states, arma::mat(_hamiltonian_sparse))) {
-        //        std::cerr << "[ERROR  ] [SPARSE] [FALL-BACK DENSE] Armadillo failed to "
-        //                     "diagonalize the hamiltonian!"
-        //                  << std::endl;
-        //        std::cerr << "[ERROR  ] [SPARSE] [FALL-BACK DENSE] Program termination "
-        //                     "(with exit code 20)."
-        //                  << std::endl;
-        //        exit(20);
-        //      }
-        //    } else {
-        //      std::cerr << "[ERROR  ] [SPARSE] Armadillo failed to diagonalize the "
-        //                   "hamiltonian!"
-        //                << std::endl;
-        //      std::cerr << "[ERROR  ] [SPARSE] Program termination (with exit code 20)."
-        //                << std::endl;
-        //      exit(20);
-        //    }
-        //  }
-        //  if (_energies.n_elem < _n_calculated_states) {
-        //    std::cout
-        //        << "[INFO   ] [SPARSE] Armadillo failed to diagonalize the hamiltonian "
-        //           "but not reporter an error!"
-        //        << std::endl;
-        //    std::cout << "[INFO   ] [SPARSE] [SECOND-TRY] The program is about to try "
-        //                 "diagonalize the "
-        //                 "hamiltonian with grater n_calculated_states requested."
-        //              << std::endl;
-        //    const unsigned n_calculated_states_second_try = std::min(
-        //        _n_calculated_states + 3, _basis_box.localized_basis().size() - 1);
-        //    std::cout << "[INFO   ] [SECOND-TRY] n_calculated_states, "
-        //                 "n_calculated_states_second_try: "
-        //              << _n_calculated_states << ", " << n_calculated_states_second_try
-        //              << "." << std::endl;
-        //    if (!arma::eigs_sym(_energies, _states, _hamiltonian_sparse,
-        //                        n_calculated_states_second_try, "sa")) {
-        //      std::cerr << "[ERROR  ] [SECOND-TRY] Armadillo failed to diagonalize the "
-        //                   "hamiltonian!"
-        //                << std::endl;
-        //      std::cerr
-        //          << "[ERROR  ] [SECOND-TRY] Program termination (with exit code 20)."
-        //          << std::endl;
-        //      exit(20);
-        //    }
-        //  }
-        //  assert(_energies.n_elem == _states.n_cols);
-        //  assert(_energies.n_elem >= _n_calculated_states);
-        //  assert(_states.n_cols >= _n_calculated_states);
-        //  assert(_states.n_rows == _hamiltonian_sparse.n_rows);
-        //  _energies = _energies.rows(arma::span(0, _n_calculated_states - 1));
-        //_states = _states.cols(arma::span(0, _n_calculated_states - 1)); 
-        //         
-        //         
-    }
-
-    // *************************************************************************
-    // *************  Mean  ****************************************************
-    // *************************************************************************
-
-    Mean::Mean(std::shared_ptr<const Eig> eig,
-            std::shared_ptr<const AbstractOperator> op) :
-    eig(eig),
-    op(op),
-    cached_result(std::nullopt) {
-        assert(eig);
-        assert(op);
-    }
-
-    double Mean::value_real() const {
-        return ( cached_result ? *cached_result : _value_real());
-    }
-
-    void Mean::latch() {
-        cached_result = _value_real();
-    }
-
-    void Mean::reset() {
-        cached_result = std::nullopt;
-    }
-
-    // *************************************************************************
-
-    MeanInEigenState::MeanInEigenState(std::shared_ptr<const Eig> eig,
-            std::shared_ptr<const AbstractOperator> op,
-            std::shared_ptr<const onerut_scalar::Integer> eigen_state) :
-    Mean(eig, op),
-    eigen_state(eigen_state) {
-        assert(eigen_state);
-    }
-
-    double MeanInEigenState::_value_real() const {
-        const EigResult eig_results = eig->value();
-        if (!op)
-            return arma::datum::nan;
-        const auto eig_number = eigen_state->value_integer();
-        if (boost::numeric_cast<arma::uword>(eig_number) >= eig_results.beta.n_cols)
-            return arma::datum::nan;
-        return onerut_normal_operator::calculate_mean(*op, eig_results.beta.col(eig_number));
-    }
-
-    // *************************************************************************
-
-    MeanThermal::MeanThermal(std::shared_ptr<const Eig> eig,
-            std::shared_ptr<const AbstractOperator> op,
-            std::shared_ptr<const onerut_scalar::Real> temperature) :
-    Mean(eig, op),
-    temperature(temperature) {
-        assert(temperature);
-    }
-
-    double MeanThermal::_value_real() const {
-        const EigResult eig_results = eig->value();
-        if (!op)
-            return arma::datum::nan;
-        const auto temperature_real = temperature->value_real();
-        return calculate_thermal_mean(
-                *op, eig_results.beta,
-                eig_results.energies, temperature_real);
+        return result;     
     }
 
 }

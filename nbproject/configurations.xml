@@ -22,12 +22,13 @@
     <df root="onerut_normal_operator" name="3">
       <df name="src">
         <in>calculate_mean.cpp</in>
-        <in>diagonalizator.cpp</in>
         <in>domain_abstract.cpp</in>
         <in>domain_custom.cpp</in>
         <in>domain_kron.cpp</in>
         <in>domain_oscillator.cpp</in>
         <in>domain_spin.cpp</in>
+        <in>eig.cpp</in>
+        <in>mean.cpp</in>
         <in>operator_abstract.cpp</in>
         <in>operator_kron.cpp</in>
         <in>operator_opplusminus.cpp</in>
@@ -338,13 +339,6 @@
         <ccTool flags="1">
         </ccTool>
       </item>
-      <item path="onerut_normal_operator/src/diagonalizator.cpp"
-            ex="false"
-            tool="1"
-            flavor2="11">
-        <ccTool flags="1">
-        </ccTool>
-      </item>
       <item path="onerut_normal_operator/src/domain_abstract.cpp"
             ex="false"
             tool="1"
@@ -374,6 +368,20 @@
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/domain_spin.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+        </ccTool>
+      </item>
+      <item path="onerut_normal_operator/src/eig.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+        </ccTool>
+      </item>
+      <item path="onerut_normal_operator/src/mean.cpp"
             ex="false"
             tool="1"
             flavor2="11">

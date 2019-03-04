@@ -6,7 +6,8 @@
 
 #include<onerut_scalar/scalar_abstract.hpp>
 #include<onerut_normal_operator/operator_abstract.hpp>
-#include<onerut_normal_operator/diagonalizator.hpp>
+#include<onerut_normal_operator/eig.hpp>
+#include<onerut_normal_operator/mean.hpp>
 #include<onerut_normal_operator/to_string.hpp>
 
 #include<onerut_parser/asset.hpp>

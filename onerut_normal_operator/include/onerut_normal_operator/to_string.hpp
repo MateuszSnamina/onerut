@@ -3,8 +3,7 @@
 
 #include<string>
 #include<onerut_normal_operator/operator_abstract.hpp>
-#include<onerut_normal_operator/diagonalizator.hpp>
-
+#include<onerut_normal_operator/eig.hpp>
 
 namespace onerut_normal_operator {
 
