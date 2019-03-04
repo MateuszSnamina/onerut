@@ -527,8 +527,38 @@ namespace onerut_parser {
     }
 
     Asset NormalOperatorMeanThermalFunctionFactory::make_function_otherwise_make_error(std::array<Asset, 3> args_asset) const {
-        // TODO
-        return Asset::from_compile_error(std::make_shared<CompilerNotImplementedError>());
+        const auto & arg0_asset_deref = args_asset[0].deref();
+        const auto & arg1_asset_deref = args_asset[1].deref();
+        const auto & arg2_asset_deref = args_asset[2].deref();
+        // ---------------------------------------------------------------------        
+        if (arg0_asset_deref.is_compile_error())
+            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+        if (arg1_asset_deref.is_compile_error())
+            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+        if (arg2_asset_deref.is_compile_error())
+            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+        // ---------------------------------------------------------------------        
+        if (!arg0_asset_deref.is_either_value_or_type())
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        if (!arg1_asset_deref.is_either_value_or_type())
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        if (!arg2_asset_deref.is_either_value_or_type())
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        // ---------------------------------------------------------------------        
+        if (!utility::is_normal_operator_eig(arg0_asset_deref))
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        if (!utility::is_normal_operator(arg1_asset_deref))
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        if (!utility::is_real_or_integer(arg2_asset_deref))
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        // ---------------------------------------------------------------------        
+        const auto normal_operator_eig = utility::to_normal_operator_eig(arg0_asset_deref);
+        const auto normal_operator = utility::to_normal_operator(arg1_asset_deref);
+        const auto temperature = utility::to_real(arg2_asset_deref);
+        // ---------------------------------------------------------------------                
+        return Asset::from_value<onerut_normal_operator::Mean>(
+                std::make_shared<onerut_normal_operator::MeanThermal>(normal_operator_eig, normal_operator, temperature)
+                );        
     }
 
 }
