@@ -1,0 +1,58 @@
+########################################
+# Define the vibronic Hilbert space    #
+########################################
+OSCILLATOR_DOMAIN := oscillator_domain(1400)
+
+########################################
+# Define handy references              #
+# for standard vibronic operators      #
+########################################
+new const eye := eye(OSCILLATOR_DOMAIN)
+new const cr := cr(OSCILLATOR_DOMAIN)
+new const an := an(OSCILLATOR_DOMAIN)
+new const x  := (1/sqrt(2)) * ( cr + an)
+new const ip := (1/sqrt(2)) * (-cr + an)
+
+########################################
+###  The displaced oscilator         ###
+########################################
+lambda := 0.8 # a displacement
+x_shift := x - lambda * eye
+H_lambda_1 := (1 / 2.) * (x_shift*x_shift - ip*ip)
+
+##################################################
+# Uncertainty principle in the first eigenstate  #
+##################################################
+
+# Dense matrix diagonalization:
+d_eig := eigd(H_lambda_1)
+d_mean_x := mean_in_eigenstate(d_eig, x, 0)
+d_mean_x2 := mean_in_eigenstate(d_eig, x * x, 0)
+d_mean_ip := mean_in_eigenstate(d_eig, ip, 0)
+d_mean_ip2 := mean_in_eigenstate(d_eig, ip * ip, 0)
+d_sigma_x := sqrt( + d_mean_x2 - d_mean_x^2 )
+d_sigma_p := sqrt( - d_mean_ip2 + d_mean_ip^2 ) 
+d_sigma_join := d_sigma_x * d_sigma_p
+LATCH(d_eig) # execute and latch value - performance optimization
+LATCH(d_mean_ip)
+LATCH(d_mean_ip2)
+LATCH(d_mean_x)
+LATCH(d_mean_x2)
+VALUE(d_sigma_join)
+
+# Sparse matrix diagonalization:
+s_eig := eigs(H_lambda_1, 5)
+s_mean_x := mean_in_eigenstate(s_eig, x, 0)
+s_mean_x2 := mean_in_eigenstate(s_eig, x * x, 0)
+s_mean_ip := mean_in_eigenstate(s_eig, ip, 0)
+s_mean_ip2 := mean_in_eigenstate(s_eig, ip * ip, 0)
+s_sigma_x := sqrt( + s_mean_x2 - s_mean_x^2 )
+s_sigma_p := sqrt( - s_mean_ip2 + s_mean_ip^2 ) 
+s_sigma_join := s_sigma_x * s_sigma_p
+LATCH(s_eig) # execute and latch value - performance optimization
+LATCH(s_mean_ip)
+LATCH(s_mean_ip2)
+LATCH(s_mean_x)
+LATCH(s_mean_x2)
+VALUE(s_sigma_join)
+
