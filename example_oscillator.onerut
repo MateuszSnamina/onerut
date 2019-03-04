@@ -8,12 +8,12 @@ OSCILLATOR_DOMAIN := oscillator_domain(5) # use 5 lower vibronic states
 # for standard vibronic operators      #
 ########################################
 new const vacuum_state := state_index(OSCILLATOR_DOMAIN, 0) # the vacuum state
+new const eye := eye(OSCILLATOR_DOMAIN)   # identity operator
 new const cr := cr(OSCILLATOR_DOMAIN)     # creation operator
 new const an := an(OSCILLATOR_DOMAIN)     # anihilation operator
-new const eye := eye(OSCILLATOR_DOMAIN)   # identity operator
 new const x  := (1/sqrt(2)) * ( cr + an)  # position operator
 new const ip := (1/sqrt(2)) * (-cr + an)  # momentum operator times imaginary unit
-new const n := cr * an
+new const n := cr * an                    # particle number operator
 
 ########################################
 # Standard oscilator                  ##

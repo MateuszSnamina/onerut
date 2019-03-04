@@ -8,6 +8,7 @@
 namespace onerut_normal_operator {
 
     arma::mat to_mat(const AbstractOperator& op);
+    arma::sp_mat to_sp_mat(const AbstractOperator& op);
 
 }
 

@@ -1,10 +1,18 @@
+#include<cassert>
+#include<type_traits>
+#include<boost/numeric/conversion/cast.hpp>
+
 #include<onerut_normal_operator/to_mat.hpp>
 
 namespace onerut_normal_operator {
 
-    arma::mat to_mat(const AbstractOperator& op) {
-        const auto spad_dim = op.get_domain()->size();
-        arma::mat result(spad_dim, spad_dim, arma::fill::zeros);
+    template<class T>
+    T _to_mat(const AbstractOperator& op) {
+        static_assert(std::is_same<T, arma::mat>::value ||
+                std::is_same<T, arma::sp_mat>::value);
+        const auto spad_dim = boost::numeric_cast<arma::uword>(op.get_domain()->size());
+        T result(spad_dim, spad_dim);
+        result.zeros();
         for (AbstractOperator::BraKetT ket = 0; ket < spad_dim; ket++) {
             auto it_ptr = op.begin_itptr(ket);
             while (!it_ptr->is_end()) {
@@ -23,6 +31,18 @@ namespace onerut_normal_operator {
             }
         }
         return result;
+    }
+
+}
+
+namespace onerut_normal_operator {
+
+    arma::mat to_mat(const AbstractOperator& op) {
+        return _to_mat<arma::mat>(op);
+    }
+
+    arma::sp_mat to_sp_mat(const AbstractOperator& op) {
+        return _to_mat<arma::sp_mat>(op);
     }
 
 }
