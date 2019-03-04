@@ -289,15 +289,13 @@ namespace onerut_normal_operator {
     }
 
     double MeanThermal::_value_real() const {
-        assert(0); // TODO implement
-        //        const EigResult eig_results = eig->value();
-        //        if (!op)
-        //            return arma::datum::nan;
-        //        const auto eig_number = eigen_state->value_integer();
-        //        // TODO handle negative
-        //        if (eig_number >= eig_results.beta.n_cols)// TODO fix comparison incompatibility
-        //            return arma::datum::nan;
-        //        return onerut_normal_operator::calculate_mean(*op, eig_results.beta.col(eig_number));
+        const EigResult eig_results = eig->value();
+        if (!op)
+            return arma::datum::nan;
+        const auto temperature_real = temperature->value_real();
+        return calculate_thermal_mean(
+                *op, eig_results.beta,
+                eig_results.energies, temperature_real);
     }
 
 }

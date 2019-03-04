@@ -110,9 +110,9 @@
         <in>scalar_real.cpp</in>
       </df>
     </df>
-    <df root="onerut_typed_operator" name="10">
+    <df root="onerut_typed_operator" name="9">
     </df>
-    <df root="onerut_typed_operator_tests" name="11">
+    <df root="onerut_typed_operator_tests" name="10">
     </df>
     <logicalFolder name="src"
                    displayName="src"
@@ -128,7 +128,7 @@
       <itemPath>onerut_typed_operator_tests/src/operator_simple.cpp</itemPath>
       <itemPath>onerut_typed_operator/src/to_mat.cpp</itemPath>
     </logicalFolder>
-    <df root="string_utils" name="9">
+    <df root="string_utils" name="11">
       <df name="src">
         <in>greek_support.cpp</in>
         <in>unicode_support.cpp</in>
