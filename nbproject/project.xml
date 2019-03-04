@@ -17,6 +17,7 @@
                 <sourceRootElem>onerut_scalar_tests</sourceRootElem>
                 <sourceRootElem>onerut_op1e</sourceRootElem>
                 <sourceRootElem>onerut_normal_operator</sourceRootElem>
+                <sourceRootElem>onerut_normal_operator_tests</sourceRootElem>
                 <sourceRootElem>esc</sourceRootElem>
                 <sourceRootElem>string_utils</sourceRootElem>
                 <sourceRootElem>log_utils</sourceRootElem>

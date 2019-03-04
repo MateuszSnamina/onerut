@@ -375,7 +375,7 @@ namespace onerut_parser {
             return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
         // --------------------------------------------------------------------- 
         if (!arg0_asset_deref.is_either_value_or_type())
-            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());        
+            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         // --------------------------------------------------------------------- 
         if (!utility::is_kron_operator_domain(arg0_asset_deref))
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
@@ -558,7 +558,7 @@ namespace onerut_parser {
         // ---------------------------------------------------------------------                
         return Asset::from_value<onerut_normal_operator::Mean>(
                 std::make_shared<onerut_normal_operator::MeanThermal>(normal_operator_eig, normal_operator, temperature)
-                );        
+                );
     }
 
 }

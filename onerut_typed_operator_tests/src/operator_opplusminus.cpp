@@ -9,7 +9,7 @@
 // --------------------  test cases  -------------------------------------------
 // -----------------------------------------------------------------------------
 
-TEST(operator_op_plus_minu, test_0) {
+TEST(operator_op_plus_minus, test_0) {
     using OpT = onerut_typed_operator::AbstractOperator<unsigned>;
     using OpPtrT = std::shared_ptr<const OpT>;
     const auto op1 = std::make_shared<onerut_typed_operator::ZeroOperator<unsigned>>();
@@ -21,7 +21,7 @@ TEST(operator_op_plus_minu, test_0) {
     compare(M_expected, op);
 }
 
-TEST(operator_op_plus_minu, test_1) {
+TEST(operator_op_plus_minus, test_1) {
     using OpT = onerut_typed_operator::AbstractOperator<unsigned>;
     using OpPtrT = std::shared_ptr<const OpT>;
     const auto op1 = std::make_shared<onerut_typed_operator::HopOperator<unsigned>>(3.2, 2, 1);
@@ -38,7 +38,7 @@ TEST(operator_op_plus_minu, test_1) {
     compare(M_expected, op);
 }
 
-TEST(operator_op_plus_minu, test_2) {
+TEST(operator_op_plus_minus, test_2) {
     using OpT = onerut_typed_operator::AbstractOperator<unsigned>;
     using OpPtrT = std::shared_ptr<const OpT>;
     const auto op1 = std::make_shared<onerut_typed_operator::HopOperator<unsigned>>(3.2, 2, 1);
@@ -56,7 +56,7 @@ TEST(operator_op_plus_minu, test_2) {
     compare(M_expected, op);
 }
 
-TEST(operator_op_plus_minu, test_3) {
+TEST(operator_op_plus_minus, test_3) {
     using OpT = onerut_typed_operator::AbstractOperator<unsigned>;
     using OpPtrT = std::shared_ptr<const OpT>;
     const auto op1 = std::make_shared<onerut_typed_operator::ZeroOperator<unsigned>>();
@@ -74,7 +74,7 @@ TEST(operator_op_plus_minu, test_3) {
     compare(M_expected, op);
 }
 
-TEST(operator_op_plus_minu, test_4) {
+TEST(operator_op_plus_minus, test_4) {
     using OpT = onerut_typed_operator::AbstractOperator<unsigned>;
     using OpPtrT = std::shared_ptr<const OpT>;
     const auto op1 = std::make_shared<onerut_typed_operator::HopOperator<unsigned>>(3.2, 2, 1);
@@ -94,7 +94,7 @@ TEST(operator_op_plus_minu, test_4) {
     compare(M_expected, op);
 }
 
-TEST(operator_op_plus_minu, test_5) {
+TEST(operator_op_plus_minus, test_5) {
     using OpT = onerut_typed_operator::AbstractOperator<unsigned>;
     using OpPtrT = std::shared_ptr<const OpT>;
     const auto op1 = std::make_shared<onerut_typed_operator::HopOperator<unsigned>>(2.1, 2, 1);
@@ -117,7 +117,7 @@ TEST(operator_op_plus_minu, test_5) {
     compare(M_expected, op);
 }
 
-TEST(operator_op_plus_minu, test_6) {
+TEST(operator_op_plus_minus, test_6) {
     using OpT = onerut_typed_operator::AbstractOperator<unsigned>;
     using OpPtrT = std::shared_ptr<const OpT>;
     const auto op1 = first_compound_operator();
@@ -132,7 +132,7 @@ TEST(operator_op_plus_minu, test_6) {
     compare(M_expected, op);
 }
 
-TEST(operator_op_plus_minu, test_7) {
+TEST(operator_op_plus_minus, test_7) {
     using OpT = onerut_typed_operator::AbstractOperator<unsigned>;
     using OpPtrT = std::shared_ptr<const OpT>;
     const auto op1 = first_compound_operator();
@@ -147,7 +147,7 @@ TEST(operator_op_plus_minu, test_7) {
     compare(M_expected, op);
 }
 
-TEST(operator_op_plus_minu, test_8) {
+TEST(operator_op_plus_minus, test_8) {
     using OpT = onerut_typed_operator::AbstractOperator<unsigned>;
     using OpPtrT = std::shared_ptr<const OpT>;
     const auto op1 = std::make_shared<onerut_typed_operator::ZeroOperator<unsigned>>();

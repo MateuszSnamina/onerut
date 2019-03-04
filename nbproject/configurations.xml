@@ -43,6 +43,14 @@
         <in>to_string.cpp</in>
       </df>
     </df>
+    <df root="onerut_normal_operator_tests" name="12">
+      <df name="include">
+        <df name="onerut_normal_operator_tests">
+          <in>common.hpp</in>
+          <in>global_flags.hpp</in>
+        </df>
+      </df>
+    </df>
     <df root="onerut_op1e" name="4">
       <df name="src">
         <in>op1e.cpp</in>
@@ -120,13 +128,21 @@
                    projectFiles="true"
                    root="onerut_typed_operator/src">
       <itemPath>onerut_typed_operator_tests/src/common.cpp</itemPath>
+      <itemPath>onerut_normal_operator_tests/src/common.cpp</itemPath>
       <itemPath>onerut_typed_operator_tests/src/global_flags.cpp</itemPath>
+      <itemPath>onerut_normal_operator_tests/src/global_flags.cpp</itemPath>
       <itemPath>onerut_typed_operator_tests/src/main.cpp</itemPath>
+      <itemPath>onerut_normal_operator_tests/src/main.cpp</itemPath>
       <itemPath>onerut_typed_operator_tests/src/operator_opplusminus.cpp</itemPath>
       <itemPath>onerut_typed_operator_tests/src/operator_opprod.cpp</itemPath>
       <itemPath>onerut_typed_operator_tests/src/operator_opunaryplusminus.cpp</itemPath>
       <itemPath>onerut_typed_operator_tests/src/operator_scalled.cpp</itemPath>
       <itemPath>onerut_typed_operator_tests/src/operator_simple.cpp</itemPath>
+      <itemPath>onerut_normal_operator_tests/src/test_operator_opplusminus.cpp</itemPath>
+      <itemPath>onerut_normal_operator_tests/src/test_operator_opprod.cpp</itemPath>
+      <itemPath>onerut_normal_operator_tests/src/test_operator_opunaryplusminus.cpp</itemPath>
+      <itemPath>onerut_normal_operator_tests/src/test_operator_scalled.cpp</itemPath>
+      <itemPath>onerut_normal_operator_tests/src/test_operator_simple.cpp</itemPath>
       <itemPath>onerut_typed_operator/src/to_mat.cpp</itemPath>
     </logicalFolder>
     <df root="string_utils" name="11">
@@ -151,6 +167,7 @@
     <Elem>onerut_scalar_tests</Elem>
     <Elem>onerut_op1e</Elem>
     <Elem>onerut_normal_operator</Elem>
+    <Elem>onerut_normal_operator_tests</Elem>
     <Elem>esc</Elem>
     <Elem>string_utils</Elem>
     <Elem>log_utils</Elem>
@@ -470,6 +487,160 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+        </ccTool>
+      </item>
+      <item path="onerut_normal_operator_tests/include/onerut_normal_operator_tests/common.hpp"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="onerut_normal_operator_tests/include/onerut_normal_operator_tests/global_flags.hpp"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="onerut_normal_operator_tests/src/common.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="onerut_normal_operator_tests/src/global_flags.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="onerut_normal_operator_tests/src/main.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="onerut_normal_operator_tests/src/test_operator_opplusminus.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="onerut_normal_operator_tests/src/test_operator_opprod.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="onerut_normal_operator_tests/src/test_operator_opunaryplusminus.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="onerut_normal_operator_tests/src/test_operator_scalled.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="onerut_normal_operator_tests/src/test_operator_simple.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_op1e/src/op1e.cpp" ex="false" tool="1" flavor2="11">
