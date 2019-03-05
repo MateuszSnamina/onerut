@@ -15,6 +15,12 @@ namespace onerut_normal_operator {
     // *************************************************************************
 
     struct EigResult {
+        explicit EigResult(
+                const std::shared_ptr<const AbstractOperator> hamiltonian);
+        EigResult(const std::shared_ptr<const AbstractOperator> hamiltonian,
+                const std::vector<std::string> eig_names,
+                const arma::vec energies,
+                const arma::mat beta);
         const std::shared_ptr<const AbstractOperator> hamiltonian;
         const bool success;
         const std::vector<std::string> eig_names;
