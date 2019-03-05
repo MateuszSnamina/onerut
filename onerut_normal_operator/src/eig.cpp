@@ -148,12 +148,6 @@ namespace onerut_normal_operator {
                 return EigResult{hamiltonian};
             }
         }
-        // ---------------------------------------------------------------------        
-        if (boost::numeric_cast<decltype(space_dim)>(auto_numer_of_states_to_calculate) >= space_dim) {
-            std::cout << "[INFO   ] [SPARSE] The requested number of states to calculate is too big." << std::endl;
-            std::cout << "[INFO   ] [SPARSE] Fail to diagonalize.";
-            return EigResult{hamiltonian};
-        }
         // ---------------------------------------------------------------------
         const std::vector<std::string> eig_names =
                 _eig_names(boost::numeric_cast<uint32_t>(requested_numer_of_states_to_calculate));
