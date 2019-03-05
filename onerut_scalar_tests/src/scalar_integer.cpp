@@ -6,20 +6,20 @@
 // --------------------  test cases  -------------------------------------------
 // -----------------------------------------------------------------------------
 
-TEST(operator_scalar_integer, test_0) {
+TEST(scalarInteger, test0) {
     const auto i = std::make_shared<onerut_scalar::LitInteger>(-6);
     ASSERT_EQ(-6.0, i->value_real());
     ASSERT_EQ(-6, i->value_integer());
 }
 
-TEST(operator_scalar_integer, test_1) {
+TEST(scalarInteger, test1) {
     const auto i1 = std::make_shared<onerut_scalar::LitInteger>(6);
     const auto i = std::make_shared<onerut_scalar::OpUnaryPlusMinusInteger>(i1, '-');
     ASSERT_EQ(-6.0, i->value_real());
     ASSERT_EQ(-6, i->value_integer());
 }
 
-TEST(operator_scalar_integer, test_2) {
+TEST(scalarInteger, test2) {
     const auto i1 = std::make_shared<onerut_scalar::LitInteger>(6);
     const auto i2 = std::make_shared<onerut_scalar::LitInteger>(7);
     const auto i3 = std::make_shared<onerut_scalar::LitInteger>(5);
@@ -31,7 +31,7 @@ TEST(operator_scalar_integer, test_2) {
     ASSERT_EQ(4, i->value_integer());
 }
 
-TEST(operator_scalar_integer, test_3) {
+TEST(scalarInteger, test3) {
     const auto i1 = std::make_shared<onerut_scalar::LitInteger>(6);
     const auto i2 = std::make_shared<onerut_scalar::LitInteger>(-7);
     const auto i3 = std::make_shared<onerut_scalar::LitInteger>(5);

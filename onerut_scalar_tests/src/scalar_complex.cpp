@@ -8,18 +8,18 @@
 
 using namespace std::complex_literals;
 
-TEST(operator_scalar_complex, test_0) {
+TEST(operatorScalarComplex, test0) {
     const auto d = std::make_shared<onerut_scalar::LitComplex>(-6.7 + 2.5i);
     ASSERT_EQ(-6.7 + 2.5i, d->value_complex());
 }
 
-TEST(operator_scalar_complex, test_1) {
+TEST(operatorScalarComplex, test1) {
     const auto r1 = std::make_shared<onerut_scalar::LitComplex>(6.7 + 2.5i);
     const auto r = std::make_shared<onerut_scalar::OpUnaryPlusMinusComplex>(r1, '-');
     ASSERT_EQ(-6.7 - 2.5i, r->value_complex());
 }
 
-TEST(operator_scalar_complex, test_2) {
+TEST(operatorScalarComplex, test2) {
     const auto r1 = std::make_shared<onerut_scalar::LitInteger>(6);
     const auto r2 = std::make_shared<onerut_scalar::LitInteger>(7);
     const auto r3 = std::make_shared<onerut_scalar::LitInteger>(5);
@@ -33,7 +33,7 @@ TEST(operator_scalar_complex, test_2) {
     ASSERT_EQ(4.0, r->value_complex());
 }
 
-TEST(operator_scalar_complex, test_3) {
+TEST(operatorScalarComplex, test3) {
     const auto r1 = std::make_shared<onerut_scalar::LitInteger>(6);
     const auto r2 = std::make_shared<onerut_scalar::LitInteger>(7);
     const auto r3 = std::make_shared<onerut_scalar::LitReal>(5.0);
@@ -44,7 +44,7 @@ TEST(operator_scalar_complex, test_3) {
     ASSERT_EQ(4.0, r->value_complex());
 }
 
-TEST(operator_scalar_complex, test_4) {
+TEST(operatorScalarComplex, test4) {
     const auto r1 = std::make_shared<onerut_scalar::LitInteger>(6);
     const auto r2 = std::make_shared<onerut_scalar::LitComplex>(7.4 + 5.2i);
     const auto r3 = std::make_shared<onerut_scalar::LitComplex>(5.5 - 5.7i);
@@ -55,7 +55,7 @@ TEST(operator_scalar_complex, test_4) {
     ASSERT_EQ(double(6) - (7.4 + 5.2i) + (5.5 - 5.7i), r->value_complex());
 }
 
-TEST(operator_scalar_complex, test_5) {
+TEST(operatorScalarComplex, test5) {
     const auto r1 = std::make_shared<onerut_scalar::LitInteger>(6);
     const auto r2 = std::make_shared<onerut_scalar::LitInteger>(-7);
     const auto r3 = std::make_shared<onerut_scalar::LitInteger>(5);
@@ -66,7 +66,7 @@ TEST(operator_scalar_complex, test_5) {
     ASSERT_EQ(-8.0, r->value_complex());
 }
 
-TEST(operator_scalar_complex, test_6) {
+TEST(operatorScalarComplex, test6) {
     const auto r1 = std::make_shared<onerut_scalar::LitInteger>(6);
     const auto r2 = std::make_shared<onerut_scalar::LitInteger>(-7);
     const auto r3 = std::make_shared<onerut_scalar::LitReal>(5.0);
@@ -77,7 +77,7 @@ TEST(operator_scalar_complex, test_6) {
     ASSERT_EQ(-8.4, r->value_complex());
 }
 
-TEST(operator_scalar_complex, test_7) {
+TEST(operatorScalarComplex, test7) {
     const auto r1 = std::make_shared<onerut_scalar::LitInteger>(6);
     const auto r2 = std::make_shared<onerut_scalar::LitComplex>(7.4 + 5.2i);
     const auto r3 = std::make_shared<onerut_scalar::LitComplex>(5.5 - 5.7i);

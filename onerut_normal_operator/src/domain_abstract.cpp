@@ -69,5 +69,4 @@ namespace onerut_normal_operator {
                 }) == domains.end();
     }
 
-
 }

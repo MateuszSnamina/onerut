@@ -8,7 +8,7 @@
 // --------------------  test cases  -------------------------------------------
 // -----------------------------------------------------------------------------
 
-TEST(operator_scalled, test_1) {
+TEST(operatorScalled, test1) {
     const auto op1 = std::make_shared<onerut_typed_operator::HopOperator<unsigned>>(2.6, 2, 1);
     const auto op = std::make_shared<onerut_typed_operator::ScalledOperator<unsigned>>(3.5, op1);
     const arma::mat M_expected = {
@@ -20,7 +20,7 @@ TEST(operator_scalled, test_1) {
     compare(M_expected, op);
 }
 
-TEST(operator_scalled, test_2) {
+TEST(operatorScalled, test2) {
     const auto op1 = std::make_shared<onerut_typed_operator::DiagOperator<unsigned>>(2.6, 2);
     const auto op = std::make_shared<onerut_typed_operator::ScalledOperator<unsigned>>(3.5, op1);
     const arma::mat M_expected = {
@@ -32,7 +32,7 @@ TEST(operator_scalled, test_2) {
     compare(M_expected, op);
 }
 
-TEST(operator_scalled, test_3) {
+TEST(operatorScalled, test3) {
     const auto op1 = first_compound_operator();
     const auto op = std::make_shared<onerut_typed_operator::ScalledOperator<unsigned>>(3.5, op1);
     const arma::mat M1 = first_compound_matrix();

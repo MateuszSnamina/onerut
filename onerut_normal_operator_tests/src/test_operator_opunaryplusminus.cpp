@@ -9,7 +9,7 @@
 // --------------------  test cases  -------------------------------------------
 // -----------------------------------------------------------------------------
 
-TEST(operator_opunaryplusminus, test_1) {
+TEST(operatorOpUnaryPlusMinus, test1) {
     using DomainT = onerut_normal_operator::CustomDomain;
     const auto domain = std::make_shared<DomainT>(std::vector<std::string>{"AA", "BB", "CC", "DD"});
     const auto op1 = std::make_shared<onerut_normal_operator::HopOperator>(2.6_R, domain->crate_state(2), domain->crate_state(1));
@@ -23,7 +23,7 @@ TEST(operator_opunaryplusminus, test_1) {
     compare(M_expected, op);
 }
 
-TEST(operator_opunaryplusminus, test_2) {
+TEST(operatorOpUnaryPlusMinus, test2) {
     using DomainT = onerut_normal_operator::CustomDomain;
     const auto domain = std::make_shared<DomainT>(std::vector<std::string>{"AA", "BB", "CC", "DD"});
     const auto op1 = std::make_shared<onerut_normal_operator::DiagOperator>(2.6_R, domain->crate_state(2));
@@ -37,7 +37,7 @@ TEST(operator_opunaryplusminus, test_2) {
     compare(M_expected, op);
 }
 
-TEST(operator_opunaryplusminus, test_3) {
+TEST(operatorOpUnaryPlusMinus, test3) {
     using DomainT = onerut_normal_operator::CustomDomain;
     const auto domain = std::make_shared<DomainT>(std::vector<std::string>{"AA", "BB", "CC", "DD"});
     const auto op1 = first_compound_operator(domain);
@@ -47,7 +47,7 @@ TEST(operator_opunaryplusminus, test_3) {
     compare(M_expected, op);
 }
 
-TEST(operator_opunaryplusminus, test_4) {
+TEST(operatorOpUnaryPlusMinus, test4) {
     using DomainT = onerut_normal_operator::CustomDomain;
     const auto domain = std::make_shared<DomainT>(std::vector<std::string>{"AA", "BB", "CC", "DD"});
     const auto op1 = first_compound_operator(domain);

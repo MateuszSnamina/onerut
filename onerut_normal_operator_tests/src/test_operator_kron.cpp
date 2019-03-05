@@ -12,7 +12,7 @@
 // --------------------  test cases  -------------------------------------------
 // -----------------------------------------------------------------------------
 
-TEST(operator_kron, test_2space_test0) {
+TEST(operatorKron, testTwoSubspaceTest0) {
     using DomainT = onerut_normal_operator::Domain;
     using DomainPtrT = std::shared_ptr<const DomainT>;
     using SubDomainT = onerut_normal_operator::CustomDomain;
@@ -27,7 +27,7 @@ TEST(operator_kron, test_2space_test0) {
     compare(M_expected, op);
 }
 
-TEST(operator_kron, test_2space_test1) {
+TEST(operatorKron, testTwoSubspaceTest1) {
     using DomainT = onerut_normal_operator::Domain;
     using DomainPtrT = std::shared_ptr<const DomainT>;
     using SubDomainT = onerut_normal_operator::CustomDomain;
@@ -49,7 +49,7 @@ TEST(operator_kron, test_2space_test1) {
     compare(M_expected, op);
 }
 
-TEST(operator_kron, test_2space_test2) {
+TEST(operatorKron, testTwoSubspaceTest2) {
     using DomainT = onerut_normal_operator::Domain;
     using DomainPtrT = std::shared_ptr<const DomainT>;
     using SubDomainT = onerut_normal_operator::CustomDomain;
@@ -70,7 +70,7 @@ TEST(operator_kron, test_2space_test2) {
     compare(M_expected, op);
 }
 
-TEST(operator_kron, test_3space_test1) {
+TEST(operatorKron, testThreeSubpacesTest1) {
     using DomainT = onerut_normal_operator::Domain;
     using DomainPtrT = std::shared_ptr<const DomainT>;
     using SubDomainT = onerut_normal_operator::CustomDomain;
@@ -94,7 +94,7 @@ TEST(operator_kron, test_3space_test1) {
     compare(M_expected, op);
 }
 
-TEST(operator_kron, test_3space_test2) {
+TEST(operatorKron, testThreeSubpacesTest2) {
     using DomainT = onerut_normal_operator::Domain;
     using DomainPtrT = std::shared_ptr<const DomainT>;
     using SubDomainT = onerut_normal_operator::CustomDomain;
@@ -117,7 +117,7 @@ TEST(operator_kron, test_3space_test2) {
     compare(M_expected, op);
 }
 
-TEST(operator_kron, test_3space_test3) {
+TEST(operatorKron, testThreeSubpacesTest3) {
     using DomainT = onerut_normal_operator::Domain;
     using DomainPtrT = std::shared_ptr<const DomainT>;
     using SubDomainT = onerut_normal_operator::CustomDomain;
@@ -142,7 +142,7 @@ TEST(operator_kron, test_3space_test3) {
     compare(M_expected, op);
 }
 
-TEST(operator_kron, test_3space_test4) {
+TEST(operatorKron, testThreeSubpacesTest4) {
     using DomainT = onerut_normal_operator::Domain;
     using DomainPtrT = std::shared_ptr<const DomainT>;
     using SubDomainT = onerut_normal_operator::CustomDomain;

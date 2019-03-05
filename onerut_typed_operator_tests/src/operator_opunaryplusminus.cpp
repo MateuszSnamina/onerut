@@ -8,7 +8,7 @@
 // --------------------  test cases  -------------------------------------------
 // -----------------------------------------------------------------------------
 
-TEST(operator_opunaryplusminus, test_1) {
+TEST(operatorOpUnaryPlusMinus, test1) {
     const auto op1 = std::make_shared<onerut_typed_operator::HopOperator<unsigned>>(2.6, 2, 1);
     const auto op = std::make_shared<onerut_typed_operator::OpUnaryPlusMinusOperator<unsigned>>(op1, '+');
     const arma::mat M_expected = {
@@ -20,7 +20,7 @@ TEST(operator_opunaryplusminus, test_1) {
     compare(M_expected, op);
 }
 
-TEST(operator_opunaryplusminus, test_2) {
+TEST(operatorOpUnaryPlusMinus, test2) {
     const auto op1 = std::make_shared<onerut_typed_operator::DiagOperator<unsigned>>(2.6, 2);
     const auto op = std::make_shared<onerut_typed_operator::OpUnaryPlusMinusOperator<unsigned>>(op1, '-');
     const arma::mat M_expected = {
@@ -32,7 +32,7 @@ TEST(operator_opunaryplusminus, test_2) {
     compare(M_expected, op);
 }
 
-TEST(operator_opunaryplusminus, test_3) {
+TEST(operatorOpUnaryPlusMinus, test3) {
     const auto op1 = first_compound_operator();
     const auto op = std::make_shared<onerut_typed_operator::OpUnaryPlusMinusOperator<unsigned>>(op1, '+');
     const arma::mat M1 = first_compound_matrix();
@@ -40,7 +40,7 @@ TEST(operator_opunaryplusminus, test_3) {
     compare(M_expected, op);
 }
 
-TEST(operator_opunaryplusminus, test_4) {
+TEST(operatorOpUnaryPlusMinus, test4) {
     const auto op1 = first_compound_operator();
     const auto op = std::make_shared<onerut_typed_operator::OpUnaryPlusMinusOperator<unsigned>>(op1, '-');
     const arma::mat M1 = first_compound_matrix();

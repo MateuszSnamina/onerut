@@ -5,78 +5,78 @@
 // --------------------  test cases  -------------------------------------------
 // -----------------------------------------------------------------------------
 
-TEST(box_mix_integer_real, op_plus_munis_1) {
+TEST(boxMixIntegerReal, opPlusMunis1) {
     ONERUT_BOX_VALUE_TEST(540 + 7.8);
 }
 
-TEST(box_mix_integer_real, op_plus_munis_2) {
+TEST(boxMixIntegerReal, opPlusMunis2) {
     ONERUT_BOX_VALUE_TEST(540.5 + 7);
 }
 
-TEST(box_mix_integer_real, op_plus_munis_3) {
+TEST(boxMixIntegerReal, opPlusMunis3) {
     ONERUT_BOX_VALUE_TEST(540 - 75.8);
 }
 
-TEST(box_mix_integer_real, op_plus_munis_4) {
+TEST(boxMixIntegerReal, opPlusMunis4) {
     ONERUT_BOX_VALUE_TEST(540.5 - 75);
 }
 
-TEST(box_mix_integer_real, op_plus_munis_5) {
+TEST(boxMixIntegerReal, opPlusMunis5) {
     ONERUT_BOX_VALUE_TEST(540 + 75 + 764.3);
 }
 
-TEST(box_mix_integer_real, op_plus_munis_6) {
+TEST(boxMixIntegerReal, opPlusMunis6) {
     ONERUT_BOX_VALUE_TEST(540.5 + 75 + 764.3);
 }
 
-TEST(box_mix_integer_real, op_plus_munis_7) {
+TEST(boxMixIntegerReal, opPlusMunis7) {
     ONERUT_BOX_VALUE_TEST(540.5 - 75 + 764);
 }
 
-TEST(box_mix_integer_real, op_plus_munis_8) {
+TEST(boxMixIntegerReal, opPlusMunis8) {
     ONERUT_BOX_VALUE_TEST(-540 - 75.8 + 764);
 }
 
-TEST(box_mix_integer_real, op_prod_div_1) {
-    ONERUT_BOX_VALUE_TEST(540 * 75.8);
-}
-
-TEST(box_mix_integer_real, op_prod_div_2) {
-    ONERUT_BOX_VALUE_TEST(540.5 * 75);
-}
-
-TEST(box_mix_integer_real, op_prod_div_3) {
-    ONERUT_BOX_VALUE_TEST(540 / 75.8);
-}
-
-TEST(box_mix_integer_real, op_prod_div_4) {
-    ONERUT_BOX_VALUE_TEST(+540.5 / 75);
-}
-
-TEST(box_mix_integer_real, op_prod_div_5) {
-    ONERUT_BOX_VALUE_TEST(540 * 75 * 764.3);
-}
-
-TEST(box_mix_integer_real, op_prod_div_6) {
-    ONERUT_BOX_VALUE_TEST(540 * 75.8 * 764.3);
-}
-
-TEST(box_mix_integer_real, op_plus_minus_prod_div_1) {
-    ONERUT_BOX_VALUE_TEST(-540.5 - 75 / 764);
-}
-
-TEST(box_mix_integer_real, op_plus_minus_10) {
+TEST(boxMixIntegerReal, opPlusMunis10) {
     BASIC_ONERUT_BOX_VALUE_TEST(10000000000000000l + 1., 10000000000000000 + 1.);
 }
 
-TEST(box_mix_integer_real, op_plus_minus_prod_div_grouping_8) {
+TEST(boxMixIntegerReal, opProdDiv1) {
+    ONERUT_BOX_VALUE_TEST(540 * 75.8);
+}
+
+TEST(boxMixIntegerReal, opProdDiv2) {
+    ONERUT_BOX_VALUE_TEST(540.5 * 75);
+}
+
+TEST(boxMixIntegerReal, opProdDiv3) {
+    ONERUT_BOX_VALUE_TEST(540 / 75.8);
+}
+
+TEST(boxMixIntegerReal, opProdDiv4) {
+    ONERUT_BOX_VALUE_TEST(+540.5 / 75);
+}
+
+TEST(boxMixIntegerReal, opProdDiv5) {
+    ONERUT_BOX_VALUE_TEST(540 * 75 * 764.3);
+}
+
+TEST(boxMixIntegerReal, opProdDiv6) {
+    ONERUT_BOX_VALUE_TEST(540 * 75.8 * 764.3);
+}
+
+TEST(boxMixIntegerReal, opPlusMinusProdDiv1) {
+    ONERUT_BOX_VALUE_TEST(-540.5 - 75 / 764);
+}
+
+TEST(boxMixIntegerReal, opPlusMinusProdDivGrouping8) {
     ONERUT_BOX_VALUE_TEST((-54 - 75.8) * 764.3);
 }
 
-TEST(box_mix_integer_real, op_plus_minus_prod_div_grouping_9) {
+TEST(boxMixIntegerReal, opPlusMinusProdDivGrouping9) {
     ONERUT_BOX_VALUE_TEST(-54 - (75.8 * 764.3));
 }
 
-TEST(box_mix_integer_real, op_plus_minus_prod_div_grouping_10) {
+TEST(boxMixIntegerReal, opPlusMinusProdDivGrouping10) {
     ONERUT_BOX_VALUE_TEST(-54 / (75.8 + 764.3));
 }

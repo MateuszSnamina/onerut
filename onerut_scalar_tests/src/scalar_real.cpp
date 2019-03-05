@@ -6,20 +6,20 @@
 // --------------------  test cases  -------------------------------------------
 // -----------------------------------------------------------------------------
 
-TEST(operator_scalar_double, test_0) {
+TEST(scalarReal, test0) {
     const auto r = std::make_shared<onerut_scalar::LitReal>(-6.7);
     ASSERT_EQ(-6.7, r->value_real());
     ASSERT_EQ(-6.7, r->value_complex());
 }
 
-TEST(operator_scalar_double, test_1) {
+TEST(scalarReal, test1) {
     const auto r1 = std::make_shared<onerut_scalar::LitReal>(6.7);
     const auto r = std::make_shared<onerut_scalar::OpUnaryPlusMinusReal>(r1, '-');
     ASSERT_EQ(-6.7, r->value_real());
     ASSERT_EQ(-6.7, r->value_complex());
 }
 
-TEST(operator_scalar_double, test_2) {
+TEST(scalarReal, test2) {
     const auto r1 = std::make_shared<onerut_scalar::LitInteger>(6);
     const auto r2 = std::make_shared<onerut_scalar::LitInteger>(7);
     const auto r3 = std::make_shared<onerut_scalar::LitInteger>(5);
@@ -31,7 +31,7 @@ TEST(operator_scalar_double, test_2) {
     ASSERT_EQ(4.0, r->value_complex());
 }
 
-TEST(operator_scalar_double, test_3) {
+TEST(scalarReal, test3) {
     const auto r1 = std::make_shared<onerut_scalar::LitInteger>(6);
     const auto r2 = std::make_shared<onerut_scalar::LitInteger>(7);
     const auto r3 = std::make_shared<onerut_scalar::LitReal>(5.0);
@@ -43,7 +43,7 @@ TEST(operator_scalar_double, test_3) {
     ASSERT_EQ(4.0, r->value_complex());
 }
 
-TEST(operator_scalar_double, test_4) {
+TEST(scalarReal, test4) {
     const auto r1 = std::make_shared<onerut_scalar::LitInteger>(6);
     const auto r2 = std::make_shared<onerut_scalar::LitInteger>(-7);
     const auto r3 = std::make_shared<onerut_scalar::LitInteger>(5);
@@ -55,7 +55,7 @@ TEST(operator_scalar_double, test_4) {
     ASSERT_EQ(-8.0, r->value_complex());
 }
 
-TEST(operator_scalar_double, test_5) {
+TEST(scalarReal, test5) {
     const auto r1 = std::make_shared<onerut_scalar::LitInteger>(6);
     const auto r2 = std::make_shared<onerut_scalar::LitInteger>(-7);
     const auto r3 = std::make_shared<onerut_scalar::LitReal>(5.0);

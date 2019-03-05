@@ -5,198 +5,198 @@
 // --------------------  test cases  -------------------------------------------
 // -----------------------------------------------------------------------------
 
-TEST(box_pure_complex, literal_1) {
+TEST(boxPureComplex, literal1) {
     ONERUT_BOX_VALUE_TEST(6445.i);
 }
 
-TEST(box_pure_complex, literal_2) {
+TEST(boxPureComplex, literal2) {
     ONERUT_BOX_VALUE_TEST(6445i);
 }
 
-TEST(box_pure_complex, literal_3) {
+TEST(boxPureComplex, literal3) {
     ONERUT_BOX_VALUE_TEST(.6445i);
 }
 
-TEST(box_pure_complex, literal_4) {
+TEST(boxPureComplex, literal4) {
     ONERUT_BOX_VALUE_TEST(0.6445i);
 }
 
-TEST(box_pure_complex, literal_5) {
+TEST(boxPureComplex, literal5) {
     ONERUT_BOX_VALUE_TEST(1e5i);
 }
 
-TEST(box_pure_complex, literal_6) {
+TEST(boxPureComplex, literal6) {
     ONERUT_BOX_VALUE_TEST(1e+5i);
 }
 
-TEST(box_pure_complex, literal_7) {
+TEST(boxPureComplex, literal7) {
     ONERUT_BOX_VALUE_TEST(+1e-5i);
 }
 
-TEST(box_pure_complex, literal_8) {
+TEST(boxPureComplex, literal8) {
     BASIC_ONERUT_BOX_VALUE_TEST(std::complex<double>(0, inf), infi);
 }
 
-TEST(box_pure_complex, literal_9) {
+TEST(boxPureComplex, literal9) {
     ONERUT_BOX_VALUE_TEST(-6445.i);
 }
 
-TEST(box_pure_complex, literal_10) {
+TEST(boxPureComplex, literal10) {
     ONERUT_BOX_VALUE_TEST(-.6445i);
 }
 
-TEST(box_pure_complex, literal_11) {
+TEST(boxPureComplex, literal11) {
     BASIC_ONERUT_BOX_VALUE_TEST(std::complex<double>(0, -inf), -infi);
 }
 
-TEST(box_pure_complex, op_plus_munis_1) {
+TEST(boxPureComplex, opPlusMinus1) {
     ONERUT_BOX_VALUE_TEST(540.5i + 7.8i);
 }
 
-TEST(box_pure_complex, op_plus_munis_2) {
+TEST(boxPureComplex, opPlusMinus2) {
     ONERUT_BOX_VALUE_TEST(540.5i - 75.8i);
 }
 
-TEST(box_pure_complex, op_plus_munis_3) {
+TEST(boxPureComplex, opPlusMinus3) {
     ONERUT_BOX_VALUE_TEST(+540.5i - 75.8i);
 }
 
-TEST(box_pure_complex, op_plus_munis_4) {
+TEST(boxPureComplex, opPlusMinus4) {
     ONERUT_BOX_VALUE_TEST(-540.5i + 75.8i);
 }
 
-TEST(box_pure_complex, op_plus_munis_5) {
+TEST(boxPureComplex, opPlusMinus5) {
     ONERUT_BOX_VALUE_TEST(540.5i + 75.8i + 764.3i);
 }
 
-TEST(box_pure_complex, op_plus_munis_6) {
+TEST(boxPureComplex, opPlusMinus6) {
     ONERUT_BOX_VALUE_TEST(540.5i + 75.8i + 764.3i);
 }
 
-TEST(box_pure_complex, op_plus_munis_7) {
+TEST(boxPureComplex, opPlusMinus7) {
     ONERUT_BOX_VALUE_TEST(540.5i - 75.8i + 764.3i);
 }
 
-TEST(box_pure_complex, op_plus_munis_8) {
+TEST(boxPureComplex, opPlusMinus8) {
     ONERUT_BOX_VALUE_TEST(-540.5i - 75.8i + 764.3i);
 }
 
-TEST(box_pure_complex, op_plus_munis_9) {
+TEST(boxPureComplex, opPlusMinus9) {
     ONERUT_BOX_VALUE_TEST(-540.5i - 75.8i - 764.3i);
 }
 
-TEST(box_pure_complex, op_plus_minus_10) {
+TEST(boxPureComplex, opPlusMinus10) {
     ONERUT_BOX_VALUE_TEST(10000000000000000.i + 1.i);
 }
 
-TEST(box_pure_complex, op_prod_div_1) {
+TEST(boxPureComplex, opProdDiv1) {
     ONERUT_BOX_VALUE_TEST(540.5i * 75.8i);
 }
 
-TEST(box_pure_complex, op_prod_div_2) {
+TEST(boxPureComplex, opProdDiv2) {
     ONERUT_BOX_VALUE_TEST(540.5i / 75.8i);
 }
 
-TEST(box_pure_complex, op_prod_div_3) {
+TEST(boxPureComplex, opProdDiv3) {
     ONERUT_BOX_VALUE_TEST(+540.5i / 75.8i);
 }
 
-TEST(box_pure_complex, op_prod_div_4) {
+TEST(boxPureComplex, opProdDiv4) {
     ONERUT_BOX_VALUE_TEST(-540.5i * 75.8i);
 }
 
-TEST(box_pure_complex, op_prod_div_5) {
+TEST(boxPureComplex, opProdDiv5) {
     ONERUT_BOX_VALUE_TEST(540.5i * 75.8i * 764.3i);
 }
 
-TEST(box_pure_complex, op_prod_div_6) {
+TEST(boxPureComplex, opProdDiv6) {
     ONERUT_BOX_VALUE_TEST(540.5i * 75.8i * 764.3i);
 }
 
-TEST(box_pure_complex, op_prod_div_7) {
+TEST(boxPureComplex, opProdDiv7) {
     ONERUT_BOX_VALUE_TEST(540.5i / 75.8i * 764.3i);
 }
 
-TEST(box_pure_complex, op_prod_div_8) {
+TEST(boxPureComplex, opProdDiv8) {
     ONERUT_BOX_VALUE_TEST(-540.5i / 75.8i / 764.3i);
 }
 
-TEST(box_pure_complex, op_plus_minus_prod_div_1) {
+TEST(boxPureComplex, opPlusMinusProdDiv1) {
     ONERUT_BOX_VALUE_TEST(-540.5i - 75.8i * 764.3i);
 }
 
-TEST(box_pure_complex, op_plus_minus_prod_div_2) {
+TEST(boxPureComplex, opPlusMinusProdDiv2) {
     ONERUT_BOX_VALUE_TEST(-540.5i * 75.8i + 764.3i);
 }
 
-TEST(box_pure_complex, op_plus_minus_prod_div_3) {
+TEST(boxPureComplex, opPlusMinusProdDiv3) {
     ONERUT_BOX_VALUE_TEST(-540.5i - 75.8i / 764.3i);
 }
 
-TEST(box_pure_complex, op_plus_minus_prod_div_4) {
+TEST(boxPureComplex, opPlusMinusProdDiv4) {
     ONERUT_BOX_VALUE_TEST(-540.5i / 75.8i + 764.3i);
 }
 
-TEST(box_pure_complex, simple_grouping_1) {
+TEST(boxPureComplex, simpleGrouping1) {
     ONERUT_BOX_VALUE_TEST((450.5i));
 }
 
-TEST(box_pure_complex, simple_grouping_2) {
+TEST(boxPureComplex, simpleGrouping2) {
     ONERUT_BOX_VALUE_TEST(+(450.5i));
 }
 
-TEST(box_pure_complex, simple_grouping_3) {
+TEST(boxPureComplex, simpleGrouping3) {
     ONERUT_BOX_VALUE_TEST(-(450.5i));
 }
 
-TEST(box_pure_complex, simple_grouping_4) {
+TEST(boxPureComplex, simpleGrouping4) {
     ONERUT_BOX_VALUE_TEST(+(-45.5i));
 }
 
-TEST(box_pure_complex, simple_grouping_5) {
+TEST(boxPureComplex, simpleGrouping5) {
     ONERUT_BOX_VALUE_TEST(-(-45.5i));
 }
 
-TEST(box_pure_complex, simple_grouping_6) {
+TEST(boxPureComplex, simpleGrouping6) {
     ONERUT_BOX_VALUE_TEST(-((-45.5i)));
 }
 
-TEST(box_pure_complex, simple_grouping_7) {
+TEST(boxPureComplex, simpleGrouping7) {
     BASIC_ONERUT_BOX_VALUE_TEST(-((-45.5i)), -([-45.5i]));
 }
 
-TEST(box_pure_complex, op_plus_minus_prod_div_grouping_1) {
+TEST(boxPureComplex, opPlusMinusProdDivGrouping1) {
     ONERUT_BOX_VALUE_TEST((540.5i * 75.8i * 764.3i));
 }
 
-TEST(box_pure_complex, op_plus_minus_prod_div_grouping_2) {
+TEST(boxPureComplex, opPlusMinusProdDivGrouping2) {
     ONERUT_BOX_VALUE_TEST((540.5i * 75.8i) * 764.3i);
 }
 
-TEST(box_pure_complex, op_plus_minus_prod_div_grouping_3) {
+TEST(boxPureComplex, opPlusMinusProdDivGrouping3) {
     ONERUT_BOX_VALUE_TEST((540.5i / 75.8i) * 764.3i);
 }
 
-TEST(box_pure_complex, op_plus_minus_prod_div_grouping_4) {
+TEST(boxPureComplex, opPlusMinusProdDivGrouping4) {
     ONERUT_BOX_VALUE_TEST(540.5i / (75.8i * 764.3i));
 }
 
-TEST(box_pure_complex, op_plus_minus_prod_div_grouping_5) {
+TEST(boxPureComplex, opPlusMinusProdDivGrouping5) {
     ONERUT_BOX_VALUE_TEST((-540.5i / 75.8i) / 764.3i);
 }
 
-TEST(box_pure_complex, op_plus_minus_prod_div_grouping_6) {
+TEST(boxPureComplex, opPlusMinusProdDivGrouping6) {
     ONERUT_BOX_VALUE_TEST(-540.5i / (75.8i / 764.3i));
 }
 
-TEST(box_pure_complex, op_plus_minus_prod_div_grouping_7) {
+TEST(boxPureComplex, opPlusMinusProdDivGrouping7) {
     ONERUT_BOX_VALUE_TEST((-54i - 75.8i) * 764.3i);
 }
 
-TEST(box_pure_complex, op_plus_minus_prod_div_grouping_8) {
+TEST(boxPureComplex, opPlusMinusProdDivGrouping8) {
     ONERUT_BOX_VALUE_TEST(-54i - (75.8i * 764.3i));
 }
 
-TEST(box_pure_complex, op_plus_minus_prod_div_grouping_9) {
+TEST(boxPureComplex, opPlusMinusProdDivGrouping9) {
     ONERUT_BOX_VALUE_TEST(-54i / (75.8i + 764.3i));
 }

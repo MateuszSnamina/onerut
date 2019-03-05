@@ -11,7 +11,7 @@
 // -----------------------------------------------------------------------------
 
 // TODO : think
-//TEST(operator_op_prod, test_0) {
+//TEST(operatorOpProd, test0) {
 //    using OpT = onerut_normal_operator::AbstractOperator;
 //    using OpPtrT = std::shared_ptr<const OpT>;
 //    using DomainT = onerut_normal_operator::CustomDomain;
@@ -22,7 +22,7 @@
 //    compare(M_expected, op);
 //}
 
-TEST(operator_op_prod, test_1) {
+TEST(operatorOpProd, test1) {
     using OpT = onerut_normal_operator::AbstractOperator;
     using OpPtrT = std::shared_ptr<const OpT>;
     using DomainT = onerut_normal_operator::CustomDomain;
@@ -34,7 +34,7 @@ TEST(operator_op_prod, test_1) {
     compare(M_expected, op);
 }
 
-TEST(operator_op_prod, test_2) {
+TEST(operatorOpProd, test2) {
     using OpT = onerut_normal_operator::AbstractOperator;
     using OpPtrT = std::shared_ptr<const OpT>;
     using DomainT = onerut_normal_operator::CustomDomain;
@@ -51,7 +51,7 @@ TEST(operator_op_prod, test_2) {
     compare(M_expected, op);
 }
 
-TEST(operator_op_prod, test_3) {
+TEST(operatorOpProd, test3) {
     using OpT = onerut_normal_operator::AbstractOperator;
     using OpPtrT = std::shared_ptr<const OpT>;
     using DomainT = onerut_normal_operator::CustomDomain;
@@ -64,7 +64,7 @@ TEST(operator_op_prod, test_3) {
     compare(M_expected, op);
 }
 
-TEST(operator_op_prod, test_4) {
+TEST(operatorOpProd, test4) {
     using OpT = onerut_normal_operator::AbstractOperator;
     using OpPtrT = std::shared_ptr<const OpT>;
     using DomainT = onerut_normal_operator::CustomDomain;
@@ -77,7 +77,7 @@ TEST(operator_op_prod, test_4) {
     compare(M_expected, op);
 }
 
-TEST(operator_op_prod, test_5) {
+TEST(operatorOpProd, test5) {
     using OpT = onerut_normal_operator::AbstractOperator;
     using OpPtrT = std::shared_ptr<const OpT>;
     using DomainT = onerut_normal_operator::CustomDomain;
@@ -95,7 +95,7 @@ TEST(operator_op_prod, test_5) {
     compare(M_expected, op);
 }
 
-TEST(operator_op_prod, test_6) {
+TEST(operatorOpProd, test6) {
     using OpT = onerut_normal_operator::AbstractOperator;
     using OpPtrT = std::shared_ptr<const OpT>;
     using DomainT = onerut_normal_operator::CustomDomain;
@@ -114,7 +114,7 @@ TEST(operator_op_prod, test_6) {
     compare(M_expected, op);
 }
 
-TEST(operator_op_prod, test_7) {
+TEST(operatorOpProd, test7) {
     using OpT = onerut_normal_operator::AbstractOperator;
     using OpPtrT = std::shared_ptr<const OpT>;
     using DomainT = onerut_normal_operator::CustomDomain;
@@ -129,7 +129,7 @@ TEST(operator_op_prod, test_7) {
     compare(M_expected, op);
 }
 
-TEST(operator_op_prod, test_8) {
+TEST(operatorOpProd, test8) {
     using OpT = onerut_normal_operator::AbstractOperator;
     using OpPtrT = std::shared_ptr<const OpT>;
     using DomainT = onerut_normal_operator::CustomDomain;

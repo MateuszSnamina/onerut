@@ -8,7 +8,7 @@
 // --------------------  test cases  -------------------------------------------
 // -----------------------------------------------------------------------------
 
-TEST(operator_zero, test_1) {
+TEST(operatorZero, test1) {
     using DomainT = onerut_normal_operator::CustomDomain;
     const auto domain = std::make_shared<DomainT>(std::vector<std::string>{"AA", "BB", "CC", "DD"});
     const auto op = std::make_shared<onerut_normal_operator::ZeroOperator>(domain);

@@ -7,7 +7,7 @@
 // --------------------  test cases  -------------------------------------------
 // -----------------------------------------------------------------------------
 
-TEST(operator_diag1, test_1) {
+TEST(operatorDiag, test1) {
     const auto op = std::make_shared<onerut_typed_operator::DiagOperator<unsigned>>(7.7, 2);
     const arma::mat M_expected = {
         {0.0, 0.0, 0.0, 0.0},
@@ -18,7 +18,7 @@ TEST(operator_diag1, test_1) {
     compare(M_expected, op);
 }
 
-TEST(operator_hop, test_1) {
+TEST(operatorHop, test1) {
     const auto op = std::make_shared<onerut_typed_operator::HopOperator<unsigned>>(3.2, 2, 1);
     const arma::mat M_expected = {
         {0.0, 0.0, 0.0, 0.0},
@@ -28,4 +28,3 @@ TEST(operator_hop, test_1) {
     };
     compare(M_expected, op);
 }
-
