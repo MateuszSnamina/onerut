@@ -160,3 +160,24 @@ TEST(operatorKron, testThreeSubpacesTest4) {
     const arma::mat M_expected = arma::kron(sub0_M_expected, arma::kron(sub1_M_expected, sub2_M_expected));
     compare(M_expected, op);
 }
+
+TEST(operatorKron, testFourSubpacesTest1) {
+    using DomainT = onerut_normal_operator::Domain;
+    using DomainPtrT = std::shared_ptr<const DomainT>;
+    using SubDomainT = onerut_normal_operator::CustomDomain;
+    using KronDomainT = onerut_normal_operator::KronDomain;
+    const auto subdomain0 = std::make_shared<SubDomainT>(std::vector<std::string>{"AA", "BB", "CC"});
+    const auto subdomain1 = std::make_shared<SubDomainT>(std::vector<std::string>{"AA", "BB", "CC", "DD"});
+    const auto subdomain2 = std::make_shared<SubDomainT>(std::vector<std::string>{"AA", "BB", "CC", "DD", "EE"});
+    const auto subdomain3 = std::make_shared<SubDomainT>(std::vector<std::string>{"AA", "BB"});
+    std::vector<DomainPtrT> subdomains = {subdomain0, subdomain1, subdomain2, subdomain3};
+    const auto domain = std::make_shared<KronDomainT>(subdomains);
+    const auto sub_op = second_compound_operator(subdomain1);
+    const auto op = std::make_shared<onerut_normal_operator::KronAtOperator>(sub_op, domain->crate_placeholder(1));
+    const arma::mat sub0_M_expected = arma::eye(3, 3);
+    const arma::mat sub1_M_expected = second_compound_matrix();
+    const arma::mat sub2_M_expected = arma::eye(5, 5);
+    const arma::mat sub3_M_expected = arma::eye(2, 2);
+    const arma::mat M_expected = arma::kron(sub0_M_expected, arma::kron(sub1_M_expected, arma::kron(sub2_M_expected, sub3_M_expected)));
+    compare(M_expected, op);
+}

@@ -42,6 +42,7 @@ namespace onerut_typed_operator {
     first_arg(first_arg),
     other_argv(other_argv),
     opv(opv) {
+        assert(other_argv.size() == opv.size());
     }
 
     template<typename _BraKetT>

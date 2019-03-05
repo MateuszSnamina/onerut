@@ -20,7 +20,7 @@ TEST(OperatorOpPlusMinus, test0) {
     const std::vector<OpPtrT> op_other_argv{};
     const std::vector<char> op_opv{};
     const auto op = std::make_shared<onerut_normal_operator::OpPlusMinusOperator>(op_first_arg, op_other_argv, op_opv);
-    const arma::mat M_expected = arma::mat(4, 4, arma::fill::zeros);
+    const arma::mat M_expected(4, 4, arma::fill::zeros);
     compare(M_expected, op);
 }
 
@@ -139,9 +139,9 @@ TEST(OperatorOpPlusMinus, test6) {
     const std::vector<OpPtrT> op_other_argv{op2};
     const std::vector<char> op_opv{'-'};
     const auto op = std::make_shared<onerut_normal_operator::OpPlusMinusOperator>(op_first_arg, op_other_argv, op_opv);
-    const arma::mat M1 = first_compound_matrix();
-    const arma::mat M2 = second_compound_matrix();
-    const arma::mat M_expected = M1 - M2;
+    const auto M1 = first_compound_matrix();
+    const auto M2 = second_compound_matrix();
+    const auto M_expected = M1 - M2;
     compare(M_expected, op);
 }
 
@@ -171,8 +171,8 @@ TEST(OperatorOpPlusMinus, test8) {
     const std::vector<OpPtrT> op_other_argv{op1, op2, op1};
     const std::vector<char> op_opv{'+', '-', '+'};
     const auto op = std::make_shared<onerut_normal_operator::OpPlusMinusOperator>(op_first_arg, op_other_argv, op_opv);
-    const arma::mat M2 = second_compound_matrix();
-    const arma::mat M_expected = -M2;
+    const auto M2 = second_compound_matrix();
+    const auto M_expected = -M2;
     compare(M_expected, op);
 }
 

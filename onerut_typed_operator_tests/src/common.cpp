@@ -12,14 +12,14 @@ extern bool onerut_verbose;
 void compare(const arma::mat& M_expected, std::shared_ptr<onerut_typed_operator::AbstractOperator<unsigned>> op) {
     const arma::mat M_got = onerut_typed_operator::to_mat(*op, 4);
     if (onerut_verbose) {
-        std::cout << "M_got:" << std::endl;
-        std::cout << M_got;
         std::cout << "M_expected:" << std::endl;
         std::cout << M_expected;
+        std::cout << "M_got:" << std::endl;
+        std::cout << M_got;
     }
     for (unsigned i = 0; i < 4; i++)
         for (unsigned j = 0; j < 4; j++)
-            EXPECT_DOUBLE_EQ(M_got(i, j), M_expected(i, j));
+            EXPECT_DOUBLE_EQ(M_got(i, j), M_expected(i, j)) << "(matrix element at position: row, col = " << i << ", " << j << ").";
 }
 
 arma::mat first_compound_matrix() {
