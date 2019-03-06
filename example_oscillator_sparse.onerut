@@ -1,7 +1,7 @@
 ########################################
 # Define the vibronic Hilbert space    #
 ########################################
-OSCILLATOR_DOMAIN := oscillator_domain(0)
+OSCILLATOR_DOMAIN := oscillator_domain(1500)
 
 ########################################
 # Define handy references              #

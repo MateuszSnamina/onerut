@@ -26,11 +26,16 @@ namespace onerut_parser {
         ArgumentMismatchError();
     };
 
+    class ArgumentDomainError : public CompileError {
+    public:
+        ArgumentDomainError(const std::string& message);
+    };
+
     class WrongNumberOfArgumentsError : public CompileError {
     public:
         WrongNumberOfArgumentsError();
     };
-    
+
     class IllegalAssignAttemptToRValueError : public CompileError {
     public:
         IllegalAssignAttemptToRValueError();

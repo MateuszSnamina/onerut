@@ -18,7 +18,11 @@ namespace onerut_parser {
     ArgumentMismatchError::ArgumentMismatchError() :
     CompileError("Argument mismatch error!") {
     }
-    
+
+    ArgumentDomainError::ArgumentDomainError(const std::string& message) :
+    CompileError("Argument domain error!" + (message.empty() ? "" : " " + message)) {
+    }
+
     WrongNumberOfArgumentsError::WrongNumberOfArgumentsError() :
     CompileError("Wrong number of arguments error!") {
     }

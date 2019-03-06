@@ -69,9 +69,9 @@ namespace onerut_parser {
         const auto index_buildin = boost::numeric_cast<unsigned>(index->value_integer());
         // ---------------------------------------------------------------------        
         if (index_buildin < 0)
-            return Asset::from_compile_error(std::make_shared<CompileError>("The state index number can not be a negative integer."));
+            return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("The state index number must not be a negative integer."));
         if (index_buildin >= domain->size())
-            return Asset::from_compile_error(std::make_shared<CompileError>("The state index number can not exceed (or be equal to) the domain size."));
+            return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("The state index number must not exceed (or be equal to) the domain size."));
         const auto index_buildin_casted = boost::numeric_cast<uint32_t>(index_buildin);
         // ---------------------------------------------------------------------        
         using AssetT = onerut_normal_operator::StateIndex;
@@ -160,7 +160,7 @@ namespace onerut_parser {
         const auto site2 = utility::to_normal_operator_state_index(arg2_asset_deref);
         // ---------------------------------------------------------------------
         if (!onerut_normal_operator::are_the_same_domains(*site1->domain, *site2->domain))
-            return Asset::from_compile_error(std::make_shared<CompileError>("Incompatible state domains."));
+            return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("Incompatible state domains."));
         // ---------------------------------------------------------------------
         using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
         using OperatorT = onerut_normal_operator::HopOperator;
@@ -209,9 +209,9 @@ namespace onerut_parser {
         // ---------------------------------------------------------------------        
         const auto dimension_buildin = dimension->value_integer();
         if (dimension_buildin < 0)
-            return Asset::from_compile_error(std::make_shared<CompileError>("The requested space dimension can not be a negative integer."));
+            return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("The requested space dimension must not be a negative integer."));
         if (dimension_buildin == 0)
-            return Asset::from_compile_error(std::make_shared<CompileError>("The requested space dimension can not be equal to zero."));        
+            return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("The requested space dimension must not be equal to zero."));        
         const auto dimension_buildin_casted = boost::numeric_cast<uint32_t>(dimension_buildin);
         // ---------------------------------------------------------------------        
         return Asset::from_value<onerut_normal_operator::OscillatorDomain>(
@@ -282,9 +282,9 @@ namespace onerut_parser {
         // ---------------------------------------------------------------------        
         const auto dimension_buildin = dimension->value_integer();
         if (dimension_buildin < 0)
-            return Asset::from_compile_error(std::make_shared<CompileError>("The requested space dimension can not be a negative integer."));
+            return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("The requested space dimension must not be a negative integer."));
         if (dimension_buildin == 0)
-            return Asset::from_compile_error(std::make_shared<CompileError>("The requested space dimension can not be equal to zero."));  
+            return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("The requested space dimension must not be equal to zero."));  
         const auto dimension_buildin_casted = boost::numeric_cast<uint32_t>(dimension_buildin);
         // ---------------------------------------------------------------------        
         return Asset::from_value<onerut_normal_operator::SpinDomain>(
@@ -452,7 +452,7 @@ namespace onerut_parser {
         const auto domain_operator = normal_op->get_domain();
         const auto domain_placeholder = placeholder->fetch_subdomain();
         if (!onerut_normal_operator::are_the_same_domains(*domain_operator, *domain_placeholder))
-            return Asset::from_compile_error(std::make_shared<CompileError>("Incompatible state domains."));
+            return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("Incompatible state domains."));
         // ---------------------------------------------------------------------        
         using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
         using OperatorT = onerut_normal_operator::KronAtOperator;
@@ -505,11 +505,11 @@ namespace onerut_parser {
         // ---------------------------------------------------------------------        
         const auto numer_of_states_to_calculate_buildin = numer_of_states_to_calculate->value_integer();
         if (numer_of_states_to_calculate_buildin < 0)
-            return Asset::from_compile_error(std::make_shared<CompileError>("The number of requested states can not be a negative integer."));
+            return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("The number of requested states must not be a negative integer."));
         if (numer_of_states_to_calculate_buildin == 0)
-            return Asset::from_compile_error(std::make_shared<CompileError>("The number of requested states can not be equal to zero."));
+            return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("The number of requested states must not be equal to zero."));
         if (numer_of_states_to_calculate_buildin >= normal_operator->get_domain()->size())
-            return Asset::from_compile_error(std::make_shared<CompileError>("The number of requested states can not exceed (or be equal to) the operator domain size."));
+            return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("The number of requested states must not exceed (or be equal to) the operator domain size."));
         const auto numer_of_states_to_calculate_buildin_casted = boost::numeric_cast<uint32_t>(numer_of_states_to_calculate_buildin);
         // ---------------------------------------------------------------------        
         return Asset::from_value<onerut_normal_operator::Eig>(
@@ -550,12 +550,12 @@ namespace onerut_parser {
         const auto state_buildin = state->value_integer();
         // ---------------------------------------------------------------------        
         if (state_buildin < 0)
-            return Asset::from_compile_error(std::make_shared<CompileError>("The eigen state number can not be a negative integer."));
-        if (state_buildin > normal_operator->get_domain()->size())
-            return Asset::from_compile_error(std::make_shared<CompileError>("The eigen state number can not exceed the operator domain size."));
+            return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("The eigen state number must not be a negative integer."));
+        if (state_buildin >= normal_operator->get_domain()->size())
+            return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("The eigen state number must not exceed (or be equal to) the operator domain size."));
         if (const auto eig_sp = std::dynamic_pointer_cast<onerut_normal_operator::EigSparse>(normal_operator_eig))
             if (state_buildin >= eig_sp->numer_of_states_to_calculate)
-                return Asset::from_compile_error(std::make_shared<CompileError>("The eigen state number can not exceed (or be equal to) the requested numer of states to calculate."));
+                return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("The eigen state number must not exceed (or be equal to) the requested number of states to calculate."));
         const auto state_buildin_casted = boost::numeric_cast<uint32_t>(state_buildin);
         // ---------------------------------------------------------------------      
         return Asset::from_value<onerut_normal_operator::Mean>(

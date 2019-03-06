@@ -210,7 +210,7 @@ namespace onerut_parser::onerut_ast::source {
             const auto & first_arg_operator = utility::to_normal_operator(first_arg_asset_deref);
             const auto & other_argv_operator = utility::many_to_normal_operator(other_argv_asset_deref);
             if (!are_the_same_domains(first_arg_operator, other_argv_operator))
-                return Asset::from_compile_error(std::make_shared<CompileError>("Incompatible state domains."));
+                return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("Incompatible operator domains."));
             using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
             return Asset::from_value<AbstractOperatorT>(std::make_shared<onerut_normal_operator::OpPlusMinusOperator >(first_arg_operator, other_argv_operator, opv));
         }
@@ -252,7 +252,7 @@ namespace onerut_parser::onerut_ast::source {
             const auto & first_arg_operator = utility::to_normal_operator(first_arg_asset_deref);
             const auto & other_argv_operator = utility::many_to_normal_operator(other_argv_asset_deref);
             if (!are_the_same_domains(first_arg_operator, other_argv_operator))
-                return Asset::from_compile_error(std::make_shared<CompileError>("Incompatible state domains."));
+                return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("Incompatible operator domains."));
             const auto argv_operator = cat(first_arg_operator, other_argv_operator);
             using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
             return Asset::from_value<AbstractOperatorT>(std::make_shared<onerut_normal_operator::OpProdOperator >(argv_operator));
@@ -263,7 +263,7 @@ namespace onerut_parser::onerut_ast::source {
             const auto & first_arg_operator = utility::to_real(first_arg_asset_deref);
             const auto & second_arg_operator = utility::to_normal_operator(other_argv_asset_deref[0]);
             using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
-            return Asset::from_value<AbstractOperatorT>(std::make_shared<onerut_normal_operator::ScalledOperator >(first_arg_operator, second_arg_operator));
+            return Asset::from_value<AbstractOperatorT>(std::make_shared<onerut_normal_operator::ScalledOperator>(first_arg_operator, second_arg_operator));
         }
         return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
     }
