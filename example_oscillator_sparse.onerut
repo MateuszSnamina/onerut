@@ -1,7 +1,7 @@
 ########################################
 # Define the vibronic Hilbert space    #
 ########################################
-OSCILLATOR_DOMAIN := oscillator_domain(1400)
+OSCILLATOR_DOMAIN := oscillator_domain(0)
 
 ########################################
 # Define handy references              #
@@ -41,7 +41,7 @@ LATCH(d_mean_x2)
 VALUE(d_sigma_join)
 
 # Sparse matrix diagonalization:
-s_eig := eigs(H_lambda_1, 5)
+s_eig := eigs(H_lambda_1, 10)
 s_mean_x := mean_in_eigenstate(s_eig, x, 0)
 s_mean_x2 := mean_in_eigenstate(s_eig, x * x, 0)
 s_mean_ip := mean_in_eigenstate(s_eig, ip, 0)
@@ -54,5 +54,7 @@ LATCH(s_mean_ip)
 LATCH(s_mean_ip2)
 LATCH(s_mean_x)
 LATCH(s_mean_x2)
+#VALUE(s_eig)
 VALUE(s_sigma_join)
+
 

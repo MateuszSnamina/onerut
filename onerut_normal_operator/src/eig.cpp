@@ -63,11 +63,15 @@ namespace onerut_normal_operator {
 
     void EigResult::log(std::ostream& stream, std::string line_prefix) const {
         auto flags = stream.flags();
-        stream << std::scientific << std::showpos;
-        stream.width(10);
-        const unsigned log_chunk_size = 5;
-        print_energies(stream, log_chunk_size, line_prefix);
-        print_beta(stream, log_chunk_size, line_prefix);
+        if (!success) {
+            stream << line_prefix << "Fail to diagonalize." << std::endl;
+        } else {
+            stream << std::scientific << std::showpos;
+            stream.width(10);
+            const unsigned log_chunk_size = 5;
+            print_energies(stream, log_chunk_size, line_prefix);
+            print_beta(stream, log_chunk_size, line_prefix);
+        }
         stream.width(0);
         stream.flags(flags);
     }
@@ -117,94 +121,73 @@ namespace onerut_normal_operator {
 
     EigSparse::EigSparse(
             std::shared_ptr<const AbstractOperator> hamiltonian,
-            std::shared_ptr<const onerut_scalar::Integer> numer_of_states_to_calculate) :
+            uint32_t numer_of_states_to_calculate) :
     Eig(hamiltonian),
     numer_of_states_to_calculate(numer_of_states_to_calculate) {
+        assert(numer_of_states_to_calculate < hamiltonian->get_domain()->size());
     }
 
     EigResult EigSparse::_value() const {
         // ------------------------------        
         const auto space_dim =
                 boost::numeric_cast<arma::uword>(hamiltonian->get_domain()->size());
-        // ------------------------------        
-        const auto auto_numer_of_states_to_calculate = numer_of_states_to_calculate->value_integer();
-        arma::uword requested_numer_of_states_to_calculate;
-        if (auto_numer_of_states_to_calculate >= 0) {
-            if (boost::numeric_cast<arma::uword>(auto_numer_of_states_to_calculate) < space_dim) {
-                requested_numer_of_states_to_calculate =
-                        boost::numeric_cast<arma::uword>(auto_numer_of_states_to_calculate);
-            } else {
-                std::cout << "[INFO   ] [SPARSE] The requested number of states to calculate is too big (the_number > space_dim)." << std::endl;
-                std::cout << "[INFO   ] [SPARSE] Fail to diagonalize.";
-                return EigResult{hamiltonian};
-            }
-        } else {
-            if (boost::numeric_cast<arma::uword>(-auto_numer_of_states_to_calculate) <= space_dim) {
-                requested_numer_of_states_to_calculate =
-                        space_dim - boost::numeric_cast<arma::uword>(-auto_numer_of_states_to_calculate);
-            } else {
-                std::cout << "[INFO   ] [SPARSE] The requested number of states to calculate is too small (the_number < -space_dim)." << std::endl;
-                std::cout << "[INFO   ] [SPARSE] Fail to diagonalize.";
-                return EigResult{hamiltonian};
-            }
-        }
+        const auto numer_of_states_to_calculate =
+                boost::numeric_cast<arma::uword>(EigSparse::numer_of_states_to_calculate);
         // ---------------------------------------------------------------------
         const std::vector<std::string> eig_names =
-                _eig_names(boost::numeric_cast<uint32_t>(requested_numer_of_states_to_calculate));
+                _eig_names(boost::numeric_cast<uint32_t>(numer_of_states_to_calculate));
         // ---------------------------------------------------------------------
         arma::vec energies;
         arma::mat beta;
         // ---------------------------------------------------------------------
         const auto hamiltonian_sp_mat = to_sp_mat(*hamiltonian);
         // ------------------------------
-        if (arma::eigs_sym(energies, beta, hamiltonian_sp_mat,
-                requested_numer_of_states_to_calculate, "sa")) { // Arma reports en error.
-            std::cout << "[INFO   ] [SPARSE] Armadillo failed to diagonalize the hamiltonian (and reported an error)!" << std::endl;
+        if (!arma::eigs_sym(energies, beta, hamiltonian_sp_mat,
+                numer_of_states_to_calculate, "sa")) { // Arma reports en error.
+            std::cout << "[INFO   ] [EIG-SPARSE] Armadillo failed to diagonalize the hamiltonian (and reported an error)!" << std::endl;
             if (hamiltonian_sp_mat.n_rows < 100) {
                 // Fall-back -> use dense calculation for small matrices.
-                std::cout << "[INFO   ] [SPARSE] [FALL-BACK] Armadillo will try to diagonalize the hamiltonian as a dense matrix.";
+                std::cout << "[INFO   ] [EIG-SPARSE] [FALL-BACK] Armadillo will try to diagonalize the hamiltonian as a dense matrix." << std::endl;
                 const auto hamiltonian_mat = to_mat(*hamiltonian);
-                if (arma::eig_sym(energies, beta, hamiltonian_mat)) {
-                    std::cout << "[INFO   ] [SPARSE] [FALL-BACK] The fall-back succeeded.";
-                } else {
-                    std::cout << "[INFO   ] [SPARSE] [FALL-BACK] The fall-back failed.";
-                    std::cout << "[INFO   ] [SPARSE] Fail to diagonalize.";
+                if (!arma::eig_sym(energies, beta, hamiltonian_mat)) {
+                    std::cout << "[INFO   ] [EIG-SPARSE] [FALL-BACK] The fall-back failed." << std::endl;
+                    std::cout << "[INFO   ] [EIG-SPARSE] Fail to diagonalize." << std::endl;
                     return EigResult{hamiltonian};
                 }
+                std::cout << "[INFO   ] [EIG-SPARSE] [FALL-BACK] The fall-back succeeded." << std::endl;
             } else {
-                std::cout << "[INFO   ] [SPARSE] [FALL-BACK] The matrix is to big for a dense matrix fall-back.";
-                std::cout << "[INFO   ] [SPARSE] Fail to diagonalize.";
+                std::cout << "[INFO   ] [EIG-SPARSE] [FALL-BACK] The matrix is too big for a dense matrix fall-back." << std::endl;
+                std::cout << "[INFO   ] [EIG-SPARSE] Fail to diagonalize." << std::endl;
                 return EigResult{hamiltonian};
             }
         } else { // Arma does not report en error.
-            if (energies.n_elem < requested_numer_of_states_to_calculate) {
+            if (energies.n_elem < numer_of_states_to_calculate) {
                 // Fall-back -> increase requested_numer_of_states_to_calculate.                
-                std::cout << "[INFO   ] [SPARSE] Armadillo failed to diagonalize the hamiltonian (but not reported an error)!" << std::endl;
-                std::cout << "[INFO   ] [SPARSE] [FALL-BACK] The program is about to diagonalize the hamiltonian with grater n_calculated_states requested." << std::endl;
-                const auto second_try_requested_numer_of_states_to_calculate =
-                        std::min(requested_numer_of_states_to_calculate + 5, space_dim - 1);
-                if (arma::eigs_sym(energies, beta, hamiltonian_sp_mat,
-                        second_try_requested_numer_of_states_to_calculate, "sa")) {
-                    std::cout << "[INFO   ] [SPARSE] [FALL-BACK] The fall-back succeeded.";
-                } else {
-                    std::cout << "[INFO   ] [SPARSE] [FALL-BACK] The fall-back failed.";
-                    std::cout << "[INFO   ] [SPARSE] Fail to diagonalize.";
+                std::cout << "[INFO   ] [EIG-SPARSE] Armadillo failed to diagonalize the hamiltonian (but not reported an error)!" << std::endl;
+                std::cout << "[INFO   ] [EIG-SPARSE] [FALL-BACK] The program is about to diagonalize the hamiltonian with grater n_calculated_states requested." << std::endl;
+                const auto second_try_numer_of_states_to_calculate =
+                        std::min(numer_of_states_to_calculate + 5, space_dim - 1);
+                if (!arma::eigs_sym(energies, beta, hamiltonian_sp_mat,
+                        second_try_numer_of_states_to_calculate, "sa", 10)) {
+                    std::cout << "[INFO   ] [EIG-SPARSE] [FALL-BACK] The fall-back failed." << std::endl;
+                    std::cout << "[INFO   ] [EIG-SPARSE] Fail to diagonalize." << std::endl;
                     return EigResult{hamiltonian};
                 }
-                if (energies.n_elem < requested_numer_of_states_to_calculate) {
-                    std::cout << "[INFO   ] [SPARSE] [FALL-BACK] The fall-back failed.";
-                    std::cout << "[INFO   ] [SPARSE] Fail to diagonalize.";
+                if (energies.n_elem < numer_of_states_to_calculate) {
+                    std::cout << "[INFO   ] [EIG-SPARSE] [FALL-BACK] The fall-back failed." << std::endl;
+                    std::cout << "[INFO   ] [EIG-SPARSE] Fail to diagonalize." << std::endl;
                     return EigResult{hamiltonian};
                 }
+                std::cout << "[INFO   ] [EIG-SPARSE] [FALL-BACK] The fall-back succeeded." << std::endl;
             }
         }
         // ------------------------------
         assert(energies.n_elem == beta.n_cols);
-        assert(energies.n_elem >= requested_numer_of_states_to_calculate);
-        assert(beta.n_cols >= requested_numer_of_states_to_calculate);
+        assert(energies.n_elem >= numer_of_states_to_calculate);
+        assert(beta.n_cols >= numer_of_states_to_calculate);
         assert(beta.n_rows == hamiltonian->get_domain()->size());
-        energies = energies.rows(arma::span(0, requested_numer_of_states_to_calculate - 1));
-        beta = beta.cols(arma::span(0, requested_numer_of_states_to_calculate - 1));
+        energies = energies.rows(arma::span(0, numer_of_states_to_calculate - 1));
+        beta = beta.cols(arma::span(0, numer_of_states_to_calculate - 1));
         // ------------------------------
         return {hamiltonian, eig_names, energies, beta};
     }

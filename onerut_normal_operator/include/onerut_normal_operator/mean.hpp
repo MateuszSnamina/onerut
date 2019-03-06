@@ -35,8 +35,8 @@ namespace onerut_normal_operator {
     public:
         MeanInEigenState(std::shared_ptr<const Eig> eig,
                 std::shared_ptr<const AbstractOperator> op,
-                std::shared_ptr<const onerut_scalar::Integer> eigen_state);
-        const std::shared_ptr<const onerut_scalar::Integer> eigen_state;
+                uint32_t eigen_state);
+        const uint32_t eigen_state;
     private:
         double _value_real() const;
     };
@@ -47,8 +47,8 @@ namespace onerut_normal_operator {
     public:
         MeanThermal(std::shared_ptr<const Eig> eig,
                 std::shared_ptr<const AbstractOperator> op,
-                std::shared_ptr<const onerut_scalar::Real> temperature);
-        const std::shared_ptr<const onerut_scalar::Real> temperature;
+                double temperature);
+        double temperature;
     private:
         double _value_real() const;
     };

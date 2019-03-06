@@ -59,8 +59,8 @@ namespace onerut_normal_operator {
     class EigSparse : public Eig {
     public:
         EigSparse(std::shared_ptr<const AbstractOperator> hamiltonian,
-                std::shared_ptr<const onerut_scalar::Integer> numer_of_states_to_calculate);
-        std::shared_ptr<const onerut_scalar::Integer> numer_of_states_to_calculate;
+                uint32_t numer_of_states_to_calculate);
+        uint32_t numer_of_states_to_calculate;
     private:
         EigResult _value() const override;
     };
