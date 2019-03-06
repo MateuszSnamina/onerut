@@ -20,9 +20,11 @@ arma::mat second_compound_matrix();
 arma::mat third_compound_matrix();
 arma::mat third_compound_matrix_eigenvectors();
 arma::mat third_compound_matrix_eigenvalues();
+arma::mat fourth_compound_matrix();
 
 std::shared_ptr<onerut_normal_operator::AbstractOperator> first_compound_operator(std::shared_ptr<onerut_normal_operator::Domain> domain);
 std::shared_ptr<onerut_normal_operator::AbstractOperator> second_compound_operator(std::shared_ptr<onerut_normal_operator::Domain> domain);
 std::shared_ptr<onerut_normal_operator::AbstractOperator> third_compound_operator(std::shared_ptr<onerut_normal_operator::Domain> domain);
+std::shared_ptr<onerut_normal_operator::AbstractOperator> fourth_compound_operator(std::shared_ptr<onerut_normal_operator::Domain> domain);
 
 #endif

@@ -46,6 +46,7 @@
     <df root="onerut_normal_operator_tests" name="12">
       <df name="src">
         <in>test_eig.cpp</in>
+        <in>test_mean.cpp</in>
         <in>test_operator_kron.cpp</in>
         <in>test_operator_zero.cpp</in>
       </df>
@@ -558,6 +559,13 @@
         </ccTool>
       </item>
       <item path="onerut_normal_operator_tests/src/test_eig.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+        </ccTool>
+      </item>
+      <item path="onerut_normal_operator_tests/src/test_mean.cpp"
             ex="false"
             tool="1"
             flavor2="11">

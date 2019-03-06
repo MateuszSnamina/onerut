@@ -93,6 +93,15 @@ arma::mat third_compound_matrix_eigenvalues() {
     return M;
 }
 
+arma::mat fourth_compound_matrix() {
+    const arma::mat M = {
+        {+2.3, -2.0, +1.2},
+        {-2.0, +1.4, +8.4},
+        {+1.2, +8.4, +0.0}
+    };
+    return M;
+}
+
 std::shared_ptr<onerut_normal_operator::AbstractOperator> first_compound_operator(std::shared_ptr<onerut_normal_operator::Domain> domain) {
     assert(domain->size() == 4);
     using OpT = onerut_normal_operator::AbstractOperator;
@@ -152,6 +161,32 @@ std::shared_ptr<onerut_normal_operator::AbstractOperator> third_compound_operato
             ),
             1e-14);
     const arma::mat M_expected = third_compound_matrix();
+    compare(M_expected, op);
+    return op;
+}
+
+std::shared_ptr<onerut_normal_operator::AbstractOperator> fourth_compound_operator(std::shared_ptr<onerut_normal_operator::Domain> domain) {
+    assert(domain->size() == 3);
+    using OpT = onerut_normal_operator::AbstractOperator;
+    using OpPtrT = std::shared_ptr<const OpT>;
+    auto op1 = std::make_shared<onerut_normal_operator::ZeroOperator>(domain);
+    auto op2 = std::make_shared<onerut_normal_operator::DiagOperator>(2.3_R, domain->crate_state(0));
+    auto op3 = std::make_shared<onerut_normal_operator::DiagOperator>(1.4_R, domain->crate_state(1));
+    auto op4 = std::make_shared<onerut_normal_operator::DiagOperator>(0.0_R, domain->crate_state(2));
+    auto op5 = std::make_shared<onerut_normal_operator::HopOperator>(2.0_R, domain->crate_state(0), domain->crate_state(1));
+    auto op6 = std::make_shared<onerut_normal_operator::HopOperator>(1.2_R, domain->crate_state(0), domain->crate_state(2));
+    auto op7 = std::make_shared<onerut_normal_operator::HopOperator>(4.1_R, domain->crate_state(1), domain->crate_state(2));
+    auto op8 = std::make_shared<onerut_normal_operator::HopOperator>(4.3_R, domain->crate_state(1), domain->crate_state(2));
+    OpPtrT op_first_arg = op1;
+    std::vector<OpPtrT> op_other_argv({op2, op3, op4, op5, op6, op7, op8});
+    std::vector<char> op_opv({'+', '+', '+', '-', '+', '+', '+'});
+    auto op = std::make_shared<onerut_normal_operator::OpPlusMinusOperator>(op_first_arg, op_other_argv, op_opv);
+    EXPECT_LT(arma::norm(
+            third_compound_matrix_eigenvectors().t() * third_compound_matrix() * third_compound_matrix_eigenvectors()
+            - arma::diagmat(third_compound_matrix_eigenvalues())
+            ),
+            1e-14);
+    const arma::mat M_expected = fourth_compound_matrix();
     compare(M_expected, op);
     return op;
 }
