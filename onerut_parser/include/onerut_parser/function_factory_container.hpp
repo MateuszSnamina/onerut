@@ -18,6 +18,7 @@ namespace onerut_parser {
         void put_onerut_functions();
         void put_imparative_request_functions();
         void put_all();
+        void clear();
     private:
         std::map<std::string, std::shared_ptr<AbstractFunctionFactory>> functions;
     };

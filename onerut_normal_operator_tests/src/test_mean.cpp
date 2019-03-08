@@ -39,7 +39,7 @@ TEST(meanInEigenState, test0) {
         for (unsigned i = 0; i < expected_energies.n_elem; i++)
             EXPECT_NEAR(expected_energies(i), got_energies(i), treshold) << "(Eigenvalue no " << i << " does not match.)";
     }
-    //------    
+    //------
     const auto op = fourth_compound_operator(domain);
     {
         for (unsigned i = 0; i < op->get_domain()->size(); i++) {
@@ -83,10 +83,11 @@ TEST(meanThermal, test0) {
         for (unsigned i = 0; i < expected_energies.n_elem; i++)
             EXPECT_NEAR(expected_energies(i), got_energies(i), treshold) << "(Eigenvalue no " << i << " does not match.)";
     }
-    //------    
+    //-------
     const auto op = fourth_compound_operator(domain);
     const auto temperature = 0.85;
     const auto temperature_beta = 1.0 / 0.85;
+    //-------   
     {
         double partition_function = 0.0;
         for (unsigned i = 0; i < op->get_domain()->size(); i++) {

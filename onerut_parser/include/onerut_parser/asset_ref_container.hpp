@@ -14,6 +14,7 @@ namespace onerut_parser {
         std::optional<std::shared_ptr<AbstractAssetRef>> get_or_empty(const std::string& name) const;
         bool put(std::shared_ptr<AbstractAssetRef> ref);
         void force_put(std::shared_ptr<AbstractAssetRef> ref);
+        void clear();
     private:
         std::map<std::string, std::shared_ptr<AbstractAssetRef>> identifiers;
     };

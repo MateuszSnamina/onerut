@@ -66,7 +66,7 @@ namespace onerut_parser {
         // ---------------------------------------------------------------------        
         const auto domain = utility::to_normal_operator_domain(arg0_asset_deref);
         const auto index = utility::to_integer(arg1_asset_deref);
-        const auto index_buildin = boost::numeric_cast<unsigned>(index->value_integer());
+        const auto index_buildin = index->value_integer();
         // ---------------------------------------------------------------------        
         if (index_buildin < 0)
             return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("The state index number must not be a negative integer."));
@@ -211,7 +211,7 @@ namespace onerut_parser {
         if (dimension_buildin < 0)
             return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("The requested space dimension must not be a negative integer."));
         if (dimension_buildin == 0)
-            return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("The requested space dimension must not be equal to zero."));        
+            return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("The requested space dimension must not be equal to zero."));
         const auto dimension_buildin_casted = boost::numeric_cast<uint32_t>(dimension_buildin);
         // ---------------------------------------------------------------------        
         return Asset::from_value<onerut_normal_operator::OscillatorDomain>(
@@ -284,7 +284,7 @@ namespace onerut_parser {
         if (dimension_buildin < 0)
             return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("The requested space dimension must not be a negative integer."));
         if (dimension_buildin == 0)
-            return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("The requested space dimension must not be equal to zero."));  
+            return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("The requested space dimension must not be equal to zero."));
         const auto dimension_buildin_casted = boost::numeric_cast<uint32_t>(dimension_buildin);
         // ---------------------------------------------------------------------        
         return Asset::from_value<onerut_normal_operator::SpinDomain>(

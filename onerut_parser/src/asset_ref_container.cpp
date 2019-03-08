@@ -33,4 +33,7 @@ namespace onerut_parser {
         identifiers[ref->get_name()] = ref;
     }
 
+    void AssetRefContainer::clear(){
+        identifiers.clear();
+    }
 }

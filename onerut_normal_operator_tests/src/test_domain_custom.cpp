@@ -1,38 +1,48 @@
 #include<gtest/gtest.h>
 
 #include<onerut_normal_operator/domain_custom.hpp>
+#include<onerut_normal_operator/domain_kron.hpp>
 
 // -----------------------------------------------------------------------------
 // --------------------  test cases  -------------------------------------------
 // -----------------------------------------------------------------------------
 
-TEST(testDomainCustom, test0) {
-    using DomainT = onerut_normal_operator::CustomDomain;
-    const auto domain = std::make_shared<DomainT>(std::vector<std::string>{"AA", "BB", "CC", "DD"});
-    EXPECT_EQ(4, domain->size());
-    EXPECT_EQ("CC", domain->state_name(2));
-    const auto created_state = domain->crate_state(2);
-    ASSERT_TRUE(created_state);
-    EXPECT_EQ(2, created_state->index);
-    const auto created_state_domain = created_state->domain;
-    ASSERT_TRUE(created_state_domain);
-    EXPECT_EQ("CC", created_state->fetch_name());
-    EXPECT_EQ(domain.get(), created_state_domain.get());
-    EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(*domain, *created_state_domain));
+TEST(testDomainKron, test0) {
+    using DomainT = onerut_normal_operator::Domain;
+    using DomainPtrT = std::shared_ptr<const DomainT>;
+    using CustomDomainT = onerut_normal_operator::CustomDomain;
+    using KronDomainT = onerut_normal_operator::KronDomain;
+    const auto subdomain0 = std::make_shared<CustomDomainT>(std::vector<std::string>{"AA", "BB"});
+    const auto subdomain1 = std::make_shared<CustomDomainT>(std::vector<std::string>{"aaa", "bb", "c"});
+    const auto subdomain2 = std::make_shared<CustomDomainT>(std::vector<std::string>{"alpha"});
+    const auto domain = std::make_shared<KronDomainT>(std::vector<DomainPtrT>{subdomain0, subdomain1, subdomain2});
+    EXPECT_EQ(2 * 3 * 1, domain->size());
+    std::vector<std::string> expected_names{
+        "AA:aaa:alpha",
+        "AA:bb:alpha",
+        "AA:c:alpha",
+        "BB:aaa:alpha",
+        "BB:bb:alpha",
+        "BB:c:alpha"};
+    EXPECT_EQ(expected_names[0], domain->state_name(0));
+    EXPECT_EQ(expected_names[1], domain->state_name(1));
+    EXPECT_EQ(expected_names[2], domain->state_name(2));
+    EXPECT_EQ(expected_names[3], domain->state_name(3));
+    EXPECT_EQ(expected_names[4], domain->state_name(4));
+    EXPECT_EQ(expected_names[5], domain->state_name(5));
+    EXPECT_EQ(expected_names, domain->state_names());
 }
 
-TEST(testDomainCustom, test1) {
-    using DomainT = onerut_normal_operator::CustomDomain;
-    const auto domain0 = std::make_shared<DomainT>(std::vector<std::string>{"AA", "BB", "CC", "DD"});
-    const auto domain1 = std::make_shared<DomainT>(std::vector<std::string>{"AA", "BB", "CC", "DD"});
-    const auto created_state0 = domain0->crate_state(2);
-    const auto created_state1 = domain1->crate_state(2);
-    ASSERT_TRUE(created_state0);
-    ASSERT_TRUE(created_state1);
-    const auto created_state_domain0 = created_state0->domain;
-    const auto created_state_domain1 = created_state1->domain;
-    ASSERT_TRUE(created_state_domain0);
-    ASSERT_TRUE(created_state_domain1);
-    EXPECT_FALSE(onerut_normal_operator::are_the_same_domains(*created_state_domain0, *created_state_domain1));
+TEST(testDomainKron, test1) {
+    using DomainT = onerut_normal_operator::Domain;
+    using DomainPtrT = std::shared_ptr<const DomainT>;
+    using CustomDomainT = onerut_normal_operator::CustomDomain;
+    using KronDomainT = onerut_normal_operator::KronDomain;
+    const auto subdomain0 = std::make_shared<CustomDomainT>(std::vector<std::string>{"AA", "BB"});
+    const auto subdomain1 = std::make_shared<CustomDomainT>(std::vector<std::string>{});
+    const auto subdomain2 = std::make_shared<CustomDomainT>(std::vector<std::string>{"aaa", "bb", "c"});
+    const auto subdomain3 = std::make_shared<CustomDomainT>(std::vector<std::string>{"alpha"});
+    const auto domain = std::make_shared<KronDomainT>(std::vector<DomainPtrT>{subdomain0, subdomain1, subdomain2, subdomain3});
+    EXPECT_EQ(0, subdomain1->size());
+    EXPECT_EQ(2 * 0 * 3 * 1, domain->size());
 }
-
