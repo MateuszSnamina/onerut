@@ -244,7 +244,7 @@ TEST(boxFunctionsOnerut, spinDomainTest0) {
     }
 }
 
-TEST(boxFunctionsOnerut, KronDomainTest0) {
+TEST(boxFunctionsOnerut, kronDomainTest0) {
     onerut_parser::FunctionFactoryContainer::global_instance().clear();
     onerut_parser::FunctionFactoryContainer::global_instance().put_all();
     onerut_parser::AssetRefContainer::global_instance().clear();
@@ -310,4 +310,28 @@ TEST(boxFunctionsOnerut, KronDomainTest0) {
         EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*placeholders_1)->domain));
         EXPECT_EQ(1, (*placeholders_1)->place);
     }
+}
+
+TEST(boxFunctionsOnerut, eigdTest0) {
+    onerut_parser::FunctionFactoryContainer::global_instance().clear();
+    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
+    onerut_parser::AssetRefContainer::global_instance().clear();
+    // -------
+    ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, eigd());
+    ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, eigd(2.6, 7, 8, 8));
+    ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, eigd(2.6));
+}
+
+TEST(boxFunctionsOnerut, eigsTest0) {
+    onerut_parser::FunctionFactoryContainer::global_instance().clear();
+    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
+    onerut_parser::AssetRefContainer::global_instance().clear();
+    // -------
+    ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, eigs(2.6));
+    ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, eigs(2.6, 7, 8, 8));
+    ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, eigs(2.6, 7.5));
+    ONERUT_BOX_ERROR_TEST(ArgumentDomainError, eigs(eye(custom_domain(xx0, yy0)), 5));
+    ONERUT_BOX_ERROR_TEST(ArgumentDomainError, eigs(eye(custom_domain(xx1, yy1)), 2));
+    ONERUT_BOX_ERROR_TEST(ArgumentDomainError, eigs(eye(custom_domain(xx2, yy2)), 0));
+    ONERUT_BOX_ERROR_TEST(ArgumentDomainError, eigs(eye(custom_domain(xx3, yy3)), -1));    
 }

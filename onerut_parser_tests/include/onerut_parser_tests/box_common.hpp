@@ -158,7 +158,7 @@ void ValueTest<long>::test(
 template<typename T>
 void onerut_box_value_test(T cpp_value, const std::string onerut_inuput) {
     const auto asset = inuput_2_asset(onerut_inuput);
-    ASSERT_TRUE(asset) << "Expected an input with no grammar errors.";
+    ASSERT_TRUE(asset) << "Expected an input with no grammar errors." << " Input: " << onerut_inuput;;
     //----
     using Type = typename PromotedType<T>::Type;
     ValueTest<Type>::test(cpp_value, *asset);
@@ -167,15 +167,15 @@ void onerut_box_value_test(T cpp_value, const std::string onerut_inuput) {
 template<typename T>
 void onerut_box_error_test(const std::string onerut_inuput) {
     const auto asset = inuput_2_asset(onerut_inuput);
-    ASSERT_TRUE(asset) << "Expected an input with no grammar errors.";
+    ASSERT_TRUE(asset) << "Expected an input with no grammar errors." << " Input: " << onerut_inuput;
     //----
-    ASSERT_TRUE(!asset->deref().is_either_value_or_type()) << "Expected an asset being a compile error asset.";
-    ASSERT_TRUE(!asset->deref().is_empty()) << "Expected an asset being a compile error asset.";
-    ASSERT_TRUE(asset->deref().is_compile_error()) << "Expected an asset being a compile error asset.";
+    ASSERT_TRUE(!asset->deref().is_either_value_or_type()) << "Expected an asset being a compile error asset." << " Input: " << onerut_inuput;
+    ASSERT_TRUE(!asset->deref().is_empty()) << "Expected an asset being a compile error asset." << " Input: " << onerut_inuput;
+    ASSERT_TRUE(asset->deref().is_compile_error()) << "Expected an asset being a compile error asset." << " Input: " << onerut_inuput;
     const auto error = asset->deref().compile_error_or_empty();
-    ASSERT_TRUE(error) << "Expected an asset being a compile error asset.";
+    ASSERT_TRUE(error) << "Expected an asset being a compile error asset." << " Input: " << onerut_inuput;
     const auto error_casted = std::dynamic_pointer_cast<const T>(*error);
-    ASSERT_TRUE(error_casted) << "Expected an asset being an error of different type.";
+    ASSERT_TRUE(error_casted) << "Expected an asset being an error of different type." << " Input: " << onerut_inuput;
 }
 
 
