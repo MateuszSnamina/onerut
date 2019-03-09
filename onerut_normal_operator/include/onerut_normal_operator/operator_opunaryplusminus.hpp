@@ -24,7 +24,7 @@ namespace onerut_normal_operator {
         OpUnaryPlusMinusOperator(AbstractOpPtrT arg, char op);
         AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
         std::shared_ptr<const Domain> get_domain() const override;        
-    private:
+    public:
         const AbstractOpPtrT arg;
         const char op;
     };

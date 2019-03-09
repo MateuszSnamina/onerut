@@ -27,7 +27,7 @@ namespace onerut_normal_operator {
                 const std::vector<char>& opv);
         AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
         std::shared_ptr<const Domain> get_domain() const override;
-    private:
+    public:
         const AbstractOpPtrT first_arg;
         const std::vector<AbstractOpPtrT> other_argv;
         const std::vector<char> opv;

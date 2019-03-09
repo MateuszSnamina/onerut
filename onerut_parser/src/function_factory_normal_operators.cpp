@@ -162,6 +162,9 @@ namespace onerut_parser {
         if (!onerut_normal_operator::are_the_same_domains(*site1->domain, *site2->domain))
             return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("Incompatible state domains."));
         // ---------------------------------------------------------------------
+        if (site1->index == site2->index)
+            return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("Hopping must take place between two different states."));
+        // ---------------------------------------------------------------------
         using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
         using OperatorT = onerut_normal_operator::HopOperator;
         return Asset::from_value<AbstractOperatorT>(

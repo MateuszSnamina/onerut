@@ -21,7 +21,7 @@ namespace onerut_normal_operator {
         ScalledOperator(std::shared_ptr<const onerut_scalar::Real> factor, AbstractOpPtrT arg);
         AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
         std::shared_ptr<const Domain> get_domain() const override;        
-    private:
+    public:
         const std::shared_ptr<const onerut_scalar::Real> factor;
         const AbstractOpPtrT arg;
     };

@@ -23,7 +23,7 @@ namespace onerut_normal_operator {
                 std::shared_ptr<const StateIndex> state_2);
         AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
         std::shared_ptr<const Domain> get_domain() const override;
-    private:
+    public:
         const std::shared_ptr<const onerut_scalar::Real> value;
         const std::shared_ptr<const StateIndex> state_1;
         const std::shared_ptr<const StateIndex> state_2;
@@ -42,7 +42,7 @@ namespace onerut_normal_operator {
                 std::shared_ptr<const StateIndex> state);
         AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
         std::shared_ptr<const Domain> get_domain() const override;
-    private:
+    public:
         const std::shared_ptr<const onerut_scalar::Real> value;
         const std::shared_ptr<const StateIndex> state;
     };
@@ -59,7 +59,7 @@ namespace onerut_normal_operator {
         EyeOperator(std::shared_ptr<const Domain> domain);
         AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
         std::shared_ptr<const Domain> get_domain() const override;
-    private:
+    public:
         const std::shared_ptr<const Domain> domain;
     };
 
