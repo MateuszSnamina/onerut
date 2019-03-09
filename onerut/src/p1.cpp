@@ -228,31 +228,7 @@ void temp_testing() {
     //    lines.push_back(std::make_shared<const std::string>("EEE := at(EYE_MU, yy)"));
     //    lines.push_back(std::make_shared<const std::string>("VALUE(EEE)"));
 
-    lines.push_back(std::make_shared<const std::string>("DOM_SPIN2 := spin_domain(2)"));
-    lines.push_back(std::make_shared<const std::string>("DOM_SPIN3 := spin_domain(3)"));
-    lines.push_back(std::make_shared<const std::string>("DOM := kron_domain(DOM_SPIN2, DOM_SPIN3)"));
-    lines.push_back(std::make_shared<const std::string>("kron_placeholders(DOM, p_1, p_2)"));
-    lines.push_back(std::make_shared<const std::string>("S2z := Sz(DOM_SPIN2)"));
-    lines.push_back(std::make_shared<const std::string>("S2p := Sp(DOM_SPIN2)"));
-    lines.push_back(std::make_shared<const std::string>("S2m := Sm(DOM_SPIN2)"));
-    lines.push_back(std::make_shared<const std::string>("S3z := Sz(DOM_SPIN3)"));
-    lines.push_back(std::make_shared<const std::string>("S3p := Sp(DOM_SPIN3)"));
-    lines.push_back(std::make_shared<const std::string>("S3m := Sm(DOM_SPIN3)"));   
-    lines.push_back(std::make_shared<const std::string>("Sz_1:= S2z@p_1"));
-    lines.push_back(std::make_shared<const std::string>("Sz_2:= S3z@p_2"));
-    lines.push_back(std::make_shared<const std::string>("VALUE(Sz_1)"));
-    lines.push_back(std::make_shared<const std::string>("VALUE(Sz_2)"));
-
-    lines.push_back(std::make_shared<const std::string>("DOM22 := kron_domain(DOM_SPIN2, DOM_SPIN2)"));
-    lines.push_back(std::make_shared<const std::string>("kron_placeholders(DOM22, _1, _2)"));
-    lines.push_back(std::make_shared<const std::string>("H22_ising := S2z@_1*S2z@_2"));
-    lines.push_back(std::make_shared<const std::string>("H22_quant := 0.5 * (S2p@_1*S2m@_2 + S2m@_1*S2p@_2)"));
-    lines.push_back(std::make_shared<const std::string>("H22_heins := H22_ising + H22_quant"));
-    lines.push_back(std::make_shared<const std::string>("VALUE(H22_ising)"));
-    lines.push_back(std::make_shared<const std::string>("VALUE(H22_quant)"));
-    lines.push_back(std::make_shared<const std::string>("VALUE(H22_heins)"));
-    lines.push_back(std::make_shared<const std::string>("eigs := eigs(H22_heins)"));
-    lines.push_back(std::make_shared<const std::string>("VALUE(eigs)"));
+    //lines.push_back(std::make_shared<const std::string>("diag(xxx, state_index(custom_domain(xx0), 0), state_index(custom_domain(xx1), 1))"));
 
     onerut_parser::FunctionFactoryContainer::global_instance().put_all();
 

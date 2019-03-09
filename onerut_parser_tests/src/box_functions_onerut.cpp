@@ -8,6 +8,8 @@
 #include<onerut_parser/function_factory_container.hpp>
 #include<onerut_parser_tests/box_common.hpp>
 
+#include "onerut_normal_operator/operator_simple.hpp"
+
 // -----------------------------------------------------------------------------
 // --------------------  test cases  -------------------------------------------
 // -----------------------------------------------------------------------------
@@ -28,6 +30,8 @@ TEST(boxFunctionsOnerut, customDomainTest0) {
     ASSERT_EQ(2, (*domain)->size());
     EXPECT_EQ("xxx", (*domain)->state_name(0));
     EXPECT_EQ("yyy", (*domain)->state_name(1));
+    // -------
+    ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, custom_domain(xxx, yyy));
     // -------
     {
         const auto state_index_0_asset = inuput_2_asset("xxx");
@@ -64,8 +68,6 @@ TEST(boxFunctionsOnerut, customDomainTest0) {
         EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*state_index_1)->domain));
         ASSERT_EQ("yyy", (*state_index_1)->fetch_name());
     }
-    // -------
-    ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, custom_domain(xxx, yyy));
 }
 
 TEST(boxFunctionsOnerut, customDomainTest1) {
@@ -84,6 +86,8 @@ TEST(boxFunctionsOnerut, customDomainTest1) {
     ASSERT_EQ(2, (*domain)->size());
     EXPECT_EQ("xxx", (*domain)->state_name(0));
     EXPECT_EQ("yyy", (*domain)->state_name(1));
+    // -------
+    ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, custom_domain(xxx, yyy));
     // -------
     {
         const auto state_index_0_asset = inuput_2_asset("xxx");
@@ -131,7 +135,6 @@ TEST(boxFunctionsOnerut, customDomainTest1) {
         EXPECT_EQ("xxx", (*re_state_index_0)->fetch_name());
     }
     // -------
-    ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, custom_domain(xxx, yyy));
     ONERUT_BOX_ERROR_TEST(ArgumentDomainError, state_index(dom, -1));
     ONERUT_BOX_ERROR_TEST(ArgumentDomainError, state_index(dom, 2));
 }
@@ -312,6 +315,119 @@ TEST(boxFunctionsOnerut, kronDomainTest0) {
     }
 }
 
+TEST(boxFunctionsOnerut, diagOperatorTest0) {
+    onerut_parser::FunctionFactoryContainer::global_instance().clear();
+    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
+    onerut_parser::AssetRefContainer::global_instance().clear();
+    // -------
+    ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, diag(3));
+    ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, diag(3, 7, 8));
+    ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, diag(xxx, state_index(custom_domain(xx0, yy0), 0)));
+    // -------
+    const auto domain_asset = inuput_2_asset("dom := custom_domain(xx1, yy1)");
+    ASSERT_TRUE(domain_asset);
+    const auto domain_asset_deref = domain_asset->deref();
+    ASSERT_TRUE(domain_asset_deref.is_either_value_or_type());
+    const auto domain = domain_asset_deref.typed_value_or_empty<onerut_normal_operator::CustomDomain>();
+    ASSERT_TRUE(domain);
+    ASSERT_EQ(2, (*domain)->size());
+    // -------
+    const auto operator_diag_asset = inuput_2_asset("diag(4.0, state_index(dom,1))");
+    ASSERT_TRUE(operator_diag_asset);
+    const auto operator_diag_asset_deref = operator_diag_asset->deref();
+    ASSERT_TRUE(operator_diag_asset_deref.is_either_value_or_type());
+    const auto operator_diag = operator_diag_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
+    ASSERT_TRUE(operator_diag);
+    ASSERT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*operator_diag)->get_domain()));
+    const auto operator_diag_typed = std::dynamic_pointer_cast<const onerut_normal_operator::DiagOperator>(*operator_diag);
+    ASSERT_TRUE(operator_diag_typed);
+}
+
+TEST(boxFunctionsOnerut, hopOperatorTest0) {
+    onerut_parser::FunctionFactoryContainer::global_instance().clear();
+    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
+    onerut_parser::AssetRefContainer::global_instance().clear();
+    // -------
+    ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, hop(3, 7));
+    ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, hop(3, 7, 8, 9));
+    ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, hop(xxx, state_index(custom_domain(xx0), 0), state_index(custom_domain(xx1), 0)));
+    ONERUT_BOX_ERROR_TEST(ArgumentDomainError, hop(4.0, state_index(custom_domain(xx2), 0), state_index(custom_domain(xx3), 0)));
+    // -------
+    const auto domain_asset = inuput_2_asset("dom := custom_domain(xx, yy)");
+    ASSERT_TRUE(domain_asset);
+    const auto domain_asset_deref = domain_asset->deref();
+    ASSERT_TRUE(domain_asset_deref.is_either_value_or_type());
+    const auto domain = domain_asset_deref.typed_value_or_empty<onerut_normal_operator::CustomDomain>();
+    ASSERT_TRUE(domain);
+    ASSERT_EQ(2, (*domain)->size());
+    // -------
+    //////  ONERUT_BOX_ERROR_TEST(ArgumentDomainError, hop(4.0, state_index(dom, 0), state_index(dom, 0))); // TODO make the code so that test passes and uncomment the test
+    // -------
+    const auto operator_hop_asset = inuput_2_asset("hop(4.0, state_index(dom,0), state_index(dom,1))");
+    ASSERT_TRUE(operator_hop_asset);
+    const auto operator_hop_asset_deref = operator_hop_asset->deref();
+    ASSERT_TRUE(operator_hop_asset_deref.is_either_value_or_type());
+    const auto operator_hop = operator_hop_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
+    ASSERT_TRUE(operator_hop);
+    ASSERT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*operator_hop)->get_domain()));
+    const auto operator_hop_typed = std::dynamic_pointer_cast<const onerut_normal_operator::HopOperator>(*operator_hop);
+    ASSERT_TRUE(operator_hop_typed);
+}
+
+TEST(boxFunctionsOnerut, oscillatorOperatorTest0) {
+    onerut_parser::FunctionFactoryContainer::global_instance().clear();
+    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
+    onerut_parser::AssetRefContainer::global_instance().clear();
+    // -------
+    ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, cr());
+    ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, cr(3, 5.));
+    ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, cr(3));
+    ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, cr(custom_domain(xx0, yy0)));
+    ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, an());
+    ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, an(3, 5.));
+    ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, an(3));
+    ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, an(custom_domain(xx1, yy1)));
+}
+
+TEST(boxFunctionsOnerut, spinOperatorTest0) {
+    onerut_parser::FunctionFactoryContainer::global_instance().clear();
+    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
+    onerut_parser::AssetRefContainer::global_instance().clear();
+    // -------
+    ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, Sp());
+    ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, Sp(3, 5.));
+    ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, Sp(3));
+    ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, Sp(custom_domain(xx0, yy0)));
+    ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, Sm());
+    ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, Sm(3, 5.));
+    ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, Sm(3));
+    ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, Sm(custom_domain(xx1, yy1)));
+    ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, Sz());
+    ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, Sz(3, 5.));
+    ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, Sz(3));
+    ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, Sz(custom_domain(xx2, yy2)));
+}
+
+TEST(boxFunctionsOnerut, opPlusMinusTest0) {
+    onerut_parser::FunctionFactoryContainer::global_instance().clear();
+    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
+    onerut_parser::AssetRefContainer::global_instance().clear();
+    // -------
+    ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, eye(custom_domain(xx0, yy0)) + 4);
+    ONERUT_BOX_ERROR_TEST(ArgumentDomainError, eye(custom_domain(xx1, yy1)) + eye(custom_domain(xx2, yy2)));
+    ONERUT_BOX_ERROR_TEST(ArgumentDomainError, eye(custom_domain(xx3, yy3)) - eye(custom_domain(xx4, yy4)));
+}
+
+TEST(boxFunctionsOnerut, opProdTest0) {
+    onerut_parser::FunctionFactoryContainer::global_instance().clear();
+    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
+    onerut_parser::AssetRefContainer::global_instance().clear();
+    // -------
+    ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, eye(custom_domain(xx0, yy0)) * 4);
+    ONERUT_BOX_ERROR_TEST(ArgumentDomainError, eye(custom_domain(xx1, yy1)) * eye(custom_domain(xx2, yy2)));
+    ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, eye(custom_domain(xx3, yy3)) / eye(custom_domain(xx4, yy4)));
+}
+
 TEST(boxFunctionsOnerut, eigdTest0) {
     onerut_parser::FunctionFactoryContainer::global_instance().clear();
     onerut_parser::FunctionFactoryContainer::global_instance().put_all();
@@ -333,5 +449,5 @@ TEST(boxFunctionsOnerut, eigsTest0) {
     ONERUT_BOX_ERROR_TEST(ArgumentDomainError, eigs(eye(custom_domain(xx0, yy0)), 5));
     ONERUT_BOX_ERROR_TEST(ArgumentDomainError, eigs(eye(custom_domain(xx1, yy1)), 2));
     ONERUT_BOX_ERROR_TEST(ArgumentDomainError, eigs(eye(custom_domain(xx2, yy2)), 0));
-    ONERUT_BOX_ERROR_TEST(ArgumentDomainError, eigs(eye(custom_domain(xx3, yy3)), -1));    
+    ONERUT_BOX_ERROR_TEST(ArgumentDomainError, eigs(eye(custom_domain(xx3, yy3)), -1));
 }
