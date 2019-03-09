@@ -587,6 +587,14 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_normal_operator_tests/src/test_operator_kron.cpp"
@@ -722,6 +730,9 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>build_netbeanns/onerut_parser</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_parser/src/asset_ref.cpp" ex="false" tool="1" flavor2="11">
@@ -743,6 +754,9 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>build_netbeanns/onerut_parser</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_parser/src/asset_utility.cpp"
@@ -750,6 +764,9 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>build_netbeanns/onerut_parser</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_parser/src/ast_asset.cpp" ex="false" tool="1" flavor2="11">
@@ -845,6 +862,9 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>build_netbeanns/onerut_parser</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_parser/src/function_factory_normal_operators.cpp"
@@ -862,6 +882,9 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>build_netbeanns/onerut_parser</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_parser/src/gramma_parser.cpp"
@@ -880,6 +903,9 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>build_netbeanns/onerut_parser</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_parser_tests/src/box_functions.cpp"

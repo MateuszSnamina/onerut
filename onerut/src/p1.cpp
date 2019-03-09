@@ -227,8 +227,7 @@ void temp_testing() {
     //    lines.push_back(std::make_shared<const std::string>("at(EYE_EL, yy)"));
     //    lines.push_back(std::make_shared<const std::string>("EEE := at(EYE_MU, yy)"));
     //    lines.push_back(std::make_shared<const std::string>("VALUE(EEE)"));
-
-    //lines.push_back(std::make_shared<const std::string>("diag(xxx, state_index(custom_domain(xx0), 0), state_index(custom_domain(xx1), 1))"));
+    lines.push_back(std::make_shared<const std::string>("mean_in_eigenstate(eye(custom_domain(xx0, yy0)), eigs(eye(custom_domain(xx1, yy2)), 1), 0)"));
 
     onerut_parser::FunctionFactoryContainer::global_instance().put_all();
 

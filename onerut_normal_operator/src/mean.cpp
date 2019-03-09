@@ -11,13 +11,16 @@ namespace onerut_normal_operator {
     // *************  Mean  ****************************************************
     // *************************************************************************
 
-    Mean::Mean(std::shared_ptr<const Eig> eig,
-            std::shared_ptr<const AbstractOperator> op) :
-    eig(eig),
+    Mean::Mean(
+            std::shared_ptr<const AbstractOperator> op,
+            std::shared_ptr<const Eig> eig) :
     op(op),
+    eig(eig),
     cached_result(std::nullopt) {
-        assert(eig);
         assert(op);
+        assert(eig);
+        assert(eig->hamiltonian);        
+        assert(are_the_same_domains(*op->get_domain(), *eig->hamiltonian->get_domain()));        
     }
 
     double Mean::value_real() const {
@@ -34,10 +37,11 @@ namespace onerut_normal_operator {
 
     // *************************************************************************
 
-    MeanInEigenState::MeanInEigenState(std::shared_ptr<const Eig> eig,
+    MeanInEigenState::MeanInEigenState(
             std::shared_ptr<const AbstractOperator> op,
+            std::shared_ptr<const Eig> eig,
             uint32_t eigen_state) :
-    Mean(eig, op),
+    Mean(op, eig),
     eigen_state(eigen_state) {
     }
 
@@ -51,10 +55,11 @@ namespace onerut_normal_operator {
 
     // *************************************************************************
 
-    MeanThermal::MeanThermal(std::shared_ptr<const Eig> eig,
+    MeanThermal::MeanThermal(
             std::shared_ptr<const AbstractOperator> op,
+            std::shared_ptr<const Eig> eig,
             double temperature) :
-    Mean(eig, op),
+    Mean(op, eig),
     temperature(temperature) {
     }
 

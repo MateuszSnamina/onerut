@@ -43,7 +43,7 @@ TEST(meanInEigenState, test0) {
     const auto op = fourth_compound_operator(domain);
     {
         for (unsigned i = 0; i < op->get_domain()->size(); i++) {
-            const auto mean = std::make_shared<onerut_normal_operator::MeanInEigenState>(eig, op, i);
+            const auto mean = std::make_shared<onerut_normal_operator::MeanInEigenState>(op, eig, i);
             const auto expected_beta = third_compound_matrix_eigenvectors();
             const auto op_mat = fourth_compound_matrix();
             const auto expected_mean = arma::dot(expected_beta.col(i), op_mat * expected_beta.col(i));
@@ -102,7 +102,7 @@ TEST(meanThermal, test0) {
             const auto expected_state_mean = arma::dot(expected_beta.col(i), op_mat * expected_beta.col(i));
             expected_thermal_mean += std::exp(-temperature_beta * expected_energies(i)) / partition_function * expected_state_mean;
         }
-        const auto mean = std::make_shared<onerut_normal_operator::MeanThermal>(eig, op, temperature);
+        const auto mean = std::make_shared<onerut_normal_operator::MeanThermal>(op, eig, temperature);
         EXPECT_NEAR(expected_thermal_mean, mean->value_real(), treshold) << "(Thermal mean)";
     }
 }

@@ -540,17 +540,20 @@ namespace onerut_parser {
         if (!arg2_asset_deref.is_either_value_or_type())
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         // ---------------------------------------------------------------------        
-        if (!utility::is_normal_operator_eig(arg0_asset_deref))
+        if (!utility::is_normal_operator(arg0_asset_deref))
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
-        if (!utility::is_normal_operator(arg1_asset_deref))
+        if (!utility::is_normal_operator_eig(arg1_asset_deref))
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         if (!utility::is_integer(arg2_asset_deref))
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         // ---------------------------------------------------------------------        
-        const auto normal_operator_eig = utility::to_normal_operator_eig(arg0_asset_deref);
-        const auto normal_operator = utility::to_normal_operator(arg1_asset_deref);
+        const auto normal_operator = utility::to_normal_operator(arg0_asset_deref);
+        const auto normal_operator_eig = utility::to_normal_operator_eig(arg1_asset_deref);
         const auto state = utility::to_integer(arg2_asset_deref);
         const auto state_buildin = state->value_integer();
+        // ---------------------------------------------------------------------        
+        if (!onerut_normal_operator::are_the_same_domains(*normal_operator->get_domain(), *normal_operator_eig->hamiltonian->get_domain()))
+            return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("The eigen states and the operator are defined in different domains."));
         // ---------------------------------------------------------------------        
         if (state_buildin < 0)
             return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("The eigen state number must not be a negative integer."));
@@ -562,7 +565,7 @@ namespace onerut_parser {
         const auto state_buildin_casted = boost::numeric_cast<uint32_t>(state_buildin);
         // ---------------------------------------------------------------------      
         return Asset::from_value<onerut_normal_operator::Mean>(
-                std::make_shared<onerut_normal_operator::MeanInEigenState>(normal_operator_eig, normal_operator, state_buildin_casted)
+                std::make_shared<onerut_normal_operator::MeanInEigenState>(normal_operator, normal_operator_eig, state_buildin_casted)
                 );
     }
 
@@ -585,20 +588,20 @@ namespace onerut_parser {
         if (!arg2_asset_deref.is_either_value_or_type())
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         // ---------------------------------------------------------------------        
-        if (!utility::is_normal_operator_eig(arg0_asset_deref))
+        if (!utility::is_normal_operator(arg0_asset_deref))
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
-        if (!utility::is_normal_operator(arg1_asset_deref))
+        if (!utility::is_normal_operator_eig(arg1_asset_deref))
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         if (!utility::is_real_or_integer(arg2_asset_deref))
             return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         // ---------------------------------------------------------------------        
-        const auto normal_operator_eig = utility::to_normal_operator_eig(arg0_asset_deref);
-        const auto normal_operator = utility::to_normal_operator(arg1_asset_deref);
+        const auto normal_operator = utility::to_normal_operator(arg0_asset_deref);
+        const auto normal_operator_eig = utility::to_normal_operator_eig(arg1_asset_deref);
         const auto temperature = utility::to_real(arg2_asset_deref);
         const auto temperature_buildin = temperature->value_real();
         // ---------------------------------------------------------------------                
         return Asset::from_value<onerut_normal_operator::Mean>(
-                std::make_shared<onerut_normal_operator::MeanThermal>(normal_operator_eig, normal_operator, temperature_buildin)
+                std::make_shared<onerut_normal_operator::MeanThermal>(normal_operator, normal_operator_eig, temperature_buildin)
                 );
     }
 

@@ -49,8 +49,8 @@ VALUE(eig) # print executed value
 ##################################################
 # Calculate <x>, <x*x> in the first eigenstate   #
 ##################################################
-mean_x := mean_in_eigenstate(eig, x, 0)
-mean_x2 := mean_in_eigenstate(eig, x * x, 0)
+mean_x := mean_in_eigenstate(x, eig, 0)
+mean_x2 := mean_in_eigenstate(x * x, eig, 0)
 LATCH(mean_x) # should be equel lambda
 LATCH(mean_x2)
 VALUE(mean_x)
@@ -59,8 +59,8 @@ VALUE(mean_x2)
 ##################################################
 # Calculate <p>, <p*p> in the first eigenstate   #
 ##################################################
-mean_ip := mean_in_eigenstate(eig, ip, 0)
-mean_ip2 := mean_in_eigenstate(eig, ip * ip, 0)
+mean_ip := mean_in_eigenstate(ip, eig, 0)
+mean_ip2 := mean_in_eigenstate(ip * ip, eig, 0)
 LATCH(mean_ip)
 LATCH(mean_ip2)
 VALUE(mean_ip)
