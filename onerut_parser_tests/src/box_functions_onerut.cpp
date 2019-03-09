@@ -26,68 +26,12 @@ TEST(boxFunctionsOnerut, customDomainTest0) {
     // -------
     ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, custom_domain(5, 6));
     // -------
-    const auto domain_asset = inuput_2_asset("custom_domain(xxx, yyy)");
-    ASSERT_TRUE(domain_asset);
-    const auto domain_asset_deref = domain_asset->deref();
-    ASSERT_TRUE(domain_asset_deref.is_either_value_or_type());
-    const auto domain = domain_asset_deref.typed_value_or_empty<onerut_normal_operator::CustomDomain>();
-    ASSERT_TRUE(domain);
-    ASSERT_EQ(2, (*domain)->size());
-    EXPECT_EQ("xxx", (*domain)->state_name(0));
-    EXPECT_EQ("yyy", (*domain)->state_name(1));
-    // -------
-    ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, custom_domain(xxx, yyy));
-    // -------
-    {
-        const auto state_index_0_asset = inuput_2_asset("xxx");
-        ASSERT_TRUE(state_index_0_asset);
-        const auto state_index_0_asset_deref = state_index_0_asset->deref();
-        ASSERT_TRUE(state_index_0_asset_deref.is_either_value_or_type());
-        const auto state_index_0 = state_index_0_asset_deref.typed_value_or_empty<onerut_normal_operator::StateIndex>();
-        ASSERT_TRUE(state_index_0);
-        EXPECT_EQ(0, (*state_index_0)->index);
-        EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*state_index_0)->domain));
-        EXPECT_EQ("xxx", (*state_index_0)->fetch_name());
-    }
-    // -------
-    {
-        const auto state_index_1_asset = inuput_2_asset("yyy");
-        ASSERT_TRUE(state_index_1_asset);
-        const auto state_index_1_asset_deref = state_index_1_asset->deref();
-        ASSERT_TRUE(state_index_1_asset_deref.is_either_value_or_type());
-        const auto state_index_1 = state_index_1_asset_deref.typed_value_or_empty<onerut_normal_operator::StateIndex>();
-        ASSERT_TRUE(state_index_1);
-        EXPECT_EQ(1, (*state_index_1)->index);
-        EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*state_index_1)->domain));
-        ASSERT_EQ("yyy", (*state_index_1)->fetch_name());
-    }
-    // -------
-    {
-        const auto state_index_1_asset = inuput_2_asset("yyy");
-        ASSERT_TRUE(state_index_1_asset);
-        const auto state_index_1_asset_deref = state_index_1_asset->deref();
-        ASSERT_TRUE(state_index_1_asset_deref.is_either_value_or_type());
-        const auto state_index_1 = state_index_1_asset_deref.typed_value_or_empty<onerut_normal_operator::StateIndex>();
-        ASSERT_TRUE(state_index_1);
-        EXPECT_EQ(1, (*state_index_1)->index);
-        EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*state_index_1)->domain));
-        ASSERT_EQ("yyy", (*state_index_1)->fetch_name());
-    }
-}
-
-TEST(boxFunctionsOnerut, customDomainTest1) {
-    onerut_parser::FunctionFactoryContainer::global_instance().clear();
-    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
-    onerut_parser::AssetRefContainer::global_instance().clear();
-    // -------
-    ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, custom_domain(5, 6));
-    // -------
     const auto domain_asset = inuput_2_asset("dom := custom_domain(xxx, yyy)");
-    ASSERT_TRUE(domain_asset);
+    ASSERT_TRUE(domain_asset.has_value());
     const auto domain_asset_deref = domain_asset->deref();
     ASSERT_TRUE(domain_asset_deref.is_either_value_or_type());
     const auto domain = domain_asset_deref.typed_value_or_empty<onerut_normal_operator::CustomDomain>();
-    ASSERT_TRUE(domain);
+    ASSERT_TRUE(domain.has_value());
     ASSERT_EQ(2, (*domain)->size());
     EXPECT_EQ("xxx", (*domain)->state_name(0));
     EXPECT_EQ("yyy", (*domain)->state_name(1));
@@ -96,11 +40,11 @@ TEST(boxFunctionsOnerut, customDomainTest1) {
     // -------
     {
         const auto state_index_0_asset = inuput_2_asset("xxx");
-        ASSERT_TRUE(state_index_0_asset);
+        ASSERT_TRUE(state_index_0_asset.has_value());
         const auto state_index_0_asset_deref = state_index_0_asset->deref();
         ASSERT_TRUE(state_index_0_asset_deref.is_either_value_or_type());
         const auto state_index_0 = state_index_0_asset_deref.typed_value_or_empty<onerut_normal_operator::StateIndex>();
-        ASSERT_TRUE(state_index_0);
+        ASSERT_TRUE(state_index_0.has_value());
         EXPECT_EQ(0, (*state_index_0)->index);
         EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*state_index_0)->domain));
         EXPECT_EQ("xxx", (*state_index_0)->fetch_name());
@@ -108,11 +52,11 @@ TEST(boxFunctionsOnerut, customDomainTest1) {
     // -------
     {
         const auto state_index_1_asset = inuput_2_asset("yyy");
-        ASSERT_TRUE(state_index_1_asset);
+        ASSERT_TRUE(state_index_1_asset.has_value());
         const auto state_index_1_asset_deref = state_index_1_asset->deref();
         ASSERT_TRUE(state_index_1_asset_deref.is_either_value_or_type());
         const auto state_index_1 = state_index_1_asset_deref.typed_value_or_empty<onerut_normal_operator::StateIndex>();
-        ASSERT_TRUE(state_index_1);
+        ASSERT_TRUE(state_index_1.has_value());
         EXPECT_EQ(1, (*state_index_1)->index);
         EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*state_index_1)->domain));
         ASSERT_EQ("yyy", (*state_index_1)->fetch_name());
@@ -120,21 +64,21 @@ TEST(boxFunctionsOnerut, customDomainTest1) {
     // -------
     {
         const auto re_dom_asset = inuput_2_asset("dom");
-        ASSERT_TRUE(re_dom_asset);
+        ASSERT_TRUE(re_dom_asset.has_value());
         const auto re_dom_asset_deref = re_dom_asset->deref();
         ASSERT_TRUE(re_dom_asset_deref.is_either_value_or_type());
         const auto re_dom = re_dom_asset_deref.typed_value_or_empty<onerut_normal_operator::CustomDomain>();
-        ASSERT_TRUE(re_dom);
+        ASSERT_TRUE(re_dom.has_value());
         EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, **re_dom));
     }
     // -------
     {
         const auto re_state_index_0_asset = inuput_2_asset("state_index(dom,0)");
-        ASSERT_TRUE(re_state_index_0_asset);
+        ASSERT_TRUE(re_state_index_0_asset.has_value());
         const auto re_state_index_0_asset_deref = re_state_index_0_asset->deref();
         ASSERT_TRUE(re_state_index_0_asset_deref.is_either_value_or_type());
         const auto re_state_index_0 = re_state_index_0_asset_deref.typed_value_or_empty<onerut_normal_operator::StateIndex>();
-        ASSERT_TRUE(re_state_index_0);
+        ASSERT_TRUE(re_state_index_0.has_value());
         EXPECT_EQ(0, (*re_state_index_0)->index);
         EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*re_state_index_0)->domain));
         EXPECT_EQ("xxx", (*re_state_index_0)->fetch_name());
@@ -156,30 +100,30 @@ TEST(boxFunctionsOnerut, oscillatorDomainTest0) {
     ONERUT_BOX_ERROR_TEST(ArgumentDomainError, oscillator_domain(-1));
     // -------
     const auto domain_asset = inuput_2_asset("dom := oscillator_domain(2)");
-    ASSERT_TRUE(domain_asset);
+    ASSERT_TRUE(domain_asset.has_value());
     const auto domain_asset_deref = domain_asset->deref();
     ASSERT_TRUE(domain_asset_deref.is_either_value_or_type());
     const auto domain = domain_asset_deref.typed_value_or_empty<onerut_normal_operator::OscillatorDomain>();
-    ASSERT_TRUE(domain);
+    ASSERT_TRUE(domain.has_value());
     EXPECT_EQ(2, (*domain)->size());
     // -------
     {
         const auto re_dom_asset = inuput_2_asset("dom");
-        ASSERT_TRUE(re_dom_asset);
+        ASSERT_TRUE(re_dom_asset.has_value());
         const auto re_dom_asset_deref = re_dom_asset->deref();
         ASSERT_TRUE(re_dom_asset_deref.is_either_value_or_type());
         const auto re_dom = re_dom_asset_deref.typed_value_or_empty<onerut_normal_operator::OscillatorDomain>();
-        ASSERT_TRUE(re_dom);
+        ASSERT_TRUE(re_dom.has_value());
         EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, **re_dom));
     }
     // -------
     {
         const auto re_state_index_0_asset = inuput_2_asset("state_index(dom,0)");
-        ASSERT_TRUE(re_state_index_0_asset);
+        ASSERT_TRUE(re_state_index_0_asset.has_value());
         const auto re_state_index_0_asset_deref = re_state_index_0_asset->deref();
         ASSERT_TRUE(re_state_index_0_asset_deref.is_either_value_or_type());
         const auto re_state_index_0 = re_state_index_0_asset_deref.typed_value_or_empty<onerut_normal_operator::StateIndex>();
-        ASSERT_TRUE(re_state_index_0);
+        ASSERT_TRUE(re_state_index_0.has_value());
         EXPECT_EQ(0, (*re_state_index_0)->index);
         EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*re_state_index_0)->domain));
         EXPECT_EQ("nu_0", (*re_state_index_0)->fetch_name());
@@ -187,11 +131,11 @@ TEST(boxFunctionsOnerut, oscillatorDomainTest0) {
     // -------
     {
         const auto re_state_index_1_asset = inuput_2_asset("state_index(dom,1)");
-        ASSERT_TRUE(re_state_index_1_asset);
+        ASSERT_TRUE(re_state_index_1_asset.has_value());
         const auto re_state_index_1_asset_deref = re_state_index_1_asset->deref();
         ASSERT_TRUE(re_state_index_1_asset_deref.is_either_value_or_type());
         const auto re_state_index_1 = re_state_index_1_asset_deref.typed_value_or_empty<onerut_normal_operator::StateIndex>();
-        ASSERT_TRUE(re_state_index_1);
+        ASSERT_TRUE(re_state_index_1.has_value());
         EXPECT_EQ(1, (*re_state_index_1)->index);
         EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*re_state_index_1)->domain));
         EXPECT_EQ("nu_1", (*re_state_index_1)->fetch_name());
@@ -210,30 +154,30 @@ TEST(boxFunctionsOnerut, spinDomainTest0) {
     ONERUT_BOX_ERROR_TEST(ArgumentDomainError, spin_domain(-1));
     // -------
     const auto domain_asset = inuput_2_asset("dom := spin_domain(2)");
-    ASSERT_TRUE(domain_asset);
+    ASSERT_TRUE(domain_asset.has_value());
     const auto domain_asset_deref = domain_asset->deref();
     ASSERT_TRUE(domain_asset_deref.is_either_value_or_type());
     const auto domain = domain_asset_deref.typed_value_or_empty<onerut_normal_operator::SpinDomain>();
-    ASSERT_TRUE(domain);
+    ASSERT_TRUE(domain.has_value());
     EXPECT_EQ(2, (*domain)->size());
     // -------
     {
         const auto re_dom_asset = inuput_2_asset("dom");
-        ASSERT_TRUE(re_dom_asset);
+        ASSERT_TRUE(re_dom_asset.has_value());
         const auto re_dom_asset_deref = re_dom_asset->deref();
         ASSERT_TRUE(re_dom_asset_deref.is_either_value_or_type());
         const auto re_dom = re_dom_asset_deref.typed_value_or_empty<onerut_normal_operator::SpinDomain>();
-        ASSERT_TRUE(re_dom);
+        ASSERT_TRUE(re_dom.has_value());
         EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, **re_dom));
     }
     // -------
     {
         const auto re_state_index_0_asset = inuput_2_asset("state_index(dom,0)");
-        ASSERT_TRUE(re_state_index_0_asset);
+        ASSERT_TRUE(re_state_index_0_asset.has_value());
         const auto re_state_index_0_asset_deref = re_state_index_0_asset->deref();
         ASSERT_TRUE(re_state_index_0_asset_deref.is_either_value_or_type());
         const auto re_state_index_0 = re_state_index_0_asset_deref.typed_value_or_empty<onerut_normal_operator::StateIndex>();
-        ASSERT_TRUE(re_state_index_0);
+        ASSERT_TRUE(re_state_index_0.has_value());
         EXPECT_EQ(0, (*re_state_index_0)->index);
         EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*re_state_index_0)->domain));
         EXPECT_EQ("UUp", (*re_state_index_0)->fetch_name());
@@ -241,11 +185,11 @@ TEST(boxFunctionsOnerut, spinDomainTest0) {
     // -------
     {
         const auto re_state_index_1_asset = inuput_2_asset("state_index(dom,1)");
-        ASSERT_TRUE(re_state_index_1_asset);
+        ASSERT_TRUE(re_state_index_1_asset.has_value());
         const auto re_state_index_1_asset_deref = re_state_index_1_asset->deref();
         ASSERT_TRUE(re_state_index_1_asset_deref.is_either_value_or_type());
         const auto re_state_index_1 = re_state_index_1_asset_deref.typed_value_or_empty<onerut_normal_operator::StateIndex>();
-        ASSERT_TRUE(re_state_index_1);
+        ASSERT_TRUE(re_state_index_1.has_value());
         EXPECT_EQ(1, (*re_state_index_1)->index);
         EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*re_state_index_1)->domain));
         EXPECT_EQ("DDown", (*re_state_index_1)->fetch_name());
@@ -261,27 +205,27 @@ TEST(boxFunctionsOnerut, kronDomainTest0) {
     ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, kron_domain(2.6, 45));
     // -------
     const auto subdomain_0_asset = inuput_2_asset("subdom_0 := spin_domain(3)");
-    ASSERT_TRUE(subdomain_0_asset);
+    ASSERT_TRUE(subdomain_0_asset.has_value());
     const auto subdomain_0_asset_deref = subdomain_0_asset->deref();
     ASSERT_TRUE(subdomain_0_asset_deref.is_either_value_or_type());
     const auto subdomain_0 = subdomain_0_asset_deref.typed_value_or_empty<onerut_normal_operator::SpinDomain>();
-    ASSERT_TRUE(subdomain_0);
+    ASSERT_TRUE(subdomain_0.has_value());
     ASSERT_EQ(3, (*subdomain_0)->size());
     // -------
     const auto subdomain_1_asset = inuput_2_asset("subdom_1 := custom_domain(xx, yy)");
-    ASSERT_TRUE(subdomain_1_asset);
+    ASSERT_TRUE(subdomain_1_asset.has_value());
     const auto subdomain_1_asset_deref = subdomain_1_asset->deref();
     ASSERT_TRUE(subdomain_1_asset_deref.is_either_value_or_type());
     const auto subdomain_1 = subdomain_1_asset_deref.typed_value_or_empty<onerut_normal_operator::CustomDomain>();
-    ASSERT_TRUE(subdomain_1);
+    ASSERT_TRUE(subdomain_1.has_value());
     ASSERT_EQ(2, (*subdomain_1)->size());
     // -------
     const auto domain_asset = inuput_2_asset("dom := kron_domain(subdom_0, subdom_1)");
-    ASSERT_TRUE(domain_asset);
+    ASSERT_TRUE(domain_asset.has_value());
     const auto domain_asset_deref = domain_asset->deref();
     ASSERT_TRUE(domain_asset_deref.is_either_value_or_type());
     const auto domain = domain_asset_deref.typed_value_or_empty<onerut_normal_operator::KronDomain>();
-    ASSERT_TRUE(domain);
+    ASSERT_TRUE(domain.has_value());
     ASSERT_EQ(3 * 2, (*domain)->size());
     ASSERT_EQ(2, (*domain)->subdomains.size());
     EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**subdomain_0, *(*domain)->subdomains[0]));
@@ -293,28 +237,28 @@ TEST(boxFunctionsOnerut, kronDomainTest0) {
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, kron_placeholders(dom, _0, _1, _2));
     // -------
     const auto kron_placeholders_asset = inuput_2_asset("kron_placeholders(dom, _0, _1)");
-    ASSERT_TRUE(kron_placeholders_asset);
+    ASSERT_TRUE(kron_placeholders_asset.has_value());
     const auto kron_placeholders_asset_deref = domain_asset->deref();
     ASSERT_TRUE(kron_placeholders_asset_deref.is_either_value_or_type());
     // -------
     {
         const auto placeholders_0_asset = inuput_2_asset("_0");
-        ASSERT_TRUE(placeholders_0_asset);
+        ASSERT_TRUE(placeholders_0_asset.has_value());
         const auto placeholders_0_asset_deref = placeholders_0_asset->deref();
         ASSERT_TRUE(placeholders_0_asset_deref.is_either_value_or_type());
         const auto placeholders_0 = placeholders_0_asset_deref.typed_value_or_empty<onerut_normal_operator::KronPlaceholder>();
-        ASSERT_TRUE(placeholders_0);
+        ASSERT_TRUE(placeholders_0.has_value());
         EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*placeholders_0)->domain));
         EXPECT_EQ(0, (*placeholders_0)->place);
     }
     // -------
     {
         const auto placeholders_1_asset = inuput_2_asset("_1");
-        ASSERT_TRUE(placeholders_1_asset);
+        ASSERT_TRUE(placeholders_1_asset.has_value());
         const auto placeholders_1_asset_deref = placeholders_1_asset->deref();
         ASSERT_TRUE(placeholders_1_asset_deref.is_either_value_or_type());
         const auto placeholders_1 = placeholders_1_asset_deref.typed_value_or_empty<onerut_normal_operator::KronPlaceholder>();
-        ASSERT_TRUE(placeholders_1);
+        ASSERT_TRUE(placeholders_1.has_value());
         EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*placeholders_1)->domain));
         EXPECT_EQ(1, (*placeholders_1)->place);
     }
@@ -330,20 +274,20 @@ TEST(boxFunctionsOnerut, diagOperatorTest0) {
     ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, diag(xxx, state_index(custom_domain(xx0, yy0), 0)));
     // -------
     const auto domain_asset = inuput_2_asset("dom := custom_domain(xx1, yy1)");
-    ASSERT_TRUE(domain_asset);
+    ASSERT_TRUE(domain_asset.has_value());
     const auto domain_asset_deref = domain_asset->deref();
     ASSERT_TRUE(domain_asset_deref.is_either_value_or_type());
     const auto domain = domain_asset_deref.typed_value_or_empty<onerut_normal_operator::CustomDomain>();
-    ASSERT_TRUE(domain);
+    ASSERT_TRUE(domain.has_value());
     EXPECT_EQ(2, (*domain)->size());
     // -------
     const auto operator_diag_asset = inuput_2_asset("diag(-8.9, state_index(dom,1))");
-    ASSERT_TRUE(operator_diag_asset);
+    ASSERT_TRUE(operator_diag_asset.has_value());
     const auto operator_diag_asset_deref = operator_diag_asset->deref();
     ASSERT_TRUE(operator_diag_asset_deref.is_either_value_or_type());
     const auto operator_diag = operator_diag_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
-    ASSERT_TRUE(operator_diag);
-    ASSERT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*operator_diag)->get_domain()));
+    ASSERT_TRUE(operator_diag.has_value());
+    EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*operator_diag)->get_domain()));
     const auto operator_diag_typed = std::dynamic_pointer_cast<const onerut_normal_operator::DiagOperator>(*operator_diag);
     ASSERT_TRUE(operator_diag_typed);
     EXPECT_DOUBLE_EQ(-8.9, operator_diag_typed->value->value_real());
@@ -361,22 +305,22 @@ TEST(boxFunctionsOnerut, hopOperatorTest0) {
     ONERUT_BOX_ERROR_TEST(ArgumentDomainError, hop(4.0, state_index(custom_domain(xx2), 0), state_index(custom_domain(xx3), 0)));
     // -------
     const auto domain_asset = inuput_2_asset("dom := custom_domain(xx, yy)");
-    ASSERT_TRUE(domain_asset);
+    ASSERT_TRUE(domain_asset.has_value());
     const auto domain_asset_deref = domain_asset->deref();
     ASSERT_TRUE(domain_asset_deref.is_either_value_or_type());
     const auto domain = domain_asset_deref.typed_value_or_empty<onerut_normal_operator::CustomDomain>();
-    ASSERT_TRUE(domain);
+    ASSERT_TRUE(domain.has_value());
     EXPECT_EQ(2, (*domain)->size());
     // -------
     ONERUT_BOX_ERROR_TEST(ArgumentDomainError, hop(4.0, state_index(dom, 0), state_index(dom, 0)));
     // -------
     const auto operator_hop_asset = inuput_2_asset("hop(-4.7, state_index(dom,0), state_index(dom,1))");
-    ASSERT_TRUE(operator_hop_asset);
+    ASSERT_TRUE(operator_hop_asset.has_value());
     const auto operator_hop_asset_deref = operator_hop_asset->deref();
     ASSERT_TRUE(operator_hop_asset_deref.is_either_value_or_type());
     const auto operator_hop = operator_hop_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
-    ASSERT_TRUE(operator_hop);
-    ASSERT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*operator_hop)->get_domain()));
+    ASSERT_TRUE(operator_hop.has_value());
+    EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*operator_hop)->get_domain()));
     const auto operator_hop_typed = std::dynamic_pointer_cast<const onerut_normal_operator::HopOperator>(*operator_hop);
     ASSERT_TRUE(operator_hop_typed);
     EXPECT_DOUBLE_EQ(-4.7, operator_hop_typed->value->value_real());
@@ -430,40 +374,40 @@ TEST(boxFunctionsOnerut, opPlusMinusTest0) {
     ONERUT_BOX_ERROR_TEST(ArgumentDomainError, eye(custom_domain(xx3, yy3)) - eye(custom_domain(xx4, yy4)));
     // -------
     const auto domain_asset = inuput_2_asset("dom := custom_domain(xx, yy)");
-    ASSERT_TRUE(domain_asset);
+    ASSERT_TRUE(domain_asset.has_value());
     const auto domain_asset_deref = domain_asset->deref();
     ASSERT_TRUE(domain_asset_deref.is_either_value_or_type());
     const auto domain = domain_asset_deref.typed_value_or_empty<onerut_normal_operator::CustomDomain>();
-    ASSERT_TRUE(domain);
+    ASSERT_TRUE(domain.has_value());
     EXPECT_EQ(2, (*domain)->size());
     // -------
     const auto eye_1_asset = inuput_2_asset("h1 := eye(dom)");
-    ASSERT_TRUE(eye_1_asset);
+    ASSERT_TRUE(eye_1_asset.has_value());
     const auto eye_1_asset_deref = eye_1_asset->deref();
     ASSERT_TRUE(eye_1_asset_deref.is_either_value_or_type());
     const auto eye_1 = eye_1_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
-    ASSERT_TRUE(eye_1);
-    ASSERT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*eye_1)->get_domain()));
+    ASSERT_TRUE(eye_1.has_value());
+    EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*eye_1)->get_domain()));
     const auto eye_1_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EyeOperator>(*eye_1);
     ASSERT_TRUE(eye_1_typed);
     // -------
     const auto eye_2_asset = inuput_2_asset("h2 := eye(dom)");
-    ASSERT_TRUE(eye_2_asset);
+    ASSERT_TRUE(eye_2_asset.has_value());
     const auto eye_2_asset_deref = eye_2_asset->deref();
     ASSERT_TRUE(eye_2_asset_deref.is_either_value_or_type());
     const auto eye_2 = eye_2_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
-    ASSERT_TRUE(eye_2);
-    ASSERT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*eye_2)->get_domain()));
+    ASSERT_TRUE(eye_2.has_value());
+    EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*eye_2)->get_domain()));
     const auto eye_2_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EyeOperator>(*eye_2);
     ASSERT_TRUE(eye_2_typed);
     // -------    
     const auto sum_asset = inuput_2_asset("h3 := h1 + h2");
-    ASSERT_TRUE(sum_asset);
+    ASSERT_TRUE(sum_asset.has_value());
     const auto sum_asset_deref = sum_asset->deref();
     ASSERT_TRUE(sum_asset_deref.is_either_value_or_type());
     const auto sum = sum_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
-    ASSERT_TRUE(sum);
-    ASSERT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*sum)->get_domain()));
+    ASSERT_TRUE(sum.has_value());
+    EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*sum)->get_domain()));
     const auto sum_typed = std::dynamic_pointer_cast<const onerut_normal_operator::OpPlusMinusOperator>(*sum);
     ASSERT_TRUE(sum_typed);
     ASSERT_EQ(1, sum_typed->other_argv.size());
@@ -479,30 +423,30 @@ TEST(boxFunctionsOnerut, opUnaryPlusMinusOperatorTest0) {
     onerut_parser::AssetRefContainer::global_instance().clear();
     // -------
     const auto domain_asset = inuput_2_asset("dom := custom_domain(xx, yy)");
-    ASSERT_TRUE(domain_asset);
+    ASSERT_TRUE(domain_asset.has_value());
     const auto domain_asset_deref = domain_asset->deref();
     ASSERT_TRUE(domain_asset_deref.is_either_value_or_type());
     const auto domain = domain_asset_deref.typed_value_or_empty<onerut_normal_operator::CustomDomain>();
-    ASSERT_TRUE(domain);
+    ASSERT_TRUE(domain.has_value());
     EXPECT_EQ(2, (*domain)->size());
     // -------
     const auto eye_asset = inuput_2_asset("h1 := eye(dom)");
-    ASSERT_TRUE(eye_asset);
+    ASSERT_TRUE(eye_asset.has_value());
     const auto eye_asset_deref = eye_asset->deref();
     ASSERT_TRUE(eye_asset_deref.is_either_value_or_type());
     const auto eye = eye_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
-    ASSERT_TRUE(eye);
-    ASSERT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*eye)->get_domain()));
+    ASSERT_TRUE(eye.has_value());
+    EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*eye)->get_domain()));
     const auto eye_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EyeOperator>(*eye);
     ASSERT_TRUE(eye_typed);
     // -------    
     const auto minus_asset = inuput_2_asset("h3 := -h1");
-    ASSERT_TRUE(minus_asset);
+    ASSERT_TRUE(minus_asset.has_value());
     const auto minus_asset_deref = minus_asset->deref();
     ASSERT_TRUE(minus_asset_deref.is_either_value_or_type());
     const auto minus = minus_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
-    ASSERT_TRUE(minus);
-    ASSERT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*minus)->get_domain()));
+    ASSERT_TRUE(minus.has_value());
+    EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*minus)->get_domain()));
     const auto minus_typed = std::dynamic_pointer_cast<const onerut_normal_operator::OpUnaryPlusMinusOperator>(*minus);
     ASSERT_TRUE(minus_typed);
     EXPECT_EQ(eye, minus_typed->arg);
@@ -519,40 +463,40 @@ TEST(boxFunctionsOnerut, opProdTest0) {
     ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, eye(custom_domain(xx3, yy3)) / eye(custom_domain(xx4, yy4)));
     // -------
     const auto domain_asset = inuput_2_asset("dom := custom_domain(xx, yy)");
-    ASSERT_TRUE(domain_asset);
+    ASSERT_TRUE(domain_asset.has_value());
     const auto domain_asset_deref = domain_asset->deref();
     ASSERT_TRUE(domain_asset_deref.is_either_value_or_type());
     const auto domain = domain_asset_deref.typed_value_or_empty<onerut_normal_operator::CustomDomain>();
-    ASSERT_TRUE(domain);
+    ASSERT_TRUE(domain.has_value());
     EXPECT_EQ(2, (*domain)->size());
     // -------
     const auto eye_1_asset = inuput_2_asset("h1 := eye(dom)");
-    ASSERT_TRUE(eye_1_asset);
+    ASSERT_TRUE(eye_1_asset.has_value());
     const auto eye_1_asset_deref = eye_1_asset->deref();
     ASSERT_TRUE(eye_1_asset_deref.is_either_value_or_type());
     const auto eye_1 = eye_1_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
-    ASSERT_TRUE(eye_1);
-    ASSERT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*eye_1)->get_domain()));
+    ASSERT_TRUE(eye_1.has_value());
+    EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*eye_1)->get_domain()));
     const auto eye_1_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EyeOperator>(*eye_1);
     ASSERT_TRUE(eye_1_typed);
     // -------
     const auto eye_2_asset = inuput_2_asset("h2 := eye(dom)");
-    ASSERT_TRUE(eye_2_asset);
+    ASSERT_TRUE(eye_2_asset.has_value());
     const auto eye_2_asset_deref = eye_2_asset->deref();
     ASSERT_TRUE(eye_2_asset_deref.is_either_value_or_type());
     const auto eye_2 = eye_2_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
-    ASSERT_TRUE(eye_2);
-    ASSERT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*eye_2)->get_domain()));
+    ASSERT_TRUE(eye_2.has_value());
+    EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*eye_2)->get_domain()));
     const auto eye_2_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EyeOperator>(*eye_2);
     ASSERT_TRUE(eye_2_typed);
     // -------    
     const auto prod_asset = inuput_2_asset("h3 := h1 * h2");
-    ASSERT_TRUE(prod_asset);
+    ASSERT_TRUE(prod_asset.has_value());
     const auto prod_asset_deref = prod_asset->deref();
     ASSERT_TRUE(prod_asset_deref.is_either_value_or_type());
     const auto prod = prod_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
-    ASSERT_TRUE(prod);
-    ASSERT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*prod)->get_domain()));
+    ASSERT_TRUE(prod.has_value());
+    EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*prod)->get_domain()));
     const auto prod_typed = std::dynamic_pointer_cast<const onerut_normal_operator::OpProdOperator>(*prod);
     ASSERT_TRUE(prod_typed);
     ASSERT_EQ(2, prod_typed->argv.size());
@@ -570,20 +514,20 @@ TEST(boxFunctionsOnerut, eigdTest0) {
     ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, eigd(2.6));
     // -------
     const auto eye_asset = inuput_2_asset("h1 := eye(custom_domain(xx, yy))");
-    ASSERT_TRUE(eye_asset);
+    ASSERT_TRUE(eye_asset.has_value());
     const auto eye_asset_deref = eye_asset->deref();
     ASSERT_TRUE(eye_asset_deref.is_either_value_or_type());
     const auto eye = eye_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
-    ASSERT_TRUE(eye);
+    ASSERT_TRUE(eye.has_value());
     const auto eye_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EyeOperator>(*eye);
     ASSERT_TRUE(eye_typed);
     // -------
     const auto eigd_asset = inuput_2_asset("eigd(h1)");
-    ASSERT_TRUE(eigd_asset);
+    ASSERT_TRUE(eigd_asset.has_value());
     const auto eigd_asset_deref = eigd_asset->deref();
     ASSERT_TRUE(eigd_asset_deref.is_either_value_or_type());
     const auto eigd = eigd_asset_deref.typed_value_or_empty<onerut_normal_operator::Eig>();
-    ASSERT_TRUE(eigd);
+    ASSERT_TRUE(eigd.has_value());
     const auto eigd_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EigDense>(*eigd);
     ASSERT_TRUE(eigd_typed);
     EXPECT_EQ(eye, eigd_typed->hamiltonian);
@@ -603,20 +547,20 @@ TEST(boxFunctionsOnerut, eigsTest0) {
     ONERUT_BOX_ERROR_TEST(ArgumentDomainError, eigs(eye(custom_domain(xx0, yy0)), 5));    
     // -------
     const auto eye_asset = inuput_2_asset("h1 := eye(custom_domain(xx, yy))");
-    ASSERT_TRUE(eye_asset);
+    ASSERT_TRUE(eye_asset.has_value());
     const auto eye_asset_deref = eye_asset->deref();
     ASSERT_TRUE(eye_asset_deref.is_either_value_or_type());
     const auto eye = eye_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
-    ASSERT_TRUE(eye);
+    ASSERT_TRUE(eye.has_value());
     const auto eye_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EyeOperator>(*eye);
     ASSERT_TRUE(eye_typed);
     // -------
     const auto eigs_asset = inuput_2_asset("eigs(h1,1)");
-    ASSERT_TRUE(eigs_asset);
+    ASSERT_TRUE(eigs_asset.has_value());
     const auto eigs_asset_deref = eigs_asset->deref();
     ASSERT_TRUE(eigs_asset_deref.is_either_value_or_type());
     const auto eigs = eigs_asset_deref.typed_value_or_empty<onerut_normal_operator::Eig>();
-    ASSERT_TRUE(eigs);
+    ASSERT_TRUE(eigs.has_value());
     const auto eigs_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EigSparse>(*eigs);
     ASSERT_TRUE(eigs_typed);
     EXPECT_EQ(eye, eigs_typed->hamiltonian);
@@ -634,39 +578,39 @@ TEST(boxFunctionsOnerut, meanInStateTest0) {
     ONERUT_BOX_ERROR_TEST(ArgumentDomainError, mean_in_eigenstate(eye(custom_domain(xx0, yy0)), eigd(eye(custom_domain(xx1, yy2))), 0));
     // -------
     const auto domain_asset = inuput_2_asset("dom := custom_domain(xx, yy)");
-    ASSERT_TRUE(domain_asset);
+    ASSERT_TRUE(domain_asset.has_value());
     const auto domain_asset_deref = domain_asset->deref();
     ASSERT_TRUE(domain_asset_deref.is_either_value_or_type());
     const auto domain = domain_asset_deref.typed_value_or_empty<onerut_normal_operator::CustomDomain>();
-    ASSERT_TRUE(domain);
+    ASSERT_TRUE(domain.has_value());
     EXPECT_EQ(2, (*domain)->size());
     // -------
     const auto eye_1_asset = inuput_2_asset("h1 := eye(dom)");
-    ASSERT_TRUE(eye_1_asset);
+    ASSERT_TRUE(eye_1_asset.has_value());
     const auto eye_1_asset_deref = eye_1_asset->deref();
     ASSERT_TRUE(eye_1_asset_deref.is_either_value_or_type());
     const auto eye_1 = eye_1_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
-    ASSERT_TRUE(eye_1);
-    ASSERT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*eye_1)->get_domain()));
+    ASSERT_TRUE(eye_1.has_value());
+    EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*eye_1)->get_domain()));
     const auto eye_1_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EyeOperator>(*eye_1);
     ASSERT_TRUE(eye_1_typed);
     // -------
     const auto eye_2_asset = inuput_2_asset("h2 := eye(dom)");
-    ASSERT_TRUE(eye_2_asset);
+    ASSERT_TRUE(eye_2_asset.has_value());
     const auto eye_2_asset_deref = eye_2_asset->deref();
     ASSERT_TRUE(eye_2_asset_deref.is_either_value_or_type());
     const auto eye_2 = eye_2_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
-    ASSERT_TRUE(eye_2);
-    ASSERT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*eye_2)->get_domain()));
+    ASSERT_TRUE(eye_2.has_value());
+    EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*eye_2)->get_domain()));
     const auto eye_2_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EyeOperator>(*eye_2);
     ASSERT_TRUE(eye_2_typed);
     // -------
     const auto eigd_asset = inuput_2_asset("eig := eigd(h1)");
-    ASSERT_TRUE(eigd_asset);
+    ASSERT_TRUE(eigd_asset.has_value());
     const auto eigd_asset_deref = eigd_asset->deref();
     ASSERT_TRUE(eigd_asset_deref.is_either_value_or_type());
     const auto eigd = eigd_asset_deref.typed_value_or_empty<onerut_normal_operator::Eig>();
-    ASSERT_TRUE(eigd);
+    ASSERT_TRUE(eigd.has_value());
     const auto eigd_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EigDense>(*eigd);
     ASSERT_TRUE(eigd_typed);
     EXPECT_EQ(eye_1, eigd_typed->hamiltonian);
@@ -675,14 +619,140 @@ TEST(boxFunctionsOnerut, meanInStateTest0) {
     ONERUT_BOX_ERROR_TEST(ArgumentDomainError, mean_in_eigenstate(h2, eig, 2));
     // -------
     const auto mean_asset = inuput_2_asset("mean_in_eigenstate(h2, eig, 1)");
-    ASSERT_TRUE(mean_asset);
+    ASSERT_TRUE(mean_asset.has_value());
     const auto mean_asset_deref = mean_asset->deref();
     ASSERT_TRUE(mean_asset_deref.is_either_value_or_type());
     const auto mean = mean_asset_deref.typed_value_or_empty<onerut_normal_operator::Mean>();
-    ASSERT_TRUE(mean);
+    ASSERT_TRUE(mean.has_value());
     EXPECT_EQ(eye_2, (*mean)->op);
     EXPECT_EQ(eigd, (*mean)->eig);
     const auto mean_typed = std::dynamic_pointer_cast<const onerut_normal_operator::MeanInEigenState>(*mean);
     ASSERT_TRUE(mean_typed);
-    ASSERT_EQ(1, mean_typed->eigen_state);
+    EXPECT_EQ(1, mean_typed->eigen_state);
+}
+
+TEST(boxFunctionsOnerut, meanInStateTest1) {
+    onerut_parser::FunctionFactoryContainer::global_instance().clear();
+    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
+    onerut_parser::AssetRefContainer::global_instance().clear();
+    // -------
+    ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, mean_in_eigenstate(2.6));
+    ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, mean_in_eigenstate(2.6, 7, 8, 8));
+    ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, mean_in_eigenstate(2.6, 7.5, 6));
+    ONERUT_BOX_ERROR_TEST(ArgumentDomainError, mean_in_eigenstate(eye(custom_domain(xx0, yy0)), eigd(eye(custom_domain(xx1, yy2))), 0));
+    // -------
+    const auto domain_asset = inuput_2_asset("dom := custom_domain(xx, yy, zz)");
+    ASSERT_TRUE(domain_asset.has_value());
+    const auto domain_asset_deref = domain_asset->deref();
+    ASSERT_TRUE(domain_asset_deref.is_either_value_or_type());
+    const auto domain = domain_asset_deref.typed_value_or_empty<onerut_normal_operator::CustomDomain>();
+    ASSERT_TRUE(domain.has_value());
+    EXPECT_EQ(3, (*domain)->size());
+    // -------
+    const auto eye_1_asset = inuput_2_asset("h1 := eye(dom)");
+    ASSERT_TRUE(eye_1_asset.has_value());
+    const auto eye_1_asset_deref = eye_1_asset->deref();
+    ASSERT_TRUE(eye_1_asset_deref.is_either_value_or_type());
+    const auto eye_1 = eye_1_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
+    ASSERT_TRUE(eye_1.has_value());
+    EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*eye_1)->get_domain()));
+    const auto eye_1_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EyeOperator>(*eye_1);
+    ASSERT_TRUE(eye_1_typed);
+    // -------
+    const auto eye_2_asset = inuput_2_asset("h2 := eye(dom)");
+    ASSERT_TRUE(eye_2_asset.has_value());
+    const auto eye_2_asset_deref = eye_2_asset->deref();
+    ASSERT_TRUE(eye_2_asset_deref.is_either_value_or_type());
+    const auto eye_2 = eye_2_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
+    ASSERT_TRUE(eye_2.has_value());
+    EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*eye_2)->get_domain()));
+    const auto eye_2_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EyeOperator>(*eye_2);
+    ASSERT_TRUE(eye_2_typed);
+    // -------
+    const auto eigs_asset = inuput_2_asset("eig := eigs(h1, 2)");
+    ASSERT_TRUE(eigs_asset.has_value());
+    const auto eigs_asset_deref = eigs_asset->deref();
+    ASSERT_TRUE(eigs_asset_deref.is_either_value_or_type());
+    const auto eigs = eigs_asset_deref.typed_value_or_empty<onerut_normal_operator::Eig>();
+    ASSERT_TRUE(eigs.has_value());
+    const auto eigs_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EigSparse>(*eigs);
+    ASSERT_TRUE(eigs_typed);
+    EXPECT_EQ(eye_1, eigs_typed->hamiltonian);
+    // -------
+    ONERUT_BOX_ERROR_TEST(ArgumentDomainError, mean_in_eigenstate(h2, eig, -1));
+    ONERUT_BOX_ERROR_TEST(ArgumentDomainError, mean_in_eigenstate(h2, eig, 2));
+    ONERUT_BOX_ERROR_TEST(ArgumentDomainError, mean_in_eigenstate(h2, eig, 3));
+    // -------
+    const auto mean_asset = inuput_2_asset("mean_in_eigenstate(h2, eig, 1)");
+    ASSERT_TRUE(mean_asset.has_value());
+    const auto mean_asset_deref = mean_asset->deref();
+    ASSERT_TRUE(mean_asset_deref.is_either_value_or_type());
+    const auto mean = mean_asset_deref.typed_value_or_empty<onerut_normal_operator::Mean>();
+    ASSERT_TRUE(mean.has_value());
+    EXPECT_EQ(eye_2, (*mean)->op);
+    EXPECT_EQ(eigs, (*mean)->eig);
+    const auto mean_typed = std::dynamic_pointer_cast<const onerut_normal_operator::MeanInEigenState>(*mean);
+    ASSERT_TRUE(mean_typed);
+    EXPECT_EQ(1, mean_typed->eigen_state);
+}
+
+TEST(boxFunctionsOnerut, meanThermalTest0) {
+    onerut_parser::FunctionFactoryContainer::global_instance().clear();
+    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
+    onerut_parser::AssetRefContainer::global_instance().clear();
+    // -------
+    ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, thermal_mean(2.6));
+    ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, thermal_mean(2.6, 7, 8, 8));
+    ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, thermal_mean(2.6, 7.5, 6));
+    ONERUT_BOX_ERROR_TEST(ArgumentDomainError, thermal_mean(eye(custom_domain(xx0, yy0)), eigd(eye(custom_domain(xx1, yy2))), 0));
+    // -------
+    const auto domain_asset = inuput_2_asset("dom := custom_domain(xx, yy, zz)");
+    ASSERT_TRUE(domain_asset.has_value());
+    const auto domain_asset_deref = domain_asset->deref();
+    ASSERT_TRUE(domain_asset_deref.is_either_value_or_type());
+    const auto domain = domain_asset_deref.typed_value_or_empty<onerut_normal_operator::CustomDomain>();
+    ASSERT_TRUE(domain.has_value());
+    EXPECT_EQ(3, (*domain)->size());
+    // -------
+    const auto eye_1_asset = inuput_2_asset("h1 := eye(dom)");
+    ASSERT_TRUE(eye_1_asset.has_value());
+    const auto eye_1_asset_deref = eye_1_asset->deref();
+    ASSERT_TRUE(eye_1_asset_deref.is_either_value_or_type());
+    const auto eye_1 = eye_1_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
+    ASSERT_TRUE(eye_1.has_value());
+    EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*eye_1)->get_domain()));
+    const auto eye_1_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EyeOperator>(*eye_1);
+    ASSERT_TRUE(eye_1_typed);
+    // -------
+    const auto eye_2_asset = inuput_2_asset("h2 := eye(dom)");
+    ASSERT_TRUE(eye_2_asset.has_value());
+    const auto eye_2_asset_deref = eye_2_asset->deref();
+    ASSERT_TRUE(eye_2_asset_deref.is_either_value_or_type());
+    const auto eye_2 = eye_2_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
+    ASSERT_TRUE(eye_2.has_value());
+    EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*eye_2)->get_domain()));
+    const auto eye_2_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EyeOperator>(*eye_2);
+    ASSERT_TRUE(eye_2_typed);
+    // -------
+    const auto eigs_asset = inuput_2_asset("eig := eigs(h1, 2)");
+    ASSERT_TRUE(eigs_asset.has_value());
+    const auto eigs_asset_deref = eigs_asset->deref();
+    ASSERT_TRUE(eigs_asset_deref.is_either_value_or_type());
+    const auto eigs = eigs_asset_deref.typed_value_or_empty<onerut_normal_operator::Eig>();
+    ASSERT_TRUE(eigs.has_value());
+    const auto eigs_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EigSparse>(*eigs);
+    ASSERT_TRUE(eigs_typed);
+    EXPECT_EQ(eye_1, eigs_typed->hamiltonian);
+    // -------
+    const auto mean_asset = inuput_2_asset("thermal_mean(h2, eig, 1.7)");
+    ASSERT_TRUE(mean_asset.has_value());
+    const auto mean_asset_deref = mean_asset->deref();
+    ASSERT_TRUE(mean_asset_deref.is_either_value_or_type());
+    const auto mean = mean_asset_deref.typed_value_or_empty<onerut_normal_operator::Mean>();
+    ASSERT_TRUE(mean.has_value());
+    EXPECT_EQ(eye_2, (*mean)->op);
+    EXPECT_EQ(eigs, (*mean)->eig);
+    const auto mean_typed = std::dynamic_pointer_cast<const onerut_normal_operator::MeanThermal>(*mean);
+    ASSERT_TRUE(mean_typed);
+    EXPECT_DOUBLE_EQ(1.7, mean_typed->temperature);
 }
