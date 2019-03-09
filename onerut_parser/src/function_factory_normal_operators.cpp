@@ -19,20 +19,20 @@ namespace onerut_parser {
     Asset CreateNormalOperatorCustomDomainFunctionFactory::make_function_otherwise_make_error(const std::vector<Asset>& argv) const {
         const auto argc = argv.size();
         // ---------------------------------------------------------------------
-        for (unsigned index = 0; index < argc; ++index)
+        for (uint32_t index = 0; index < argc; ++index)
             if (!utility::is_unset_ref(argv[index]))
                 return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
         // ---------------------------------------------------------------------
         // Take out state names:
         std::vector<std::string> state_names;
         state_names.reserve(argc);
-        for (unsigned index = 0; index < argc; ++index)
+        for (uint32_t index = 0; index < argc; ++index)
             state_names.push_back(utility::name_of_unset_ref(argv[index]));
         // Make domain object:
         auto domain = std::make_shared<onerut_normal_operator::CustomDomain>(state_names);
         auto domain_asset = Asset::from_value<onerut_normal_operator::CustomDomain>(domain);
         // Make state-index objects:
-        for (unsigned index = 0; index < argc; ++index) {
+        for (uint32_t index = 0; index < argc; ++index) {
             const std::string name = domain->state_name(index);
             const auto state_asset_deref = AssetDeref::from_value<onerut_normal_operator::StateIndex>(domain->crate_state(index));
             const auto state_ref = std::make_shared<AssetConstRef>(name, state_asset_deref);
