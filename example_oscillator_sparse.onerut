@@ -26,10 +26,10 @@ H_lambda_1 := (1 / 2.) * (x_shift*x_shift - ip*ip)
 
 # Dense matrix diagonalization:
 d_eig := eigd(H_lambda_1)
-d_mean_x := mean_in_eigenstate(d_eig, x, 0)
-d_mean_x2 := mean_in_eigenstate(d_eig, x * x, 0)
-d_mean_ip := mean_in_eigenstate(d_eig, ip, 0)
-d_mean_ip2 := mean_in_eigenstate(d_eig, ip * ip, 0)
+d_mean_x := mean_in_eigenstate(x, d_eig, 0)
+d_mean_x2 := mean_in_eigenstate(x * x, d_eig, 0)
+d_mean_ip := mean_in_eigenstate(ip, d_eig, 0)
+d_mean_ip2 := mean_in_eigenstate(ip * ip, d_eig, 0)
 d_sigma_x := sqrt( + d_mean_x2 - d_mean_x^2 )
 d_sigma_p := sqrt( - d_mean_ip2 + d_mean_ip^2 ) 
 d_sigma_join := d_sigma_x * d_sigma_p
@@ -42,19 +42,18 @@ VALUE(d_sigma_join)
 
 # Sparse matrix diagonalization:
 s_eig := eigs(H_lambda_1, 10)
-s_mean_x := mean_in_eigenstate(s_eig, x, 0)
-s_mean_x2 := mean_in_eigenstate(s_eig, x * x, 0)
-s_mean_ip := mean_in_eigenstate(s_eig, ip, 0)
-s_mean_ip2 := mean_in_eigenstate(s_eig, ip * ip, 0)
+s_mean_x := mean_in_eigenstate(x, s_eig, 0)
+s_mean_x2 := mean_in_eigenstate(x * x, s_eig, 0)
+s_mean_ip := mean_in_eigenstate(ip, s_eig, 0)
+s_mean_ip2 := mean_in_eigenstate(ip * ip, s_eig, 0)
 s_sigma_x := sqrt( + s_mean_x2 - s_mean_x^2 )
 s_sigma_p := sqrt( - s_mean_ip2 + s_mean_ip^2 ) 
 s_sigma_join := s_sigma_x * s_sigma_p
 LATCH(s_eig) # execute and latch value - performance optimization
+#VALUE(s_eig)
 LATCH(s_mean_ip)
 LATCH(s_mean_ip2)
 LATCH(s_mean_x)
 LATCH(s_mean_x2)
-#VALUE(s_eig)
 VALUE(s_sigma_join)
-
 
