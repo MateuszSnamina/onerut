@@ -114,13 +114,13 @@ namespace onerut_parser::utility {
     std::shared_ptr < const onerut_normal_operator::KronPlaceholder >
     to_kron_operator_domain_placeholder(const onerut_parser::AssetDeref&);
     
-    std::shared_ptr < const onerut_normal_operator::AbstractOperator >
+    std::shared_ptr < const onerut_normal_operator::AbstractRealOperator >
     to_normal_operator(const onerut_parser::AssetDeref&);
 
-    //    std::shared_ptr<onerut_operator::AbstractOperator<FERMION_KET_T> >
+    //    std::shared_ptr<onerut_operator::AbstractRealOperator<FERMION_KET_T> >
     //    to_fermion_operator(const onerut_parser::AssetDeref&);
 
-    //    std::shared_ptr<onerut_operator::AbstractOperator<BOSON_KET_T> >
+    //    std::shared_ptr<onerut_operator::AbstractRealOperator<BOSON_KET_T> >
     //    to_boson_operator(const onerut_parser::AssetDeref&);
 
     std::shared_ptr < onerut_normal_operator::Eig >
@@ -140,13 +140,13 @@ namespace onerut_parser::utility {
     std::vector<std::shared_ptr <const onerut_scalar::Complex > >
     many_to_complex(std::vector<onerut_parser::AssetDeref>);
 
-    std::vector<std::shared_ptr < const onerut_normal_operator::AbstractOperator > >
+    std::vector<std::shared_ptr < const onerut_normal_operator::AbstractRealOperator > >
     many_to_normal_operator(std::vector<onerut_parser::AssetDeref>);
 
-    //    std::vector<std::shared_ptr < onerut_operator::AbstractOperator<FERMION_KET_T> > >
+    //    std::vector<std::shared_ptr < onerut_operator::AbstractRealOperator<FERMION_KET_T> > >
     //    many_to_fermion_operator(std::vector<onerut_parser::AssetDeref> argv_asset_deref);
 
-    //    std::vector<std::shared_ptr < onerut_operator::AbstractOperator<BOSON_KET_T> > >
+    //    std::vector<std::shared_ptr < onerut_operator::AbstractRealOperator<BOSON_KET_T> > >
     //    many_to_bozon_operator(std::vector<onerut_parser::AssetDeref> argv_asset_deref);
 
     std::vector<std::shared_ptr < const onerut_normal_operator::Domain > >

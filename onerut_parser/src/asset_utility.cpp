@@ -150,7 +150,7 @@ namespace onerut_parser::utility {
 
     bool
     is_normal_operator(const onerut_parser::AssetDeref& arg) {
-        using OperatorT = onerut_normal_operator::AbstractOperator;
+        using OperatorT = onerut_normal_operator::AbstractRealOperator;
         assert(!arg.is_empty());
         assert(!arg.is_compile_error());
         return arg.is_given_type<OperatorT>();
@@ -280,9 +280,9 @@ namespace onerut_parser::utility {
         return arg_typed;
     }
 
-    std::shared_ptr < const onerut_normal_operator::AbstractOperator >
+    std::shared_ptr < const onerut_normal_operator::AbstractRealOperator >
     to_normal_operator(const onerut_parser::AssetDeref& arg) {
-        using OperatorT = onerut_normal_operator::AbstractOperator;
+        using OperatorT = onerut_normal_operator::AbstractRealOperator;
         assert(is_normal_operator(arg));
         const auto& arg_normal_operator = *arg.typed_value_or_empty<OperatorT>();
         assert(arg_normal_operator);
@@ -336,9 +336,9 @@ namespace onerut_parser::utility {
         return argv_complex;
     }
 
-    std::vector<std::shared_ptr < const onerut_normal_operator::AbstractOperator > >
+    std::vector<std::shared_ptr < const onerut_normal_operator::AbstractRealOperator > >
     many_to_normal_operator(std::vector<onerut_parser::AssetDeref> argv_asset_deref) {
-        std::vector< std::shared_ptr < const onerut_normal_operator::AbstractOperator > > argv_operator;
+        std::vector< std::shared_ptr < const onerut_normal_operator::AbstractRealOperator > > argv_operator;
         argv_operator.reserve(argv_asset_deref.size());
         std::transform(argv_asset_deref.cbegin(), argv_asset_deref.cend(),
                 std::back_inserter(argv_operator), to_normal_operator);

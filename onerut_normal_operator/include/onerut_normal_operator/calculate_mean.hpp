@@ -8,16 +8,16 @@
 namespace onerut_normal_operator {
 
     double calculate_mean(
-            const AbstractOperator& op, const arma::vec& col);
+            const AbstractRealOperator& op, const arma::vec& col);
 
     arma::vec many_calculate_mean(
-            const AbstractOperator& op, const arma::mat& cols);
+            const AbstractRealOperator& op, const arma::mat& cols);
 
     arma::vec calculate_thermal_weights(
             arma::vec energies, double temperature);
 
     double calculate_thermal_mean(
-            const AbstractOperator& op, const arma::mat& cols,
+            const AbstractRealOperator& op, const arma::mat& cols,
             const arma::vec& energies, double temperature);
 
 }

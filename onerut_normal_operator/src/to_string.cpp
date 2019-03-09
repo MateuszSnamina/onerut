@@ -26,7 +26,7 @@ namespace onerut_normal_operator {
         return result;
     }
 
-    std::string to_string(const AbstractOperator& op, std::string line_prefix) {
+    std::string to_string(const AbstractRealOperator& op, std::string line_prefix) {
         std::ostringstream sstream;
         sstream << std::fixed;
         sstream << std::showpos;

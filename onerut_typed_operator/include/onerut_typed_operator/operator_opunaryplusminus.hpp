@@ -10,15 +10,16 @@ namespace onerut_typed_operator {
     // ------------------ OPUNARYPLUSMINUS OPERATOR  ---------------------------
     // -------------------------------------------------------------------------    
 
-    template<typename _BraKetT>
-    class OpUnaryPlusMinusOperator : public AbstractOperator<_BraKetT> {
+    template<typename _ScalarT, typename _BraKetT>
+    class OpUnaryPlusMinusOperator : public AbstractOperator<_ScalarT, _BraKetT> {
     public:
+        using ScalarT = _ScalarT;        
         using BraKetT = _BraKetT;
-        using AbstractOpT = AbstractOperator<BraKetT>;
+        using AbstractOpT = AbstractOperator<ScalarT, BraKetT>;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
-        using AbstractIteratorT = AbstractResultIterator<BraKetT>;
+        using AbstractIteratorT = AbstractResultIterator<ScalarT, BraKetT>;
         using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
-        using IteratorT = OpUnaryPlusMinusOperatorIterator<BraKetT>;
+        using IteratorT = OpUnaryPlusMinusOperatorIterator<ScalarT, BraKetT>;
         OpUnaryPlusMinusOperator(AbstractOpPtrT arg, char op);
         AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
     private:
@@ -30,17 +31,17 @@ namespace onerut_typed_operator {
     // ------------------ OPUNARYPLUSMINUS OPERATOR - IMPLEMENTATION -----------
     // -------------------------------------------------------------------------    
 
-    template<typename _BraKetT>
-    OpUnaryPlusMinusOperator<_BraKetT>::OpUnaryPlusMinusOperator(
+    template<typename _ScalarT, typename _BraKetT>
+    OpUnaryPlusMinusOperator<_ScalarT, _BraKetT>::OpUnaryPlusMinusOperator(
             AbstractOpPtrT arg,
             char op) :
     arg(arg),
     op(op) {
     }
 
-    template<typename _BraKetT>
-    typename OpUnaryPlusMinusOperator<_BraKetT>::AbstractIteratorPtrT
-    OpUnaryPlusMinusOperator<_BraKetT>::begin_itptr(const BraKetT& ket) const {
+    template<typename _ScalarT, typename _BraKetT>
+    typename OpUnaryPlusMinusOperator<_ScalarT, _BraKetT>::AbstractIteratorPtrT
+    OpUnaryPlusMinusOperator<_ScalarT, _BraKetT>::begin_itptr(const BraKetT& ket) const {
         return std::make_unique<IteratorT>(op, arg, ket);
     }
 

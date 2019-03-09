@@ -34,7 +34,7 @@ namespace onerut_parser {
             return esc::EscDataBuilder() << esc::manip::italic << esc::manip::yellow << esc::manip::build_esc_data;
         if (asset.deref().is_given_type<onerut_normal_operator::StateIndex>())
             return esc::EscDataBuilder() << esc::manip::italic << esc::manip::yellow << esc::manip::build_esc_data;
-        if (asset.deref().is_given_type<onerut_normal_operator::AbstractOperator>())
+        if (asset.deref().is_given_type<onerut_normal_operator::AbstractRealOperator>())
             return esc::EscDataBuilder() << esc::manip::bold << esc::manip::yellow << esc::manip::build_esc_data;
 
         return esc::EscDataBuilder() << esc::manip::build_esc_data;

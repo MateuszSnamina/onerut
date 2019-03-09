@@ -9,14 +9,15 @@
 
 namespace onerut_normal_operator {
 
-    class HopOperator : public AbstractOperator {
+    class HopOperator : public AbstractRealOperator {
     public:
-        using AbstractOperator::BraKetT;
-        using AbstractOperator::AbstractOpT;
-        using AbstractOperator::AbstractOpPtrT;
-        using AbstractOperator::AbstractIteratorT;
-        using AbstractOperator::AbstractIteratorPtrT;
-        using IteratorT = onerut_typed_operator::SimpleOperatorIterator<BraKetT>;
+        using ScalarT = double;
+        using BraKetT = uint32_t;
+        using AbstractOpT = AbstractOperator<ScalarT>;
+        using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
+        using AbstractIteratorT = onerut_typed_operator::AbstractResultIterator<ScalarT, BraKetT>;
+        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
+        using IteratorT = onerut_typed_operator::SimpleOperatorIterator<ScalarT, BraKetT>;
         static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);
         HopOperator(std::shared_ptr<const onerut_scalar::Real> value,
                 std::shared_ptr<const StateIndex> state_1,
@@ -29,14 +30,15 @@ namespace onerut_normal_operator {
         const std::shared_ptr<const StateIndex> state_2;
     };
 
-    class DiagOperator : public AbstractOperator {
+    class DiagOperator : public AbstractRealOperator {
     public:
-        using AbstractOperator::BraKetT;
-        using AbstractOperator::AbstractOpT;
-        using AbstractOperator::AbstractOpPtrT;
-        using AbstractOperator::AbstractIteratorT;
-        using AbstractOperator::AbstractIteratorPtrT;
-        using IteratorT = onerut_typed_operator::SimpleOperatorIterator<BraKetT>;
+        using ScalarT = double;
+        using BraKetT = uint32_t;
+        using AbstractOpT = AbstractOperator<ScalarT>;
+        using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
+        using AbstractIteratorT = onerut_typed_operator::AbstractResultIterator<ScalarT, BraKetT>;
+        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
+        using IteratorT = onerut_typed_operator::SimpleOperatorIterator<ScalarT, BraKetT>;
         static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);
         DiagOperator(std::shared_ptr<const onerut_scalar::Real> value,
                 std::shared_ptr<const StateIndex> state);
@@ -47,14 +49,15 @@ namespace onerut_normal_operator {
         const std::shared_ptr<const StateIndex> state;
     };
 
-    class EyeOperator : public AbstractOperator {
+    class EyeOperator : public AbstractRealOperator {
     public:
-        using AbstractOperator::BraKetT;
-        using AbstractOperator::AbstractOpT;
-        using AbstractOperator::AbstractOpPtrT;
-        using AbstractOperator::AbstractIteratorT;
-        using AbstractOperator::AbstractIteratorPtrT;
-        using IteratorT = onerut_typed_operator::SimpleOperatorIterator<BraKetT>;
+        using ScalarT = double;
+        using BraKetT = uint32_t;
+        using AbstractOpT = AbstractOperator<ScalarT>;
+        using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
+        using AbstractIteratorT = onerut_typed_operator::AbstractResultIterator<ScalarT, BraKetT>;
+        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
+        using IteratorT = onerut_typed_operator::SimpleOperatorIterator<ScalarT, BraKetT>;
         static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);
         EyeOperator(std::shared_ptr<const Domain> domain);
         AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;

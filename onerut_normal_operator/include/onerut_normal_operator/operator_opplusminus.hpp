@@ -12,14 +12,15 @@ namespace onerut_normal_operator {
     // ------------------ PlusMinus OPERATOR  ----------------------------------
     // -------------------------------------------------------------------------    
 
-    class OpPlusMinusOperator : public AbstractOperator {
+    class OpPlusMinusOperator : public AbstractRealOperator {
     public:
-        using AbstractOperator::BraKetT;
-        using AbstractOperator::AbstractOpT;
-        using AbstractOperator::AbstractOpPtrT;
-        using AbstractOperator::AbstractIteratorT;
-        using AbstractOperator::AbstractIteratorPtrT;
-        using IteratorT = onerut_typed_operator::OpPlusMinusOperatorIterator<BraKetT, AbstractOpT>;
+        using ScalarT = double;
+        using BraKetT = uint32_t;
+        using AbstractOpT = AbstractOperator<ScalarT>;
+        using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
+        using AbstractIteratorT = onerut_typed_operator::AbstractResultIterator<ScalarT, BraKetT>;
+        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
+        using IteratorT = onerut_typed_operator::OpPlusMinusOperatorIterator<ScalarT, BraKetT, AbstractOpT>;
         static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);
         OpPlusMinusOperator(
                 const AbstractOpPtrT& first_arg,

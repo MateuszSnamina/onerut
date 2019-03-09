@@ -105,8 +105,8 @@ namespace onerut_parser {
     };
     
     template<>
-    struct PrintValueRequestTyped<onerut_normal_operator::AbstractOperator> : public PrintValueRequest {
-        using Type = onerut_normal_operator::AbstractOperator;
+    struct PrintValueRequestTyped<onerut_normal_operator::AbstractRealOperator> : public PrintValueRequest {
+        using Type = onerut_normal_operator::AbstractRealOperator;
         PrintValueRequestTyped(std::shared_ptr<Type> instance);
         void print(std::ostream& stream, std::string line_prefix) const override;
         const std::shared_ptr<Type> instance;

@@ -165,12 +165,12 @@ namespace onerut_parser {
 
     // *************************************************************************
 
-    PrintValueRequestTyped<onerut_normal_operator::AbstractOperator>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
+    PrintValueRequestTyped<onerut_normal_operator::AbstractRealOperator>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
     instance(instance) {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_normal_operator::AbstractOperator>::print(std::ostream& stream, std::string line_prefix) const {
+    void PrintValueRequestTyped<onerut_normal_operator::AbstractRealOperator>::print(std::ostream& stream, std::string line_prefix) const {
         assert(instance);
         stream << onerut_normal_operator::to_string(*instance, line_prefix + "[value] "); //TODO to_string change to operator<<
     }

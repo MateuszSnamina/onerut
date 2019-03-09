@@ -11,14 +11,15 @@ namespace onerut_normal_operator {
 
     // -------------------------------------------------------------------------
 
-    class KronAtOperator : public AbstractOperator {
+    class KronAtOperator : public onerut_normal_operator::AbstractRealOperator {
     public:
-        using AbstractOperator::BraKetT;
-        using AbstractOperator::AbstractOpT;
-        using AbstractOperator::AbstractOpPtrT;
-        using AbstractOperator::AbstractIteratorT;
-        using AbstractOperator::AbstractIteratorPtrT;
-        using IteratorT = onerut_normal_operator::KronIterator;
+        using ScalarT = double;
+        using BraKetT = uint32_t;
+        using AbstractOpT = AbstractOperator<ScalarT>;
+        using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
+        using AbstractIteratorT = onerut_typed_operator::AbstractResultIterator<ScalarT, BraKetT>;
+        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;        
+        using IteratorT = onerut_normal_operator::KronIterator<double>;
         static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);
         KronAtOperator(AbstractOpPtrT subdomain_op, std::shared_ptr<const KronPlaceholder> placeholder);
         AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;

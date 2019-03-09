@@ -12,7 +12,7 @@ namespace onerut_normal_operator {
     // *************************************************************************
 
     Mean::Mean(
-            std::shared_ptr<const AbstractOperator> op,
+            std::shared_ptr<const AbstractRealOperator> op,
             std::shared_ptr<const Eig> eig) :
     op(op),
     eig(eig),
@@ -38,7 +38,7 @@ namespace onerut_normal_operator {
     // *************************************************************************
 
     MeanInEigenState::MeanInEigenState(
-            std::shared_ptr<const AbstractOperator> op,
+            std::shared_ptr<const AbstractRealOperator> op,
             std::shared_ptr<const Eig> eig,
             uint32_t eigen_state) :
     Mean(op, eig),
@@ -56,7 +56,7 @@ namespace onerut_normal_operator {
     // *************************************************************************
 
     MeanThermal::MeanThermal(
-            std::shared_ptr<const AbstractOperator> op,
+            std::shared_ptr<const AbstractRealOperator> op,
             std::shared_ptr<const Eig> eig,
             double temperature) :
     Mean(op, eig),

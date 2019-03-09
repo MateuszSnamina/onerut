@@ -110,7 +110,7 @@ namespace onerut_parser {
             stream << line_prefix << "[asset-deref] "
                     << "Asset-defer is a " << esc::manip::italic << "kron-domain-placeholder" << esc::manip::reset << "."
                     << std::endl;
-        } else if (asset.deref().is_given_type<onerut_normal_operator::AbstractOperator>()) {
+        } else if (asset.deref().is_given_type<onerut_normal_operator::AbstractRealOperator>()) {
             stream << line_prefix << "[asset-deref] "
                     << "Asset-defer is a " << esc::manip::italic << "normal-domain-operator" << esc::manip::reset << "."
                     << std::endl;

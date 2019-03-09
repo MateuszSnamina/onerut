@@ -10,15 +10,16 @@ namespace onerut_typed_operator {
     // ------------------ OpProd OPERATOR  -------------------------------------
     // -------------------------------------------------------------------------    
 
-    template<typename _BraKetT>
-    class OpProdOperator : public AbstractOperator<_BraKetT> {
+    template<typename _ScalarT, typename _BraKetT>
+    class OpProdOperator : public AbstractOperator<_ScalarT, _BraKetT> {
     public:
+        using ScalarT = _ScalarT;
         using BraKetT = _BraKetT;
-        using AbstractOpT = AbstractOperator<BraKetT>;
+        using AbstractOpT = AbstractOperator<ScalarT, BraKetT>;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
-        using AbstractIteratorT = AbstractResultIterator<BraKetT>;
+        using AbstractIteratorT = AbstractResultIterator<ScalarT, BraKetT>;
         using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
-        using IteratorT = OpProdOperatorIterator<BraKetT, AbstractOpT>; //TODO: remove BraKetT when refactor OpProdOperatorIterator
+        using IteratorT = OpProdOperatorIterator<ScalarT, BraKetT, AbstractOpT>; //TODO: remove BraKetT when refactor OpProdOperatorIterator
         OpProdOperator(std::vector<AbstractOpPtrT> argv);
         AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
     private:
@@ -29,14 +30,14 @@ namespace onerut_typed_operator {
     // ------------------ Prod OPERATOR - implementation  ----------------------
     // -------------------------------------------------------------------------    
 
-    template<typename _BraKetT>
-    OpProdOperator<_BraKetT>::OpProdOperator(std::vector<AbstractOpPtrT> argv) :
+    template<typename _ScalarT, typename _BraKetT>
+    OpProdOperator<_ScalarT, _BraKetT>::OpProdOperator(std::vector<AbstractOpPtrT> argv) :
     argv(argv) {
     }
 
-    template<typename _BraKetT>
-    typename OpProdOperator<_BraKetT>::AbstractIteratorPtrT
-    OpProdOperator<_BraKetT>::begin_itptr(const BraKetT & ket) const {
+    template<typename _ScalarT, typename _BraKetT>
+    typename OpProdOperator<_ScalarT, _BraKetT>::AbstractIteratorPtrT
+    OpProdOperator<_ScalarT, _BraKetT>::begin_itptr(const BraKetT & ket) const {
         return std::make_unique<IteratorT>(argv, ket);
     }
 

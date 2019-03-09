@@ -8,7 +8,7 @@
 namespace onerut_normal_operator {
 
     std::string to_string(const Domain& domain);
-    std::string to_string(const AbstractOperator& op, std::string line_prefix = "");
+    std::string to_string(const AbstractRealOperator& op, std::string line_prefix = "");
     std::string to_string(const Eig& eigs, std::string line_prefix = "");
 
 }

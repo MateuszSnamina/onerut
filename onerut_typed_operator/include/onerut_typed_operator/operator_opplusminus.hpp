@@ -10,15 +10,16 @@ namespace onerut_typed_operator {
     // ------------------ PlusMinus OPERATOR  ----------------------------------
     // -------------------------------------------------------------------------    
 
-    template<typename _BraKetT>
-    class OpPlusMinusOperator : public AbstractOperator<_BraKetT> {
+    template<typename _ScalarT, typename _BraKetT>
+    class OpPlusMinusOperator : public AbstractOperator<_ScalarT, _BraKetT> {
     public:
+        using ScalarT = _ScalarT;        
         using BraKetT = _BraKetT;
-        using AbstractOpT = AbstractOperator<BraKetT>;
+        using AbstractOpT = AbstractOperator<ScalarT, BraKetT>;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
-        using AbstractIteratorT = AbstractResultIterator<BraKetT>;
+        using AbstractIteratorT = AbstractResultIterator<ScalarT, BraKetT>;
         using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
-        using IteratorT = OpPlusMinusOperatorIterator<BraKetT, AbstractOpT>;
+        using IteratorT = OpPlusMinusOperatorIterator<ScalarT, BraKetT, AbstractOpT>;
         OpPlusMinusOperator(
                 const AbstractOpPtrT& first_arg,
                 const std::vector<AbstractOpPtrT>& other_argv,
@@ -34,8 +35,8 @@ namespace onerut_typed_operator {
     // ------------------ PlusMinus OPERATOR - implementation  -----------------
     // -------------------------------------------------------------------------    
 
-    template<typename _BraKetT>
-    OpPlusMinusOperator<_BraKetT>::OpPlusMinusOperator(
+    template<typename _ScalarT, typename _BraKetT>
+    OpPlusMinusOperator<_ScalarT, _BraKetT>::OpPlusMinusOperator(
             const AbstractOpPtrT& first_arg,
             const std::vector<AbstractOpPtrT>& other_argv,
             const std::vector<char>& opv) :
@@ -45,9 +46,9 @@ namespace onerut_typed_operator {
         assert(other_argv.size() == opv.size());
     }
 
-    template<typename _BraKetT>
-    typename OpPlusMinusOperator<_BraKetT>::AbstractIteratorPtrT
-    OpPlusMinusOperator<_BraKetT>::begin_itptr(const BraKetT& ket) const {
+    template<typename _ScalarT, typename _BraKetT>
+    typename OpPlusMinusOperator<_ScalarT, _BraKetT>::AbstractIteratorPtrT
+    OpPlusMinusOperator<_ScalarT, _BraKetT>::begin_itptr(const BraKetT& ket) const {
         return std::make_unique<IteratorT>(first_arg, other_argv, opv, ket);
     }
 

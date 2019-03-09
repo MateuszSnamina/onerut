@@ -8,14 +8,15 @@
 
 namespace onerut_normal_operator {
 
-    class ZeroOperator : public AbstractOperator {
+    class ZeroOperator : public AbstractRealOperator {
     public:
-        using AbstractOperator::BraKetT;
-        using AbstractOperator::AbstractOpT;
-        using AbstractOperator::AbstractOpPtrT;
-        using AbstractOperator::AbstractIteratorT;
-        using AbstractOperator::AbstractIteratorPtrT;
-        using IteratorT = onerut_typed_operator::ZeroOperatorIterator<BraKetT>;
+        using ScalarT = double;
+        using BraKetT = uint32_t;
+        using AbstractOpT = AbstractOperator<ScalarT>;
+        using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
+        using AbstractIteratorT = onerut_typed_operator::AbstractResultIterator<ScalarT, BraKetT>;
+        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
+        using IteratorT = onerut_typed_operator::ZeroOperatorIterator<ScalarT, BraKetT>;
         static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);
         ZeroOperator(std::shared_ptr<const Domain> domain);
         AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;

@@ -9,18 +9,19 @@
 
 namespace onerut_normal_operator {
 
-    class ScalledOperator : public AbstractOperator {
+    class ScalledOperator : public AbstractRealOperator {
     public:
-        using AbstractOperator::BraKetT;
-        using AbstractOperator::AbstractOpT;
-        using AbstractOperator::AbstractOpPtrT;
-        using AbstractOperator::AbstractIteratorT;
-        using AbstractOperator::AbstractIteratorPtrT;
-        using IteratorT = onerut_typed_operator::ScalledOperatorIterator<BraKetT>;
-        static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);        
+        using ScalarT = double;
+        using BraKetT = uint32_t;
+        using AbstractOpT = AbstractOperator<ScalarT>;
+        using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
+        using AbstractIteratorT = onerut_typed_operator::AbstractResultIterator<ScalarT, BraKetT>;
+        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
+        using IteratorT = onerut_typed_operator::ScalledOperatorIterator<ScalarT, BraKetT>;
+        static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);
         ScalledOperator(std::shared_ptr<const onerut_scalar::Real> factor, AbstractOpPtrT arg);
         AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
-        std::shared_ptr<const Domain> get_domain() const override;        
+        std::shared_ptr<const Domain> get_domain() const override;
     public:
         const std::shared_ptr<const onerut_scalar::Real> factor;
         const AbstractOpPtrT arg;

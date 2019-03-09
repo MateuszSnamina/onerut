@@ -10,14 +10,15 @@
 
 namespace onerut_normal_operator {
 
-    class SpinZetOperator : public AbstractOperator {
+    class SpinZetOperator : public AbstractRealOperator {
     public:
-        using AbstractOperator::BraKetT;
-        using AbstractOperator::AbstractOpT;
-        using AbstractOperator::AbstractOpPtrT;
-        using AbstractOperator::AbstractIteratorT;
-        using AbstractOperator::AbstractIteratorPtrT;
-        using IteratorT = onerut_typed_operator::SimpleOperatorIterator<BraKetT>;
+        using ScalarT = double;
+        using BraKetT = uint32_t;
+        using AbstractOpT = AbstractOperator<ScalarT>;
+        using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
+        using AbstractIteratorT = onerut_typed_operator::AbstractResultIterator<ScalarT, BraKetT>;
+        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
+        using IteratorT = onerut_typed_operator::SimpleOperatorIterator<ScalarT, BraKetT>;
         static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);
         SpinZetOperator(std::shared_ptr<const SpinDomain> domain);
         AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
@@ -25,15 +26,16 @@ namespace onerut_normal_operator {
     private:
         std::shared_ptr<const SpinDomain> domain;
     };
-    
-    class SpinPlusOperator : public AbstractOperator {
+
+    class SpinPlusOperator : public AbstractRealOperator {
     public:
-        using AbstractOperator::BraKetT;
-        using AbstractOperator::AbstractOpT;
-        using AbstractOperator::AbstractOpPtrT;
-        using AbstractOperator::AbstractIteratorT;
-        using AbstractOperator::AbstractIteratorPtrT;
-        using IteratorT = onerut_typed_operator::SimpleOperatorIterator<BraKetT>;
+        using ScalarT = double;
+        using BraKetT = uint32_t;
+        using AbstractOpT = AbstractOperator<ScalarT>;
+        using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
+        using AbstractIteratorT = onerut_typed_operator::AbstractResultIterator<ScalarT, BraKetT>;
+        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
+        using IteratorT = onerut_typed_operator::SimpleOperatorIterator<ScalarT, BraKetT>;
         static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);
         SpinPlusOperator(std::shared_ptr<const SpinDomain> domain);
         AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
@@ -42,14 +44,15 @@ namespace onerut_normal_operator {
         std::shared_ptr<const SpinDomain> domain;
     };
 
-    class SpinMinusOperator : public AbstractOperator {
+    class SpinMinusOperator : public AbstractRealOperator {
     public:
-        using AbstractOperator::BraKetT;
-        using AbstractOperator::AbstractOpT;
-        using AbstractOperator::AbstractOpPtrT;
-        using AbstractOperator::AbstractIteratorT;
-        using AbstractOperator::AbstractIteratorPtrT;
-        using IteratorT = onerut_typed_operator::SimpleOperatorIterator<BraKetT>;
+        using ScalarT = double;
+        using BraKetT = uint32_t;
+        using AbstractOpT = AbstractOperator<ScalarT>;
+        using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
+        using AbstractIteratorT = onerut_typed_operator::AbstractResultIterator<ScalarT, BraKetT>;
+        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
+        using IteratorT = onerut_typed_operator::SimpleOperatorIterator<ScalarT, BraKetT>;
         static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);
         SpinMinusOperator(std::shared_ptr<const SpinDomain> domain);
         AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;

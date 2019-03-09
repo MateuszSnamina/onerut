@@ -16,7 +16,7 @@ namespace cpp20 {
 namespace onerut_normal_operator {
 
     double calculate_mean(
-            const AbstractOperator& op, const arma::vec& col) {
+            const AbstractRealOperator& op, const arma::vec& col) {
         const auto space_dim = op.get_domain()->size();
         assert(boost::numeric_cast<arma::uword>(space_dim) == col.n_elem);
         using BraKetT = typename cpp20::remove_cvref<decltype(space_dim)>::type;
@@ -37,7 +37,7 @@ namespace onerut_normal_operator {
     }
 
     arma::vec many_calculate_mean(
-            const AbstractOperator& op, const arma::mat& cols) {
+            const AbstractRealOperator& op, const arma::mat& cols) {
         const auto space_dim = op.get_domain()->size();
         assert(boost::numeric_cast<arma::uword>(space_dim) == cols.n_rows);
         using BraKetT = typename cpp20::remove_cvref<decltype(space_dim)>::type;
@@ -78,7 +78,7 @@ namespace onerut_normal_operator {
     }
 
     double calculate_thermal_mean(
-            const AbstractOperator& op, const arma::mat& cols,
+            const AbstractRealOperator& op, const arma::mat& cols,
             const arma::vec& energies, double temperature) {
         assert(energies.n_elem == cols.n_cols);
         const auto weights = calculate_thermal_weights(energies, temperature);

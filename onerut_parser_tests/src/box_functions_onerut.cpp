@@ -285,7 +285,7 @@ TEST(boxFunctionsOnerut, diagOperatorTest0) {
     ASSERT_TRUE(operator_diag_asset.has_value());
     const auto operator_diag_asset_deref = operator_diag_asset->deref();
     ASSERT_TRUE(operator_diag_asset_deref.is_either_value_or_type());
-    const auto operator_diag = operator_diag_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
+    const auto operator_diag = operator_diag_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractRealOperator>();
     ASSERT_TRUE(operator_diag.has_value());
     EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*operator_diag)->get_domain()));
     const auto operator_diag_typed = std::dynamic_pointer_cast<const onerut_normal_operator::DiagOperator>(*operator_diag);
@@ -318,7 +318,7 @@ TEST(boxFunctionsOnerut, hopOperatorTest0) {
     ASSERT_TRUE(operator_hop_asset.has_value());
     const auto operator_hop_asset_deref = operator_hop_asset->deref();
     ASSERT_TRUE(operator_hop_asset_deref.is_either_value_or_type());
-    const auto operator_hop = operator_hop_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
+    const auto operator_hop = operator_hop_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractRealOperator>();
     ASSERT_TRUE(operator_hop.has_value());
     EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*operator_hop)->get_domain()));
     const auto operator_hop_typed = std::dynamic_pointer_cast<const onerut_normal_operator::HopOperator>(*operator_hop);
@@ -385,7 +385,7 @@ TEST(boxFunctionsOnerut, opPlusMinusTest0) {
     ASSERT_TRUE(eye_1_asset.has_value());
     const auto eye_1_asset_deref = eye_1_asset->deref();
     ASSERT_TRUE(eye_1_asset_deref.is_either_value_or_type());
-    const auto eye_1 = eye_1_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
+    const auto eye_1 = eye_1_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractRealOperator>();
     ASSERT_TRUE(eye_1.has_value());
     EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*eye_1)->get_domain()));
     const auto eye_1_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EyeOperator>(*eye_1);
@@ -395,7 +395,7 @@ TEST(boxFunctionsOnerut, opPlusMinusTest0) {
     ASSERT_TRUE(eye_2_asset.has_value());
     const auto eye_2_asset_deref = eye_2_asset->deref();
     ASSERT_TRUE(eye_2_asset_deref.is_either_value_or_type());
-    const auto eye_2 = eye_2_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
+    const auto eye_2 = eye_2_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractRealOperator>();
     ASSERT_TRUE(eye_2.has_value());
     EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*eye_2)->get_domain()));
     const auto eye_2_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EyeOperator>(*eye_2);
@@ -405,7 +405,7 @@ TEST(boxFunctionsOnerut, opPlusMinusTest0) {
     ASSERT_TRUE(sum_asset.has_value());
     const auto sum_asset_deref = sum_asset->deref();
     ASSERT_TRUE(sum_asset_deref.is_either_value_or_type());
-    const auto sum = sum_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
+    const auto sum = sum_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractRealOperator>();
     ASSERT_TRUE(sum.has_value());
     EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*sum)->get_domain()));
     const auto sum_typed = std::dynamic_pointer_cast<const onerut_normal_operator::OpPlusMinusOperator>(*sum);
@@ -434,7 +434,7 @@ TEST(boxFunctionsOnerut, opUnaryPlusMinusOperatorTest0) {
     ASSERT_TRUE(eye_asset.has_value());
     const auto eye_asset_deref = eye_asset->deref();
     ASSERT_TRUE(eye_asset_deref.is_either_value_or_type());
-    const auto eye = eye_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
+    const auto eye = eye_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractRealOperator>();
     ASSERT_TRUE(eye.has_value());
     EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*eye)->get_domain()));
     const auto eye_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EyeOperator>(*eye);
@@ -444,7 +444,7 @@ TEST(boxFunctionsOnerut, opUnaryPlusMinusOperatorTest0) {
     ASSERT_TRUE(minus_asset.has_value());
     const auto minus_asset_deref = minus_asset->deref();
     ASSERT_TRUE(minus_asset_deref.is_either_value_or_type());
-    const auto minus = minus_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
+    const auto minus = minus_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractRealOperator>();
     ASSERT_TRUE(minus.has_value());
     EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*minus)->get_domain()));
     const auto minus_typed = std::dynamic_pointer_cast<const onerut_normal_operator::OpUnaryPlusMinusOperator>(*minus);
@@ -474,7 +474,7 @@ TEST(boxFunctionsOnerut, opProdTest0) {
     ASSERT_TRUE(eye_1_asset.has_value());
     const auto eye_1_asset_deref = eye_1_asset->deref();
     ASSERT_TRUE(eye_1_asset_deref.is_either_value_or_type());
-    const auto eye_1 = eye_1_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
+    const auto eye_1 = eye_1_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractRealOperator>();
     ASSERT_TRUE(eye_1.has_value());
     EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*eye_1)->get_domain()));
     const auto eye_1_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EyeOperator>(*eye_1);
@@ -484,7 +484,7 @@ TEST(boxFunctionsOnerut, opProdTest0) {
     ASSERT_TRUE(eye_2_asset.has_value());
     const auto eye_2_asset_deref = eye_2_asset->deref();
     ASSERT_TRUE(eye_2_asset_deref.is_either_value_or_type());
-    const auto eye_2 = eye_2_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
+    const auto eye_2 = eye_2_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractRealOperator>();
     ASSERT_TRUE(eye_2.has_value());
     EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*eye_2)->get_domain()));
     const auto eye_2_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EyeOperator>(*eye_2);
@@ -494,7 +494,7 @@ TEST(boxFunctionsOnerut, opProdTest0) {
     ASSERT_TRUE(prod_asset.has_value());
     const auto prod_asset_deref = prod_asset->deref();
     ASSERT_TRUE(prod_asset_deref.is_either_value_or_type());
-    const auto prod = prod_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
+    const auto prod = prod_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractRealOperator>();
     ASSERT_TRUE(prod.has_value());
     EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*prod)->get_domain()));
     const auto prod_typed = std::dynamic_pointer_cast<const onerut_normal_operator::OpProdOperator>(*prod);
@@ -517,7 +517,7 @@ TEST(boxFunctionsOnerut, eigdTest0) {
     ASSERT_TRUE(eye_asset.has_value());
     const auto eye_asset_deref = eye_asset->deref();
     ASSERT_TRUE(eye_asset_deref.is_either_value_or_type());
-    const auto eye = eye_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
+    const auto eye = eye_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractRealOperator>();
     ASSERT_TRUE(eye.has_value());
     const auto eye_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EyeOperator>(*eye);
     ASSERT_TRUE(eye_typed);
@@ -550,7 +550,7 @@ TEST(boxFunctionsOnerut, eigsTest0) {
     ASSERT_TRUE(eye_asset.has_value());
     const auto eye_asset_deref = eye_asset->deref();
     ASSERT_TRUE(eye_asset_deref.is_either_value_or_type());
-    const auto eye = eye_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
+    const auto eye = eye_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractRealOperator>();
     ASSERT_TRUE(eye.has_value());
     const auto eye_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EyeOperator>(*eye);
     ASSERT_TRUE(eye_typed);
@@ -589,7 +589,7 @@ TEST(boxFunctionsOnerut, meanInStateTest0) {
     ASSERT_TRUE(eye_1_asset.has_value());
     const auto eye_1_asset_deref = eye_1_asset->deref();
     ASSERT_TRUE(eye_1_asset_deref.is_either_value_or_type());
-    const auto eye_1 = eye_1_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
+    const auto eye_1 = eye_1_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractRealOperator>();
     ASSERT_TRUE(eye_1.has_value());
     EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*eye_1)->get_domain()));
     const auto eye_1_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EyeOperator>(*eye_1);
@@ -599,7 +599,7 @@ TEST(boxFunctionsOnerut, meanInStateTest0) {
     ASSERT_TRUE(eye_2_asset.has_value());
     const auto eye_2_asset_deref = eye_2_asset->deref();
     ASSERT_TRUE(eye_2_asset_deref.is_either_value_or_type());
-    const auto eye_2 = eye_2_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
+    const auto eye_2 = eye_2_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractRealOperator>();
     ASSERT_TRUE(eye_2.has_value());
     EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*eye_2)->get_domain()));
     const auto eye_2_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EyeOperator>(*eye_2);
@@ -653,7 +653,7 @@ TEST(boxFunctionsOnerut, meanInStateTest1) {
     ASSERT_TRUE(eye_1_asset.has_value());
     const auto eye_1_asset_deref = eye_1_asset->deref();
     ASSERT_TRUE(eye_1_asset_deref.is_either_value_or_type());
-    const auto eye_1 = eye_1_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
+    const auto eye_1 = eye_1_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractRealOperator>();
     ASSERT_TRUE(eye_1.has_value());
     EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*eye_1)->get_domain()));
     const auto eye_1_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EyeOperator>(*eye_1);
@@ -663,7 +663,7 @@ TEST(boxFunctionsOnerut, meanInStateTest1) {
     ASSERT_TRUE(eye_2_asset.has_value());
     const auto eye_2_asset_deref = eye_2_asset->deref();
     ASSERT_TRUE(eye_2_asset_deref.is_either_value_or_type());
-    const auto eye_2 = eye_2_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
+    const auto eye_2 = eye_2_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractRealOperator>();
     ASSERT_TRUE(eye_2.has_value());
     EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*eye_2)->get_domain()));
     const auto eye_2_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EyeOperator>(*eye_2);
@@ -718,7 +718,7 @@ TEST(boxFunctionsOnerut, meanThermalTest0) {
     ASSERT_TRUE(eye_1_asset.has_value());
     const auto eye_1_asset_deref = eye_1_asset->deref();
     ASSERT_TRUE(eye_1_asset_deref.is_either_value_or_type());
-    const auto eye_1 = eye_1_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
+    const auto eye_1 = eye_1_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractRealOperator>();
     ASSERT_TRUE(eye_1.has_value());
     EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*eye_1)->get_domain()));
     const auto eye_1_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EyeOperator>(*eye_1);
@@ -728,7 +728,7 @@ TEST(boxFunctionsOnerut, meanThermalTest0) {
     ASSERT_TRUE(eye_2_asset.has_value());
     const auto eye_2_asset_deref = eye_2_asset->deref();
     ASSERT_TRUE(eye_2_asset_deref.is_either_value_or_type());
-    const auto eye_2 = eye_2_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractOperator>();
+    const auto eye_2 = eye_2_asset_deref.typed_value_or_empty<onerut_normal_operator::AbstractRealOperator>();
     ASSERT_TRUE(eye_2.has_value());
     EXPECT_TRUE(onerut_normal_operator::are_the_same_domains(**domain, *(*eye_2)->get_domain()));
     const auto eye_2_typed = std::dynamic_pointer_cast<const onerut_normal_operator::EyeOperator>(*eye_2);

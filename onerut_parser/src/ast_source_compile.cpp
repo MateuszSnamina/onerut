@@ -211,8 +211,8 @@ namespace onerut_parser::onerut_ast::source {
             const auto & other_argv_operator = utility::many_to_normal_operator(other_argv_asset_deref);
             if (!are_the_same_domains(first_arg_operator, other_argv_operator))
                 return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("Incompatible operator domains."));
-            using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
-            return Asset::from_value<AbstractOperatorT>(std::make_shared<onerut_normal_operator::OpPlusMinusOperator >(first_arg_operator, other_argv_operator, opv));
+            using AbstractRealOperatorT = onerut_normal_operator::AbstractRealOperator;
+            return Asset::from_value<AbstractRealOperatorT>(std::make_shared<onerut_normal_operator::OpPlusMinusOperator >(first_arg_operator, other_argv_operator, opv));
         }
         return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
     }
@@ -254,16 +254,16 @@ namespace onerut_parser::onerut_ast::source {
             if (!are_the_same_domains(first_arg_operator, other_argv_operator))
                 return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("Incompatible operator domains."));
             const auto argv_operator = cat(first_arg_operator, other_argv_operator);
-            using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
-            return Asset::from_value<AbstractOperatorT>(std::make_shared<onerut_normal_operator::OpProdOperator >(argv_operator));
+            using AbstractRealOperatorT = onerut_normal_operator::AbstractRealOperator;
+            return Asset::from_value<AbstractRealOperatorT>(std::make_shared<onerut_normal_operator::OpProdOperator >(argv_operator));
         }
         if (other_argv_asset_deref.size() == 1 && opv[0] == '*' &&
                 utility::is_real_or_integer(first_arg_asset_deref) &&
                 utility::is_normal_operator(other_argv_asset_deref[0])) {
             const auto & first_arg_operator = utility::to_real(first_arg_asset_deref);
             const auto & second_arg_operator = utility::to_normal_operator(other_argv_asset_deref[0]);
-            using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
-            return Asset::from_value<AbstractOperatorT>(std::make_shared<onerut_normal_operator::ScalledOperator>(first_arg_operator, second_arg_operator));
+            using AbstractRealOperatorT = onerut_normal_operator::AbstractRealOperator;
+            return Asset::from_value<AbstractRealOperatorT>(std::make_shared<onerut_normal_operator::ScalledOperator>(first_arg_operator, second_arg_operator));
         }
         return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
     }
@@ -321,8 +321,8 @@ namespace onerut_parser::onerut_ast::source {
         }
         if (utility::is_normal_operator(arg_asset_deref)) {
             const auto & arg_operator = utility::to_normal_operator(arg_asset_deref);
-            using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
-            return Asset::from_value<AbstractOperatorT>(std::make_shared<onerut_normal_operator::OpUnaryPlusMinusOperator>(arg_operator, op));
+            using AbstractRealOperatorT = onerut_normal_operator::AbstractRealOperator;
+            return Asset::from_value<AbstractRealOperatorT>(std::make_shared<onerut_normal_operator::OpUnaryPlusMinusOperator>(arg_operator, op));
         }
         return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
     }

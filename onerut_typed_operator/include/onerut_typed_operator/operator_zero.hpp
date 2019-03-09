@@ -6,15 +6,16 @@
 
 namespace onerut_typed_operator {
 
-    template<typename _BraKetT>
-    class ZeroOperator : public AbstractOperator<_BraKetT> {
+    template<typename _ScalarT, typename _BraKetT>
+    class ZeroOperator : public AbstractOperator<_ScalarT, _BraKetT> {
     public:
+        using ScalarT = _ScalarT;        
         using BraKetT = _BraKetT;
-        using AbstractOpT = AbstractOperator<BraKetT>;
+        using AbstractOpT = AbstractOperator<ScalarT, BraKetT>;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
-        using AbstractIteratorT = AbstractResultIterator<BraKetT>;
+        using AbstractIteratorT = AbstractResultIterator<ScalarT, BraKetT>;
         using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>; 
-        using IteratorT = ZeroOperatorIterator<BraKetT>;
+        using IteratorT = ZeroOperatorIterator<ScalarT, BraKetT>;
         AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
     };
 
@@ -22,9 +23,9 @@ namespace onerut_typed_operator {
     // ------------------ SIMPLE OPERATOR - IMPLEMENTATION ---------------------
     // -------------------------------------------------------------------------     
 
-    template<typename _BraKetT>
-    typename ZeroOperator<_BraKetT>::AbstractIteratorPtrT
-    ZeroOperator<_BraKetT>::begin_itptr(const BraKetT& ket) const {
+    template<typename _ScalarT, typename _BraKetT>
+    typename ZeroOperator<_ScalarT, _BraKetT>::AbstractIteratorPtrT
+    ZeroOperator<_ScalarT,_BraKetT>::begin_itptr(const BraKetT& ket) const {
         return std::make_unique<IteratorT>();
     }
 

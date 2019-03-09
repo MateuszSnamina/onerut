@@ -9,16 +9,18 @@ namespace onerut_normal_operator {
     // ------------------ KRON OPERATOR  ---------------------------------------
     // -------------------------------------------------------------------------    
 
-    class KronIterator : public onerut_typed_operator::AbstractResultIterator<uint32_t> {
+    template<typename _ScalarT>
+    class KronIterator : public onerut_typed_operator::AbstractResultIterator<_ScalarT, uint32_t> {
     public:
+        using ScalarT = _ScalarT;
         using BraKetT = uint32_t;
-        using AbstractOpT = AbstractOperator;
+        using AbstractOpT = AbstractOperator<_ScalarT>;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
-        using AbstractIteratorT = onerut_typed_operator::AbstractResultIterator<uint32_t>;
+        using AbstractIteratorT = onerut_typed_operator::AbstractResultIterator<ScalarT, uint32_t>;
         using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
         using Iterator = KronIterator;
         KronIterator(BraKetT weight, BraKetT base, const AbstractOpPtrT& subdomain_op, const BraKetT& subdomain_ket);
-        typename AbstractResultIterator<BraKetT>::value_type get_val_bra() const override;
+        typename AbstractIteratorT::value_type get_val_bra() const override;
         void next() override;
         virtual bool is_end() const override;
     private:
@@ -31,8 +33,8 @@ namespace onerut_normal_operator {
     // ------------------ KRON OPERATOR - IMPLEMENTATION -----------------------
     // -------------------------------------------------------------------------    
 
-    inline
-    KronIterator::KronIterator(
+    template<typename _ScalarT>
+    KronIterator<_ScalarT>::KronIterator(
             BraKetT weight,
             BraKetT base,
             const AbstractOpPtrT& subdomain_op,
@@ -42,27 +44,27 @@ namespace onerut_normal_operator {
     _subdomain_itptr(subdomain_op->begin_itptr(subdomain_ket)) {
     }
 
-    inline
-    typename KronIterator::AbstractIteratorT::value_type
-    KronIterator::get_val_bra() const {
+    template<typename _ScalarT>
+    typename KronIterator<_ScalarT>::AbstractIteratorT::value_type
+    KronIterator<_ScalarT>::get_val_bra() const {
         assert(!_subdomain_itptr->is_end());
         const auto& subdomain_val_bra = _subdomain_itptr->get_val_bra();
-        const double& value = subdomain_val_bra.first;
+        const auto& value = subdomain_val_bra.first;
         const BraKetT& subdomain_bra = subdomain_val_bra.second;
         const BraKetT& bra = _base + _weight * subdomain_bra;
         return std::make_pair(value, bra);
     }
 
-    inline
+    template<typename _ScalarT>
     void
-    KronIterator::next() {
+    KronIterator<_ScalarT>::next() {
         assert(!_subdomain_itptr->is_end());
         _subdomain_itptr->next();
     }
 
-    inline
+    template<typename _ScalarT>
     bool
-    KronIterator::is_end() const {
+    KronIterator<_ScalarT>::is_end() const {
         return _subdomain_itptr->is_end();
     }
 

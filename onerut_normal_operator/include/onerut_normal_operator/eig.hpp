@@ -16,12 +16,12 @@ namespace onerut_normal_operator {
 
     struct EigResult {
         explicit EigResult(
-                const std::shared_ptr<const AbstractOperator> hamiltonian);
-        EigResult(const std::shared_ptr<const AbstractOperator> hamiltonian,
+                const std::shared_ptr<const AbstractRealOperator> hamiltonian);
+        EigResult(const std::shared_ptr<const AbstractRealOperator> hamiltonian,
                 const std::vector<std::string> eig_names,
                 const arma::vec energies,
                 const arma::mat beta);
-        const std::shared_ptr<const AbstractOperator> hamiltonian;
+        const std::shared_ptr<const AbstractRealOperator> hamiltonian;
         const bool success;
         const std::vector<std::string> eig_names;
         const arma::vec energies;
@@ -35,11 +35,11 @@ namespace onerut_normal_operator {
 
     class Eig {
     public:
-        Eig(std::shared_ptr<const AbstractOperator> hamiltonian);
+        Eig(std::shared_ptr<const AbstractRealOperator> hamiltonian);
         virtual EigResult value() const;
         virtual void latch();
         virtual void reset();
-        std::shared_ptr<const AbstractOperator> hamiltonian;
+        std::shared_ptr<const AbstractRealOperator> hamiltonian;
     private:
         virtual EigResult _value() const = 0;
         std::optional<EigResult> cached_result;
@@ -49,7 +49,7 @@ namespace onerut_normal_operator {
 
     class EigDense : public Eig {
     public:
-        EigDense(std::shared_ptr<const AbstractOperator> hamiltonian);
+        EigDense(std::shared_ptr<const AbstractRealOperator> hamiltonian);
     private:
         EigResult _value() const override;
     };
@@ -58,7 +58,7 @@ namespace onerut_normal_operator {
 
     class EigSparse : public Eig {
     public:
-        EigSparse(std::shared_ptr<const AbstractOperator> hamiltonian,
+        EigSparse(std::shared_ptr<const AbstractRealOperator> hamiltonian,
                 uint32_t numer_of_states_to_calculate);
         uint32_t numer_of_states_to_calculate;
     private:

@@ -12,13 +12,14 @@ namespace onerut_typed_operator {
     // ------------------  ABSTRACT OPERATOR  ----------------------------------
     // -------------------------------------------------------------------------
 
-    template<typename _BraKetT>
+    template<typename _ScalarT, typename _BraKetT>
     class AbstractOperator {
     public:
+        using ScalarT = _ScalarT;        
         using BraKetT = _BraKetT;
-        using AbstractOpT = AbstractOperator<BraKetT>;
+        using AbstractOpT = AbstractOperator<ScalarT, BraKetT>;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
-        using AbstractIteratorT = AbstractResultIterator<BraKetT>;
+        using AbstractIteratorT = AbstractResultIterator<ScalarT, BraKetT>;
         using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
         virtual AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const = 0;
     };

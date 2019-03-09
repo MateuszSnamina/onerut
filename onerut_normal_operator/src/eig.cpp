@@ -27,13 +27,13 @@ namespace onerut_normal_operator {
     // *************************************************************************
 
     EigResult::EigResult(
-            const std::shared_ptr<const AbstractOperator> hamiltonian) :
+            const std::shared_ptr<const AbstractRealOperator> hamiltonian) :
     hamiltonian(hamiltonian),
     success(false) {
         assert(hamiltonian);
     }
 
-    EigResult::EigResult(const std::shared_ptr<const AbstractOperator> hamiltonian,
+    EigResult::EigResult(const std::shared_ptr<const AbstractRealOperator> hamiltonian,
             const std::vector<std::string> eig_names,
             const arma::vec energies,
             const arma::mat beta) :
@@ -78,7 +78,7 @@ namespace onerut_normal_operator {
 
     // *************************************************************************
 
-    Eig::Eig(std::shared_ptr<const AbstractOperator> hamiltonian) :
+    Eig::Eig(std::shared_ptr<const AbstractRealOperator> hamiltonian) :
     hamiltonian(hamiltonian),
     cached_result(std::nullopt) {
         assert(hamiltonian);
@@ -98,7 +98,7 @@ namespace onerut_normal_operator {
 
     // *************************************************************************
 
-    EigDense::EigDense(std::shared_ptr<const AbstractOperator> hamiltonian) :
+    EigDense::EigDense(std::shared_ptr<const AbstractRealOperator> hamiltonian) :
     Eig(hamiltonian) {
     }
 
@@ -120,7 +120,7 @@ namespace onerut_normal_operator {
     // *************************************************************************
 
     EigSparse::EigSparse(
-            std::shared_ptr<const AbstractOperator> hamiltonian,
+            std::shared_ptr<const AbstractRealOperator> hamiltonian,
             uint32_t numer_of_states_to_calculate) :
     Eig(hamiltonian),
     numer_of_states_to_calculate(numer_of_states_to_calculate) {

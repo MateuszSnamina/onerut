@@ -17,12 +17,12 @@ namespace onerut_normal_operator {
 
     class Mean : public onerut_scalar::Real {
     public:
-        Mean(std::shared_ptr<const AbstractOperator> op,
+        Mean(std::shared_ptr<const AbstractRealOperator> op,
                 std::shared_ptr<const Eig> eig);
         double value_real() const override;
         virtual void latch();
         virtual void reset();
-        const std::shared_ptr<const AbstractOperator> op;
+        const std::shared_ptr<const AbstractRealOperator> op;
         const std::shared_ptr<const Eig> eig;
     private:
         virtual double _value_real() const = 0;
@@ -34,7 +34,7 @@ namespace onerut_normal_operator {
     class MeanInEigenState : public Mean {
     public:
         MeanInEigenState(
-                std::shared_ptr<const AbstractOperator> op,
+                std::shared_ptr<const AbstractRealOperator> op,
                 std::shared_ptr<const Eig> eig,
                 uint32_t eigen_state);
         const uint32_t eigen_state;
@@ -46,7 +46,7 @@ namespace onerut_normal_operator {
 
     class MeanThermal : public Mean {
     public:
-        MeanThermal(std::shared_ptr<const AbstractOperator> op,
+        MeanThermal(std::shared_ptr<const AbstractRealOperator> op,
                 std::shared_ptr<const Eig> eig,
                 double temperature);
         double temperature;

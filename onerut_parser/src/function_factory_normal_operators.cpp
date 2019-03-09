@@ -93,9 +93,9 @@ namespace onerut_parser {
         // ---------------------------------------------------------------------
         const auto domain = utility::to_normal_operator_domain(arg0_asset_deref);
         // ---------------------------------------------------------------------
-        using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
+        using AbstractRealOperatorT = onerut_normal_operator::AbstractRealOperator;
         using OperatorT = onerut_normal_operator::ZeroOperator;
-        return Asset::from_value<AbstractOperatorT>(
+        return Asset::from_value<AbstractRealOperatorT>(
                 std::make_shared<OperatorT>(domain));
     }
 
@@ -122,9 +122,9 @@ namespace onerut_parser {
         const auto value = utility::to_real(arg0_asset_deref);
         const auto site = utility::to_normal_operator_state_index(arg1_asset_deref);
         // ---------------------------------------------------------------------
-        using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
+        using AbstractRealOperatorT = onerut_normal_operator::AbstractRealOperator;
         using OperatorT = onerut_normal_operator::DiagOperator;
-        return Asset::from_value<AbstractOperatorT>(
+        return Asset::from_value<AbstractRealOperatorT>(
                 std::make_shared<OperatorT>(value, site));
     }
 
@@ -165,9 +165,9 @@ namespace onerut_parser {
         if (site1->index == site2->index)
             return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("Hopping must take place between two different states."));
         // ---------------------------------------------------------------------
-        using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
+        using AbstractRealOperatorT = onerut_normal_operator::AbstractRealOperator;
         using OperatorT = onerut_normal_operator::HopOperator;
-        return Asset::from_value<AbstractOperatorT>(
+        return Asset::from_value<AbstractRealOperatorT>(
                 std::make_shared<OperatorT>(value, site1, site2)
                 );
     }
@@ -187,9 +187,9 @@ namespace onerut_parser {
         // ---------------------------------------------------------------------
         const auto domain = utility::to_normal_operator_domain(arg0_asset_deref);
         // ---------------------------------------------------------------------
-        using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
+        using AbstractRealOperatorT = onerut_normal_operator::AbstractRealOperator;
         using OperatorT = onerut_normal_operator::EyeOperator;
-        return Asset::from_value<AbstractOperatorT>(
+        return Asset::from_value<AbstractRealOperatorT>(
                 std::make_shared<OperatorT>(domain));
     }
 
@@ -237,9 +237,9 @@ namespace onerut_parser {
         // ---------------------------------------------------------------------
         const auto domain = utility::to_oscillator_operator_domain(arg0_asset_deref);
         // ---------------------------------------------------------------------
-        using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
+        using AbstractRealOperatorT = onerut_normal_operator::AbstractRealOperator;
         using OperatorT = onerut_normal_operator::CreationOperator;
-        return Asset::from_value<AbstractOperatorT>(
+        return Asset::from_value<AbstractRealOperatorT>(
                 std::make_shared<OperatorT>(domain)
                 );
     }
@@ -259,9 +259,9 @@ namespace onerut_parser {
         // ---------------------------------------------------------------------
         const auto domain = utility::to_oscillator_operator_domain(arg0_asset_deref);
         // ---------------------------------------------------------------------
-        using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
+        using AbstractRealOperatorT = onerut_normal_operator::AbstractRealOperator;
         using OperatorT = onerut_normal_operator::AnihilationOperator;
-        return Asset::from_value<AbstractOperatorT>(
+        return Asset::from_value<AbstractRealOperatorT>(
                 std::make_shared<OperatorT>(domain)
                 );
     }
@@ -310,9 +310,9 @@ namespace onerut_parser {
         // ---------------------------------------------------------------------
         const auto domain = utility::to_spin_operator_domain(arg0_asset_deref);
         // ---------------------------------------------------------------------
-        using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
+        using AbstractRealOperatorT = onerut_normal_operator::AbstractRealOperator;
         using OperatorT = onerut_normal_operator::SpinZetOperator;
-        return Asset::from_value<AbstractOperatorT>(
+        return Asset::from_value<AbstractRealOperatorT>(
                 std::make_shared<OperatorT>(domain)
                 );
     }
@@ -332,9 +332,9 @@ namespace onerut_parser {
         // ---------------------------------------------------------------------
         const auto domain = utility::to_spin_operator_domain(arg0_asset_deref);
         // ---------------------------------------------------------------------
-        using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
+        using AbstractRealOperatorT = onerut_normal_operator::AbstractRealOperator;
         using OperatorT = onerut_normal_operator::SpinPlusOperator;
-        return Asset::from_value<AbstractOperatorT>(
+        return Asset::from_value<AbstractRealOperatorT>(
                 std::make_shared<OperatorT>(domain)
                 );
     }
@@ -354,9 +354,9 @@ namespace onerut_parser {
         // ---------------------------------------------------------------------
         const auto domain = utility::to_spin_operator_domain(arg0_asset_deref);
         // ---------------------------------------------------------------------
-        using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
+        using AbstractRealOperatorT = onerut_normal_operator::AbstractRealOperator;
         using OperatorT = onerut_normal_operator::SpinMinusOperator;
-        return Asset::from_value<AbstractOperatorT>(
+        return Asset::from_value<AbstractRealOperatorT>(
                 std::make_shared<OperatorT>(domain)
                 );
     }
@@ -457,9 +457,9 @@ namespace onerut_parser {
         if (!onerut_normal_operator::are_the_same_domains(*domain_operator, *domain_placeholder))
             return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("Incompatible state domains."));
         // ---------------------------------------------------------------------
-        using AbstractOperatorT = onerut_normal_operator::AbstractOperator;
+        using AbstractRealOperatorT = onerut_normal_operator::AbstractRealOperator;
         using OperatorT = onerut_normal_operator::KronAtOperator;
-        return Asset::from_value<AbstractOperatorT>(
+        return Asset::from_value<AbstractRealOperatorT>(
                 std::make_shared<OperatorT>(normal_op, placeholder));
     }
 

@@ -43,7 +43,7 @@ void compare(const arma::mat& M_expected, const arma::mat& M_got) {
             EXPECT_DOUBLE_EQ(M_got(i, j), M_expected(i, j)) << "(matrix element at position: row, col = " << i << ", " << j << ").";
 }
 
-void compare(const arma::mat& M_expected, std::shared_ptr<onerut_normal_operator::AbstractOperator> op) {
+void compare(const arma::mat& M_expected, std::shared_ptr<onerut_normal_operator::AbstractRealOperator> op) {
     const arma::mat M_got = onerut_normal_operator::to_mat(*op);
     compare(M_expected, M_got);
 }
@@ -102,9 +102,9 @@ arma::mat fourth_compound_matrix() {
     return M;
 }
 
-std::shared_ptr<onerut_normal_operator::AbstractOperator> first_compound_operator(std::shared_ptr<onerut_normal_operator::Domain> domain) {
+std::shared_ptr<onerut_normal_operator::AbstractRealOperator> first_compound_operator(std::shared_ptr<onerut_normal_operator::Domain> domain) {
     assert(domain->size() == 4);
-    using OpT = onerut_normal_operator::AbstractOperator;
+    using OpT = onerut_normal_operator::AbstractRealOperator;
     using OpPtrT = std::shared_ptr<const OpT>;
     auto op1 = std::make_shared<onerut_normal_operator::HopOperator>(3.2_R, domain->crate_state(2), domain->crate_state(1));
     auto op2 = std::make_shared<onerut_normal_operator::DiagOperator>(5.5_R, domain->crate_state(1));
@@ -119,9 +119,9 @@ std::shared_ptr<onerut_normal_operator::AbstractOperator> first_compound_operato
     return op;
 }
 
-std::shared_ptr<onerut_normal_operator::AbstractOperator> second_compound_operator(std::shared_ptr<onerut_normal_operator::Domain> domain) {
+std::shared_ptr<onerut_normal_operator::AbstractRealOperator> second_compound_operator(std::shared_ptr<onerut_normal_operator::Domain> domain) {
     assert(domain->size() == 4);
-    using OpT = onerut_normal_operator::AbstractOperator;
+    using OpT = onerut_normal_operator::AbstractRealOperator;
     using OpPtrT = std::shared_ptr<const OpT>;
     auto op1 = std::make_shared<onerut_normal_operator::HopOperator>(2.1_R, domain->crate_state(2), domain->crate_state(1));
     auto op2 = std::make_shared<onerut_normal_operator::HopOperator>(1.1_R, domain->crate_state(2), domain->crate_state(3));
@@ -139,9 +139,9 @@ std::shared_ptr<onerut_normal_operator::AbstractOperator> second_compound_operat
     return op;
 }
 
-std::shared_ptr<onerut_normal_operator::AbstractOperator> third_compound_operator(std::shared_ptr<onerut_normal_operator::Domain> domain) {
+std::shared_ptr<onerut_normal_operator::AbstractRealOperator> third_compound_operator(std::shared_ptr<onerut_normal_operator::Domain> domain) {
     assert(domain->size() == 3);
-    using OpT = onerut_normal_operator::AbstractOperator;
+    using OpT = onerut_normal_operator::AbstractRealOperator;
     using OpPtrT = std::shared_ptr<const OpT>;
     auto op1 = std::make_shared<onerut_normal_operator::ZeroOperator>(domain);
     auto op2 = std::make_shared<onerut_normal_operator::DiagOperator>(2.0_R, domain->crate_state(0));
@@ -165,9 +165,9 @@ std::shared_ptr<onerut_normal_operator::AbstractOperator> third_compound_operato
     return op;
 }
 
-std::shared_ptr<onerut_normal_operator::AbstractOperator> fourth_compound_operator(std::shared_ptr<onerut_normal_operator::Domain> domain) {
+std::shared_ptr<onerut_normal_operator::AbstractRealOperator> fourth_compound_operator(std::shared_ptr<onerut_normal_operator::Domain> domain) {
     assert(domain->size() == 3);
-    using OpT = onerut_normal_operator::AbstractOperator;
+    using OpT = onerut_normal_operator::AbstractRealOperator;
     using OpPtrT = std::shared_ptr<const OpT>;
     auto op1 = std::make_shared<onerut_normal_operator::ZeroOperator>(domain);
     auto op2 = std::make_shared<onerut_normal_operator::DiagOperator>(2.3_R, domain->crate_state(0));

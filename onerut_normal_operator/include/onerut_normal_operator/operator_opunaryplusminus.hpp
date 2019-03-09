@@ -12,18 +12,19 @@ namespace onerut_normal_operator {
     // ------------------ OPUNARYPLUSMINUS OPERATOR  ---------------------------
     // -------------------------------------------------------------------------    
 
-    class OpUnaryPlusMinusOperator : public AbstractOperator {
+    class OpUnaryPlusMinusOperator : public AbstractRealOperator {
     public:
-        using AbstractOperator::BraKetT;
-        using AbstractOperator::AbstractOpT;
-        using AbstractOperator::AbstractOpPtrT;
-        using AbstractOperator::AbstractIteratorT;
-        using AbstractOperator::AbstractIteratorPtrT;
-        using IteratorT = onerut_typed_operator::OpUnaryPlusMinusOperatorIterator<BraKetT>;
+        using ScalarT = double;
+        using BraKetT = uint32_t;
+        using AbstractOpT = AbstractOperator<ScalarT>;
+        using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
+        using AbstractIteratorT = onerut_typed_operator::AbstractResultIterator<ScalarT, BraKetT>;
+        using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
+        using IteratorT = onerut_typed_operator::OpUnaryPlusMinusOperatorIterator<ScalarT, BraKetT>;
         static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);
         OpUnaryPlusMinusOperator(AbstractOpPtrT arg, char op);
         AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
-        std::shared_ptr<const Domain> get_domain() const override;        
+        std::shared_ptr<const Domain> get_domain() const override;
     public:
         const AbstractOpPtrT arg;
         const char op;

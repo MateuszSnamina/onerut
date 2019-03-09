@@ -10,9 +10,9 @@ namespace onerut_normal_operator {
     // -------------------------------------------------------------------------    
 
     bool are_the_same_domains(
-            const std::shared_ptr<const AbstractOperator>& first_operator,
-            const std::vector<std::shared_ptr<const AbstractOperator> >& other_operators) {
-        using AbstractOpT = AbstractOperator;
+            const std::shared_ptr<const AbstractRealOperator>& first_operator,
+            const std::vector<std::shared_ptr<const AbstractRealOperator> >& other_operators) {
+        using AbstractOpT = AbstractRealOperator;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
         return std::all_of(begin(other_operators), end(other_operators),
                 [&first_operator](const AbstractOpPtrT & other_operator) {
@@ -21,8 +21,8 @@ namespace onerut_normal_operator {
     }
 
     bool are_the_same_domains(
-            const std::vector<std::shared_ptr<const AbstractOperator> >& operators) {
-        using AbstractOpT = AbstractOperator;
+            const std::vector<std::shared_ptr<const AbstractRealOperator> >& operators) {
+        using AbstractOpT = AbstractRealOperator;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
         return std::adjacent_find(
                 operators.begin(), operators.end(),

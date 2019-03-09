@@ -7,13 +7,13 @@
 namespace onerut_normal_operator {
 
     template<class T>
-    T _to_mat(const AbstractOperator& op) {
+    T _to_mat(const AbstractRealOperator& op) {
         static_assert(std::is_same<T, arma::mat>::value ||
                 std::is_same<T, arma::sp_mat>::value);
         const auto spad_dim = boost::numeric_cast<arma::uword>(op.get_domain()->size());
         T result(spad_dim, spad_dim);
         result.zeros();
-        for (AbstractOperator::BraKetT ket = 0; ket < spad_dim; ket++) {
+        for (AbstractRealOperator::BraKetT ket = 0; ket < spad_dim; ket++) {
             auto it_ptr = op.begin_itptr(ket);
             while (!it_ptr->is_end()) {
                 const auto& val_bra = it_ptr->get_val_bra();
@@ -37,11 +37,11 @@ namespace onerut_normal_operator {
 
 namespace onerut_normal_operator {
 
-    arma::mat to_mat(const AbstractOperator& op) {
+    arma::mat to_mat(const AbstractRealOperator& op) {
         return _to_mat<arma::mat>(op);
     }
 
-    arma::sp_mat to_sp_mat(const AbstractOperator& op) {
+    arma::sp_mat to_sp_mat(const AbstractRealOperator& op) {
         return _to_mat<arma::sp_mat>(op);
     }
 
