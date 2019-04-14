@@ -1,44 +1,23 @@
 #include<algorithm>
 #include<iterator>
 
-#include<onerut_scalar/scalar.hpp>
-#include<onerut_normal_operator/operator_opplusminus.hpp>
-#include<onerut_normal_operator/operator_opprod.hpp>
-#include<onerut_normal_operator/operator_scalled.hpp>
-#include<onerut_normal_operator/operator_opunaryplusminus.hpp>
-#include<onerut_parser/vector_cat.hpp>
 #include<onerut_parser/share_from.hpp>
 #include<onerut_parser/ast_source.hpp>
 #include<onerut_parser/ast_asset.hpp>
 #include<onerut_parser/asset_utility.hpp>
 #include<onerut_parser/asset_ref_container.hpp>
-#include<onerut_parser/function_factory_container.hpp>
 
 namespace {
 
-    bool
-    is_plus_munis_char(char op) {
-        return op == '+' || op == '-';
-    }
-
-    bool
-    is_prod_div_char(char op) {
-        return op == '*' || op == '/';
-    }
-
-    bool
-    is_prod_char(char op) {
-        return op == '*';
-    }
-
     std::vector<std::shared_ptr < onerut_parser::onerut_ast::asset::AssetNode>>
     many_compile(
+            std::shared_ptr<onerut_parser::CompilerRules> compiler_rules,
             const std::vector<std::shared_ptr<onerut_parser::onerut_ast::source::SourceNode>> argv) {
         std::vector<std::shared_ptr < onerut_parser::onerut_ast::asset::AssetNode>> argv_node;
         argv_node.reserve(argv.size());
         std::transform(cbegin(argv), cend(argv), back_inserter(argv_node),
-                [](const std::shared_ptr<onerut_parser::onerut_ast::source::SourceNode> & arg) {
-                    return arg->compile();
+                [&compiler_rules](const std::shared_ptr<onerut_parser::onerut_ast::source::SourceNode> & arg) {
+                    return arg->compile(compiler_rules);
                 });
         return argv_node;
     }
@@ -55,18 +34,6 @@ namespace {
         return argv_asset;
     }
 
-    onerut_parser::Asset
-    behave_like_a_binary_function(
-            const std::string function_name,
-            onerut_parser::Asset first_arg_asset,
-            onerut_parser::Asset second_arg_asset) {
-        const auto first_arg_asset_deref = first_arg_asset.deref();
-        const auto second_arg_asset_deref = second_arg_asset.deref();
-        if (auto function_factory = onerut_parser::FunctionFactoryContainer::global_instance().get_or_empty(function_name))
-            return (*function_factory)->make_function_otherwise_make_error({first_arg_asset, second_arg_asset});
-        return onerut_parser::Asset::from_compile_error(std::make_shared<onerut_parser::FunctionNotFoundError>(function_name));
-    }
-
 }
 
 namespace onerut_parser::onerut_ast::source {
@@ -76,48 +43,48 @@ namespace onerut_parser::onerut_ast::source {
     // *************************************************************************
 
     std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode>
-    WithNoSubsourcesNode::compile() const {
-        const auto asset = basic_compile();
+    WithNoSubsourcesNode::compile(std::shared_ptr<CompilerRules> compiler_rules) const {
+        const auto asset = basic_compile(compiler_rules);
         return std::make_shared<onerut_parser::onerut_ast::asset::AssetNode>(
                 shared_from(this), asset);
     }
 
     std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode>
-    WithOneSubsourceNode::compile() const {
-        std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> arg_node = arg->compile();
+    WithOneSubsourceNode::compile(std::shared_ptr<CompilerRules> compiler_rules) const {
+        std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> arg_node = arg->compile(compiler_rules);
         const auto arg_asset = arg_node->asset;
-        const auto asset = basic_compile(arg_asset);
+        const auto asset = basic_compile(compiler_rules, arg_asset);
         return std::make_shared<onerut_parser::onerut_ast::asset::AssetNode>(
                 shared_from(this), arg_node, asset);
     }
 
     std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode>
-    WithTwoSubsourcesNode::compile() const {
-        std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> first_arg_node = first_arg->compile();
-        std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> second_arg_node = second_arg->compile();
+    WithTwoSubsourcesNode::compile(std::shared_ptr<CompilerRules> compiler_rules) const {
+        std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> first_arg_node = first_arg->compile(compiler_rules);
+        std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> second_arg_node = second_arg->compile(compiler_rules);
         const auto first_arg_asset = first_arg_node->asset;
         const auto second_arg_asset = second_arg_node->asset;
-        const auto asset = basic_compile(first_arg_asset, second_arg_asset);
+        const auto asset = basic_compile(compiler_rules, first_arg_asset, second_arg_asset);
         return std::make_shared<onerut_parser::onerut_ast::asset::AssetNode>(
                 shared_from(this), first_arg_node, second_arg_node, asset);
     }
 
     std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode>
-    WithOneOrMoreSubsourcesNode::compile() const {
-        const auto first_arg_node = first_arg->compile();
-        const auto other_argv_node = many_compile(other_argv);
+    WithOneOrMoreSubsourcesNode::compile(std::shared_ptr<CompilerRules> compiler_rules) const {
+        const auto first_arg_node = first_arg->compile(compiler_rules);
+        const auto other_argv_node = many_compile(compiler_rules, other_argv);
         const auto first_arg_asset = first_arg_node->asset;
         const auto other_argv_asset = many_extract_asset(other_argv_node);
-        const auto asset = basic_compile(first_arg_asset, other_argv_asset);
+        const auto asset = basic_compile(compiler_rules, first_arg_asset, other_argv_asset);
         return std::make_shared<onerut_parser::onerut_ast::asset::AssetNode>(
                 shared_from(this), first_arg_node, other_argv_node, asset);
     }
 
     std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode>
-    WithAnyNumberOfSubsourcesNode::compile() const {
-        const auto argv_node = many_compile(argv);
+    WithAnyNumberOfSubsourcesNode::compile(std::shared_ptr<CompilerRules> compiler_rules) const {
+        const auto argv_node = many_compile(compiler_rules, argv);
         const auto argv_asset = many_extract_asset(argv_node);
-        const auto asset = basic_compile(argv_asset);
+        const auto asset = basic_compile(compiler_rules, argv_asset);
         return std::make_shared<onerut_parser::onerut_ast::asset::AssetNode>(
                 shared_from(this), argv_node, asset);
     }
@@ -127,7 +94,7 @@ namespace onerut_parser::onerut_ast::source {
     // *************************************************************************
 
     Asset
-    IdentifierNode::basic_compile() const {
+    IdentifierNode::basic_compile(std::shared_ptr<CompilerRules> /*compiler_rules*/) const {
         if (auto ref = AssetRefContainer::global_instance().get_or_empty(name))
             return Asset::from_reference(*ref);
         return Asset::from_reference(std::make_shared<AssetUnsetRef>(name));
@@ -136,7 +103,7 @@ namespace onerut_parser::onerut_ast::source {
     // -------------------------------------------------------------------------
 
     Asset
-    OpAssignNode::basic_compile(Asset first_arg_asset, Asset second_arg_asset) const {
+    OpAssignNode::basic_compile(std::shared_ptr<CompilerRules> /*compiler_rules*/, Asset first_arg_asset, Asset second_arg_asset) const {
         const auto second_arg_asset_deref = second_arg_asset.deref();
         const auto first_arg_asset_deref = first_arg_asset.deref();
         const bool first_arg_is_not_const_ref = utility::is_not_const_ref(first_arg_asset);
@@ -179,182 +146,77 @@ namespace onerut_parser::onerut_ast::source {
     // -------------------------------------------------------------------------
 
     Asset
-    OpPlusMinusNode::basic_compile(Asset first_arg_asset, std::vector<Asset> other_argv_asset) const {
-        assert(std::all_of(opv.cbegin(), opv.cend(), is_plus_munis_char));
-        const auto & first_arg_asset_deref = first_arg_asset.deref();
-        const auto & other_argv_asset_deref = utility::many_deref(other_argv_asset);
-        if (utility::any_of_is_compile_error(first_arg_asset_deref, other_argv_asset_deref))
-            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
-        if (!utility::all_of_is_either_value_or_type(first_arg_asset_deref, other_argv_asset_deref))
-            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
-        if (utility::is_integer(first_arg_asset_deref) &&
-                std::all_of(cbegin(other_argv_asset_deref), cend(other_argv_asset_deref), utility::is_integer)) {
-            const auto & first_arg_integer = utility::to_integer(first_arg_asset_deref);
-            const auto & other_argv_integer = utility::many_to_integer(other_argv_asset_deref);
-            return Asset::from_value<onerut_scalar::Integer>(std::make_shared<onerut_scalar::OpPlusMinusInteger>(first_arg_integer, other_argv_integer, opv));
-        }
-        if (utility::is_real_or_integer(first_arg_asset_deref) &&
-                std::all_of(cbegin(other_argv_asset_deref), cend(other_argv_asset_deref), utility::is_real_or_integer)) {
-            const auto & first_arg_real = utility::to_real(first_arg_asset_deref);
-            const auto & other_argv_real = utility::many_to_real(other_argv_asset_deref);
-            return Asset::from_value<onerut_scalar::Real>(std::make_shared<onerut_scalar::OpPlusMinusReal>(first_arg_real, other_argv_real, opv));
-        }
-        if (utility::is_real_or_integer_or_complex(first_arg_asset_deref) &&
-                std::all_of(cbegin(other_argv_asset_deref), cend(other_argv_asset_deref), utility::is_real_or_integer_or_complex)) {
-            const auto & first_arg_complex = utility::to_complex(first_arg_asset_deref);
-            const auto & other_argv_complex = utility::many_to_complex(other_argv_asset_deref);
-            return Asset::from_value<onerut_scalar::Complex>(std::make_shared<onerut_scalar::OpPlusMinusComplex>(first_arg_complex, other_argv_complex, opv));
-        }
-        if (utility::is_normal_operator(first_arg_asset_deref) &&
-                std::all_of(cbegin(other_argv_asset_deref), cend(other_argv_asset_deref), utility::is_normal_operator)) {
-            const auto & first_arg_operator = utility::to_normal_operator(first_arg_asset_deref);
-            const auto & other_argv_operator = utility::many_to_normal_operator(other_argv_asset_deref);
-            if (!are_the_same_domains(first_arg_operator, other_argv_operator))
-                return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("Incompatible operator domains."));
-            using AbstractRealOperatorT = onerut_normal_operator::AbstractRealOperator;
-            return Asset::from_value<AbstractRealOperatorT>(std::make_shared<onerut_normal_operator::OpPlusMinusOperator >(first_arg_operator, other_argv_operator, opv));
-        }
-        return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+    OpPlusMinusNode::basic_compile(std::shared_ptr<CompilerRules> compiler_rules, Asset first_arg_asset, std::vector<Asset> other_argv_asset) const {
+        return compiler_rules->op_plus_minus(first_arg_asset, other_argv_asset, opv);
     }
 
     // -------------------------------------------------------------------------
 
     Asset
-    OpProdDivNode::basic_compile(Asset first_arg_asset, std::vector<Asset> other_argv_asset) const {
-        assert(std::all_of(opv.cbegin(), opv.cend(), is_prod_div_char));
-        const auto & first_arg_asset_deref = first_arg_asset.deref();
-        const auto & other_argv_asset_deref = utility::many_deref(other_argv_asset);
-        if (utility::any_of_is_compile_error(first_arg_asset_deref, other_argv_asset_deref))
-            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
-        if (!utility::all_of_is_either_value_or_type(first_arg_asset_deref, other_argv_asset_deref))
-            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
-        if (utility::is_integer(first_arg_asset_deref) &&
-                std::all_of(cbegin(other_argv_asset_deref), cend(other_argv_asset_deref), utility::is_integer)) {
-            const auto & first_arg_integer = utility::to_integer(first_arg_asset_deref);
-            const auto & other_argv_integer = utility::many_to_integer(other_argv_asset_deref);
-            return Asset::from_value<onerut_scalar::Integer>(std::make_shared<onerut_scalar::OpProdDivInteger>(first_arg_integer, other_argv_integer, opv));
-        }
-        if (utility::is_real_or_integer(first_arg_asset_deref) &&
-                std::all_of(cbegin(other_argv_asset_deref), cend(other_argv_asset_deref), utility::is_real_or_integer)) {
-            const auto & first_arg_real = utility::to_real(first_arg_asset_deref);
-            const auto & other_argv_real = utility::many_to_real(other_argv_asset_deref);
-            return Asset::from_value<onerut_scalar::Real>(std::make_shared<onerut_scalar::OpProdDivReal>(first_arg_real, other_argv_real, opv));
-        }
-        if (utility::is_real_or_integer_or_complex(first_arg_asset_deref) &&
-                std::all_of(cbegin(other_argv_asset_deref), cend(other_argv_asset_deref), utility::is_real_or_integer_or_complex)) {
-            const auto & first_arg_complex = utility::to_complex(first_arg_asset_deref);
-            const auto & other_argv_complex = utility::many_to_complex(other_argv_asset_deref);
-            return Asset::from_value<onerut_scalar::Complex>(std::make_shared<onerut_scalar::OpProdDivComplex>(first_arg_complex, other_argv_complex, opv));
-        }
-        if (std::all_of(opv.cbegin(), opv.cend(), is_prod_char) &&
-                utility::is_normal_operator(first_arg_asset_deref) &&
-                std::all_of(cbegin(other_argv_asset_deref), cend(other_argv_asset_deref), utility::is_normal_operator)) {
-            const auto & first_arg_operator = utility::to_normal_operator(first_arg_asset_deref);
-            const auto & other_argv_operator = utility::many_to_normal_operator(other_argv_asset_deref);
-            if (!are_the_same_domains(first_arg_operator, other_argv_operator))
-                return Asset::from_compile_error(std::make_shared<ArgumentDomainError>("Incompatible operator domains."));
-            const auto argv_operator = cat(first_arg_operator, other_argv_operator);
-            using AbstractRealOperatorT = onerut_normal_operator::AbstractRealOperator;
-            return Asset::from_value<AbstractRealOperatorT>(std::make_shared<onerut_normal_operator::OpProdOperator >(argv_operator));
-        }
-        if (other_argv_asset_deref.size() == 1 && opv[0] == '*' &&
-                utility::is_real_or_integer(first_arg_asset_deref) &&
-                utility::is_normal_operator(other_argv_asset_deref[0])) {
-            const auto & first_arg_operator = utility::to_real(first_arg_asset_deref);
-            const auto & second_arg_operator = utility::to_normal_operator(other_argv_asset_deref[0]);
-            using AbstractRealOperatorT = onerut_normal_operator::AbstractRealOperator;
-            return Asset::from_value<AbstractRealOperatorT>(std::make_shared<onerut_normal_operator::ScalledOperator>(first_arg_operator, second_arg_operator));
-        }
-        return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+    OpProdDivNode::basic_compile(std::shared_ptr<CompilerRules> compiler_rules, Asset first_arg_asset, std::vector<Asset> other_argv_asset) const {
+        return compiler_rules->op_prod_div(first_arg_asset, other_argv_asset, opv);
+    }
+    // -------------------------------------------------------------------------
+
+    Asset
+    OpPowNode::basic_compile(std::shared_ptr<CompilerRules> compiler_rules, Asset first_arg_asset, Asset second_arg_asset) const {
+        return compiler_rules->op_pow(first_arg_asset, second_arg_asset);
     }
 
     // -------------------------------------------------------------------------
 
     Asset
-    OpPowNode::basic_compile(Asset first_arg_asset, Asset second_arg_asset) const {
-        return behave_like_a_binary_function("pow", first_arg_asset, second_arg_asset);
+    OpAtNode::basic_compile(std::shared_ptr<CompilerRules> compiler_rules, Asset first_arg_asset, Asset second_arg_asset) const {
+        return compiler_rules->op_at(first_arg_asset, second_arg_asset);
     }
 
     // -------------------------------------------------------------------------
 
     Asset
-    OpAtNode::basic_compile(Asset first_arg_asset, Asset second_arg_asset) const {
-        return behave_like_a_binary_function("at", first_arg_asset, second_arg_asset);
+    OpArrowNode::basic_compile(std::shared_ptr<CompilerRules> compiler_rules, Asset first_arg_asset, Asset second_arg_asset) const {
+        return compiler_rules->op_arrow(first_arg_asset, second_arg_asset);
     }
 
     // -------------------------------------------------------------------------
 
     Asset
-    OpArrowNode::basic_compile(Asset first_arg_asset, Asset second_arg_asset) const {
-        return behave_like_a_binary_function("arrow", first_arg_asset, second_arg_asset);
+    OpGlueNode::basic_compile(std::shared_ptr<CompilerRules> compiler_rules, Asset first_arg_asset, Asset second_arg_asset) const {
+        return compiler_rules->op_glue(first_arg_asset, second_arg_asset);
     }
 
     // -------------------------------------------------------------------------
 
     Asset
-    OpGlueNode::basic_compile(Asset first_arg_asset, Asset second_arg_asset) const {
-        return behave_like_a_binary_function("glue", first_arg_asset, second_arg_asset);
+    UnaryPlusMinusNode::basic_compile(std::shared_ptr<CompilerRules> compiler_rules, Asset arg_asset) const {
+        return compiler_rules->op_unary_plus_minus(arg_asset, op);
     }
 
     // -------------------------------------------------------------------------
 
     Asset
-    UnaryPlusMinusNode::basic_compile(Asset arg_asset) const {
-        const auto arg_asset_deref = arg_asset.deref();
-        assert(is_plus_munis_char(op));
-        if (arg_asset_deref.is_compile_error())
-            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
-        if (!arg_asset_deref.is_either_value_or_type())
-            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
-        assert(!arg_asset_deref.is_empty());
-        if (utility::is_integer(arg_asset_deref)) {
-            const auto & arg_integer = utility::to_integer(arg_asset_deref);
-            return Asset::from_value<onerut_scalar::Integer>(std::make_shared<onerut_scalar::OpUnaryPlusMinusInteger>(arg_integer, op));
-        }
-        if (utility::is_real_or_integer(arg_asset_deref)) {
-            const auto & arg_real = utility::to_real(arg_asset_deref);
-            return Asset::from_value<onerut_scalar::Real>(std::make_shared<onerut_scalar::OpUnaryPlusMinusReal>(arg_real, op));
-        }
-        if (utility::is_real_or_integer_or_complex(arg_asset_deref)) {
-            const auto & arg_complex = utility::to_complex(arg_asset_deref);
-            return Asset::from_value<onerut_scalar::Complex>(std::make_shared<onerut_scalar::OpUnaryPlusMinusComplex>(arg_complex, op));
-        }
-        if (utility::is_normal_operator(arg_asset_deref)) {
-            const auto & arg_operator = utility::to_normal_operator(arg_asset_deref);
-            using AbstractRealOperatorT = onerut_normal_operator::AbstractRealOperator;
-            return Asset::from_value<AbstractRealOperatorT>(std::make_shared<onerut_normal_operator::OpUnaryPlusMinusOperator>(arg_operator, op));
-        }
-        return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+    LitLongNode::basic_compile(std::shared_ptr<CompilerRules> compiler_rules) const {
+        return compiler_rules->lit_long(value);
     }
 
     // -------------------------------------------------------------------------
 
     Asset
-    LitLongNode::basic_compile() const {
-        return Asset::from_value<onerut_scalar::Integer>(std::make_shared<onerut_scalar::LitInteger>(value));
+    LitDoubleNode::basic_compile(std::shared_ptr<CompilerRules> compiler_rules) const {
+        return compiler_rules->lit_double(value);
     }
 
     // -------------------------------------------------------------------------
 
     Asset
-    LitDoubleNode::basic_compile() const {
-        return Asset::from_value<onerut_scalar::Real>(std::make_shared<onerut_scalar::LitReal>(value));
+    LitPureComplexDoubleNode::basic_compile(std::shared_ptr<CompilerRules> compiler_rules) const {
+        return compiler_rules->lit_pure_complex_double(value);
     }
 
     // -------------------------------------------------------------------------
 
     Asset
-    LitPureComplexDoubleNode::basic_compile() const {
-        return Asset::from_value<onerut_scalar::Complex>(std::make_shared<onerut_scalar::LitComplex>(std::complex(0.0, value)));
-    }
-
-    // -------------------------------------------------------------------------
-
-    Asset
-    FunctionNode::basic_compile(std::vector<Asset> argv_asset) const {
-        if (auto function = FunctionFactoryContainer::global_instance().get_or_empty(name))
-            return (*function)->make_function_otherwise_make_error(argv_asset);
-        return Asset::from_compile_error(std::make_shared<FunctionNotFoundError>(name));
+    FunctionNode::basic_compile(std::shared_ptr<CompilerRules> compiler_rules, std::vector<Asset> argv_asset) const {
+        return compiler_rules->lit_function(name, argv_asset);
     }
 
 }

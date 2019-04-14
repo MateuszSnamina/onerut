@@ -2,6 +2,7 @@
 #include<boost/cast.hpp>
 
 #include<onerut_parser/asset_utility.hpp>
+#include<onerut_parser/asset_utility_concrete.hpp>
 #include<onerut_parser/function_factory_normal_operators.hpp>
 #include<onerut_parser/request_imperative.hpp>
 #include<onerut_parser/asset_ref_container.hpp>

@@ -68,6 +68,7 @@
         <in>asset_ref_container.cpp</in>
         <in>asset_to_esc_data.cpp</in>
         <in>asset_utility.cpp</in>
+        <in>asset_utility_concrete.cpp</in>
         <in>ast_asset.cpp</in>
         <in>ast_asset_to_chart.cpp</in>
         <in>ast_source.cpp</in>
@@ -78,6 +79,8 @@
         <in>ast_x3_to_ast_source.cpp</in>
         <in>ast_x3_to_chart.cpp</in>
         <in>ast_x3_to_oneliner.cpp</in>
+        <in>compiler_rules.cpp</in>
+        <in>compiler_rules_concrete.cpp</in>
         <in>function_factory.cpp</in>
         <in>function_factory_constant.cpp</in>
         <in>function_factory_container.cpp</in>
@@ -717,7 +720,7 @@
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="2">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/asset_ref.cpp" ex="false" tool="1" flavor2="11">
@@ -735,14 +738,21 @@
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="2">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/asset_utility.cpp"
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="2">
+        <ccTool flags="1">
+        </ccTool>
+      </item>
+      <item path="onerut_parser/src/asset_utility_concrete.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/ast_asset.cpp" ex="false" tool="1" flavor2="11">
@@ -764,7 +774,7 @@
             ex="false"
             tool="1"
             flavor2="11">
-        <ccTool flags="2">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/ast_source_to_chart.cpp"
@@ -804,6 +814,18 @@
             tool="1"
             flavor2="11">
         <ccTool flags="2">
+        </ccTool>
+      </item>
+      <item path="onerut_parser/src/compiler_rules.cpp"
+            ex="false"
+            tool="1"
+            flavor2="4">
+      </item>
+      <item path="onerut_parser/src/compiler_rules_concrete.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="onerut_parser/src/function_factory.cpp"

@@ -5,7 +5,7 @@
 #include<vector>
 
 #include<onerut_parser/function_factory_abstract.hpp>
-#include<onerut_parser/asset_utility.hpp>
+#include<onerut_parser/asset_utility_concrete.hpp>
 #include<onerut_scalar/function.hpp>
 #include<onerut_scalar/utility_static_all_of.hpp>
 

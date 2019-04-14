@@ -8,6 +8,7 @@
 #include<string_utils/string_span.hpp>
 #include<onerut_parser/asset.hpp>
 #include<onerut_parser/print_chart.hpp>
+#include<onerut_parser/compiler_rules.hpp>
 
 namespace onerut_parser::onerut_ast::asset {
     class AssetNode;
@@ -28,7 +29,7 @@ namespace onerut_parser::onerut_ast::source {
         const string_const_span span;
         virtual ~SourceNode() = 0;
         virtual std::string to_oneliner() const = 0;
-        virtual std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> compile() const = 0;
+        virtual std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> compile(std::shared_ptr<CompilerRules> compiler_rules) const = 0;
         LinesStyledChartInfo to_ast_chart() const;
         virtual void to_ast_chart(
                 unsigned deepness,
@@ -48,8 +49,8 @@ namespace onerut_parser::onerut_ast::source {
         void to_ast_chart(
                 unsigned deepness,
                 LinesStyledChartInfo& ast_chart) const final;
-        virtual std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> compile() const final;
-        virtual Asset basic_compile() const = 0;
+        virtual std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> compile(std::shared_ptr<CompilerRules> compiler_rules) const final;
+        virtual Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules) const = 0;
     };
 
     class WithOneSubsourceNode : public SourceNode {
@@ -61,8 +62,8 @@ namespace onerut_parser::onerut_ast::source {
         void to_ast_chart(
                 unsigned deepness,
                 LinesStyledChartInfo& ast_chart) const final;
-        virtual std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> compile() const final;
-        virtual Asset basic_compile(Asset arg_asset) const = 0;
+        virtual std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> compile(std::shared_ptr<CompilerRules> compiler_rules) const final;
+        virtual Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules, Asset arg_asset) const = 0;
         const std::shared_ptr<SourceNode> arg;
     };
 
@@ -76,8 +77,8 @@ namespace onerut_parser::onerut_ast::source {
         void to_ast_chart(
                 unsigned deepness,
                 LinesStyledChartInfo& ast_chart) const final;
-        virtual std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> compile() const final;
-        virtual Asset basic_compile(Asset first_arg_asset, Asset second_arg_asset) const = 0;
+        virtual std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> compile(std::shared_ptr<CompilerRules> compiler_rules) const final;
+        virtual Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules, Asset first_arg_asset, Asset second_arg_asset) const = 0;
         const std::shared_ptr<SourceNode> first_arg;
         const std::shared_ptr<SourceNode> second_arg;
     };
@@ -92,8 +93,8 @@ namespace onerut_parser::onerut_ast::source {
         void to_ast_chart(
                 unsigned deepness,
                 LinesStyledChartInfo& ast_chart) const final;
-        virtual std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> compile() const final;
-        virtual Asset basic_compile(Asset first_arg_asset, std::vector<Asset> other_argv_asset) const = 0;
+        virtual std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> compile(std::shared_ptr<CompilerRules> compiler_rules) const final;
+        virtual Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules, Asset first_arg_asset, std::vector<Asset> other_argv_asset) const = 0;
         const std::shared_ptr<SourceNode> first_arg;
         const std::vector<std::shared_ptr<SourceNode>> other_argv;
     };
@@ -107,8 +108,8 @@ namespace onerut_parser::onerut_ast::source {
         void to_ast_chart(
                 unsigned deepness,
                 LinesStyledChartInfo& ast_chart) const final;
-        virtual std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> compile() const final;
-        virtual Asset basic_compile(std::vector<Asset> argv_asset) const = 0;
+        virtual std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> compile(std::shared_ptr<CompilerRules> compiler_rules) const final;
+        virtual Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules, std::vector<Asset> argv_asset) const = 0;
         const std::vector<std::shared_ptr<SourceNode>> argv;
     };
 
@@ -123,7 +124,7 @@ namespace onerut_parser::onerut_ast::source {
                 string_const_span span,
                 std::string name);
         std::string to_oneliner() const override;
-        Asset basic_compile() const override;
+        Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules) const override;
         const std::string name;
     };
 
@@ -134,7 +135,7 @@ namespace onerut_parser::onerut_ast::source {
                 string_const_span span,
                 long value);
         std::string to_oneliner() const override;
-        Asset basic_compile() const override;
+        Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules) const override;
         const long value;
     };
 
@@ -145,7 +146,7 @@ namespace onerut_parser::onerut_ast::source {
                 string_const_span span,
                 double value);
         std::string to_oneliner() const override;
-        Asset basic_compile() const override;
+        Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules) const override;
         const double value;
     };
 
@@ -156,7 +157,7 @@ namespace onerut_parser::onerut_ast::source {
                 string_const_span span,
                 double value);
         std::string to_oneliner() const override;
-        Asset basic_compile() const override;
+        Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules) const override;
         const double value; // the complex part
     };
 
@@ -170,7 +171,7 @@ namespace onerut_parser::onerut_ast::source {
                 bool new_flag,
                 bool const_flag);
         std::string to_oneliner() const override;
-        virtual Asset basic_compile(Asset first_arg_asset, Asset second_arg_asset) const override;
+        virtual Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules, Asset first_arg_asset, Asset second_arg_asset) const override;
         const bool new_flag;
         const bool const_flag;
     };
@@ -184,7 +185,7 @@ namespace onerut_parser::onerut_ast::source {
                 std::vector<std::shared_ptr<SourceNode>> other_argv,
                 std::vector<char> opv);
         std::string to_oneliner() const override;
-        virtual Asset basic_compile(Asset first_arg_asset, std::vector<Asset> other_argv_asset) const override;
+        virtual Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules, Asset first_arg_asset, std::vector<Asset> other_argv_asset) const override;
         const std::vector<char> opv;
     };
 
@@ -197,7 +198,7 @@ namespace onerut_parser::onerut_ast::source {
                 std::vector<std::shared_ptr<SourceNode>> other_argv,
                 std::vector<char> opv);
         std::string to_oneliner() const override;
-        virtual Asset basic_compile(Asset first_arg_asset, std::vector<Asset> other_argv_asset) const override;
+        virtual Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules, Asset first_arg_asset, std::vector<Asset> other_argv_asset) const override;
         const std::vector<char> opv;
     };
 
@@ -209,7 +210,7 @@ namespace onerut_parser::onerut_ast::source {
                 std::shared_ptr<SourceNode> first_arg,
                 std::shared_ptr<SourceNode> second_arg);
         std::string to_oneliner() const override;
-        virtual Asset basic_compile(Asset first_arg_asset, Asset second_arg_asset) const override;
+        virtual Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules, Asset first_arg_asset, Asset second_arg_asset) const override;
     };
 
     class OpAtNode : public WithTwoSubsourcesNode {
@@ -220,7 +221,7 @@ namespace onerut_parser::onerut_ast::source {
                 std::shared_ptr<SourceNode> first_arg,
                 std::shared_ptr<SourceNode> second_arg);
         std::string to_oneliner() const override;
-        virtual Asset basic_compile(Asset first_arg_asset, Asset second_arg_asset) const override;
+        virtual Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules, Asset first_arg_asset, Asset second_arg_asset) const override;
     };
 
     class OpArrowNode : public WithTwoSubsourcesNode {
@@ -231,7 +232,7 @@ namespace onerut_parser::onerut_ast::source {
                 std::shared_ptr<SourceNode> first_arg,
                 std::shared_ptr<SourceNode> second_arg);
         std::string to_oneliner() const override;
-        virtual Asset basic_compile(Asset first_arg_asset, Asset second_arg_asset) const override;
+        virtual Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules, Asset first_arg_asset, Asset second_arg_asset) const override;
     };
 
     class OpGlueNode : public WithTwoSubsourcesNode {
@@ -242,7 +243,7 @@ namespace onerut_parser::onerut_ast::source {
                 std::shared_ptr<SourceNode> first_arg,
                 std::shared_ptr<SourceNode> second_arg);
         std::string to_oneliner() const override;
-        virtual Asset basic_compile(Asset first_arg_asset, Asset second_arg_asset) const override;
+        virtual Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules, Asset first_arg_asset, Asset second_arg_asset) const override;
     };
 
     class UnaryPlusMinusNode : public WithOneSubsourceNode {
@@ -253,7 +254,7 @@ namespace onerut_parser::onerut_ast::source {
                 char op,
                 std::shared_ptr<SourceNode> arg);
         std::string to_oneliner() const override;
-        virtual Asset basic_compile(Asset arg_asset) const override;
+        virtual Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules, Asset arg_asset) const override;
         const char op;
     };
 
@@ -265,7 +266,7 @@ namespace onerut_parser::onerut_ast::source {
                 std::string name,
                 std::vector<std::shared_ptr<SourceNode>> argv);
         std::string to_oneliner() const override;
-        virtual Asset basic_compile(std::vector<Asset> argv_asset) const override;
+        virtual Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules, std::vector<Asset> argv_asset) const override;
         const std::string name;
     };
 
