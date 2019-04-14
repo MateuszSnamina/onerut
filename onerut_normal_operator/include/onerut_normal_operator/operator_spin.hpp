@@ -10,7 +10,7 @@
 
 namespace onerut_normal_operator {
 
-    class SpinZetOperator : public AbstractRealOperator {
+    class SpinZetOperator : public AbstractOperator<double> {
     public:
         using ScalarT = double;
         using BraKetT = uint32_t;
@@ -27,7 +27,7 @@ namespace onerut_normal_operator {
         std::shared_ptr<const SpinDomain> domain;
     };
 
-    class SpinPlusOperator : public AbstractRealOperator {
+    class SpinPlusOperator : public AbstractOperator<double> {
     public:
         using ScalarT = double;
         using BraKetT = uint32_t;
@@ -44,7 +44,7 @@ namespace onerut_normal_operator {
         std::shared_ptr<const SpinDomain> domain;
     };
 
-    class SpinMinusOperator : public AbstractRealOperator {
+    class SpinMinusOperator : public AbstractOperator<double> {
     public:
         using ScalarT = double;
         using BraKetT = uint32_t;

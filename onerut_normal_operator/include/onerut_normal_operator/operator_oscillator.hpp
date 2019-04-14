@@ -9,7 +9,7 @@
 
 namespace onerut_normal_operator {
 
-    class CreationOperator : public AbstractRealOperator {
+    class CreationOperator : public AbstractOperator<double> {
     public:
         using ScalarT = double;
         using BraKetT = uint32_t;
@@ -26,7 +26,7 @@ namespace onerut_normal_operator {
         std::shared_ptr<const OscillatorDomain> domain;
     };
 
-    class AnihilationOperator : public AbstractRealOperator {
+    class AnihilationOperator : public AbstractOperator<double> {
     public:
         using ScalarT = double;
         using BraKetT = uint32_t;

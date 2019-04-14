@@ -8,7 +8,7 @@
 
 namespace onerut_normal_operator {
 
-    class ZeroOperator : public AbstractRealOperator {
+    class ZeroOperator : public AbstractOperator<double> {
     public:
         using ScalarT = double;
         using BraKetT = uint32_t;

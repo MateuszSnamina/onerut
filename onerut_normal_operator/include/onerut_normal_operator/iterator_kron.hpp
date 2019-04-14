@@ -16,7 +16,7 @@ namespace onerut_normal_operator {
         using BraKetT = uint32_t;
         using AbstractOpT = AbstractOperator<_ScalarT>;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
-        using AbstractIteratorT = onerut_typed_operator::AbstractResultIterator<ScalarT, uint32_t>;
+        using AbstractIteratorT = onerut_typed_operator::AbstractResultIterator<ScalarT, BraKetT>;
         using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
         using Iterator = KronIterator;
         KronIterator(BraKetT weight, BraKetT base, const AbstractOpPtrT& subdomain_op, const BraKetT& subdomain_ket);
@@ -51,7 +51,7 @@ namespace onerut_normal_operator {
         const auto& subdomain_val_bra = _subdomain_itptr->get_val_bra();
         const auto& value = subdomain_val_bra.first;
         const BraKetT& subdomain_bra = subdomain_val_bra.second;
-        const BraKetT& bra = _base + _weight * subdomain_bra;
+        const BraKetT bra = _base + _weight * subdomain_bra;
         return std::make_pair(value, bra);
     }
 

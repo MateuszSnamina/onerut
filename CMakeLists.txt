@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 #################################################################
-# The project is supposed to be homogenous C++14 and Fortran.
+# The project is supposed to be homogenous C++17 and Fortran.
 # (Fortran is needed for proper linkage with blas and lapack.)
 project(onerut LANGUAGES CXX Fortran)
 set(CMAKE_CXX_STANDARD 17)
@@ -197,8 +197,6 @@ add_subdirectory(onerut_typed_operator)
 add_subdirectory(onerut_typed_operator_tests)
 add_subdirectory(onerut_normal_operator)
 add_subdirectory(onerut_normal_operator_tests)
-#add_subdirectory(onerut_op1e)
-#add_subdirectory(onerut_op1e_tests)
 add_subdirectory(onerut_parser)
 add_subdirectory(onerut_parser_tests)
 add_subdirectory(onerut)

@@ -49,6 +49,7 @@ namespace fancy_logging {
         const std::u32string horizontal_row_label_bar_segment(adequate_row_label_visible_length, U'─');
         const std::u32string horizontal_regular_bar_segment(adequate_reguler_visible_length, U'─');
         // ---------------------------------------------------------------------
+        // ---------------------------------------------------------------------
         stream << line_prefix;
         stream << " ";
         stream << std::setw(adequate_row_label_visible_length) << "";

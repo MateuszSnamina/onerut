@@ -22,13 +22,18 @@ endif()
 
 add_executable("${TARGET_NAME}" ${src} ${inc})
 target_include_directories("${TARGET_NAME}" PUBLIC include)
-target_link_libraries(onerut
+target_link_libraries("${TARGET_NAME}"
   onerut_parser
-  onerut_normal_operator
-  #onerut_op1e
+  #onerut_normal_operator
   esc
-  stdc++fs # Will not be necessary in the futire.
+  /usr/lib/gcc/x86_64-linux-gnu/8/libstdc++fs.a  # Will not be necessary in the future.
+  #stdc++fs # Will not be necessary in the future.
   Boost::boost
   Boost::program_options
-  armadillo lapack blas
+  #armadillo lapack blas
 )
+
+get_target_property(x ${TARGET_NAME} LINK_DIRECTORIES)
+  message("  \${TARGET_NAME}.LINK_DIRECTORIES:      ${x}")
+get_target_property(x ${TARGET_NAME} INTERFACE_LINK_DIRECTORIES)
+  message("  \${TARGET_NAME}.INTERFACE_LINK_DIRECTORIES:      ${x}")

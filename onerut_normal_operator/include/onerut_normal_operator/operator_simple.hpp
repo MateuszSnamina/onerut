@@ -9,7 +9,7 @@
 
 namespace onerut_normal_operator {
 
-    class HopOperator : public AbstractRealOperator {
+    class HopOperator : public AbstractOperator<double> {
     public:
         using ScalarT = double;
         using BraKetT = uint32_t;
@@ -30,7 +30,7 @@ namespace onerut_normal_operator {
         const std::shared_ptr<const StateIndex> state_2;
     };
 
-    class DiagOperator : public AbstractRealOperator {
+    class DiagOperator : public AbstractOperator<double> {
     public:
         using ScalarT = double;
         using BraKetT = uint32_t;
@@ -49,7 +49,7 @@ namespace onerut_normal_operator {
         const std::shared_ptr<const StateIndex> state;
     };
 
-    class EyeOperator : public AbstractRealOperator {
+    class EyeOperator : public AbstractOperator<double> {
     public:
         using ScalarT = double;
         using BraKetT = uint32_t;

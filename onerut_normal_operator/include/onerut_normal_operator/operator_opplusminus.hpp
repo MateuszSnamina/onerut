@@ -12,7 +12,7 @@ namespace onerut_normal_operator {
     // ------------------ PlusMinus OPERATOR  ----------------------------------
     // -------------------------------------------------------------------------    
 
-    class OpPlusMinusOperator : public AbstractRealOperator {
+    class OpPlusMinusOperator : public AbstractOperator<double> {
     public:
         using ScalarT = double;
         using BraKetT = uint32_t;
