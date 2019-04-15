@@ -18,6 +18,7 @@
 #include<onerut_parser/asset_utility.hpp>
 #include<onerut_parser/asset_receipt.hpp>
 #include<onerut_parser/compiler_rules_concrete.hpp>
+#include<onerut_parser/asset_to_esc_data.hpp>
 
 #include<onerut_parser/request_imperative.hpp>
 #include<onerut_parser/request_print_value.hpp>
@@ -65,7 +66,7 @@ execute_line(std::shared_ptr<const std::string> line) {
     // *************************************************************************
     const auto ast_asset_head = ast_source_head->compile(std::make_shared<onerut_parser::CompilerRulesConcrete>());
     // -------------------------------------------------------------------------
-    const auto asset_ast_chart = ast_asset_head->to_ast_chart();
+    const auto asset_ast_chart = ast_asset_head->to_ast_chart(onerut_parser::asset_to_esc_data);
     onerut_parser::print_ast_chart(std::cout, parsed_x3_info.input, asset_ast_chart, "[diagram] ");
     const auto asset_errors_chart = ast_asset_head->to_errors_chart();
     onerut_parser::print_errors_chart(std::cout, parsed_x3_info.input, asset_errors_chart, "[errors ] ");

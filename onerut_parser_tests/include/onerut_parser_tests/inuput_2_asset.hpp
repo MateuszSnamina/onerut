@@ -17,6 +17,7 @@
 #include<onerut_parser/function_factory_container.hpp>
 #include<onerut_parser_tests/global_flags.hpp>
 #include<onerut_parser/compiler_rules_concrete.hpp>
+#include<onerut_parser/asset_to_esc_data.hpp>
 
 inline
 std::optional<onerut_parser::Asset> inuput_2_asset(const std::string onerut_inuput) {
@@ -46,7 +47,7 @@ std::optional<onerut_parser::Asset> inuput_2_asset(const std::string onerut_inup
     const auto _ast_asset_head = _ast_source_head->compile(std::make_shared<onerut_parser::CompilerRulesConcrete>());
     // -------------------------------------------------------------------------
     if (onerut_verbose) {
-        const auto ast_asset_ast_chart = _ast_asset_head->to_ast_chart();
+        const auto ast_asset_ast_chart = _ast_asset_head->to_ast_chart(onerut_parser::asset_to_esc_data);
         onerut_parser::print_ast_chart(std::cout, _parsed_x3_info.input, ast_asset_ast_chart, "[test][common][asset][diagram]");
     }
     // #########################################################################
