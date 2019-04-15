@@ -1,5 +1,5 @@
 #include<onerut_parser/ast_source.hpp>
-#include<onerut_parser/asset_to_esc_data.hpp>
+//#include<onerut_parser/asset_to_esc_data.hpp>//TODO delete?
 
 namespace onerut_parser::onerut_ast::source {
 

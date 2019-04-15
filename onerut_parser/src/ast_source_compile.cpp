@@ -216,7 +216,7 @@ namespace onerut_parser::onerut_ast::source {
 
     Asset
     FunctionNode::basic_compile(std::shared_ptr<CompilerRules> compiler_rules, std::vector<Asset> argv_asset) const {
-        return compiler_rules->lit_function(name, argv_asset);
+        return compiler_rules->function(name, argv_asset);
     }
 
 }

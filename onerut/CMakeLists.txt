@@ -24,6 +24,7 @@ add_executable("${TARGET_NAME}" ${src} ${inc})
 target_include_directories("${TARGET_NAME}" PUBLIC include)
 target_link_libraries("${TARGET_NAME}"
   onerut_parser
+  onerut_parser_concrete
   #onerut_normal_operator
   esc
   /usr/lib/gcc/x86_64-linux-gnu/8/libstdc++fs.a  # Will not be necessary in the future.

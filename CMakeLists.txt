@@ -198,6 +198,7 @@ add_subdirectory(onerut_typed_operator_tests)
 add_subdirectory(onerut_normal_operator)
 add_subdirectory(onerut_normal_operator_tests)
 add_subdirectory(onerut_parser)
-add_subdirectory(onerut_parser_tests)
+add_subdirectory(onerut_parser_concrete)
+add_subdirectory(onerut_parser_concrete_tests)
 add_subdirectory(onerut)
 

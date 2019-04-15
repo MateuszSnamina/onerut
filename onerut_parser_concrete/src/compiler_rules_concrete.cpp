@@ -9,9 +9,8 @@
 #include<onerut_parser/vector_cat.hpp>
 #include<onerut_parser/ast_asset.hpp>
 #include<onerut_parser/asset_utility.hpp>
-#include<onerut_parser/asset_utility_concrete.hpp>
-#include<onerut_parser/function_factory_container.hpp>
-#include<onerut_parser/compiler_rules_concrete.hpp>
+#include<onerut_parser_concrete/asset_utility_concrete.hpp>
+#include<onerut_parser_concrete/compiler_rules_concrete.hpp>
 
 namespace {
 
@@ -32,12 +31,13 @@ namespace {
 
     onerut_parser::Asset
     behave_like_a_binary_function(
-            const std::string function_name,
+            const onerut_parser::FunctionFactoryContainer & function_factory_container,
+            const std::string & function_name,
             onerut_parser::Asset first_arg_asset,
             onerut_parser::Asset second_arg_asset) {
         const auto first_arg_asset_deref = first_arg_asset.deref();
         const auto second_arg_asset_deref = second_arg_asset.deref();
-        if (auto function_factory = onerut_parser::FunctionFactoryContainer::global_instance().get_or_empty(function_name))
+        if (auto function_factory = function_factory_container.get_or_empty(function_name))
             return (*function_factory)->make_function_otherwise_make_error({first_arg_asset, second_arg_asset});
         return onerut_parser::Asset::from_compile_error(std::make_shared<onerut_parser::FunctionNotFoundError>(function_name));
     }
@@ -45,6 +45,10 @@ namespace {
 }
 
 namespace onerut_parser {
+
+    CompilerRulesConcrete::CompilerRulesConcrete() {
+        function_factory_container.put_all();
+    }
 
     Asset
     CompilerRulesConcrete::op_plus_minus(Asset first_arg_asset, std::vector<Asset> other_argv_asset, std::vector<char> opv) const {
@@ -140,28 +144,28 @@ namespace onerut_parser {
 
     Asset
     CompilerRulesConcrete::op_pow(Asset first_arg_asset, Asset second_arg_asset) const {
-        return behave_like_a_binary_function("pow", first_arg_asset, second_arg_asset);
+        return behave_like_a_binary_function(function_factory_container, "pow", first_arg_asset, second_arg_asset);
     }
 
     // -------------------------------------------------------------------------
 
     Asset
     CompilerRulesConcrete::op_at(Asset first_arg_asset, Asset second_arg_asset) const {
-        return behave_like_a_binary_function("at", first_arg_asset, second_arg_asset);
+        return behave_like_a_binary_function(function_factory_container, "at", first_arg_asset, second_arg_asset);
     }
 
     // -------------------------------------------------------------------------
 
     Asset
     CompilerRulesConcrete::op_arrow(Asset first_arg_asset, Asset second_arg_asset) const {
-        return behave_like_a_binary_function("arrow", first_arg_asset, second_arg_asset);
+        return behave_like_a_binary_function(function_factory_container, "arrow", first_arg_asset, second_arg_asset);
     }
 
     // -------------------------------------------------------------------------
 
     Asset
     CompilerRulesConcrete::op_glue(Asset first_arg_asset, Asset second_arg_asset) const {
-        return behave_like_a_binary_function("glue", first_arg_asset, second_arg_asset);
+        return behave_like_a_binary_function(function_factory_container, "glue", first_arg_asset, second_arg_asset);
     }
 
     // -------------------------------------------------------------------------
@@ -219,8 +223,8 @@ namespace onerut_parser {
     // -------------------------------------------------------------------------
 
     Asset
-    CompilerRulesConcrete::lit_function(std::string name, std::vector<Asset> argv_asset) const {
-        if (auto function = FunctionFactoryContainer::global_instance().get_or_empty(name))
+    CompilerRulesConcrete::function(const std::string& name, const std::vector<Asset>& argv_asset) const {
+        if (auto function = function_factory_container.get_or_empty(name))
             return (*function)->make_function_otherwise_make_error(argv_asset);
         return Asset::from_compile_error(std::make_shared<FunctionNotFoundError>(name));
     }

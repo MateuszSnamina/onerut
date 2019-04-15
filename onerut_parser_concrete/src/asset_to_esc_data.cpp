@@ -5,7 +5,7 @@
 #include<onerut_normal_operator/domain_spin.hpp>
 #include<onerut_normal_operator/domain_kron.hpp>
 #include<onerut_parser/asset_utility.hpp>
-#include<onerut_parser/asset_to_esc_data.hpp>
+#include<onerut_parser_concrete/asset_to_esc_data.hpp>
 
 namespace onerut_parser {
 

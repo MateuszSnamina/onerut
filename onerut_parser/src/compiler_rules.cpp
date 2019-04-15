@@ -43,7 +43,7 @@ namespace onerut_parser {
         return Asset::from_compile_error(std::make_shared<CompilerNotImplementedError>());
     }
 
-    Asset CompilerRules::lit_function(std::string name, std::vector<Asset> argv_asset) const {
+    Asset CompilerRules::function(const std::string & name, const std::vector<Asset> & argv_asset) const {
         return Asset::from_compile_error(std::make_shared<CompilerNotImplementedError>());
     }
 

@@ -13,16 +13,14 @@
 #include<onerut_parser/ast_x3_to_ast_source.hpp>
 #include<onerut_parser/ast_asset.hpp>
 #include<onerut_parser/print_chart.hpp>
-#include<onerut_parser/asset_receipt.hpp>
-#include<onerut_parser/function_factory_container.hpp>
+#include<onerut_parser_concrete/asset_receipt.hpp>
+#include<onerut_parser_concrete/compiler_rules_concrete.hpp>
+#include<onerut_parser_concrete/asset_to_esc_data.hpp>
 #include<onerut_parser_tests/global_flags.hpp>
-#include<onerut_parser/compiler_rules_concrete.hpp>
-#include<onerut_parser/asset_to_esc_data.hpp>
 
 inline
 std::optional<onerut_parser::Asset> inuput_2_asset(const std::string onerut_inuput) {
     auto _onerut_inuput = std::make_shared<const std::string>(onerut_inuput);
-    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
     // #########################################################################
     const auto _parsed_x3_info = onerut_parser::parse(_onerut_inuput);
     // --------------------------------------------------

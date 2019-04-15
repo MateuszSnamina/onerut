@@ -5,7 +5,6 @@
 #include<onerut_normal_operator/domain_spin.hpp>
 #include<onerut_normal_operator/domain_kron.hpp>
 #include<onerut_parser/asset_ref_container.hpp>
-#include<onerut_parser/function_factory_container.hpp>
 #include<onerut_parser_tests/box_common.hpp>
 
 #include "onerut_normal_operator/operator_simple.hpp"
@@ -20,8 +19,6 @@
 // -----------------------------------------------------------------------------
 
 TEST(boxFunctionsOnerut, customDomainTest0) {
-    onerut_parser::FunctionFactoryContainer::global_instance().clear();
-    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
     onerut_parser::AssetRefContainer::global_instance().clear();
     // -------
     ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, custom_domain(5, 6));
@@ -89,8 +86,6 @@ TEST(boxFunctionsOnerut, customDomainTest0) {
 }
 
 TEST(boxFunctionsOnerut, oscillatorDomainTest0) {
-    onerut_parser::FunctionFactoryContainer::global_instance().clear();
-    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
     onerut_parser::AssetRefContainer::global_instance().clear();
     // -------
     ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, oscillator_domain(2.6));
@@ -143,8 +138,6 @@ TEST(boxFunctionsOnerut, oscillatorDomainTest0) {
 }
 
 TEST(boxFunctionsOnerut, spinDomainTest0) {
-    onerut_parser::FunctionFactoryContainer::global_instance().clear();
-    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
     onerut_parser::AssetRefContainer::global_instance().clear();
     // -------
     ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, spin_domain(2.6));
@@ -197,8 +190,6 @@ TEST(boxFunctionsOnerut, spinDomainTest0) {
 }
 
 TEST(boxFunctionsOnerut, kronDomainTest0) {
-    onerut_parser::FunctionFactoryContainer::global_instance().clear();
-    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
     onerut_parser::AssetRefContainer::global_instance().clear();
     // -------
     ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, kron_domain(2.6));
@@ -265,8 +256,6 @@ TEST(boxFunctionsOnerut, kronDomainTest0) {
 }
 
 TEST(boxFunctionsOnerut, diagOperatorTest0) {
-    onerut_parser::FunctionFactoryContainer::global_instance().clear();
-    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
     onerut_parser::AssetRefContainer::global_instance().clear();
     // -------
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, diag(3));
@@ -295,8 +284,6 @@ TEST(boxFunctionsOnerut, diagOperatorTest0) {
 }
 
 TEST(boxFunctionsOnerut, hopOperatorTest0) {
-    onerut_parser::FunctionFactoryContainer::global_instance().clear();
-    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
     onerut_parser::AssetRefContainer::global_instance().clear();
     // -------
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, hop(3, 7));
@@ -329,8 +316,6 @@ TEST(boxFunctionsOnerut, hopOperatorTest0) {
 }
 
 TEST(boxFunctionsOnerut, oscillatorOperatorTest0) {
-    onerut_parser::FunctionFactoryContainer::global_instance().clear();
-    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
     onerut_parser::AssetRefContainer::global_instance().clear();
     // -------
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, cr());
@@ -345,8 +330,6 @@ TEST(boxFunctionsOnerut, oscillatorOperatorTest0) {
 }
 
 TEST(boxFunctionsOnerut, spinOperatorTest0) {
-    onerut_parser::FunctionFactoryContainer::global_instance().clear();
-    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
     onerut_parser::AssetRefContainer::global_instance().clear();
     // -------
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, Sp());
@@ -365,8 +348,6 @@ TEST(boxFunctionsOnerut, spinOperatorTest0) {
 }
 
 TEST(boxFunctionsOnerut, opPlusMinusTest0) {
-    onerut_parser::FunctionFactoryContainer::global_instance().clear();
-    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
     onerut_parser::AssetRefContainer::global_instance().clear();
     // -------
     ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, eye(custom_domain(xx0, yy0)) + 4);
@@ -418,8 +399,6 @@ TEST(boxFunctionsOnerut, opPlusMinusTest0) {
 }
 
 TEST(boxFunctionsOnerut, opUnaryPlusMinusOperatorTest0) {
-    onerut_parser::FunctionFactoryContainer::global_instance().clear();
-    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
     onerut_parser::AssetRefContainer::global_instance().clear();
     // -------
     const auto domain_asset = inuput_2_asset("dom := custom_domain(xx, yy)");
@@ -454,8 +433,6 @@ TEST(boxFunctionsOnerut, opUnaryPlusMinusOperatorTest0) {
 }
 
 TEST(boxFunctionsOnerut, opProdTest0) {
-    onerut_parser::FunctionFactoryContainer::global_instance().clear();
-    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
     onerut_parser::AssetRefContainer::global_instance().clear();
     // -------
     ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, eye(custom_domain(xx0, yy0)) * 4);
@@ -505,8 +482,6 @@ TEST(boxFunctionsOnerut, opProdTest0) {
 }
 
 TEST(boxFunctionsOnerut, eigdTest0) {
-    onerut_parser::FunctionFactoryContainer::global_instance().clear();
-    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
     onerut_parser::AssetRefContainer::global_instance().clear();
     // -------
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, eigd());
@@ -534,8 +509,6 @@ TEST(boxFunctionsOnerut, eigdTest0) {
 }
 
 TEST(boxFunctionsOnerut, eigsTest0) {
-    onerut_parser::FunctionFactoryContainer::global_instance().clear();
-    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
     onerut_parser::AssetRefContainer::global_instance().clear();
     // -------
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, eigs(2.6));
@@ -568,8 +541,6 @@ TEST(boxFunctionsOnerut, eigsTest0) {
 }
 
 TEST(boxFunctionsOnerut, meanInStateTest0) {
-    onerut_parser::FunctionFactoryContainer::global_instance().clear();
-    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
     onerut_parser::AssetRefContainer::global_instance().clear();
     // -------
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, mean_in_eigenstate(2.6));
@@ -632,8 +603,6 @@ TEST(boxFunctionsOnerut, meanInStateTest0) {
 }
 
 TEST(boxFunctionsOnerut, meanInStateTest1) {
-    onerut_parser::FunctionFactoryContainer::global_instance().clear();
-    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
     onerut_parser::AssetRefContainer::global_instance().clear();
     // -------
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, mean_in_eigenstate(2.6));
@@ -697,8 +666,6 @@ TEST(boxFunctionsOnerut, meanInStateTest1) {
 }
 
 TEST(boxFunctionsOnerut, meanThermalTest0) {
-    onerut_parser::FunctionFactoryContainer::global_instance().clear();
-    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
     onerut_parser::AssetRefContainer::global_instance().clear();
     // -------
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, thermal_mean(2.6));

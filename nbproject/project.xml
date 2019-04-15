@@ -12,7 +12,6 @@
             <sourceRootList>
                 <sourceRootElem>onerut</sourceRootElem>
                 <sourceRootElem>onerut_parser</sourceRootElem>
-                <sourceRootElem>onerut_parser_tests</sourceRootElem>
                 <sourceRootElem>onerut_scalar</sourceRootElem>
                 <sourceRootElem>onerut_scalar_tests</sourceRootElem>
                 <sourceRootElem>onerut_op1e</sourceRootElem>
@@ -23,6 +22,8 @@
                 <sourceRootElem>log_utils</sourceRootElem>
                 <sourceRootElem>onerut_typed_operator</sourceRootElem>
                 <sourceRootElem>onerut_typed_operator_tests</sourceRootElem>
+                <sourceRootElem>onerut_parser_concrete</sourceRootElem>
+                <sourceRootElem>onerut_parser_concrete_tests</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>

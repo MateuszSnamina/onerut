@@ -1,12 +1,12 @@
 #include<cmath>
 #include<complex>
 
-#include<onerut_parser/function_factory_constant.hpp>
-#include<onerut_parser/function_factory_scalar.hpp>
-#include<onerut_parser/function_factory_normal_operators.hpp>
-#include<onerut_parser/function_factory_imperative_request.hpp>
-#include<onerut_parser/function_factory_print_value_request.hpp>
-#include<onerut_parser/function_factory_container.hpp>
+#include<onerut_parser_concrete/function_factory_constant.hpp>
+#include<onerut_parser_concrete/function_factory_scalar.hpp>
+#include<onerut_parser_concrete/function_factory_normal_operators.hpp>
+#include<onerut_parser_concrete/function_factory_imperative_request.hpp>
+#include<onerut_parser_concrete/function_factory_print_value_request.hpp>
+#include<onerut_parser_concrete/function_factory_container.hpp>
 
 using cx_double = std::complex<double>;
 using namespace std::complex_literals;
@@ -106,15 +106,6 @@ const double e = 2.71828182845904523536;
 //******************************************************************************
 
 namespace onerut_parser {
-
-    // #########################################################################
-    // #################### GLOBAL DATABASE ####################################
-    // #########################################################################
-
-    FunctionFactoryContainer& FunctionFactoryContainer::global_instance() {
-        static FunctionFactoryContainer _instance;
-        return _instance;
-    }
 
     std::optional<std::shared_ptr<AbstractFunctionFactory>> FunctionFactoryContainer::get_or_empty(const std::string& name) const {
         if (functions.count(name) == 1) {

@@ -11,7 +11,6 @@
 #include<onerut_parser/gramma_parser.hpp>
 #include<onerut_parser/ast_x3_to_ast_source.hpp>
 #include<onerut_parser/print_chart.hpp>
-#include<onerut_parser/function_factory_container.hpp>
 #include<onerut_parser_tests/global_flags.hpp>
 
 // -----------------------------------------------------------
@@ -21,7 +20,6 @@
 inline
 void onerut_source_test(const std::string & _expect, const std::string onerut_inuput) {
     auto _onerut_inuput = std::make_shared<const std::string>(onerut_inuput);
-    onerut_parser::FunctionFactoryContainer::global_instance().put_all();
     // #########################################################################
     const auto _parsed_x3_info = onerut_parser::parse(_onerut_inuput);
     // --------------------------------------------------

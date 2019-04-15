@@ -4,13 +4,12 @@
 #include<optional>
 #include<string>
 #include<map>
-#include<onerut_parser/function_factory_abstract.hpp>
+#include<onerut_parser_concrete/function_factory_abstract.hpp>
 
 namespace onerut_parser {
 
     class FunctionFactoryContainer {
     public:
-        static FunctionFactoryContainer& global_instance();
         std::optional<std::shared_ptr<AbstractFunctionFactory>> get_or_empty(const std::string& name) const;
         bool put(const std::string& name, std::shared_ptr<AbstractFunctionFactory> function);
         void force_put(const std::string& name, std::shared_ptr<AbstractFunctionFactory> function);
