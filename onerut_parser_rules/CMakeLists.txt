@@ -20,21 +20,6 @@ if(NOT inc)
   message("    <no files>")
 endif()
 
-add_executable("${TARGET_NAME}" ${src} ${inc})
+add_library("${TARGET_NAME}" ${src} ${inc})
 target_include_directories("${TARGET_NAME}" PUBLIC include)
-target_link_libraries("${TARGET_NAME}"
-  onerut_parser_exec
-  onerut_parser_rules
-  #onerut_normal_operator
-  esc
-  /usr/lib/gcc/x86_64-linux-gnu/8/libstdc++fs.a  # Will not be necessary in the future.
-  #stdc++fs # Will not be necessary in the future.
-  Boost::boost
-  Boost::program_options
-  #armadillo lapack blas
-)
-
-get_target_property(x ${TARGET_NAME} LINK_DIRECTORIES)
-  message("  \${TARGET_NAME}.LINK_DIRECTORIES:      ${x}")
-get_target_property(x ${TARGET_NAME} INTERFACE_LINK_DIRECTORIES)
-  message("  \${TARGET_NAME}.INTERFACE_LINK_DIRECTORIES:      ${x}")
+target_link_libraries("${TARGET_NAME}" string_utils esc onerut_scalar onerut_normal_operator onerut_parser_exec Boost::boost Boost::system)

@@ -11,7 +11,6 @@
             <make-dep-projects/>
             <sourceRootList>
                 <sourceRootElem>onerut</sourceRootElem>
-                <sourceRootElem>onerut_parser</sourceRootElem>
                 <sourceRootElem>onerut_scalar</sourceRootElem>
                 <sourceRootElem>onerut_scalar_tests</sourceRootElem>
                 <sourceRootElem>onerut_op1e</sourceRootElem>
@@ -22,8 +21,9 @@
                 <sourceRootElem>log_utils</sourceRootElem>
                 <sourceRootElem>onerut_typed_operator</sourceRootElem>
                 <sourceRootElem>onerut_typed_operator_tests</sourceRootElem>
-                <sourceRootElem>onerut_parser_concrete</sourceRootElem>
-                <sourceRootElem>onerut_parser_concrete_tests</sourceRootElem>
+                <sourceRootElem>onerut_parser_exec</sourceRootElem>
+                <sourceRootElem>onerut_parser_rules</sourceRootElem>
+                <sourceRootElem>onerut_parser_rules_tests</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>

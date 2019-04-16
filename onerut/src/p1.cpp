@@ -10,16 +10,16 @@
 #include<esc/esc_manip.hpp>
 #include<string_utils/greek_support.hpp>
 
-#include<onerut_parser/gramma_parser.hpp>
-#include<onerut_parser/ast_x3_to_ast_source.hpp>
-#include<onerut_parser/ast_asset.hpp>
-#include<onerut_parser/print_chart.hpp>
-#include<onerut_parser/asset_utility.hpp>
-#include<onerut_parser_concrete/asset_receipt.hpp>
-#include<onerut_parser_concrete/compiler_rules_concrete.hpp>
-#include<onerut_parser_concrete/asset_to_esc_data.hpp>
-#include<onerut_parser_concrete/request_imperative.hpp>
-#include<onerut_parser_concrete/request_print_value.hpp>
+#include<onerut_parser_exec/gramma_parser.hpp>
+#include<onerut_parser_exec/ast_x3_to_ast_source.hpp>
+#include<onerut_parser_exec/ast_asset.hpp>
+#include<onerut_parser_exec/print_chart.hpp>
+#include<onerut_parser_exec/asset_utility.hpp>
+#include<onerut_parser_rules/asset_receipt.hpp>
+#include<onerut_parser_rules/compiler_rules_concrete.hpp>
+#include<onerut_parser_rules/asset_to_esc_data.hpp>
+#include<onerut_parser_rules/request_imperative.hpp>
+#include<onerut_parser_rules/request_print_value.hpp>
 
 //--------------------------------------------
 
