@@ -882,79 +882,26 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>string_utils/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/string_utils</pElem>
+            <pElem>onerut_parser_concrete_tests/include</pElem>
+            <pElem>onerut_parser_concrete/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>onerut_parser/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_concrete_tests</pElem>
+            <pElem>onerut_parser_rules/include</pElem>
+            <pElem>onerut_parser_exec/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_rules</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_parser_rules/src/asset_to_esc_data.cpp"
-            ex="false"
-            tool="1"
-            flavor2="11">
-        <ccTool flags="1">
-        </ccTool>
-      </item>
-      <item path="onerut_parser_rules/src/asset_utility_concrete.cpp"
-            ex="false"
-            tool="1"
-            flavor2="11">
-        <ccTool flags="1">
-        </ccTool>
-      </item>
-      <item path="onerut_parser_rules/src/compiler_rules_concrete.cpp"
-            ex="false"
-            tool="1"
-            flavor2="11">
-        <ccTool flags="1">
-        </ccTool>
-      </item>
-      <item path="onerut_parser_rules/src/function_factory.cpp"
-            ex="false"
-            tool="1"
-            flavor2="11">
-        <ccTool flags="1">
-        </ccTool>
-      </item>
-      <item path="onerut_parser_rules/src/function_factory_constant.cpp"
-            ex="false"
-            tool="1"
-            flavor2="11">
-        <ccTool flags="1">
-        </ccTool>
-      </item>
-      <item path="onerut_parser_rules/src/function_factory_container.cpp"
-            ex="false"
-            tool="1"
-            flavor2="11">
-        <ccTool flags="1">
-        </ccTool>
-      </item>
-      <item path="onerut_parser_rules/src/function_factory_imperative_request.cpp"
-            ex="false"
-            tool="1"
-            flavor2="11">
-        <ccTool flags="1">
-        </ccTool>
-      </item>
-      <item path="onerut_parser_rules/src/function_factory_normal_operators.cpp"
-            ex="false"
-            tool="1"
-            flavor2="11">
-        <ccTool flags="1">
-        </ccTool>
-      </item>
-      <item path="onerut_parser_rules/src/function_factory_print_value_request.cpp"
-            ex="false"
-            tool="1"
-            flavor2="11">
-        <ccTool flags="1">
-        </ccTool>
-      </item>
-      <item path="onerut_parser_rules/src/request_print_value.cpp"
-            ex="false"
-            tool="1"
-            flavor2="11">
-        <ccTool flags="1">
-        </ccTool>
-      </item>
-      <item path="onerut_parser_rules_tests/src/box_functions.cpp"
             ex="false"
             tool="1"
             flavor2="11">
@@ -972,9 +919,239 @@
             <pElem>log_utils/include</pElem>
             <pElem>onerut_parser/include</pElem>
             <pElem>build_netbeanns/onerut_parser_concrete_tests</pElem>
-            <pElem>onerut_parser_rules_tests/include</pElem>
             <pElem>onerut_parser_rules/include</pElem>
             <pElem>onerut_parser_exec/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_rules</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="onerut_parser_rules/src/asset_utility_concrete.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+          <incDir>
+            <pElem>string_utils/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/string_utils</pElem>
+            <pElem>onerut_parser_concrete_tests/include</pElem>
+            <pElem>onerut_parser_concrete/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>onerut_parser/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_concrete_tests</pElem>
+            <pElem>onerut_parser_rules/include</pElem>
+            <pElem>onerut_parser_exec/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_rules</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="onerut_parser_rules/src/compiler_rules_concrete.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_parser_rules/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>onerut_parser_exec/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_rules</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="onerut_parser_rules/src/function_factory.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+          <incDir>
+            <pElem>string_utils/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/string_utils</pElem>
+            <pElem>onerut_parser_concrete_tests/include</pElem>
+            <pElem>onerut_parser_concrete/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>onerut_parser/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_concrete_tests</pElem>
+            <pElem>onerut_parser_rules/include</pElem>
+            <pElem>onerut_parser_exec/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_rules</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="onerut_parser_rules/src/function_factory_constant.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+          <incDir>
+            <pElem>string_utils/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/string_utils</pElem>
+            <pElem>onerut_parser_concrete_tests/include</pElem>
+            <pElem>onerut_parser_concrete/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>onerut_parser/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_concrete_tests</pElem>
+            <pElem>onerut_parser_rules/include</pElem>
+            <pElem>onerut_parser_exec/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_rules</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="onerut_parser_rules/src/function_factory_container.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+          <incDir>
+            <pElem>string_utils/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/string_utils</pElem>
+            <pElem>onerut_parser_concrete_tests/include</pElem>
+            <pElem>onerut_parser_concrete/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>onerut_parser/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_concrete_tests</pElem>
+            <pElem>onerut_parser_rules/include</pElem>
+            <pElem>onerut_parser_exec/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_rules</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="onerut_parser_rules/src/function_factory_imperative_request.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+          <incDir>
+            <pElem>string_utils/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/string_utils</pElem>
+            <pElem>onerut_parser_concrete_tests/include</pElem>
+            <pElem>onerut_parser_concrete/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>onerut_parser/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_concrete_tests</pElem>
+            <pElem>onerut_parser_rules/include</pElem>
+            <pElem>onerut_parser_exec/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_rules</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="onerut_parser_rules/src/function_factory_normal_operators.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+          <incDir>
+            <pElem>string_utils/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/string_utils</pElem>
+            <pElem>onerut_parser_concrete_tests/include</pElem>
+            <pElem>onerut_parser_concrete/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>onerut_parser/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_concrete_tests</pElem>
+            <pElem>onerut_parser_rules/include</pElem>
+            <pElem>onerut_parser_exec/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_rules</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="onerut_parser_rules/src/function_factory_print_value_request.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+          <incDir>
+            <pElem>string_utils/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/string_utils</pElem>
+            <pElem>onerut_parser_concrete_tests/include</pElem>
+            <pElem>onerut_parser_concrete/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>onerut_parser/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_concrete_tests</pElem>
+            <pElem>onerut_parser_rules/include</pElem>
+            <pElem>onerut_parser_exec/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_rules</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="onerut_parser_rules/src/request_print_value.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+          <incDir>
+            <pElem>string_utils/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/string_utils</pElem>
+            <pElem>onerut_parser_concrete_tests/include</pElem>
+            <pElem>onerut_parser_concrete/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>onerut_parser/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_concrete_tests</pElem>
+            <pElem>onerut_parser_rules/include</pElem>
+            <pElem>onerut_parser_exec/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_rules</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="onerut_parser_rules_tests/src/box_functions.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_parser_rules_tests/include</pElem>
+            <pElem>onerut_parser_rules/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>onerut_parser_exec/include</pElem>
+            <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut_parser_rules_tests</pElem>
           </incDir>
         </ccTool>
@@ -985,21 +1162,16 @@
             flavor2="11">
         <ccTool flags="1">
           <incDir>
+            <pElem>onerut_parser_rules_tests/include</pElem>
+            <pElem>onerut_parser_rules/include</pElem>
             <pElem>string_utils/include</pElem>
-            <pElem>external_packages/include</pElem>
-            <pElem>build_netbeanns/string_utils</pElem>
-            <pElem>onerut_parser_concrete_tests/include</pElem>
-            <pElem>onerut_parser_concrete/include</pElem>
             <pElem>esc/include</pElem>
             <pElem>onerut_scalar/include</pElem>
             <pElem>onerut_normal_operator/include</pElem>
             <pElem>onerut_typed_operator/include</pElem>
             <pElem>log_utils/include</pElem>
-            <pElem>onerut_parser/include</pElem>
-            <pElem>build_netbeanns/onerut_parser_concrete_tests</pElem>
-            <pElem>onerut_parser_rules_tests/include</pElem>
-            <pElem>onerut_parser_rules/include</pElem>
             <pElem>onerut_parser_exec/include</pElem>
+            <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut_parser_rules_tests</pElem>
           </incDir>
         </ccTool>
@@ -1010,21 +1182,16 @@
             flavor2="11">
         <ccTool flags="1">
           <incDir>
+            <pElem>onerut_parser_rules_tests/include</pElem>
+            <pElem>onerut_parser_rules/include</pElem>
             <pElem>string_utils/include</pElem>
-            <pElem>external_packages/include</pElem>
-            <pElem>build_netbeanns/string_utils</pElem>
-            <pElem>onerut_parser_concrete_tests/include</pElem>
-            <pElem>onerut_parser_concrete/include</pElem>
             <pElem>esc/include</pElem>
             <pElem>onerut_scalar/include</pElem>
             <pElem>onerut_normal_operator/include</pElem>
             <pElem>onerut_typed_operator/include</pElem>
             <pElem>log_utils/include</pElem>
-            <pElem>onerut_parser/include</pElem>
-            <pElem>build_netbeanns/onerut_parser_concrete_tests</pElem>
-            <pElem>onerut_parser_rules_tests/include</pElem>
-            <pElem>onerut_parser_rules/include</pElem>
             <pElem>onerut_parser_exec/include</pElem>
+            <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut_parser_rules_tests</pElem>
           </incDir>
         </ccTool>
@@ -1035,21 +1202,16 @@
             flavor2="11">
         <ccTool flags="1">
           <incDir>
+            <pElem>onerut_parser_rules_tests/include</pElem>
+            <pElem>onerut_parser_rules/include</pElem>
             <pElem>string_utils/include</pElem>
-            <pElem>external_packages/include</pElem>
-            <pElem>build_netbeanns/string_utils</pElem>
-            <pElem>onerut_parser_concrete_tests/include</pElem>
-            <pElem>onerut_parser_concrete/include</pElem>
             <pElem>esc/include</pElem>
             <pElem>onerut_scalar/include</pElem>
             <pElem>onerut_normal_operator/include</pElem>
             <pElem>onerut_typed_operator/include</pElem>
             <pElem>log_utils/include</pElem>
-            <pElem>onerut_parser/include</pElem>
-            <pElem>build_netbeanns/onerut_parser_concrete_tests</pElem>
-            <pElem>onerut_parser_rules_tests/include</pElem>
-            <pElem>onerut_parser_rules/include</pElem>
             <pElem>onerut_parser_exec/include</pElem>
+            <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut_parser_rules_tests</pElem>
           </incDir>
         </ccTool>
@@ -1060,21 +1222,16 @@
             flavor2="11">
         <ccTool flags="1">
           <incDir>
+            <pElem>onerut_parser_rules_tests/include</pElem>
+            <pElem>onerut_parser_rules/include</pElem>
             <pElem>string_utils/include</pElem>
-            <pElem>external_packages/include</pElem>
-            <pElem>build_netbeanns/string_utils</pElem>
-            <pElem>onerut_parser_concrete_tests/include</pElem>
-            <pElem>onerut_parser_concrete/include</pElem>
             <pElem>esc/include</pElem>
             <pElem>onerut_scalar/include</pElem>
             <pElem>onerut_normal_operator/include</pElem>
             <pElem>onerut_typed_operator/include</pElem>
             <pElem>log_utils/include</pElem>
-            <pElem>onerut_parser/include</pElem>
-            <pElem>build_netbeanns/onerut_parser_concrete_tests</pElem>
-            <pElem>onerut_parser_rules_tests/include</pElem>
-            <pElem>onerut_parser_rules/include</pElem>
             <pElem>onerut_parser_exec/include</pElem>
+            <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut_parser_rules_tests</pElem>
           </incDir>
         </ccTool>
@@ -1085,21 +1242,16 @@
             flavor2="11">
         <ccTool flags="1">
           <incDir>
+            <pElem>onerut_parser_rules_tests/include</pElem>
+            <pElem>onerut_parser_rules/include</pElem>
             <pElem>string_utils/include</pElem>
-            <pElem>external_packages/include</pElem>
-            <pElem>build_netbeanns/string_utils</pElem>
-            <pElem>onerut_parser_concrete_tests/include</pElem>
-            <pElem>onerut_parser_concrete/include</pElem>
             <pElem>esc/include</pElem>
             <pElem>onerut_scalar/include</pElem>
             <pElem>onerut_normal_operator/include</pElem>
             <pElem>onerut_typed_operator/include</pElem>
             <pElem>log_utils/include</pElem>
-            <pElem>onerut_parser/include</pElem>
-            <pElem>build_netbeanns/onerut_parser_concrete_tests</pElem>
-            <pElem>onerut_parser_rules_tests/include</pElem>
-            <pElem>onerut_parser_rules/include</pElem>
             <pElem>onerut_parser_exec/include</pElem>
+            <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut_parser_rules_tests</pElem>
           </incDir>
         </ccTool>

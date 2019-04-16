@@ -6,7 +6,7 @@
 #include<string_view>
 #include<boost/range.hpp>
 
-namespace onerut_parser_exec {//TODO new namespace
+namespace string_utils {
 
     using string_const_span = boost::iterator_range<std::string::const_iterator>;
 

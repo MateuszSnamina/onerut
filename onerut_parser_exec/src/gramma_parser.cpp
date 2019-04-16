@@ -23,11 +23,11 @@ namespace onerut_parser_exec {
         return match && hit_end();
     }
 
-    string_const_span X3ParseResultInfo::parsed_span() const {
+    string_utils::string_const_span X3ParseResultInfo::parsed_span() const {
         return{input->cbegin(), it};
     }
 
-    string_const_span X3ParseResultInfo::not_parsed_span() const {
+    string_utils::string_const_span X3ParseResultInfo::not_parsed_span() const {
         return{it, input->cend()};
     }
 

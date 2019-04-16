@@ -24,9 +24,9 @@ namespace onerut_parser_exec::onerut_ast::source {
     public:
         SourceNode(
                 std::shared_ptr<const std::string> input,
-                string_const_span span);
+                string_utils::string_const_span span);
         const std::shared_ptr<const std::string> input;
-        const string_const_span span;
+        const string_utils::string_const_span span;
         virtual ~SourceNode() = 0;
         virtual std::string to_oneliner() const = 0;
         virtual std::shared_ptr<asset::AssetNode> compile(std::shared_ptr<CompilerRules> compiler_rules) const = 0;
@@ -45,7 +45,7 @@ namespace onerut_parser_exec::onerut_ast::source {
     public:
         WithNoSubsourcesNode(
                 std::shared_ptr<const std::string> input,
-                string_const_span span);
+                string_utils::string_const_span span);
         void to_ast_chart(
                 unsigned deepness,
                 LinesStyledChartInfo& ast_chart) const final;
@@ -57,7 +57,7 @@ namespace onerut_parser_exec::onerut_ast::source {
     public:
         WithOneSubsourceNode(
                 std::shared_ptr<const std::string> input,
-                string_const_span span,
+                string_utils::string_const_span span,
                 const std::shared_ptr<SourceNode> arg);
         void to_ast_chart(
                 unsigned deepness,
@@ -71,7 +71,7 @@ namespace onerut_parser_exec::onerut_ast::source {
     public:
         WithTwoSubsourcesNode(
                 std::shared_ptr<const std::string> input,
-                string_const_span span,
+                string_utils::string_const_span span,
                 std::shared_ptr<SourceNode> first_arg,
                 std::shared_ptr<SourceNode> second_arg);
         void to_ast_chart(
@@ -87,7 +87,7 @@ namespace onerut_parser_exec::onerut_ast::source {
     public:
         WithOneOrMoreSubsourcesNode(
                 std::shared_ptr<const std::string> input,
-                string_const_span span,
+                string_utils::string_const_span span,
                 std::shared_ptr<SourceNode> first_arg,
                 std::vector<std::shared_ptr<SourceNode>> other_argv);
         void to_ast_chart(
@@ -103,7 +103,7 @@ namespace onerut_parser_exec::onerut_ast::source {
     public:
         WithAnyNumberOfSubsourcesNode(
                 std::shared_ptr<const std::string> input,
-                string_const_span span,
+                string_utils::string_const_span span,
                 std::vector<std::shared_ptr<SourceNode>> argv);
         void to_ast_chart(
                 unsigned deepness,
@@ -121,7 +121,7 @@ namespace onerut_parser_exec::onerut_ast::source {
     public:
         IdentifierNode(
                 std::shared_ptr<const std::string> input,
-                string_const_span span,
+                string_utils::string_const_span span,
                 std::string name);
         std::string to_oneliner() const override;
         Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules) const override;
@@ -132,7 +132,7 @@ namespace onerut_parser_exec::onerut_ast::source {
     public:
         LitLongNode(
                 std::shared_ptr<const std::string> input,
-                string_const_span span,
+                string_utils::string_const_span span,
                 long value);
         std::string to_oneliner() const override;
         Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules) const override;
@@ -143,7 +143,7 @@ namespace onerut_parser_exec::onerut_ast::source {
     public:
         LitDoubleNode(
                 std::shared_ptr<const std::string> input,
-                string_const_span span,
+                string_utils::string_const_span span,
                 double value);
         std::string to_oneliner() const override;
         Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules) const override;
@@ -154,7 +154,7 @@ namespace onerut_parser_exec::onerut_ast::source {
     public:
         LitPureComplexDoubleNode(
                 std::shared_ptr<const std::string> input,
-                string_const_span span,
+                string_utils::string_const_span span,
                 double value);
         std::string to_oneliner() const override;
         Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules) const override;
@@ -165,7 +165,7 @@ namespace onerut_parser_exec::onerut_ast::source {
     public:
         OpAssignNode(
                 std::shared_ptr<const std::string> input,
-                string_const_span span,
+                string_utils::string_const_span span,
                 std::shared_ptr<SourceNode> first_arg,
                 std::shared_ptr<SourceNode> second_arg,
                 bool new_flag,
@@ -180,7 +180,7 @@ namespace onerut_parser_exec::onerut_ast::source {
     public:
         OpPlusMinusNode(
                 std::shared_ptr<const std::string> input,
-                string_const_span span,
+                string_utils::string_const_span span,
                 std::shared_ptr<SourceNode> first_arg,
                 std::vector<std::shared_ptr<SourceNode>> other_argv,
                 std::vector<char> opv);
@@ -193,7 +193,7 @@ namespace onerut_parser_exec::onerut_ast::source {
     public:
         OpProdDivNode(
                 std::shared_ptr<const std::string> input,
-                string_const_span span,
+                string_utils::string_const_span span,
                 std::shared_ptr<SourceNode> first_arg,
                 std::vector<std::shared_ptr<SourceNode>> other_argv,
                 std::vector<char> opv);
@@ -206,7 +206,7 @@ namespace onerut_parser_exec::onerut_ast::source {
     public:
         OpPowNode(
                 std::shared_ptr<const std::string> input,
-                string_const_span span,
+                string_utils::string_const_span span,
                 std::shared_ptr<SourceNode> first_arg,
                 std::shared_ptr<SourceNode> second_arg);
         std::string to_oneliner() const override;
@@ -217,7 +217,7 @@ namespace onerut_parser_exec::onerut_ast::source {
     public:
         OpAtNode(
                 std::shared_ptr<const std::string> input,
-                string_const_span span,
+                string_utils::string_const_span span,
                 std::shared_ptr<SourceNode> first_arg,
                 std::shared_ptr<SourceNode> second_arg);
         std::string to_oneliner() const override;
@@ -228,7 +228,7 @@ namespace onerut_parser_exec::onerut_ast::source {
     public:
         OpArrowNode(
                 std::shared_ptr<const std::string> input,
-                string_const_span span,
+                string_utils::string_const_span span,
                 std::shared_ptr<SourceNode> first_arg,
                 std::shared_ptr<SourceNode> second_arg);
         std::string to_oneliner() const override;
@@ -239,7 +239,7 @@ namespace onerut_parser_exec::onerut_ast::source {
     public:
         OpGlueNode(
                 std::shared_ptr<const std::string> input,
-                string_const_span span,
+                string_utils::string_const_span span,
                 std::shared_ptr<SourceNode> first_arg,
                 std::shared_ptr<SourceNode> second_arg);
         std::string to_oneliner() const override;
@@ -250,7 +250,7 @@ namespace onerut_parser_exec::onerut_ast::source {
     public:
         UnaryPlusMinusNode(
                 std::shared_ptr<const std::string> input,
-                string_const_span span,
+                string_utils::string_const_span span,
                 char op,
                 std::shared_ptr<SourceNode> arg);
         std::string to_oneliner() const override;
@@ -262,7 +262,7 @@ namespace onerut_parser_exec::onerut_ast::source {
     public:
         FunctionNode(
                 std::shared_ptr<const std::string> input,
-                string_const_span span,
+                string_utils::string_const_span span,
                 std::string name,
                 std::vector<std::shared_ptr<SourceNode>> argv);
         std::string to_oneliner() const override;

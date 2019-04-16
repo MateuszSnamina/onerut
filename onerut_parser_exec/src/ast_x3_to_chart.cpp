@@ -56,7 +56,7 @@ namespace onerut_parser_exec::onerut_ast::x3 {
         while (ast_chart.size() <= deepness)
             ast_chart.emplace_back();
         const esc::EscData esc_data = esc::EscDataBuilder() << esc::manip::build_esc_data;
-        const string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
+        const string_utils::string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         const LineBitStyledChartInfo bit = {span, esc_data};
         ast_chart[deepness].push_back(bit);
     }

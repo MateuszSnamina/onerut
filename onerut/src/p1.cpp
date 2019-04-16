@@ -41,8 +41,8 @@ execute_line(std::shared_ptr<const std::string> line) {
             std::cout << "Fail to parse line: " << std::endl;
             std::cout << esc::manip::red << string_utils::StreamToGreek(*line) << esc::manip::reset << "." << std::endl;
         } else {
-            const auto parsed_view = onerut_parser_exec::to_string_view(parsed_x3_info.parsed_span());
-            const auto not_parsed_view = onerut_parser_exec::to_string_view(parsed_x3_info.not_parsed_span());
+            const auto parsed_view = string_utils::to_string_view(parsed_x3_info.parsed_span());
+            const auto not_parsed_view = string_utils::to_string_view(parsed_x3_info.not_parsed_span());
             std::cout << esc::manip::bg_green << string_utils::StreamToGreek(parsed_view)
                     << esc::manip::bg_red << string_utils::StreamToGreek(not_parsed_view);
             std::cout << std::endl;

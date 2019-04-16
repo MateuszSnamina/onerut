@@ -43,19 +43,19 @@ namespace onerut_parser_exec {
             auto it = input->cbegin();
             for (const auto & style_info : line_line) {
                 {
-                    const std::string_view text_view = to_string_view(it, style_info.span.begin());
+                    const std::string_view text_view = string_utils::to_string_view(it, style_info.span.begin());
                     const unsigned number_of_visible_characters = string_utils::to_greek_number_of_visible_characters_in_result(text_view);
                     const std::u32string text_bit = std::u32string(number_of_visible_characters, chart_fill_character_1);
                     stream << string_utils::unicode_to_utf8(text_bit);
                 }
                 {
-                    const auto text_view = to_string_view(style_info.span);
+                    const auto text_view = string_utils::to_string_view(style_info.span);
                     stream << style_info.esc_data << string_utils::StreamToGreek(text_view);
                 }
                 it = style_info.span.end();
             }
             {
-                const std::string_view text_view = to_string_view(it, input->cend());
+                const std::string_view text_view = string_utils::to_string_view(it, input->cend());
                 const unsigned number_of_visible_characters = string_utils::to_greek_number_of_visible_characters_in_result(text_view);
                 const std::u32string text_bit = std::u32string(number_of_visible_characters, chart_fill_character_1);
                 stream << string_utils::unicode_to_utf8(text_bit);
@@ -80,9 +80,9 @@ namespace onerut_parser_exec {
         }
         for (const auto & error_info : errors_info) {
             stream << line_prefix;
-            const auto pre_text_view = to_string_view(input->cbegin(), error_info.span.begin());
-            const auto error_text_view = to_string_view(error_info.span);
-            const auto post_text_view = to_string_view(error_info.span.end(), input->cend());
+            const auto pre_text_view = string_utils::to_string_view(input->cbegin(), error_info.span.begin());
+            const auto error_text_view = string_utils::to_string_view(error_info.span);
+            const auto post_text_view = string_utils::to_string_view(error_info.span.end(), input->cend());
             stream << esc::manip::bg_gray << string_utils::StreamToGreek(pre_text_view) << esc::manip::reset;
             stream << esc::manip::bg_red << string_utils::StreamToGreek(error_text_view) << esc::manip::reset;
             stream << esc::manip::bg_gray << string_utils::StreamToGreek(post_text_view) << esc::manip::reset;

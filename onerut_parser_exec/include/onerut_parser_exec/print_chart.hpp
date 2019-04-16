@@ -19,7 +19,7 @@ namespace onerut_parser_exec {
     // -------------------------------------------------------------------------
 
     struct LineBitStyledChartInfo {
-        string_const_span span;
+        string_utils::string_const_span span;
         esc::EscData esc_data;
     };
 
@@ -40,7 +40,7 @@ namespace onerut_parser_exec {
     //--------------------------------------------------------------------------
 
     struct ErrorChartInfo {
-        const string_const_span span;
+        const string_utils::string_const_span span;
         const std::string message;
     };
 

@@ -38,7 +38,7 @@ namespace onerut_parser_exec::onerut_ast::asset {
         if (const auto& error = asset.deref().compile_error_or_empty()) {
             if (!std::dynamic_pointer_cast<CompileArgumentsError>(*error)) {
                 const std::string message = (*error)->what();
-                const string_const_span span = source->span;
+                const string_utils::string_const_span span = source->span;
                 const ErrorChartInfo error_info = {span, message};
                 erros_chart.push_back(error_info);
             }

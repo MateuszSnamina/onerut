@@ -17,8 +17,8 @@ namespace onerut_parser_exec {
         const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >> positions;
         bool hit_end() const;
         bool succes() const;        
-        string_const_span parsed_span() const;
-        string_const_span not_parsed_span() const;
+        string_utils::string_const_span parsed_span() const;
+        string_utils::string_const_span not_parsed_span() const;
     };
 
     void print(X3ParseResultInfo info);

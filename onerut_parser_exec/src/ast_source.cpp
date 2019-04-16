@@ -11,7 +11,7 @@ namespace onerut_parser_exec::onerut_ast::source {
 
     SourceNode::SourceNode(
             std::shared_ptr<const std::string> input,
-            string_const_span span) :
+            string_utils::string_const_span span) :
     input(input),
     span(span) {
         assert(input->cbegin() <= span.begin());
@@ -24,13 +24,13 @@ namespace onerut_parser_exec::onerut_ast::source {
 
     WithNoSubsourcesNode::WithNoSubsourcesNode(
             std::shared_ptr<const std::string> input,
-            string_const_span span) :
+            string_utils::string_const_span span) :
     SourceNode(input, span) {
     }
 
     WithOneSubsourceNode::WithOneSubsourceNode(
             std::shared_ptr<const std::string> input,
-            string_const_span span,
+            string_utils::string_const_span span,
             const std::shared_ptr<SourceNode> arg) :
     SourceNode(input, span),
     arg(arg) {
@@ -38,7 +38,7 @@ namespace onerut_parser_exec::onerut_ast::source {
 
     WithTwoSubsourcesNode::WithTwoSubsourcesNode(
             std::shared_ptr<const std::string> input,
-            string_const_span span,
+            string_utils::string_const_span span,
             std::shared_ptr<SourceNode> first_arg,
             std::shared_ptr<SourceNode> second_arg) :
     SourceNode(input, span),
@@ -48,7 +48,7 @@ namespace onerut_parser_exec::onerut_ast::source {
 
     WithOneOrMoreSubsourcesNode::WithOneOrMoreSubsourcesNode(
             std::shared_ptr<const std::string> input,
-            string_const_span span,
+            string_utils::string_const_span span,
             std::shared_ptr<SourceNode> first_arg,
             std::vector<std::shared_ptr<SourceNode>> other_argv) :
     SourceNode(input, span),
@@ -58,7 +58,7 @@ namespace onerut_parser_exec::onerut_ast::source {
 
     WithAnyNumberOfSubsourcesNode::WithAnyNumberOfSubsourcesNode(
             std::shared_ptr<const std::string> input,
-            string_const_span span,
+            string_utils::string_const_span span,
             std::vector<std::shared_ptr<SourceNode>> argv) :
     SourceNode(input, span),
     argv(argv) {
@@ -70,7 +70,7 @@ namespace onerut_parser_exec::onerut_ast::source {
 
     IdentifierNode::IdentifierNode(
             std::shared_ptr<const std::string> input,
-            string_const_span span,
+            string_utils::string_const_span span,
             std::string name) :
     WithNoSubsourcesNode(input, span),
     name(name) {
@@ -78,7 +78,7 @@ namespace onerut_parser_exec::onerut_ast::source {
 
     OpAssignNode::OpAssignNode(
             std::shared_ptr<const std::string> input,
-            string_const_span span,
+            string_utils::string_const_span span,
             std::shared_ptr<SourceNode> first_arg,
             std::shared_ptr<SourceNode> second_arg,
             bool new_flag,
@@ -90,7 +90,7 @@ namespace onerut_parser_exec::onerut_ast::source {
 
     OpPlusMinusNode::OpPlusMinusNode(
             std::shared_ptr<const std::string> input,
-            string_const_span span,
+            string_utils::string_const_span span,
             std::shared_ptr<SourceNode> first_arg,
             std::vector<std::shared_ptr<SourceNode>> other_argv,
             std::vector<char> opv) :
@@ -104,7 +104,7 @@ namespace onerut_parser_exec::onerut_ast::source {
 
     OpProdDivNode::OpProdDivNode(
             std::shared_ptr<const std::string> input,
-            string_const_span span,
+            string_utils::string_const_span span,
             std::shared_ptr<SourceNode> first_arg,
             std::vector<std::shared_ptr<SourceNode>> other_argv,
             std::vector<char> opv) :
@@ -118,7 +118,7 @@ namespace onerut_parser_exec::onerut_ast::source {
 
     OpPowNode::OpPowNode(
             std::shared_ptr<const std::string> input,
-            string_const_span span,
+            string_utils::string_const_span span,
             std::shared_ptr<SourceNode> first_arg,
             std::shared_ptr<SourceNode> second_arg) :
     WithTwoSubsourcesNode(input, span, first_arg, second_arg) {
@@ -126,7 +126,7 @@ namespace onerut_parser_exec::onerut_ast::source {
 
     OpAtNode::OpAtNode(
             std::shared_ptr<const std::string> input,
-            string_const_span span,
+            string_utils::string_const_span span,
             std::shared_ptr<SourceNode> first_arg,
             std::shared_ptr<SourceNode> second_arg) :
     WithTwoSubsourcesNode(input, span, first_arg, second_arg) {
@@ -134,7 +134,7 @@ namespace onerut_parser_exec::onerut_ast::source {
 
     OpArrowNode::OpArrowNode(
             std::shared_ptr<const std::string> input,
-            string_const_span span,
+            string_utils::string_const_span span,
             std::shared_ptr<SourceNode> first_arg,
             std::shared_ptr<SourceNode> second_arg) :
     WithTwoSubsourcesNode(input, span, first_arg, second_arg) {
@@ -142,7 +142,7 @@ namespace onerut_parser_exec::onerut_ast::source {
 
     OpGlueNode::OpGlueNode(
             std::shared_ptr<const std::string> input,
-            string_const_span span,
+            string_utils::string_const_span span,
             std::shared_ptr<SourceNode> first_arg,
             std::shared_ptr<SourceNode> second_arg) :
     WithTwoSubsourcesNode(input, span, first_arg, second_arg) {
@@ -150,7 +150,7 @@ namespace onerut_parser_exec::onerut_ast::source {
 
     UnaryPlusMinusNode::UnaryPlusMinusNode(
             std::shared_ptr<const std::string> input,
-            string_const_span span,
+            string_utils::string_const_span span,
             char op,
             std::shared_ptr<SourceNode> arg) :
     WithOneSubsourceNode(input, span, arg),
@@ -159,7 +159,7 @@ namespace onerut_parser_exec::onerut_ast::source {
     }
 
     LitLongNode::LitLongNode(std::shared_ptr<const std::string> input,
-            string_const_span span,
+            string_utils::string_const_span span,
             long value) :
     WithNoSubsourcesNode(input, span),
     value(value) {
@@ -167,7 +167,7 @@ namespace onerut_parser_exec::onerut_ast::source {
 
     LitDoubleNode::LitDoubleNode(
             std::shared_ptr<const std::string> input,
-            string_const_span span,
+            string_utils::string_const_span span,
             double value) :
     WithNoSubsourcesNode(input, span),
     value(value) {
@@ -175,7 +175,7 @@ namespace onerut_parser_exec::onerut_ast::source {
 
     LitPureComplexDoubleNode::LitPureComplexDoubleNode(
             std::shared_ptr<const std::string> input,
-            string_const_span span,
+            string_utils::string_const_span span,
             double value) :
     WithNoSubsourcesNode(input, span),
     value(value) {
@@ -183,7 +183,7 @@ namespace onerut_parser_exec::onerut_ast::source {
 
     FunctionNode::FunctionNode(
             std::shared_ptr<const std::string> input,
-            string_const_span span,
+            string_utils::string_const_span span,
             std::string name,
             std::vector<std::shared_ptr<SourceNode>> argv) :
     WithAnyNumberOfSubsourcesNode(input, span, argv),

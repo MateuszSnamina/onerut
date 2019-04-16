@@ -48,7 +48,7 @@ namespace onerut_parser_exec::onerut_ast {
         if (!info.bit)
             return second_arg;
         const std::shared_ptr<source::SourceNode> first_arg = to_ast_source((*info.bit).identifier, input, positions);
-        const string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
+        const string_utils::string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
         assert(input->cbegin() <= span.begin());
         assert(span.end() <= input->cend());
@@ -72,7 +72,7 @@ namespace onerut_parser_exec::onerut_ast {
             other_argv.push_back(other_arg);
             opv.push_back(arg_info.op);
         }
-        const string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
+        const string_utils::string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
         assert(input->cbegin() <= span.begin());
         assert(span.end() <= input->cend());
@@ -96,7 +96,7 @@ namespace onerut_parser_exec::onerut_ast {
             other_argv.push_back(other_arg);
             opv.push_back(arg_info.op);
         }
-        const string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
+        const string_utils::string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
         assert(input->cbegin() <= span.begin());
         assert(span.end() <= input->cend());
@@ -111,7 +111,7 @@ namespace onerut_parser_exec::onerut_ast {
         if (!info.other_arg)
             return first_arg;
         const std::shared_ptr<source::SourceNode> other_arg = to_ast_source(*info.other_arg, input, positions);
-        const string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
+        const string_utils::string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
         assert(input->cbegin() <= span.begin());
         assert(span.end() <= input->cend());
@@ -126,7 +126,7 @@ namespace onerut_parser_exec::onerut_ast {
         if (!info.other_arg)
             return first_arg;
         const std::shared_ptr<source::SourceNode> other_arg = to_ast_source(*info.other_arg, input, positions);
-        const string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
+        const string_utils::string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
         assert(input->cbegin() <= span.begin());
         assert(span.end() <= input->cend());
@@ -141,7 +141,7 @@ namespace onerut_parser_exec::onerut_ast {
         if (!info.other_arg)
             return first_arg;
         const std::shared_ptr<source::SourceNode> other_arg = to_ast_source(*info.other_arg, input, positions);
-        const string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
+        const string_utils::string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
         assert(input->cbegin() <= span.begin());
         assert(span.end() <= input->cend());
@@ -156,7 +156,7 @@ namespace onerut_parser_exec::onerut_ast {
         if (!info.other_arg)
             return first_arg;
         const std::shared_ptr<source::SourceNode> other_arg = to_ast_source(*info.other_arg, input, positions);
-        const string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
+        const string_utils::string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
         assert(input->cbegin() <= span.begin());
         assert(span.end() <= input->cend());
@@ -175,7 +175,7 @@ namespace onerut_parser_exec::onerut_ast {
             const x3::LitDoubleInfo & info,
             std::shared_ptr<const std::string> input,
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions) {
-        const string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
+        const string_utils::string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
         assert(input->cbegin() <= span.begin());
         assert(span.end() <= input->cend());
@@ -186,7 +186,7 @@ namespace onerut_parser_exec::onerut_ast {
             const x3::LitPureComplexDoubleInfo & info,
             std::shared_ptr<const std::string> input,
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions) {
-        const string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
+        const string_utils::string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
         assert(input->cbegin() <= span.begin());
         assert(span.end() <= input->cend());
@@ -197,7 +197,7 @@ namespace onerut_parser_exec::onerut_ast {
             const x3::LitLongInfo & info,
             std::shared_ptr<const std::string> input,
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions) {
-        const string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
+        const string_utils::string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
         assert(input->cbegin() <= span.begin());
         assert(span.end() <= input->cend());
@@ -211,7 +211,7 @@ namespace onerut_parser_exec::onerut_ast {
         const std::shared_ptr<source::SourceNode> expression = to_ast_source(info.expression, input, positions);
         if (!info.op)
             return expression;
-        const string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
+        const string_utils::string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
         assert(input->cbegin() <= span.begin());
         assert(span.end() <= input->cend());
@@ -238,7 +238,7 @@ namespace onerut_parser_exec::onerut_ast {
             const std::shared_ptr<source::SourceNode> arg = to_ast_source(arg_info, input, positions);
             argv.push_back(arg);
         }
-        const string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
+        const string_utils::string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
         assert(input->cbegin() <= span.begin());
         assert(span.end() <= input->cend());
@@ -251,7 +251,7 @@ namespace onerut_parser_exec::onerut_ast {
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions) {
         const std::string name = info.name.name();
         const std::vector<std::shared_ptr < source::SourceNode >> argv;
-        const string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
+        const string_utils::string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
         assert(input->cbegin() <= span.begin());
         assert(span.end() <= input->cend());
@@ -262,7 +262,7 @@ namespace onerut_parser_exec::onerut_ast {
             const x3::IdentifierInfo & info,
             std::shared_ptr<const std::string> input,
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions) {
-        const string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
+        const string_utils::string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
         assert(input);
         assert(input->cbegin() <= span.begin());
         assert(span.end() <= input->cend());
