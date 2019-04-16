@@ -15,11 +15,11 @@ namespace {
         to_ast_chart_visitor(
                 const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
                 unsigned deepness,
-                onerut_parser_exec::LinesStyledChartInfo& ast_chart
+                onerut_parser_exec::LinesChartInfo& ast_chart
                 );
         const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions;
         const unsigned deepness;
-        onerut_parser_exec::LinesStyledChartInfo& ast_chart;
+        onerut_parser_exec::LinesChartInfo& ast_chart;
         template<typename T>
         result_type operator()(const T & info);
     };
@@ -27,7 +27,7 @@ namespace {
     to_ast_chart_visitor::to_ast_chart_visitor(
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
             unsigned deepness,
-            onerut_parser_exec::LinesStyledChartInfo& ast_chart
+            onerut_parser_exec::LinesChartInfo& ast_chart
             ) :
     positions(positions),
     deepness(deepness),
@@ -52,12 +52,12 @@ namespace onerut_parser_exec::onerut_ast::x3 {
             const InfoT& info,
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
             unsigned deepness,
-            LinesStyledChartInfo& ast_chart) {
+            LinesChartInfo& ast_chart) {
         while (ast_chart.size() <= deepness)
             ast_chart.emplace_back();
         const esc::EscData esc_data = esc::EscDataBuilder() << esc::manip::build_esc_data;
         const string_utils::string_const_span span = {positions.position_of(info).begin(), positions.position_of(info).end()};
-        const LineBitStyledChartInfo bit = {span, esc_data};
+        const BitChartInfo bit = {span, esc_data};
         ast_chart[deepness].push_back(bit);
     }
 
@@ -69,7 +69,7 @@ namespace onerut_parser_exec::onerut_ast::x3 {
             const ExpressionInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
             unsigned deepness,
-            LinesStyledChartInfo& ast_chart) {
+            LinesChartInfo& ast_chart) {
         to_ast_chart_common_implementation(info, positions, deepness, ast_chart);
         to_ast_chart(info.assign, positions, deepness + 1, ast_chart);
     }
@@ -78,7 +78,7 @@ namespace onerut_parser_exec::onerut_ast::x3 {
             const OpAssignInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
             unsigned deepness,
-            LinesStyledChartInfo& ast_chart) {
+            LinesChartInfo& ast_chart) {
         to_ast_chart_common_implementation(info, positions, deepness, ast_chart);
         if (info.bit) {
             to_ast_chart((*info.bit).identifier, positions, deepness + 1, ast_chart);
@@ -90,7 +90,7 @@ namespace onerut_parser_exec::onerut_ast::x3 {
             const OpPlusMinusInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
             unsigned deepness,
-            LinesStyledChartInfo& ast_chart) {
+            LinesChartInfo& ast_chart) {
         to_ast_chart_common_implementation(info, positions, deepness, ast_chart);
         to_ast_chart(info.first_arg, positions, deepness + 1, ast_chart);
         for (const OpPlusMinusBitInfo& arg_info : info.other_argv)
@@ -101,7 +101,7 @@ namespace onerut_parser_exec::onerut_ast::x3 {
             const OpProdDivInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
             unsigned deepness,
-            LinesStyledChartInfo& ast_chart) {
+            LinesChartInfo& ast_chart) {
         to_ast_chart_common_implementation(info, positions, deepness, ast_chart);
         to_ast_chart(info.first_arg, positions, deepness + 1, ast_chart);
         for (const OpProdDivBitInfo& arg_info : info.other_argv)
@@ -112,7 +112,7 @@ namespace onerut_parser_exec::onerut_ast::x3 {
             const OpPowInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
             unsigned deepness,
-            LinesStyledChartInfo& ast_chart) {
+            LinesChartInfo& ast_chart) {
         to_ast_chart_common_implementation(info, positions, deepness, ast_chart);
         to_ast_chart(info.first_arg, positions, deepness + 1, ast_chart);
         if (info.other_arg)
@@ -123,7 +123,7 @@ namespace onerut_parser_exec::onerut_ast::x3 {
             const OpAtInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
             unsigned deepness,
-            LinesStyledChartInfo& ast_chart) {
+            LinesChartInfo& ast_chart) {
         to_ast_chart_common_implementation(info, positions, deepness, ast_chart);
         to_ast_chart(info.first_arg, positions, deepness + 1, ast_chart);
         if (info.other_arg)
@@ -134,7 +134,7 @@ namespace onerut_parser_exec::onerut_ast::x3 {
             const OpArrowInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
             unsigned deepness,
-            LinesStyledChartInfo& ast_chart) {
+            LinesChartInfo& ast_chart) {
         to_ast_chart_common_implementation(info, positions, deepness, ast_chart);
         to_ast_chart(info.first_arg, positions, deepness + 1, ast_chart);
         if (info.other_arg)
@@ -145,7 +145,7 @@ namespace onerut_parser_exec::onerut_ast::x3 {
             const OpGlueInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
             unsigned deepness,
-            LinesStyledChartInfo& ast_chart) {
+            LinesChartInfo& ast_chart) {
         to_ast_chart_common_implementation(info, positions, deepness, ast_chart);
         to_ast_chart(info.first_arg, positions, deepness + 1, ast_chart);
         if (info.other_arg)
@@ -156,7 +156,7 @@ namespace onerut_parser_exec::onerut_ast::x3 {
             const Value1Info& info,
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
             unsigned deepness,
-            LinesStyledChartInfo& ast_chart) {
+            LinesChartInfo& ast_chart) {
         auto visitor = to_ast_chart_visitor(positions, deepness, ast_chart);
         return boost::apply_visitor(visitor, info);
     }
@@ -165,7 +165,7 @@ namespace onerut_parser_exec::onerut_ast::x3 {
             const LitDoubleInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
             unsigned deepness,
-            LinesStyledChartInfo& ast_chart) {
+            LinesChartInfo& ast_chart) {
         to_ast_chart_common_implementation(info, positions, deepness, ast_chart);
     }
 
@@ -173,7 +173,7 @@ namespace onerut_parser_exec::onerut_ast::x3 {
             const LitPureComplexDoubleInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
             unsigned deepness,
-            LinesStyledChartInfo& ast_chart) {
+            LinesChartInfo& ast_chart) {
         to_ast_chart_common_implementation(info, positions, deepness, ast_chart);
     }
 
@@ -181,7 +181,7 @@ namespace onerut_parser_exec::onerut_ast::x3 {
             const LitLongInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
             unsigned deepness,
-            LinesStyledChartInfo& ast_chart) {
+            LinesChartInfo& ast_chart) {
         to_ast_chart_common_implementation(info, positions, deepness, ast_chart);
     }
 
@@ -189,7 +189,7 @@ namespace onerut_parser_exec::onerut_ast::x3 {
             const OpUnaryPlusMinusInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
             unsigned deepness,
-            LinesStyledChartInfo& ast_chart) {
+            LinesChartInfo& ast_chart) {
         to_ast_chart_common_implementation(info, positions, deepness, ast_chart);
         to_ast_chart(info.expression, positions, deepness + 1, ast_chart);
     }
@@ -198,7 +198,7 @@ namespace onerut_parser_exec::onerut_ast::x3 {
             const Value2Info& info,
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
             unsigned deepness,
-            LinesStyledChartInfo& ast_chart) {
+            LinesChartInfo& ast_chart) {
         auto visitor = to_ast_chart_visitor(positions, deepness, ast_chart);
         return boost::apply_visitor(visitor, info);
     }
@@ -207,7 +207,7 @@ namespace onerut_parser_exec::onerut_ast::x3 {
             const FunctionInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
             unsigned deepness,
-            LinesStyledChartInfo& ast_chart) {
+            LinesChartInfo& ast_chart) {
         to_ast_chart_common_implementation(info, positions, deepness, ast_chart);
         for (const ExpressionInfo& arg_info : info.argv)
             to_ast_chart(arg_info, positions, deepness + 1, ast_chart);
@@ -217,7 +217,7 @@ namespace onerut_parser_exec::onerut_ast::x3 {
             const EmptyFunctionInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
             unsigned deepness,
-            LinesStyledChartInfo& ast_chart) {
+            LinesChartInfo& ast_chart) {
         to_ast_chart_common_implementation(info, positions, deepness, ast_chart);
     }
     
@@ -225,7 +225,7 @@ namespace onerut_parser_exec::onerut_ast::x3 {
             const IdentifierInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
             unsigned deepness,
-            LinesStyledChartInfo& ast_chart) {
+            LinesChartInfo& ast_chart) {
         to_ast_chart_common_implementation(info, positions, deepness, ast_chart);
     }
 
@@ -233,7 +233,7 @@ namespace onerut_parser_exec::onerut_ast::x3 {
             const NestedExpression1Info& info,
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
             unsigned deepness,
-            LinesStyledChartInfo& ast_chart) {
+            LinesChartInfo& ast_chart) {
         to_ast_chart_common_implementation(info, positions, deepness, ast_chart);
         to_ast_chart(info.expression, positions, deepness + 1, ast_chart);
     }
@@ -241,7 +241,7 @@ namespace onerut_parser_exec::onerut_ast::x3 {
     void to_ast_chart(const NestedExpression2Info& info,
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
             unsigned deepness,
-            LinesStyledChartInfo& ast_chart) {
+            LinesChartInfo& ast_chart) {
         to_ast_chart_common_implementation(info, positions, deepness, ast_chart);
         to_ast_chart(info.expression, positions, deepness + 1, ast_chart);
     }
@@ -250,10 +250,10 @@ namespace onerut_parser_exec::onerut_ast::x3 {
     // ---------------   EASY API TO CREATE THE CHART  -------------------------
     // -------------------------------------------------------------------------    
 
-    LinesStyledChartInfo to_ast_chart(
+    LinesChartInfo to_ast_chart(
             const ExpressionInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions) {
-        LinesStyledChartInfo ast_chart;
+        LinesChartInfo ast_chart;
         to_ast_chart(info, positions, 0, ast_chart);
         return ast_chart;
     }

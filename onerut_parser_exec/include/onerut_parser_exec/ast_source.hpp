@@ -30,13 +30,13 @@ namespace onerut_parser_exec::onerut_ast::source {
         virtual ~SourceNode() = 0;
         virtual std::string to_oneliner() const = 0;
         virtual std::shared_ptr<asset::AssetNode> compile(std::shared_ptr<CompilerRules> compiler_rules) const = 0;
-        LinesStyledChartInfo to_ast_chart() const;
+        LinesChartInfo to_ast_chart() const;
         virtual void to_ast_chart(
                 unsigned deepness,
-                LinesStyledChartInfo& ast_chart) const = 0;
+                LinesChartInfo& ast_chart) const = 0;
         virtual void to_ast_chart_disregard_subsource(
                 unsigned deepness,
-                LinesStyledChartInfo& ast_chart) const;
+                LinesChartInfo& ast_chart) const;
     };
 
     // -------------------------------------------------------------------------
@@ -48,7 +48,7 @@ namespace onerut_parser_exec::onerut_ast::source {
                 string_utils::string_const_span span);
         void to_ast_chart(
                 unsigned deepness,
-                LinesStyledChartInfo& ast_chart) const final;
+                LinesChartInfo& ast_chart) const final;
         virtual std::shared_ptr<asset::AssetNode> compile(std::shared_ptr<CompilerRules> compiler_rules) const final;
         virtual Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules) const = 0;
     };
@@ -61,7 +61,7 @@ namespace onerut_parser_exec::onerut_ast::source {
                 const std::shared_ptr<SourceNode> arg);
         void to_ast_chart(
                 unsigned deepness,
-                LinesStyledChartInfo& ast_chart) const final;
+                LinesChartInfo& ast_chart) const final;
         virtual std::shared_ptr<asset::AssetNode> compile(std::shared_ptr<CompilerRules> compiler_rules) const final;
         virtual Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules, Asset arg_asset) const = 0;
         const std::shared_ptr<SourceNode> arg;
@@ -76,7 +76,7 @@ namespace onerut_parser_exec::onerut_ast::source {
                 std::shared_ptr<SourceNode> second_arg);
         void to_ast_chart(
                 unsigned deepness,
-                LinesStyledChartInfo& ast_chart) const final;
+                LinesChartInfo& ast_chart) const final;
         virtual std::shared_ptr<asset::AssetNode> compile(std::shared_ptr<CompilerRules> compiler_rules) const final;
         virtual Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules, Asset first_arg_asset, Asset second_arg_asset) const = 0;
         const std::shared_ptr<SourceNode> first_arg;
@@ -92,7 +92,7 @@ namespace onerut_parser_exec::onerut_ast::source {
                 std::vector<std::shared_ptr<SourceNode>> other_argv);
         void to_ast_chart(
                 unsigned deepness,
-                LinesStyledChartInfo& ast_chart) const final;
+                LinesChartInfo& ast_chart) const final;
         virtual std::shared_ptr<asset::AssetNode> compile(std::shared_ptr<CompilerRules> compiler_rules) const final;
         virtual Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules, Asset first_arg_asset, std::vector<Asset> other_argv_asset) const = 0;
         const std::shared_ptr<SourceNode> first_arg;
@@ -107,7 +107,7 @@ namespace onerut_parser_exec::onerut_ast::source {
                 std::vector<std::shared_ptr<SourceNode>> argv);
         void to_ast_chart(
                 unsigned deepness,
-                LinesStyledChartInfo& ast_chart) const final;
+                LinesChartInfo& ast_chart) const final;
         virtual std::shared_ptr<asset::AssetNode> compile(std::shared_ptr<CompilerRules> compiler_rules) const final;
         virtual Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules, std::vector<Asset> argv_asset) const = 0;
         const std::vector<std::shared_ptr<SourceNode>> argv;

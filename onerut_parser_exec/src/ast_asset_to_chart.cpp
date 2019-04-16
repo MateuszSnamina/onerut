@@ -4,21 +4,21 @@ namespace onerut_parser_exec::onerut_ast::asset {
 
     // -------------------------------------------------------------------------
 
-    LinesStyledChartInfo AssetNode::to_ast_chart(
+    LinesChartInfo AssetNode::to_ast_chart(
             std::function<esc::EscData(const Asset&)> asset_to_esc_data) const {
-        LinesStyledChartInfo ast_chart;
+        LinesChartInfo ast_chart;
         to_ast_chart(0, ast_chart, asset_to_esc_data);
         return ast_chart;
     }
 
     void AssetNode::to_ast_chart(
             unsigned deepness,
-            LinesStyledChartInfo & ast_chart,
+            LinesChartInfo & ast_chart,
             std::function<esc::EscData(const Asset&)> asset_to_esc_data) const {
         while (ast_chart.size() <= deepness)
             ast_chart.emplace_back();
         const auto esc_data = asset_to_esc_data(asset);
-        LineBitStyledChartInfo bit = {source->span, esc_data};
+        BitChartInfo bit = {source->span, esc_data};
         ast_chart[deepness].push_back(bit);
         for (const auto& subasset : subassets) {
             subasset->to_ast_chart(deepness + 1, ast_chart, asset_to_esc_data);

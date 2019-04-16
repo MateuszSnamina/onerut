@@ -18,21 +18,20 @@ namespace onerut_parser_exec {
     // -------------- STYLED VERSION OF PRINT CHART ----------------------------
     // -------------------------------------------------------------------------
 
-    struct LineBitStyledChartInfo {
+    struct BitChartInfo {
         string_utils::string_const_span span;
         esc::EscData esc_data;
     };
 
     //--------------------------------------------------------------------------
-
-    // TODO: remove Styled adj. 
-    using LineStyledChartInfo = std::vector<LineBitStyledChartInfo>;
-    using LinesStyledChartInfo = std::vector<LineStyledChartInfo>;
+    
+    using LineChartInfo = std::vector<BitChartInfo>;
+    using LinesChartInfo = std::vector<LineChartInfo>;
 
     void print_ast_chart(
             std::ostream& stream,
             std::shared_ptr<const std::string> input,
-            const LinesStyledChartInfo& lines_info,
+            const LinesChartInfo& lines_info,
             std::string line_prefix = "");
 
     void print_styled_ast_chart_example();

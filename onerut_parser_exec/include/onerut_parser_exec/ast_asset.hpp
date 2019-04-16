@@ -36,7 +36,7 @@ namespace onerut_parser_exec::onerut_ast::asset {
                 Asset asset);
         virtual ~AssetNode() = default;
         // ----------------------------------------
-        LinesStyledChartInfo to_ast_chart(
+        LinesChartInfo to_ast_chart(
                 std::function<esc::EscData(const Asset&)> asset_to_esc_data) const;
         ErrorsChartInfo to_errors_chart() const;
         // -----Internal data: --------------------
@@ -46,7 +46,7 @@ namespace onerut_parser_exec::onerut_ast::asset {
     private:
         void to_ast_chart(
                 unsigned deepness,
-                LinesStyledChartInfo& ast_chart,
+                LinesChartInfo& ast_chart,
                 std::function<esc::EscData(const Asset&)> asset_to_esc_data) const;
         void to_errors_chart(
                 ErrorsChartInfo& erros_chart) const;
