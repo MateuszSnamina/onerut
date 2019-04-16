@@ -3,7 +3,7 @@
 
 #include<onerut_parser_exec/asset_deref.hpp>
 
-namespace onerut_parser {
+namespace onerut_parser_exec {
 
     class AbstractAssetRef {
     public:

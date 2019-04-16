@@ -33,7 +33,7 @@ execute_line(std::shared_ptr<const std::string> line) {
     // *************************************************************************
     // *************  The Parser stage    **************************************
     // *************************************************************************    
-    const auto parsed_x3_info = onerut_parser::parse(line);
+    const auto parsed_x3_info = onerut_parser_exec::parse(line);
     // -------------------------------------------------------------------------
     //    print(parsed_x3_info);
     if (!parsed_x3_info.succes()) {
@@ -41,8 +41,8 @@ execute_line(std::shared_ptr<const std::string> line) {
             std::cout << "Fail to parse line: " << std::endl;
             std::cout << esc::manip::red << string_utils::StreamToGreek(*line) << esc::manip::reset << "." << std::endl;
         } else {
-            const auto parsed_view = onerut_parser::to_string_view(parsed_x3_info.parsed_span());
-            const auto not_parsed_view = onerut_parser::to_string_view(parsed_x3_info.not_parsed_span());
+            const auto parsed_view = onerut_parser_exec::to_string_view(parsed_x3_info.parsed_span());
+            const auto not_parsed_view = onerut_parser_exec::to_string_view(parsed_x3_info.not_parsed_span());
             std::cout << esc::manip::bg_green << string_utils::StreamToGreek(parsed_view)
                     << esc::manip::bg_red << string_utils::StreamToGreek(not_parsed_view);
             std::cout << std::endl;
@@ -52,7 +52,7 @@ execute_line(std::shared_ptr<const std::string> line) {
     // *************************************************************************
     // *************  The source creation stage:     ***************************
     // *************************************************************************    
-    const auto ast_source_head = onerut_parser::onerut_ast::to_ast_source(
+    const auto ast_source_head = onerut_parser_exec::onerut_ast::to_ast_source(
             parsed_x3_info.ast_head,
             parsed_x3_info.input,
             parsed_x3_info.positions);
@@ -62,21 +62,21 @@ execute_line(std::shared_ptr<const std::string> line) {
     // *************************************************************************
     // *************  Compilation stage:     ***********************************
     // *************************************************************************
-    const auto ast_asset_head = ast_source_head->compile(std::make_shared<onerut_parser::CompilerRulesConcrete>());
+    const auto ast_asset_head = ast_source_head->compile(std::make_shared<onerut_parser_rules::CompilerRulesConcrete>());
     // -------------------------------------------------------------------------
-    const auto asset_ast_chart = ast_asset_head->to_ast_chart(onerut_parser::asset_to_esc_data);
-    onerut_parser::print_ast_chart(std::cout, parsed_x3_info.input, asset_ast_chart, "[diagram] ");
+    const auto asset_ast_chart = ast_asset_head->to_ast_chart(onerut_parser_rules::asset_to_esc_data);
+    onerut_parser_exec::print_ast_chart(std::cout, parsed_x3_info.input, asset_ast_chart, "[diagram] ");
     const auto asset_errors_chart = ast_asset_head->to_errors_chart();
-    onerut_parser::print_errors_chart(std::cout, parsed_x3_info.input, asset_errors_chart, "[errors ] ");
+    onerut_parser_exec::print_errors_chart(std::cout, parsed_x3_info.input, asset_errors_chart, "[errors ] ");
     const auto& asset = ast_asset_head->asset;
-    onerut_parser::print_receipt(std::cout, asset, "[receipt] ");
+    onerut_parser_rules::print_receipt(std::cout, asset, "[receipt] ");
     // *************************************************************************
     // *************  Requests stage:        ***********************************
     // *************************************************************************
-    if (const auto request = asset.deref().typed_value_or_empty<onerut_parser::ImperativeRequest>()) {
+    if (const auto request = asset.deref().typed_value_or_empty<onerut_parser_rules::ImperativeRequest>()) {
         (*request)->exec();
     }
-    if (const auto request = asset.deref().typed_value_or_empty<onerut_parser::PrintValueRequest>()) {
+    if (const auto request = asset.deref().typed_value_or_empty<onerut_parser_rules::PrintValueRequest>()) {
         (*request)->print(std::cout, "[request] ");
     }
     // *************************************************************************

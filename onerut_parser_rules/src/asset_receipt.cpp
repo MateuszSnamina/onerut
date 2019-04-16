@@ -16,11 +16,11 @@
 #include<onerut_parser_rules/request_print_value.hpp>
 #include<onerut_parser_rules/asset_receipt.hpp>
 
-namespace onerut_parser {
+namespace onerut_parser_rules {
 
-    void print_receipt(std::ostream& stream, const Asset& asset, std::string line_prefix) {
+    void print_receipt(std::ostream& stream, const onerut_parser_exec::Asset& asset, std::string line_prefix) {
         // ---------------------------------------------------------------------
-        if (onerut_parser::utility::is_unset_ref(asset)) {
+        if (onerut_parser_exec::utility::is_unset_ref(asset)) {
             stream << line_prefix << "[asset] "
                     << "Asset is an "
                     << esc::manip::italic << "unset reference" << esc::manip::reset << "."
@@ -29,7 +29,7 @@ namespace onerut_parser {
             stream << line_prefix << "[asset] "
                     << "reference name = " << string_utils::StreamToGreek(result_reference->get_name())
                     << std::endl;
-        } else if (onerut_parser::utility::is_const_ref(asset)) {
+        } else if (onerut_parser_exec::utility::is_const_ref(asset)) {
             stream << line_prefix << "[asset] "
                     << "Asset is a "
                     << esc::manip::italic << "const reference" << esc::manip::reset << "."
@@ -38,7 +38,7 @@ namespace onerut_parser {
             stream << line_prefix << "[asset] "
                     << "reference name = " << string_utils::StreamToGreek(result_reference->get_name())
                     << std::endl;
-        } else if (onerut_parser::utility::is_not_const_ref(asset)) {
+        } else if (onerut_parser_exec::utility::is_not_const_ref(asset)) {
             stream << line_prefix << "[asset] "
                     << "Asset is a "
                     << esc::manip::italic << "not const reference" << esc::manip::reset << "."
@@ -55,11 +55,11 @@ namespace onerut_parser {
             stream << line_prefix << "[asset-deref] "
                     << "Asset-deref is an " << esc::manip::italic << "empty asset" << esc::manip::reset << "."
                     << std::endl;
-        } else if (asset.deref().is_given_type<onerut_parser::ImperativeRequest>()) {
+        } else if (asset.deref().is_given_type<ImperativeRequest>()) {
             stream << line_prefix << "[asset-deref] "
                     << "Asset-defer is an " << esc::manip::italic << "imperative-request" << esc::manip::reset << "."
                     << std::endl;
-        } else if (asset.deref().is_given_type<onerut_parser::PrintValueRequest>()) {
+        } else if (asset.deref().is_given_type<PrintValueRequest>()) {
             stream << line_prefix << "[asset-deref] "
                     << "Asset-defer is an " << esc::manip::italic << "print-value-request" << esc::manip::reset << "."
                     << std::endl;

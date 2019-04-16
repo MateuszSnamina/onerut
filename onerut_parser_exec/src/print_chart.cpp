@@ -5,7 +5,7 @@
 #include<string_utils/greek_support.hpp>
 #include<onerut_parser_exec/print_chart.hpp>
 
-namespace onerut_parser {
+namespace onerut_parser_exec {
 
     extern const char32_t chart_fill_character_1 = U'░';
     extern const char32_t chart_fill_character_2 = U'▒';
@@ -100,15 +100,15 @@ namespace onerut_parser {
     void print_styled_ast_chart_example() {
 
         const auto input = std::make_shared<std::string>("123456789abcdef");
-        const onerut_parser::LineBitStyledChartInfo bi0{
+        const onerut_parser_exec::LineBitStyledChartInfo bi0{
             {input->begin() + 2, input->begin() + 8},
             {esc::Color::Green, esc::Color::Auto, true, false, false}};
 
-        const onerut_parser::LineBitStyledChartInfo bi1{
+        const onerut_parser_exec::LineBitStyledChartInfo bi1{
             {input->begin() + 2, input->begin() + 4},
             {esc::Color::Green, esc::Color::Auto, false, true, false}};
 
-        const onerut_parser::LineBitStyledChartInfo bi2{
+        const onerut_parser_exec::LineBitStyledChartInfo bi2{
             {input->begin() + 6, input->begin() + 8},
             {esc::Color::Auto, esc::Color::Red, false, false, true}};
 

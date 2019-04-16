@@ -1,6 +1,6 @@
 #include<onerut_parser_exec/ast_asset.hpp>
 
-namespace onerut_parser::onerut_ast::asset {
+namespace onerut_parser_exec::onerut_ast::asset {
 
     // -------------------------------------------------------------------------
 

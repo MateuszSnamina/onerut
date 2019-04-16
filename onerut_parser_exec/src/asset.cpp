@@ -1,7 +1,7 @@
 #include<onerut_parser_exec/common_visitors.hpp>
 #include<onerut_parser_exec/asset.hpp>
 
-namespace onerut_parser {
+namespace onerut_parser_exec {
 
     // *************************************************************************
     // ********************** HELPER FUNCTIONS   *******************************

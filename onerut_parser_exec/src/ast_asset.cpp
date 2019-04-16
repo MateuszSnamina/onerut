@@ -4,7 +4,7 @@
 #include<cassert>
 #include<algorithm>
 
-namespace onerut_parser::onerut_ast::asset {
+namespace onerut_parser_exec::onerut_ast::asset {
 
     AssetNode::AssetNode(
             std::shared_ptr<const source::SourceNode> source,

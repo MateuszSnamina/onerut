@@ -5,16 +5,16 @@
 #include<onerut_normal_operator/to_string.hpp>
 #include<onerut_parser_rules/request_print_value.hpp>
 
-namespace onerut_parser {
+namespace onerut_parser_rules {
 
     // *************************************************************************
 
-    PrintValueRequestTyped<onerut_parser::CompileError>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
+    PrintValueRequestTyped<onerut_parser_exec::CompileError>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
     instance(instance) {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_parser::CompileError>::print(std::ostream& stream, std::string line_prefix) const {
+    void PrintValueRequestTyped<onerut_parser_exec::CompileError>::print(std::ostream& stream, std::string line_prefix) const {
         assert(instance);
         stream << line_prefix
                 << "[value] " << "error message = " << instance->what()

@@ -40,7 +40,7 @@ void onerut_box_value_test(T cpp_value, const std::string onerut_inuput);
 
 
 #define ONERUT_BOX_ERROR_TEST(ERROR, EXPRESSION)  \
- onerut_box_error_test<onerut_parser::ERROR>(#EXPRESSION);
+ onerut_box_error_test<onerut_parser_exec::ERROR>(#EXPRESSION);
 
 // -----------------------------------------------------------
 // ---------- TEMPLATE FUNCTIONS IMPLEMENTATION --------------
@@ -80,27 +80,27 @@ template<>
 struct ValueTest<std::complex<double> > {
     static void test(
             const std::complex<double> &cpp_value,
-            const onerut_parser::Asset& asset);
+            const onerut_parser_exec::Asset& asset);
 };
 
 template<>
 struct ValueTest<double> {
     static void test(
             double cpp_value,
-            const onerut_parser::Asset& asset);
+            const onerut_parser_exec::Asset& asset);
 };
 
 template<>
 struct ValueTest<long> {
     static void test(
             long cpp_value,
-            const onerut_parser::Asset& asset);
+            const onerut_parser_exec::Asset& asset);
 };
 
 inline
 void ValueTest<std::complex<double> >::test(
         const std::complex<double> &cpp_value,
-        const onerut_parser::Asset& asset) {
+        const onerut_parser_exec::Asset& asset) {
     std::cout << "[test][common] complex numbers comparison test." << std::endl;
     ASSERT_TRUE(!asset.deref().is_compile_error()) << "Expected an asset being a value asset.";
     ASSERT_TRUE(!asset.deref().is_empty()) << "Expected an asset being a value asset.";
@@ -120,7 +120,7 @@ void ValueTest<std::complex<double> >::test(
 inline
 void ValueTest<double>::test(
         double cpp_value,
-        const onerut_parser::Asset& asset) {
+        const onerut_parser_exec::Asset& asset) {
     std::cout << "[test][common] real numbers comparison test." << std::endl;
     ASSERT_TRUE(!asset.deref().is_compile_error()) << "Expected an asset being a value asset.";
     ASSERT_TRUE(!asset.deref().is_empty()) << "Expected an asset being a value asset.";
@@ -140,7 +140,7 @@ void ValueTest<double>::test(
 inline
 void ValueTest<long>::test(
         long cpp_value,
-        const onerut_parser::Asset& asset) {
+        const onerut_parser_exec::Asset& asset) {
     std::cout << "[test][common] integer numbers comparison test." << std::endl;
     ASSERT_TRUE(!asset.deref().is_compile_error()) << "Expected an asset being a value asset.";
     ASSERT_TRUE(!asset.deref().is_empty()) << "Expected an asset being a value asset.";

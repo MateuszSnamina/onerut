@@ -13,7 +13,7 @@
 #include<onerut_parser_exec/print_chart.hpp>
 #include<onerut_parser_exec/gramma_parser.hpp>
 
-namespace onerut_parser {
+namespace onerut_parser_exec {
 
     bool X3ParseResultInfo::hit_end() const {
         return it == input->cend();
@@ -37,79 +37,79 @@ namespace onerut_parser {
 // This has to be in the global scope:
 
 BOOST_FUSION_ADAPT_STRUCT(
-        onerut_parser::onerut_ast::x3::ExpressionInfo,
-        (onerut_parser::onerut_ast::x3::OpAssignInfo, assign))
+        onerut_parser_exec::onerut_ast::x3::ExpressionInfo,
+        (onerut_parser_exec::onerut_ast::x3::OpAssignInfo, assign))
 BOOST_FUSION_ADAPT_STRUCT(
-        onerut_parser::onerut_ast::x3::OpAssignBitInfo,
+        onerut_parser_exec::onerut_ast::x3::OpAssignBitInfo,
         (bool, new_flag)
         (bool, const_flag)
-        (onerut_parser::onerut_ast::x3::IdentifierInfo, identifier))
+        (onerut_parser_exec::onerut_ast::x3::IdentifierInfo, identifier))
 BOOST_FUSION_ADAPT_STRUCT(
-        onerut_parser::onerut_ast::x3::OpAssignInfo,
-        (boost::optional<onerut_parser::onerut_ast::x3::OpAssignBitInfo>, bit)
-        (onerut_parser::onerut_ast::x3::OpPlusMinusInfo, sum))
+        onerut_parser_exec::onerut_ast::x3::OpAssignInfo,
+        (boost::optional<onerut_parser_exec::onerut_ast::x3::OpAssignBitInfo>, bit)
+        (onerut_parser_exec::onerut_ast::x3::OpPlusMinusInfo, sum))
 BOOST_FUSION_ADAPT_STRUCT(
-        onerut_parser::onerut_ast::x3::OpPlusMinusBitInfo,
+        onerut_parser_exec::onerut_ast::x3::OpPlusMinusBitInfo,
         (char, op)
-        (onerut_parser::onerut_ast::x3::OpProdDivInfo, arg))
+        (onerut_parser_exec::onerut_ast::x3::OpProdDivInfo, arg))
 BOOST_FUSION_ADAPT_STRUCT(
-        onerut_parser::onerut_ast::x3::OpPlusMinusInfo,
-        (onerut_parser::onerut_ast::x3::OpProdDivInfo, first_arg)
-        (std::vector<onerut_parser::onerut_ast::x3::OpPlusMinusBitInfo>, other_argv))
+        onerut_parser_exec::onerut_ast::x3::OpPlusMinusInfo,
+        (onerut_parser_exec::onerut_ast::x3::OpProdDivInfo, first_arg)
+        (std::vector<onerut_parser_exec::onerut_ast::x3::OpPlusMinusBitInfo>, other_argv))
 BOOST_FUSION_ADAPT_STRUCT(
-        onerut_parser::onerut_ast::x3::OpProdDivBitInfo,
+        onerut_parser_exec::onerut_ast::x3::OpProdDivBitInfo,
         (char, op)
-        (onerut_parser::onerut_ast::x3::OpPowInfo, arg))
+        (onerut_parser_exec::onerut_ast::x3::OpPowInfo, arg))
 BOOST_FUSION_ADAPT_STRUCT(
-        onerut_parser::onerut_ast::x3::OpProdDivInfo,
-        (onerut_parser::onerut_ast::x3::OpPowInfo, first_arg)
-        (std::vector<onerut_parser::onerut_ast::x3::OpProdDivBitInfo>, other_argv))
+        onerut_parser_exec::onerut_ast::x3::OpProdDivInfo,
+        (onerut_parser_exec::onerut_ast::x3::OpPowInfo, first_arg)
+        (std::vector<onerut_parser_exec::onerut_ast::x3::OpProdDivBitInfo>, other_argv))
 BOOST_FUSION_ADAPT_STRUCT(
-        onerut_parser::onerut_ast::x3::OpPowInfo,
-        (onerut_parser::onerut_ast::x3::OpAtInfo, first_arg)
-        (boost::optional<onerut_parser::onerut_ast::x3::OpAtInfo>, other_arg))
+        onerut_parser_exec::onerut_ast::x3::OpPowInfo,
+        (onerut_parser_exec::onerut_ast::x3::OpAtInfo, first_arg)
+        (boost::optional<onerut_parser_exec::onerut_ast::x3::OpAtInfo>, other_arg))
 BOOST_FUSION_ADAPT_STRUCT(
-        onerut_parser::onerut_ast::x3::OpAtInfo,
-        (onerut_parser::onerut_ast::x3::OpArrowInfo, first_arg)
-        (boost::optional<onerut_parser::onerut_ast::x3::OpArrowInfo>, other_arg))
+        onerut_parser_exec::onerut_ast::x3::OpAtInfo,
+        (onerut_parser_exec::onerut_ast::x3::OpArrowInfo, first_arg)
+        (boost::optional<onerut_parser_exec::onerut_ast::x3::OpArrowInfo>, other_arg))
 BOOST_FUSION_ADAPT_STRUCT(
-        onerut_parser::onerut_ast::x3::OpArrowInfo,
-        (onerut_parser::onerut_ast::x3::OpGlueInfo, first_arg)
-        (boost::optional<onerut_parser::onerut_ast::x3::OpGlueInfo>, other_arg))
+        onerut_parser_exec::onerut_ast::x3::OpArrowInfo,
+        (onerut_parser_exec::onerut_ast::x3::OpGlueInfo, first_arg)
+        (boost::optional<onerut_parser_exec::onerut_ast::x3::OpGlueInfo>, other_arg))
 BOOST_FUSION_ADAPT_STRUCT(
-        onerut_parser::onerut_ast::x3::OpGlueInfo,
-        (onerut_parser::onerut_ast::x3::Value1Info, first_arg)
-        (boost::optional<onerut_parser::onerut_ast::x3::Value1Info>, other_arg))
+        onerut_parser_exec::onerut_ast::x3::OpGlueInfo,
+        (onerut_parser_exec::onerut_ast::x3::Value1Info, first_arg)
+        (boost::optional<onerut_parser_exec::onerut_ast::x3::Value1Info>, other_arg))
 BOOST_FUSION_ADAPT_STRUCT(
-        onerut_parser::onerut_ast::x3::OpUnaryPlusMinusInfo,
+        onerut_parser_exec::onerut_ast::x3::OpUnaryPlusMinusInfo,
         (boost::optional<char>, op)
-        (onerut_parser::onerut_ast::x3::Value2Info, expression))
+        (onerut_parser_exec::onerut_ast::x3::Value2Info, expression))
 BOOST_FUSION_ADAPT_STRUCT(
-        onerut_parser::onerut_ast::x3::LitPureComplexDoubleInfo,
+        onerut_parser_exec::onerut_ast::x3::LitPureComplexDoubleInfo,
         (double, value))
 BOOST_FUSION_ADAPT_STRUCT(
-        onerut_parser::onerut_ast::x3::LitDoubleInfo,
+        onerut_parser_exec::onerut_ast::x3::LitDoubleInfo,
         (double, value))
 BOOST_FUSION_ADAPT_STRUCT(
-        onerut_parser::onerut_ast::x3::LitLongInfo,
+        onerut_parser_exec::onerut_ast::x3::LitLongInfo,
         (long, value))
 BOOST_FUSION_ADAPT_STRUCT(
-        onerut_parser::onerut_ast::x3::FunctionInfo,
-        (onerut_parser::onerut_ast::x3::IdentifierInfo, name)
-        (std::vector<onerut_parser::onerut_ast::x3::ExpressionInfo>, argv))
+        onerut_parser_exec::onerut_ast::x3::FunctionInfo,
+        (onerut_parser_exec::onerut_ast::x3::IdentifierInfo, name)
+        (std::vector<onerut_parser_exec::onerut_ast::x3::ExpressionInfo>, argv))
 BOOST_FUSION_ADAPT_STRUCT(
-        onerut_parser::onerut_ast::x3::EmptyFunctionInfo,
-        (onerut_parser::onerut_ast::x3::IdentifierInfo, name))
+        onerut_parser_exec::onerut_ast::x3::EmptyFunctionInfo,
+        (onerut_parser_exec::onerut_ast::x3::IdentifierInfo, name))
 BOOST_FUSION_ADAPT_STRUCT(
-        onerut_parser::onerut_ast::x3::IdentifierInfo,
+        onerut_parser_exec::onerut_ast::x3::IdentifierInfo,
         (char, first_char)
         (std::vector<char>, other_chars))
 BOOST_FUSION_ADAPT_STRUCT(
-        onerut_parser::onerut_ast::x3::NestedExpression1Info,
-        (onerut_parser::onerut_ast::x3::ExpressionInfo, expression))
+        onerut_parser_exec::onerut_ast::x3::NestedExpression1Info,
+        (onerut_parser_exec::onerut_ast::x3::ExpressionInfo, expression))
 BOOST_FUSION_ADAPT_STRUCT(
-        onerut_parser::onerut_ast::x3::NestedExpression2Info,
-        (onerut_parser::onerut_ast::x3::ExpressionInfo, expression))
+        onerut_parser_exec::onerut_ast::x3::NestedExpression2Info,
+        (onerut_parser_exec::onerut_ast::x3::ExpressionInfo, expression))
 
 // -----------------------------------------------------------------------------
 namespace {
@@ -155,7 +155,7 @@ namespace {
 }
 
 // -----------------------------------------------------------------------------
-namespace onerut_parser::onerut_gramma {
+namespace onerut_parser_exec::onerut_gramma {
 
     struct ExpressionParserRaw : annotate_position {
     };
@@ -309,7 +309,7 @@ namespace onerut_parser::onerut_gramma {
 
 // -----------------------------------------------------------------------------
 
-namespace onerut_parser {
+namespace onerut_parser_exec {
 
     X3ParseResultInfo parse(std::shared_ptr<const std::string> input) {
         // Iterators:
@@ -317,7 +317,7 @@ namespace onerut_parser {
         const std::string::const_iterator input_end = input->cend();
         std::string::const_iterator it = input_begin;
         // Results:
-        onerut_parser::onerut_ast::x3::ExpressionInfo ast_head;
+        onerut_parser_exec::onerut_ast::x3::ExpressionInfo ast_head;
         boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >> positions(input_begin, input_end);
         // Annotation, positions_handlers, error_handlers:
         boost::spirit::x3::error_handler<std::string::const_iterator> error_handler(it, input_end, std::cerr);
@@ -325,7 +325,7 @@ namespace onerut_parser {
         auto const parser =
                 boost::spirit::x3::with<boost::spirit::x3::error_handler_tag>(std::ref(error_handler))[
                 boost::spirit::x3::with<position_cache_tag>(std::ref(positions))[
-                onerut_parser::onerut_gramma::expression_parser
+                onerut_parser_exec::onerut_gramma::expression_parser
                 ]];
         const bool match = phrase_parse(it, input_end, parser, boost::spirit::x3::ascii::space, ast_head);
         // Return results:        

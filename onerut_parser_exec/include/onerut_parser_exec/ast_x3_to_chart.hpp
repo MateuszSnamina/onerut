@@ -4,7 +4,7 @@
 #include<onerut_parser_exec/ast_x3.hpp>
 #include<onerut_parser_exec/print_chart.hpp>
 
-namespace onerut_parser::onerut_ast::x3 {
+namespace onerut_parser_exec::onerut_ast::x3 {
 
     void to_ast_chart(
             const ExpressionInfo& info,

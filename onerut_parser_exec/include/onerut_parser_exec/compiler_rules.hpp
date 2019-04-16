@@ -5,7 +5,7 @@
 #include<string>
 #include<onerut_parser_exec/asset.hpp>
 
-namespace onerut_parser {
+namespace onerut_parser_exec {
 
     class CompilerRules {
     public:

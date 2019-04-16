@@ -3,7 +3,7 @@
 
 #include<onerut_parser_exec/ast_x3.hpp>
 
-namespace onerut_parser::onerut_ast::x3 {
+namespace onerut_parser_exec::onerut_ast::x3 {
 
     std::string to_oneliner(const ExpressionInfo& info);
     std::string to_oneliner(const OpAssignInfo& info);

@@ -9,7 +9,7 @@
 #include<onerut_parser_rules/function_factory_abstract.hpp>
 #include<onerut_parser_rules/asset_utility_concrete.hpp>
 
-namespace onerut_parser {
+namespace onerut_parser_rules {
 
     // *************************************************************************
     // *********   ArgPreparator -- helper class   *****************************
@@ -21,61 +21,61 @@ namespace onerut_parser {
 
     template<>
     struct ArgPreparator<onerut_scalar::ArgInteger> {
-        static bool do_match(const AssetDeref & arg);
-        static std::shared_ptr<const onerut_scalar::Integer> extract(const AssetDeref & arg);
+        static bool do_match(const onerut_parser_exec::AssetDeref & arg);
+        static std::shared_ptr<const onerut_scalar::Integer> extract(const onerut_parser_exec::AssetDeref & arg);
     };
 
     template<>
     struct ArgPreparator<onerut_scalar::ArgReal> {
-        static bool do_match(const AssetDeref & arg);
-        static std::shared_ptr<const onerut_scalar::Real> extract(const AssetDeref & arg);
+        static bool do_match(const onerut_parser_exec::AssetDeref & arg);
+        static std::shared_ptr<const onerut_scalar::Real> extract(const onerut_parser_exec::AssetDeref & arg);
     };
 
     template<>
     struct ArgPreparator<onerut_scalar::ArgComplex> {
-        static bool do_match(const AssetDeref & arg);
-        static std::shared_ptr<const onerut_scalar::Complex> extract(const AssetDeref & arg);
+        static bool do_match(const onerut_parser_exec::AssetDeref & arg);
+        static std::shared_ptr<const onerut_scalar::Complex> extract(const onerut_parser_exec::AssetDeref & arg);
     };
 
     inline
     bool
-    ArgPreparator<onerut_scalar::ArgInteger>::do_match(const AssetDeref & arg) {
+    ArgPreparator<onerut_scalar::ArgInteger>::do_match(const onerut_parser_exec::AssetDeref & arg) {
         return utility::is_integer(arg);
     }
 
     inline
     std::shared_ptr<const onerut_scalar::Integer>
-    ArgPreparator<onerut_scalar::ArgInteger>::extract(const AssetDeref & arg) {
+    ArgPreparator<onerut_scalar::ArgInteger>::extract(const onerut_parser_exec::AssetDeref & arg) {
         return utility::to_integer(arg);
     }
 
     inline
     bool
-    ArgPreparator<onerut_scalar::ArgReal>::do_match(const AssetDeref & arg) {
+    ArgPreparator<onerut_scalar::ArgReal>::do_match(const onerut_parser_exec::AssetDeref & arg) {
         return utility::is_real_or_integer(arg);
     }
 
     inline
     std::shared_ptr<const onerut_scalar::Real>
-    ArgPreparator<onerut_scalar::ArgReal>::extract(const AssetDeref & arg) {
+    ArgPreparator<onerut_scalar::ArgReal>::extract(const onerut_parser_exec::AssetDeref & arg) {
         return utility::to_real(arg);
     }
 
     inline
     bool
-    ArgPreparator<onerut_scalar::ArgComplex>::do_match(const AssetDeref & arg) {
+    ArgPreparator<onerut_scalar::ArgComplex>::do_match(const onerut_parser_exec::AssetDeref & arg) {
         return utility::is_real_or_integer_or_complex(arg);
     }
 
     inline
     std::shared_ptr<const onerut_scalar::Complex>
-    ArgPreparator<onerut_scalar::ArgComplex>::extract(const AssetDeref & arg) {
+    ArgPreparator<onerut_scalar::ArgComplex>::extract(const onerut_parser_exec::AssetDeref & arg) {
         return utility::to_complex(arg);
     }
 
     // *************************************************************************
     // *********   Low level onerut-scalar-function factories    ***************
-    // *********   returning std::optional<Asset>        ***************
+    // *********   returning std::optional<Asset>                ***************
     // *********   (create a function or nullopt)                ***************    
     // *************************************************************************    
 
@@ -87,16 +87,16 @@ namespace onerut_parser {
 
     template<typename Callable, typename... ArgTags>
     struct ScalarFunctionFactory {
-        static std::optional<Asset> make_function_or_empty(
+        static std::optional<onerut_parser_exec::Asset> make_function_or_empty(
                 Callable callable,
-                typename std::enable_if<onerut_scalar::IsArgTag<ArgTags>::value, Asset>::type... arg_assets);
+                typename std::enable_if<onerut_scalar::IsArgTag<ArgTags>::value, onerut_parser_exec::Asset>::type... arg_assets);
     };
 
     template<typename... ArgTags>
     struct ScalarFunctionFactory<std::nullptr_t, ArgTags...> {
-        static std::optional<Asset> make_function_or_empty(
+        static std::optional<onerut_parser_exec::Asset> make_function_or_empty(
                 std::nullptr_t,
-                typename std::enable_if<onerut_scalar::IsArgTag<ArgTags>::value, Asset>::type... arg_assets);
+                typename std::enable_if<onerut_scalar::IsArgTag<ArgTags>::value, onerut_parser_exec::Asset>::type... arg_assets);
     };
 
     // -------------------------------------------------------------------------
@@ -104,10 +104,10 @@ namespace onerut_parser {
     // -------------------------------------------------------------------------
 
     template<typename Callable, typename... ArgTags>
-    std::optional<Asset>
+    std::optional<onerut_parser_exec::Asset>
     _make_function_or_empty(
             Callable callable,
-            typename std::enable_if<onerut_scalar::IsArgTag<ArgTags>::value, AssetDeref>::type... arg_assets_deref) {
+            typename std::enable_if<onerut_scalar::IsArgTag<ArgTags>::value, onerut_parser_exec::AssetDeref>::type... arg_assets_deref) {
         static_assert(!std::is_same<Callable, std::nullptr_t>::value);
         static_assert(onerut_scalar::utility::static_all_of<typename onerut_scalar::IsArgTag<ArgTags>::type...>::value);
         (assert(arg_assets_deref.is_either_value_or_type()), ...);
@@ -115,33 +115,33 @@ namespace onerut_parser {
             return std::nullopt;
         using OnerutScalarFunctionType = typename onerut_scalar::DeduceFunction<Callable, ArgTags...>::DeducedFunction;
         using ReturnOnerutBaseType = typename OnerutScalarFunctionType::ReturnTag::OnerutBaseType;
-        return Asset::from_value<ReturnOnerutBaseType>(
+        return onerut_parser_exec::Asset::from_value<ReturnOnerutBaseType>(
                 std::make_shared<OnerutScalarFunctionType> (callable, ArgPreparator<ArgTags>::extract(arg_assets_deref)...));
     }
 
     template<typename Callable, typename... ArgTags>
-    std::optional<Asset>
+    std::optional<onerut_parser_exec::Asset>
     _make_function_or_empty(
             Callable callable,
-            typename std::enable_if<onerut_scalar::IsArgTag<ArgTags>::value, Asset>::type... arg_assets) {
+            typename std::enable_if<onerut_scalar::IsArgTag<ArgTags>::value, onerut_parser_exec::Asset>::type... arg_assets) {
         static_assert(!std::is_same<Callable, std::nullptr_t>::value);
         static_assert(onerut_scalar::utility::static_all_of<typename onerut_scalar::IsArgTag<ArgTags>::type...>::value);
         return _make_function_or_empty<Callable, ArgTags...>(callable, arg_assets.deref()...);
     }
 
     template<typename Callable, typename... ArgTags>
-    std::optional<Asset>
+    std::optional<onerut_parser_exec::Asset>
     ScalarFunctionFactory<Callable, ArgTags...>::make_function_or_empty(
             Callable callable,
-            typename std::enable_if<onerut_scalar::IsArgTag<ArgTags>::value, Asset>::type... arg_assets) {
+            typename std::enable_if<onerut_scalar::IsArgTag<ArgTags>::value, onerut_parser_exec::Asset>::type... arg_assets) {
         return _make_function_or_empty<Callable, ArgTags...>(callable, arg_assets...);
     }
 
     template<typename... ArgTags>
-    std::optional<Asset>
+    std::optional<onerut_parser_exec::Asset>
     ScalarFunctionFactory<std::nullptr_t, ArgTags...>::make_function_or_empty(
             std::nullptr_t,
-            typename std::enable_if<onerut_scalar::IsArgTag<ArgTags>::value, Asset>::type... arg_assets) {
+            typename std::enable_if<onerut_scalar::IsArgTag<ArgTags>::value, onerut_parser_exec::Asset>::type... arg_assets) {
         return std::nullopt;
     }
 
@@ -198,10 +198,10 @@ namespace onerut_parser {
 
     template<class ScalarFunctionFactory, unsigned nary, unsigned N>
     struct _NaryMakeFunctionOrEmptyInpl {
-        using ArrayT = std::array<Asset, nary>;
+        using ArrayT = std::array<onerut_parser_exec::Asset, nary>;
 
         template<typename Callable, typename... Args>
-        static inline std::optional<Asset>
+        static inline std::optional<onerut_parser_exec::Asset>
         apply(const Callable & callable, const ArrayT& array, Args&&... args) {
             return _NaryMakeFunctionOrEmptyInpl<ScalarFunctionFactory, nary, N - 1 > ::apply(
                     callable,
@@ -212,10 +212,10 @@ namespace onerut_parser {
 
     template<class ScalarFunctionFactory, unsigned nary>
     struct _NaryMakeFunctionOrEmptyInpl<ScalarFunctionFactory, nary, 0> {
-        using ArrayT = std::array<Asset, nary>;
+        using ArrayT = std::array<onerut_parser_exec::Asset, nary>;
 
         template<typename Callable, typename... Args>
-        static inline std::optional<Asset>
+        static inline std::optional<onerut_parser_exec::Asset>
         apply(const Callable & callable, const ArrayT& /*array*/, Args&&... args) {
             return ScalarFunctionFactory::make_function_or_empty(callable, std::forward<Args>(args)...);
         }
@@ -225,8 +225,8 @@ namespace onerut_parser {
 
     template<class ScalarFunctionFactory, unsigned nary, typename Callable>
     inline
-    std::optional<Asset>
-    _nary_make_function_or_empty(const Callable & callable, const std::array<Asset, nary>& array) {
+    std::optional<onerut_parser_exec::Asset>
+    _nary_make_function_or_empty(const Callable & callable, const std::array<onerut_parser_exec::Asset, nary>& array) {
         return _NaryMakeFunctionOrEmptyInpl<ScalarFunctionFactory, nary, nary>::apply(callable, array);
     }
 
@@ -240,8 +240,8 @@ namespace onerut_parser {
         OverloadScalarFunctionFactory(
                 CallableReal callable_real,
                 CallableComplex callable_complex);
-        Asset make_function_otherwise_make_error(
-                std::array<Asset, nary> args) const override;
+        onerut_parser_exec::Asset make_function_otherwise_make_error(
+                std::array<onerut_parser_exec::Asset, nary> args) const override;
     private:
         CallableReal callable_real;
         CallableComplex callable_complex;
@@ -256,26 +256,26 @@ namespace onerut_parser {
     }
 
     template<unsigned nary, typename CallableReal, typename CallableComplex>
-    Asset OverloadScalarFunctionFactory<nary, CallableReal, CallableComplex>::make_function_otherwise_make_error(
-            std::array<Asset, nary> args_asset) const {
-        std::array<AssetDeref, nary> args_asset_deref;
+    onerut_parser_exec::Asset OverloadScalarFunctionFactory<nary, CallableReal, CallableComplex>::make_function_otherwise_make_error(
+            std::array<onerut_parser_exec::Asset, nary> args_asset) const {
+        std::array<onerut_parser_exec::AssetDeref, nary> args_asset_deref;
         std::transform(cbegin(args_asset), cend(args_asset), begin(args_asset_deref),
-                [](const Asset & asset) {
+                [](const onerut_parser_exec::Asset & asset) {
                     return asset.deref();
                 });
-        const auto is_compile_error_fun = [](const AssetDeref & asset_deref) {
+        const auto is_compile_error_fun = [](const onerut_parser_exec::AssetDeref & asset_deref) {
             return asset_deref.is_compile_error();
         };
         if (std::any_of(cbegin(args_asset_deref), cend(args_asset_deref),
                 is_compile_error_fun)) {
-            return Asset::from_compile_error(std::make_shared<CompileArgumentsError>());
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::CompileArgumentsError>());
         }
-        const auto is_either_value_or_type_fun = [](const AssetDeref & asset_deref) {
+        const auto is_either_value_or_type_fun = [](const onerut_parser_exec::AssetDeref & asset_deref) {
             return asset_deref.is_either_value_or_type();
         };
         if (!std::all_of(cbegin(args_asset_deref), cend(args_asset_deref),
                 is_either_value_or_type_fun)) {
-            return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::ArgumentMismatchError>());
         }
         using RealFunctionFactoryType = typename NaryScalarFunctionFactory<CallableReal, onerut_scalar::ArgReal, nary>::ScalarFunctionFactoryType;
         using ComplexFunctionFactoryType = typename NaryScalarFunctionFactory<CallableComplex, onerut_scalar::ArgComplex, nary>::ScalarFunctionFactoryType;
@@ -283,7 +283,7 @@ namespace onerut_parser {
             return *result;
         if (const auto & result = _nary_make_function_or_empty<ComplexFunctionFactoryType, nary, CallableComplex>(callable_complex, args_asset))
             return *result;
-        return Asset::from_compile_error(std::make_shared<ArgumentMismatchError>());
+        return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::ArgumentMismatchError>());
     }
 }
 

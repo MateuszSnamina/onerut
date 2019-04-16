@@ -7,28 +7,30 @@
 #include<onerut_parser_exec/asset_utility.hpp>
 #include<onerut_parser_exec/asset_ref_container.hpp>
 
+
+//TODO: move into the namespace
 namespace {
 
-    std::vector<std::shared_ptr < onerut_parser::onerut_ast::asset::AssetNode>>
+    std::vector<std::shared_ptr < onerut_parser_exec::onerut_ast::asset::AssetNode>>
     many_compile(
-            std::shared_ptr<onerut_parser::CompilerRules> compiler_rules,
-            const std::vector<std::shared_ptr<onerut_parser::onerut_ast::source::SourceNode>> argv) {
-        std::vector<std::shared_ptr < onerut_parser::onerut_ast::asset::AssetNode>> argv_node;
+            std::shared_ptr<onerut_parser_exec::CompilerRules> compiler_rules,
+            const std::vector<std::shared_ptr<onerut_parser_exec::onerut_ast::source::SourceNode>> argv) {
+        std::vector<std::shared_ptr < onerut_parser_exec::onerut_ast::asset::AssetNode>> argv_node;
         argv_node.reserve(argv.size());
         std::transform(cbegin(argv), cend(argv), back_inserter(argv_node),
-                [&compiler_rules](const std::shared_ptr<onerut_parser::onerut_ast::source::SourceNode> & arg) {
+                [&compiler_rules](const std::shared_ptr<onerut_parser_exec::onerut_ast::source::SourceNode> & arg) {
                     return arg->compile(compiler_rules);
                 });
         return argv_node;
     }
 
-    std::vector<onerut_parser::Asset>
+    std::vector<onerut_parser_exec::Asset>
     many_extract_asset(
-            std::vector<std::shared_ptr < onerut_parser::onerut_ast::asset::AssetNode>> argv_node) {
-        std::vector<onerut_parser::Asset> argv_asset;
+            std::vector<std::shared_ptr < onerut_parser_exec::onerut_ast::asset::AssetNode>> argv_node) {
+        std::vector<onerut_parser_exec::Asset> argv_asset;
         argv_asset.reserve(argv_node.size());
         std::transform(cbegin(argv_node), cend(argv_node), back_inserter(argv_asset),
-                [](const std::shared_ptr < onerut_parser::onerut_ast::asset::AssetNode> &arg) {
+                [](const std::shared_ptr < onerut_parser_exec::onerut_ast::asset::AssetNode> &arg) {
                     return arg->asset;
                 });
         return argv_asset;
@@ -36,56 +38,56 @@ namespace {
 
 }
 
-namespace onerut_parser::onerut_ast::source {
+namespace onerut_parser_exec::onerut_ast::source {
 
     // *************************************************************************
     // ***********************    Abstract baseclasses   ***********************
     // *************************************************************************
 
-    std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode>
+    std::shared_ptr<asset::AssetNode>
     WithNoSubsourcesNode::compile(std::shared_ptr<CompilerRules> compiler_rules) const {
         const auto asset = basic_compile(compiler_rules);
-        return std::make_shared<onerut_parser::onerut_ast::asset::AssetNode>(
+        return std::make_shared<asset::AssetNode>(
                 shared_from(this), asset);
     }
 
-    std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode>
+    std::shared_ptr<asset::AssetNode>
     WithOneSubsourceNode::compile(std::shared_ptr<CompilerRules> compiler_rules) const {
-        std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> arg_node = arg->compile(compiler_rules);
+        std::shared_ptr<asset::AssetNode> arg_node = arg->compile(compiler_rules);
         const auto arg_asset = arg_node->asset;
         const auto asset = basic_compile(compiler_rules, arg_asset);
-        return std::make_shared<onerut_parser::onerut_ast::asset::AssetNode>(
+        return std::make_shared<asset::AssetNode>(
                 shared_from(this), arg_node, asset);
     }
 
-    std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode>
+    std::shared_ptr<asset::AssetNode>
     WithTwoSubsourcesNode::compile(std::shared_ptr<CompilerRules> compiler_rules) const {
-        std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> first_arg_node = first_arg->compile(compiler_rules);
-        std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> second_arg_node = second_arg->compile(compiler_rules);
+        std::shared_ptr<asset::AssetNode> first_arg_node = first_arg->compile(compiler_rules);
+        std::shared_ptr<asset::AssetNode> second_arg_node = second_arg->compile(compiler_rules);
         const auto first_arg_asset = first_arg_node->asset;
         const auto second_arg_asset = second_arg_node->asset;
         const auto asset = basic_compile(compiler_rules, first_arg_asset, second_arg_asset);
-        return std::make_shared<onerut_parser::onerut_ast::asset::AssetNode>(
+        return std::make_shared<asset::AssetNode>(
                 shared_from(this), first_arg_node, second_arg_node, asset);
     }
 
-    std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode>
+    std::shared_ptr<asset::AssetNode>
     WithOneOrMoreSubsourcesNode::compile(std::shared_ptr<CompilerRules> compiler_rules) const {
         const auto first_arg_node = first_arg->compile(compiler_rules);
         const auto other_argv_node = many_compile(compiler_rules, other_argv);
         const auto first_arg_asset = first_arg_node->asset;
         const auto other_argv_asset = many_extract_asset(other_argv_node);
         const auto asset = basic_compile(compiler_rules, first_arg_asset, other_argv_asset);
-        return std::make_shared<onerut_parser::onerut_ast::asset::AssetNode>(
+        return std::make_shared<asset::AssetNode>(
                 shared_from(this), first_arg_node, other_argv_node, asset);
     }
 
-    std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode>
+    std::shared_ptr<asset::AssetNode>
     WithAnyNumberOfSubsourcesNode::compile(std::shared_ptr<CompilerRules> compiler_rules) const {
         const auto argv_node = many_compile(compiler_rules, argv);
         const auto argv_asset = many_extract_asset(argv_node);
         const auto asset = basic_compile(compiler_rules, argv_asset);
-        return std::make_shared<onerut_parser::onerut_ast::asset::AssetNode>(
+        return std::make_shared<asset::AssetNode>(
                 shared_from(this), argv_node, asset);
     }
 

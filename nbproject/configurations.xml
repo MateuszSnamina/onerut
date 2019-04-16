@@ -369,6 +369,10 @@
             <pElem>log_utils/include</pElem>
             <pElem>onerut_parser/include</pElem>
             <pElem>build_netbeanns/onerut_parser_concrete_tests</pElem>
+            <pElem>onerut_parser_rules_tests/include</pElem>
+            <pElem>onerut_parser_rules/include</pElem>
+            <pElem>onerut_parser_exec/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_rules_tests</pElem>
           </incDir>
         </ccTool>
       </folder>

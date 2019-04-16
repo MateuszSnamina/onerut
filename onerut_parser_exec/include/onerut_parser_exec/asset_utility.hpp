@@ -5,50 +5,50 @@
 
 #include<onerut_parser_exec/asset.hpp>
 
-namespace onerut_parser::utility {
+namespace onerut_parser_exec::utility {
 
     // -------------------------------------------------------------------------
     // ------------------ ASSET ------------------------------------------------
     // -------------------------------------------------------------------------
 
     bool
-    is_not_const_ref(const onerut_parser::Asset&);
+    is_not_const_ref(const Asset&);
 
     bool
-    is_const_ref(const onerut_parser::Asset&);
+    is_const_ref(const Asset&);
 
     bool
-    is_unset_ref(const onerut_parser::Asset&);
+    is_unset_ref(const Asset&);
 
-    std::shared_ptr<onerut_parser::AssetNotConstRef>
-    to_not_const_ref(const onerut_parser::Asset&);
+    std::shared_ptr<AssetNotConstRef>
+    to_not_const_ref(const Asset&);
 
     std::string
-    name_of_unset_ref(const onerut_parser::Asset&);
+    name_of_unset_ref(const Asset&);
 
     // -------------------------------------------------------------------------
 
-    std::vector<onerut_parser::AssetDeref>
-    many_deref(const std::vector<onerut_parser::Asset>);
+    std::vector<AssetDeref>
+    many_deref(const std::vector<Asset>);
 
     // -------------------------------------------------------------------------
 
     bool
     any_of_is_compile_error(
-            std::vector<onerut_parser::AssetDeref>);
+            std::vector<AssetDeref>);
     bool
     any_of_is_compile_error(
-            onerut_parser::AssetDeref,
-            std::vector<onerut_parser::AssetDeref>);
+            AssetDeref,
+            std::vector<AssetDeref>);
 
     bool
     all_of_is_either_value_or_type(
-            std::vector<onerut_parser::AssetDeref>);
+            std::vector<AssetDeref>);
 
     bool
     all_of_is_either_value_or_type(
-            onerut_parser::AssetDeref,
-            std::vector<onerut_parser::AssetDeref>);
+            AssetDeref,
+            std::vector<AssetDeref>);
 
     // -------------------------------------------------------------------------
     

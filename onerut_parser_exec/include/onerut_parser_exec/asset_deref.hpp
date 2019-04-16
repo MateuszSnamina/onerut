@@ -10,7 +10,7 @@
 
 #include<onerut_parser_exec/asset_error.hpp>
 
-namespace onerut_parser {
+namespace onerut_parser_exec {
 
     // *************************************************************************
     // ********************** DEREFERENCED COMPILE RESULTS *********************

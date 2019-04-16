@@ -14,7 +14,7 @@
 #include<onerut_normal_operator/mean.hpp>
 #include<onerut_parser_exec/asset_error.hpp>
 
-namespace onerut_parser {
+namespace onerut_parser_rules {
 
     struct PrintValueRequest {
         virtual void print(std::ostream& stream, std::string line_prefix) const = 0;
@@ -25,8 +25,8 @@ namespace onerut_parser {
     };
 
     template<>
-    struct PrintValueRequestTyped<onerut_parser::CompileError> : public PrintValueRequest {
-        using Type = onerut_parser::CompileError;
+    struct PrintValueRequestTyped<onerut_parser_exec::CompileError> : public PrintValueRequest {
+        using Type =onerut_parser_exec::CompileError;
         PrintValueRequestTyped(std::shared_ptr<Type> instance);
         void print(std::ostream& stream, std::string line_prefix) const override;
         const std::shared_ptr<Type> instance;

@@ -18,7 +18,7 @@ namespace {
     }
 }
 
-namespace onerut_parser::onerut_ast::source {
+namespace onerut_parser_exec::onerut_ast::source {
 
     std::string IdentifierNode::to_oneliner() const {
         const std::string name = "Identifier";

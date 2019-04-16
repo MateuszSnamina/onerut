@@ -1,6 +1,6 @@
 #include<onerut_parser_exec/asset_ref_container.hpp>
 
-namespace onerut_parser {
+namespace onerut_parser_exec {
 
     // #########################################################################
     // #################### GLOBAL DATABASE ####################################

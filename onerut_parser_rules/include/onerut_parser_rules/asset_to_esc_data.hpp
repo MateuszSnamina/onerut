@@ -4,9 +4,9 @@
 #include<esc/esc_manip.hpp>
 #include<onerut_parser_exec/asset.hpp>
 
-namespace onerut_parser {
+namespace onerut_parser_rules {
 
-    esc::EscData asset_to_esc_data(const Asset&);
+    esc::EscData asset_to_esc_data(const onerut_parser_exec::Asset&);
 
 }
 #endif

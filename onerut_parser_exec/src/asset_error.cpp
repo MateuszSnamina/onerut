@@ -1,6 +1,6 @@
 #include<onerut_parser_exec/asset.hpp>
 
-namespace onerut_parser {
+namespace onerut_parser_exec {
 
     CompileError::CompileError(const std::string& message) :
     std::runtime_error(message) {

@@ -3,7 +3,7 @@
 
 #include<stdexcept>
 
-namespace onerut_parser {
+namespace onerut_parser_exec {
 
     class CompileError : public std::runtime_error {
     public:

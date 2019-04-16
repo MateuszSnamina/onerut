@@ -1,6 +1,6 @@
 #include<onerut_parser_exec/ast_x3.hpp>
 
-namespace onerut_parser::onerut_ast::x3 {
+namespace onerut_parser_exec::onerut_ast::x3 {
 
     std::string IdentifierInfo::name() const {
         std::string result(1, first_char);
@@ -9,7 +9,7 @@ namespace onerut_parser::onerut_ast::x3 {
             result += std::string(1, other_chars[idx]);
         }
         return result;
-        // POPRAWIC IMPLEMENTACJE!!        
+        // TODO POPRAWIC IMPLEMENTACJE!!        
     }
     
 }

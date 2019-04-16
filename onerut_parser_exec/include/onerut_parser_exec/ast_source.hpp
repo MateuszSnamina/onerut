@@ -10,11 +10,11 @@
 #include<onerut_parser_exec/print_chart.hpp>
 #include<onerut_parser_exec/compiler_rules.hpp>
 
-namespace onerut_parser::onerut_ast::asset {
+namespace onerut_parser_exec::onerut_ast::asset {
     class AssetNode;
 }
 
-namespace onerut_parser::onerut_ast::source {
+namespace onerut_parser_exec::onerut_ast::source {
 
     // *************************************************************************
     // ***********************    Abstract baseclasses   ***********************
@@ -29,7 +29,7 @@ namespace onerut_parser::onerut_ast::source {
         const string_const_span span;
         virtual ~SourceNode() = 0;
         virtual std::string to_oneliner() const = 0;
-        virtual std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> compile(std::shared_ptr<CompilerRules> compiler_rules) const = 0;
+        virtual std::shared_ptr<asset::AssetNode> compile(std::shared_ptr<CompilerRules> compiler_rules) const = 0;
         LinesStyledChartInfo to_ast_chart() const;
         virtual void to_ast_chart(
                 unsigned deepness,
@@ -49,7 +49,7 @@ namespace onerut_parser::onerut_ast::source {
         void to_ast_chart(
                 unsigned deepness,
                 LinesStyledChartInfo& ast_chart) const final;
-        virtual std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> compile(std::shared_ptr<CompilerRules> compiler_rules) const final;
+        virtual std::shared_ptr<asset::AssetNode> compile(std::shared_ptr<CompilerRules> compiler_rules) const final;
         virtual Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules) const = 0;
     };
 
@@ -62,7 +62,7 @@ namespace onerut_parser::onerut_ast::source {
         void to_ast_chart(
                 unsigned deepness,
                 LinesStyledChartInfo& ast_chart) const final;
-        virtual std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> compile(std::shared_ptr<CompilerRules> compiler_rules) const final;
+        virtual std::shared_ptr<asset::AssetNode> compile(std::shared_ptr<CompilerRules> compiler_rules) const final;
         virtual Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules, Asset arg_asset) const = 0;
         const std::shared_ptr<SourceNode> arg;
     };
@@ -77,7 +77,7 @@ namespace onerut_parser::onerut_ast::source {
         void to_ast_chart(
                 unsigned deepness,
                 LinesStyledChartInfo& ast_chart) const final;
-        virtual std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> compile(std::shared_ptr<CompilerRules> compiler_rules) const final;
+        virtual std::shared_ptr<asset::AssetNode> compile(std::shared_ptr<CompilerRules> compiler_rules) const final;
         virtual Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules, Asset first_arg_asset, Asset second_arg_asset) const = 0;
         const std::shared_ptr<SourceNode> first_arg;
         const std::shared_ptr<SourceNode> second_arg;
@@ -93,7 +93,7 @@ namespace onerut_parser::onerut_ast::source {
         void to_ast_chart(
                 unsigned deepness,
                 LinesStyledChartInfo& ast_chart) const final;
-        virtual std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> compile(std::shared_ptr<CompilerRules> compiler_rules) const final;
+        virtual std::shared_ptr<asset::AssetNode> compile(std::shared_ptr<CompilerRules> compiler_rules) const final;
         virtual Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules, Asset first_arg_asset, std::vector<Asset> other_argv_asset) const = 0;
         const std::shared_ptr<SourceNode> first_arg;
         const std::vector<std::shared_ptr<SourceNode>> other_argv;
@@ -108,7 +108,7 @@ namespace onerut_parser::onerut_ast::source {
         void to_ast_chart(
                 unsigned deepness,
                 LinesStyledChartInfo& ast_chart) const final;
-        virtual std::shared_ptr<onerut_parser::onerut_ast::asset::AssetNode> compile(std::shared_ptr<CompilerRules> compiler_rules) const final;
+        virtual std::shared_ptr<asset::AssetNode> compile(std::shared_ptr<CompilerRules> compiler_rules) const final;
         virtual Asset basic_compile(std::shared_ptr<CompilerRules> compiler_rules, std::vector<Asset> argv_asset) const = 0;
         const std::vector<std::shared_ptr<SourceNode>> argv;
     };

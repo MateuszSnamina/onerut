@@ -6,7 +6,7 @@
 
 #include<onerut_parser_exec/asset_utility.hpp>
 
-namespace onerut_parser {
+namespace onerut_parser_rules {
 
     struct ImperativeRequest {
         virtual void exec() const = 0;

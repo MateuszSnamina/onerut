@@ -4,7 +4,7 @@
 #include<onerut_parser_exec/ast_x3.hpp>
 #include<onerut_parser_exec/ast_source.hpp>
 
-namespace onerut_parser::onerut_ast {
+namespace onerut_parser_exec::onerut_ast {
 
     std::shared_ptr<source::SourceNode> to_ast_source(
             const x3::ExpressionInfo& info,

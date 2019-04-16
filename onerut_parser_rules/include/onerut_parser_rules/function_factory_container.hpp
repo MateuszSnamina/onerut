@@ -6,7 +6,7 @@
 #include<map>
 #include<onerut_parser_rules/function_factory_abstract.hpp>
 
-namespace onerut_parser {
+namespace onerut_parser_rules {
 
     class FunctionFactoryContainer {
     public:

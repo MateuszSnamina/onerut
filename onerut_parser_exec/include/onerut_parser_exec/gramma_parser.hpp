@@ -7,13 +7,13 @@
 #include<string_utils/string_span.hpp>
 #include<onerut_parser_exec/ast_x3.hpp>
 
-namespace onerut_parser {
+namespace onerut_parser_exec {
 
     struct X3ParseResultInfo {
         std::shared_ptr<const std::string> input;
         std::string::const_iterator it;        
         const bool match;
-        const onerut_parser::onerut_ast::x3::ExpressionInfo ast_head;
+        const onerut_parser_exec::onerut_ast::x3::ExpressionInfo ast_head;
         const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >> positions;
         bool hit_end() const;
         bool succes() const;        

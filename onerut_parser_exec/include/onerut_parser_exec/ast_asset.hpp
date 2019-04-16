@@ -9,7 +9,7 @@
 #include<onerut_parser_exec/print_chart.hpp>
 #include<onerut_parser_exec/ast_source.hpp>
 
-namespace onerut_parser::onerut_ast::asset {
+namespace onerut_parser_exec::onerut_ast::asset {
 
     class AssetNode {
     public:

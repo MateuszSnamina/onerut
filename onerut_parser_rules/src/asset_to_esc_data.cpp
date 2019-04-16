@@ -7,17 +7,17 @@
 #include<onerut_parser_exec/asset_utility.hpp>
 #include<onerut_parser_rules/asset_to_esc_data.hpp>
 
-namespace onerut_parser {
+namespace onerut_parser_rules {
 
-    esc::EscData asset_to_esc_data(const Asset& asset) {
-        if (utility::is_unset_ref(asset))
+    esc::EscData asset_to_esc_data(const onerut_parser_exec::Asset& asset) {
+        if (onerut_parser_exec::utility::is_unset_ref(asset))
             return esc::EscDataBuilder() << esc::manip::bg_blue << esc::manip::build_esc_data;
         if (asset.deref().is_empty())
             return esc::EscDataBuilder() << esc::manip::bg_magenta << esc::manip::build_esc_data;
         if (asset.deref().is_compile_error()) {
-            if (std::dynamic_pointer_cast<CompileArgumentsError>(*asset.deref().compile_error_or_empty()))
+            if (std::dynamic_pointer_cast<onerut_parser_exec::CompileArgumentsError>(*asset.deref().compile_error_or_empty()))
                 return esc::EscDataBuilder() << esc::manip::bg_yellow << esc::manip::build_esc_data;
-            if (std::dynamic_pointer_cast<CompilerNotImplementedError>(*asset.deref().compile_error_or_empty()))
+            if (std::dynamic_pointer_cast<onerut_parser_exec::CompilerNotImplementedError>(*asset.deref().compile_error_or_empty()))
                 return esc::EscDataBuilder() << esc::manip::bg_magenta << esc::manip::build_esc_data;
             return esc::EscDataBuilder() << esc::manip::bg_red << esc::manip::build_esc_data;
         }

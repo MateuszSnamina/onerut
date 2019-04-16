@@ -20,7 +20,7 @@ namespace {
 
 }
 
-namespace onerut_parser::onerut_ast::x3 {
+namespace onerut_parser_exec::onerut_ast::x3 {
 
     // -------------------------------------------------------------------------
     // -------------- FUNCTIONS FOR CONCRETE AST TYPES -------------------------

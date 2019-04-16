@@ -8,16 +8,18 @@ namespace {
     // ------------- VISITOR ---------------------------------------------------
     // -------------------------------------------------------------------------
 
+    // TODO: move into namespace
+    
     struct to_ast_chart_visitor {
         typedef void result_type;
         to_ast_chart_visitor(
                 const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
                 unsigned deepness,
-                onerut_parser::LinesStyledChartInfo& ast_chart
+                onerut_parser_exec::LinesStyledChartInfo& ast_chart
                 );
         const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions;
         const unsigned deepness;
-        onerut_parser::LinesStyledChartInfo& ast_chart;
+        onerut_parser_exec::LinesStyledChartInfo& ast_chart;
         template<typename T>
         result_type operator()(const T & info);
     };
@@ -25,7 +27,7 @@ namespace {
     to_ast_chart_visitor::to_ast_chart_visitor(
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
             unsigned deepness,
-            onerut_parser::LinesStyledChartInfo& ast_chart
+            onerut_parser_exec::LinesStyledChartInfo& ast_chart
             ) :
     positions(positions),
     deepness(deepness),
@@ -39,7 +41,7 @@ namespace {
 
 }
 
-namespace onerut_parser::onerut_ast::x3 {
+namespace onerut_parser_exec::onerut_ast::x3 {
 
     // -------------------------------------------------------------------------
     // ------------- HELPER GENERIC TEMPLATEW ----------------------------------

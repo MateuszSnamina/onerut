@@ -19,7 +19,7 @@
 // -----------------------------------------------------------------------------
 
 TEST(boxFunctionsOnerut, customDomainTest0) {
-    onerut_parser::AssetRefContainer::global_instance().clear();
+    onerut_parser_exec::AssetRefContainer::global_instance().clear();
     // -------
     ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, custom_domain(5, 6));
     // -------
@@ -86,7 +86,7 @@ TEST(boxFunctionsOnerut, customDomainTest0) {
 }
 
 TEST(boxFunctionsOnerut, oscillatorDomainTest0) {
-    onerut_parser::AssetRefContainer::global_instance().clear();
+    onerut_parser_exec::AssetRefContainer::global_instance().clear();
     // -------
     ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, oscillator_domain(2.6));
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, oscillator_domain(2.6, 45));
@@ -138,7 +138,7 @@ TEST(boxFunctionsOnerut, oscillatorDomainTest0) {
 }
 
 TEST(boxFunctionsOnerut, spinDomainTest0) {
-    onerut_parser::AssetRefContainer::global_instance().clear();
+    onerut_parser_exec::AssetRefContainer::global_instance().clear();
     // -------
     ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, spin_domain(2.6));
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, spin_domain(2.6, 45));
@@ -190,7 +190,7 @@ TEST(boxFunctionsOnerut, spinDomainTest0) {
 }
 
 TEST(boxFunctionsOnerut, kronDomainTest0) {
-    onerut_parser::AssetRefContainer::global_instance().clear();
+    onerut_parser_exec::AssetRefContainer::global_instance().clear();
     // -------
     ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, kron_domain(2.6));
     ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, kron_domain(2.6, 45));
@@ -256,7 +256,7 @@ TEST(boxFunctionsOnerut, kronDomainTest0) {
 }
 
 TEST(boxFunctionsOnerut, diagOperatorTest0) {
-    onerut_parser::AssetRefContainer::global_instance().clear();
+    onerut_parser_exec::AssetRefContainer::global_instance().clear();
     // -------
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, diag(3));
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, diag(3, 7, 8));
@@ -284,7 +284,7 @@ TEST(boxFunctionsOnerut, diagOperatorTest0) {
 }
 
 TEST(boxFunctionsOnerut, hopOperatorTest0) {
-    onerut_parser::AssetRefContainer::global_instance().clear();
+    onerut_parser_exec::AssetRefContainer::global_instance().clear();
     // -------
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, hop(3, 7));
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, hop(3, 7, 8, 9));
@@ -316,7 +316,7 @@ TEST(boxFunctionsOnerut, hopOperatorTest0) {
 }
 
 TEST(boxFunctionsOnerut, oscillatorOperatorTest0) {
-    onerut_parser::AssetRefContainer::global_instance().clear();
+    onerut_parser_exec::AssetRefContainer::global_instance().clear();
     // -------
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, cr());
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, cr(3, 5.));
@@ -330,7 +330,7 @@ TEST(boxFunctionsOnerut, oscillatorOperatorTest0) {
 }
 
 TEST(boxFunctionsOnerut, spinOperatorTest0) {
-    onerut_parser::AssetRefContainer::global_instance().clear();
+    onerut_parser_exec::AssetRefContainer::global_instance().clear();
     // -------
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, Sp());
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, Sp(3, 5.));
@@ -348,7 +348,7 @@ TEST(boxFunctionsOnerut, spinOperatorTest0) {
 }
 
 TEST(boxFunctionsOnerut, opPlusMinusTest0) {
-    onerut_parser::AssetRefContainer::global_instance().clear();
+    onerut_parser_exec::AssetRefContainer::global_instance().clear();
     // -------
     ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, eye(custom_domain(xx0, yy0)) + 4);
     ONERUT_BOX_ERROR_TEST(ArgumentDomainError, eye(custom_domain(xx1, yy1)) + eye(custom_domain(xx2, yy2)));
@@ -399,7 +399,7 @@ TEST(boxFunctionsOnerut, opPlusMinusTest0) {
 }
 
 TEST(boxFunctionsOnerut, opUnaryPlusMinusOperatorTest0) {
-    onerut_parser::AssetRefContainer::global_instance().clear();
+    onerut_parser_exec::AssetRefContainer::global_instance().clear();
     // -------
     const auto domain_asset = inuput_2_asset("dom := custom_domain(xx, yy)");
     ASSERT_TRUE(domain_asset.has_value());
@@ -433,7 +433,7 @@ TEST(boxFunctionsOnerut, opUnaryPlusMinusOperatorTest0) {
 }
 
 TEST(boxFunctionsOnerut, opProdTest0) {
-    onerut_parser::AssetRefContainer::global_instance().clear();
+    onerut_parser_exec::AssetRefContainer::global_instance().clear();
     // -------
     ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, eye(custom_domain(xx0, yy0)) * 4);
     ONERUT_BOX_ERROR_TEST(ArgumentDomainError, eye(custom_domain(xx1, yy1)) * eye(custom_domain(xx2, yy2)));
@@ -482,7 +482,7 @@ TEST(boxFunctionsOnerut, opProdTest0) {
 }
 
 TEST(boxFunctionsOnerut, eigdTest0) {
-    onerut_parser::AssetRefContainer::global_instance().clear();
+    onerut_parser_exec::AssetRefContainer::global_instance().clear();
     // -------
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, eigd());
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, eigd(2.6, 7, 8, 8));
@@ -509,7 +509,7 @@ TEST(boxFunctionsOnerut, eigdTest0) {
 }
 
 TEST(boxFunctionsOnerut, eigsTest0) {
-    onerut_parser::AssetRefContainer::global_instance().clear();
+    onerut_parser_exec::AssetRefContainer::global_instance().clear();
     // -------
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, eigs(2.6));
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, eigs(2.6, 7, 8, 8));
@@ -541,7 +541,7 @@ TEST(boxFunctionsOnerut, eigsTest0) {
 }
 
 TEST(boxFunctionsOnerut, meanInStateTest0) {
-    onerut_parser::AssetRefContainer::global_instance().clear();
+    onerut_parser_exec::AssetRefContainer::global_instance().clear();
     // -------
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, mean_in_eigenstate(2.6));
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, mean_in_eigenstate(2.6, 7, 8, 8));
@@ -603,7 +603,7 @@ TEST(boxFunctionsOnerut, meanInStateTest0) {
 }
 
 TEST(boxFunctionsOnerut, meanInStateTest1) {
-    onerut_parser::AssetRefContainer::global_instance().clear();
+    onerut_parser_exec::AssetRefContainer::global_instance().clear();
     // -------
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, mean_in_eigenstate(2.6));
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, mean_in_eigenstate(2.6, 7, 8, 8));
@@ -666,7 +666,7 @@ TEST(boxFunctionsOnerut, meanInStateTest1) {
 }
 
 TEST(boxFunctionsOnerut, meanThermalTest0) {
-    onerut_parser::AssetRefContainer::global_instance().clear();
+    onerut_parser_exec::AssetRefContainer::global_instance().clear();
     // -------
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, thermal_mean(2.6));
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, thermal_mean(2.6, 7, 8, 8));

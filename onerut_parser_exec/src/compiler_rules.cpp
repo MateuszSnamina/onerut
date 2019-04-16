@@ -1,7 +1,7 @@
 #include<onerut_parser_exec/compiler_rules.hpp>
 #include<onerut_parser_exec/asset_error.hpp>
 
-namespace onerut_parser {
+namespace onerut_parser_exec {
 
     Asset CompilerRules::op_plus_minus(Asset first_arg_asset, std::vector<Asset> other_argv_asset, std::vector<char> opv) const {
         return Asset::from_compile_error(std::make_shared<CompilerNotImplementedError>());

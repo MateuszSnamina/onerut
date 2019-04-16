@@ -5,9 +5,9 @@
 #include<string>
 #include<onerut_parser_exec/asset.hpp>
 
-namespace onerut_parser {
+namespace onerut_parser_rules {
 
-    void print_receipt(std::ostream& stream, const Asset& asset, std::string line_prefix);
+    void print_receipt(std::ostream& stream, const onerut_parser_exec::Asset& asset, std::string line_prefix);
 
 }
 

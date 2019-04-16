@@ -1,7 +1,7 @@
 #include<onerut_scalar/scalar.hpp>
 #include<onerut_parser_exec/asset_ref.hpp>
 
-namespace onerut_parser {
+namespace onerut_parser_exec {
 
     //------------------
 

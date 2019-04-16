@@ -8,7 +8,7 @@
 #include<string_utils/string_span.hpp>
 #include<esc/esc_manip.hpp>
 
-namespace onerut_parser {
+namespace onerut_parser_exec {
 
     extern const char32_t chart_fill_character_1;
     extern const char32_t chart_fill_character_2;

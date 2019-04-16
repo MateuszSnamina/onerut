@@ -5,12 +5,12 @@
 #include<onerut_scalar/scalar_complex.hpp>
 #include<onerut_parser_rules/function_factory_abstract.hpp>
 
-namespace onerut_parser {
+namespace onerut_parser_rules {
 
     class RealConstantFunctionFactory : public NaryFunctionFactory<0> {
     public:
         RealConstantFunctionFactory(double);
-        Asset make_function_otherwise_make_error(std::array<Asset, 0>) const override;
+        onerut_parser_exec::Asset make_function_otherwise_make_error(std::array<onerut_parser_exec::Asset, 0>) const override;
     private:
         double value;
     };    
@@ -18,7 +18,7 @@ namespace onerut_parser {
     class ComplexConstantFunctionFactory : public NaryFunctionFactory<0> {
     public:
         ComplexConstantFunctionFactory(std::complex<double>);
-        Asset make_function_otherwise_make_error(std::array<Asset, 0>) const override;
+        onerut_parser_exec::Asset make_function_otherwise_make_error(std::array<onerut_parser_exec::Asset, 0>) const override;
     private:
         std::complex<double> value;
     };

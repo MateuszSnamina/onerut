@@ -1,6 +1,6 @@
 #include<onerut_parser_exec/ast_x3_to_ast_source.hpp>
 
-namespace onerut_parser::onerut_ast {
+namespace onerut_parser_exec::onerut_ast {
 
     // -------------------------------------------------------------------------
     // ------------- VISITOR ---------------------------------------------------

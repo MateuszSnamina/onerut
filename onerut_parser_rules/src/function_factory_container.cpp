@@ -105,7 +105,7 @@ const double e = 2.71828182845904523536;
 
 //******************************************************************************
 
-namespace onerut_parser {
+namespace onerut_parser_rules {
 
     std::optional<std::shared_ptr<AbstractFunctionFactory>> FunctionFactoryContainer::get_or_empty(const std::string& name) const {
         if (functions.count(name) == 1) {

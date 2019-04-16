@@ -12,7 +12,7 @@
 #include<onerut_parser_exec/asset_deref.hpp>
 #include<onerut_parser_exec/asset_ref.hpp>
 
-namespace onerut_parser {
+namespace onerut_parser_exec {
 
     class Asset {
     public:

@@ -3,7 +3,7 @@
 #include<cassert>
 #include<algorithm>
 
-namespace onerut_parser::onerut_ast::source {
+namespace onerut_parser_exec::onerut_ast::source {
 
     // *************************************************************************
     // ***********************    Abstract baseclasses   ***********************
