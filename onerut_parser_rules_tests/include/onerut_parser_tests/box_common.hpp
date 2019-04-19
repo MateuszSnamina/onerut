@@ -9,7 +9,6 @@
 #include<iostream>
 #include<iomanip>
 
-
 #include<gtest/gtest.h>
 
 #include<onerut_scalar/scalar_abstract.hpp>

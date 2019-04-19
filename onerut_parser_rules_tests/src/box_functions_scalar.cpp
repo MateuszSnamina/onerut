@@ -5,7 +5,7 @@
 // --------------------  test cases  -------------------------------------------
 // -----------------------------------------------------------------------------
 
-TEST(boxFunctions, reCxOverload1) {
+TEST(boxFunctionsScalar, reCxOverload1) {
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, re_sin(1, 2));
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, re_sin());
     BASIC_ONERUT_BOX_VALUE_TEST(sin(-.45), re_sin(-.45));
@@ -22,7 +22,7 @@ TEST(boxFunctions, reCxOverload1) {
     ONERUT_BOX_VALUE_TEST(sin(-.45 + 1i));
 }
 
-TEST(boxFunctions, reCxOverload2) {
+TEST(boxFunctionsScalar, reCxOverload2) {
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, re_asin(1, 2));
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, re_asin());
     BASIC_ONERUT_BOX_VALUE_TEST(asin(-.45), re_asin(-.45));
@@ -39,7 +39,7 @@ TEST(boxFunctions, reCxOverload2) {
     ONERUT_BOX_VALUE_TEST(asin(-.45 + 1i));
 }
 
-TEST(boxFunctions, reCxOverload3) {
+TEST(boxFunctionsScalar, reCxOverload3) {
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, re_sqrt(1, 2));
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, re_sqrt());
     BASIC_ONERUT_BOX_VALUE_TEST(sqrt(-.45), re_sqrt(-.45));
@@ -56,7 +56,7 @@ TEST(boxFunctions, reCxOverload3) {
     ONERUT_BOX_VALUE_TEST(sqrt(-.45 + 1i));
 }
 
-TEST(boxFunctions, reCxOverload4) {
+TEST(boxFunctionsScalar, reCxOverload4) {
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, re_sqrt(1, 2));
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, re_sqrt());
     BASIC_ONERUT_BOX_VALUE_TEST(sqrt(.45), re_sqrt(.45));
@@ -73,7 +73,7 @@ TEST(boxFunctions, reCxOverload4) {
     ONERUT_BOX_VALUE_TEST(sqrt(.45 + 1i));
 }
 
-TEST(boxFunctions, reCxOverload5) {
+TEST(boxFunctionsScalar, reCxOverload5) {
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, re_abs(1, 2));
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, re_abs());
     BASIC_ONERUT_BOX_VALUE_TEST(fabs(.45), re_abs(.45));
@@ -90,7 +90,7 @@ TEST(boxFunctions, reCxOverload5) {
     BASIC_ONERUT_BOX_VALUE_TEST(abs(.45 + 1i), abs(.45 + 1i));
 }
 
-TEST(boxFunctions, reCxOverload6) {
+TEST(boxFunctionsScalar, reCxOverload6) {
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, re_pow(1));
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, re_pow(1, 2, 3));
     BASIC_ONERUT_BOX_VALUE_TEST(pow(2, 5), re_pow(2, 5));
@@ -111,7 +111,7 @@ TEST(boxFunctions, reCxOverload6) {
     ONERUT_BOX_VALUE_TEST(pow(2. + 1i, 5. + 1i));
 }
 
-TEST(boxFunctions, reCxOverload7) {
+TEST(boxFunctionsScalar, reCxOverload7) {
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, re_exp(1, 2));
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, re_exp());
     BASIC_ONERUT_BOX_VALUE_TEST(exp(.45), re_exp(.45));
@@ -128,7 +128,7 @@ TEST(boxFunctions, reCxOverload7) {
     ONERUT_BOX_VALUE_TEST(exp(.45 + 1i));
 }
 
-TEST(boxFunctions, reCxOverload8) {
+TEST(boxFunctionsScalar, reCxOverload8) {
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, re_log(1, 2));
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, re_log());
     BASIC_ONERUT_BOX_VALUE_TEST(log(.45), re_log(.45));
@@ -145,7 +145,7 @@ TEST(boxFunctions, reCxOverload8) {
     ONERUT_BOX_VALUE_TEST(log(.45 + 1i));
 }
 
-TEST(boxFunctions, reCxOverload9) {
+TEST(boxFunctionsScalar, reCxOverload9) {
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, re_log10(1, 2));
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, re_log10());
     BASIC_ONERUT_BOX_VALUE_TEST(log10(.45), re_log10(.45));
@@ -162,42 +162,42 @@ TEST(boxFunctions, reCxOverload9) {
     ONERUT_BOX_VALUE_TEST(log10(.45 + 1i));
 }
 
-TEST(boxFunctions, re1) {
+TEST(boxFunctionsScalar, re1) {
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, cbrt(1, 2));
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, cbrt())
     ONERUT_BOX_VALUE_TEST(cbrt(.45));
     ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, cbrt(.45i))
 }
 
-TEST(boxFunctions, re2) {
+TEST(boxFunctionsScalar, re2) {
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, expm1(1, 2));
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, expm1())
     ONERUT_BOX_VALUE_TEST(expm1(.45));
     ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, expm1(.45i))
 }
 
-TEST(boxFunctions, re3) {
+TEST(boxFunctionsScalar, re3) {
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, log2(1, 2));
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, log2())
     ONERUT_BOX_VALUE_TEST(log2(.45));
     ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, log2(.45i))
 }
 
-TEST(boxFunctions, re4) {
+TEST(boxFunctionsScalar, re4) {
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, log1p(1, 2));
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, log1p())
     ONERUT_BOX_VALUE_TEST(log1p(.45));
     ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, log1p(.45i))
 }
 
-TEST(boxFunctions, re5) {
+TEST(boxFunctionsScalar, re5) {
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, erf(1, 2));
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, erf())
     ONERUT_BOX_VALUE_TEST(erf(.45));
     ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, erf(.45i))
 }
 
-TEST(boxFunctions, re6) {
+TEST(boxFunctionsScalar, re6) {
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, hypot(1));
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, hypot(1, 2, 3))
     ONERUT_BOX_VALUE_TEST(hypot(.45, .75));
@@ -205,28 +205,28 @@ TEST(boxFunctions, re6) {
     ONERUT_BOX_ERROR_TEST(ArgumentMismatchError, hypot(.45, .75i))
 }
 
-TEST(boxFunctions, cx1) {
+TEST(boxFunctionsScalar, cx1) {
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, real(1, 2));
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, real())
     ONERUT_BOX_VALUE_TEST(real(.45));
     ONERUT_BOX_VALUE_TEST(real(.45 + 2i));
 }
 
-TEST(boxFunctions, cx2) {
+TEST(boxFunctionsScalar, cx2) {
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, imag(1, 2));
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, imag())
     ONERUT_BOX_VALUE_TEST(imag(.45));
     ONERUT_BOX_VALUE_TEST(imag(.45 + 2i));
 }
 
-TEST(boxFunctions, cx3) {
+TEST(boxFunctionsScalar, cx3) {
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, conj(1, 2));
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, conj())
     ONERUT_BOX_VALUE_TEST(conj(.45));
     ONERUT_BOX_VALUE_TEST(conj(.45 + 2i));
 }
 
-TEST(boxFunctions, cx4) {
+TEST(boxFunctionsScalar, cx4) {
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, norm(1, 2));
     ONERUT_BOX_ERROR_TEST(WrongNumberOfArgumentsError, norm())
     ONERUT_BOX_VALUE_TEST(norm(.45));
