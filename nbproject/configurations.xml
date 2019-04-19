@@ -19,12 +19,12 @@
         <in>p1.cpp</in>
       </df>
     </df>
-    <df root="onerut_convergence_parameter" name="15">
+    <df root="onerut_convergence_parameter" name="3">
       <df name="src">
         <in>convergence_parameter.cpp</in>
       </df>
     </df>
-    <df root="onerut_normal_operator" name="3">
+    <df root="onerut_normal_operator" name="4">
       <df name="src">
         <in>calculate_mean.cpp</in>
         <in>domain_abstract.cpp</in>
@@ -48,7 +48,7 @@
         <in>to_string.cpp</in>
       </df>
     </df>
-    <df root="onerut_normal_operator_tests" name="4">
+    <df root="onerut_normal_operator_tests" name="5">
       <df name="src">
         <in>test_domain_custom.cpp</in>
         <in>test_domain_kron.cpp</in>
@@ -58,12 +58,12 @@
         <in>test_operator_zero.cpp</in>
       </df>
     </df>
-    <df root="onerut_op1e" name="5">
+    <df root="onerut_op1e" name="6">
       <df name="src">
         <in>op1e.cpp</in>
       </df>
     </df>
-    <df root="onerut_parser_exec" name="12">
+    <df root="onerut_parser_exec" name="7">
       <df name="src">
         <in>asset.cpp</in>
         <in>asset_deref.cpp</in>
@@ -86,7 +86,17 @@
         <in>print_chart.cpp</in>
       </df>
     </df>
-    <df root="onerut_parser_rules" name="13">
+    <df root="onerut_parser_exec_tests" name="16">
+      <df name="src">
+        <in>global_flags.cpp</in>
+        <in>main.cpp</in>
+        <in>source_mix_integer_real.cpp</in>
+        <in>source_pure_complex.cpp</in>
+        <in>source_pure_integer.cpp</in>
+        <in>source_pure_real.cpp</in>
+      </df>
+    </df>
+    <df root="onerut_parser_rules" name="8">
       <df name="src">
         <in>asset_receipt.cpp</in>
         <in>asset_to_esc_data.cpp</in>
@@ -100,7 +110,7 @@
         <in>map_with_function_factories.cpp</in>
       </df>
     </df>
-    <df root="onerut_parser_rules_tests" name="6">
+    <df root="onerut_parser_rules_tests" name="9">
       <df name="src">
         <in>box_functions_onerut.cpp</in>
         <in>box_functions_scalar.cpp</in>
@@ -110,25 +120,21 @@
         <in>box_pure_real.cpp</in>
         <in>global_flags.cpp</in>
         <in>main.cpp</in>
-        <in>source_mix_integer_real.cpp</in>
-        <in>source_pure_complex.cpp</in>
-        <in>source_pure_integer.cpp</in>
-        <in>source_pure_real.cpp</in>
       </df>
     </df>
-    <df root="onerut_request" name="14">
+    <df root="onerut_request" name="10">
       <df name="src">
         <in>request_print_value.cpp</in>
       </df>
     </df>
-    <df root="onerut_scalar" name="7">
+    <df root="onerut_scalar" name="11">
       <df name="src">
         <in>scalar_complex.cpp</in>
         <in>scalar_integer.cpp</in>
         <in>scalar_real.cpp</in>
       </df>
     </df>
-    <df root="onerut_scalar_tests" name="8">
+    <df root="onerut_scalar_tests" name="12">
       <df name="src">
         <in>function.cpp</in>
         <in>global_flags.cpp</in>
@@ -138,9 +144,9 @@
         <in>scalar_real.cpp</in>
       </df>
     </df>
-    <df root="onerut_typed_operator" name="9">
+    <df root="onerut_typed_operator" name="13">
     </df>
-    <df root="onerut_typed_operator_tests" name="10">
+    <df root="onerut_typed_operator_tests" name="14">
     </df>
     <logicalFolder name="src"
                    displayName="src"
@@ -164,7 +170,7 @@
       <itemPath>onerut_normal_operator_tests/src/test_operator_simple.cpp</itemPath>
       <itemPath>onerut_typed_operator/src/to_mat.cpp</itemPath>
     </logicalFolder>
-    <df root="string_utils" name="11">
+    <df root="string_utils" name="15">
       <df name="src">
         <in>greek_support.cpp</in>
         <in>unicode_support.cpp</in>
@@ -195,6 +201,7 @@
     <Elem>onerut_parser_rules_tests</Elem>
     <Elem>onerut_request</Elem>
     <Elem>onerut_convergence_parameter</Elem>
+    <Elem>onerut_parser_exec_tests</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -314,6 +321,18 @@
             <pElem>onerut_convergence_parameter/include</pElem>
             <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut_convergence_parameter</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <folder path="16">
+        <ccTool>
+          <incDir>
+            <pElem>onerut_parser_exec_tests/include</pElem>
+            <pElem>onerut_parser_exec/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_exec_tests</pElem>
           </incDir>
         </ccTool>
       </folder>
@@ -911,6 +930,48 @@
         <ccTool flags="1">
         </ccTool>
       </item>
+      <item path="onerut_parser_exec_tests/src/global_flags.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+        </ccTool>
+      </item>
+      <item path="onerut_parser_exec_tests/src/main.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+        </ccTool>
+      </item>
+      <item path="onerut_parser_exec_tests/src/source_mix_integer_real.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+        </ccTool>
+      </item>
+      <item path="onerut_parser_exec_tests/src/source_pure_complex.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+        </ccTool>
+      </item>
+      <item path="onerut_parser_exec_tests/src/source_pure_integer.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+        </ccTool>
+      </item>
+      <item path="onerut_parser_exec_tests/src/source_pure_real.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+        </ccTool>
+      </item>
       <item path="onerut_parser_rules/src/asset_receipt.cpp"
             ex="false"
             tool="1"
@@ -1031,34 +1092,6 @@
         </ccTool>
       </item>
       <item path="onerut_parser_rules_tests/src/main.cpp"
-            ex="false"
-            tool="1"
-            flavor2="11">
-        <ccTool flags="1">
-        </ccTool>
-      </item>
-      <item path="onerut_parser_rules_tests/src/source_mix_integer_real.cpp"
-            ex="false"
-            tool="1"
-            flavor2="11">
-        <ccTool flags="1">
-        </ccTool>
-      </item>
-      <item path="onerut_parser_rules_tests/src/source_pure_complex.cpp"
-            ex="false"
-            tool="1"
-            flavor2="11">
-        <ccTool flags="1">
-        </ccTool>
-      </item>
-      <item path="onerut_parser_rules_tests/src/source_pure_integer.cpp"
-            ex="false"
-            tool="1"
-            flavor2="11">
-        <ccTool flags="1">
-        </ccTool>
-      </item>
-      <item path="onerut_parser_rules_tests/src/source_pure_real.cpp"
             ex="false"
             tool="1"
             flavor2="11">
