@@ -7,38 +7,36 @@
 #include<onerut_parser_exec/asset_utility.hpp>
 #include<onerut_parser_exec/asset_ref_container.hpp>
 
-
-//TODO: move into the namespace
-namespace {
-
-    std::vector<std::shared_ptr < onerut_parser_exec::onerut_ast::asset::AssetNode>>
-    many_compile(
-            std::shared_ptr<onerut_parser_exec::CompilerRules> compiler_rules,
-            const std::vector<std::shared_ptr<onerut_parser_exec::onerut_ast::source::SourceNode>> argv) {
-        std::vector<std::shared_ptr < onerut_parser_exec::onerut_ast::asset::AssetNode>> argv_node;
-        argv_node.reserve(argv.size());
-        std::transform(cbegin(argv), cend(argv), back_inserter(argv_node),
-                [&compiler_rules](const std::shared_ptr<onerut_parser_exec::onerut_ast::source::SourceNode> & arg) {
-                    return arg->compile(compiler_rules);
-                });
-        return argv_node;
-    }
-
-    std::vector<onerut_parser_exec::Asset>
-    many_extract_asset(
-            std::vector<std::shared_ptr < onerut_parser_exec::onerut_ast::asset::AssetNode>> argv_node) {
-        std::vector<onerut_parser_exec::Asset> argv_asset;
-        argv_asset.reserve(argv_node.size());
-        std::transform(cbegin(argv_node), cend(argv_node), back_inserter(argv_asset),
-                [](const std::shared_ptr < onerut_parser_exec::onerut_ast::asset::AssetNode> &arg) {
-                    return arg->asset;
-                });
-        return argv_asset;
-    }
-
-}
-
 namespace onerut_parser_exec::onerut_ast::source {
+
+    namespace {
+
+        std::vector<std::shared_ptr<onerut_ast::asset::AssetNode>>
+        many_compile(
+                std::shared_ptr<CompilerRules> compiler_rules,
+                const std::vector<std::shared_ptr<onerut_ast::source::SourceNode>> argv) {
+            std::vector<std::shared_ptr < onerut_ast::asset::AssetNode>> argv_node;
+            argv_node.reserve(argv.size());
+            std::transform(cbegin(argv), cend(argv), back_inserter(argv_node),
+                    [&compiler_rules](const std::shared_ptr<onerut_ast::source::SourceNode> & arg) {
+                        return arg->compile(compiler_rules);
+                    });
+            return argv_node;
+        }
+
+        std::vector<Asset>
+        many_extract_asset(
+                std::vector<std::shared_ptr<onerut_ast::asset::AssetNode>> argv_node) {
+            std::vector<Asset> argv_asset;
+            argv_asset.reserve(argv_node.size());
+            std::transform(cbegin(argv_node), cend(argv_node), back_inserter(argv_asset),
+                    [](const std::shared_ptr<onerut_ast::asset::AssetNode> &arg) {
+                        return arg->asset;
+                    });
+            return argv_asset;
+        }
+
+    }
 
     // *************************************************************************
     // ***********************    Abstract baseclasses   ***********************

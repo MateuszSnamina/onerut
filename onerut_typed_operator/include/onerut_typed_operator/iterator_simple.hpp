@@ -23,7 +23,7 @@ namespace onerut_typed_operator {
         using Iterator = SimpleOperatorIterator<ScalarT, BraKetT>;
         static SimpleOperatorIterator create_the_one_valid_iterator(typename AbstractResultIterator<ScalarT, BraKetT>::value_type);
         static SimpleOperatorIterator create_end_iterator();
-        typename AbstractResultIterator<ScalarT, BraKetT>::value_type get_val_bra() const override;
+        typename AbstractIteratorT::value_type get_val_bra() const override;
         void next() override;
         virtual bool is_end() const override;
     private:
@@ -44,13 +44,13 @@ namespace onerut_typed_operator {
     template<typename _ScalarT, typename _BraKetT>
     SimpleOperatorIterator<_ScalarT, _BraKetT>
     SimpleOperatorIterator<_ScalarT, _BraKetT>::create_end_iterator() {
-        return SimpleOperatorIterator<ScalarT, BraKetT>(); // TODO change into Iterator
+        return Iterator();
     }
 
     template<typename _ScalarT, typename _BraKetT>
     SimpleOperatorIterator<_ScalarT, _BraKetT>
     SimpleOperatorIterator<_ScalarT, _BraKetT>::create_the_one_valid_iterator(typename AbstractResultIterator<ScalarT, BraKetT>::value_type result) {
-        return SimpleOperatorIterator<ScalarT, BraKetT>(result); // TODO change into Iterator
+        return Iterator(result);
     }
 
     template<typename _ScalarT, typename _BraKetT>

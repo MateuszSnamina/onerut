@@ -13,7 +13,7 @@ namespace onerut_normal_operator {
 
     class KronDomain : public Domain {
     public:
-        KronDomain(std::vector<std::shared_ptr<const Domain> > domains);//TODO pass reference
+        KronDomain(const std::vector<std::shared_ptr<const Domain> > & domains);
         uint32_t size() const override;
         std::string state_name(uint32_t index) const override;
         std::unique_ptr<KronPlaceholder> crate_placeholder(unsigned place) const;

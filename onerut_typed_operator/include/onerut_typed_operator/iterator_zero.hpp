@@ -8,14 +8,14 @@ namespace onerut_typed_operator {
     template<typename _ScalarT, typename _BraKetT>
     class ZeroOperatorIterator : public AbstractResultIterator<_ScalarT, _BraKetT> {
     public:
-        using ScalarT = _ScalarT;        
-        using BraKetT = _BraKetT;        
+        using ScalarT = _ScalarT;
+        using BraKetT = _BraKetT;
         using AbstractOpT = AbstractOperator<ScalarT, BraKetT>;
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
         using AbstractIteratorT = AbstractResultIterator<ScalarT, BraKetT>;
         using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
         using Iterator = ZeroOperatorIterator<ScalarT, BraKetT>;
-        typename AbstractResultIterator<ScalarT, BraKetT>::value_type get_val_bra() const override;
+        typename AbstractIteratorT::value_type get_val_bra() const override;
         void next() override;
         virtual bool is_end() const override;
     };

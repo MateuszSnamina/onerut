@@ -41,7 +41,7 @@ namespace onerut_normal_operator {
     // --------------  Domain  -------------------------------------------------
     // -------------------------------------------------------------------------
 
-    KronDomain::KronDomain(std::vector<std::shared_ptr<const Domain> > domains) :
+    KronDomain::KronDomain(const std::vector<std::shared_ptr<const Domain> > & domains) :
     subdomains(domains),
     subdomain_sizes(domains_2_domain_sizes(domains)),
     weights(domain_sizes_2_weights(subdomain_sizes)) {

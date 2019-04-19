@@ -33,7 +33,7 @@ namespace onerut_typed_operator {
                 const std::vector<StoredAbstractOpPtrT>& other_argv,
                 const std::vector<char>& opv,
                 const BraKetT& ket);
-        typename AbstractResultIterator<ScalarT, BraKetT>::value_type get_val_bra() const override;
+        typename AbstractIteratorT::value_type get_val_bra() const override;
         void next() override;
         virtual bool is_end() const override;
     private:

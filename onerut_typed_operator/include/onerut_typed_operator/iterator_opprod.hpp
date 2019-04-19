@@ -31,11 +31,11 @@ namespace onerut_typed_operator {
         static_assert(std::is_same<typename StoredAbstractOpT::BraKetT, BraKetT>::value); // remove _BraKetT from the Iterator template parameter list!
         OpProdOperatorIterator(
                 const std::vector<StoredAbstractOpPtrT>& argv, const BraKetT& ket);
-        typename AbstractResultIterator<ScalarT, BraKetT>::value_type get_val_bra() const override;
+        typename AbstractIteratorT::value_type get_val_bra() const override;
         void next() override;
         virtual bool is_end() const override;
     private:
-        const std::vector<StoredAbstractOpPtrT>& _argv; //TODO reference
+        const std::vector<StoredAbstractOpPtrT>& _argv;
         std::vector<AbstractIteratorPtrT> _base_itptr;
         std::vector<ScalarT> _factor;
         std::optional<BraKetT> _bra;

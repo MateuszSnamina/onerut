@@ -20,7 +20,7 @@ namespace onerut_typed_operator {
         using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
         using Iterator = OpUnaryPlusMinusOperatorIterator<ScalarT, BraKetT>;
         OpUnaryPlusMinusOperatorIterator(char op, const AbstractOpPtrT & arg, const BraKetT& ket);
-        typename AbstractResultIterator<ScalarT, BraKetT>::value_type get_val_bra() const override;
+        typename AbstractIteratorT::value_type get_val_bra() const override;
         void next() override;
         virtual bool is_end() const override;
     private:

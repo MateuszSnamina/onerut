@@ -1,10 +1,7 @@
 #include<cassert>
 #include<boost/algorithm/string.hpp>
-#include <c++/5/bits/basic_string.h>//TODO change
 
 #include<onerut_parser_exec/ast_source.hpp>
-
-
 
 namespace {
 

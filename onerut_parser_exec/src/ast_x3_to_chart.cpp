@@ -3,45 +3,45 @@
 #include<onerut_parser_exec/ast_x3.hpp>
 #include<onerut_parser_exec/ast_x3_to_chart.hpp>
 
-namespace {
-    // -------------------------------------------------------------------------
-    // ------------- VISITOR ---------------------------------------------------
-    // -------------------------------------------------------------------------
 
-    // TODO: move into namespace
-    
-    struct to_ast_chart_visitor {
-        typedef void result_type;
-        to_ast_chart_visitor(
+namespace onerut_parser_exec::onerut_ast::x3 {
+
+    namespace {
+
+        // ---------------------------------------------------------------------
+        // ------------- VISITOR -----------------------------------------------
+        // ---------------------------------------------------------------------
+
+        struct to_ast_chart_visitor {
+            typedef void result_type;
+            to_ast_chart_visitor(
+                    const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
+                    unsigned deepness,
+                    onerut_parser_exec::LinesChartInfo& ast_chart
+                    );
+            const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions;
+            const unsigned deepness;
+            onerut_parser_exec::LinesChartInfo& ast_chart;
+            template<typename T>
+            result_type operator()(const T & info);
+        };
+
+        to_ast_chart_visitor::to_ast_chart_visitor(
                 const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
                 unsigned deepness,
                 onerut_parser_exec::LinesChartInfo& ast_chart
-                );
-        const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions;
-        const unsigned deepness;
-        onerut_parser_exec::LinesChartInfo& ast_chart;
+                ) :
+        positions(positions),
+        deepness(deepness),
+        ast_chart(ast_chart) {
+        }
+
         template<typename T>
-        result_type operator()(const T & info);
-    };
+        to_ast_chart_visitor::result_type to_ast_chart_visitor::operator()(const T & info) {
+            to_ast_chart(info, positions, deepness, ast_chart);
+        }
 
-    to_ast_chart_visitor::to_ast_chart_visitor(
-            const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
-            unsigned deepness,
-            onerut_parser_exec::LinesChartInfo& ast_chart
-            ) :
-    positions(positions),
-    deepness(deepness),
-    ast_chart(ast_chart) {
     }
-
-    template<typename T>
-    to_ast_chart_visitor::result_type to_ast_chart_visitor::operator()(const T & info) {
-        to_ast_chart(info, positions, deepness, ast_chart);
-    }
-
-}
-
-namespace onerut_parser_exec::onerut_ast::x3 {
 
     // -------------------------------------------------------------------------
     // ------------- HELPER GENERIC TEMPLATEW ----------------------------------
@@ -220,7 +220,7 @@ namespace onerut_parser_exec::onerut_ast::x3 {
             LinesChartInfo& ast_chart) {
         to_ast_chart_common_implementation(info, positions, deepness, ast_chart);
     }
-    
+
     void to_ast_chart(
             const IdentifierInfo& info,
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
