@@ -12,8 +12,8 @@
 
 #include<onerut_parser_exec/asset.hpp>
 #include<onerut_parser_exec/asset_utility.hpp>
-#include<onerut_parser_rules/request_imperative.hpp>
-#include<onerut_parser_rules/request_print_value.hpp>
+#include<onerut_request/request_imperative.hpp>
+#include<onerut_request/request_print_value.hpp>
 #include<onerut_parser_rules/asset_receipt.hpp>
 
 namespace onerut_parser_rules {

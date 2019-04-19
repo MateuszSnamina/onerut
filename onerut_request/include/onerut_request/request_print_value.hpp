@@ -1,5 +1,5 @@
-#ifndef ONERUT_PARSER_REQUEST_PRINT_VALUE
-#define ONERUT_PARSER_REQUEST_PRINT_VALUE
+#ifndef ONERUT_REQUEST_PARSER_REQUEST_PRINT_VALUE
+#define ONERUT_REQUEST_PARSER_REQUEST_PRINT_VALUE
 
 #include<cassert>
 #include<memory>
@@ -14,7 +14,7 @@
 #include<onerut_normal_operator/mean.hpp>
 #include<onerut_parser_exec/asset_error.hpp>
 
-namespace onerut_parser_rules {
+namespace onerut_request {
 
     struct PrintValueRequest {
         virtual void print(std::ostream& stream, std::string line_prefix) const = 0;

@@ -1,6 +1,6 @@
 #include<optional>
 
-#include<onerut_parser_rules/request_print_value.hpp>
+#include<onerut_request/request_print_value.hpp>
 #include<onerut_parser_rules/function_factory_print_value_request.hpp>
 
 namespace {
@@ -9,8 +9,8 @@ namespace {
     _try_with_error(onerut_parser_exec::AssetDeref arg) {
         if (arg.is_compile_error()) {
             const auto error = *arg.compile_error_or_empty();
-            return onerut_parser_exec::Asset::from_value<onerut_parser_rules::PrintValueRequest>(
-                    std::make_shared<onerut_parser_rules::PrintValueRequestTyped < onerut_parser_exec::CompileError >> (error)
+            return onerut_parser_exec::Asset::from_value<onerut_request::PrintValueRequest>(
+                    std::make_shared<onerut_request::PrintValueRequestTyped < onerut_parser_exec::CompileError >> (error)
                     );
         }
         return std::nullopt;
@@ -21,8 +21,8 @@ namespace {
     _try_with_value(onerut_parser_exec::AssetDeref arg) {
         if (arg.is_given_type<T>()) {
             const auto arg_typed = *(arg.typed_value_or_empty<T>());
-            return onerut_parser_exec::Asset::from_value<onerut_parser_rules::PrintValueRequest>(
-                    std::make_shared<onerut_parser_rules::PrintValueRequestTyped < T > > (arg_typed)
+            return onerut_parser_exec::Asset::from_value<onerut_request::PrintValueRequest>(
+                    std::make_shared<onerut_request::PrintValueRequestTyped < T > > (arg_typed)
                     );
         }
         return std::nullopt;
@@ -36,8 +36,8 @@ namespace onerut_parser_rules {
         const auto & arg0_asset_deref = args_asset[0].deref();
         if (arg0_asset_deref.is_compile_error()) {
             const auto error = *arg0_asset_deref.compile_error_or_empty();
-            return onerut_parser_exec::Asset::from_value<PrintValueRequest>(
-                    std::make_shared<PrintValueRequestTyped<onerut_parser_exec::CompileError> >(error)
+            return onerut_parser_exec::Asset::from_value<onerut_request::PrintValueRequest>(
+                    std::make_shared<onerut_request::PrintValueRequestTyped<onerut_parser_exec::CompileError> >(error)
                     );
         }
         if (const auto temp = _try_with_error(arg0_asset_deref)) {

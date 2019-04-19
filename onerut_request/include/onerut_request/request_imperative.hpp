@@ -1,12 +1,12 @@
-#ifndef ONERUT_PARSER_REQUEST_IMPERATIVE
-#define ONERUT_PARSER_REQUEST_IMPERATIVE
+#ifndef ONERUT_REQUEST_REQUEST_IMPERATIVE
+#define ONERUT_REQUEST_REQUEST_IMPERATIVE
 
 #include<cassert>
 #include<memory>
 
 #include<onerut_parser_exec/asset_utility.hpp>
 
-namespace onerut_parser_rules {
+namespace onerut_request {
 
     struct ImperativeRequest {
         virtual void exec() const = 0;

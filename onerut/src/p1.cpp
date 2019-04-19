@@ -10,6 +10,8 @@
 #include<esc/esc_manip.hpp>
 #include<string_utils/greek_support.hpp>
 
+#include<onerut_request/request_imperative.hpp>
+#include<onerut_request/request_print_value.hpp>
 #include<onerut_parser_exec/gramma_parser.hpp>
 #include<onerut_parser_exec/ast_x3_to_ast_source.hpp>
 #include<onerut_parser_exec/ast_asset.hpp>
@@ -18,8 +20,6 @@
 #include<onerut_parser_rules/asset_receipt.hpp>
 #include<onerut_parser_rules/compiler_rules_concrete.hpp>
 #include<onerut_parser_rules/asset_to_esc_data.hpp>
-#include<onerut_parser_rules/request_imperative.hpp>
-#include<onerut_parser_rules/request_print_value.hpp>
 
 //--------------------------------------------
 
@@ -73,10 +73,10 @@ execute_line(std::shared_ptr<const std::string> line) {
     // *************************************************************************
     // *************  Requests stage:        ***********************************
     // *************************************************************************
-    if (const auto request = asset.deref().typed_value_or_empty<onerut_parser_rules::ImperativeRequest>()) {
+    if (const auto request = asset.deref().typed_value_or_empty<onerut_request::ImperativeRequest>()) {
         (*request)->exec();
     }
-    if (const auto request = asset.deref().typed_value_or_empty<onerut_parser_rules::PrintValueRequest>()) {
+    if (const auto request = asset.deref().typed_value_or_empty<onerut_request::PrintValueRequest>()) {
         (*request)->print(std::cout, "[request] ");
     }
     // *************************************************************************
