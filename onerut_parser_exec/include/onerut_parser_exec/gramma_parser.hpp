@@ -1,5 +1,5 @@
-#ifndef ONERUT_PARSER_GRAMMA_PARSER
-#define ONERUT_PARSER_GRAMMA_PARSER
+#ifndef ONERUT_PARSER_EXEC_GRAMMA_PARSER
+#define ONERUT_PARSER_EXEC_GRAMMA_PARSER
 
 #include<string>
 #include<boost/spirit/home/x3/support/ast/position_tagged.hpp>

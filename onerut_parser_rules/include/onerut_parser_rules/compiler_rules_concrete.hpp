@@ -1,8 +1,8 @@
+#ifndef ONERUT_PARSER_RULES_COMPILER_RULES_CONCRETE_HPP
+#define ONERUT_PARSER_RULES_COMPILER_RULES_CONCRETE_HPP
+
 #include<onerut_parser_exec/compiler_rules.hpp>
 #include<onerut_parser_rules/map_with_function_factories.hpp>
-
-#ifndef ONERUT_PARSER_COMPILER_RULES_CONCRETE_HPP
-#define ONERUT_PARSER_COMPILER_RULES_CONCRETE_HPP
 
 namespace onerut_parser_rules {
 

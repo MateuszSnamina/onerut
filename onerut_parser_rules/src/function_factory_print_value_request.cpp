@@ -5,16 +5,16 @@
 
 namespace {
 
-    std::optional<onerut_parser_exec::Asset>
-    _try_with_error(onerut_parser_exec::AssetDeref arg) {
-        if (arg.is_compile_error()) {
-            const auto error = *arg.compile_error_or_empty();
-            return onerut_parser_exec::Asset::from_value<onerut_request::PrintValueRequest>(
-                    std::make_shared<onerut_request::PrintValueRequestTyped < onerut_parser_exec::CompileError >> (error)
-                    );
-        }
-        return std::nullopt;
-    }
+    //    std::optional<onerut_parser_exec::Asset>
+    //    _try_with_error(onerut_parser_exec::AssetDeref arg) {
+    //        if (arg.is_compile_error()) {
+    //            const auto error = *arg.compile_error_or_empty();
+    //            return onerut_parser_exec::Asset::from_value<onerut_request::PrintValueRequest>(
+    //                    std::make_shared<onerut_request::PrintValueRequestTyped < onerut_parser_exec::CompileError >> (error)
+    //                    );
+    //        }
+    //        return std::nullopt;
+    //    }
 
     template<typename T>
     std::optional<onerut_parser_exec::Asset>
@@ -34,15 +34,9 @@ namespace onerut_parser_rules {
 
     onerut_parser_exec::Asset PrintValueRequestFunctionFactory::make_function_otherwise_make_error(std::array<onerut_parser_exec::Asset, 1> args_asset) const {
         const auto & arg0_asset_deref = args_asset[0].deref();
-        if (arg0_asset_deref.is_compile_error()) {
-            const auto error = *arg0_asset_deref.compile_error_or_empty();
-            return onerut_parser_exec::Asset::from_value<onerut_request::PrintValueRequest>(
-                    std::make_shared<onerut_request::PrintValueRequestTyped<onerut_parser_exec::CompileError> >(error)
-                    );
-        }
-        if (const auto temp = _try_with_error(arg0_asset_deref)) {
-            return *temp;
-        }
+        //        if (const auto temp = _try_with_error(arg0_asset_deref)) {
+        //            return *temp;
+        //        }
         if (const auto temp = _try_with_value<onerut_scalar::Integer>(arg0_asset_deref)) {
             return *temp;
         }
@@ -63,13 +57,13 @@ namespace onerut_parser_rules {
         }
         if (const auto temp = _try_with_value<onerut_normal_operator::KronDomain>(arg0_asset_deref)) {
             return *temp;
-        }        
+        }
         if (const auto temp = _try_with_value<onerut_normal_operator::StateIndex>(arg0_asset_deref)) {
             return *temp;
         }
         if (const auto temp = _try_with_value<onerut_normal_operator::KronPlaceholder>(arg0_asset_deref)) {
             return *temp;
-        }        
+        }
         if (const auto temp = _try_with_value<onerut_normal_operator::AbstractRealOperator>(arg0_asset_deref)) {
             return *temp;
         }

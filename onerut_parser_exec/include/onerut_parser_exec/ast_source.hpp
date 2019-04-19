@@ -1,5 +1,5 @@
-#ifndef ONERUT_PARSER_AST_DYN
-#define ONERUT_PARSER_AST_DYN
+#ifndef ONERUT_PARSER_EXEC_AST_DYN
+#define ONERUT_PARSER_EXEC_AST_DYN
 
 #include<string>
 #include<vector>

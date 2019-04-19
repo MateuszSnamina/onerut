@@ -12,7 +12,6 @@
 #include<onerut_normal_operator/domain_kron.hpp>
 #include<onerut_normal_operator/eig.hpp>
 #include<onerut_normal_operator/mean.hpp>
-#include<onerut_parser_exec/asset_error.hpp>
 
 namespace onerut_request {
 
@@ -24,13 +23,13 @@ namespace onerut_request {
     struct PrintValueRequestTyped : public PrintValueRequest {
     };
 
-    template<>
-    struct PrintValueRequestTyped<onerut_parser_exec::CompileError> : public PrintValueRequest {
-        using Type =onerut_parser_exec::CompileError;
-        PrintValueRequestTyped(std::shared_ptr<Type> instance);
-        void print(std::ostream& stream, std::string line_prefix) const override;
-        const std::shared_ptr<Type> instance;
-    };
+    //    template<>
+    //    struct PrintValueRequestTyped<onerut_parser_exec::CompileError> : public PrintValueRequest {
+    //        using Type =onerut_parser_exec::CompileError;
+    //        PrintValueRequestTyped(std::shared_ptr<Type> instance);
+    //        void print(std::ostream& stream, std::string line_prefix) const override;
+    //        const std::shared_ptr<Type> instance;
+    //    };
 
     template<>
     struct PrintValueRequestTyped<onerut_scalar::Integer> : public PrintValueRequest {

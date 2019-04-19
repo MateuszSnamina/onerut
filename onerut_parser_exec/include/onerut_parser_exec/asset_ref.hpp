@@ -1,5 +1,5 @@
-#ifndef ONERUT_PARSER_ASSET_REF
-#define ONERUT_PARSER_ASSET_REF
+#ifndef ONERUT_PARSER_EXEC_ASSET_REF
+#define ONERUT_PARSER_EXEC_ASSET_REF
 
 #include<onerut_parser_exec/asset_deref.hpp>
 

@@ -1,5 +1,5 @@
-#ifndef ONERUT_PARSER_BUILD_RESULT_TO_ESC_DATA
-#define ONERUT_PARSER_BUILD_RESULT_TO_ESC_DATA
+#ifndef ONERUT_PARSER_RULES_BUILD_RESULT_TO_ESC_DATA
+#define ONERUT_PARSER_RULES_BUILD_RESULT_TO_ESC_DATA
 
 #include<esc/esc_manip.hpp>
 #include<onerut_parser_exec/asset.hpp>

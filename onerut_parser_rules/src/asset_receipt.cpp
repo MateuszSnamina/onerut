@@ -55,11 +55,11 @@ namespace onerut_parser_rules {
             stream << line_prefix << "[asset-deref] "
                     << "Asset-deref is an " << esc::manip::italic << "empty asset" << esc::manip::reset << "."
                     << std::endl;
-        } else if (asset.deref().is_given_type<ImperativeRequest>()) {
+        } else if (asset.deref().is_given_type<onerut_request::ImperativeRequest>()) {
             stream << line_prefix << "[asset-deref] "
                     << "Asset-defer is an " << esc::manip::italic << "imperative-request" << esc::manip::reset << "."
                     << std::endl;
-        } else if (asset.deref().is_given_type<PrintValueRequest>()) {
+        } else if (asset.deref().is_given_type<onerut_request::PrintValueRequest>()) {
             stream << line_prefix << "[asset-deref] "
                     << "Asset-defer is an " << esc::manip::italic << "print-value-request" << esc::manip::reset << "."
                     << std::endl;
