@@ -17,11 +17,11 @@ namespace onerut_parser_exec::onerut_ast::x3 {
             to_ast_chart_visitor(
                     const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
                     unsigned deepness,
-                    onerut_parser_exec::LinesChartInfo& ast_chart
+                    LinesChartInfo& ast_chart
                     );
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions;
             const unsigned deepness;
-            onerut_parser_exec::LinesChartInfo& ast_chart;
+            LinesChartInfo& ast_chart;
             template<typename T>
             result_type operator()(const T & info);
         };
@@ -29,7 +29,7 @@ namespace onerut_parser_exec::onerut_ast::x3 {
         to_ast_chart_visitor::to_ast_chart_visitor(
                 const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions,
                 unsigned deepness,
-                onerut_parser_exec::LinesChartInfo& ast_chart
+                LinesChartInfo& ast_chart
                 ) :
         positions(positions),
         deepness(deepness),
