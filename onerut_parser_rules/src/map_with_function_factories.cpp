@@ -6,7 +6,7 @@
 #include<onerut_parser_rules/function_factory_normal_operators.hpp>
 #include<onerut_parser_rules/function_factory_imperative_request.hpp>
 #include<onerut_parser_rules/function_factory_print_value_request.hpp>
-#include<onerut_parser_rules/function_factory_container.hpp>
+#include<onerut_parser_rules/map_with_function_factories.hpp>
 
 using cx_double = std::complex<double>;
 using namespace std::complex_literals;
@@ -107,7 +107,7 @@ const double e = 2.71828182845904523536;
 
 namespace onerut_parser_rules {
 
-    std::optional<std::shared_ptr<AbstractFunctionFactory>> FunctionFactoryContainer::get_or_empty(const std::string& name) const {
+    std::optional<std::shared_ptr<AbstractFunctionFactory>> MapWithFunctionFactories::get_or_empty(const std::string& name) const {
         if (functions.count(name) == 1) {
             return functions.at(name);
         } else {
@@ -115,18 +115,18 @@ namespace onerut_parser_rules {
         }
     }
 
-    bool FunctionFactoryContainer::put(const std::string& name, std::shared_ptr<AbstractFunctionFactory> function) {
+    bool MapWithFunctionFactories::put(const std::string& name, std::shared_ptr<AbstractFunctionFactory> function) {
         if (functions.count(name))
             return false;
         functions[name] = function;
         return true;
     }
 
-    void FunctionFactoryContainer::force_put(const std::string& name, std::shared_ptr<AbstractFunctionFactory> function) {
+    void MapWithFunctionFactories::force_put(const std::string& name, std::shared_ptr<AbstractFunctionFactory> function) {
         functions[name] = function;
     }
 
-    void FunctionFactoryContainer::put_cmath() {
+    void MapWithFunctionFactories::put_cmath() {
         // ******************************************************
         // **** Functions for both real and complex numbers: ****
         // ******************************************************
@@ -230,7 +230,7 @@ namespace onerut_parser_rules {
         force_put("i", std::make_unique<ComplexConstantFunctionFactory>(1i));
     }
 
-    void FunctionFactoryContainer::put_onerut_functions() {
+    void MapWithFunctionFactories::put_onerut_functions() {
         // Basic normal operator functions:
         force_put("custom_domain", std::make_unique<CreateNormalOperatorCustomDomainFunctionFactory>());
         force_put("state_index", std::make_unique<CreateNormalOperatorDomainStateIndexFunctionFactory>());
@@ -258,19 +258,19 @@ namespace onerut_parser_rules {
         force_put("thermal_mean", std::make_unique<NormalOperatorMeanThermalFunctionFactory>());
     }
 
-    void FunctionFactoryContainer::put_imparative_request_functions() {
+    void MapWithFunctionFactories::put_imparative_request_functions() {
         force_put("LATCH", std::make_unique<LatchRequestFunctionFactory>());
         force_put("RESET", std::make_unique<ResetRequestFunctionFactory>());
         force_put("VALUE", std::make_unique<PrintValueRequestFunctionFactory>());
     }
 
-    void FunctionFactoryContainer::put_all() {
+    void MapWithFunctionFactories::put_all() {
         put_cmath();
         put_onerut_functions();
         put_imparative_request_functions();
     }
 
-    void FunctionFactoryContainer::clear() {
+    void MapWithFunctionFactories::clear() {
         functions.clear();
     }
 

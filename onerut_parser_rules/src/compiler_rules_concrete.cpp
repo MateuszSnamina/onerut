@@ -31,23 +31,30 @@ namespace {
 
     onerut_parser_exec::Asset
     behave_like_a_binary_function(
-            const onerut_parser_rules::FunctionFactoryContainer & function_factory_container,
+            const onerut_parser_rules::MapWithFunctionFactories & map_with_function_factories,
             const std::string & function_name,
             onerut_parser_exec::Asset first_arg_asset,
             onerut_parser_exec::Asset second_arg_asset) {
         const auto first_arg_asset_deref = first_arg_asset.deref();
         const auto second_arg_asset_deref = second_arg_asset.deref();
-        if (auto function_factory = function_factory_container.get_or_empty(function_name))
+        if (auto function_factory = map_with_function_factories.get_or_empty(function_name))
             return (*function_factory)->make_function_otherwise_make_error({first_arg_asset, second_arg_asset});
         return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::FunctionNotFoundError>(function_name));
+    }
+
+    onerut_parser_rules::MapWithFunctionFactories
+    complete_map_with_function_factories() {
+        onerut_parser_rules::MapWithFunctionFactories map_with_function_factories;
+        map_with_function_factories.put_all();
+        return map_with_function_factories;
     }
 
 }
 
 namespace onerut_parser_rules {
 
-    CompilerRulesConcrete::CompilerRulesConcrete() {
-        function_factory_container.put_all();
+    CompilerRulesConcrete::CompilerRulesConcrete() :
+    map_with_function_factories(complete_map_with_function_factories()) {
     }
 
     onerut_parser_exec::Asset
@@ -144,28 +151,28 @@ namespace onerut_parser_rules {
 
     onerut_parser_exec::Asset
     CompilerRulesConcrete::op_pow(onerut_parser_exec::Asset first_arg_asset, onerut_parser_exec::Asset second_arg_asset) const {
-        return behave_like_a_binary_function(function_factory_container, "pow", first_arg_asset, second_arg_asset);
+        return behave_like_a_binary_function(map_with_function_factories, "pow", first_arg_asset, second_arg_asset);
     }
 
     // -------------------------------------------------------------------------
 
     onerut_parser_exec::Asset
     CompilerRulesConcrete::op_at(onerut_parser_exec::Asset first_arg_asset, onerut_parser_exec::Asset second_arg_asset) const {
-        return behave_like_a_binary_function(function_factory_container, "at", first_arg_asset, second_arg_asset);
+        return behave_like_a_binary_function(map_with_function_factories, "at", first_arg_asset, second_arg_asset);
     }
 
     // -------------------------------------------------------------------------
 
     onerut_parser_exec::Asset
     CompilerRulesConcrete::op_arrow(onerut_parser_exec::Asset first_arg_asset, onerut_parser_exec::Asset second_arg_asset) const {
-        return behave_like_a_binary_function(function_factory_container, "arrow", first_arg_asset, second_arg_asset);
+        return behave_like_a_binary_function(map_with_function_factories, "arrow", first_arg_asset, second_arg_asset);
     }
 
     // -------------------------------------------------------------------------
 
     onerut_parser_exec::Asset
     CompilerRulesConcrete::op_glue(onerut_parser_exec::Asset first_arg_asset, onerut_parser_exec::Asset second_arg_asset) const {
-        return behave_like_a_binary_function(function_factory_container, "glue", first_arg_asset, second_arg_asset);
+        return behave_like_a_binary_function(map_with_function_factories, "glue", first_arg_asset, second_arg_asset);
     }
 
     // -------------------------------------------------------------------------
@@ -224,7 +231,7 @@ namespace onerut_parser_rules {
 
     onerut_parser_exec::Asset
     CompilerRulesConcrete::function(const std::string& name, const std::vector<onerut_parser_exec::Asset>& argv_asset) const {
-        if (auto function = function_factory_container.get_or_empty(name))
+        if (auto function = map_with_function_factories.get_or_empty(name))
             return (*function)->make_function_otherwise_make_error(argv_asset);
         return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::FunctionNotFoundError>(name));
     }

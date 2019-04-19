@@ -8,7 +8,7 @@
 
 namespace onerut_parser_rules {
 
-    class FunctionFactoryContainer {
+    class MapWithFunctionFactories {
     public:
         std::optional<std::shared_ptr<AbstractFunctionFactory>> get_or_empty(const std::string& name) const;
         bool put(const std::string& name, std::shared_ptr<AbstractFunctionFactory> function);

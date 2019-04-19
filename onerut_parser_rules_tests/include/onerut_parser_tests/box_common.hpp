@@ -15,7 +15,6 @@
 #include<onerut_scalar/scalar_abstract.hpp>
 #include<onerut_parser_exec/asset_error.hpp>
 #include<onerut_parser_exec/ast_asset.hpp>
-#include<onerut_parser_rules/function_factory_container.hpp>
 #include<onerut_parser_tests/global_flags.hpp>
 #include<onerut_parser_tests/inuput_2_asset.hpp>
 

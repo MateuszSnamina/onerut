@@ -1,5 +1,5 @@
 #include<onerut_parser_exec/compiler_rules.hpp>
-#include<onerut_parser_rules/function_factory_container.hpp>
+#include<onerut_parser_rules/map_with_function_factories.hpp>
 
 #ifndef ONERUT_PARSER_COMPILER_RULES_CONCRETE_HPP
 #define ONERUT_PARSER_COMPILER_RULES_CONCRETE_HPP
@@ -21,7 +21,7 @@ namespace onerut_parser_rules {
         onerut_parser_exec::Asset lit_pure_complex_double(double value) const override;
         onerut_parser_exec::Asset function(const std::string& name, const std::vector<onerut_parser_exec::Asset>& argv_asset) const override;
     private:
-        FunctionFactoryContainer function_factory_container;//TODO make it const...
+        const MapWithFunctionFactories map_with_function_factories;
     };
 
 }

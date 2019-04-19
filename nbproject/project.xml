@@ -24,6 +24,8 @@
                 <sourceRootElem>onerut_parser_exec</sourceRootElem>
                 <sourceRootElem>onerut_parser_rules</sourceRootElem>
                 <sourceRootElem>onerut_parser_rules_tests</sourceRootElem>
+                <sourceRootElem>onerut_request</sourceRootElem>
+                <sourceRootElem>onerut_convergence_parameter</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>
