@@ -1,12 +1,9 @@
-//#include<iterator> // to script.cpp
-
 #include<iostream>
 #include<fstream>
-#include<optional>
 #include<filesystem>
 
 #include<esc/esc_manip.hpp>
-#include<string_utils/greek_support.hpp>
+//#include<string_utils/greek_support.hpp>
 
 #include<onerut/line_execute.hpp>
 #include<onerut/line_preprocess.hpp>
