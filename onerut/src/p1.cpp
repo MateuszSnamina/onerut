@@ -10,20 +10,23 @@
 #include<esc/esc_manip.hpp>
 #include<string_utils/greek_support.hpp>
 
-#include<onerut_request/request_imperative.hpp>
-#include<onerut_request/request_print_value.hpp>
-#include<onerut_parser_exec/gramma_parser.hpp>
-#include<onerut_parser_exec/ast_x3_to_ast_source.hpp>
-#include<onerut_parser_exec/ast_asset.hpp>
-#include<onerut_parser_exec/print_chart.hpp>
-#include<onerut_parser_exec/asset_utility.hpp>
-#include<onerut_parser_rules/asset_receipt.hpp>
-#include<onerut_parser_rules/compiler_rules_concrete.hpp>
-#include<onerut_parser_rules/asset_to_esc_data.hpp>
+//#include<onerut_request/request_imperative.hpp>
+//#include<onerut_request/request_print_value.hpp>
+//#include<onerut_parser_exec/gramma_parser.hpp>
+//#include<onerut_parser_exec/ast_x3_to_ast_source.hpp>
+//#include<onerut_parser_exec/ast_asset.hpp>
+//#include<onerut_parser_exec/print_chart.hpp>
+//#include<onerut_parser_exec/asset_utility.hpp>
+//#include<onerut_parser_rules/asset_receipt.hpp>
+//#include<onerut_parser_rules/compiler_rules_concrete.hpp>
+//#include<onerut_parser_rules/asset_to_esc_data.hpp>
+
+#include<onerut/execute_lines.hpp>
+
 
 //--------------------------------------------
-
-bool
+/*
+std::shared_ptr<onerut_parser_exec::onerut_ast::asset::AssetNode>
 execute_line(std::shared_ptr<const std::string> line) {
     // *************************************************************************
     std::cout << esc::manip::bg_yellow << "Processsing "
@@ -47,7 +50,7 @@ execute_line(std::shared_ptr<const std::string> line) {
                     << esc::manip::bg_red << string_utils::StreamToGreek(not_parsed_view);
             std::cout << std::endl;
         }
-        return false;
+        return nullptr;
     }
     // *************************************************************************
     // *************  The source creation stage:     ***************************
@@ -81,8 +84,21 @@ execute_line(std::shared_ptr<const std::string> line) {
     }
     // *************************************************************************
     std::cout << std::endl;
-    return true; // TODO
+    return ast_asset_head;
 }
+
+std::vector<std::shared_ptr<onerut_parser_exec::onerut_ast::asset::AssetNode>>
+execute_script_lines(const std::vector<std::shared_ptr<const std::string>>&lines) {
+    std::vector<std::shared_ptr < onerut_parser_exec::onerut_ast::asset::AssetNode>> result;
+    //std::back_inserter(result);
+    //return std::all_of(cbegin(lines), cend(lines),
+    std::transform(cbegin(lines), cend(lines), std::back_inserter(result),
+            [](const std::shared_ptr<const std::string> &line) {
+                return execute_line(line);
+            });
+    return result;
+}
+*/
 
 const std::string preprocesor(const std::string& line) {
     auto it = std::find_if(line.cbegin(), line.cend(),
@@ -93,7 +109,8 @@ const std::string preprocesor(const std::string& line) {
             [](char ch) {
                 return !std::isspace(ch);
             }).base();
-    return {line.begin(), it};
+
+    return{line.begin(), it};
 }
 
 std::vector<std::shared_ptr<const std::string>>
@@ -109,26 +126,21 @@ load_script_lines_from_file(const std::filesystem::path& file_path) {
         std::cout << "load line: " << line << std::endl;
         const auto preprocesed_line = preprocesor(line);
         const auto line_ptr = std::make_shared<const std::string>(preprocesed_line);
+
         if (!preprocesed_line.empty())
             lines.push_back(line_ptr);
     }
     return lines;
 }
 
-bool
-execute_script_lines(const std::vector<std::shared_ptr<const std::string>>&lines) {
-    return std::all_of(cbegin(lines), cend(lines),
-            [](const std::shared_ptr<const std::string> &line) {
-                return execute_line(line);
-            });
-}
+void execute_script_file(const std::filesystem::path& file_path) {
 
-bool execute_script_file(const std::filesystem::path& file_path) {
     auto lines = load_script_lines_from_file(file_path);
-    return execute_script_lines(lines);
+    //return execute_script_lines(lines);
 }
 
 void temp_testing() {
+
     std::vector<std::shared_ptr<const std::string> > lines;
     //    lines.push_back(std::make_shared<const std::string>("x:=(2+4*3)+pi/2"));
     //    lines.push_back(std::make_shared<const std::string>("x+7"));
