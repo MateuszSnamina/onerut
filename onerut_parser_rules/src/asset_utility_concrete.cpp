@@ -139,8 +139,10 @@ namespace onerut_parser_rules::utility {
             arg_real = *temp;
         } else if (auto temp = arg.typed_value_or_empty<onerut_scalar::Real>()) {
             arg_real = *temp;
+        } else if (auto temp = arg.typed_value_or_empty<onerut_normal_operator::Mean>()) {
+            arg_real = *temp;
         } else {
-            arg_real = *arg.typed_value_or_empty<onerut_normal_operator::Mean>();
+            arg_real = *arg.typed_value_or_empty<onerut_convergence_parameter::ConvergenceParameter>();
         }
         assert(arg_real);
         return arg_real;

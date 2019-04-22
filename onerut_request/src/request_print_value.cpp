@@ -73,9 +73,16 @@ namespace onerut_request {
     void PrintValueRequestTyped<onerut_convergence_parameter::ConvergenceParameter>::print(std::ostream& stream, std::string line_prefix) const {
         assert(instance);
         stream << line_prefix
-                << "[value] " << "value = " << instance->value_real()
-                << "[value] " << "expression = " << instance->expression()->value_real()
-                << "[value] " << "threshold = " << instance->threshold()
+                << "[value] " << "parameter (exposed value) = " << instance->value_real()
+                << std::endl;
+        if (instance->expression()) {
+            stream << line_prefix << "[value] " << "expression value = " << instance->expression()->value_real()
+                    << std::endl;
+        } else {
+            stream << line_prefix << "[value] " << "expression has not been set yet."
+                    << std::endl;
+        }
+        stream << line_prefix << "[value] " << "threshold = " << instance->threshold()
                 << std::endl;
     }
 

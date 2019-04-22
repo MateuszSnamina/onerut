@@ -226,8 +226,15 @@ void temp_testing() {
     //    lines.push_back(std::make_shared<const std::string>("at(EYE_EL, yy)"));
     //    lines.push_back(std::make_shared<const std::string>("EEE := at(EYE_MU, yy)"));
     //    lines.push_back(std::make_shared<const std::string>(" VALUE(EEE)"));
-    lines.push_back(std::make_shared<const std::string>("mean_in_eigenstate(eye(custom_domain(xx0, yy0)), eigs(eye(custom_domain(xx1, yy2)), 1), 0)"));
-
+    //lines.push_back(std::make_shared<const std::string>("mean_in_eigenstate(eye(custom_domain(xx0, yy0)), eigs(eye(custom_domain(xx1, yy2)), 1), 0)"));
+    lines.push_back(std::make_shared<const std::string>("pa := parameter(4)"));
+    lines.push_back(std::make_shared<const std::string>("VALUE(pa)"));
+    lines.push_back(std::make_shared<const std::string>("pa -> 7"));
+    lines.push_back(std::make_shared<const std::string>("VALUE(pa)"));
+    lines.push_back(std::make_shared<const std::string>("pa :: 0.2"));
+    lines.push_back(std::make_shared<const std::string>("VALUE(pa)"));
+    lines.push_back(std::make_shared<const std::string>("pa+5"));
+    lines.push_back(std::make_shared<const std::string>("VALUE(pa+5)"));
     execute_script_lines(lines);
 }
 
