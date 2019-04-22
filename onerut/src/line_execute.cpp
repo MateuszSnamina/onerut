@@ -12,7 +12,7 @@
 #include<onerut_parser_rules/compiler_rules_concrete.hpp>
 #include<onerut_parser_rules/asset_to_esc_data.hpp>
 
-#include<onerut/execute_lines.hpp>
+#include<onerut/line_execute.hpp>
 
 std::shared_ptr<onerut_parser_exec::onerut_ast::asset::AssetNode>
 execute_line(std::shared_ptr<const std::string> line) {

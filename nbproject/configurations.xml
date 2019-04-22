@@ -16,7 +16,8 @@
     </df>
     <df root="onerut" name="2">
       <df name="src">
-        <in>execute_lines.cpp</in>
+        <in>line_execute.cpp</in>
+        <in>line_preprocess.cpp</in>
         <in>p1.cpp</in>
       </df>
     </df>
@@ -87,7 +88,7 @@
         <in>print_chart.cpp</in>
       </df>
     </df>
-    <df root="onerut_parser_exec_tests" name="16">
+    <df root="onerut_parser_exec_tests" name="8">
       <df name="src">
         <in>global_flags.cpp</in>
         <in>main.cpp</in>
@@ -97,7 +98,7 @@
         <in>source_pure_real.cpp</in>
       </df>
     </df>
-    <df root="onerut_parser_rules" name="8">
+    <df root="onerut_parser_rules" name="9">
       <df name="src">
         <in>asset_receipt.cpp</in>
         <in>asset_to_esc_data.cpp</in>
@@ -112,7 +113,7 @@
         <in>map_with_function_factories.cpp</in>
       </df>
     </df>
-    <df root="onerut_parser_rules_tests" name="9">
+    <df root="onerut_parser_rules_tests" name="10">
       <df name="src">
         <in>box_functions_onerut.cpp</in>
         <in>box_functions_scalar.cpp</in>
@@ -124,19 +125,19 @@
         <in>main.cpp</in>
       </df>
     </df>
-    <df root="onerut_request" name="10">
+    <df root="onerut_request" name="11">
       <df name="src">
         <in>request_print_value.cpp</in>
       </df>
     </df>
-    <df root="onerut_scalar" name="11">
+    <df root="onerut_scalar" name="12">
       <df name="src">
         <in>scalar_complex.cpp</in>
         <in>scalar_integer.cpp</in>
         <in>scalar_real.cpp</in>
       </df>
     </df>
-    <df root="onerut_scalar_tests" name="12">
+    <df root="onerut_scalar_tests" name="13">
       <df name="src">
         <in>function.cpp</in>
         <in>global_flags.cpp</in>
@@ -146,9 +147,9 @@
         <in>scalar_real.cpp</in>
       </df>
     </df>
-    <df root="onerut_typed_operator" name="13">
+    <df root="onerut_typed_operator" name="14">
     </df>
-    <df root="onerut_typed_operator_tests" name="14">
+    <df root="onerut_typed_operator_tests" name="15">
     </df>
     <logicalFolder name="src"
                    displayName="src"
@@ -172,7 +173,7 @@
       <itemPath>onerut_normal_operator_tests/src/test_operator_simple.cpp</itemPath>
       <itemPath>onerut_typed_operator/src/to_mat.cpp</itemPath>
     </logicalFolder>
-    <df root="string_utils" name="15">
+    <df root="string_utils" name="16">
       <df name="src">
         <in>greek_support.cpp</in>
         <in>unicode_support.cpp</in>
@@ -471,7 +472,11 @@
         <ccTool flags="1">
         </ccTool>
       </item>
-      <item path="onerut/src/execute_lines.cpp" ex="false" tool="1" flavor2="11">
+      <item path="onerut/src/line_execute.cpp" ex="false" tool="1" flavor2="11">
+        <ccTool flags="1">
+        </ccTool>
+      </item>
+      <item path="onerut/src/line_preprocess.cpp" ex="false" tool="1" flavor2="11">
         <ccTool flags="1">
         </ccTool>
       </item>
@@ -1196,13 +1201,6 @@
           <incDir>
             <pElem>onerut_parser_rules_tests/include</pElem>
             <pElem>onerut_parser_rules/include</pElem>
-            <pElem>string_utils/include</pElem>
-            <pElem>esc/include</pElem>
-            <pElem>onerut_normal_operator/include</pElem>
-            <pElem>onerut_typed_operator/include</pElem>
-            <pElem>log_utils/include</pElem>
-            <pElem>onerut_request/include</pElem>
-            <pElem>onerut_convergence_parameter/include</pElem>
             <pElem>onerut_parser_exec/include</pElem>
             <pElem>build_netbeanns/onerut_parser_rules_tests</pElem>
           </incDir>
