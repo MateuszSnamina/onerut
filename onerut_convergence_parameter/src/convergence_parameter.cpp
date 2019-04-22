@@ -31,13 +31,13 @@ namespace onerut_convergence_parameter {
         _exposed_value = _history.back();
     }
 
-    std::shared_ptr<onerut_scalar::Real> ConvergenceParameter::set_expression(std::shared_ptr<onerut_scalar::Real> new_expression) {
+    std::shared_ptr<const onerut_scalar::Real> ConvergenceParameter::set_expression(std::shared_ptr<const onerut_scalar::Real> new_expression) {
         const auto old_expression = _expression;
         _expression = new_expression;
         return old_expression;
     }
 
-    std::shared_ptr<onerut_scalar::Real> ConvergenceParameter::expression() const {
+    std::shared_ptr<const onerut_scalar::Real> ConvergenceParameter::expression() const {
         return _expression;
     }
 

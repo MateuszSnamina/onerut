@@ -5,6 +5,7 @@
 #include<memory>
 
 #include<onerut_scalar/scalar_abstract.hpp>
+#include<onerut_convergence_parameter/convergence_parameter.hpp>
 #include<onerut_normal_operator/operator_abstract.hpp>
 #include<onerut_normal_operator/domain_custom.hpp>
 #include<onerut_normal_operator/domain_oscillator.hpp>
@@ -56,6 +57,14 @@ namespace onerut_request {
     };
 
     template<>
+    struct PrintValueRequestTyped<onerut_convergence_parameter::ConvergenceParameter> : public PrintValueRequest {
+        using Type = onerut_convergence_parameter::ConvergenceParameter;
+        PrintValueRequestTyped(std::shared_ptr<Type> instance);
+        void print(std::ostream& stream, std::string line_prefix) const override;
+        const std::shared_ptr<Type> instance;
+    };
+
+    template<>
     struct PrintValueRequestTyped<onerut_normal_operator::CustomDomain> : public PrintValueRequest {
         using Type = onerut_normal_operator::CustomDomain;
         PrintValueRequestTyped(std::shared_ptr<Type> instance);
@@ -86,7 +95,7 @@ namespace onerut_request {
         void print(std::ostream& stream, std::string line_prefix) const override;
         const std::shared_ptr<Type> instance;
     };
-    
+
     template<>
     struct PrintValueRequestTyped<onerut_normal_operator::StateIndex> : public PrintValueRequest {
         using Type = onerut_normal_operator::StateIndex;
@@ -102,7 +111,7 @@ namespace onerut_request {
         void print(std::ostream& stream, std::string line_prefix) const override;
         const std::shared_ptr<Type> instance;
     };
-    
+
     template<>
     struct PrintValueRequestTyped<onerut_normal_operator::AbstractRealOperator> : public PrintValueRequest {
         using Type = onerut_normal_operator::AbstractRealOperator;

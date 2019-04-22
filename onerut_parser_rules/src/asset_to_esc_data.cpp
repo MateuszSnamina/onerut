@@ -4,8 +4,11 @@
 #include<onerut_normal_operator/domain_oscillator.hpp>
 #include<onerut_normal_operator/domain_spin.hpp>
 #include<onerut_normal_operator/domain_kron.hpp>
+#include<onerut_normal_operator/mean.hpp>
 #include<onerut_parser_exec/asset_utility.hpp>
 #include<onerut_parser_rules/asset_to_esc_data.hpp>
+#include<onerut_convergence_parameter/convergence_parameter.hpp>
+
 
 namespace onerut_parser_rules {
 
@@ -23,7 +26,9 @@ namespace onerut_parser_rules {
         }
         if (asset.deref().is_given_type<onerut_scalar::Integer>())
             return esc::EscDataBuilder() << esc::manip::blue << esc::manip::build_esc_data;
-        if (asset.deref().is_given_type<onerut_scalar::Real>())
+        if (asset.deref().is_given_type<onerut_scalar::Real>() ||
+                asset.deref().is_given_type<onerut_normal_operator::Mean>() ||
+                asset.deref().is_given_type<onerut_convergence_parameter::ConvergenceParameter>())
             return esc::EscDataBuilder() << esc::manip::cyan << esc::manip::build_esc_data;
         if (asset.deref().is_given_type<onerut_scalar::Complex>())
             return esc::EscDataBuilder() << esc::manip::green << esc::manip::build_esc_data;

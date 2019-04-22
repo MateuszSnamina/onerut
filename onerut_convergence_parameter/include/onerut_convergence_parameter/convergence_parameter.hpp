@@ -1,3 +1,6 @@
+#ifndef ONERUT_CONVERGENCE_PARAMETER_CONVERGENCE_PARAMETER
+#define ONERUT_CONVERGENCE_PARAMETER_CONVERGENCE_PARAMETER
+
 #include<memory>
 #include<vector>
 #include<optional>
@@ -17,8 +20,8 @@ namespace onerut_convergence_parameter {
         // the value exposed via value_real():
         void revolve();
         // Expression for recalculation:
-        std::shared_ptr<onerut_scalar::Real> set_expression(std::shared_ptr<onerut_scalar::Real> new_expression);
-        std::shared_ptr<onerut_scalar::Real> expression() const;
+        std::shared_ptr<const onerut_scalar::Real> set_expression(std::shared_ptr<const onerut_scalar::Real> new_expression);
+        std::shared_ptr<const onerut_scalar::Real> expression() const;
         // History:
         const std::vector<double> & history() const;
         unsigned history_size() const;
@@ -30,10 +33,11 @@ namespace onerut_convergence_parameter {
         bool is_converged() const;
     private:
         double _exposed_value;
-        std::shared_ptr<onerut_scalar::Real> _expression; 
+        std::shared_ptr<const onerut_scalar::Real> _expression;
         std::vector<double> _history;
         double _threshold;
     };
 
-
 }
+
+#endif

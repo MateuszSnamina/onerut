@@ -5,6 +5,7 @@
 #include<string_utils/greek_support.hpp>
 
 #include<onerut_scalar/scalar_abstract.hpp>
+#include<onerut_convergence_parameter/convergence_parameter.hpp>
 #include<onerut_normal_operator/operator_abstract.hpp>
 #include<onerut_normal_operator/eig.hpp>
 #include<onerut_normal_operator/mean.hpp>
@@ -79,6 +80,11 @@ namespace onerut_parser_rules {
                     << "Asset-defer is a " << esc::manip::italic << "real-number" << esc::manip::reset << "."
                     << std::endl;
             const auto result_real = *(asset.deref().typed_value_or_empty<onerut_scalar::Real>());
+        } else if (asset.deref().is_given_type<onerut_convergence_parameter::ConvergenceParameter>()) {
+            stream << line_prefix << "[asset-deref] "
+                    << "Asset-defer is a " << esc::manip::italic << "convergence-parameter" << esc::manip::reset << "."
+                    << std::endl;
+            //const auto result_real = *(asset.deref().typed_value_or_empty<onerut_scalar::Real>());
         } else if (asset.deref().is_given_type<onerut_scalar::Complex>()) {
             stream << line_prefix << "[asset-deref] "
                     << "Asset-defer is a " << esc::manip::italic << "complex-number" << esc::manip::reset << "."

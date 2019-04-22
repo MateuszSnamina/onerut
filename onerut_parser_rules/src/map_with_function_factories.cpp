@@ -3,9 +3,11 @@
 
 #include<onerut_parser_rules/function_factory_constant.hpp>
 #include<onerut_parser_rules/function_factory_scalar.hpp>
+#include<onerut_parser_rules/function_factory_convergence_parameter.hpp>
 #include<onerut_parser_rules/function_factory_normal_operators.hpp>
 #include<onerut_parser_rules/function_factory_imperative_request.hpp>
 #include<onerut_parser_rules/function_factory_print_value_request.hpp>
+
 #include<onerut_parser_rules/map_with_function_factories.hpp>
 
 using cx_double = std::complex<double>;
@@ -256,6 +258,10 @@ namespace onerut_parser_rules {
         force_put("eigs", std::make_unique<NormalOperatorEigSparseFunctionFactory>());
         force_put("mean_in_eigenstate", std::make_unique<NormalOperatorMeanInEigenStateFunctionFactory>());
         force_put("thermal_mean", std::make_unique<NormalOperatorMeanThermalFunctionFactory>());
+        // Convergence parameter functions:        
+        force_put("parameter", std::make_unique<CreateConvergenceParameterFunctionFactory>());
+        force_put("arrow", std::make_unique<ArrowFunctionFactory>());
+        force_put("glue", std::make_unique<GlueFunctionFactory>());        
     }
 
     void MapWithFunctionFactories::put_imparative_request_functions() {

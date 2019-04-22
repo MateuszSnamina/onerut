@@ -63,6 +63,21 @@ namespace onerut_request {
                 << std::endl;
     }
 
+    // *************************************************************************
+
+    PrintValueRequestTyped<onerut_convergence_parameter::ConvergenceParameter>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
+    instance(instance) {
+        assert(instance);
+    }
+
+    void PrintValueRequestTyped<onerut_convergence_parameter::ConvergenceParameter>::print(std::ostream& stream, std::string line_prefix) const {
+        assert(instance);
+        stream << line_prefix
+                << "[value] " << "value = " << instance->value_real()
+                << "[value] " << "expression = " << instance->expression()->value_real()
+                << "[value] " << "threshold = " << instance->threshold()
+                << std::endl;
+    }
 
     // *************************************************************************
 

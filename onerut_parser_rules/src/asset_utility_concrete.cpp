@@ -21,7 +21,8 @@ namespace onerut_parser_rules::utility {
         assert(!arg.is_compile_error());
         return arg.is_given_type<onerut_scalar::Integer>() ||
                 arg.is_given_type<onerut_scalar::Real>() ||
-                arg.is_given_type<onerut_normal_operator::Mean>();
+                arg.is_given_type<onerut_normal_operator::Mean>() ||
+                arg.is_given_type<onerut_convergence_parameter::ConvergenceParameter>();
     }
 
     bool
@@ -31,7 +32,15 @@ namespace onerut_parser_rules::utility {
         return arg.is_given_type<onerut_scalar::Integer>() ||
                 arg.is_given_type<onerut_scalar::Real>() ||
                 arg.is_given_type<onerut_scalar::Complex>() ||
-                arg.is_given_type<onerut_normal_operator::Mean>();
+                arg.is_given_type<onerut_normal_operator::Mean>() ||
+                arg.is_given_type<onerut_convergence_parameter::ConvergenceParameter>();
+    }
+
+    bool
+    is_convergence_parameter(const onerut_parser_exec::AssetDeref& arg) {
+        assert(!arg.is_empty());
+        assert(!arg.is_compile_error());
+        return arg.is_given_type<onerut_convergence_parameter::ConvergenceParameter>();
     }
 
     bool
@@ -154,12 +163,21 @@ namespace onerut_parser_rules::utility {
         return arg_complex;
     }
 
+    std::shared_ptr<onerut_convergence_parameter::ConvergenceParameter>
+    to_convergence_parameter(const onerut_parser_exec::AssetDeref& arg) {
+        using ConvergenceParameterT = onerut_convergence_parameter::ConvergenceParameter;
+        assert(is_convergence_parameter(arg));
+        const auto& arg_typed = *arg.typed_value_or_empty<ConvergenceParameterT>();
+        assert(arg_typed);
+        return arg_typed;
+    }
+
     std::shared_ptr < const onerut_normal_operator::Domain >
     to_normal_operator_domain(const onerut_parser_exec::AssetDeref& arg) {
         using CustomDomainT = onerut_normal_operator::CustomDomain;
         using OscillatorDomainT = onerut_normal_operator::OscillatorDomain;
         using SpinDomainT = onerut_normal_operator::SpinDomain;
-        using KronDomainT = onerut_normal_operator::KronDomain;        
+        using KronDomainT = onerut_normal_operator::KronDomain;
         assert(is_normal_operator_domain(arg));
         std::shared_ptr<const onerut_normal_operator::Domain> arg_domain;
         if (const auto temp = arg.typed_value_or_empty<CustomDomainT>()) {
@@ -177,7 +195,7 @@ namespace onerut_parser_rules::utility {
 
     std::shared_ptr < const onerut_normal_operator::OscillatorDomain >
     to_oscillator_operator_domain(const onerut_parser_exec::AssetDeref& arg) {
-        using DomainT = onerut_normal_operator::OscillatorDomain;                
+        using DomainT = onerut_normal_operator::OscillatorDomain;
         assert(is_oscillator_operator_domain(arg));
         const auto& arg_typed = *arg.typed_value_or_empty<DomainT>();
         assert(arg_typed);
@@ -186,7 +204,7 @@ namespace onerut_parser_rules::utility {
 
     std::shared_ptr < const onerut_normal_operator::SpinDomain >
     to_spin_operator_domain(const onerut_parser_exec::AssetDeref& arg) {
-        using DomainT = onerut_normal_operator::SpinDomain;                
+        using DomainT = onerut_normal_operator::SpinDomain;
         assert(is_spin_operator_domain(arg));
         const auto& arg_typed = *arg.typed_value_or_empty<DomainT>();
         assert(arg_typed);
@@ -195,7 +213,7 @@ namespace onerut_parser_rules::utility {
 
     std::shared_ptr < const onerut_normal_operator::KronDomain >
     to_kron_operator_domain(const onerut_parser_exec::AssetDeref& arg) {
-        using DomainT = onerut_normal_operator::KronDomain;        
+        using DomainT = onerut_normal_operator::KronDomain;
         assert(is_kron_operator_domain(arg));
         const auto& arg_typed = *arg.typed_value_or_empty<DomainT>();
         assert(arg_typed);
