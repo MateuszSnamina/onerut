@@ -5,8 +5,7 @@
 #include<esc/esc_manip.hpp>
 //#include<string_utils/greek_support.hpp>
 
-#include<onerut/line_processor.hpp>
-#include<onerut/line_preprocessor.hpp>
+#include<onerut/execute_script.hpp>
 
 std::vector<std::shared_ptr<const std::string>>
 load_script_lines_from_file(const std::filesystem::path& file_path) {
@@ -25,6 +24,7 @@ load_script_lines_from_file(const std::filesystem::path& file_path) {
     return lines;
 }
 
+/*
 void execute_imparative_script(const std::vector<std::shared_ptr<const std::string>>&lines) {
     process_imperative_lines(lines);
     //execute_script_lines(lines);
@@ -36,6 +36,7 @@ void execute_declarative_script(const std::vector<std::shared_ptr<const std::str
     //execute_script_lines(lines);
     //return execute_script_lines(lines);
 }
+*/
 
 void temp_testing() {
 
@@ -153,7 +154,7 @@ int main(int argc, char** argv) {
         std::cout << "enter script mode" << std::endl;
         const std::filesystem::path file_path(argv[1]);
         std::cout << "file path: " << file_path << std::endl;
-        auto lines = preprocess_line(load_script_lines_from_file(file_path));
+        auto lines = load_script_lines_from_file(file_path);
         execute_imparative_script(lines);
     } else {
         temp_testing();
