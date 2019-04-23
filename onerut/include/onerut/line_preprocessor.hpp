@@ -1,5 +1,5 @@
-#ifndef ONERUT_LINE_PREPROCESS
-#define ONERUT_LINE_PREPROCESS
+#ifndef ONERUT_LINE_PREPROCESSOR
+#define ONERUT_LINE_PREPROCESSOR
 
 #include<memory>
 #include<string>

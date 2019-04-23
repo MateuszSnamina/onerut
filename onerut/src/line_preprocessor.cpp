@@ -2,7 +2,7 @@
 #include<algorithm>
 #include<iterator>
 
-#include<onerut/line_preprocess.hpp>
+#include<onerut/line_preprocessor.hpp>
 
 std::string
 preprocess_line(const std::string& line) {

@@ -12,10 +12,10 @@
 #include<onerut_parser_rules/compiler_rules_concrete.hpp>
 #include<onerut_parser_rules/asset_to_esc_data.hpp>
 
-#include<onerut/line_execute.hpp>
+#include<onerut/line_processor.hpp>
 
 std::shared_ptr<onerut_parser_exec::onerut_ast::asset::AssetNode>
-execute_line(std::shared_ptr<const std::string> line) {
+process_line(std::shared_ptr<const std::string> line) {
     // *************************************************************************
     std::cout << esc::manip::bg_yellow << "Processsing "
             << esc::manip::blue << string_utils::StreamToGreek(*line) << esc::manip::color_default
@@ -62,10 +62,41 @@ execute_line(std::shared_ptr<const std::string> line) {
     const auto& asset = ast_asset_head->asset;
     onerut_parser_rules::print_receipt(std::cout, asset, "[receipt] ");
     // *************************************************************************
+    return ast_asset_head;
+}
+
+std::shared_ptr<onerut_parser_exec::onerut_ast::asset::AssetNode>
+process_imperative_line(std::shared_ptr<const std::string> line) {
+    const auto ast_asset_head = process_line(line);
+    const auto& asset = ast_asset_head->asset;
+    // *************************************************************************
     // *************  Requests stage:        ***********************************
     // *************************************************************************
     if (const auto request = asset.deref().typed_value_or_empty<onerut_request::ImperativeRequest>()) {
+        std::cout << "[request] [process] Onerut is about to execute the imperative request."
+                << std::endl;
         (*request)->exec();
+        std::cout << "[request] [process] Onerut has executed the imperative request."
+                << std::endl;
+    }
+    if (const auto request = asset.deref().typed_value_or_empty<onerut_request::PrintValueRequest>()) {
+        (*request)->print(std::cout, "[request] ");
+    }
+    // *************************************************************************
+    std::cout << std::endl;
+    return ast_asset_head;
+}
+
+std::shared_ptr<onerut_parser_exec::onerut_ast::asset::AssetNode>
+process_deklarative_line(std::shared_ptr<const std::string> line) {
+    const auto ast_asset_head = process_line(line);
+    const auto& asset = ast_asset_head->asset;
+    // *************************************************************************
+    // *************  Requests stage:        ***********************************
+    // *************************************************************************
+    if (const auto request = asset.deref().typed_value_or_empty<onerut_request::ImperativeRequest>()) {
+        std::cout << "[request] [warning] Warning: Imperative requests has no effect in declarative mode."
+                << std::endl;
     }
     if (const auto request = asset.deref().typed_value_or_empty<onerut_request::PrintValueRequest>()) {
         (*request)->print(std::cout, "[request] ");
@@ -76,13 +107,21 @@ execute_line(std::shared_ptr<const std::string> line) {
 }
 
 std::vector<std::shared_ptr<onerut_parser_exec::onerut_ast::asset::AssetNode>>
-execute_script_lines(const std::vector<std::shared_ptr<const std::string>>&lines) {
+process_imperative_lines(const std::vector<std::shared_ptr<const std::string>>&lines) {
     std::vector<std::shared_ptr < onerut_parser_exec::onerut_ast::asset::AssetNode>> result;
-    //std::back_inserter(result);
-    //return std::all_of(cbegin(lines), cend(lines),
     std::transform(cbegin(lines), cend(lines), std::back_inserter(result),
             [](const std::shared_ptr<const std::string> &line) {
-                return execute_line(line);
+                return process_imperative_line(line);
+            });
+    return result;
+}
+
+std::vector<std::shared_ptr<onerut_parser_exec::onerut_ast::asset::AssetNode>>
+process_declarative_lines(const std::vector<std::shared_ptr<const std::string>>&lines) {
+    std::vector<std::shared_ptr < onerut_parser_exec::onerut_ast::asset::AssetNode>> result;
+    std::transform(cbegin(lines), cend(lines), std::back_inserter(result),
+            [](const std::shared_ptr<const std::string> &line) {
+                return process_deklarative_line(line);
             });
     return result;
 }

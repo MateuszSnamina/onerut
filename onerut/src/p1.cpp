@@ -5,8 +5,8 @@
 #include<esc/esc_manip.hpp>
 //#include<string_utils/greek_support.hpp>
 
-#include<onerut/line_execute.hpp>
-#include<onerut/line_preprocess.hpp>
+#include<onerut/line_processor.hpp>
+#include<onerut/line_preprocessor.hpp>
 
 std::vector<std::shared_ptr<const std::string>>
 load_script_lines_from_file(const std::filesystem::path& file_path) {
@@ -26,12 +26,14 @@ load_script_lines_from_file(const std::filesystem::path& file_path) {
 }
 
 void execute_imparative_script(const std::vector<std::shared_ptr<const std::string>>&lines) {
-    execute_script_lines(lines);
+    process_imperative_lines(lines);
+    //execute_script_lines(lines);
     //return execute_script_lines(lines);
 }
 
 void execute_declarative_script(const std::vector<std::shared_ptr<const std::string>>&lines) {
-    execute_script_lines(lines);
+    process_declarative_lines(lines);
+    //execute_script_lines(lines);
     //return execute_script_lines(lines);
 }
 
