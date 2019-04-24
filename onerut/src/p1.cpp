@@ -6,6 +6,7 @@
 //#include<string_utils/greek_support.hpp>
 
 #include<onerut/execute_script.hpp>
+#include<onerut/program_options.hpp>
 
 std::vector<std::shared_ptr<const std::string>>
 load_script_lines_from_file(const std::filesystem::path& file_path) {
@@ -23,20 +24,6 @@ load_script_lines_from_file(const std::filesystem::path& file_path) {
     }
     return lines;
 }
-
-/*
-void execute_imparative_script(const std::vector<std::shared_ptr<const std::string>>&lines) {
-    process_imperative_lines(lines);
-    //execute_script_lines(lines);
-    //return execute_script_lines(lines);
-}
-
-void execute_declarative_script(const std::vector<std::shared_ptr<const std::string>>&lines) {
-    process_declarative_lines(lines);
-    //execute_script_lines(lines);
-    //return execute_script_lines(lines);
-}
-*/
 
 void temp_testing() {
 
@@ -146,17 +133,29 @@ void temp_testing() {
     lines.push_back(std::make_shared<const std::string>("VALUE(pa)"));
     lines.push_back(std::make_shared<const std::string>("pa+5"));
     lines.push_back(std::make_shared<const std::string>("VALUE(pa+5)"));
-    execute_imparative_script(lines);
+    //execute_imparative_script(lines);
+    execute_declarative_script(lines);
 }
 
 int main(int argc, char** argv) {
-    if (argc == 2) {
-        std::cout << "enter script mode" << std::endl;
-        const std::filesystem::path file_path(argv[1]);
-        std::cout << "file path: " << file_path << std::endl;
-        auto lines = load_script_lines_from_file(file_path);
-        execute_imparative_script(lines);
-    } else {
-        temp_testing();
-    }
+
+
+    ProgramOptions program_options = grep_program_options(argc, argv);
+
+    std::cout << "[INFO   ] [PROGRAM_OPTIONS] script_file_path = " << program_options.script_file_path << std::endl;
+    std::cout << "[INFO   ] [PROGRAM_OPTIONS] script_type      = " << program_options.script_type << std::endl;
+    std::cout << "[INFO   ] [PROGRAM_OPTIONS] n_max_iterations = " << program_options.n_max_iterations << std::endl;
+
+    const auto lines = load_script_lines_from_file(program_options.script_file_path);
+    execute_imparative_script(lines);
+
+    //    if (argc == 2) {
+    //        std::cout << "enter script mode" << std::endl;
+    //        const std::filesystem::path file_path(argv[1]);
+    //        std::cout << "file path: " << file_path << std::endl;
+    //        auto lines = load_script_lines_from_file(file_path);
+    //        execute_imparative_script(lines);
+    //    } else {
+    //        temp_testing();
+    //    }
 }

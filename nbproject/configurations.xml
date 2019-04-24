@@ -15,11 +15,17 @@
       </df>
     </df>
     <df root="onerut" name="2">
+      <df name="include">
+        <df name="onerut">
+          <in>program_options.hpp</in>
+        </df>
+      </df>
       <df name="src">
         <in>execute_script.cpp</in>
         <in>line_preprocessor.cpp</in>
         <in>line_processor.cpp</in>
         <in>p1.cpp</in>
+        <in>program_options.cpp</in>
       </df>
     </df>
     <df root="onerut_convergence_parameter" name="3">
@@ -473,6 +479,11 @@
         <ccTool flags="1">
         </ccTool>
       </item>
+      <item path="onerut/include/onerut/program_options.hpp"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
       <item path="onerut/src/execute_script.cpp" ex="false" tool="1" flavor2="11">
         <ccTool flags="1">
         </ccTool>
@@ -488,6 +499,8 @@
       <item path="onerut/src/p1.cpp" ex="false" tool="1" flavor2="11">
         <ccTool flags="1">
         </ccTool>
+      </item>
+      <item path="onerut/src/program_options.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="onerut_convergence_parameter/src/convergence_parameter.cpp"
             ex="false"
