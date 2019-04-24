@@ -11,7 +11,7 @@ namespace onerut_parser_exec::onerut_ast::asset {
             Asset asset
             ) :
     source(source),
-    subassets({}),
+    subnodes({}),
     asset(asset) {
     }
 
@@ -20,7 +20,7 @@ namespace onerut_parser_exec::onerut_ast::asset {
             std::shared_ptr<AssetNode> subasset,
             Asset asset) :
     source(source),
-    subassets({subasset}),
+    subnodes({subasset}),
     asset(asset) {
     }
 
@@ -30,7 +30,7 @@ namespace onerut_parser_exec::onerut_ast::asset {
             std::shared_ptr<AssetNode> second_subasset,
             Asset asset) :
     source(source),
-    subassets({first_subasset, second_subasset}),
+    subnodes({first_subasset, second_subasset}),
     asset(asset) {
     }
 
@@ -40,7 +40,7 @@ namespace onerut_parser_exec::onerut_ast::asset {
             std::vector<std::shared_ptr<AssetNode>> others_subassets,
             Asset asset) :
     source(source),
-    subassets(cat(first_subasset, others_subassets)),
+    subnodes(cat(first_subasset, others_subassets)),
     asset(asset) {
     }
 
@@ -49,7 +49,7 @@ namespace onerut_parser_exec::onerut_ast::asset {
             std::vector<std::shared_ptr<AssetNode>> subassets,
             Asset asset) :
     source(source),
-    subassets(subassets),
+    subnodes(subassets),
     asset(asset) {
     }
 

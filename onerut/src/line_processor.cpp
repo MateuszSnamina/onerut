@@ -88,14 +88,14 @@ process_imperative_line(std::shared_ptr<const std::string> line) {
 }
 
 std::shared_ptr<onerut_parser_exec::onerut_ast::asset::AssetNode>
-process_deklarative_line(std::shared_ptr<const std::string> line) {
+process_declarative_line(std::shared_ptr<const std::string> line) {
     const auto ast_asset_head = process_line(line);
     const auto& asset = ast_asset_head->asset;
     // *************************************************************************
     // *************  Requests stage:        ***********************************
     // *************************************************************************
     if (const auto request = asset.deref().typed_value_or_empty<onerut_request::ImperativeRequest>()) {
-        std::cout << "[request] [warning] Warning: Imperative requests has no effect in declarative mode."
+        std::cout << "[request] [warning] Imperative requests has no effect in declarative mode."
                 << std::endl;
     }
     if (const auto request = asset.deref().typed_value_or_empty<onerut_request::PrintValueRequest>()) {
@@ -121,7 +121,7 @@ process_declarative_lines(const std::vector<std::shared_ptr<const std::string>>&
     std::vector<std::shared_ptr < onerut_parser_exec::onerut_ast::asset::AssetNode>> result;
     std::transform(cbegin(lines), cend(lines), std::back_inserter(result),
             [](const std::shared_ptr<const std::string> &line) {
-                return process_deklarative_line(line);
+                return process_declarative_line(line);
             });
     return result;
 }

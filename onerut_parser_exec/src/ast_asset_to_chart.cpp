@@ -20,7 +20,7 @@ namespace onerut_parser_exec::onerut_ast::asset {
         const auto esc_data = asset_to_esc_data(asset);
         BitChartInfo bit = {source->span, esc_data};
         ast_chart[deepness].push_back(bit);
-        for (const auto& subasset : subassets) {
+        for (const auto& subasset : subnodes) {
             subasset->to_ast_chart(deepness + 1, ast_chart, asset_to_esc_data);
         }
     }
@@ -43,7 +43,7 @@ namespace onerut_parser_exec::onerut_ast::asset {
                 erros_chart.push_back(error_info);
             }
         }
-        for (const auto& subasset : subassets) {
+        for (const auto& subasset : subnodes) {
             subasset->to_errors_chart(erros_chart);
         }
     }

@@ -41,7 +41,7 @@ namespace onerut_parser_exec::onerut_ast::asset {
         ErrorsChartInfo to_errors_chart() const;
         // -----Internal data: --------------------
         const std::shared_ptr<const source::SourceNode> source;
-        const std::vector<std::shared_ptr<AssetNode>> subassets;
+        const std::vector<std::shared_ptr<AssetNode>> subnodes;
         const Asset asset;
     private:
         void to_ast_chart(
