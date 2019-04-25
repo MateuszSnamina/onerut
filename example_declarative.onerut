@@ -3,5 +3,5 @@ x_re := x
 y := parameter(32)
 z := x + y
 VALUE(x)
-x -> x*2
-y -> x
+x -> x*100
+y -> y/100

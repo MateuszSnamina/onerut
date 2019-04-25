@@ -100,5 +100,17 @@ execute_declarative_script(const std::vector<std::shared_ptr<const std::string>>
                     << old_value << "=>" << new_value
                     << std::endl;
         }
+        for (const auto& object : convergence_parameter_objects) {
+            const bool is_converged = object->is_converged();
+            std::cout << "[CONVERGENCE PARAMETER] [CONVERGENCE] ";
+            if (is_converged) {
+                std::cout << esc::manip::green << "TRUE  " << "✓" << esc::manip::reset;
+            } else {
+                std::cout << esc::manip::red << "FALSE " << "✘" << esc::manip::reset;
+            }
+            std::cout << " as Δ=" << object->delta_or_nan()
+                    << " (threshold=" << object->threshold() << ")"
+                    << std::endl;
+        }
     }
 }
