@@ -5,8 +5,26 @@
 #include<map>
 #include<memory>
 
-std::multimap<std::shared_ptr<void>, std::string>
-create_object_akas_map();
+#include<onerut_parser_exec/asset_ref_container.hpp>
+
+template<class T>
+std::multimap<std::shared_ptr<void>, std::string> create_object_akas_map() {
+    std::multimap<std::shared_ptr<void>, std::string> object_akas;
+    const auto& identifiers = onerut_parser_exec::AssetRefContainer::global_instance().identifiers();
+    for (const auto& identifiers_entry : identifiers) {
+        const auto& aka = identifiers_entry.first;
+        const auto& asset = identifiers_entry.second;
+        assert(asset);
+        const auto& asset_deref = asset->get_asset_deref();
+        if (asset_deref.is_either_value_or_type()) {
+            if (const auto &object = asset_deref.typed_value_or_empty<T>()) {
+                decltype(object_akas)::value_type p(*object, aka);
+                object_akas.insert(p);
+            }
+        }
+    }
+    return object_akas;
+}
 
 std::string
 object_to_aka_string(

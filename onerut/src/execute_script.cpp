@@ -57,15 +57,18 @@ execute_declarative_script(const std::vector<std::shared_ptr<const std::string>>
         dfs(ast_head_node, add_convergence_parameter_objects);
     }
     // -------------------------------------------------------------------------
-    const auto object_akas = create_object_akas_map();
+    const auto akas_for_eig_objects =
+            create_object_akas_map<onerut_normal_operator::Eig>();
+    const auto akas_for_convergence_parameter_objects =
+            create_object_akas_map<onerut_convergence_parameter::ConvergenceParameter>();
     // -------------------------------------------------------------------------
     for (const auto& object : eig_objects) {
         std::cout << "[INVENTORY] " << "[EIG] "
-                << Aka(object, object_akas) << std::endl;
+                << Aka(object, akas_for_eig_objects) << std::endl;
     }
     for (const auto& object : convergence_parameter_objects) {
         std::cout << "[INVENTORY] " << "[CONVERGENCE PARAMETER] "
-                << Aka(object, object_akas) << std::endl;
+                << Aka(object, akas_for_convergence_parameter_objects) << std::endl;
     }
     // -------------------------------------------------------------------------
     std::cout << "[DECLARATIVE MODE] [STEP] [SELF-CONSISTENT LOOP]" << std::endl;

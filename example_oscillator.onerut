@@ -48,6 +48,7 @@ VALUE(eig) # print executed value
 eig2 := eigd(H_lambda_1)#TODO delete
 Aeig1_re1 := eig#TODO delete
 Zeig1_re2 := eig#TODO delete
+eigd(H_lambda_1)#TODO delete
 ##################################################
 # Calculate <x>, <x*x> in the first eigenstate   #
 ##################################################
