@@ -4,4 +4,4 @@ y := parameter(32)
 z := x + y
 VALUE(x)
 x -> x*2
-y -> 6
+y -> x

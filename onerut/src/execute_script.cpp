@@ -1,14 +1,23 @@
+#include<iostream>
+#include<iomanip>
 #include<algorithm>
 #include<functional>
 
-#include<onerut/line_processor.hpp>
-#include<onerut/line_preprocessor.hpp>
-#include<onerut/execute_script.hpp>
-#include<onerut/aka.hpp>
-
+#include<esc/esc_manip.hpp>
 #include<onerut_normal_operator/eig.hpp>
 //#include<onerut_normal_operator/mean.hpp>
 #include<onerut_convergence_parameter/convergence_parameter.hpp>
+#include<onerut/aka.hpp>
+#include<onerut/line_preprocessor.hpp>
+#include<onerut/line_processor.hpp>
+#include<onerut/execute_script.hpp>
+
+void print_section_bar(std::string section_title) {
+    std::cout << std::endl;
+    std::cout << esc::manip::bg_blue
+            << std::setw(100) << std::left << "[DECLARATIVE MODE] [SECTION] [" + section_title + "]"
+            << esc::manip::reset << std::endl;
+}
 
 template<class T>
 void add_if_type_matches(std::vector<std::shared_ptr<T> >& objects, onerut_parser_exec::Asset asset) {
@@ -37,13 +46,10 @@ execute_imparative_script(const std::vector<std::shared_ptr<const std::string>>&
 void
 execute_declarative_script(const std::vector<std::shared_ptr<const std::string>>&lines) {
     // -------------------------------------------------------------------------
-    std::cout << std::endl;
-    std::cout << "[DECLARATIVE MODE] [STEP] [SCRIPT LINES PROCESSING]" << std::endl;
-    //std::vector<std::shared_ptr < onerut_parser_exec::onerut_ast::asset::AssetNode>>
+    print_section_bar("SCRIPT LINES PROCESSING");
     const auto ats_head_nodes = process_declarative_lines(preprocess_line(lines));
     // -------------------------------------------------------------------------
-    std::cout << std::endl;
-    std::cout << "[DECLARATIVE MODE] [STEP] [OBJECTS INVENTORYING]" << std::endl;
+    print_section_bar("OBJECTS INVENTORYING");
     std::vector<std::shared_ptr<onerut_normal_operator::Eig> > eig_objects;
     std::vector<std::shared_ptr<onerut_convergence_parameter::ConvergenceParameter> > convergence_parameter_objects;
     for (const auto& ast_head_node : ats_head_nodes) {
@@ -75,24 +81,21 @@ execute_declarative_script(const std::vector<std::shared_ptr<const std::string>>
     // -------------------------------------------------------------------------
     // check if every convergence_parameter_objects has set expression.
     // -------------------------------------------------------------------------
-    std::cout << std::endl;
-    std::cout << "[DECLARATIVE MODE] [STEP] [SELF-CONSISTENT LOOP]" << std::endl;
+    print_section_bar("SELF-CONSISTENT LOOP");
     for (unsigned iteracja = 0; iteracja < 5; ++iteracja) {
-        std::cout << "[DECLARATIVE MODE] [STEP] [SELF-CONSISTENT LOOP] [ITERATIONS] "
-                << "iteration number " << iteracja
+        std::cout << esc::manip::bg_yellow
+                << "[DECLARATIVE MODE] [STEP] [SELF-CONSISTENT LOOP] [ITERATIONS] "
+                << "iteration number " << std::setw(4) << iteracja << "."
+                << esc::manip::reset
                 << std::endl;
         for (const auto& object : convergence_parameter_objects) {
-            double new_value = object->recalcuate();
-            std::cout << "[INVENTORY] " << "[CONVERGENCE PARAMETER] [NEW VALUE] "
-                    << Aka(object, akas_for_convergence_parameter_objects) << " "
-                    << new_value
-                    << std::endl;
+            object->recalcuate();
         }
         for (const auto& object : convergence_parameter_objects) {
             double old_value = object->value_real();
             object->revolve();
             double new_value = object->value_real();
-            std::cout << "[INVENTORY] " << "[CONVERGENCE PARAMETER] [OLD VALUE => NEW VALUE] "
+            std::cout << "[CONVERGENCE PARAMETER] [OLD VALUE => NEW VALUE] "
                     << Aka(object, akas_for_convergence_parameter_objects) << " "
                     << old_value << "=>" << new_value
                     << std::endl;
