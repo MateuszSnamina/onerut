@@ -15,7 +15,13 @@
       </df>
     </df>
     <df root="onerut" name="2">
+      <df name="include">
+        <df name="onerut">
+          <in>aka.hpp</in>
+        </df>
+      </df>
       <df name="src">
+        <in>aka.cpp</in>
         <in>execute_script.cpp</in>
         <in>line_preprocessor.cpp</in>
         <in>line_processor.cpp</in>
@@ -482,6 +488,10 @@
             flavor2="11">
         <ccTool flags="1">
         </ccTool>
+      </item>
+      <item path="onerut/include/onerut/aka.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="onerut/src/aka.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="onerut/src/execute_script.cpp" ex="false" tool="1" flavor2="11">
         <ccTool flags="1">

@@ -1,54 +1,25 @@
-#include<onerut/line_processor.hpp>
-#include<onerut/line_preprocessor.hpp>
-#include<onerut/execute_script.hpp>
-
 #include<algorithm>
 #include<functional>
 
-#include<onerut_parser_exec/asset_ref_container.hpp>
+#include<onerut/line_processor.hpp>
+#include<onerut/line_preprocessor.hpp>
+#include<onerut/execute_script.hpp>
+#include<onerut/aka.hpp>
+
 #include<onerut_normal_operator/eig.hpp>
 //#include<onerut_normal_operator/mean.hpp>
 #include<onerut_convergence_parameter/convergence_parameter.hpp>
-
-std::multimap<std::shared_ptr<void>, std::string> create_object_names_map() {
-    std::multimap<std::shared_ptr<void>, std::string> object_names;
-    const auto& identifiers = onerut_parser_exec::AssetRefContainer::global_instance().identifiers();
-    for (const auto& identifiers_entry : identifiers) {
-        const auto& name = identifiers_entry.first;
-        const auto& asset = identifiers_entry.second;
-        assert(asset);
-        const auto& asset_deref = asset->get_asset_deref();
-        if (asset_deref.is_either_value_or_type()) {
-            if (const auto &object = asset_deref.typed_value_or_empty<onerut_normal_operator::Eig>()) {
-                std::cout << name << " " << *object << "---" << std::endl;
-                decltype(object_names)::value_type p(*object, name);
-                object_names.insert(p);
-            }
-        } else {
-            std::cout << name << std::endl;
-        }
-    }
-    return object_names;
-}
 
 template<class T>
 void add_if_type_matches(std::vector<std::shared_ptr<T> >& objects, onerut_parser_exec::Asset asset) {
     const auto asset_deref = asset.deref();
     if (asset_deref.is_either_value_or_type()) {
         if (const auto &object = asset_deref.typed_value_or_empty<T>()) {
-            //std::cout << "+" << (*object);
             if (std::find(cbegin(objects), cend(objects), object) == cend(objects)) {
                 objects.push_back(*object);
             }
-            //std::cout << "[" << objects.size() << "]" << std::endl;
         }
-        //        else {
-        //            std::cout << "-" << std::endl;
-        //        }
     }
-    //    else {
-    //        std::cout << "!" << std::endl;
-    //    }
 }
 
 void dfs(std::shared_ptr<onerut_parser_exec::onerut_ast::asset::AssetNode> head_node,
@@ -86,25 +57,15 @@ execute_declarative_script(const std::vector<std::shared_ptr<const std::string>>
         dfs(ast_head_node, add_convergence_parameter_objects);
     }
     // -------------------------------------------------------------------------
-    const auto object_names = create_object_names_map();
+    const auto object_akas = create_object_akas_map();
     // -------------------------------------------------------------------------
     for (const auto& object : eig_objects) {
-        std::cout << "[INVENTORY]" << "[EIG]" << object << std::endl;
-        const auto it_lo = object_names.lower_bound(object);
-        const auto it_up = object_names.upper_bound(object);
-        for (auto it = it_lo; it != it_up; ++it) {
-            const auto& name = it->second;
-            std::cout << "aka " << name << std::endl;
-        }
+        std::cout << "[INVENTORY] " << "[EIG] "
+                << Aka(object, object_akas) << std::endl;
     }
     for (const auto& object : convergence_parameter_objects) {
-        std::cout << "[INVENTORY]" << "[CONVERGENCE PARAMETER]" << object << std::endl;
-        const auto it_lo = object_names.lower_bound(object);
-        const auto it_up = object_names.upper_bound(object);
-        for (auto it = it_lo; it != it_up; ++it) {
-            const auto& name = it->second;
-            std::cout << "aka " << name << std::endl;
-        }
+        std::cout << "[INVENTORY] " << "[CONVERGENCE PARAMETER] "
+                << Aka(object, object_akas) << std::endl;
     }
     // -------------------------------------------------------------------------
     std::cout << "[DECLARATIVE MODE] [STEP] [SELF-CONSISTENT LOOP]" << std::endl;
