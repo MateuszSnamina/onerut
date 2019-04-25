@@ -37,10 +37,12 @@ execute_imparative_script(const std::vector<std::shared_ptr<const std::string>>&
 void
 execute_declarative_script(const std::vector<std::shared_ptr<const std::string>>&lines) {
     // -------------------------------------------------------------------------
+    std::cout << std::endl;
     std::cout << "[DECLARATIVE MODE] [STEP] [SCRIPT LINES PROCESSING]" << std::endl;
     //std::vector<std::shared_ptr < onerut_parser_exec::onerut_ast::asset::AssetNode>>
     const auto ats_head_nodes = process_declarative_lines(preprocess_line(lines));
     // -------------------------------------------------------------------------
+    std::cout << std::endl;
     std::cout << "[DECLARATIVE MODE] [STEP] [OBJECTS INVENTORYING]" << std::endl;
     std::vector<std::shared_ptr<onerut_normal_operator::Eig> > eig_objects;
     std::vector<std::shared_ptr<onerut_convergence_parameter::ConvergenceParameter> > convergence_parameter_objects;
@@ -71,6 +73,29 @@ execute_declarative_script(const std::vector<std::shared_ptr<const std::string>>
                 << Aka(object, akas_for_convergence_parameter_objects) << std::endl;
     }
     // -------------------------------------------------------------------------
+    // check if every convergence_parameter_objects has set expression.
+    // -------------------------------------------------------------------------
+    std::cout << std::endl;
     std::cout << "[DECLARATIVE MODE] [STEP] [SELF-CONSISTENT LOOP]" << std::endl;
-
+    for (unsigned iteracja = 0; iteracja < 5; ++iteracja) {
+        std::cout << "[DECLARATIVE MODE] [STEP] [SELF-CONSISTENT LOOP] [ITERATIONS] "
+                << "iteration number " << iteracja
+                << std::endl;
+        for (const auto& object : convergence_parameter_objects) {
+            double new_value = object->recalcuate();
+            std::cout << "[INVENTORY] " << "[CONVERGENCE PARAMETER] [NEW VALUE] "
+                    << Aka(object, akas_for_convergence_parameter_objects) << " "
+                    << new_value
+                    << std::endl;
+        }
+        for (const auto& object : convergence_parameter_objects) {
+            double old_value = object->value_real();
+            object->revolve();
+            double new_value = object->value_real();
+            std::cout << "[INVENTORY] " << "[CONVERGENCE PARAMETER] [OLD VALUE => NEW VALUE] "
+                    << Aka(object, akas_for_convergence_parameter_objects) << " "
+                    << old_value << "=>" << new_value
+                    << std::endl;
+        }
+    }
 }

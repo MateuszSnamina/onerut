@@ -1,0 +1,7 @@
+x := parameter(8)
+x_re := x
+y := parameter(32)
+z := x + y
+VALUE(x)
+x -> x+1
+y -> 6
