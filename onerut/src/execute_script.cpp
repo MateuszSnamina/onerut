@@ -5,6 +5,7 @@
 #include<algorithm>
 #include<functional>
 
+#include<onerut_parser_exec/asset_ref_container.hpp>
 #include<onerut_normal_operator/eig.hpp>
 //#include<onerut_normal_operator/mean.hpp>
 #include<onerut_convergence_parameter/convergence_parameter.hpp>
@@ -51,7 +52,6 @@ execute_declarative_script(const std::vector<std::shared_ptr<const std::string>>
     std::cout << "[DECLARATIVE MODE] [STEP] [OBJECTS INVENTORYING]" << std::endl;
     std::vector<std::shared_ptr<onerut_normal_operator::Eig> > eig_objects;
     std::vector<std::shared_ptr<onerut_convergence_parameter::ConvergenceParameter> > convergence_parameter_objects;
-
     for (const auto& ast_head_node : ats_head_nodes) {
         //std::cout << "**************" << std::endl;
         const auto add_eig_objects = std::bind(
@@ -71,6 +71,21 @@ execute_declarative_script(const std::vector<std::shared_ptr<const std::string>>
     }
     for (const auto& object : convergence_parameter_objects) {
         std::cout << "[INVENTORY]" << "[CONVERGENCE PARAMETER]" << object << std::endl;
+    }
+    // -------------------------------------------------------------------------
+    const auto& identifiers = onerut_parser_exec::AssetRefContainer::global_instance().identifiers();
+    for (const auto& identifiers_entry : identifiers) {
+        const auto& name = identifiers_entry.first;
+        const auto& asset = identifiers_entry.second;
+        assert(asset);
+        const auto& asset_deref = asset->get_asset_deref();
+        if (asset_deref.is_either_value_or_type()) {
+            if (const auto &object = asset_deref.typed_value_or_empty<onerut_normal_operator::Eig>()) {
+                std::cout << name << " " << *object << "---" << std::endl;
+            }
+        } else {
+            std::cout << name << std::endl; // << identifiers_entry.second << std::end;
+        }
     }
     // -------------------------------------------------------------------------
     std::cout << "[DECLARATIVE MODE] [STEP] [SELF-CONSISTENT LOOP]" << std::endl;

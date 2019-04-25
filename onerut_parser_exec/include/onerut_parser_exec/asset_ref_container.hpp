@@ -15,8 +15,9 @@ namespace onerut_parser_exec {
         bool put(std::shared_ptr<AbstractAssetRef> ref);
         void force_put(std::shared_ptr<AbstractAssetRef> ref);
         void clear();
+        const std::map<std::string, std::shared_ptr<AbstractAssetRef>>& identifiers() const;
     private:
-        std::map<std::string, std::shared_ptr<AbstractAssetRef>> identifiers;
+        std::map<std::string, std::shared_ptr<AbstractAssetRef>> _identifiers;
     };
 
 }
