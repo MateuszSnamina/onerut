@@ -47,7 +47,15 @@ BOOST_FUSION_ADAPT_STRUCT(
 BOOST_FUSION_ADAPT_STRUCT(
         onerut_parser_exec::onerut_ast::x3::OpAssignInfo,
         (boost::optional<onerut_parser_exec::onerut_ast::x3::OpAssignBitInfo>, bit)
-        (onerut_parser_exec::onerut_ast::x3::OpPlusMinusInfo, sum))
+        (onerut_parser_exec::onerut_ast::x3::OpArrowInfo, expression))
+BOOST_FUSION_ADAPT_STRUCT(
+        onerut_parser_exec::onerut_ast::x3::OpArrowInfo,
+        (onerut_parser_exec::onerut_ast::x3::OpGlueInfo, first_arg)
+        (boost::optional<onerut_parser_exec::onerut_ast::x3::OpGlueInfo>, other_arg))
+BOOST_FUSION_ADAPT_STRUCT(
+        onerut_parser_exec::onerut_ast::x3::OpGlueInfo,
+        (onerut_parser_exec::onerut_ast::x3::OpPlusMinusInfo, first_arg)
+        (boost::optional<onerut_parser_exec::onerut_ast::x3::OpPlusMinusInfo>, other_arg))
 BOOST_FUSION_ADAPT_STRUCT(
         onerut_parser_exec::onerut_ast::x3::OpPlusMinusBitInfo,
         (char, op)
@@ -70,14 +78,6 @@ BOOST_FUSION_ADAPT_STRUCT(
         (boost::optional<onerut_parser_exec::onerut_ast::x3::OpAtInfo>, other_arg))
 BOOST_FUSION_ADAPT_STRUCT(
         onerut_parser_exec::onerut_ast::x3::OpAtInfo,
-        (onerut_parser_exec::onerut_ast::x3::OpArrowInfo, first_arg)
-        (boost::optional<onerut_parser_exec::onerut_ast::x3::OpArrowInfo>, other_arg))
-BOOST_FUSION_ADAPT_STRUCT(
-        onerut_parser_exec::onerut_ast::x3::OpArrowInfo,
-        (onerut_parser_exec::onerut_ast::x3::OpGlueInfo, first_arg)
-        (boost::optional<onerut_parser_exec::onerut_ast::x3::OpGlueInfo>, other_arg))
-BOOST_FUSION_ADAPT_STRUCT(
-        onerut_parser_exec::onerut_ast::x3::OpGlueInfo,
         (onerut_parser_exec::onerut_ast::x3::Value1Info, first_arg)
         (boost::optional<onerut_parser_exec::onerut_ast::x3::Value1Info>, other_arg))
 BOOST_FUSION_ADAPT_STRUCT(
@@ -258,20 +258,20 @@ namespace onerut_parser_exec::onerut_gramma {
     auto const expression_parser_raw_def = op_assign_parser;
     auto const expression_parser_def = boost::spirit::x3::expect[expression_parser_raw];
     auto const op_assign_bit_parser_def = boost::spirit::x3::matches["new"] >> boost::spirit::x3::matches["const"] >> identifier_parser >> ":=";
-    auto const op_assign_parser_def = -op_assign_bit_parser >> op_plus_minus_parser;
+    auto const op_assign_parser_def = -op_assign_bit_parser >> op_arrow_parser;
+    auto const op_arrow_parser_def = op_glue_parser >> -("->" >> op_glue_parser);
+    auto const op_glue_parser_def = op_plus_minus_parser >> -("::" >> op_plus_minus_parser);
     auto const op_plus_minus_bit_parser_def = boost::spirit::x3::char_("+-") >> op_prod_div_parser;
     auto const op_plus_minus_parser_def = op_prod_div_parser >> *(op_plus_minus_bit_parser);
     auto const op_prod_div_bit_parser_def = boost::spirit::x3::char_("/*") >> op_pow_parser;
     auto const op_prod_div_parser_def = op_pow_parser >> *(op_prod_div_bit_parser);
     auto const op_pow_parser_def = op_at_parser >> -("^" >> op_at_parser);
-    auto const op_at_parser_def = op_arrow_parser>> -("@" >> op_arrow_parser);
-    auto const op_arrow_parser_def = op_glue_parser>> -("->" >> op_glue_parser);
-    auto const op_glue_parser_def = value1_parser>> -("::" >> value1_parser);
+    auto const op_at_parser_def = value1_parser >> -("@" >> value1_parser);
     auto const value1_parser_def =
             lit_pure_complex_double_parser | lit_double_parser | lit_long_parser | // Note: lit_double_parser has to be before lit_long_parser.
             op_unary_plus_minus_parser;
     auto const op_unary_plus_minus_parser_def = -boost::spirit::x3::char_("+-") >> value2_parser;
-    auto const value2_parser_def =                                                                                                                                           
+    auto const value2_parser_def =
             empty_function_parser | function_parser | identifier_parser | // Note: empty_function_parser has to be before function_parser; function_parser has to be before identifier_parser.
             nested_expression1_parser | nested_expression2_parser;
     auto const lit_pure_complex_double_parser_def = boost::spirit::x3::lexeme[ boost::spirit::x3::double_ >> 'i' ];

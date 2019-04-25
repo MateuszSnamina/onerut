@@ -66,27 +66,9 @@ namespace onerut_parser_exec::onerut_ast::x3 {
         using base_type::operator=;
     };
 
-    struct OpGlueInfo : boost::spirit::x3::position_tagged {
+    struct OpAtInfo : boost::spirit::x3::position_tagged {
         Value1Info first_arg;
         boost::optional<Value1Info> other_arg;
-        OpGlueInfo() = default;
-        OpGlueInfo(OpGlueInfo const&) = default;
-        OpGlueInfo& operator=(OpGlueInfo const&) = default;
-
-    };
-
-    struct OpArrowInfo : boost::spirit::x3::position_tagged {
-        OpGlueInfo first_arg;
-        boost::optional<OpGlueInfo> other_arg;
-        OpArrowInfo() = default;
-        OpArrowInfo(OpArrowInfo const&) = default;
-        OpArrowInfo& operator=(OpArrowInfo const&) = default;
-
-    };
-
-    struct OpAtInfo : boost::spirit::x3::position_tagged {
-        OpArrowInfo first_arg;
-        boost::optional<OpArrowInfo> other_arg;
         OpAtInfo() = default;
         OpAtInfo(OpAtInfo const&) = default;
         OpAtInfo& operator=(OpAtInfo const&) = default;
@@ -132,9 +114,27 @@ namespace onerut_parser_exec::onerut_ast::x3 {
         IdentifierInfo identifier;
     };
 
+    struct OpGlueInfo : boost::spirit::x3::position_tagged {
+        OpPlusMinusInfo first_arg;
+        boost::optional<OpPlusMinusInfo> other_arg;
+        OpGlueInfo() = default;
+        OpGlueInfo(OpGlueInfo const&) = default;
+        OpGlueInfo& operator=(OpGlueInfo const&) = default;
+
+    };
+
+    struct OpArrowInfo : boost::spirit::x3::position_tagged {
+        OpGlueInfo first_arg;
+        boost::optional<OpGlueInfo> other_arg;
+        OpArrowInfo() = default;
+        OpArrowInfo(OpArrowInfo const&) = default;
+        OpArrowInfo& operator=(OpArrowInfo const&) = default;
+
+    };
+
     struct OpAssignInfo : boost::spirit::x3::position_tagged {
         boost::optional<OpAssignBitInfo> bit;
-        OpPlusMinusInfo sum;
+        OpArrowInfo expression;
         OpAssignInfo() = default;
         OpAssignInfo(OpAssignInfo const&) = default;
         OpAssignInfo& operator=(OpAssignInfo const&) = default;

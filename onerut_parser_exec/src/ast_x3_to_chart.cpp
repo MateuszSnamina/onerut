@@ -83,7 +83,7 @@ namespace onerut_parser_exec::onerut_ast::x3 {
         if (info.bit) {
             to_ast_chart((*info.bit).identifier, positions, deepness + 1, ast_chart);
         }
-        to_ast_chart(info.sum, positions, deepness + 1, ast_chart);
+        to_ast_chart(info.expression, positions, deepness + 1, ast_chart);
     }
 
     void to_ast_chart(

@@ -37,7 +37,7 @@ namespace onerut_parser_exec::onerut_ast::x3 {
             if ((*info.bit).const_flag) result += "CONST ";
             result += to_oneliner((*info.bit).identifier);
         }
-        result += to_oneliner(info.sum);
+        result += to_oneliner(info.expression);
         return result;
     }
 

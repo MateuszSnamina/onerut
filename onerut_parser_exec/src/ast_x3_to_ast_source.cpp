@@ -44,7 +44,7 @@ namespace onerut_parser_exec::onerut_ast {
             const x3::OpAssignInfo& info,
             std::shared_ptr<const std::string> input,
             const boost::spirit::x3::position_cache<std::vector < std::string::const_iterator >>&positions) {
-        const std::shared_ptr<source::SourceNode> second_arg = to_ast_source(info.sum, input, positions);
+        const std::shared_ptr<source::SourceNode> second_arg = to_ast_source(info.expression, input, positions);
         if (!info.bit)
             return second_arg;
         const std::shared_ptr<source::SourceNode> first_arg = to_ast_source((*info.bit).identifier, input, positions);
