@@ -1,5 +1,5 @@
 ########################################
-# Define the vibronic Hilbert space    #
+# Define spin dublet Hilbert space     #
 ########################################
 DUBLET_DOMAIN := spin_domain(2)
 
