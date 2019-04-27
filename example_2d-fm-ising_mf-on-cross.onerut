@@ -1,0 +1,112 @@
+#!/usr/local/bin/onerut
+
+# Node labels (C, L, R, U, D)
+# and lattice vectors (a, b):
+# 
+#           U
+#           |
+#         L-C-R
+#  a ^      |
+#    |      D
+#    |
+#    +-->b
+#
+# The hamiltonian:
+# H = sum_{<ij>||a} J_a \vec S_i \cdot \vec S_j
+#     + {the same for direction b}
+# 
+# Here we consider FM case (with J_a, J_b < 0).
+
+
+########################################
+# Define spin dublet Hilbert space     #
+########################################
+DUBLET_DOMAIN := spin_domain(2)
+
+########################################
+# Define handy references              #
+# for standard vibronic operators      #
+########################################
+new const Sz := Sz(DUBLET_DOMAIN)
+new const Sp := Sp(DUBLET_DOMAIN)
+new const Sm := Sm(DUBLET_DOMAIN)
+
+########################################
+# Define cluster Hilbert space         #
+########################################
+
+CLUSTER_DOMAIN := kron_domain(DUBLET_DOMAIN, DUBLET_DOMAIN, DUBLET_DOMAIN, DUBLET_DOMAIN, DUBLET_DOMAIN) 
+kron_placeholders(CLUSTER_DOMAIN, C, L, R, U, D)
+
+########################################
+# Model -- params                     ##
+########################################
+new const J_a := -1.0
+new const J_b := -1.0
+new const temperature := 0.7
+
+########################################
+# Convergence -- params               ##
+########################################
+new const mean_Sz := parameter(0.5)
+
+########################################
+# MF Hamiltonian                      ##
+########################################
+
+# two electron part:
+new const H_2e_L := J_a * [0.5 * (Sp@C * Sm@L + Sm@C * Sp@L) + Sz@C * Sz@L]
+new const H_2e_R := J_a * [0.5 * (Sp@C * Sm@R + Sm@C * Sp@R) + Sz@C * Sz@R]
+new const H_2e_U := J_b * [0.5 * (Sp@C * Sm@U + Sm@C * Sp@U) + Sz@C * Sz@U]
+new const H_2e_D := J_b * [0.5 * (Sp@C * Sm@D + Sm@C * Sp@D) + Sz@C * Sz@D]
+new const H_2e := H_2e_L + H_2e_R + H_2e_U + H_2e_D
+
+# one electron part (from MF approx.):
+new const B_a := [J_a + 2 * J_b] * mean_Sz
+new const B_b := [2 * J_a + J_b] * mean_Sz
+new const H_1e_L := B_a * Sz@L
+new const H_1e_R := B_a * Sz@R
+new const H_1e_U := B_b * Sz@U
+new const H_1e_D := B_b * Sz@D
+new const H_1e := H_1e_L + H_1e_R + H_1e_U + H_1e_D
+new const H := H_1e + H_2e
+eig := eigd(H)
+
+########################################
+# Convergence param expressions       ##
+########################################
+
+mean_Sz -> thermal_mean(Sz@C, eig, temperature)
+mean_Sz :: 1e-5
+
+################################################
+# specific heat in finite temperature         ##
+################################################
+
+mean_energy := thermal_mean(H, eig, temperature)
+mean_energy2 := thermal_mean(H * H, eig, temperature)
+var_energy := mean_energy2 - mean_energy^2
+specific_heat_numerical := var_energy / temperature^2
+VALUE(specific_heat_numerical) 
+
+########################################
+# Print requests                      ##
+########################################
+
+new const mean_Sz_at_C := thermal_mean(Sz@C, eig, temperature)
+new const mean_Sz_at_L := thermal_mean(Sz@L, eig, temperature)
+new const mean_Sz_at_U := thermal_mean(Sz@U, eig, temperature)
+
+VALUE(mean_Sz_at_C)
+VALUE(mean_Sz_at_L)
+VALUE(mean_Sz_at_U)
+
+#new const SS_L := 0.5 * (Sp@C * Sm@L + Sm@C * Sp@L) + Sz@C * Sz@L
+#new const SS_U := 0.5 * (Sp@C * Sm@U + Sm@C * Sp@U) + Sz@C * Sz@U
+new const SS_L := Sz@C * Sz@L
+new const SS_U := Sz@C * Sz@U
+
+VALUE(thermal_mean(SS_L, eig, temperature))
+VALUE(mean_Sz_at_C * mean_Sz_at_L)
+VALUE(thermal_mean(SS_U, eig, temperature))
+VALUE(mean_Sz_at_C * mean_Sz_at_U)
