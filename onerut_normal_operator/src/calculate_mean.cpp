@@ -62,18 +62,24 @@ namespace onerut_normal_operator {
     arma::vec calculate_thermal_weights(
             arma::vec energies, double temperature) {
         if (energies.n_elem == 0)
-            return energies;
-        const double ref_energy = energies(0);
-        //energies -= ref_energy;
-        //energies *= -1 / temperature;
-        //energies = arma::exp(energies);
-        energies.for_each(
-                [&ref_energy, &temperature](double& val) {
-                    val = std::exp(-(val - ref_energy) / temperature);
-                }
-        );
-        const double Z = arma::sum(energies);
-        energies /= Z;
+            assert(false);
+        if (temperature != 0) {
+            const double ref_energy = energies(0);
+            energies -= ref_energy;
+            energies *= -1 / temperature;
+            energies = arma::exp(energies);
+            //energies.for_each(
+            //        [&ref_energy, &temperature](double& val) {
+            //            val = std::exp(-(val - ref_energy) / temperature);
+            //        }
+            //);
+            const double Z = arma::sum(energies);
+            energies /= Z;
+        } else {
+            const auto index = energies.index_min();
+            energies.zeros();
+            energies[index] = 1.0;
+        }
         return energies;
     }
 
