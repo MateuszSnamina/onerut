@@ -34,10 +34,12 @@ object_to_aka_string(
 class Aka {
 public:
     Aka(std::shared_ptr<void> object,
-            std::multimap<std::shared_ptr<void>, std::string> object_akas);
+            std::multimap<std::shared_ptr<void>, std::string> object_akas,
+            std::map<std::shared_ptr<void>, std::string> object_sources);
 private:
     std::shared_ptr<void> _object;
     std::multimap<std::shared_ptr<void>, std::string> _object_akas;
+    std::map<std::shared_ptr<void>, std::string> _object_sources;
     friend std::ostream& operator<<(std::ostream&, const Aka&);
 };
 
