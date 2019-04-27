@@ -67,6 +67,7 @@ process_line(std::shared_ptr<const std::string> line) {
 
 std::shared_ptr<onerut_parser_exec::onerut_ast::asset::AssetNode>
 process_imperative_line(std::shared_ptr<const std::string> line) {
+    // *************************************************************************
     const auto ast_asset_head = process_line(line);
     // *************************************************************************
     // *************  Requests stage:        ***********************************
@@ -91,6 +92,7 @@ process_imperative_line(std::shared_ptr<const std::string> line) {
 
 std::shared_ptr<onerut_parser_exec::onerut_ast::asset::AssetNode>
 process_declarative_line(std::shared_ptr<const std::string> line) {
+    // *************************************************************************
     const auto ast_asset_head = process_line(line);
     // *************************************************************************
     // *************  Requests stage:        ***********************************

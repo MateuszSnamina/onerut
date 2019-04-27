@@ -60,7 +60,8 @@ void
 execute_declarative_script(
         const std::vector<std::shared_ptr<const std::string>>&lines,
         unsigned n_max_iterations) {
-    // -------------------------------------------------------------------------
+    // *************************************************************************
+    // *************************************************************************    
     print_section_bar("SCRIPT LINES PROCESSING");
     // -------------------------------------------------------------------------
     const auto ats_head_nodes = process_declarative_lines(preprocess_line(lines));
@@ -93,7 +94,8 @@ execute_declarative_script(
             return;
         }
     }
-    // -------------------------------------------------------------------------    
+    // *************************************************************************
+    // *************************************************************************    
     print_section_bar("OBJECTS INVENTORYING");
     // -------------------------------------------------------------------------
     std::vector<std::shared_ptr<onerut_convergence_parameter::ConvergenceParameter> > convergence_parameter_objects;
@@ -162,7 +164,8 @@ execute_declarative_script(
     }
     // -------------------------------------------------------------------------
     // check if every convergence_parameter_objects has set expression.
-    // -------------------------------------------------------------------------
+    // *************************************************************************
+    // *************************************************************************    
     print_section_bar("SELF-CONSISTENT LOOP");
     // -------------------------------------------------------------------------    
     bool global_convergence = false;
@@ -172,21 +175,33 @@ execute_declarative_script(
                 << "iteration number " << std::setw(4) << iteracja << "."
                 << esc::manip::reset
                 << std::endl;
+        for (const auto& eig : eig_objects) {
+            eig->latch();
+        }
+        for (const auto& mean : mean_objects) {
+            mean->latch();
+        }
+        for (const auto& object : convergence_parameter_objects) {
+            object->recalcuate();
+        }
         for (const auto& request : print_value_request_objects) {
             std::cout << "[PRINT VALUE REQUEST] "
                     << Aka(request, akas_for_print_value_request_objects, source_code_for_print_value_request_objects) << std::endl;
             request->print(std::cout, "[request] ");
         }
-        for (const auto& object : convergence_parameter_objects) {
-            object->recalcuate();
-        }
+        //for (const auto& eig : eig_objects) {
+        //    eig->reset();
+        //}
+        //for (const auto& mean : mean_objects) {
+        //    mean->latch();
+        //}
         for (const auto& object : convergence_parameter_objects) {
             double old_value = object->value_real();
             object->revolve();
             double new_value = object->value_real();
             std::cout << "[CONVERGENCE PARAMETER] [OLD VALUE => NEW VALUE] "
                     << Aka(object, akas_for_convergence_parameter_objects, source_code_for_convergence_parameter_objects) << " "
-                    << old_value << "=>" << new_value
+                    << old_value << " => " << new_value
                     << std::endl;
         }
         bool global_convergence_accumulator = true;
@@ -213,9 +228,9 @@ execute_declarative_script(
             << esc::manip::reset
             << std::endl;
     if (global_convergence) {
-        std::cout << "[GLOBAL CONVERGENCE] " << esc::manip::green << "✓" << esc::manip::reset;
+        std::cout << "[GLOBAL CONVERGENCE] " << esc::manip::green << "✓✓✓...✓✓" << esc::manip::reset;
     } else {
-        std::cout << "[GLOBAL CONVERGENCE] " << esc::manip::red << "✘" << esc::manip::reset;
+        std::cout << "[GLOBAL CONVERGENCE] " << esc::manip::red << "✘✘✘...✘✘" << esc::manip::reset;
     }
     std::cout << std::endl;
     for (const auto& request : print_value_request_objects) {
