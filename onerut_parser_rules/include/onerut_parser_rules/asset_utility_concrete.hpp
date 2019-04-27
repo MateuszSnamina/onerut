@@ -4,6 +4,7 @@
 #include<vector>
 
 #include<onerut_scalar/scalar_abstract.hpp>
+#include<onerut_env/env.hpp>
 #include<onerut_convergence_parameter/convergence_parameter.hpp>
 #include<onerut_normal_operator/operator_abstract.hpp>
 #include<onerut_normal_operator/domain_custom.hpp>
@@ -29,6 +30,9 @@ namespace onerut_parser_rules::utility {
     bool
     is_real_or_integer_or_complex(const onerut_parser_exec::AssetDeref&);
 
+    bool
+    is_env(const onerut_parser_exec::AssetDeref&);
+    
     bool
     is_convergence_parameter(const onerut_parser_exec::AssetDeref&);
 
@@ -76,6 +80,9 @@ namespace onerut_parser_rules::utility {
     std::shared_ptr< const onerut_scalar::Complex>
     to_complex(const onerut_parser_exec::AssetDeref&);
 
+    std::shared_ptr<onerut_env::Env>
+    to_env(const onerut_parser_exec::AssetDeref&);
+    
     std::shared_ptr<onerut_convergence_parameter::ConvergenceParameter>
     to_convergence_parameter(const onerut_parser_exec::AssetDeref&);
 

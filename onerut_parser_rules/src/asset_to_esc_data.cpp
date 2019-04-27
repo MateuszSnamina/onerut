@@ -1,4 +1,5 @@
 #include<onerut_scalar/scalar_abstract.hpp>
+#include<onerut_env/env.hpp>
 #include<onerut_normal_operator/operator_abstract.hpp>
 #include<onerut_normal_operator/domain_custom.hpp>
 #include<onerut_normal_operator/domain_oscillator.hpp>
@@ -28,7 +29,8 @@ namespace onerut_parser_rules {
             return esc::EscDataBuilder() << esc::manip::blue << esc::manip::build_esc_data;
         if (asset.deref().is_given_type<onerut_scalar::Real>() ||
                 asset.deref().is_given_type<onerut_normal_operator::Mean>() ||
-                asset.deref().is_given_type<onerut_convergence_parameter::ConvergenceParameter>())
+                asset.deref().is_given_type<onerut_convergence_parameter::ConvergenceParameter>() ||
+                asset.deref().is_given_type<onerut_env::Env>())
             return esc::EscDataBuilder() << esc::manip::cyan << esc::manip::build_esc_data;
         if (asset.deref().is_given_type<onerut_scalar::Complex>())
             return esc::EscDataBuilder() << esc::manip::green << esc::manip::build_esc_data;

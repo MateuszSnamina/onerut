@@ -5,6 +5,7 @@
 #include<memory>
 
 #include<onerut_scalar/scalar_abstract.hpp>
+#include<onerut_env/env.hpp>
 #include<onerut_convergence_parameter/convergence_parameter.hpp>
 #include<onerut_normal_operator/operator_abstract.hpp>
 #include<onerut_normal_operator/domain_custom.hpp>
@@ -56,6 +57,14 @@ namespace onerut_request {
         const std::shared_ptr<Type> instance;
     };
 
+    template<>
+    struct PrintValueRequestTyped<onerut_env::Env> : public PrintValueRequest {
+        using Type = onerut_env::Env;
+        PrintValueRequestTyped(std::shared_ptr<Type> instance);
+        void print(std::ostream& stream, std::string line_prefix) const override;
+        const std::shared_ptr<Type> instance;
+    };
+    
     template<>
     struct PrintValueRequestTyped<onerut_convergence_parameter::ConvergenceParameter> : public PrintValueRequest {
         using Type = onerut_convergence_parameter::ConvergenceParameter;

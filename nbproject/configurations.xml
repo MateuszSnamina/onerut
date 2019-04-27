@@ -15,11 +15,6 @@
       </df>
     </df>
     <df root="onerut" name="2">
-      <df name="include">
-        <df name="onerut">
-          <in>aka.hpp</in>
-        </df>
-      </df>
       <df name="src">
         <in>aka.cpp</in>
         <in>execute_script.cpp</in>
@@ -32,6 +27,11 @@
     <df root="onerut_convergence_parameter" name="3">
       <df name="src">
         <in>convergence_parameter.cpp</in>
+      </df>
+    </df>
+    <df root="onerut_env" name="17">
+      <df name="src">
+        <in>env.cpp</in>
       </df>
     </df>
     <df root="onerut_normal_operator" name="4">
@@ -115,6 +115,7 @@
         <in>function_factory.cpp</in>
         <in>function_factory_constant.cpp</in>
         <in>function_factory_convergence_parameter.cpp</in>
+        <in>function_factory_env.cpp</in>
         <in>function_factory_imperative_request.cpp</in>
         <in>function_factory_normal_operators.cpp</in>
         <in>function_factory_print_value_request.cpp</in>
@@ -213,6 +214,7 @@
     <Elem>onerut_request</Elem>
     <Elem>onerut_convergence_parameter</Elem>
     <Elem>onerut_parser_exec_tests</Elem>
+    <Elem>onerut_env</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -286,6 +288,7 @@
             <pElem>log_utils/include</pElem>
             <pElem>onerut_request/include</pElem>
             <pElem>onerut_convergence_parameter/include</pElem>
+            <pElem>onerut_env/include</pElem>
             <pElem>onerut_parser_exec/include</pElem>
             <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut_parser_rules_tests</pElem>
@@ -299,6 +302,7 @@
             <pElem>string_utils/include</pElem>
             <pElem>onerut_scalar/include</pElem>
             <pElem>onerut_convergence_parameter/include</pElem>
+            <pElem>onerut_env/include</pElem>
             <pElem>onerut_normal_operator/include</pElem>
             <pElem>onerut_typed_operator/include</pElem>
             <pElem>log_utils/include</pElem>
@@ -360,6 +364,16 @@
           </incDir>
         </ccTool>
       </folder>
+      <folder path="17">
+        <ccTool>
+          <incDir>
+            <pElem>onerut_env/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_env</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
       <folder path="2">
         <ccTool>
           <incDir>
@@ -374,6 +388,7 @@
             <pElem>log_utils/include</pElem>
             <pElem>onerut_request/include</pElem>
             <pElem>onerut_convergence_parameter/include</pElem>
+            <pElem>onerut_env/include</pElem>
             <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut</pElem>
           </incDir>
@@ -472,6 +487,7 @@
             <pElem>log_utils/include</pElem>
             <pElem>onerut_request/include</pElem>
             <pElem>onerut_convergence_parameter/include</pElem>
+            <pElem>onerut_env/include</pElem>
             <pElem>onerut_parser_exec/include</pElem>
             <pElem>external_packages/include</pElem>
             <pElem>build_netbeanns/onerut_parser_rules</pElem>
@@ -489,9 +505,9 @@
         <ccTool flags="1">
         </ccTool>
       </item>
-      <item path="onerut/include/onerut/aka.hpp" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="onerut/src/aka.cpp" ex="false" tool="1" flavor2="0">
+      <item path="onerut/src/aka.cpp" ex="false" tool="1" flavor2="11">
+        <ccTool flags="1">
+        </ccTool>
       </item>
       <item path="onerut/src/execute_script.cpp" ex="false" tool="1" flavor2="11">
         <ccTool flags="1">
@@ -517,6 +533,10 @@
             ex="false"
             tool="1"
             flavor2="11">
+        <ccTool flags="1">
+        </ccTool>
+      </item>
+      <item path="onerut_env/src/env.cpp" ex="false" tool="1" flavor2="11">
         <ccTool flags="1">
         </ccTool>
       </item>
@@ -1062,6 +1082,13 @@
         </ccTool>
       </item>
       <item path="onerut_parser_rules/src/function_factory_convergence_parameter.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+        </ccTool>
+      </item>
+      <item path="onerut_parser_rules/src/function_factory_env.cpp"
             ex="false"
             tool="1"
             flavor2="11">

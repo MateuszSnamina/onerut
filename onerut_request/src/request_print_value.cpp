@@ -65,6 +65,20 @@ namespace onerut_request {
 
     // *************************************************************************
 
+    PrintValueRequestTyped<onerut_env::Env>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
+    instance(instance) {
+        assert(instance);
+    }
+
+    void PrintValueRequestTyped<onerut_env::Env>::print(std::ostream& stream, std::string line_prefix) const {
+        assert(instance);
+        stream << line_prefix
+                << "[value] " << "value = " << instance->value_real()
+                << "[env-variable name] " << "value = " << instance->env_variable_name();
+    }
+
+    // *************************************************************************
+
     PrintValueRequestTyped<onerut_convergence_parameter::ConvergenceParameter>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
     instance(instance) {
         assert(instance);

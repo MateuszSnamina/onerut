@@ -14,6 +14,8 @@ namespace onerut_parser_rules {
         bool put(const std::string& name, std::shared_ptr<AbstractFunctionFactory> function);
         void force_put(const std::string& name, std::shared_ptr<AbstractFunctionFactory> function);
         void put_cmath();
+        void put_convergence_parameter_functions();
+        void put_env_functions();
         void put_onerut_functions();
         void put_imparative_request_functions();
         void put_all();

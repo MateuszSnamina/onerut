@@ -16,7 +16,8 @@ new const Sz := Sz(DUBLET_DOMAIN)
 ########################################
 new const J_a := -1.0
 new const J_b := -1.0
-temperature := 0.9
+bind_to_env(temperature, 0.0)
+#temperature := 0.9
 
 ########################################
 # Convergence -- params               ##

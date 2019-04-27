@@ -3,6 +3,7 @@
 
 #include<onerut_parser_rules/function_factory_constant.hpp>
 #include<onerut_parser_rules/function_factory_scalar.hpp>
+#include<onerut_parser_rules/function_factory_env.hpp>
 #include<onerut_parser_rules/function_factory_convergence_parameter.hpp>
 #include<onerut_parser_rules/function_factory_normal_operators.hpp>
 #include<onerut_parser_rules/function_factory_imperative_request.hpp>
@@ -232,6 +233,16 @@ namespace onerut_parser_rules {
         force_put("i", std::make_unique<ComplexConstantFunctionFactory>(1i));
     }
 
+    void MapWithFunctionFactories::put_convergence_parameter_functions() {
+        force_put("parameter", std::make_unique<CreateConvergenceParameterFunctionFactory>());
+        force_put("arrow", std::make_unique<ArrowFunctionFactory>());
+        force_put("glue", std::make_unique<GlueFunctionFactory>());
+    }
+
+    void MapWithFunctionFactories::put_env_functions() {
+        force_put("bind_to_env", std::make_unique<BindToEnvFunctionFactory>());
+    }
+
     void MapWithFunctionFactories::put_onerut_functions() {
         // Basic normal operator functions:
         force_put("custom_domain", std::make_unique<CreateNormalOperatorCustomDomainFunctionFactory>());
@@ -258,10 +269,6 @@ namespace onerut_parser_rules {
         force_put("eigs", std::make_unique<NormalOperatorEigSparseFunctionFactory>());
         force_put("mean_in_eigenstate", std::make_unique<NormalOperatorMeanInEigenStateFunctionFactory>());
         force_put("thermal_mean", std::make_unique<NormalOperatorMeanThermalFunctionFactory>());
-        // Convergence parameter functions:        
-        force_put("parameter", std::make_unique<CreateConvergenceParameterFunctionFactory>());
-        force_put("arrow", std::make_unique<ArrowFunctionFactory>());
-        force_put("glue", std::make_unique<GlueFunctionFactory>());        
     }
 
     void MapWithFunctionFactories::put_imparative_request_functions() {
@@ -272,6 +279,8 @@ namespace onerut_parser_rules {
 
     void MapWithFunctionFactories::put_all() {
         put_cmath();
+        put_convergence_parameter_functions();
+        put_env_functions();        
         put_onerut_functions();
         put_imparative_request_functions();
     }
