@@ -123,6 +123,11 @@ execute_declarative_script(
                 << "iteration number " << std::setw(4) << iteracja << "."
                 << esc::manip::reset
                 << std::endl;
+        for (const auto& request : print_value_request_objects) {
+            std::cout << "[PRINT VALUE REQUEST] "
+                    << Aka(request, akas_for_print_value_request_objects) << std::endl;
+            request->print(std::cout, "[request] ");
+        }
         for (const auto& object : convergence_parameter_objects) {
             object->recalcuate();
         }
@@ -164,5 +169,10 @@ execute_declarative_script(
         std::cout << "[GLOBAL CONVERGENCE] " << esc::manip::red << "✘" << esc::manip::reset;
     }
     std::cout << std::endl;
+    for (const auto& request : print_value_request_objects) {
+        std::cout << "[PRINT VALUE REQUEST] "
+                << Aka(request, akas_for_print_value_request_objects) << std::endl;
+        request->print(std::cout, "[request] ");
+    }
     // -------------------------------------------------------------------------
 }
