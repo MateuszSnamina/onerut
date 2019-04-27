@@ -4,10 +4,13 @@
 #include<string>
 
 void
-execute_imparative_script(const std::vector<std::shared_ptr<const std::string>>&lines);
+execute_imparative_script(
+        const std::vector<std::shared_ptr<const std::string>>&lines);
 
 void
-execute_declarative_script(const std::vector<std::shared_ptr<const std::string>>&lines);
+execute_declarative_script(
+        const std::vector<std::shared_ptr<const std::string>>&lines,
+        unsigned n_max_iterations);
 
 #endif
 

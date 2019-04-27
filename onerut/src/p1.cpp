@@ -43,7 +43,7 @@ int main(int argc, char** argv) {
     // -------------------------------------------------------------------------
     const auto lines = load_script_lines_from_file(program_options.script_file_path);
     if (program_options.script_type == ProgramOptions::ScriptType::Declarative) {
-        execute_declarative_script(lines);
+        execute_declarative_script(lines, program_options.n_max_iterations);
     } else {
         execute_imparative_script(lines);
     }

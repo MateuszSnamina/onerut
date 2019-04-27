@@ -12,7 +12,8 @@
 #include<onerut/line_processor.hpp>
 #include<onerut/execute_script.hpp>
 
-void print_section_bar(std::string section_title) {
+void
+print_section_bar(std::string section_title) {
     std::cout << std::endl;
     std::cout << esc::manip::bg_blue
             << std::setw(100) << std::left << "[DECLARATIVE MODE] [SECTION] [" + section_title + "]"
@@ -20,7 +21,8 @@ void print_section_bar(std::string section_title) {
 }
 
 template<class T>
-void add_if_type_matches(std::vector<std::shared_ptr<T> >& objects, onerut_parser_exec::Asset asset) {
+void
+add_if_type_matches(std::vector<std::shared_ptr<T> >& objects, onerut_parser_exec::Asset asset) {
     const auto asset_deref = asset.deref();
     if (asset_deref.is_either_value_or_type()) {
         if (const auto &object = asset_deref.typed_value_or_empty<T>()) {
@@ -31,7 +33,8 @@ void add_if_type_matches(std::vector<std::shared_ptr<T> >& objects, onerut_parse
     }
 }
 
-void dfs(std::shared_ptr<onerut_parser_exec::onerut_ast::asset::AssetNode> head_node,
+void
+dfs(std::shared_ptr<onerut_parser_exec::onerut_ast::asset::AssetNode> head_node,
         std::function<void(onerut_parser_exec::Asset) > action) {
     for (const auto sub_node : head_node->subnodes)
         dfs(sub_node, action);
@@ -39,12 +42,15 @@ void dfs(std::shared_ptr<onerut_parser_exec::onerut_ast::asset::AssetNode> head_
 }
 
 void
-execute_imparative_script(const std::vector<std::shared_ptr<const std::string>>&lines) {
+execute_imparative_script(
+        const std::vector<std::shared_ptr<const std::string>>&lines) {
     process_imperative_lines(preprocess_line(lines));
 }
 
 void
-execute_declarative_script(const std::vector<std::shared_ptr<const std::string>>&lines) {
+execute_declarative_script(
+        const std::vector<std::shared_ptr<const std::string>>&lines,
+        unsigned n_max_iterations) {
     // -------------------------------------------------------------------------
     print_section_bar("SCRIPT LINES PROCESSING");
     const auto ats_head_nodes = process_declarative_lines(preprocess_line(lines));
@@ -82,7 +88,8 @@ execute_declarative_script(const std::vector<std::shared_ptr<const std::string>>
     // check if every convergence_parameter_objects has set expression.
     // -------------------------------------------------------------------------
     print_section_bar("SELF-CONSISTENT LOOP");
-    for (unsigned iteracja = 0; iteracja < 5; ++iteracja) {
+    bool global_convergence = false;
+    for (unsigned iteracja = 0; iteracja < n_max_iterations; ++iteracja) {
         std::cout << esc::manip::bg_yellow
                 << "[DECLARATIVE MODE] [STEP] [SELF-CONSISTENT LOOP] [ITERATIONS] "
                 << "iteration number " << std::setw(4) << iteracja << "."
@@ -100,17 +107,34 @@ execute_declarative_script(const std::vector<std::shared_ptr<const std::string>>
                     << old_value << "=>" << new_value
                     << std::endl;
         }
+        bool global_convergence_accumulator = true;
         for (const auto& object : convergence_parameter_objects) {
             const bool is_converged = object->is_converged();
             std::cout << "[CONVERGENCE PARAMETER] [CONVERGENCE] ";
             if (is_converged) {
-                std::cout << esc::manip::green << "TRUE  " << "✓" << esc::manip::reset;
+                std::cout << esc::manip::green << "✓" << esc::manip::reset;
             } else {
-                std::cout << esc::manip::red << "FALSE " << "✘" << esc::manip::reset;
+                std::cout << esc::manip::red << "✘" << esc::manip::reset;
+                global_convergence_accumulator = false;
             }
             std::cout << " as Δ=" << object->delta_or_nan()
                     << " (threshold=" << object->threshold() << ")"
                     << std::endl;
         }
+        if (global_convergence_accumulator) {
+            global_convergence = true;
+            break;
+        }
     }
+    std::cout << esc::manip::bg_yellow <<
+            "[DECLARATIVE MODE] [STEP] [SELF-CONSISTENT LOOP] [SUMMARY]"
+            << esc::manip::reset
+            << std::endl;
+    if (global_convergence) {
+        std::cout << "[GLOBAL CONVERGENCE] " << esc::manip::green << "✓" << esc::manip::reset;
+    } else {
+        std::cout << "[GLOBAL CONVERGENCE] " << esc::manip::red << "✘" << esc::manip::reset;
+    }
+    std::cout << std::endl;
+
 }
