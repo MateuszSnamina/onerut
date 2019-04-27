@@ -43,7 +43,7 @@ kron_placeholders(CLUSTER_DOMAIN, C, L, R, U, D)
 ########################################
 new const J_a := -1.0
 new const J_b := -1.0
-new const temperature := 0.6
+bind_to_env(temperature, 0.0)
 
 ########################################
 # Convergence -- params               ##
@@ -87,7 +87,6 @@ mean_energy := thermal_mean(H, eig, temperature)
 mean_energy2 := thermal_mean(H * H, eig, temperature)
 var_energy := mean_energy2 - mean_energy^2
 specific_heat_numerical := var_energy / temperature^2
-VALUE(specific_heat_numerical) 
 
 ########################################
 # Print requests                      ##
@@ -96,7 +95,6 @@ VALUE(specific_heat_numerical)
 new const mean_Sz_at_C := thermal_mean(Sz@C, eig, temperature)
 new const mean_Sz_at_L := thermal_mean(Sz@L, eig, temperature)
 new const mean_Sz_at_U := thermal_mean(Sz@U, eig, temperature)
-
 VALUE(mean_Sz_at_C)
 VALUE(mean_Sz_at_L)
 VALUE(mean_Sz_at_U)
@@ -105,8 +103,9 @@ VALUE(mean_Sz_at_U)
 #new const SS_U := 0.5 * (Sp@C * Sm@U + Sm@C * Sp@U) + Sz@C * Sz@U
 new const SS_L := Sz@C * Sz@L
 new const SS_U := Sz@C * Sz@U
-
 VALUE(thermal_mean(SS_L, eig, temperature))
 VALUE(mean_Sz_at_C * mean_Sz_at_L)
 VALUE(thermal_mean(SS_U, eig, temperature))
 VALUE(mean_Sz_at_C * mean_Sz_at_U)
+
+VALUE(specific_heat_numerical) 

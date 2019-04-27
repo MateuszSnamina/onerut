@@ -1,5 +1,11 @@
 #!/usr/local/bin/onerut
 
+# The hamiltonian:
+# H = sum_{<ij>||a} J_a \vec S_i \cdot \vec S_j
+#     + {the same for direction b}
+# 
+# Here we consider FM case (with J_a, J_b < 0).
+
 ########################################
 # Define spin dublet Hilbert space     #
 ########################################
@@ -17,7 +23,6 @@ new const Sz := Sz(DUBLET_DOMAIN)
 new const J_a := -1.0
 new const J_b := -1.0
 bind_to_env(temperature, 0.0)
-#temperature := 0.9
 
 ########################################
 # Convergence -- params               ##
@@ -38,8 +43,18 @@ eig := eigd(H)
 mean_Sz -> thermal_mean(Sz, eig, temperature)
 mean_Sz :: 1e-5
 
+################################################
+# specific heat in finite temperature         ##
+################################################
+
+mean_energy := thermal_mean(H, eig, temperature)
+mean_energy2 := thermal_mean(H * H, eig, temperature)
+var_energy := mean_energy2 - mean_energy^2
+specific_heat_numerical := var_energy / temperature^2
+
 ########################################
 # Print requests                      ##
 ########################################
 
 VALUE(mean_Sz)
+VALUE(specific_heat_numerical)
