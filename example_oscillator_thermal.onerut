@@ -1,19 +1,19 @@
 ########################################
 # Define the vibronic Hilbert space    #
 ########################################
-OSCILLATOR_DOMAIN := oscillator_domain(20) # use 5 lower vibronic states
+OSCILLATOR_DOMAIN := oscillator_domain(20)
 
 ########################################
 # Define handy references              #
 # for standard vibronic operators      #
 ########################################
-new const vacuum_state := state_index(OSCILLATOR_DOMAIN, 0) # the vacuum state
-new const eye := eye(OSCILLATOR_DOMAIN)   # identity operator
-new const cr := cr(OSCILLATOR_DOMAIN)     # creation operator
-new const an := an(OSCILLATOR_DOMAIN)     # anihilation operator
-new const x  := (1/sqrt(2)) * ( cr + an)  # position operator
-new const ip := (1/sqrt(2)) * (-cr + an)  # momentum operator times imaginary unit
-new const n := cr * an                    # particle number operator
+new const vacuum_state := state_index(OSCILLATOR_DOMAIN, 0)
+new const eye := eye(OSCILLATOR_DOMAIN)
+new const cr := cr(OSCILLATOR_DOMAIN)
+new const an := an(OSCILLATOR_DOMAIN)
+new const x  := (1/sqrt(2)) * ( cr + an)
+new const ip := (1/sqrt(2)) * (-cr + an)
+new const n := cr * an
 
 ########################################
 # Standard oscilator                  ##
@@ -50,9 +50,9 @@ VALUE(energy_numerical)
 ################################################
 
 specific_heat_analitycal := 0.25 / ( temperature * sinh(1.0 / [2.0*temperature]))^2
-mean_x := thermal_mean(H, eig, temperature)
-mean_x2 := thermal_mean(H * H, eig, temperature)
-var_energy := mean_x2 - mean_x^2
+mean_energy := thermal_mean(H, eig, temperature)
+mean_energy2 := thermal_mean(H * H, eig, temperature)
+var_energy := mean_energy2 - mean_energy^2
 specific_heat_numerical := var_energy / temperature^2
 VALUE(specific_heat_analitycal)
 VALUE(specific_heat_numerical) 
