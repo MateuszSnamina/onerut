@@ -62,8 +62,38 @@ execute_declarative_script(
         unsigned n_max_iterations) {
     // -------------------------------------------------------------------------
     print_section_bar("SCRIPT LINES PROCESSING");
+    // -------------------------------------------------------------------------
     const auto ats_head_nodes = process_declarative_lines(preprocess_line(lines));
     // -------------------------------------------------------------------------
+    for (const auto& ast_head_node : ats_head_nodes) {
+        if (!ast_head_node) {
+            std::cout << "[SCRIPT LINES PROCESSING] "
+                    << esc::manip::bg_red << "[ERROR]" << esc::manip::reset << " "
+                    << "One (or more) of the script lines is a parse error."
+                    << std::endl;
+            std::cout << "[SCRIPT LINES PROCESSING] "
+                    << esc::manip::bg_red << "[ERROR]" << esc::manip::reset << " "
+                    << "Termination of the script execution."
+                    << std::endl;
+            return;
+        }
+    }
+    for (const auto& ast_head_node : ats_head_nodes) {
+        const auto asset = ast_head_node->asset;
+        const auto asset_deref = asset.deref();
+        if (asset_deref.is_compile_error()) {
+            std::cout << "[SCRIPT LINES PROCESSING] "
+                    << esc::manip::bg_red << "[ERROR]" << esc::manip::reset << " "
+                    << "One (or more) of the script lines as an compile error."
+                    << std::endl;
+            std::cout << "[SCRIPT LINES PROCESSING] "
+                    << esc::manip::bg_red << "[ERROR]" << esc::manip::reset << " "
+                    << "Termination of the script execution."
+                    << std::endl;
+            return;
+        }
+    }
+    // -------------------------------------------------------------------------    
     print_section_bar("OBJECTS INVENTORYING");
     // -------------------------------------------------------------------------
     std::vector<std::shared_ptr<onerut_convergence_parameter::ConvergenceParameter> > convergence_parameter_objects;

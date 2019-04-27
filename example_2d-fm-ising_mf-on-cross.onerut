@@ -43,7 +43,7 @@ kron_placeholders(CLUSTER_DOMAIN, C, L, R, U, D)
 ########################################
 new const J_a := -1.0
 new const J_b := -1.0
-new const temperature := 0.7
+new const temperature := 0.6
 
 ########################################
 # Convergence -- params               ##

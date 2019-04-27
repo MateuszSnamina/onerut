@@ -68,19 +68,21 @@ process_line(std::shared_ptr<const std::string> line) {
 std::shared_ptr<onerut_parser_exec::onerut_ast::asset::AssetNode>
 process_imperative_line(std::shared_ptr<const std::string> line) {
     const auto ast_asset_head = process_line(line);
-    const auto& asset = ast_asset_head->asset;
     // *************************************************************************
     // *************  Requests stage:        ***********************************
     // *************************************************************************
-    if (const auto request = asset.deref().typed_value_or_empty<onerut_request::ImperativeRequest>()) {
-        std::cout << "[request] [process] Onerut is about to execute the imperative request."
-                << std::endl;
-        (*request)->exec();
-        std::cout << "[request] [process] Onerut has executed the imperative request."
-                << std::endl;
-    }
-    if (const auto request = asset.deref().typed_value_or_empty<onerut_request::PrintValueRequest>()) {
-        (*request)->print(std::cout, "[request] ");
+    if (ast_asset_head) {
+        const auto& asset = ast_asset_head->asset;
+        if (const auto request = asset.deref().typed_value_or_empty<onerut_request::ImperativeRequest>()) {
+            std::cout << "[request] [process] Onerut is about to execute the imperative request."
+                    << std::endl;
+            (*request)->exec();
+            std::cout << "[request] [process] Onerut has executed the imperative request."
+                    << std::endl;
+        }
+        if (const auto request = asset.deref().typed_value_or_empty<onerut_request::PrintValueRequest>()) {
+            (*request)->print(std::cout, "[request] ");
+        }
     }
     // *************************************************************************
     std::cout << std::endl;
@@ -90,16 +92,18 @@ process_imperative_line(std::shared_ptr<const std::string> line) {
 std::shared_ptr<onerut_parser_exec::onerut_ast::asset::AssetNode>
 process_declarative_line(std::shared_ptr<const std::string> line) {
     const auto ast_asset_head = process_line(line);
-    const auto& asset = ast_asset_head->asset;
     // *************************************************************************
     // *************  Requests stage:        ***********************************
     // *************************************************************************
-    if (const auto request = asset.deref().typed_value_or_empty<onerut_request::ImperativeRequest>()) {
-        std::cout << "[request] [warning] Imperative requests has no effect in declarative mode."
-                << std::endl;
-    }
-    if (const auto request = asset.deref().typed_value_or_empty<onerut_request::PrintValueRequest>()) {
-        (*request)->print(std::cout, "[request] ");
+    if (ast_asset_head) {
+        const auto& asset = ast_asset_head->asset;
+        if (const auto request = asset.deref().typed_value_or_empty<onerut_request::ImperativeRequest>()) {
+            std::cout << "[request] [warning] Imperative requests has no effect in declarative mode."
+                    << std::endl;
+        }
+        if (const auto request = asset.deref().typed_value_or_empty<onerut_request::PrintValueRequest>()) {
+            (*request)->print(std::cout, "[request] ");
+        }
     }
     // *************************************************************************
     std::cout << std::endl;
