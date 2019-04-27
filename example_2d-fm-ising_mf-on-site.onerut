@@ -1,0 +1,34 @@
+########################################
+# Define the vibronic Hilbert space    #
+########################################
+DUBLET_DOMAIN := spin_domain(2)
+
+########################################
+# Define handy references              #
+# for standard vibronic operators      #
+########################################
+new const Sz := Sz(DUBLET_DOMAIN)
+
+########################################
+# Model -- params                     ##
+########################################
+new const J_a := -1.0
+new const J_b := -1.0
+temperature := 1.01
+
+########################################
+# Convergence -- params               ##
+########################################
+mean_Sz := parameter(0.5)
+mean_Sz :: 0.000001
+
+########################################
+# Standard oscilator                  ##
+########################################
+new const B := [2 * J_a + 2 * J_b] * mean_Sz
+new const H := B * Sz
+
+eig := eigd(H)
+mean_Sz -> thermal_mean(Sz, eig, temperature)
+
+VALUE(mean_Sz)
