@@ -1,0 +1,30 @@
+#!/usr/local/bin/onerut
+
+########################################
+# Define the electron eg Hilbert space #
+########################################
+
+new const DOMAIN_EG := eg_domain()
+VALUE(DOMAIN_EG)
+
+########################################
+# Define some standard operators       #
+########################################
+
+new const sigma_x := sigma_x(DOMAIN_EG)
+new const sigma_z := sigma_z(DOMAIN_EG)
+VALUE(sigma_x)
+VALUE(sigma_z)
+
+#new const tau_a := tau_a(DOMAIN_EG)
+#new const tau_b := tau_b(DOMAIN_EG)
+#new const tau_c := tau_c(DOMAIN_EG)
+#VALUE(sigma_a)
+#VALUE(sigma_b)
+#VALUE(sigma_c)
+#new const P_a := P_a(DOMAIN_EG)
+#new const P_b := P_b(DOMAIN_EG)
+#new const P_c := P_c(DOMAIN_EG)
+#VALUE(P_a)
+#VALUE(P_b)
+#VALUE(P_c)
