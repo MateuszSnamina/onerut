@@ -1,0 +1,13 @@
+#/usr/bin/onerut
+
+# Example: 
+# 
+# Solve the following equation:
+# x = cos(x)
+# See: https://www.wolframalpha.com/input/?i=cos(x)%3Dx
+# Solution:
+# x \simeq 0.739085
+
+x := parameter(0)
+x -> cos(x)
+x :: 1e-7

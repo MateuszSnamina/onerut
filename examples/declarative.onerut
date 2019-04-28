@@ -1,9 +1,0 @@
-
-x := parameter(8)
-x_re := x
-y := parameter(32)
-z := x + y
-VALUE(x)
-VALUE(8+7+x/100000000)
-x -> x*100
-y -> y/100
