@@ -100,11 +100,12 @@ process_declarative_line(std::shared_ptr<const std::string> line) {
     if (ast_asset_head) {
         const auto& asset = ast_asset_head->asset;
         if (const auto request = asset.deref().typed_value_or_empty<onerut_request::ImperativeRequest>()) {
-            std::cout << "[request] [warning] Imperative requests has no effect in declarative mode."
+            std::cout << "[request] [warning] Imperative requests has no effect in the declarative mode."
                     << std::endl;
         }
         if (const auto request = asset.deref().typed_value_or_empty<onerut_request::PrintValueRequest>()) {
-            (*request)->print(std::cout, "[request] ");
+            std::cout << "[request] [info] The value will be printed in every self-consistent loop iteration as well as in the final summary."
+                    << std::endl;            
         }
     }
     // *************************************************************************
