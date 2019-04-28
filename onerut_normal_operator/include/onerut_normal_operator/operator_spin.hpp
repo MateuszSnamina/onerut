@@ -4,7 +4,7 @@
 #include<type_traits>
 
 #include<onerut_typed_operator/iterator_simple.hpp>
-#include<onerut_normal_operator/utility_spin.hpp>
+#include<onerut_normal_operator/utility_spin.hpp>//TODO delete??
 #include<onerut_normal_operator/domain_spin.hpp>
 #include<onerut_normal_operator/operator_abstract.hpp>
 

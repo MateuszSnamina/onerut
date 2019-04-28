@@ -58,12 +58,14 @@ namespace onerut_parser_rules::utility {
         using OscillatorDomainT = onerut_normal_operator::OscillatorDomain;
         using SpinDomainT = onerut_normal_operator::SpinDomain;
         using KronDomainT = onerut_normal_operator::KronDomain;
+        using EgDomainT = onerut_normal_operator::EgDomain;
         assert(!arg.is_empty());
         assert(!arg.is_compile_error());
         return arg.is_given_type<CustomDomainT>() ||
                 arg.is_given_type<OscillatorDomainT>() ||
                 arg.is_given_type<SpinDomainT>() ||
-                arg.is_given_type<KronDomainT>();
+                arg.is_given_type<KronDomainT>() ||
+                arg.is_given_type<EgDomainT>();
     }
 
     bool
@@ -77,6 +79,14 @@ namespace onerut_parser_rules::utility {
     bool
     is_spin_operator_domain(const onerut_parser_exec::AssetDeref & arg) {
         using DomainT = onerut_normal_operator::SpinDomain;
+        assert(!arg.is_empty());
+        assert(!arg.is_compile_error());
+        return arg.is_given_type<DomainT>();
+    }
+
+    bool
+    is_eg_operator_domain(const onerut_parser_exec::AssetDeref & arg) {
+        using DomainT = onerut_normal_operator::EgDomain;
         assert(!arg.is_empty());
         assert(!arg.is_compile_error());
         return arg.is_given_type<DomainT>();
@@ -204,6 +214,7 @@ namespace onerut_parser_rules::utility {
         using OscillatorDomainT = onerut_normal_operator::OscillatorDomain;
         using SpinDomainT = onerut_normal_operator::SpinDomain;
         using KronDomainT = onerut_normal_operator::KronDomain;
+        using EgDomainT = onerut_normal_operator::EgDomain;
         assert(is_normal_operator_domain(arg));
         std::shared_ptr<const onerut_normal_operator::Domain> arg_domain;
         if (const auto temp = arg.typed_value_or_empty<CustomDomainT>()) {
@@ -211,6 +222,8 @@ namespace onerut_parser_rules::utility {
         } else if (const auto temp = arg.typed_value_or_empty<OscillatorDomainT>()) {
             arg_domain = *temp;
         } else if (const auto temp = arg.typed_value_or_empty<SpinDomainT>()) {
+            arg_domain = *temp;
+        } else if (const auto temp = arg.typed_value_or_empty<EgDomainT>()) {
             arg_domain = *temp;
         } else {
             arg_domain = *arg.typed_value_or_empty<KronDomainT>();
@@ -232,6 +245,15 @@ namespace onerut_parser_rules::utility {
     to_spin_operator_domain(const onerut_parser_exec::AssetDeref & arg) {
         using DomainT = onerut_normal_operator::SpinDomain;
         assert(is_spin_operator_domain(arg));
+        const auto& arg_typed = *arg.typed_value_or_empty<DomainT>();
+        assert(arg_typed);
+        return arg_typed;
+    }
+
+    std::shared_ptr < const onerut_normal_operator::EgDomain >
+    to_eg_operator_domain(const onerut_parser_exec::AssetDeref & arg) {
+        using DomainT = onerut_normal_operator::EgDomain;
+        assert(is_eg_operator_domain(arg));
         const auto& arg_typed = *arg.typed_value_or_empty<DomainT>();
         assert(arg_typed);
         return arg_typed;

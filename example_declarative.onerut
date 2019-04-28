@@ -1,3 +1,5 @@
+#!/usr/local/bin/onerut
+
 x := parameter(8)
 x_re := x
 y := parameter(32)

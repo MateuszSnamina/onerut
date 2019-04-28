@@ -260,6 +260,10 @@ namespace onerut_parser_rules {
         force_put("Sz", std::make_unique<CreateSpinZetOperatorFunctionFactory>());
         force_put("Sp", std::make_unique<CreateSpinPlusOperatorFunctionFactory>());
         force_put("Sm", std::make_unique<CreateSpinMinusOperatorFunctionFactory>());
+        // Normal operator for eg algebra functions:
+        force_put("eg_domain", std::make_unique<CreateEgDomainFunctionFactory>());
+        force_put("sigma_x", std::make_unique<CreateSigmaXOperatorFunctionFactory>());
+        force_put("sigma_z", std::make_unique<CreateSigmaZOperatorFunctionFactory>());
         // Normal operator for kron algebra functions:
         force_put("kron_domain", std::make_unique<CreateKronDomainFunctionFactory>());
         force_put("kron_placeholders", std::make_unique<CreateNormalOperatorKronPlaceholdersFunctionFactory>());
@@ -280,7 +284,7 @@ namespace onerut_parser_rules {
     void MapWithFunctionFactories::put_all() {
         put_cmath();
         put_convergence_parameter_functions();
-        put_env_functions();        
+        put_env_functions();
         put_onerut_functions();
         put_imparative_request_functions();
     }

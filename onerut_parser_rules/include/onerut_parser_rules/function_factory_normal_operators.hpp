@@ -63,6 +63,20 @@ namespace onerut_parser_rules {
         virtual onerut_parser_exec::Asset make_function_otherwise_make_error(std::array<onerut_parser_exec::Asset, 1> args_asset) const override;
     };
 
+    // -------------
+
+    class CreateEgDomainFunctionFactory : public NaryFunctionFactory<0> {
+        virtual onerut_parser_exec::Asset make_function_otherwise_make_error(std::array<onerut_parser_exec::Asset, 0> args_asset) const override;
+    };
+
+    class CreateSigmaXOperatorFunctionFactory : public NaryFunctionFactory<1> {
+        virtual onerut_parser_exec::Asset make_function_otherwise_make_error(std::array<onerut_parser_exec::Asset, 1> args_asset) const override;
+    };
+
+    class CreateSigmaZOperatorFunctionFactory : public NaryFunctionFactory<1> {
+        virtual onerut_parser_exec::Asset make_function_otherwise_make_error(std::array<onerut_parser_exec::Asset, 1> args_asset) const override;
+    };
+    
     // -------------    
 
     class CreateKronDomainFunctionFactory : public AbstractFunctionFactory {

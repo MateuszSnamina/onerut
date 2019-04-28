@@ -4,6 +4,7 @@
 #include<onerut_normal_operator/domain_custom.hpp>
 #include<onerut_normal_operator/domain_oscillator.hpp>
 #include<onerut_normal_operator/domain_spin.hpp>
+#include<onerut_normal_operator/domain_eg.hpp>
 #include<onerut_normal_operator/domain_kron.hpp>
 #include<onerut_normal_operator/mean.hpp>
 #include<onerut_parser_exec/asset_utility.hpp>
@@ -37,6 +38,7 @@ namespace onerut_parser_rules {
         if (asset.deref().is_given_type<onerut_normal_operator::CustomDomain>() ||
                 asset.deref().is_given_type<onerut_normal_operator::OscillatorDomain>() ||
                 asset.deref().is_given_type<onerut_normal_operator::SpinDomain>() ||
+                asset.deref().is_given_type<onerut_normal_operator::EgDomain>() ||
                 asset.deref().is_given_type<onerut_normal_operator::KronDomain>())
             return esc::EscDataBuilder() << esc::manip::italic << esc::manip::yellow << esc::manip::build_esc_data;
         if (asset.deref().is_given_type<onerut_normal_operator::StateIndex>())

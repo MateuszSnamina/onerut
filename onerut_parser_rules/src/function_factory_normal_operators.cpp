@@ -6,6 +6,7 @@
 #include<onerut_normal_operator/operator_zero.hpp>
 #include<onerut_normal_operator/operator_oscillator.hpp>
 #include<onerut_normal_operator/operator_spin.hpp>
+#include<onerut_normal_operator/operator_eg.hpp>
 #include<onerut_normal_operator/operator_kron.hpp>
 #include<onerut_normal_operator/eig.hpp>
 #include<onerut_normal_operator/mean.hpp>
@@ -356,6 +357,59 @@ namespace onerut_parser_rules {
         // ---------------------------------------------------------------------
         using AbstractRealOperatorT = onerut_normal_operator::AbstractRealOperator;
         using OperatorT = onerut_normal_operator::SpinMinusOperator;
+        return onerut_parser_exec::Asset::from_value<AbstractRealOperatorT>(
+                std::make_shared<OperatorT>(domain)
+                );
+    }
+
+    // *************************************************************************
+
+    onerut_parser_exec::Asset
+    CreateEgDomainFunctionFactory::make_function_otherwise_make_error(std::array<onerut_parser_exec::Asset, 0> args_asset) const {
+        return onerut_parser_exec::Asset::from_value<onerut_normal_operator::EgDomain>(
+                std::make_shared<onerut_normal_operator::EgDomain>()
+                );
+    }
+
+    onerut_parser_exec::Asset
+    CreateSigmaXOperatorFunctionFactory::make_function_otherwise_make_error(std::array<onerut_parser_exec::Asset, 1> args_asset) const {
+        const auto & arg0_asset_deref = args_asset[0].deref();
+        // ---------------------------------------------------------------------
+        if (arg0_asset_deref.is_compile_error())
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::CompileArgumentsError>());
+        // ---------------------------------------------------------------------
+        if (!arg0_asset_deref.is_either_value_or_type())
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::ArgumentMismatchError>());
+        // ---------------------------------------------------------------------
+        if (!utility::is_eg_operator_domain(arg0_asset_deref))
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::ArgumentMismatchError>());
+        // ---------------------------------------------------------------------
+        const auto domain = utility::to_eg_operator_domain(arg0_asset_deref);
+        // ---------------------------------------------------------------------
+        using AbstractRealOperatorT = onerut_normal_operator::AbstractRealOperator;
+        using OperatorT = onerut_normal_operator::SigmaXOperator;
+        return onerut_parser_exec::Asset::from_value<AbstractRealOperatorT>(
+                std::make_shared<OperatorT>(domain)
+                );
+    }
+
+    onerut_parser_exec::Asset
+    CreateSigmaZOperatorFunctionFactory::make_function_otherwise_make_error(std::array<onerut_parser_exec::Asset, 1> args_asset) const {
+        const auto & arg0_asset_deref = args_asset[0].deref();
+        // ---------------------------------------------------------------------
+        if (arg0_asset_deref.is_compile_error())
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::CompileArgumentsError>());
+        // ---------------------------------------------------------------------
+        if (!arg0_asset_deref.is_either_value_or_type())
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::ArgumentMismatchError>());
+        // ---------------------------------------------------------------------
+        if (!utility::is_eg_operator_domain(arg0_asset_deref))
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::ArgumentMismatchError>());
+        // ---------------------------------------------------------------------
+        const auto domain = utility::to_eg_operator_domain(arg0_asset_deref);
+        // ---------------------------------------------------------------------
+        using AbstractRealOperatorT = onerut_normal_operator::AbstractRealOperator;
+        using OperatorT = onerut_normal_operator::SigmaZOperator;
         return onerut_parser_exec::Asset::from_value<AbstractRealOperatorT>(
                 std::make_shared<OperatorT>(domain)
                 );

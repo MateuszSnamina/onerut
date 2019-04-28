@@ -11,6 +11,7 @@
 #include<onerut_normal_operator/domain_custom.hpp>
 #include<onerut_normal_operator/domain_oscillator.hpp>
 #include<onerut_normal_operator/domain_spin.hpp>
+#include<onerut_normal_operator/domain_eg.hpp>
 #include<onerut_normal_operator/domain_kron.hpp>
 #include<onerut_normal_operator/eig.hpp>
 #include<onerut_normal_operator/mean.hpp>
@@ -97,6 +98,14 @@ namespace onerut_request {
         const std::shared_ptr<Type> instance;
     };
 
+    template<>
+    struct PrintValueRequestTyped<onerut_normal_operator::EgDomain> : public PrintValueRequest {
+        using Type = onerut_normal_operator::EgDomain;
+        PrintValueRequestTyped(std::shared_ptr<Type> instance);
+        void print(std::ostream& stream, std::string line_prefix) const override;
+        const std::shared_ptr<Type> instance;
+    };
+    
     template<>
     struct PrintValueRequestTyped<onerut_normal_operator::KronDomain> : public PrintValueRequest {
         using Type = onerut_normal_operator::KronDomain;

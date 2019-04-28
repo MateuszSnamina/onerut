@@ -144,7 +144,7 @@ namespace onerut_request {
     void PrintValueRequestTyped<onerut_normal_operator::SpinDomain>::print(std::ostream& stream, std::string line_prefix) const {
         assert(instance);
         stream << line_prefix << "[value] "
-                << "dimension = " << instance->n_max_stars
+                << "dimension = " << instance->size()//n_max_stars
                 << std::endl;
         stream << line_prefix << "[value] "
                 << "multiplicity = " << instance->multiplicity
@@ -154,6 +154,23 @@ namespace onerut_request {
                 << std::endl;
     }
 
+    // *************************************************************************
+
+    PrintValueRequestTyped<onerut_normal_operator::EgDomain>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
+    instance(instance) {
+        assert(instance);
+    }
+
+    void PrintValueRequestTyped<onerut_normal_operator::EgDomain>::print(std::ostream& stream, std::string line_prefix) const {
+        assert(instance);
+        stream << line_prefix << "[value] "
+                << "dimension = " << instance->size()
+                << std::endl;
+        stream << line_prefix << "[value] "
+                << "eg states = " << string_utils::StreamToGreek(onerut_normal_operator::to_string(*instance))
+                << std::endl;
+    }
+    
     // *************************************************************************
 
     PrintValueRequestTyped<onerut_normal_operator::KronDomain>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :

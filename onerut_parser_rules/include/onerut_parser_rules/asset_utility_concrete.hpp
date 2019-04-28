@@ -10,6 +10,7 @@
 #include<onerut_normal_operator/domain_custom.hpp>
 #include<onerut_normal_operator/domain_oscillator.hpp>
 #include<onerut_normal_operator/domain_spin.hpp>
+#include<onerut_normal_operator/domain_eg.hpp>
 #include<onerut_normal_operator/domain_kron.hpp>
 #include<onerut_normal_operator/eig.hpp>
 #include<onerut_normal_operator/mean.hpp>
@@ -32,7 +33,7 @@ namespace onerut_parser_rules::utility {
 
     bool
     is_env(const onerut_parser_exec::AssetDeref&);
-    
+
     bool
     is_convergence_parameter(const onerut_parser_exec::AssetDeref&);
 
@@ -44,6 +45,9 @@ namespace onerut_parser_rules::utility {
 
     bool
     is_spin_operator_domain(const onerut_parser_exec::AssetDeref&);
+
+    bool
+    is_eg_operator_domain(const onerut_parser_exec::AssetDeref&);
 
     bool
     is_kron_operator_domain(const onerut_parser_exec::AssetDeref&);
@@ -82,7 +86,7 @@ namespace onerut_parser_rules::utility {
 
     std::shared_ptr<onerut_env::Env>
     to_env(const onerut_parser_exec::AssetDeref&);
-    
+
     std::shared_ptr<onerut_convergence_parameter::ConvergenceParameter>
     to_convergence_parameter(const onerut_parser_exec::AssetDeref&);
 
@@ -95,6 +99,9 @@ namespace onerut_parser_rules::utility {
     std::shared_ptr < const onerut_normal_operator::SpinDomain >
     to_spin_operator_domain(const onerut_parser_exec::AssetDeref&);
 
+    std::shared_ptr < const onerut_normal_operator::EgDomain >
+    to_eg_operator_domain(const onerut_parser_exec::AssetDeref&);
+    
     std::shared_ptr < const onerut_normal_operator::KronDomain >
     to_kron_operator_domain(const onerut_parser_exec::AssetDeref&);
 

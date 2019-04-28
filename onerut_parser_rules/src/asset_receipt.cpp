@@ -62,7 +62,7 @@ namespace onerut_parser_rules {
                     << std::endl;
         } else if (asset.deref().is_given_type<onerut_request::PrintValueRequest>()) {
             stream << line_prefix << "[asset-deref] "
-                    << "Asset-defer is an " << esc::manip::italic << "print-value-request" << esc::manip::reset << "."
+                    << "Asset-defer is a " << esc::manip::italic << "print-value-request" << esc::manip::reset << "."
                     << std::endl;
         } else if (asset.deref().is_compile_error()) {
             stream << line_prefix << "[asset-deref] "
@@ -100,6 +100,10 @@ namespace onerut_parser_rules {
         } else if (asset.deref().is_given_type<onerut_normal_operator::SpinDomain>()) {
             stream << line_prefix << "[asset-deref] "
                     << "Asset-defer is a " << esc::manip::italic << "spin-type-normal-domain" << esc::manip::reset << "."
+                    << std::endl;
+        } else if (asset.deref().is_given_type<onerut_normal_operator::EgDomain>()) {
+            stream << line_prefix << "[asset-deref] "
+                    << "Asset-defer is an " << esc::manip::italic << "eg-type-normal-domain" << esc::manip::reset << "."
                     << std::endl;
         } else if (asset.deref().is_given_type<onerut_normal_operator::KronDomain>()) {
             stream << line_prefix << "[asset-deref] "
