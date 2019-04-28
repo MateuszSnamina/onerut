@@ -36,6 +36,9 @@ namespace onerut_normal_operator {
 
     typename SpinPlusOperator::AbstractIteratorPtrT
     SpinPlusOperator::begin_itptr(const BraKetT& ket) const {
+        if (ket == 0) {
+            return std::make_unique<IteratorT>(IteratorT::create_end_iterator());
+        }
         const auto doubled_l = utility::_n_stars_to_doubled_m(domain->multiplicity, 0);
         const auto doubled_m = utility::_n_stars_to_doubled_m(domain->multiplicity, ket);
         const double temp = boost::numeric_cast<double>(doubled_l * (doubled_l + 2) - doubled_m * (doubled_m + 2));
@@ -56,6 +59,9 @@ namespace onerut_normal_operator {
 
     typename SpinMinusOperator::AbstractIteratorPtrT
     SpinMinusOperator::begin_itptr(const BraKetT& ket) const {
+        if (ket == domain->multiplicity - 1) {
+            return std::make_unique<IteratorT>(IteratorT::create_end_iterator());
+        }
         const auto doubled_l = utility::_n_stars_to_doubled_m(domain->multiplicity, 0);
         const auto doubled_m = utility::_n_stars_to_doubled_m(domain->multiplicity, ket);
         const double temp = boost::numeric_cast<double>(doubled_l * (doubled_l + 2) - doubled_m * (doubled_m - 2));

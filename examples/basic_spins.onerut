@@ -3,22 +3,16 @@
 ########################################
 # Define the spin-dublet Hilbert space #
 ########################################
-DUBLET_TRIPLET := spin_domain(2)
+TRIPLET_DOMAIN := spin_domain(3)
 
 ########################################
 # Define handy references              #
 # for standard spin operators          #
 ########################################
-new const Sz := Sz(DUBLET_TRIPLET)
-new const Sp := Sp(DUBLET_TRIPLET)
-new const Sm := Sm(DUBLET_TRIPLET)
+new const Sz := Sz(TRIPLET_DOMAIN)
+new const Sp := Sp(TRIPLET_DOMAIN)
+new const Sm := Sm(TRIPLET_DOMAIN)
 VALUE(Sz)
 VALUE(Sp)
 VALUE(Sm)
-#VALUE(Sz*Sz + 0.5*[Sp*Sm + Sm*Sp])
-
-# TODO FIX CRASH IN ONE OF THE TERMS:
-VALUE(Sz*Sz)
-VALUE(Sp*Sm)
-#VALUE(Sm*Sp) #TODO crash here!
-
+VALUE(Sz*Sz + 0.5*[Sp*Sm + Sm*Sp])
