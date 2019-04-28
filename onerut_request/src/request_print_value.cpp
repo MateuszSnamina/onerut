@@ -74,7 +74,10 @@ namespace onerut_request {
         assert(instance);
         stream << line_prefix
                 << "[value] " << "value = " << instance->value_real()
-                << "[env-variable name] " << "value = " << instance->env_variable_name();
+                << std::endl;
+        stream << line_prefix
+                << "[env-variable name] " << "value = " << instance->env_variable_name()
+                << std::endl;
     }
 
     // *************************************************************************
@@ -170,7 +173,7 @@ namespace onerut_request {
                 << "eg states = " << string_utils::StreamToGreek(onerut_normal_operator::to_string(*instance))
                 << std::endl;
     }
-    
+
     // *************************************************************************
 
     PrintValueRequestTyped<onerut_normal_operator::KronDomain>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
