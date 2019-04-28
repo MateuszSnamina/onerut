@@ -1,0 +1,24 @@
+#!/usr/local/bin/onerut
+
+########################################
+# Define the spin-dublet Hilbert space #
+########################################
+DUBLET_TRIPLET := spin_domain(2)
+
+########################################
+# Define handy references              #
+# for standard spin operators          #
+########################################
+new const Sz := Sz(DUBLET_TRIPLET)
+new const Sp := Sp(DUBLET_TRIPLET)
+new const Sm := Sm(DUBLET_TRIPLET)
+VALUE(Sz)
+VALUE(Sp)
+VALUE(Sm)
+#VALUE(Sz*Sz + 0.5*[Sp*Sm + Sm*Sp])
+
+# TODO FIX CRASH IN ONE OF THE TERMS:
+VALUE(Sz*Sz)
+VALUE(Sp*Sm)
+#VALUE(Sm*Sp) #TODO crash here!
+

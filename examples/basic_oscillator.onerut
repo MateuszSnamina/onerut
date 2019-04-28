@@ -1,0 +1,36 @@
+#!/usr/local/bin/onerut
+
+########################################
+# Define the vibronic Hilbert space    #
+########################################
+OSCILLATOR_DOMAIN := oscillator_domain(5) # use 5 lower vibronic states
+
+########################################
+# Define handy references              #
+# for standard vibronic operators      #
+########################################
+new const vacuum_state := state_index(OSCILLATOR_DOMAIN, 0) # the vacuum state
+new const eye := eye(OSCILLATOR_DOMAIN)   # identity operator
+new const cr := cr(OSCILLATOR_DOMAIN)     # creation operator
+new const an := an(OSCILLATOR_DOMAIN)     # anihilation operator
+new const x  := (1/sqrt(2)) * ( cr + an)  # position operator
+new const ip := (1/sqrt(2)) * (-cr + an)  # momentum operator times imaginary unit
+new const n := cr * an                    # particle number operator
+
+########################################
+# Standard oscilator                  ##
+########################################
+H_1 := (1./2) * (x*x - ip*ip) # The first way 
+                              # to define the Hamiltonian
+H_2 := n + (1./2) * eye       # The second (equivalent) way
+                              # to define the Hamiltonian
+VALUE(H_1) # execute and print value
+VALUE(H_2) # execute and print value
+
+################################################
+# Eigenstates of the displaced hamiltonian    ##
+################################################
+
+eig := eigd(H_1)
+LATCH(eig) # execute and latch value - performance optimization
+VALUE(eig) # print executed value

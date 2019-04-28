@@ -7,7 +7,7 @@ DUBLET_DOMAIN := spin_domain(2)
 
 ########################################
 # Define handy references              #
-# for standard vibronic operators      #
+# for standard spin operators          #
 ########################################
 new const Sz := Sz(DUBLET_DOMAIN)
 new const Sp := Sp(DUBLET_DOMAIN)

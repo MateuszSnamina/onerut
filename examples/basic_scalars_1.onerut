@@ -1,3 +1,5 @@
+#!/usr/local/bin/onerut
+
 const pi := pi()
 const e := e()
 const i := i()
