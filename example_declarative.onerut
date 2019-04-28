@@ -1,56 +1,9 @@
-#!/usr/local/bin/onerut
 
-# Model:
-#
-# Hamiltonian:
-# H = - J \sum_{<ij>} S^z_i S^z_j
-#
-# Hamiltonian parameters:
-# J > 0 <=> FM.
-# Total spin: S
-#
-# Contidions:
-# Finite temparetue
-
-###########################################
-### the model parameter ###################
-###########################################
-
-S := 0.5 # total spin
-z := 4 # number of neighbours, 2 * lattice_dim
-J := 1
-bind_to_env(temperature, 0.8)
-
-###########################################
-###  the value to be calculated  ##########
-###########################################
-
-S_z := parameter(0.5)
-
-###########################################
-### iterative solve #######################
-###########################################
-
-# The methodology:
-#
-# We are going to solve the folliwing equation:
-# S_z = S * B(beta * J * z * Sz)
-# where: B(x) is the Brillouin function:
-# B(x) = [2S+1] / [2S] / tanh([2S+1]*[x/2]) - 1 / [2S] / tanh(x/2)
-# and beta = 1/temperature.
-#
-# The S_z value is to be established iteratively.
-
-# Helper beta value:
-beta := 1 / temperature
-# Arg of Brillouin function:
-x := beta * J * z * S_z 
-# Value of Brillouin function:
-B := [2*S+1] / [2*S] / tanh([2*S+1]*[x/2.]) - 1. / [2*S] / tanh(x/2.)
-
-# convergence rule:
-S_z -> S * B
-# convergence threshold:
-S_z :: 1e-5
-
-
+x := parameter(8)
+x_re := x
+y := parameter(32)
+z := x + y
+VALUE(x)
+VALUE(8+7+x/100000000)
+x -> x*100
+y -> y/100
