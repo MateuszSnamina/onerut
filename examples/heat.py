@@ -121,17 +121,17 @@ class RunnerBuilder:
 ###  main  #################
 ############################
 if (__name__ == "__main__"):
-
-  script_path = 'ising-2d-fm_mf-on-site.onerut'
+  # Set the heat task params:
+  #script_path = 'ising-2d-fm_mf-on-site.onerut'
+  script_path = 'ising-2d-fm_mf-on-cross.onerut'
   temaperatures = list(np.arange(0, 2.0, 0.05))
-
+  # Set the lookup_variabe_names:
   lookup_variabe_names = ['mean_Sz', 'specific_heat']
   map_temperature_to_lookup_variabe_dict = dict() # keys: temperatur, value: lookup_variabe_maps
-
   # Run the calculations:
   print("╠═╗ Calculations:")
   for temaperature in temaperatures:
-    print("║ ╠═╗ Calculations for temaperature" + str(temaperature))
+    print("║ ╠═╗ Calculations for temaperature = " + str(temaperature))
     runner = RunnerBuilder().\
                script(script_path).\
                n_max_iter(500).\
@@ -143,14 +143,11 @@ if (__name__ == "__main__"):
     lookup_variabe_dict = runner.scan(lookup_variabe_names)
     print("║ ║ ╠══╗ lookup_variabe_dict:" + str(lookup_variabe_dict))
     map_temperature_to_lookup_variabe_dict[temaperature] = lookup_variabe_dict
-
-  #print(map_temperature_to_lookup_variabe_dict)
-
-  # Plot:
+  # Prepare and show plots:
   print("╠═╗ Plot:")
   for lookup_variabe_name in lookup_variabe_names:
     print("║ ╠═╗ Plot for lookup_variabe_name: " + lookup_variabe_name)
-    X, Y = [], []    
+    X, Y = [], []
     for temaperature in temaperatures:
       lookup_variabe_dict = map_temperature_to_lookup_variabe_dict.get(temaperature)
       if lookup_variabe_dict:
@@ -159,9 +156,8 @@ if (__name__ == "__main__"):
           X.append(temaperature)
           Y.append(lookup_variabe_value)
           print("║ ║ ╠══╗" + str(temaperature) + " = " + str(lookup_variabe_value))
-    #print(X)
-    #print(Y)
     fig, ax = plt.subplots()
     ax.plot(X,Y)
-    ax.set_title(lookup_variabe_name.replace("_", " "), fontdict = {'fontsize' : 40})
+    plot_title = lookup_variabe_name.replace("_", " ")
+    ax.set_title(plot_title, fontdict = {'fontsize' : 40})
     plt.show()

@@ -86,7 +86,7 @@ mean_Sz :: 1e-5
 mean_energy := thermal_mean(H, eig, temperature)
 mean_energy2 := thermal_mean(H * H, eig, temperature)
 var_energy := mean_energy2 - mean_energy^2
-specific_heat_numerical := var_energy / temperature^2
+specific_heat := var_energy / temperature^2
 
 ########################################
 # Print requests                      ##
@@ -108,4 +108,6 @@ VALUE(mean_Sz_at_C * mean_Sz_at_L)
 VALUE(thermal_mean(SS_U, eig, temperature))
 VALUE(mean_Sz_at_C * mean_Sz_at_U)
 
-VALUE(specific_heat_numerical) 
+VALUE(specific_heat) 
+
+VALUE(mean_Sz)
