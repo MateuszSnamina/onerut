@@ -3,6 +3,8 @@
 import os
 import subprocess
 import re
+import numpy as np
+import matplotlib.pyplot as plt
 
 ############################
 ###  Runner  ###############
@@ -19,7 +21,7 @@ class Runner:
     command += ' ' + self.script_file_path
     if hasattr(self, 'n_max_iter'):
       command += ' ' + '-n ' + str(self.n_max_iter)
-    print("[COMMAND] " + command)
+    #print("[COMMAND] " + command)
     self.proc = subprocess.Popen(command,
                                  shell=True,
                                  stdout=subprocess.PIPE,
@@ -27,7 +29,7 @@ class Runner:
                                  env = self.env)
     self.outs, self.errs = self.proc.communicate()
     returncode = self.proc.returncode
-    print("[COMMAND] " + "returncode = " + str(returncode) + ".")
+    #print("[COMMAND] " + "returncode = " + str(returncode) + ".")
 
   def returncode(self):
     return self.proc.returncode
@@ -42,8 +44,19 @@ class Runner:
     for line in errs_lines:
       print("[STDERR] " + line.decode())
 
-  def scan(self):
+  def scan(self, lookup_variabe_names):
+    # Container for result
+    lookup_variabe_dict = dict()
+    # if something went wrong:
+    if self.returncode() != 0:
+      return lookup_variabe_dict
+    # Output syntax:
+    SYMMARY_HEADER = b"[DECLARATIVE MODE] [STEP] [SELF-CONSISTENT LOOP] [SUMMARY]"
+    PRINT_VALUE_REQUEST_HEADER = \
+      lambda variable_name: b"[PRINT VALUE REQUEST] {:anonymous:|`VALUE(" + variable_name.encode() + b")`}"
+    # Split out bytes:
     out_lines = self.outs.split(b'\n')
+    # Iterate over bytes lines:
     out_lines_iterator = iter(out_lines)
     in_summary = False
     while True:
@@ -51,17 +64,20 @@ class Runner:
         line = next(out_lines_iterator)
       except:
         break
-      if b"[DECLARATIVE MODE] [STEP] [SELF-CONSISTENT LOOP] [SUMMARY]" in line:
+      if SYMMARY_HEADER in line:
         in_summary = True
         continue
-      if in_summary and b"[PRINT VALUE REQUEST] {:anonymous:|`VALUE(mean_Sz)`}" in line:
-        output_line = next(out_lines_iterator)
-        pattern = re.compile(b"\[request\] \[value\] (?:.*) = (.*)")
-        match = pattern.search(output_line)
-        if match:
-          #print("match")
-          #print("value_str:", match.group(1))
-          print("[SCAN  ] [VALUE] mean_Sz:", float(match.group(1)))
+      for lookup_variable_name in lookup_variabe_names:
+        if in_summary and PRINT_VALUE_REQUEST_HEADER(lookup_variable_name) in line:
+          output_line = next(out_lines_iterator)
+          pattern = re.compile(b"\[request\] \[value\] (?:.*) = (.*)")
+          match = pattern.search(output_line)
+          if match:
+            lookup_variable_value = float(match.group(1))
+            #debug_message = "[SCAN  ] [VALUE] " + lookup_variable_name + " = " + str(lookup_variable_value)
+            #print(debug_message)
+            lookup_variabe_dict[lookup_variable_name] = lookup_variable_value
+    return lookup_variabe_dict
 
 ############################
 ###  RunnerBuilder  ########
@@ -105,12 +121,47 @@ class RunnerBuilder:
 ###  main  #################
 ############################
 if (__name__ == "__main__"):
-  runner = RunnerBuilder().\
-             script('ising-2d-fm_mf-on-site.onerut').\
-             n_max_iter(500).\
-             env('temperature', 0.8).\
-             build()
-  runner.run()
-  runner.print_outs()
-  runner.print_errs()
-  runner.scan()
+
+  script_path = 'ising-2d-fm_mf-on-site.onerut'
+  temaperatures = list(np.arange(0, 2.0, 0.05))
+
+  lookup_variabe_names = ['mean_Sz', 'specific_heat']
+  map_temperature_to_lookup_variabe_dict = dict() # keys: temperatur, value: lookup_variabe_maps
+
+  # Run the calculations:
+  print("╠═╗ Calculations:")
+  for temaperature in temaperatures:
+    print("║ ╠═╗ Calculations for temaperature" + str(temaperature))
+    runner = RunnerBuilder().\
+               script(script_path).\
+               n_max_iter(500).\
+               env('temperature', temaperature).\
+               build()
+    runner.run()
+    #runner.print_outs() # for debug
+    #runner.print_errs() # for debug
+    lookup_variabe_dict = runner.scan(lookup_variabe_names)
+    print("║ ║ ╠══╗ lookup_variabe_dict:" + str(lookup_variabe_dict))
+    map_temperature_to_lookup_variabe_dict[temaperature] = lookup_variabe_dict
+
+  #print(map_temperature_to_lookup_variabe_dict)
+
+  # Plot:
+  print("╠═╗ Plot:")
+  for lookup_variabe_name in lookup_variabe_names:
+    print("║ ╠═╗ Plot for lookup_variabe_name: " + lookup_variabe_name)
+    X, Y = [], []    
+    for temaperature in temaperatures:
+      lookup_variabe_dict = map_temperature_to_lookup_variabe_dict.get(temaperature)
+      if lookup_variabe_dict:
+        lookup_variabe_value = lookup_variabe_dict.get(lookup_variabe_name)
+        if lookup_variabe_value != None:
+          X.append(temaperature)
+          Y.append(lookup_variabe_value)
+          print("║ ║ ╠══╗" + str(temaperature) + " = " + str(lookup_variabe_value))
+    #print(X)
+    #print(Y)
+    fig, ax = plt.subplots()
+    ax.plot(X,Y)
+    ax.set_title(lookup_variabe_name.replace("_", " "), fontdict = {'fontsize' : 40})
+    plt.show()
