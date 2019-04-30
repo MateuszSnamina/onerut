@@ -59,8 +59,8 @@ namespace onerut_normal_operator {
         //            site_state_names.push_back(subdomains[place]->state_name(index_on_site));
         //        }
         const auto n_orbitals = boost::numeric_cast<uint32_t>(orbital_names.size());
-        const auto encoded = utility::encode(n_particles, n_orbitals, index);
-        return utility::vector_of_bool_to_string(encoded);
+        const auto decoded = utility::decode(n_particles, n_orbitals, index);
+        return utility::vector_of_bool_to_string(decoded) + std::to_string(utility::encode(decoded, n_particles));
         //boost::join(occupied_orbital_names, "&"); //TODO
     }
 
