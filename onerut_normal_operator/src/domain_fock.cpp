@@ -60,7 +60,7 @@ namespace onerut_normal_operator {
         //        }
         const auto n_orbitals = boost::numeric_cast<uint32_t>(orbital_names.size());
         const auto encoded = utility::encode(n_particles, n_orbitals, index);
-        return "STATENO" + std::to_string(index) + utility::vector_of_bool_to_string(encoded);
+        return utility::vector_of_bool_to_string(encoded);
         //boost::join(occupied_orbital_names, "&"); //TODO
     }
 

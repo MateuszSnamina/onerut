@@ -223,8 +223,9 @@ namespace onerut_parser_rules::utility {
         using CustomDomainT = onerut_normal_operator::CustomDomain;
         using OscillatorDomainT = onerut_normal_operator::OscillatorDomain;
         using SpinDomainT = onerut_normal_operator::SpinDomain;
-        using KronDomainT = onerut_normal_operator::KronDomain;
         using EgDomainT = onerut_normal_operator::EgDomain;
+        using FockDomainT = onerut_normal_operator::FockDomain;
+        using KronDomainT = onerut_normal_operator::KronDomain;
         assert(is_normal_operator_domain(arg));
         std::shared_ptr<const onerut_normal_operator::Domain> arg_domain;
         if (const auto temp = arg.typed_value_or_empty<CustomDomainT>()) {
@@ -234,6 +235,8 @@ namespace onerut_parser_rules::utility {
         } else if (const auto temp = arg.typed_value_or_empty<SpinDomainT>()) {
             arg_domain = *temp;
         } else if (const auto temp = arg.typed_value_or_empty<EgDomainT>()) {
+            arg_domain = *temp;
+        } else if (const auto temp = arg.typed_value_or_empty<FockDomainT>()) {
             arg_domain = *temp;
         } else {
             arg_domain = *arg.typed_value_or_empty<KronDomainT>();
