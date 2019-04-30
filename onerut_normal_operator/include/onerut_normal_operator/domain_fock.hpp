@@ -1,6 +1,7 @@
 #ifndef ONERUT_NORMAL_OPERATOR_DOMAIN_FOCK
 #define ONERUT_NORMAL_OPERATOR_DOMAIN_FOCK
 
+#include<boost/numeric/conversion/cast.hpp>
 #include<onerut_normal_operator/domain_abstract.hpp>
 
 namespace onerut_normal_operator {

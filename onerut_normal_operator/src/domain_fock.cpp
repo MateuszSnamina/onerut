@@ -1,5 +1,6 @@
 #include<cassert>
 //#include<algorithm>//TODO delete
+#include<boost/numeric/conversion/cast.hpp>
 #include<boost/algorithm/string.hpp>
 
 #include<onerut_normal_operator/share_from.hpp>
@@ -42,7 +43,8 @@ namespace onerut_normal_operator {
     FockDomain::FockDomain(uint32_t n_particles, const std::vector<std::string> & orbital_names) :
     n_particles(n_particles),
     orbital_names(orbital_names) {
-        assert(n_particles <= orbital_names.size());
+        assert(n_particles > 0);
+        assert(n_particles <= boost::numeric_cast<uint32_t>(orbital_names.size()));
     }
 
     uint32_t FockDomain::size() const {
@@ -56,7 +58,10 @@ namespace onerut_normal_operator {
         //            const uint32_t index_on_site = utility::get_sub_index(*this, place, index);
         //            site_state_names.push_back(subdomains[place]->state_name(index_on_site));
         //        }
-        return "STATENO" + std::to_string(index) + boost::join(occupied_orbital_names, "&"); //TODO
+        const auto n_orbitals = boost::numeric_cast<uint32_t>(orbital_names.size());
+        const auto encoded = utility::encode(n_particles, n_orbitals, index);
+        return "STATENO" + std::to_string(index) + utility::vector_of_bool_to_string(encoded);
+        //boost::join(occupied_orbital_names, "&"); //TODO
     }
 
     std::unique_ptr<OrbitalIndex> FockDomain::crate_orbital_index(uint32_t index) const {

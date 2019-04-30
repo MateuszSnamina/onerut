@@ -440,8 +440,11 @@ namespace onerut_parser_rules {
         const auto n_particlles = utility::to_integer(arg0_asset_deref);
         const auto n_particlles_buildin = n_particlles->value_integer();
         // ---------------------------------------------------------------------
+        if (n_particlles_buildin < 1)
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::ArgumentDomainError>("n_particlles has to be at least one."));
+        // ---------------------------------------------------------------------
         if (argc < boost::numeric_cast<decltype(argc)>(1 + n_particlles_buildin))
-            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::WrongNumberOfArgumentsError>());
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::ArgumentDomainError>("n_particlles has to be less or equal to the number or orbitals."));
         // ---------------------------------------------------------------------
         // Take out orbitals names:
         std::vector<std::string> orbital_names;
