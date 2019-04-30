@@ -83,6 +83,10 @@ namespace onerut_parser_rules {
         onerut_parser_exec::Asset make_function_otherwise_make_error(const std::vector<onerut_parser_exec::Asset>& argv) const override;
     };
 
+    class CreateFockAnnihilationCreationFunctionFactory : public NaryFunctionFactory<3> {
+        onerut_parser_exec::Asset make_function_otherwise_make_error(std::array<onerut_parser_exec::Asset, 3> args_asset) const override;
+    };
+
     // -------------    
 
     class CreateKronDomainFunctionFactory : public AbstractFunctionFactory {

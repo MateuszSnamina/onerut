@@ -417,7 +417,8 @@ namespace onerut_parser_rules {
 
     // *************************************************************************
 
-    onerut_parser_exec::Asset CreateFockDomainFunctionFactory::make_function_otherwise_make_error(const std::vector<onerut_parser_exec::Asset>& argv) const {
+    onerut_parser_exec::Asset
+    CreateFockDomainFunctionFactory::make_function_otherwise_make_error(const std::vector<onerut_parser_exec::Asset>& argv) const {
         const auto argc = argv.size();
         const auto & argv_asset_deref = onerut_parser_exec::utility::many_deref(argv);
         // ---------------------------------------------------------------------
@@ -473,9 +474,17 @@ namespace onerut_parser_rules {
         using DomainT = onerut_normal_operator::FockDomain;
         return onerut_parser_exec::Asset::from_value<DomainT>(fock_domain);
     }
+
+    onerut_parser_exec::Asset
+    CreateFockAnnihilationCreationFunctionFactory::make_function_otherwise_make_error(std::array<onerut_parser_exec::Asset, 3> args_asset) const {
+        //TODO
+        return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::CompilerNotImplementedError>());
+    }
+
     // *************************************************************************
 
-    onerut_parser_exec::Asset CreateKronDomainFunctionFactory::make_function_otherwise_make_error(const std::vector<onerut_parser_exec::Asset>& argv) const {
+    onerut_parser_exec::Asset
+    CreateKronDomainFunctionFactory::make_function_otherwise_make_error(const std::vector<onerut_parser_exec::Asset>& argv) const {
         const auto & argv_asset_deref = onerut_parser_exec::utility::many_deref(argv);
         // ---------------------------------------------------------------------
         if (onerut_parser_exec::utility::any_of_is_compile_error(argv_asset_deref))
@@ -495,7 +504,8 @@ namespace onerut_parser_rules {
                 );
     }
 
-    onerut_parser_exec::Asset CreateNormalOperatorKronPlaceholdersFunctionFactory::make_function_otherwise_make_error(const std::vector<onerut_parser_exec::Asset>& argv) const {
+    onerut_parser_exec::Asset
+    CreateNormalOperatorKronPlaceholdersFunctionFactory::make_function_otherwise_make_error(const std::vector<onerut_parser_exec::Asset>& argv) const {
         const auto argc = argv.size();
         const auto & argv_asset_deref = onerut_parser_exec::utility::many_deref(argv);
         // ---------------------------------------------------------------------
@@ -542,7 +552,8 @@ namespace onerut_parser_rules {
         return argv[0];
     }
 
-    onerut_parser_exec::Asset CreateNormalOperatorAtOperatorFunctionFactory::make_function_otherwise_make_error(std::array<onerut_parser_exec::Asset, 2> args_asset) const {
+    onerut_parser_exec::Asset
+    CreateNormalOperatorAtOperatorFunctionFactory::make_function_otherwise_make_error(std::array<onerut_parser_exec::Asset, 2> args_asset) const {
         const auto & arg0_asset_deref = args_asset[0].deref();
         const auto & arg1_asset_deref = args_asset[1].deref();
         // ---------------------------------------------------------------------
@@ -577,7 +588,8 @@ namespace onerut_parser_rules {
 
     // *************************************************************************
 
-    onerut_parser_exec::Asset NormalOperatorEigDenseFunctionFactory::make_function_otherwise_make_error(std::array<onerut_parser_exec::Asset, 1> args_asset) const {
+    onerut_parser_exec::Asset
+    NormalOperatorEigDenseFunctionFactory::make_function_otherwise_make_error(std::array<onerut_parser_exec::Asset, 1> args_asset) const {
         const auto & arg0_asset_deref = args_asset[0].deref();
         // ---------------------------------------------------------------------
         if (arg0_asset_deref.is_compile_error())
@@ -596,7 +608,8 @@ namespace onerut_parser_rules {
                 );
     }
 
-    onerut_parser_exec::Asset NormalOperatorEigSparseFunctionFactory::make_function_otherwise_make_error(std::array<onerut_parser_exec::Asset, 2> args_asset) const {
+    onerut_parser_exec::Asset
+    NormalOperatorEigSparseFunctionFactory::make_function_otherwise_make_error(std::array<onerut_parser_exec::Asset, 2> args_asset) const {
         const auto & arg0_asset_deref = args_asset[0].deref();
         const auto & arg1_asset_deref = args_asset[1].deref();
         // ---------------------------------------------------------------------
@@ -633,7 +646,8 @@ namespace onerut_parser_rules {
         return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::CompilerNotImplementedError>());
     }
 
-    onerut_parser_exec::Asset NormalOperatorMeanInEigenStateFunctionFactory::make_function_otherwise_make_error(std::array<onerut_parser_exec::Asset, 3> args_asset) const {
+    onerut_parser_exec::Asset
+    NormalOperatorMeanInEigenStateFunctionFactory::make_function_otherwise_make_error(std::array<onerut_parser_exec::Asset, 3> args_asset) const {
         const auto & arg0_asset_deref = args_asset[0].deref();
         const auto & arg1_asset_deref = args_asset[1].deref();
         const auto & arg2_asset_deref = args_asset[2].deref();
@@ -680,7 +694,8 @@ namespace onerut_parser_rules {
                 );
     }
 
-    onerut_parser_exec::Asset NormalOperatorMeanThermalFunctionFactory::make_function_otherwise_make_error(std::array<onerut_parser_exec::Asset, 3> args_asset) const {
+    onerut_parser_exec::Asset
+    NormalOperatorMeanThermalFunctionFactory::make_function_otherwise_make_error(std::array<onerut_parser_exec::Asset, 3> args_asset) const {
         const auto & arg0_asset_deref = args_asset[0].deref();
         const auto & arg1_asset_deref = args_asset[1].deref();
         const auto & arg2_asset_deref = args_asset[2].deref();

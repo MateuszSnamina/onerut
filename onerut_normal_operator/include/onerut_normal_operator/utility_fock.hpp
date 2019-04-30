@@ -3,16 +3,14 @@
 
 #include<cassert>
 #include<cstdint>
-#include<string>
 #include<vector>
+#include<string>
 #include<algorithm>
-#include<iostream>//debug TODO delete
 
 namespace onerut_normal_operator::utility {
 
     inline
     uint32_t binomial_coefficient(uint32_t n, uint32_t k) {
-        //std::cout << "(" << n << "over" << k << ")" << std::endl;
         assert(n >= k);
         uint32_t result = 1;
         for (uint32_t i = 0; i < n - k; ++i) {
