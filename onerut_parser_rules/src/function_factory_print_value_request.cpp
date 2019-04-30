@@ -64,12 +64,18 @@ namespace onerut_parser_rules {
         if (const auto temp = _try_with_value<onerut_normal_operator::EgDomain>(arg0_asset_deref)) {
             return *temp;
         }
+        if (const auto temp = _try_with_value<onerut_normal_operator::FockDomain>(arg0_asset_deref)) {
+            return *temp;
+        }
         if (const auto temp = _try_with_value<onerut_normal_operator::KronDomain>(arg0_asset_deref)) {
             return *temp;
         }
         if (const auto temp = _try_with_value<onerut_normal_operator::StateIndex>(arg0_asset_deref)) {
             return *temp;
         }
+        if (const auto temp = _try_with_value<onerut_normal_operator::OrbitalIndex>(arg0_asset_deref)) {
+            return *temp;
+        }        
         if (const auto temp = _try_with_value<onerut_normal_operator::KronPlaceholder>(arg0_asset_deref)) {
             return *temp;
         }

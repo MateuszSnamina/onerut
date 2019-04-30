@@ -7,6 +7,7 @@
 #include<onerut_scalar/scalar_abstract.hpp>
 #include<onerut_convergence_parameter/convergence_parameter.hpp>
 #include<onerut_normal_operator/operator_abstract.hpp>
+#include<onerut_normal_operator/domain_kron.hpp> //TODO delete in the future.
 #include<onerut_normal_operator/eig.hpp>
 #include<onerut_normal_operator/mean.hpp>
 #include<onerut_normal_operator/to_string.hpp>
@@ -105,6 +106,10 @@ namespace onerut_parser_rules {
             stream << line_prefix << "[asset-deref] "
                     << "Asset-defer is an " << esc::manip::italic << "eg-type-normal-domain" << esc::manip::reset << "."
                     << std::endl;
+        } else if (asset.deref().is_given_type<onerut_normal_operator::FockDomain>()) {
+            stream << line_prefix << "[asset-deref] "
+                    << "Asset-defer is a " << esc::manip::italic << "fock-type-normal-domain" << esc::manip::reset << "."
+                    << std::endl;
         } else if (asset.deref().is_given_type<onerut_normal_operator::KronDomain>()) {
             stream << line_prefix << "[asset-deref] "
                     << "Asset-defer is a " << esc::manip::italic << "kron-type-normal-domain" << esc::manip::reset << "."
@@ -112,6 +117,10 @@ namespace onerut_parser_rules {
         } else if (asset.deref().is_given_type<onerut_normal_operator::StateIndex>()) {
             stream << line_prefix << "[asset-deref] "
                     << "Asset-defer is a " << esc::manip::italic << "normal-domain-state-index" << esc::manip::reset << "."
+                    << std::endl;
+        } else if (asset.deref().is_given_type<onerut_normal_operator::OrbitalIndex>()) {
+            stream << line_prefix << "[asset-deref] "
+                    << "Asset-defer is a " << esc::manip::italic << "fock-domain-orbital-index" << esc::manip::reset << "."
                     << std::endl;
         } else if (asset.deref().is_given_type<onerut_normal_operator::KronPlaceholder>()) {
             stream << line_prefix << "[asset-deref] "

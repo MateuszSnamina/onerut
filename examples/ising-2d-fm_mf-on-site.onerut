@@ -9,17 +9,20 @@
 ########################################
 # Define spin dublet Hilbert space     #
 ########################################
+
 DUBLET_DOMAIN := spin_domain(2)
 
 ########################################
 # Define handy references              #
 # for standard vibronic operators      #
 ########################################
+
 new const Sz := Sz(DUBLET_DOMAIN)
 
 ########################################
 # Model -- params                     ##
 ########################################
+
 new const J_a := -1.0
 new const J_b := -1.0
 bind_to_env(temperature, 0.0)
@@ -27,14 +30,16 @@ bind_to_env(temperature, 0.0)
 ########################################
 # Convergence -- params               ##
 ########################################
-mean_Sz := parameter(0.5)
+
+bind_to_env(start_mean_Sz, 0.5)
+new const mean_Sz := parameter(start_mean_Sz)
 
 ########################################
 # MF Hamiltonian                      ##
 ########################################
 new const B := [2 * J_a + 2 * J_b] * mean_Sz
 new const H := B * Sz
-eig := eigd(H)
+new const eig := eigd(H)
 
 ########################################
 # Convergence param expressions       ##
@@ -47,10 +52,10 @@ mean_Sz :: 1e-5
 # specific heat in finite temperature         ##
 ################################################
 
-mean_energy := thermal_mean(H, eig, temperature)
-mean_energy2 := thermal_mean(H * H, eig, temperature)
-var_energy := mean_energy2 - mean_energy^2
-specific_heat := var_energy / temperature^2
+new const mean_energy := thermal_mean(H, eig, temperature)
+new const mean_energy2 := thermal_mean(H * H, eig, temperature)
+new const var_energy := mean_energy2 - mean_energy^2
+new const specific_heat := var_energy / temperature^2
 
 ########################################
 # Print requests                      ##

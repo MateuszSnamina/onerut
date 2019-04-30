@@ -417,6 +417,61 @@ namespace onerut_parser_rules {
 
     // *************************************************************************
 
+    onerut_parser_exec::Asset CreateFockDomainFunctionFactory::make_function_otherwise_make_error(const std::vector<onerut_parser_exec::Asset>& argv) const {
+        const auto argc = argv.size();
+        const auto & argv_asset_deref = onerut_parser_exec::utility::many_deref(argv);
+        // ---------------------------------------------------------------------
+        if (argc == 0)
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::WrongNumberOfArgumentsError>());
+        // ---------------------------------------------------------------------
+        const auto arg0_asset_deref = argv_asset_deref[0];
+        // ---------------------------------------------------------------------
+        if (onerut_parser_exec::utility::any_of_is_compile_error(argv_asset_deref))
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::CompileArgumentsError>());
+        // ---------------------------------------------------------------------
+        if (!arg0_asset_deref.is_either_value_or_type())
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::ArgumentMismatchError>());
+        // ---------------------------------------------------------------------
+        if (!utility::is_integer(arg0_asset_deref))
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::ArgumentMismatchError>());
+        if (!std::all_of(cbegin(argv) + 1, cend(argv), onerut_parser_exec::utility::is_unset_ref))
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::ArgumentMismatchError>());
+        // ---------------------------------------------------------------------
+        const auto n_particlles = utility::to_integer(arg0_asset_deref);
+        const auto n_particlles_buildin = n_particlles->value_integer();
+        // ---------------------------------------------------------------------
+        if (argc < boost::numeric_cast<decltype(argc)>(1 + n_particlles_buildin))
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::WrongNumberOfArgumentsError>());
+        // ---------------------------------------------------------------------
+        // Take out orbitals names:
+        std::vector<std::string> orbital_names;
+        orbital_names.reserve(argc - 1);
+        std::transform(
+                cbegin(argv) + 1, cend(argv),
+                std::back_inserter(orbital_names),
+                [](const onerut_parser_exec::Asset & asset) {
+                    return onerut_parser_exec::utility::name_of_unset_ref(asset);
+                }
+        );
+        // Make domain object:
+        const auto fock_domain =
+                std::make_shared<onerut_normal_operator::FockDomain>(n_particlles_buildin, orbital_names);
+        const auto domain_asset_deref =
+                onerut_parser_exec::AssetDeref::from_value<const onerut_normal_operator::FockDomain>(fock_domain);
+        // Make orbital index objects:
+        for (unsigned index = 0; index < argc - 1; ++index) {
+            const auto orbial_index_asset_deref = onerut_parser_exec::AssetDeref::from_value<onerut_normal_operator::OrbitalIndex>(fock_domain->crate_orbital_index(index));
+            const auto orbial_index_ref = std::make_shared<onerut_parser_exec::AssetConstRef>(orbital_names[index], orbial_index_asset_deref);
+            if (!onerut_parser_exec::AssetRefContainer::global_instance().put(orbial_index_ref)) {
+                return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::IllegalSecondAssignError>());
+            }
+        }
+        // Return -- domain object:
+        using DomainT = onerut_normal_operator::FockDomain;
+        return onerut_parser_exec::Asset::from_value<DomainT>(fock_domain);
+    }
+    // *************************************************************************
+
     onerut_parser_exec::Asset CreateKronDomainFunctionFactory::make_function_otherwise_make_error(const std::vector<onerut_parser_exec::Asset>& argv) const {
         const auto & argv_asset_deref = onerut_parser_exec::utility::many_deref(argv);
         // ---------------------------------------------------------------------

@@ -173,6 +173,29 @@ namespace onerut_request {
                 << "eg states = " << string_utils::StreamToGreek(onerut_normal_operator::to_string(*instance))
                 << std::endl;
     }
+    // *************************************************************************
+
+    PrintValueRequestTyped<onerut_normal_operator::FockDomain>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
+    instance(instance) {
+        assert(instance);
+    }
+
+    void PrintValueRequestTyped<onerut_normal_operator::FockDomain>::print(std::ostream& stream, std::string line_prefix) const {
+        assert(instance);
+        stream << line_prefix << "[value] "
+                << "dimension = " << instance->size()
+                << std::endl;
+        stream << line_prefix << "[value] "
+                << "n_particles = " << instance->n_particles
+                << std::endl;
+        stream << line_prefix << "[value] "
+                << "n_orbitals = " << instance->orbital_names.size()
+                << std::endl;
+        stream << line_prefix << "[value] "
+                << "fock states = " << string_utils::StreamToGreek(onerut_normal_operator::to_string(*instance))
+                << std::endl;
+    }
+
 
     // *************************************************************************
 
@@ -202,6 +225,23 @@ namespace onerut_request {
         assert(instance);
         stream << line_prefix << "[value] "
                 << "value = " << instance->to_str()
+                << std::endl;
+    }
+
+    // *************************************************************************
+
+    PrintValueRequestTyped<onerut_normal_operator::OrbitalIndex>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
+    instance(instance) {
+        assert(instance);
+    }
+
+    void PrintValueRequestTyped<onerut_normal_operator::OrbitalIndex>::print(std::ostream& stream, std::string line_prefix) const {
+        assert(instance);
+        stream << line_prefix << "[value] "
+                << "orbital index = " << instance->index
+                << std::endl;
+        stream << line_prefix << "[value] "
+                << "orbital name = " << instance->fetch_name()
                 << std::endl;
     }
 

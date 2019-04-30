@@ -53,7 +53,6 @@ namespace onerut_normal_operator {
 
     std::string KronDomain::state_name(uint32_t index) const {
         assert(index < size());
-        std::string result;
         std::vector<std::string> site_state_names;
         for (uint32_t place = 0; place < subdomains.size(); ++place) {
             const uint32_t index_on_site = utility::get_sub_index(*this, place, index);

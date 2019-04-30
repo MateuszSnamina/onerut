@@ -264,6 +264,8 @@ namespace onerut_parser_rules {
         force_put("eg_domain", std::make_unique<CreateEgDomainFunctionFactory>());
         force_put("sigma_x", std::make_unique<CreateSigmaXOperatorFunctionFactory>());
         force_put("sigma_z", std::make_unique<CreateSigmaZOperatorFunctionFactory>());
+        // Normal operator for Fock algebra functions:
+        force_put("fock_domain", std::make_unique<CreateFockDomainFunctionFactory>());
         // Normal operator for kron algebra functions:
         force_put("kron_domain", std::make_unique<CreateKronDomainFunctionFactory>());
         force_put("kron_placeholders", std::make_unique<CreateNormalOperatorKronPlaceholdersFunctionFactory>());

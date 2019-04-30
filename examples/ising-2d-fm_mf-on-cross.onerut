@@ -21,12 +21,14 @@
 ########################################
 # Define spin dublet Hilbert space     #
 ########################################
+
 DUBLET_DOMAIN := spin_domain(2)
 
 ########################################
 # Define handy references              #
 # for standard vibronic operators      #
 ########################################
+
 new const Sz := Sz(DUBLET_DOMAIN)
 new const Sp := Sp(DUBLET_DOMAIN)
 new const Sm := Sm(DUBLET_DOMAIN)
@@ -41,6 +43,7 @@ kron_placeholders(CLUSTER_DOMAIN, C, L, R, U, D)
 ########################################
 # Model -- params                     ##
 ########################################
+
 new const J_a := -1.0
 new const J_b := -1.0
 bind_to_env(temperature, 0.0)
@@ -48,7 +51,9 @@ bind_to_env(temperature, 0.0)
 ########################################
 # Convergence -- params               ##
 ########################################
-new const mean_Sz := parameter(0.5)
+
+bind_to_env(start_mean_Sz, 0.5)
+new const mean_Sz := parameter(start_mean_Sz)
 
 ########################################
 # MF Hamiltonian                      ##
@@ -70,7 +75,7 @@ new const H_1e_U := B_b * Sz@U
 new const H_1e_D := B_b * Sz@D
 new const H_1e := H_1e_L + H_1e_R + H_1e_U + H_1e_D
 new const H := H_1e + H_2e
-eig := eigd(H)
+new const eig := eigd(H)
 
 ########################################
 # Convergence param expressions       ##
@@ -83,14 +88,17 @@ mean_Sz :: 1e-5
 # specific heat in finite temperature         ##
 ################################################
 
-mean_energy := thermal_mean(H, eig, temperature)
-mean_energy2 := thermal_mean(H * H, eig, temperature)
-var_energy := mean_energy2 - mean_energy^2
-specific_heat := var_energy / temperature^2
+new const mean_energy := thermal_mean(H, eig, temperature)
+new const mean_energy2 := thermal_mean(H * H, eig, temperature)
+new const var_energy := mean_energy2 - mean_energy^2
+new const specific_heat := var_energy / temperature^2
 
 ########################################
 # Print requests                      ##
 ########################################
+
+VALUE(specific_heat) 
+VALUE(mean_Sz)
 
 new const mean_Sz_at_C := thermal_mean(Sz@C, eig, temperature)
 new const mean_Sz_at_L := thermal_mean(Sz@L, eig, temperature)
@@ -108,6 +116,3 @@ VALUE(mean_Sz_at_C * mean_Sz_at_L)
 VALUE(thermal_mean(SS_U, eig, temperature))
 VALUE(mean_Sz_at_C * mean_Sz_at_U)
 
-VALUE(specific_heat) 
-
-VALUE(mean_Sz)

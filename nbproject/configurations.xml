@@ -40,6 +40,7 @@
         <in>domain_abstract.cpp</in>
         <in>domain_custom.cpp</in>
         <in>domain_eg.cpp</in>
+        <in>domain_fock.cpp</in>
         <in>domain_kron.cpp</in>
         <in>domain_oscillator.cpp</in>
         <in>domain_spin.cpp</in>
@@ -565,6 +566,13 @@
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/domain_eg.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+        </ccTool>
+      </item>
+      <item path="onerut_normal_operator/src/domain_fock.cpp"
             ex="false"
             tool="1"
             flavor2="11">

@@ -32,8 +32,8 @@ namespace onerut_normal_operator {
 
     class KronPlaceholder {
     public:
-        std::shared_ptr<const KronDomain> domain;
-        unsigned place;
+        const std::shared_ptr<const KronDomain> domain;
+        const unsigned place;
         std::shared_ptr<const Domain> fetch_subdomain() const;
     private:
         KronPlaceholder(std::shared_ptr<const KronDomain> domain, unsigned place);

@@ -12,6 +12,7 @@
 #include<onerut_normal_operator/domain_oscillator.hpp>
 #include<onerut_normal_operator/domain_spin.hpp>
 #include<onerut_normal_operator/domain_eg.hpp>
+#include<onerut_normal_operator/domain_fock.hpp>
 #include<onerut_normal_operator/domain_kron.hpp>
 #include<onerut_normal_operator/eig.hpp>
 #include<onerut_normal_operator/mean.hpp>
@@ -65,7 +66,7 @@ namespace onerut_request {
         void print(std::ostream& stream, std::string line_prefix) const override;
         const std::shared_ptr<Type> instance;
     };
-    
+
     template<>
     struct PrintValueRequestTyped<onerut_convergence_parameter::ConvergenceParameter> : public PrintValueRequest {
         using Type = onerut_convergence_parameter::ConvergenceParameter;
@@ -105,7 +106,15 @@ namespace onerut_request {
         void print(std::ostream& stream, std::string line_prefix) const override;
         const std::shared_ptr<Type> instance;
     };
-    
+
+    template<>
+    struct PrintValueRequestTyped<onerut_normal_operator::FockDomain> : public PrintValueRequest {
+        using Type = onerut_normal_operator::FockDomain;
+        PrintValueRequestTyped(std::shared_ptr<Type> instance);
+        void print(std::ostream& stream, std::string line_prefix) const override;
+        const std::shared_ptr<Type> instance;
+    };
+
     template<>
     struct PrintValueRequestTyped<onerut_normal_operator::KronDomain> : public PrintValueRequest {
         using Type = onerut_normal_operator::KronDomain;
@@ -122,6 +131,14 @@ namespace onerut_request {
         const std::shared_ptr<Type> instance;
     };
 
+    template<>
+    struct PrintValueRequestTyped<onerut_normal_operator::OrbitalIndex> : public PrintValueRequest {
+        using Type = onerut_normal_operator::OrbitalIndex;
+        PrintValueRequestTyped(std::shared_ptr<Type> instance);
+        void print(std::ostream& stream, std::string line_prefix) const override;
+        const std::shared_ptr<Type> instance;
+    };
+    
     template<>
     struct PrintValueRequestTyped<onerut_normal_operator::KronPlaceholder> : public PrintValueRequest {
         using Type = onerut_normal_operator::KronPlaceholder;

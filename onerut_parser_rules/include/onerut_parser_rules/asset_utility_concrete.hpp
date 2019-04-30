@@ -11,6 +11,7 @@
 #include<onerut_normal_operator/domain_oscillator.hpp>
 #include<onerut_normal_operator/domain_spin.hpp>
 #include<onerut_normal_operator/domain_eg.hpp>
+#include<onerut_normal_operator/domain_fock.hpp>
 #include<onerut_normal_operator/domain_kron.hpp>
 #include<onerut_normal_operator/eig.hpp>
 #include<onerut_normal_operator/mean.hpp>
@@ -48,6 +49,9 @@ namespace onerut_parser_rules::utility {
 
     bool
     is_eg_operator_domain(const onerut_parser_exec::AssetDeref&);
+
+    bool
+    is_fock_operator_domain(const onerut_parser_exec::AssetDeref&);
 
     bool
     is_kron_operator_domain(const onerut_parser_exec::AssetDeref&);
@@ -101,7 +105,10 @@ namespace onerut_parser_rules::utility {
 
     std::shared_ptr < const onerut_normal_operator::EgDomain >
     to_eg_operator_domain(const onerut_parser_exec::AssetDeref&);
-    
+
+    std::shared_ptr < const onerut_normal_operator::FockDomain >
+    to_fock_operator_domain(const onerut_parser_exec::AssetDeref&);
+
     std::shared_ptr < const onerut_normal_operator::KronDomain >
     to_kron_operator_domain(const onerut_parser_exec::AssetDeref&);
 

@@ -127,22 +127,25 @@ if (__name__ == "__main__"):
   temaperatures = list(np.arange(0, 2.0, 0.05))
   # Set the lookup_variabe_names:
   lookup_variabe_names = ['mean_Sz', 'specific_heat']
-  map_temperature_to_lookup_variabe_dict = dict() # keys: temperatur, value: lookup_variabe_maps
+  map_temperature_to_lookup_variabe_dict = dict() # keys: temperature, value: lookup_variabe_maps
   # Run the calculations:
   print("╠═╗ Calculations:")
+  start_mean_Sz = 0.5
   for temaperature in temaperatures:
     print("║ ╠═╗ Calculations for temaperature = " + str(temaperature))
     runner = RunnerBuilder().\
                script(script_path).\
                n_max_iter(500).\
                env('temperature', temaperature).\
+               env('start_mean_Sz', start_mean_Sz).\
                build()
     runner.run()
     #runner.print_outs() # for debug
     #runner.print_errs() # for debug
     lookup_variabe_dict = runner.scan(lookup_variabe_names)
-    print("║ ║ ╠══╗ lookup_variabe_dict:" + str(lookup_variabe_dict))
+    print("║ ║ ╠══╗ lookup_variabe_dict: " + str(lookup_variabe_dict))     
     map_temperature_to_lookup_variabe_dict[temaperature] = lookup_variabe_dict
+    start_mean_Sz = lookup_variabe_dict['mean_Sz'] # use the result value as a starting one in the next iteration
   # Prepare and show plots:
   print("╠═╗ Plot:")
   for lookup_variabe_name in lookup_variabe_names:

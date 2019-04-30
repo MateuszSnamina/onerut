@@ -1,0 +1,21 @@
+#!/usr/local/bin/onerut
+
+########################################
+# Define Fock Hilbert space            #
+########################################
+
+new const n_particles := 2
+
+FOCK_DOMAIN := fock_domain(n_particles, H1u, H1d, H2u, H2d)
+
+H1u
+H1d
+H2u
+H2d
+
+VALUE(FOCK_DOMAIN)
+VALUE(H1u)
+VALUE(H1d)
+VALUE(H2u)
+VALUE(H2d)
+
