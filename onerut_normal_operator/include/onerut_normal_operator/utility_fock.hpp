@@ -63,6 +63,7 @@ namespace onerut_normal_operator::utility {
         }
         assert(ket == 0);
         assert(n_particles_left == 0);
+        assert(n_particles == std::count(begin(result), end(result), true));
         return result;
     }
 
@@ -88,7 +89,7 @@ namespace onerut_normal_operator::utility {
         assert(ket < binomial_coefficient(n_orbitals, n_particles));
         return ket;
     }
-    
+
 }
 
 #endif
