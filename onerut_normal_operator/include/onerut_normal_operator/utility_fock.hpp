@@ -37,41 +37,32 @@ namespace onerut_normal_operator::utility {
     }
 
     inline
-    void _decode(
-            std::vector<bool>& buffer, uint32_t orbital_index_to_fill,
-            uint32_t n_particles_left, uint32_t ket) {
-        //std::cout << "CALL index_to_fill=" << index_to_fill << ", n_particles_left= " << n_particles_left << ", ket= " << ket << std::endl;
-        const uint32_t n_orbitals = buffer.size();
-        const uint32_t n_orbitals_left = n_orbitals - orbital_index_to_fill; //we do not subtract the current orbital
-        assert(n_orbitals_left > 0);
-        if (orbital_index_to_fill == buffer.size()) {
-            assert(0);
-            return;
-        }
-        const uint32_t lower_chonk_size =
-                n_orbitals_left > n_particles_left ?
-                binomial_coefficient(n_orbitals_left - 1, n_particles_left) :
-                0;
-        const uint32_t upper_chonk_size = binomial_coefficient(n_orbitals_left - 1, n_particles_left - 1);
-        assert(ket < lower_chonk_size + upper_chonk_size);
-        if (ket < lower_chonk_size) {
-            buffer[orbital_index_to_fill] = false;
-            _decode(buffer, orbital_index_to_fill + 1, n_particles_left, ket);
-        } else {
-            buffer[orbital_index_to_fill] = true;
-            if (n_particles_left > 1) {
-                _decode(buffer, orbital_index_to_fill + 1, n_particles_left - 1, ket - lower_chonk_size);
-            }
-        }
-    }
-
-    inline
-    std::vector<bool> decode(const uint32_t n_particles, const uint32_t n_orbitals, const uint32_t ket) {
-        //TODO change the recurention into a loop.
+    std::vector<bool> decode(const uint32_t n_particles, const uint32_t n_orbitals, uint32_t ket) {
         assert(n_particles > 0);
         assert(ket < binomial_coefficient(n_orbitals, n_particles));
         std::vector<bool> result(n_orbitals);
-        _decode(result, 0, n_particles, ket);
+        uint32_t n_particles_left = n_particles;
+        for (uint32_t orbital_index_to_fill = 0; orbital_index_to_fill < n_orbitals; ++orbital_index_to_fill) {
+            assert(n_particles_left > 0);
+            const uint32_t n_orbitals_left = n_orbitals - orbital_index_to_fill;
+            const uint32_t lower_chonk_size =
+                    n_orbitals_left > n_particles_left ?
+                    binomial_coefficient(n_orbitals_left - 1, n_particles_left) :
+                    0;
+            const uint32_t upper_chonk_size = binomial_coefficient(n_orbitals_left - 1, n_particles_left - 1);
+            assert(ket < lower_chonk_size + upper_chonk_size);
+            const bool is_in_upper_chunk = (ket >= lower_chonk_size);
+            result[orbital_index_to_fill] = is_in_upper_chunk;
+            if (is_in_upper_chunk) {
+                n_particles_left--;
+                ket -= lower_chonk_size;
+                if (n_particles_left == 0) {
+                    break;
+                }
+            }
+        }
+        assert(ket == 0);
+        assert(n_particles_left == 0);
         return result;
     }
 
@@ -97,8 +88,7 @@ namespace onerut_normal_operator::utility {
         assert(ket < binomial_coefficient(n_orbitals, n_particles));
         return ket;
     }
-
-
+    
 }
 
 #endif

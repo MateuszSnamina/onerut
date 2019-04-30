@@ -60,7 +60,8 @@ namespace onerut_normal_operator {
         //        }
         const auto n_orbitals = boost::numeric_cast<uint32_t>(orbital_names.size());
         const auto decoded = utility::decode(n_particles, n_orbitals, index);
-        return utility::vector_of_bool_to_string(decoded) + std::to_string(utility::encode(decoded, n_particles));
+        return utility::vector_of_bool_to_string(decoded);
+        //+ std::to_string(utility::encode(decoded, n_particles));
         //boost::join(occupied_orbital_names, "&"); //TODO
     }
 
