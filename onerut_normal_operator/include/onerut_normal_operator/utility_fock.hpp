@@ -6,6 +6,7 @@
 #include<vector>
 #include<string>
 #include<algorithm>
+#include<boost/numeric/conversion/cast.hpp>
 
 namespace onerut_normal_operator::utility {
 
@@ -19,7 +20,6 @@ namespace onerut_normal_operator::utility {
         for (uint32_t i = 0; i < n - k; ++i) {
             result /= i + 1;
         };
-        // TODO: use boost :) ...
         return result;
     }
 

@@ -7,33 +7,6 @@
 #include<onerut_normal_operator/utility_fock.hpp>
 #include<onerut_normal_operator/domain_fock.hpp>
 
-namespace {
-    //
-    //    std::vector<uint32_t> domains_2_domain_sizes(
-    //            const std::vector<std::shared_ptr<const onerut_normal_operator::Domain> > & domains) {
-    //        std::vector<uint32_t> domain_sizes;
-    //        std::transform(
-    //                cbegin(domains), cend(domains),
-    //                std::back_inserter(domain_sizes),
-    //                [](const auto & domain) {
-    //                    return domain->size();
-    //                }
-    //        );
-    //        return domain_sizes;
-    //    }
-    //
-    //    std::vector<uint32_t> domain_sizes_2_weights(
-    //            const std::vector<uint32_t> & domain_sizes) {
-    //        std::vector<uint32_t> weights(domain_sizes.size() + 1);
-    //        weights.back() = 1;
-    //        std::partial_sum(
-    //                crbegin(domain_sizes), crend(domain_sizes),
-    //                rbegin(weights) + 1, std::multiplies<uint32_t>());
-    //        return weights;
-    //    }
-
-}
-
 namespace onerut_normal_operator {
 
     // -------------------------------------------------------------------------

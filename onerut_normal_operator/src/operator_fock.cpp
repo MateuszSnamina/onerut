@@ -1,7 +1,27 @@
 #include<cassert>
-
 #include<onerut_normal_operator/utility_fock.hpp>
 #include<onerut_normal_operator/operator_fock.hpp>
+
+namespace {
+
+    bool _symm_factor(const std::vector<bool> decoded, uint32_t index_lo, uint32_t index_up) {
+        const auto symm_factor_power = std::count(
+                begin(decoded) + index_lo + 1,
+                begin(decoded) + index_up,
+                true
+                );
+        return symm_factor_power % 2 == 0;
+        // true: no change the coef sign, false: change the coef sign
+    }
+
+    bool symm_factor(const std::vector<bool> decoded, uint32_t index_1, uint32_t index_2) {
+        assert(index_1 != index_2);
+        if (index_1 < index_2) {
+            return _symm_factor(decoded, index_1, index_2);
+        }
+        return _symm_factor(decoded, index_2, index_1);
+    }
+}
 
 namespace onerut_normal_operator {
 
@@ -42,8 +62,11 @@ namespace onerut_normal_operator {
             decoded[orbital_index_2->index] = false;
             decoded[orbital_index_1->index] = true;
             const unsigned bra = utility::encode(decoded, n_particles);
-            // TODO a symm (-1) factor
-            return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(/*value->value_real()*/ 666.0, bra)));
+            const auto coef =
+                    symm_factor(decoded, orbital_index_1->index, orbital_index_2->index) ?
+                    +value->value_real() :
+                    -value->value_real();
+            return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(coef, bra)));
         } else if
             // Act as: cr_orbital_index_2 * an_orbital_index_1:
             (decoded[orbital_index_1->index] &&
@@ -52,8 +75,11 @@ namespace onerut_normal_operator {
             decoded[orbital_index_1->index] = false;
             decoded[orbital_index_2->index] = true;
             const unsigned bra = utility::encode(decoded, n_particles);
-            // TODO a symm (-1) factor
-            return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(/*value->value_real()*/ 666.0, bra)));
+            const auto coef =
+                    symm_factor(decoded, orbital_index_1->index, orbital_index_2->index) ?
+                    +value->value_real() :
+                    -value->value_real();
+            return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(coef, bra)));
         }
         return std::make_unique<IteratorT>(IteratorT::create_end_iterator());
     }

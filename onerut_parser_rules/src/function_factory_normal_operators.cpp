@@ -7,6 +7,7 @@
 #include<onerut_normal_operator/operator_oscillator.hpp>
 #include<onerut_normal_operator/operator_spin.hpp>
 #include<onerut_normal_operator/operator_eg.hpp>
+#include<onerut_normal_operator/operator_fock.hpp>
 #include<onerut_normal_operator/operator_kron.hpp>
 #include<onerut_normal_operator/eig.hpp>
 #include<onerut_normal_operator/mean.hpp>
@@ -476,9 +477,77 @@ namespace onerut_parser_rules {
     }
 
     onerut_parser_exec::Asset
-    CreateFockAnnihilationCreationFunctionFactory::make_function_otherwise_make_error(std::array<onerut_parser_exec::Asset, 3> args_asset) const {
-        //TODO
-        return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::CompilerNotImplementedError>());
+    CreateFockHopFunctionFactory::make_function_otherwise_make_error(std::array<onerut_parser_exec::Asset, 3> args_asset) const {
+        const auto & arg0_asset_deref = args_asset[0].deref();
+        const auto & arg1_asset_deref = args_asset[1].deref();
+        const auto & arg2_asset_deref = args_asset[2].deref();
+        // ---------------------------------------------------------------------
+        if (arg0_asset_deref.is_compile_error())
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::CompileArgumentsError>());
+        if (arg1_asset_deref.is_compile_error())
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::CompileArgumentsError>());
+        if (arg2_asset_deref.is_compile_error())
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::CompileArgumentsError>());
+        // ---------------------------------------------------------------------
+        if (!arg0_asset_deref.is_either_value_or_type())
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::ArgumentMismatchError>());
+        if (!arg1_asset_deref.is_either_value_or_type())
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::ArgumentMismatchError>());
+        if (!arg2_asset_deref.is_either_value_or_type())
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::ArgumentMismatchError>());
+        // ---------------------------------------------------------------------
+        if (!utility::is_real_or_integer(arg0_asset_deref))
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::ArgumentMismatchError>());
+        if (!utility::is_normal_operator_orbital_index(arg1_asset_deref))
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::ArgumentMismatchError>());
+        if (!utility::is_normal_operator_orbital_index(arg2_asset_deref))
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::ArgumentMismatchError>());
+        // ---------------------------------------------------------------------
+        const auto value = utility::to_real(arg0_asset_deref);
+        const auto orbital_index_1 = utility::to_normal_operator_orbital_index(arg1_asset_deref);
+        const auto orbital_index_2 = utility::to_normal_operator_orbital_index(arg2_asset_deref);
+        // ---------------------------------------------------------------------
+        if (!onerut_normal_operator::are_the_same_domains(*orbital_index_1->domain, *orbital_index_2->domain))
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::ArgumentDomainError>("Incompatible state domains."));
+        // ---------------------------------------------------------------------
+        if (orbital_index_1->index == orbital_index_2->index)
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::ArgumentDomainError>("Hopping must take place between two different states."));
+        // ---------------------------------------------------------------------
+        using AbstractRealOperatorT = onerut_normal_operator::AbstractRealOperator;
+        using OperatorT = onerut_normal_operator::FockHopOperator;
+        return onerut_parser_exec::Asset::from_value<AbstractRealOperatorT>(
+                std::make_shared<OperatorT>(value, orbital_index_1, orbital_index_2)
+                );
+    }
+
+    onerut_parser_exec::Asset
+    CreateFockParticleNumberFunctionFactory::make_function_otherwise_make_error(std::array<onerut_parser_exec::Asset, 2> args_asset) const {
+        const auto & arg0_asset_deref = args_asset[0].deref();
+        const auto & arg1_asset_deref = args_asset[1].deref();
+        // ---------------------------------------------------------------------
+        if (arg0_asset_deref.is_compile_error())
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::CompileArgumentsError>());
+        if (arg1_asset_deref.is_compile_error())
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::CompileArgumentsError>());
+        // ---------------------------------------------------------------------
+        if (!arg0_asset_deref.is_either_value_or_type())
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::ArgumentMismatchError>());
+        if (!arg1_asset_deref.is_either_value_or_type())
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::ArgumentMismatchError>());
+        // ---------------------------------------------------------------------
+        if (!utility::is_real_or_integer(arg0_asset_deref))
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::ArgumentMismatchError>());
+        if (!utility::is_normal_operator_orbital_index(arg1_asset_deref))
+            return onerut_parser_exec::Asset::from_compile_error(std::make_shared<onerut_parser_exec::ArgumentMismatchError>());
+        // ---------------------------------------------------------------------
+        const auto value = utility::to_real(arg0_asset_deref);
+        const auto orbital_index = utility::to_normal_operator_orbital_index(arg1_asset_deref);
+        // ---------------------------------------------------------------------
+        using AbstractRealOperatorT = onerut_normal_operator::AbstractRealOperator;
+        using OperatorT = onerut_normal_operator::FockParticleNumberOperator;
+        return onerut_parser_exec::Asset::from_value<AbstractRealOperatorT>(
+                std::make_shared<OperatorT>(value, orbital_index)
+                );
     }
 
     // *************************************************************************

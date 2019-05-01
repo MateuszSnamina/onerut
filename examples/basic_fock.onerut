@@ -1,23 +1,27 @@
 #!/usr/local/bin/onerut
 
 ########################################
-# Define Fock Hilbert space            #
+# Define orbitals and Fock space       #
 ########################################
 
 new const n_particles := 2
 
 FOCK_DOMAIN := fock_domain(n_particles, H1u, H1d, H2u, H2d)
 
-#H1u
-#H1d
-#H2u
-#H2d
-
-#VALUE(H1u)
-#VALUE(H1d)
-#VALUE(H2u)
-#VALUE(H2d)
-
+VALUE(H1u)
+VALUE(H1d)
+VALUE(H2u)
+VALUE(H2d)
 VALUE(FOCK_DOMAIN)
 
-VALUE(zero(FOCK_DOMAIN))
+########################################
+# Define operators                     #
+########################################
+
+H_1 = zero(FOCK_DOMAIN)
+H_2 = fock_n(3.8, H1d)
+H_3 = fock_hop(3.0, H1u,  H2u)
+
+VALUE(H_1)
+VALUE(H_2)
+VALUE(H_3)

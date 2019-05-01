@@ -119,6 +119,14 @@ namespace onerut_parser_rules::utility {
     }
 
     bool
+    is_normal_operator_orbital_index(const onerut_parser_exec::AssetDeref & arg) {
+        using OrbitalT = onerut_normal_operator::OrbitalIndex;
+        assert(!arg.is_empty());
+        assert(!arg.is_compile_error());
+        return arg.is_given_type<OrbitalT>();
+    }
+
+    bool
     is_kron_operator_domain_placeholder(const onerut_parser_exec::AssetDeref & arg) {
         using PlaceholderT = onerut_normal_operator::KronPlaceholder;
         assert(!arg.is_empty());
@@ -295,6 +303,15 @@ namespace onerut_parser_rules::utility {
         using StateT = onerut_normal_operator::StateIndex;
         assert(is_normal_operator_state_index(arg));
         const auto& arg_typed = *arg.typed_value_or_empty<StateT>();
+        assert(arg_typed);
+        return arg_typed;
+    }
+
+    std::shared_ptr < const onerut_normal_operator::OrbitalIndex >
+    to_normal_operator_orbital_index(const onerut_parser_exec::AssetDeref& arg) {
+        using OrbitalT = onerut_normal_operator::OrbitalIndex;
+        assert(is_normal_operator_orbital_index(arg));
+        const auto& arg_typed = *arg.typed_value_or_empty<OrbitalT>();
         assert(arg_typed);
         return arg_typed;
     }

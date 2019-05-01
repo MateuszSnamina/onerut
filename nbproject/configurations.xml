@@ -49,6 +49,7 @@
         <in>operator_abstract.cpp</in>
         <in>operator_dense.cpp</in>
         <in>operator_eg.cpp</in>
+        <in>operator_fock.cpp</in>
         <in>operator_kron.cpp</in>
         <in>operator_opplusminus.cpp</in>
         <in>operator_opprod.cpp</in>
@@ -629,6 +630,13 @@
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/operator_eg.cpp"
+            ex="false"
+            tool="1"
+            flavor2="11">
+        <ccTool flags="1">
+        </ccTool>
+      </item>
+      <item path="onerut_normal_operator/src/operator_fock.cpp"
             ex="false"
             tool="1"
             flavor2="11">
