@@ -176,13 +176,22 @@ execute_declarative_script(
                 << esc::manip::reset
                 << std::endl;
         for (const auto& eig : eig_objects) {
+            std::cout << "[CALCULATIONS] [EIG ] "
+                    << Aka(eig, akas_for_eig_objects, source_code_for_eig_objects)
+                    << std::endl;
             eig->latch();
         }
         for (const auto& mean : mean_objects) {
+            std::cout << "[CALCULATIONS] [MEAN] "
+                    << Aka(mean, akas_for_mean_objects, source_code_for_mean_objects)
+                    << std::endl;
             mean->latch();
         }
-        for (const auto& object : convergence_parameter_objects) {
-            object->recalcuate();
+        for (const auto& convergence_parameter_object : convergence_parameter_objects) {
+            std::cout << "[CALCULATIONS] [CONVERGENCE PARAMETER] "
+                    << Aka(convergence_parameter_object, akas_for_convergence_parameter_objects, source_code_for_convergence_parameter_objects)
+                    << std::endl;
+            convergence_parameter_object->recalcuate();
         }
         for (const auto& request : print_value_request_objects) {
             std::cout << "[PRINT VALUE REQUEST] "
@@ -193,7 +202,7 @@ execute_declarative_script(
         //    eig->reset();
         //}
         //for (const auto& mean : mean_objects) {
-        //    mean->latch();
+        //    mean->reset();
         //}
         for (const auto& object : convergence_parameter_objects) {
             double old_value = object->value_real();
@@ -207,7 +216,7 @@ execute_declarative_script(
         bool global_convergence_accumulator = true;
         for (const auto& object : convergence_parameter_objects) {
             const bool is_converged = object->is_converged();
-            std::cout << "[CONVERGENCE PARAMETER] [CONVERGENCE] ";
+            std::cout << "[CONVERGENCE PARAMETER] [CONVERGENCE TEST] ";
             if (is_converged) {
                 std::cout << esc::manip::green << "✓" << esc::manip::reset;
             } else {

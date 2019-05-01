@@ -33,9 +33,13 @@ namespace onerut_normal_operator {
         //        }
         const auto n_orbitals = boost::numeric_cast<uint32_t>(orbital_names.size());
         const auto decoded = utility::decode(n_particles, n_orbitals, index);
-        return utility::vector_of_bool_to_string(decoded);
-        //+ std::to_string(utility::encode(decoded, n_particles));
-        //boost::join(occupied_orbital_names, "&"); //TODO
+        for (uint32_t index = 0; index < n_orbitals; ++index) {
+            if (decoded[index]) {
+                occupied_orbital_names.push_back(orbital_names[index]);
+            }
+        }
+        //return utility::vector_of_bool_to_string(decoded);
+        return boost::join(occupied_orbital_names, "+");
     }
 
     std::unique_ptr<OrbitalIndex> FockDomain::crate_orbital_index(uint32_t index) const {

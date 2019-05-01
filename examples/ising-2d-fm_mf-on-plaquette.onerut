@@ -1,0 +1,145 @@
+#!/usr/local/bin/onerut
+
+# Node labels (00, 01, ..., 22)
+# and lattice vectors (a, b):
+# 
+#         01-02-03
+#         |  |  |
+#         11-12-13
+#  a ^    |  |  |
+#    |    21-22-23
+#    |
+#    +-->b
+#
+# The hamiltonian:
+# H = sum_{<ij>||a} J_a \vec S_i \cdot \vec S_j
+#     + {the same for direction b}
+# 
+# Here we consider FM case (with J_a, J_b < 0).
+
+
+########################################
+# Define spin dublet Hilbert space     #
+########################################
+
+DUBLET_DOMAIN := spin_domain(2)
+
+########################################
+# Define handy references              #
+# for standard vibronic operators      #
+########################################
+
+new const Sz := Sz(DUBLET_DOMAIN)
+new const Sp := Sp(DUBLET_DOMAIN)
+new const Sm := Sm(DUBLET_DOMAIN)
+
+########################################
+# Define cluster Hilbert space         #
+########################################
+
+CLUSTER_DOMAIN := kron_domain(DUBLET_DOMAIN, DUBLET_DOMAIN, DUBLET_DOMAIN, DUBLET_DOMAIN, DUBLET_DOMAIN, DUBLET_DOMAIN, DUBLET_DOMAIN, DUBLET_DOMAIN, DUBLET_DOMAIN) 
+kron_placeholders(CLUSTER_DOMAIN, _00, _01, _02, _10, _11, _12, _20, _21, _22)
+
+########################################
+# Model -- params                     ##
+########################################
+
+new const J_a := -1.0
+new const J_b := -1.0
+bind_to_env(temperature, 0.0)
+
+########################################
+# Convergence -- params               ##
+########################################
+
+bind_to_env(start_mean_Sz, 0.5)
+new const mean_Sz := parameter(start_mean_Sz)
+
+########################################
+# MF Hamiltonian                      ##
+########################################
+
+# two electrons part:
+new const H_2e_00_01 := J_a * [0.5 * (Sp@_00 * Sm@_01 + Sm@_00 * Sp@_01) + Sz@_00 * Sz@_01]
+new const H_2e_01_02 := J_a * [0.5 * (Sp@_01 * Sm@_02 + Sm@_01 * Sp@_02) + Sz@_01 * Sz@_02]
+new const H_2e_10_11 := J_a * [0.5 * (Sp@_10 * Sm@_11 + Sm@_10 * Sp@_11) + Sz@_10 * Sz@_11]
+new const H_2e_11_12 := J_a * [0.5 * (Sp@_11 * Sm@_12 + Sm@_11 * Sp@_12) + Sz@_11 * Sz@_12]
+new const H_2e_20_21 := J_a * [0.5 * (Sp@_20 * Sm@_21 + Sm@_20 * Sp@_21) + Sz@_20 * Sz@_21]
+new const H_2e_21_22 := J_a * [0.5 * (Sp@_21 * Sm@_22 + Sm@_21 * Sp@_22) + Sz@_21 * Sz@_22]
+new const H_2e_rows := H_2e_00_01 + H_2e_01_02 + H_2e_10_11 + H_2e_11_12 + H_2e_20_21 + H_2e_21_22
+
+new const H_2e_00_10 := J_b * [0.5 * (Sp@_00 * Sm@_10 + Sm@_00 * Sp@_10) + Sz@_00 * Sz@_10]
+new const H_2e_10_20 := J_b * [0.5 * (Sp@_10 * Sm@_20 + Sm@_10 * Sp@_20) + Sz@_10 * Sz@_20]
+new const H_2e_01_11 := J_b * [0.5 * (Sp@_01 * Sm@_11 + Sm@_01 * Sp@_11) + Sz@_01 * Sz@_11]
+new const H_2e_11_21 := J_b * [0.5 * (Sp@_11 * Sm@_21 + Sm@_11 * Sp@_21) + Sz@_11 * Sz@_21]
+new const H_2e_02_12 := J_b * [0.5 * (Sp@_02 * Sm@_12 + Sm@_02 * Sp@_12) + Sz@_02 * Sz@_12]
+new const H_2e_12_22 := J_b * [0.5 * (Sp@_12 * Sm@_22 + Sm@_12 * Sp@_22) + Sz@_12 * Sz@_22]
+new const H_2e_cols := H_2e_00_10 + H_2e_10_20 + H_2e_01_11 + H_2e_11_21 + H_2e_02_12 + H_2e_12_22
+
+new const H_2e := H_2e_rows + H_2e_cols
+
+# one electron part (from MF approx.):
+new const B_a := J_a * mean_Sz
+new const B_b := J_b * mean_Sz
+new const B_ab := [J_a + J_b] * mean_Sz
+
+new const H_1e_10 := B_a * Sz@_10
+new const H_1e_12 := B_a * Sz@_12
+new const H_1e_01 := B_b * Sz@_01
+new const H_1e_21 := B_b * Sz@_21
+new const H_1e_00 := B_ab * Sz@_00
+new const H_1e_02 := B_ab * Sz@_02
+new const H_1e_20 := B_ab * Sz@_20
+new const H_1e_22 := B_ab * Sz@_22
+
+new const H_1e := H_1e_10 + H_1e_12 + H_1e_01 + H_1e_21 + H_1e_00 + H_1e_02 + H_1e_20 + H_1e_22
+
+# the MF Hamiltonian:
+new const H := H_1e + H_2e
+new const eig := eigd(H)
+
+########################################
+# Convergence param expressions       ##
+########################################
+
+mean_Sz -> thermal_mean(Sz@_11, eig, temperature)
+mean_Sz :: 1e-5
+
+################################################
+# specific heat in finite temperature         ##
+################################################
+
+new const mean_energy := thermal_mean(H, eig, temperature)
+new const mean_energy2 := thermal_mean(H * H, eig, temperature)
+new const var_energy := mean_energy2 - mean_energy^2
+new const specific_heat := var_energy / temperature^2
+
+########################################
+# Print requests                      ##
+########################################
+
+VALUE(specific_heat) 
+VALUE(mean_Sz)
+
+new const mean_Sz_at_00 := thermal_mean(Sz@_00, eig, temperature)
+new const mean_Sz_at_01 := thermal_mean(Sz@_01, eig, temperature)
+new const mean_Sz_at_02 := thermal_mean(Sz@_02, eig, temperature)
+new const mean_Sz_at_10 := thermal_mean(Sz@_10, eig, temperature)
+new const mean_Sz_at_11 := thermal_mean(Sz@_11, eig, temperature)
+new const mean_Sz_at_12 := thermal_mean(Sz@_12, eig, temperature)
+new const mean_Sz_at_20 := thermal_mean(Sz@_20, eig, temperature)
+new const mean_Sz_at_21 := thermal_mean(Sz@_21, eig, temperature)
+new const mean_Sz_at_22 := thermal_mean(Sz@_22, eig, temperature)
+
+VALUE(mean_Sz_at_00)
+VALUE(mean_Sz_at_01)
+VALUE(mean_Sz_at_02)
+
+VALUE(mean_Sz_at_10)
+VALUE(mean_Sz_at_11)
+VALUE(mean_Sz_at_12)
+
+VALUE(mean_Sz_at_20)
+VALUE(mean_Sz_at_21)
+VALUE(mean_Sz_at_22)
+

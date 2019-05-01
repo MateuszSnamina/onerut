@@ -123,8 +123,9 @@ class RunnerBuilder:
 if (__name__ == "__main__"):
   # Set the heat task params:
   #script_path = 'ising-2d-fm_mf-on-site.onerut'
-  script_path = 'ising-2d-fm_mf-on-cross.onerut'
-  temaperatures = list(np.arange(0, 2.0, 0.05))
+  #script_path = 'ising-2d-fm_mf-on-cross.onerut'
+  script_path = 'ising-2d-fm_mf-on-plaquette.onerut'
+  temaperatures = list(np.arange(0, 1.4, 0.05))
   # Set the lookup_variabe_names:
   lookup_variabe_names = ['mean_Sz', 'specific_heat']
   map_temperature_to_lookup_variabe_dict = dict() # keys: temperature, value: lookup_variabe_maps
@@ -132,7 +133,7 @@ if (__name__ == "__main__"):
   print("╠═╗ Calculations:")
   start_mean_Sz = 0.5
   for temaperature in temaperatures:
-    print("║ ╠═╗ Calculations for temaperature = " + str(temaperature))
+    print("║ ╠═╗ Calculations for temaperature = {:12.6f}.".format(temaperature))
     runner = RunnerBuilder().\
                script(script_path).\
                n_max_iter(500).\
@@ -140,8 +141,12 @@ if (__name__ == "__main__"):
                env('start_mean_Sz', start_mean_Sz).\
                build()
     runner.run()
-    #runner.print_outs() # for debug
-    #runner.print_errs() # for debug
+    returncode = runner.returncode()
+    if returncode != 0:
+      runner.print_outs() # for debug
+      runner.print_errs() # for debug
+      print("║ ║ ║ [ERROR] Error during running with temperature {:12.6f}. Onerut returncode = {:3d}.".format(temaperature, returncode))
+      exit(1)
     lookup_variabe_dict = runner.scan(lookup_variabe_names)
     print("║ ║ ╠══╗ lookup_variabe_dict: " + str(lookup_variabe_dict))     
     map_temperature_to_lookup_variabe_dict[temaperature] = lookup_variabe_dict
@@ -158,7 +163,7 @@ if (__name__ == "__main__"):
         if lookup_variabe_value != None:
           X.append(temaperature)
           Y.append(lookup_variabe_value)
-          print("║ ║ ╠══╗" + str(temaperature) + " = " + str(lookup_variabe_value))
+          print("║ ║ ╠══╗  {:12.6f} =  {:12.6f}.".format(temaperature, lookup_variabe_value))
     fig, ax = plt.subplots()
     ax.plot(X,Y)
     plot_title = lookup_variabe_name.replace("_", " ")

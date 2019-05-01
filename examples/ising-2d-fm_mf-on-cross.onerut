@@ -59,7 +59,7 @@ new const mean_Sz := parameter(start_mean_Sz)
 # MF Hamiltonian                      ##
 ########################################
 
-# two electron part:
+# two electrons part:
 new const H_2e_L := J_a * [0.5 * (Sp@C * Sm@L + Sm@C * Sp@L) + Sz@C * Sz@L]
 new const H_2e_R := J_a * [0.5 * (Sp@C * Sm@R + Sm@C * Sp@R) + Sz@C * Sz@R]
 new const H_2e_U := J_b * [0.5 * (Sp@C * Sm@U + Sm@C * Sp@U) + Sz@C * Sz@U]
@@ -74,6 +74,8 @@ new const H_1e_R := B_a * Sz@R
 new const H_1e_U := B_b * Sz@U
 new const H_1e_D := B_b * Sz@D
 new const H_1e := H_1e_L + H_1e_R + H_1e_U + H_1e_D
+
+# the MF Hamiltonian:
 new const H := H_1e + H_2e
 new const eig := eigd(H)
 

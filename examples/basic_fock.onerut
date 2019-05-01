@@ -1,4 +1,4 @@
-#!/usr/local/bin/onerut
+#!/usr/local/bin/onerut -i
 
 ########################################
 # Define orbitals and Fock space       #
@@ -18,10 +18,10 @@ VALUE(FOCK_DOMAIN)
 # Define operators                     #
 ########################################
 
-H_1 = zero(FOCK_DOMAIN)
-H_2 = fock_n(3.8, H1d)
-H_3 = fock_hop(3.0, H1u,  H2u)
+H_zero := zero(FOCK_DOMAIN)
+H_n := fock_n(3.8, H1d)
+H_hop := fock_hop(3.0, H1u,  H2u)
 
-VALUE(H_1)
-VALUE(H_2)
-VALUE(H_3)
+VALUE(H_zero)
+VALUE(H_n)
+VALUE(H_hop)
