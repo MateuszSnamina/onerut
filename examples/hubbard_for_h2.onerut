@@ -1,0 +1,53 @@
+#!/usr/local/bin/onerut
+
+########################################
+# Define Fock Hilbert space            #
+########################################
+
+new const n_particles := 2
+
+FOCK_DOMAIN := fock_domain(n_particles, H1u, H1d, H2u, H2d)
+
+########################################
+# Define Hubbard model                 #
+########################################
+
+new const t := 0.3
+new const U := 1
+
+new const H_t := t * [ fock_hop(1, H1u, H2u) + fock_hop(1, H1d, H2d) ]
+new const H_U := U * [ fock_n(1, H1u) * fock_n(1, H1d) +  fock_n(1, H2u) * fock_n(1, H2d) ]
+new const H := H_t + H_U
+
+VALUE(H)
+
+########################################
+# Diagonalize model model              #
+########################################
+
+new const eig := eigd(H)
+VALUE(eig)
+
+########################################
+# Analytical solution                  #
+########################################
+
+# For sake of verification,
+# there are the analytical formulas
+# for all the eigenenergies:
+
+# S1 == 2*t|00> + E|D+>
+# T  == |1:1> |1:0> |1:-1>
+# S2 == |D->
+# S3 == 2*t|00> - E|D+>
+
+new const E_S1 := 0.5 * [U - sqrt(U^2 + 16*t^2) ] 
+new const E_T  := 0
+new const E_S2 := U  
+new const E_S3 := 0.5 * [U + sqrt(U^2 + 16*t^2) ] # stan: 2*t|00> + E|D+>
+
+VALUE(E_S1)
+VALUE(E_T)
+VALUE(E_S2)
+VALUE(E_S3)
+
