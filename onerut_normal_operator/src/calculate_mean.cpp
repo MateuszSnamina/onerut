@@ -48,8 +48,8 @@ namespace onerut_normal_operator {
                 const auto& val_bra = it_ptr->get_val_bra();
                 const auto& value = val_bra.first;
                 const auto& bra = val_bra.second;
-                for (arma::uword i_col = 0; i_col < cols.n_cols; ++i_col) {
-                    if (bra < space_dim) {
+                if (bra < space_dim) {
+                    for (arma::uword i_col = 0; i_col < cols.n_cols; ++i_col) {
                         result(i_col) += cols(bra, i_col) * value * cols(ket, i_col);
                     }
                 }

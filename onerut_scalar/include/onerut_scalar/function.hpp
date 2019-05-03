@@ -130,7 +130,9 @@ namespace onerut_scalar {
             _Callable callable, std::shared_ptr<const typename _ArgTags::OnerutBaseType>... args) :
     callable(callable),
     args(args...) {
+#ifndef NDEBUG
         (assert(args), ...);
+#endif        
     }
 
     // Functions extract(ptr) defined below 
