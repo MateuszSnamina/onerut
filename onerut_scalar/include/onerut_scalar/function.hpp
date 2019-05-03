@@ -130,7 +130,7 @@ namespace onerut_scalar {
             _Callable callable, std::shared_ptr<const typename _ArgTags::OnerutBaseType>... args) :
     callable(callable),
     args(args...) {
-#ifndef NDEBUG
+#ifndef NDEBUG // Prevent compilation error of expression folding with empty macro (in release compilation).
         (assert(args), ...);
 #endif        
     }

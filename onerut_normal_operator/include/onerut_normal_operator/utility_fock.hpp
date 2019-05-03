@@ -47,8 +47,10 @@ namespace onerut_normal_operator::utility {
                     n_orbitals_left > n_particles_left ?
                     binomial_coefficient(n_orbitals_left - 1, n_particles_left) :
                     0;
+#ifndef NDEBUG // prevent compilation warning of unused-variable.
             const uint32_t upper_chonk_size = binomial_coefficient(n_orbitals_left - 1, n_particles_left - 1);
             assert(ket < lower_chonk_size + upper_chonk_size);
+#endif
             const bool is_in_upper_chunk = (ket >= lower_chonk_size);
             result[orbital_index_to_fill] = is_in_upper_chunk;
             if (is_in_upper_chunk) {

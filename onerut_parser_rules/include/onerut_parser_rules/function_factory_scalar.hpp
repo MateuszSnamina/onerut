@@ -110,7 +110,9 @@ namespace onerut_parser_rules {
             typename std::enable_if<onerut_scalar::IsArgTag<ArgTags>::value, onerut_parser_exec::AssetDeref>::type... arg_assets_deref) {
         static_assert(!std::is_same<Callable, std::nullptr_t>::value);
         static_assert(onerut_scalar::utility::static_all_of<typename onerut_scalar::IsArgTag<ArgTags>::type...>::value);
+#ifndef NDEBUG // Prevent compilation error of expression folding with empty macro (in release compilation).
         (assert(arg_assets_deref.is_either_value_or_type()), ...);
+#endif
         if (!(ArgPreparator<ArgTags>::do_match(arg_assets_deref) && ... && true))
             return std::nullopt;
         using OnerutScalarFunctionType = typename onerut_scalar::DeduceFunction<Callable, ArgTags...>::DeducedFunction;

@@ -29,12 +29,12 @@
         <in>convergence_parameter.cpp</in>
       </df>
     </df>
-    <df root="onerut_env" name="17">
+    <df root="onerut_env" name="4">
       <df name="src">
         <in>env.cpp</in>
       </df>
     </df>
-    <df root="onerut_normal_operator" name="4">
+    <df root="onerut_normal_operator" name="5">
       <df name="src">
         <in>calculate_mean.cpp</in>
         <in>domain_abstract.cpp</in>
@@ -63,7 +63,7 @@
         <in>to_string.cpp</in>
       </df>
     </df>
-    <df root="onerut_normal_operator_tests" name="5">
+    <df root="onerut_normal_operator_tests" name="6">
       <df name="src">
         <in>test_domain_custom.cpp</in>
         <in>test_domain_kron.cpp</in>
@@ -73,12 +73,12 @@
         <in>test_operator_zero.cpp</in>
       </df>
     </df>
-    <df root="onerut_op1e" name="6">
+    <df root="onerut_op1e" name="7">
       <df name="src">
         <in>op1e.cpp</in>
       </df>
     </df>
-    <df root="onerut_parser_exec" name="7">
+    <df root="onerut_parser_exec" name="8">
       <df name="src">
         <in>asset.cpp</in>
         <in>asset_deref.cpp</in>
@@ -101,7 +101,7 @@
         <in>print_chart.cpp</in>
       </df>
     </df>
-    <df root="onerut_parser_exec_tests" name="8">
+    <df root="onerut_parser_exec_tests" name="9">
       <df name="src">
         <in>global_flags.cpp</in>
         <in>main.cpp</in>
@@ -111,7 +111,7 @@
         <in>source_pure_real.cpp</in>
       </df>
     </df>
-    <df root="onerut_parser_rules" name="9">
+    <df root="onerut_parser_rules" name="10">
       <df name="src">
         <in>asset_receipt.cpp</in>
         <in>asset_to_esc_data.cpp</in>
@@ -127,7 +127,7 @@
         <in>map_with_function_factories.cpp</in>
       </df>
     </df>
-    <df root="onerut_parser_rules_tests" name="10">
+    <df root="onerut_parser_rules_tests" name="11">
       <df name="src">
         <in>box_functions_onerut.cpp</in>
         <in>box_functions_scalar.cpp</in>
@@ -139,19 +139,19 @@
         <in>main.cpp</in>
       </df>
     </df>
-    <df root="onerut_request" name="11">
+    <df root="onerut_request" name="12">
       <df name="src">
         <in>request_print_value.cpp</in>
       </df>
     </df>
-    <df root="onerut_scalar" name="12">
+    <df root="onerut_scalar" name="13">
       <df name="src">
         <in>scalar_complex.cpp</in>
         <in>scalar_integer.cpp</in>
         <in>scalar_real.cpp</in>
       </df>
     </df>
-    <df root="onerut_scalar_tests" name="13">
+    <df root="onerut_scalar_tests" name="14">
       <df name="src">
         <in>function.cpp</in>
         <in>global_flags.cpp</in>
@@ -161,9 +161,9 @@
         <in>scalar_real.cpp</in>
       </df>
     </df>
-    <df root="onerut_typed_operator" name="14">
+    <df root="onerut_typed_operator" name="15">
     </df>
-    <df root="onerut_typed_operator_tests" name="15">
+    <df root="onerut_typed_operator_tests" name="16">
     </df>
     <logicalFolder name="src"
                    displayName="src"
@@ -187,7 +187,7 @@
       <itemPath>onerut_normal_operator_tests/src/test_operator_simple.cpp</itemPath>
       <itemPath>onerut_typed_operator/src/to_mat.cpp</itemPath>
     </logicalFolder>
-    <df root="string_utils" name="16">
+    <df root="string_utils" name="17">
       <df name="src">
         <in>greek_support.cpp</in>
         <in>unicode_support.cpp</in>
@@ -550,6 +550,17 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/domain_abstract.cpp"
@@ -557,6 +568,17 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/domain_custom.cpp"
@@ -564,6 +586,17 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/domain_eg.cpp"
@@ -571,6 +604,17 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/domain_fock.cpp"
@@ -578,6 +622,16 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/domain_kron.cpp"
@@ -585,6 +639,17 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/domain_oscillator.cpp"
@@ -592,6 +657,17 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/domain_spin.cpp"
@@ -599,6 +675,17 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/eig.cpp"
@@ -606,6 +693,17 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/mean.cpp"
@@ -613,6 +711,17 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/operator_abstract.cpp"
@@ -620,6 +729,17 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/operator_dense.cpp"
@@ -627,6 +747,17 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/operator_eg.cpp"
@@ -634,6 +765,17 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/operator_fock.cpp"
@@ -641,6 +783,16 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/operator_kron.cpp"
@@ -648,6 +800,17 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/operator_opplusminus.cpp"
@@ -655,6 +818,17 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/operator_opprod.cpp"
@@ -662,6 +836,17 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/operator_opunaryplusminus.cpp"
@@ -669,6 +854,17 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/operator_oscillator.cpp"
@@ -676,6 +872,17 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/operator_scalled.cpp"
@@ -683,6 +890,17 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/operator_simple.cpp"
@@ -690,6 +908,17 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/operator_spin.cpp"
@@ -697,6 +926,17 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/operator_zero.cpp"
@@ -704,6 +944,17 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/to_mat.cpp"
@@ -711,6 +962,17 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_normal_operator/src/to_string.cpp"
@@ -718,6 +980,17 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_normal_operator_tests/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_normal_operator_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_normal_operator_tests/src/common.cpp"
@@ -1084,6 +1357,22 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_parser_rules_tests/include</pElem>
+            <pElem>onerut_parser_rules/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>onerut_request/include</pElem>
+            <pElem>onerut_convergence_parameter/include</pElem>
+            <pElem>onerut_env/include</pElem>
+            <pElem>onerut_parser_exec/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_rules_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_parser_rules/src/asset_to_esc_data.cpp"
@@ -1091,6 +1380,22 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_parser_rules_tests/include</pElem>
+            <pElem>onerut_parser_rules/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>onerut_request/include</pElem>
+            <pElem>onerut_convergence_parameter/include</pElem>
+            <pElem>onerut_env/include</pElem>
+            <pElem>onerut_parser_exec/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_rules_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_parser_rules/src/asset_utility_concrete.cpp"
@@ -1098,6 +1403,22 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_parser_rules_tests/include</pElem>
+            <pElem>onerut_parser_rules/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>onerut_request/include</pElem>
+            <pElem>onerut_convergence_parameter/include</pElem>
+            <pElem>onerut_env/include</pElem>
+            <pElem>onerut_parser_exec/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_rules_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_parser_rules/src/compiler_rules_concrete.cpp"
@@ -1105,6 +1426,22 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_parser_rules_tests/include</pElem>
+            <pElem>onerut_parser_rules/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>onerut_request/include</pElem>
+            <pElem>onerut_convergence_parameter/include</pElem>
+            <pElem>onerut_env/include</pElem>
+            <pElem>onerut_parser_exec/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_rules_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_parser_rules/src/function_factory.cpp"
@@ -1112,6 +1449,22 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_parser_rules_tests/include</pElem>
+            <pElem>onerut_parser_rules/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>onerut_request/include</pElem>
+            <pElem>onerut_convergence_parameter/include</pElem>
+            <pElem>onerut_env/include</pElem>
+            <pElem>onerut_parser_exec/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_rules_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_parser_rules/src/function_factory_constant.cpp"
@@ -1119,6 +1472,22 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_parser_rules_tests/include</pElem>
+            <pElem>onerut_parser_rules/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>onerut_request/include</pElem>
+            <pElem>onerut_convergence_parameter/include</pElem>
+            <pElem>onerut_env/include</pElem>
+            <pElem>onerut_parser_exec/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_rules_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_parser_rules/src/function_factory_convergence_parameter.cpp"
@@ -1126,6 +1495,22 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_parser_rules_tests/include</pElem>
+            <pElem>onerut_parser_rules/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>onerut_request/include</pElem>
+            <pElem>onerut_convergence_parameter/include</pElem>
+            <pElem>onerut_env/include</pElem>
+            <pElem>onerut_parser_exec/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_rules_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_parser_rules/src/function_factory_env.cpp"
@@ -1133,6 +1518,22 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_parser_rules_tests/include</pElem>
+            <pElem>onerut_parser_rules/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>onerut_request/include</pElem>
+            <pElem>onerut_convergence_parameter/include</pElem>
+            <pElem>onerut_env/include</pElem>
+            <pElem>onerut_parser_exec/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_rules_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_parser_rules/src/function_factory_imperative_request.cpp"
@@ -1140,6 +1541,22 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_parser_rules_tests/include</pElem>
+            <pElem>onerut_parser_rules/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>onerut_request/include</pElem>
+            <pElem>onerut_convergence_parameter/include</pElem>
+            <pElem>onerut_env/include</pElem>
+            <pElem>onerut_parser_exec/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_rules_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_parser_rules/src/function_factory_normal_operators.cpp"
@@ -1147,6 +1564,22 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_parser_rules_tests/include</pElem>
+            <pElem>onerut_parser_rules/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>onerut_request/include</pElem>
+            <pElem>onerut_convergence_parameter/include</pElem>
+            <pElem>onerut_env/include</pElem>
+            <pElem>onerut_parser_exec/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_rules_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_parser_rules/src/function_factory_print_value_request.cpp"
@@ -1154,6 +1587,22 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_parser_rules_tests/include</pElem>
+            <pElem>onerut_parser_rules/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>onerut_request/include</pElem>
+            <pElem>onerut_convergence_parameter/include</pElem>
+            <pElem>onerut_env/include</pElem>
+            <pElem>onerut_parser_exec/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_rules_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_parser_rules/src/map_with_function_factories.cpp"
@@ -1161,6 +1610,21 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_parser_rules/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>onerut_request/include</pElem>
+            <pElem>onerut_convergence_parameter/include</pElem>
+            <pElem>onerut_env/include</pElem>
+            <pElem>onerut_parser_exec/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_parser_rules</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_parser_rules_tests/src/box_functions_onerut.cpp"
@@ -1249,6 +1713,12 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_scalar_tests/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_scalar_tests</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_scalar_tests/src/global_flags.cpp"
@@ -1256,10 +1726,32 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_request/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_request</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_scalar_tests/src/main.cpp" ex="false" tool="1" flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_request/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_request</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_scalar_tests/src/scalar_complex.cpp"
@@ -1267,6 +1759,17 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_request/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_request</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_scalar_tests/src/scalar_integer.cpp"
@@ -1274,6 +1777,17 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_request/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_request</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_scalar_tests/src/scalar_real.cpp"
@@ -1281,6 +1795,17 @@
             tool="1"
             flavor2="11">
         <ccTool flags="1">
+          <incDir>
+            <pElem>onerut_request/include</pElem>
+            <pElem>string_utils/include</pElem>
+            <pElem>onerut_scalar/include</pElem>
+            <pElem>onerut_normal_operator/include</pElem>
+            <pElem>onerut_typed_operator/include</pElem>
+            <pElem>log_utils/include</pElem>
+            <pElem>esc/include</pElem>
+            <pElem>external_packages/include</pElem>
+            <pElem>build_netbeanns/onerut_request</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="onerut_typed_operator/src/to_mat.cpp"
