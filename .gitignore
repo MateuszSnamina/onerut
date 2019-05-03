@@ -1,4 +1,5 @@
 /nbproject/private/
 /external_packages/
 /build_*/
-!/build_*/DIR_README
+!/build_debug/DIR_README
+!/build_release/DIR_README
