@@ -7,14 +7,28 @@
 
 namespace onerut_request {
 
+    PrintValueRequest::PrintValueRequest(bool print_only_in_summary) :
+    _print_only_in_summary(print_only_in_summary) {
+
+    }
+
+    bool PrintValueRequest::print_only_in_summary() const {
+        return _print_only_in_summary;
+    }
+
     // *************************************************************************
 
-    //    PrintValueRequestTyped<onerut_parser_exec::CompileError>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
+    //    PrintValueRequestTyped<onerut_parser_exec::CompileError>::PrintValueRequestTyped(
+    //      std::shared_ptr<Type> instance,
+    //      bool print_only_in_summary) :
+    //    PrintValueRequest(print_only_in_summary),    
     //    instance(instance) {
     //        assert(instance);
     //    }
     //
-    //    void PrintValueRequestTyped<onerut_parser_exec::CompileError>::print(std::ostream& stream, std::string line_prefix) const {
+    //    void PrintValueRequestTyped<onerut_parser_exec::CompileError>::print(
+    //         std::ostream& stream,
+    //         std::string line_prefix) const {
     //        assert(instance);
     //        stream << line_prefix
     //                << "[value] " << "error message = " << instance->what()
@@ -23,12 +37,17 @@ namespace onerut_request {
 
     // *************************************************************************
 
-    PrintValueRequestTyped<onerut_scalar::Integer>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
+    PrintValueRequestTyped<onerut_scalar::Integer>::PrintValueRequestTyped(
+            std::shared_ptr<Type> instance,
+            bool print_only_in_summary) :
+    PrintValueRequest(print_only_in_summary),
     instance(instance) {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_scalar::Integer>::print(std::ostream& stream, std::string line_prefix) const {
+    void PrintValueRequestTyped<onerut_scalar::Integer>::print(
+            std::ostream& stream,
+            std::string line_prefix) const {
         assert(instance);
         stream << line_prefix
                 << "[value] " << "value = " << instance->value_integer()
@@ -37,12 +56,17 @@ namespace onerut_request {
 
     // *************************************************************************
 
-    PrintValueRequestTyped<onerut_scalar::Real>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
+    PrintValueRequestTyped<onerut_scalar::Real>::PrintValueRequestTyped(
+            std::shared_ptr<Type> instance,
+            bool print_only_in_summary) :
+    PrintValueRequest(print_only_in_summary),
     instance(instance) {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_scalar::Real>::print(std::ostream& stream, std::string line_prefix) const {
+    void PrintValueRequestTyped<onerut_scalar::Real>::print(
+            std::ostream& stream,
+            std::string line_prefix) const {
         assert(instance);
         stream << line_prefix
                 << "[value] " << "value = " << instance->value_real()
@@ -51,12 +75,17 @@ namespace onerut_request {
 
     // *************************************************************************
 
-    PrintValueRequestTyped<onerut_scalar::Complex>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
+    PrintValueRequestTyped<onerut_scalar::Complex>::PrintValueRequestTyped(
+            std::shared_ptr<Type> instance,
+            bool print_only_in_summary) :
+    PrintValueRequest(print_only_in_summary),
     instance(instance) {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_scalar::Complex>::print(std::ostream& stream, std::string line_prefix) const {
+    void PrintValueRequestTyped<onerut_scalar::Complex>::print(
+            std::ostream& stream,
+            std::string line_prefix) const {
         assert(instance);
         stream << line_prefix
                 << "[value] " << "value = " << instance->value_complex()
@@ -65,12 +94,17 @@ namespace onerut_request {
 
     // *************************************************************************
 
-    PrintValueRequestTyped<onerut_env::Env>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
+    PrintValueRequestTyped<onerut_env::Env>::PrintValueRequestTyped(
+            std::shared_ptr<Type> instance,
+            bool print_only_in_summary) :
+    PrintValueRequest(print_only_in_summary),
     instance(instance) {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_env::Env>::print(std::ostream& stream, std::string line_prefix) const {
+    void PrintValueRequestTyped<onerut_env::Env>::print(
+            std::ostream& stream,
+            std::string line_prefix) const {
         assert(instance);
         stream << line_prefix
                 << "[value] " << "value = " << instance->value_real()
@@ -82,12 +116,17 @@ namespace onerut_request {
 
     // *************************************************************************
 
-    PrintValueRequestTyped<onerut_convergence_parameter::ConvergenceParameter>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
+    PrintValueRequestTyped<onerut_convergence_parameter::ConvergenceParameter>::PrintValueRequestTyped(
+            std::shared_ptr<Type> instance,
+            bool print_only_in_summary) :
+    PrintValueRequest(print_only_in_summary),
     instance(instance) {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_convergence_parameter::ConvergenceParameter>::print(std::ostream& stream, std::string line_prefix) const {
+    void PrintValueRequestTyped<onerut_convergence_parameter::ConvergenceParameter>::print(
+            std::ostream& stream,
+            std::string line_prefix) const {
         assert(instance);
         stream << line_prefix
                 << "[value] " << "parameter (exposed value) = " << instance->value_real()
@@ -105,12 +144,17 @@ namespace onerut_request {
 
     // *************************************************************************
 
-    PrintValueRequestTyped<onerut_normal_operator::CustomDomain>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
+    PrintValueRequestTyped<onerut_normal_operator::CustomDomain>::PrintValueRequestTyped(
+            std::shared_ptr<Type> instance,
+            bool print_only_in_summary) :
+    PrintValueRequest(print_only_in_summary),
     instance(instance) {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_normal_operator::CustomDomain>::print(std::ostream& stream, std::string line_prefix) const {
+    void PrintValueRequestTyped<onerut_normal_operator::CustomDomain>::print(
+            std::ostream& stream,
+            std::string line_prefix) const {
         assert(instance);
         stream << line_prefix << "[value] "
                 << "dimension = " << instance->size()
@@ -122,12 +166,17 @@ namespace onerut_request {
 
     // *************************************************************************
 
-    PrintValueRequestTyped<onerut_normal_operator::OscillatorDomain>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
+    PrintValueRequestTyped<onerut_normal_operator::OscillatorDomain>::PrintValueRequestTyped(
+            std::shared_ptr<Type> instance,
+            bool print_only_in_summary) :
+    PrintValueRequest(print_only_in_summary),
     instance(instance) {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_normal_operator::OscillatorDomain>::print(std::ostream& stream, std::string line_prefix) const {
+    void PrintValueRequestTyped<onerut_normal_operator::OscillatorDomain>::print(
+            std::ostream& stream,
+            std::string line_prefix) const {
         assert(instance);
         stream << line_prefix << "[value] "
                 << "dimension = " << instance->size()
@@ -139,12 +188,17 @@ namespace onerut_request {
 
     // *************************************************************************
 
-    PrintValueRequestTyped<onerut_normal_operator::SpinDomain>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
+    PrintValueRequestTyped<onerut_normal_operator::SpinDomain>::PrintValueRequestTyped(
+            std::shared_ptr<Type> instance,
+            bool print_only_in_summary) :
+    PrintValueRequest(print_only_in_summary),
     instance(instance) {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_normal_operator::SpinDomain>::print(std::ostream& stream, std::string line_prefix) const {
+    void PrintValueRequestTyped<onerut_normal_operator::SpinDomain>::print(
+            std::ostream& stream,
+            std::string line_prefix) const {
         assert(instance);
         stream << line_prefix << "[value] "
                 << "dimension = " << instance->size()//n_max_stars
@@ -159,12 +213,17 @@ namespace onerut_request {
 
     // *************************************************************************
 
-    PrintValueRequestTyped<onerut_normal_operator::EgDomain>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
+    PrintValueRequestTyped<onerut_normal_operator::EgDomain>::PrintValueRequestTyped(
+            std::shared_ptr<Type> instance,
+            bool print_only_in_summary) :
+    PrintValueRequest(print_only_in_summary),
     instance(instance) {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_normal_operator::EgDomain>::print(std::ostream& stream, std::string line_prefix) const {
+    void PrintValueRequestTyped<onerut_normal_operator::EgDomain>::print(
+            std::ostream& stream,
+            std::string line_prefix) const {
         assert(instance);
         stream << line_prefix << "[value] "
                 << "dimension = " << instance->size()
@@ -175,12 +234,17 @@ namespace onerut_request {
     }
     // *************************************************************************
 
-    PrintValueRequestTyped<onerut_normal_operator::FockDomain>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
+    PrintValueRequestTyped<onerut_normal_operator::FockDomain>::PrintValueRequestTyped(
+            std::shared_ptr<Type> instance,
+            bool print_only_in_summary) :
+    PrintValueRequest(print_only_in_summary),
     instance(instance) {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_normal_operator::FockDomain>::print(std::ostream& stream, std::string line_prefix) const {
+    void PrintValueRequestTyped<onerut_normal_operator::FockDomain>::print(
+            std::ostream& stream,
+            std::string line_prefix) const {
         assert(instance);
         stream << line_prefix << "[value] "
                 << "dimension = " << instance->size()
@@ -199,12 +263,17 @@ namespace onerut_request {
 
     // *************************************************************************
 
-    PrintValueRequestTyped<onerut_normal_operator::KronDomain>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
+    PrintValueRequestTyped<onerut_normal_operator::KronDomain>::PrintValueRequestTyped(
+            std::shared_ptr<Type> instance,
+            bool print_only_in_summary) :
+    PrintValueRequest(print_only_in_summary),
     instance(instance) {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_normal_operator::KronDomain>::print(std::ostream& stream, std::string line_prefix) const {
+    void PrintValueRequestTyped<onerut_normal_operator::KronDomain>::print(
+            std::ostream& stream,
+            std::string line_prefix) const {
         assert(instance);
         stream << line_prefix << "[value] "
                 << "dimension = " << instance->size()
@@ -216,12 +285,17 @@ namespace onerut_request {
 
     // *************************************************************************
 
-    PrintValueRequestTyped<onerut_normal_operator::StateIndex>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
+    PrintValueRequestTyped<onerut_normal_operator::StateIndex>::PrintValueRequestTyped(
+            std::shared_ptr<Type> instance,
+            bool print_only_in_summary) :
+    PrintValueRequest(print_only_in_summary),
     instance(instance) {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_normal_operator::StateIndex>::print(std::ostream& stream, std::string line_prefix) const {
+    void PrintValueRequestTyped<onerut_normal_operator::StateIndex>::print(
+            std::ostream& stream,
+            std::string line_prefix) const {
         assert(instance);
         stream << line_prefix << "[value] "
                 << "value = " << instance->to_str()
@@ -230,12 +304,17 @@ namespace onerut_request {
 
     // *************************************************************************
 
-    PrintValueRequestTyped<onerut_normal_operator::OrbitalIndex>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
+    PrintValueRequestTyped<onerut_normal_operator::OrbitalIndex>::PrintValueRequestTyped(
+            std::shared_ptr<Type> instance,
+            bool print_only_in_summary) :
+    PrintValueRequest(print_only_in_summary),
     instance(instance) {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_normal_operator::OrbitalIndex>::print(std::ostream& stream, std::string line_prefix) const {
+    void PrintValueRequestTyped<onerut_normal_operator::OrbitalIndex>::print(
+            std::ostream& stream,
+            std::string line_prefix) const {
         assert(instance);
         stream << line_prefix << "[value] "
                 << "orbital index = " << instance->index
@@ -247,12 +326,17 @@ namespace onerut_request {
 
     // *************************************************************************
 
-    PrintValueRequestTyped<onerut_normal_operator::KronPlaceholder>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
+    PrintValueRequestTyped<onerut_normal_operator::KronPlaceholder>::PrintValueRequestTyped(
+            std::shared_ptr<Type> instance,
+            bool print_only_in_summary) :
+    PrintValueRequest(print_only_in_summary),
     instance(instance) {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_normal_operator::KronPlaceholder>::print(std::ostream& stream, std::string line_prefix) const {
+    void PrintValueRequestTyped<onerut_normal_operator::KronPlaceholder>::print(
+            std::ostream& stream,
+            std::string line_prefix) const {
         assert(instance);
         stream << line_prefix << "[value] "
                 << "place = " << instance->place
@@ -261,36 +345,51 @@ namespace onerut_request {
 
     // *************************************************************************
 
-    PrintValueRequestTyped<onerut_normal_operator::AbstractRealOperator>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
+    PrintValueRequestTyped<onerut_normal_operator::AbstractRealOperator>::PrintValueRequestTyped(
+            std::shared_ptr<Type> instance,
+            bool print_only_in_summary) :
+    PrintValueRequest(print_only_in_summary),
     instance(instance) {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_normal_operator::AbstractRealOperator>::print(std::ostream& stream, std::string line_prefix) const {
+    void PrintValueRequestTyped<onerut_normal_operator::AbstractRealOperator>::print(
+            std::ostream& stream,
+            std::string line_prefix) const {
         assert(instance);
         stream << onerut_normal_operator::to_string(*instance, line_prefix + "[value] "); //TODO to_string change to operator<<
     }
 
     // *************************************************************************
 
-    PrintValueRequestTyped<onerut_normal_operator::Eig>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
+    PrintValueRequestTyped<onerut_normal_operator::Eig>::PrintValueRequestTyped(
+            std::shared_ptr<Type> instance,
+            bool print_only_in_summary) :
+    PrintValueRequest(print_only_in_summary),
     instance(instance) {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_normal_operator::Eig>::print(std::ostream& stream, std::string line_prefix) const {
+    void PrintValueRequestTyped<onerut_normal_operator::Eig>::print(
+            std::ostream& stream,
+            std::string line_prefix) const {
         assert(instance);
         stream << onerut_normal_operator::to_string(*instance, line_prefix + "[value] "); //TODO to_string change to operator<<
     }
 
     // *************************************************************************
 
-    PrintValueRequestTyped<onerut_normal_operator::Mean>::PrintValueRequestTyped(std::shared_ptr<Type> instance) :
+    PrintValueRequestTyped<onerut_normal_operator::Mean>::PrintValueRequestTyped(
+            std::shared_ptr<Type> instance,
+            bool print_only_in_summary) :
+    PrintValueRequest(print_only_in_summary),
     instance(instance) {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_normal_operator::Mean>::print(std::ostream& stream, std::string line_prefix) const {
+    void PrintValueRequestTyped<onerut_normal_operator::Mean>::print(
+            std::ostream& stream,
+            std::string line_prefix) const {
         assert(instance);
         stream << line_prefix << "[value] "
                 << "value = " << instance->value_real()

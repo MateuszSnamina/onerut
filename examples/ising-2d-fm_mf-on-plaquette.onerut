@@ -118,7 +118,7 @@ new const specific_heat := var_energy / temperature^2
 # Print requests                      ##
 ########################################
 
-VALUE(specific_heat) 
+SUMMARY(specific_heat) 
 VALUE(mean_Sz)
 
 new const mean_Sz_at_00 := thermal_mean(Sz@_00, eig, temperature)
@@ -131,15 +131,15 @@ new const mean_Sz_at_20 := thermal_mean(Sz@_20, eig, temperature)
 new const mean_Sz_at_21 := thermal_mean(Sz@_21, eig, temperature)
 new const mean_Sz_at_22 := thermal_mean(Sz@_22, eig, temperature)
 
-VALUE(mean_Sz_at_00)
-VALUE(mean_Sz_at_01)
-VALUE(mean_Sz_at_02)
+SUMMARY(mean_Sz_at_00)
+SUMMARY(mean_Sz_at_01)
+SUMMARY(mean_Sz_at_02)
 
-VALUE(mean_Sz_at_10)
-VALUE(mean_Sz_at_11)
-VALUE(mean_Sz_at_12)
+SUMMARY(mean_Sz_at_10)
+SUMMARY(mean_Sz_at_11)
+SUMMARY(mean_Sz_at_12)
 
-VALUE(mean_Sz_at_20)
-VALUE(mean_Sz_at_21)
-VALUE(mean_Sz_at_22)
+SUMMARY(mean_Sz_at_20)
+SUMMARY(mean_Sz_at_21)
+SUMMARY(mean_Sz_at_22)
 

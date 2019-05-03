@@ -160,6 +160,7 @@ execute_declarative_script(
     for (const auto& object : print_value_request_objects) {
         std::cout << "[INVENTORY] " << "[PRINT VALUE REQUEST] "
                 << Aka(object, akas_for_print_value_request_objects, source_code_for_print_value_request_objects)
+                //<< ", only in summary: " << object->print_only_in_summary()
                 << std::endl;
     }
     // -------------------------------------------------------------------------
@@ -194,6 +195,9 @@ execute_declarative_script(
             convergence_parameter_object->recalcuate();
         }
         for (const auto& request : print_value_request_objects) {
+            if (request->print_only_in_summary()) {
+                continue;
+            }
             std::cout << "[PRINT VALUE REQUEST] "
                     << Aka(request, akas_for_print_value_request_objects, source_code_for_print_value_request_objects) << std::endl;
             request->print(std::cout, "[request] ");

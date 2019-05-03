@@ -283,6 +283,7 @@ namespace onerut_parser_rules {
         force_put("LATCH", std::make_unique<LatchRequestFunctionFactory>());
         force_put("RESET", std::make_unique<ResetRequestFunctionFactory>());
         force_put("VALUE", std::make_unique<PrintValueRequestFunctionFactory>());
+        force_put("SUMMARY", std::make_unique<PrintSummaryRequestFunctionFactory>());
     }
 
     void MapWithFunctionFactories::put_all() {

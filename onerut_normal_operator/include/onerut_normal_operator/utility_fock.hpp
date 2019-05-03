@@ -47,7 +47,7 @@ namespace onerut_normal_operator::utility {
                     n_orbitals_left > n_particles_left ?
                     binomial_coefficient(n_orbitals_left - 1, n_particles_left) :
                     0;
-#ifndef NDEBUG // prevent compilation warning of unused-variable.
+#ifndef NDEBUG // Prevent compilation warning of unused-variable (in release compilation).
             const uint32_t upper_chonk_size = binomial_coefficient(n_orbitals_left - 1, n_particles_left - 1);
             assert(ket < lower_chonk_size + upper_chonk_size);
 #endif
