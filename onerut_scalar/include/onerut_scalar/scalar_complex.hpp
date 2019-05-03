@@ -15,7 +15,8 @@ namespace onerut_scalar {
     class LitComplex : public Complex {
     public:
         LitComplex(std::complex<double> value);
-        std::complex<double> value_complex() const override;
+        std::complex<double> value_complex() const override; // TODO turn into final
+        std::vector<std::shared_ptr<const Complex>> dependency() const override;
         const std::complex<double> value;
     };
 
@@ -29,6 +30,7 @@ namespace onerut_scalar {
                 std::shared_ptr<const Complex> arg,
                 char op);
         std::complex<double> value_complex() const override;
+        std::vector<std::shared_ptr<const Complex>> dependency() const override;
         const std::shared_ptr<const Complex> arg;
         const char op;
     };
@@ -44,6 +46,7 @@ namespace onerut_scalar {
                 std::vector<std::shared_ptr<const Complex>> other_argv,
                 const std::vector<char>& opv);
         std::complex<double> value_complex() const override;
+        std::vector<std::shared_ptr<const Complex>> dependency() const override;
     private:
         const std::shared_ptr<const Complex> first_arg;
         const std::vector<std::shared_ptr<const Complex>> other_argv;
@@ -61,6 +64,7 @@ namespace onerut_scalar {
                 std::vector<std::shared_ptr<const Complex>> other_argv,
                 const std::vector<char>& opv);
         std::complex<double> value_complex() const override;
+        std::vector<std::shared_ptr<const Complex>> dependency() const override;
     private:
         const std::shared_ptr<const Complex> first_arg;
         const std::vector<std::shared_ptr<const Complex>> other_argv;

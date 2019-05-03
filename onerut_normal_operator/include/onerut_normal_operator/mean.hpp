@@ -19,11 +19,13 @@ namespace onerut_normal_operator {
     public:
         Mean(std::shared_ptr<const AbstractRealOperator> op,
                 std::shared_ptr<const Eig> eig);
-        double value_real() const override;
+        double value_real() const final;
+        std::vector<std::shared_ptr<const onerut_scalar::Complex>> dependency() const final;
         virtual void latch();
         virtual void reset();
         const std::shared_ptr<const AbstractRealOperator> op;
         const std::shared_ptr<const Eig> eig;
+
     private:
         virtual double _value_real() const = 0;
         std::optional<double> cached_result;
@@ -39,7 +41,7 @@ namespace onerut_normal_operator {
                 uint32_t eigen_state);
         const uint32_t eigen_state;
     private:
-        double _value_real() const;
+        double _value_real() const final;
     };
 
     // -------------------------------------------------------------------------
@@ -51,7 +53,7 @@ namespace onerut_normal_operator {
                 double temperature);
         double temperature;
     private:
-        double _value_real() const;
+        double _value_real() const final;
     };
 
 }

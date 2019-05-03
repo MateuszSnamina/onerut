@@ -104,6 +104,7 @@ namespace onerut_scalar {
         using ReturnTag = _ReturnTag;
         Function(_Callable callable, std::shared_ptr<const typename _ArgTags::OnerutBaseType>... args);
         typename _ReturnTag::BuildInCppType value() const final;
+        std::vector<std::shared_ptr<const Complex>> dependency() const final;
     private:
         _Callable callable;
         std::tuple<std::shared_ptr<const typename _ArgTags::OnerutBaseType>... > args;
@@ -163,6 +164,11 @@ namespace onerut_scalar {
     template<typename _Callable, typename _ReturnTag, typename... _ArgTags>
     typename _ReturnTag::BuildInCppType Function<_Callable, _ReturnTag, _ArgTags...>::value() const {
         return utility::callable_on_tuple(callable, args);
+    }
+
+    template<typename _Callable, typename _ReturnTag, typename... _ArgTags>
+    std::vector<std::shared_ptr<const Complex>> Function<_Callable, _ReturnTag, _ArgTags...>::dependency() const {
+        assert(0); //TODO
     }
 
     // -------------------------------------------------------------------------

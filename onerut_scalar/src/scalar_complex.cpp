@@ -21,6 +21,10 @@ namespace onerut_scalar {
         return value;
     }
 
+    std::vector<std::shared_ptr<const Complex>> LitComplex::dependency() const {
+        assert(0); //TODO
+    }
+
     // -------------------------------------------------------------------------
     // -------------- OPUNARYPLUSMINUS CLASES  ---------------------------------
     // -------------------------------------------------------------------------
@@ -36,6 +40,10 @@ namespace onerut_scalar {
 
     std::complex<double> OpUnaryPlusMinusComplex::value_complex() const {
         return _OpUnaryPlusMinus<std::complex<double>>()(arg->value_complex(), op);
+    }
+
+    std::vector<std::shared_ptr<const Complex>> OpUnaryPlusMinusComplex::dependency() const {
+        assert(0); //TODO
     }
 
     // -------------------------------------------------------------------------
@@ -69,13 +77,17 @@ namespace onerut_scalar {
         return as_t<std::complex<double>>(result);
     }
 
+    std::vector<std::shared_ptr<const Complex>> OpPlusMinusComplex::dependency() const {
+        assert(0); //TODO
+    }
+
     // -------------------------------------------------------------------------
     // -------------- OPPRODDIV CLASES  ----------------------------------------
     // -------------------------------------------------------------------------    
 
     OpProdDivComplex::OpProdDivComplex(
             std::shared_ptr<const Complex> first_arg,
-            std::vector<std::shared_ptr <const  Complex>> other_argv,
+            std::vector<std::shared_ptr <const Complex>> other_argv,
             const std::vector<char>& opv) :
     first_arg(first_arg),
     other_argv(other_argv),
@@ -98,6 +110,10 @@ namespace onerut_scalar {
             result = _op_prod_div(result, other_arg, op);
         }
         return as_t<std::complex<double>>(result);
+    }
+
+    std::vector<std::shared_ptr<const Complex>> OpProdDivComplex::dependency() const {
+        assert(0); //TODO
     }
 
 }

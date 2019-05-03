@@ -1,3 +1,4 @@
+#include<cassert>
 #include<cstdlib>
 #include<stdexcept>
 #include<iostream>
@@ -18,8 +19,6 @@ namespace {
     }
 
 }
-
-
 
 namespace onerut_env {
 
@@ -72,6 +71,10 @@ namespace onerut_env {
             init();
         }
         return *_value;
+    }
+
+    std::vector<std::shared_ptr<const onerut_scalar::Complex>> Env::dependency() const {
+        assert(0); //TODO
     }
 
     const std::string& Env::env_variable_name() const {

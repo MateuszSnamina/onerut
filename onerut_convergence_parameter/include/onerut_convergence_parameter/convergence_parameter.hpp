@@ -12,7 +12,8 @@ namespace onerut_convergence_parameter {
     class ConvergenceParameter : public onerut_scalar::Real {
     public:
         ConvergenceParameter(double init_value);
-        double value_real() const override;
+        double value_real() const final;
+        std::vector<std::shared_ptr<const onerut_scalar::Complex>> dependency() const final;
         // Calculate the new value and save it in a history log,
         // but not expose as the param  value until revolve as called:
         double recalcuate();

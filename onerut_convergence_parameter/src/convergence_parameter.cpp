@@ -1,3 +1,4 @@
+#include<cassert>
 #include<cmath>
 #include<limits>
 
@@ -18,6 +19,11 @@ namespace onerut_convergence_parameter {
 
     double ConvergenceParameter::value_real() const {
         return _exposed_value;
+    }
+
+    std::vector<std::shared_ptr<const onerut_scalar::Complex>> ConvergenceParameter::dependency() const {
+        assert(_expression);
+        return _expression->dependency();
     }
 
     double ConvergenceParameter::recalcuate() {

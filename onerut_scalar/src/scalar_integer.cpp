@@ -30,6 +30,10 @@ namespace onerut_scalar {
         return value;
     }
 
+    std::vector<std::shared_ptr<const Complex>> LitInteger::dependency() const {
+        assert(0); //TODO
+    }
+
     // -------------------------------------------------------------------------
     // -------------- OPUNARYPLUSMINUS CLASES  ---------------------------------
     // -------------------------------------------------------------------------
@@ -45,6 +49,10 @@ namespace onerut_scalar {
 
     long OpUnaryPlusMinusInteger::value_integer() const {
         return _OpUnaryPlusMinus<long>()(arg->value_integer(), op);
+    }
+
+    std::vector<std::shared_ptr<const Complex>> OpUnaryPlusMinusInteger::dependency() const {
+        assert(0); //TODO
     }
 
     // -------------------------------------------------------------------------
@@ -76,6 +84,10 @@ namespace onerut_scalar {
         return result;
     }
 
+    std::vector<std::shared_ptr<const Complex>> OpPlusMinusInteger::dependency() const {
+        assert(0); //TODO
+    }
+
     // -------------------------------------------------------------------------
     // -------------- OPPRODDIV CLASES  ----------------------------------------
     // -------------------------------------------------------------------------    
@@ -103,6 +115,10 @@ namespace onerut_scalar {
             result = _OpProdDiv<long>()(result, other_argv[i]->value_integer(), opv[i]);
         }
         return result;
+    }
+
+    std::vector<std::shared_ptr<const Complex>> OpProdDivInteger::dependency() const {
+        assert(0); //TODO
     }
 
 }

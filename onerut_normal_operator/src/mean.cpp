@@ -19,14 +19,18 @@ namespace onerut_normal_operator {
     cached_result(std::nullopt) {
         assert(op);
         assert(eig);
-        assert(eig->hamiltonian);        
-        assert(are_the_same_domains(*op->get_domain(), *eig->hamiltonian->get_domain()));        
+        assert(eig->hamiltonian);
+        assert(are_the_same_domains(*op->get_domain(), *eig->hamiltonian->get_domain()));
     }
 
     double Mean::value_real() const {
         return ( cached_result ? *cached_result : _value_real());
     }
 
+    std::vector<std::shared_ptr<const onerut_scalar::Complex>> Mean::dependency() const {
+        assert(0); //TODO
+    }
+    
     void Mean::latch() {
         cached_result = _value_real();
     }
