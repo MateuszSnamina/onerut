@@ -20,7 +20,7 @@ namespace onerut_normal_operator {
         Mean(std::shared_ptr<const AbstractRealOperator> op,
                 std::shared_ptr<const Eig> eig);
         double value_real() const final;
-        std::vector<std::shared_ptr<const onerut_scalar::Complex>> dependency() const final;
+        std::vector<std::weak_ptr<const onerut_dependence::Dependable>> dependence() const final;
         virtual void latch();
         virtual void reset();
         const std::shared_ptr<const AbstractRealOperator> op;

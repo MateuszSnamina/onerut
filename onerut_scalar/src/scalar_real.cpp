@@ -42,7 +42,7 @@ namespace onerut_scalar {
         return value;
     }
 
-    std::vector<std::shared_ptr<const Complex>> LitReal::dependency() const {
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>> LitReal::dependence() const {
         return {};
     }
 
@@ -63,8 +63,8 @@ namespace onerut_scalar {
         return _OpUnaryPlusMinus<double>()(arg->value_real(), op);
     }
 
-    std::vector<std::shared_ptr<const Complex>> OpUnaryPlusMinusReal::dependency() const {
-        return {std::shared_ptr<const Complex>(arg)};
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>> OpUnaryPlusMinusReal::dependence() const {
+        return {};
     }
 
     // -------------------------------------------------------------------------
@@ -98,8 +98,14 @@ namespace onerut_scalar {
         return as_t<double>(result);
     }
 
-    std::vector<std::shared_ptr<const Complex>> OpPlusMinusReal::dependency() const {
-        assert(0); //TODO
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>> OpPlusMinusReal::dependence() const {
+        decltype(dependence()) result;
+        result.reserve(1 + other_argv.size());
+        result.push_back(first_arg);
+        for (const auto& other_arg : other_argv) {
+            result.push_back(other_arg);
+        }
+        return result;
     }
 
     // -------------------------------------------------------------------------
@@ -133,8 +139,14 @@ namespace onerut_scalar {
         return as_t<double>(result);
     }
 
-    std::vector<std::shared_ptr<const Complex>> OpProdDivReal::dependency() const {
-        assert(0); //TODO
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>> OpProdDivReal::dependence() const {
+        decltype(dependence()) result;
+        result.reserve(1 + other_argv.size());
+        result.push_back(first_arg);
+        for (const auto& other_arg : other_argv) {
+            result.push_back(other_arg);
+        }
+        return result;
     }
 
 }

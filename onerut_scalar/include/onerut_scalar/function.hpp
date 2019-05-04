@@ -10,6 +10,7 @@
 #include<onerut_scalar/scalar_abstract_integer.hpp>
 #include<onerut_scalar/scalar_common_interface.hpp>
 #include<onerut_scalar/utility_callable_on_tuple.hpp>
+#include<onerut_scalar/utility_for_each_on_tuple.hpp>
 #include<onerut_scalar/utility_static_all_of.hpp>
 
 namespace onerut_scalar {
@@ -104,7 +105,7 @@ namespace onerut_scalar {
         using ReturnTag = _ReturnTag;
         Function(_Callable callable, std::shared_ptr<const typename _ArgTags::OnerutBaseType>... args);
         typename _ReturnTag::BuildInCppType value() const final;
-        std::vector<std::shared_ptr<const Complex>> dependency() const final;
+        std::vector<std::weak_ptr<const onerut_dependence::Dependable>> dependence() const final;
     private:
         _Callable callable;
         std::tuple<std::shared_ptr<const typename _ArgTags::OnerutBaseType>... > args;
@@ -167,8 +168,17 @@ namespace onerut_scalar {
     }
 
     template<typename _Callable, typename _ReturnTag, typename... _ArgTags>
-    std::vector<std::shared_ptr<const Complex>> Function<_Callable, _ReturnTag, _ArgTags...>::dependency() const {
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>> Function<_Callable, _ReturnTag, _ArgTags...>::dependence() const {
+        decltype(dependence()) result;
+        const auto size = std::tuple_size<decltype(args)>::value;
+        result.reserve(size);
+        const auto adder_function =
+                [&result](std::weak_ptr<const onerut_dependence::Dependable> arg) {
+                    result.push_back(arg);
+                };
+        utility::for_each_on_tuple(adder_function, args);
         assert(0); //TODO
+        return result;
     }
 
     // -------------------------------------------------------------------------

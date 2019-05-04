@@ -16,7 +16,7 @@ namespace onerut_scalar {
     public:
         LitInteger(long value);
         long value_integer() const override;
-        std::vector<std::shared_ptr<const Complex>> dependency() const override;        
+        std::vector<std::weak_ptr<const onerut_dependence::Dependable>> dependence() const override;        
         const long value;
     };
 
@@ -30,7 +30,7 @@ namespace onerut_scalar {
                 std::shared_ptr<const Integer> arg,
                 char op);
         long value_integer() const override;
-        std::vector<std::shared_ptr<const Complex>> dependency() const override;
+        std::vector<std::weak_ptr<const onerut_dependence::Dependable>> dependence() const override;
     private:
         const std::shared_ptr<const Integer> arg;
         const char op;
@@ -47,7 +47,7 @@ namespace onerut_scalar {
                 std::vector<std::shared_ptr<const Integer>> other_argv,
                 const std::vector<char>& opv);
         long value_integer() const override;
-        std::vector<std::shared_ptr<const Complex>> dependency() const override;
+        std::vector<std::weak_ptr<const onerut_dependence::Dependable>> dependence() const override;
     private:
         const std::shared_ptr<const Integer> first_arg;
         const std::vector<std::shared_ptr<const Integer>> other_argv;
@@ -65,7 +65,7 @@ namespace onerut_scalar {
                 std::vector<std::shared_ptr<const Integer>> other_argv,
                 const std::vector<char>& opv);
         long value_integer() const override;
-        std::vector<std::shared_ptr<const Complex>> dependency() const override;        
+        std::vector<std::weak_ptr<const onerut_dependence::Dependable>> dependence() const override;        
     private:
         const std::shared_ptr<const Integer> first_arg;
         const std::vector<std::shared_ptr<const Integer>> other_argv;

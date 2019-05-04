@@ -28,7 +28,7 @@ namespace onerut_scalar {
     public:
         LitReal(double value);
         double value_real() const override;
-        std::vector<std::shared_ptr<const Complex>> dependency() const override;
+        std::vector<std::weak_ptr<const onerut_dependence::Dependable>> dependence() const override;
         const double value;
     };
 
@@ -42,7 +42,7 @@ namespace onerut_scalar {
                 std::shared_ptr<const Real> arg,
                 char op);
         double value_real() const override;
-        std::vector<std::shared_ptr<const Complex>> dependency() const override;
+        std::vector<std::weak_ptr<const onerut_dependence::Dependable>> dependence() const override;
         const std::shared_ptr<const Real> arg;
         const char op;
     };
@@ -58,7 +58,7 @@ namespace onerut_scalar {
                 std::vector<std::shared_ptr<const Real>> other_argv,
                 const std::vector<char>& opv);
         double value_real() const override;
-        std::vector<std::shared_ptr<const Complex>> dependency() const override;
+        std::vector<std::weak_ptr<const onerut_dependence::Dependable>> dependence() const override;
     private:
         const std::shared_ptr<const Real> first_arg;
         const std::vector<std::shared_ptr<const Real>> other_argv;
@@ -76,7 +76,7 @@ namespace onerut_scalar {
                 std::vector<std::shared_ptr<const Real>> other_argv,
                 const std::vector<char>& opv);
         double value_real() const override;
-        std::vector<std::shared_ptr<const Complex>> dependency() const override;
+        std::vector<std::weak_ptr<const onerut_dependence::Dependable>> dependence() const override;
     private:
         const std::shared_ptr<const Real> first_arg;
         const std::vector<std::shared_ptr<const Real>> other_argv;

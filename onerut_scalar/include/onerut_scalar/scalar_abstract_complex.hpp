@@ -5,15 +5,14 @@
 #include<memory>
 #include<vector>
 
+#include<onerut_dependence/dependence.hpp>
+
 namespace onerut_scalar {
 
-    //class Complex;//TODO delete
-
-    class Complex {
+    class Complex : public onerut_dependence::Dependable {
     public:
         virtual std::complex<double> value_complex() const = 0;
         virtual ~Complex() = default;
-        virtual std::vector<std::shared_ptr<const Complex>> dependency() const = 0;
     };
 }
 

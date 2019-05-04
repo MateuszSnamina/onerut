@@ -27,10 +27,10 @@ namespace onerut_normal_operator {
         return ( cached_result ? *cached_result : _value_real());
     }
 
-    std::vector<std::shared_ptr<const onerut_scalar::Complex>> Mean::dependency() const {
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>> Mean::dependence() const {
         assert(0); //TODO
     }
-    
+
     void Mean::latch() {
         cached_result = _value_real();
     }

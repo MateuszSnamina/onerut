@@ -62,7 +62,7 @@ namespace onerut_scalar::utility {
     };
 
     // -------------------------------------------------------------------------    
-    // -----    CallableOnTuple -- public API                 -----------------
+    // -----    CallableOnTuple -- public API                  -----------------
     // -------------------------------------------------------------------------        
 
     template<typename F, typename T>

@@ -21,8 +21,8 @@ namespace onerut_scalar {
         return value;
     }
 
-    std::vector<std::shared_ptr<const Complex>> LitComplex::dependency() const {
-        assert(0); //TODO
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>> LitComplex::dependence() const {
+        return {};
     }
 
     // -------------------------------------------------------------------------
@@ -42,8 +42,8 @@ namespace onerut_scalar {
         return _OpUnaryPlusMinus<std::complex<double>>()(arg->value_complex(), op);
     }
 
-    std::vector<std::shared_ptr<const Complex>> OpUnaryPlusMinusComplex::dependency() const {
-        assert(0); //TODO
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>> OpUnaryPlusMinusComplex::dependence() const {
+        return {arg};
     }
 
     // -------------------------------------------------------------------------
@@ -77,8 +77,14 @@ namespace onerut_scalar {
         return as_t<std::complex<double>>(result);
     }
 
-    std::vector<std::shared_ptr<const Complex>> OpPlusMinusComplex::dependency() const {
-        assert(0); //TODO
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>> OpPlusMinusComplex::dependence() const {
+        decltype(dependence()) result;
+        result.reserve(1 + other_argv.size());
+        result.push_back(first_arg);
+        for (const auto& other_arg : other_argv) {
+            result.push_back(other_arg);
+        }
+        return result;
     }
 
     // -------------------------------------------------------------------------
@@ -112,8 +118,14 @@ namespace onerut_scalar {
         return as_t<std::complex<double>>(result);
     }
 
-    std::vector<std::shared_ptr<const Complex>> OpProdDivComplex::dependency() const {
-        assert(0); //TODO
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>> OpProdDivComplex::dependence() const {
+        decltype(dependence()) result;
+        result.reserve(1 + other_argv.size());
+        result.push_back(first_arg);
+        for (const auto& other_arg : other_argv) {
+            result.push_back(other_arg);
+        }
+        return result;
     }
 
 }

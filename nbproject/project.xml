@@ -28,6 +28,7 @@
                 <sourceRootElem>onerut_convergence_parameter</sourceRootElem>
                 <sourceRootElem>onerut_parser_exec_tests</sourceRootElem>
                 <sourceRootElem>onerut_env</sourceRootElem>
+                <sourceRootElem>onerut_dependence</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>

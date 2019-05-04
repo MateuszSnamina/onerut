@@ -73,8 +73,8 @@ namespace onerut_env {
         return *_value;
     }
 
-    std::vector<std::shared_ptr<const onerut_scalar::Complex>> Env::dependency() const {
-        assert(0); //TODO
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>> Env::dependence() const {
+        return {};
     }
 
     const std::string& Env::env_variable_name() const {

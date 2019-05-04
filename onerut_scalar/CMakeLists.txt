@@ -22,4 +22,4 @@ endif()
 
 add_library("${TARGET_NAME}" ${src} ${inc})
 target_include_directories("${TARGET_NAME}" PUBLIC include)
-target_link_libraries("${TARGET_NAME}")
+target_link_libraries("${TARGET_NAME}" onerut_dependence)

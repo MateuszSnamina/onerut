@@ -12,7 +12,7 @@ namespace onerut_env {
     public:
         Env(const std::string& env_variable_name, double default_value);
         double value_real() const final;
-        std::vector<std::shared_ptr<const onerut_scalar::Complex>> dependency() const final;
+        std::vector<std::weak_ptr<const onerut_dependence::Dependable>> dependence() const final;
         const std::string& env_variable_name() const;
     private:
         void init() const; //const but change the mutable cache

@@ -21,9 +21,9 @@ namespace onerut_convergence_parameter {
         return _exposed_value;
     }
 
-    std::vector<std::shared_ptr<const onerut_scalar::Complex>> ConvergenceParameter::dependency() const {
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>> ConvergenceParameter::dependence() const {
         assert(_expression);
-        return _expression->dependency();
+        return _expression->dependence();
     }
 
     double ConvergenceParameter::recalcuate() {

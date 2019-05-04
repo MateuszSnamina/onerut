@@ -30,8 +30,8 @@ namespace onerut_scalar {
         return value;
     }
 
-    std::vector<std::shared_ptr<const Complex>> LitInteger::dependency() const {
-        assert(0); //TODO
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>> LitInteger::dependence() const {
+        return {};
     }
 
     // -------------------------------------------------------------------------
@@ -51,8 +51,8 @@ namespace onerut_scalar {
         return _OpUnaryPlusMinus<long>()(arg->value_integer(), op);
     }
 
-    std::vector<std::shared_ptr<const Complex>> OpUnaryPlusMinusInteger::dependency() const {
-        assert(0); //TODO
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>> OpUnaryPlusMinusInteger::dependence() const {
+        return {arg};
     }
 
     // -------------------------------------------------------------------------
@@ -84,8 +84,14 @@ namespace onerut_scalar {
         return result;
     }
 
-    std::vector<std::shared_ptr<const Complex>> OpPlusMinusInteger::dependency() const {
-        assert(0); //TODO
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>> OpPlusMinusInteger::dependence() const {
+        decltype(dependence()) result;
+        result.reserve(1 + other_argv.size());
+        result.push_back(first_arg);
+        for (const auto& other_arg : other_argv) {
+            result.push_back(other_arg);
+        }
+        return result;
     }
 
     // -------------------------------------------------------------------------
@@ -117,8 +123,14 @@ namespace onerut_scalar {
         return result;
     }
 
-    std::vector<std::shared_ptr<const Complex>> OpProdDivInteger::dependency() const {
-        assert(0); //TODO
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>> OpProdDivInteger::dependence() const {
+        decltype(dependence()) result;
+        result.reserve(1 + other_argv.size());
+        result.push_back(first_arg);
+        for (const auto& other_arg : other_argv) {
+            result.push_back(other_arg);
+        }
+        return result;
     }
 
 }

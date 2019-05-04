@@ -13,7 +13,7 @@ namespace onerut_convergence_parameter {
     public:
         ConvergenceParameter(double init_value);
         double value_real() const final;
-        std::vector<std::shared_ptr<const onerut_scalar::Complex>> dependency() const final;
+        std::vector<std::weak_ptr<const onerut_dependence::Dependable>> dependence() const final;
         // Calculate the new value and save it in a history log,
         // but not expose as the param  value until revolve as called:
         double recalcuate();
@@ -34,7 +34,7 @@ namespace onerut_convergence_parameter {
         bool is_converged() const;
     private:
         double _exposed_value;
-        std::shared_ptr<const onerut_scalar::Real> _expression;
+        std::shared_ptr<const onerut_scalar::Real> _expression;// TODO change into weak_ptr!!!!!
         std::vector<double> _history;
         double _threshold;
     };
