@@ -23,7 +23,7 @@ namespace onerut_convergence_parameter {
 
     std::vector<std::weak_ptr<const onerut_dependence::Dependable>> ConvergenceParameter::dependence() const {
         assert(_expression);
-        return _expression->dependence();
+        return {_expression};
     }
 
     double ConvergenceParameter::recalcuate() {

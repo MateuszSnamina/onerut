@@ -20,6 +20,11 @@ namespace onerut_normal_operator {
         return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(coef, ket + 1)));
     }
 
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    CreationOperator::dependence() const {
+        return {};
+    }
+
     // -------------------------------------------------------------------------
 
     AnihilationOperator::AnihilationOperator(std::shared_ptr<const OscillatorDomain> domain) :
@@ -38,6 +43,11 @@ namespace onerut_normal_operator {
             return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(coef, ket - 1)));
         }
         return std::make_unique<IteratorT>(IteratorT::create_end_iterator());
+    }
+
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    AnihilationOperator::dependence() const {
+        return {};
     }
 
 }

@@ -30,8 +30,9 @@ namespace onerut_normal_operator {
                 std::shared_ptr<const onerut_scalar::Real> value,
                 std::shared_ptr<const OrbitalIndex> orbital_index_1,
                 std::shared_ptr<const OrbitalIndex> orbital_index_2);
-        AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
-        std::shared_ptr<const Domain> get_domain() const override;
+        AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const final;
+        std::shared_ptr<const Domain> get_domain() const final;
+        std::vector<std::weak_ptr<const onerut_dependence::Dependable>> dependence() const final;
     public:
         const std::shared_ptr<const onerut_scalar::Real> value;
         const std::shared_ptr<const OrbitalIndex> orbital_index_1;
@@ -51,13 +52,14 @@ namespace onerut_normal_operator {
         FockParticleNumberOperator(
                 std::shared_ptr<const onerut_scalar::Real> value,
                 std::shared_ptr<const OrbitalIndex> orbital_index);
-        AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
-        std::shared_ptr<const Domain> get_domain() const override;
+        AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const final;
+        std::shared_ptr<const Domain> get_domain() const final;
+        std::vector<std::weak_ptr<const onerut_dependence::Dependable>> dependence() const final;
     public:
         const std::shared_ptr<const onerut_scalar::Real> value;
         const std::shared_ptr<const OrbitalIndex> orbital_index;
     };
-    
+
 }
 
 #endif

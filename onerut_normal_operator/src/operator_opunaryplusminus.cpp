@@ -20,4 +20,9 @@ namespace onerut_normal_operator {
         return arg->get_domain();
     }
 
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    OpUnaryPlusMinusOperator::dependence() const {
+        return {arg};
+    }
+
 }

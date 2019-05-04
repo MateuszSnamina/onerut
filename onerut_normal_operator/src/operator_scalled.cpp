@@ -18,5 +18,13 @@ namespace onerut_normal_operator {
     std::shared_ptr<const Domain> ScalledOperator::get_domain() const {
         return arg->get_domain();
     }
-    
+
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    ScalledOperator::dependence() const {
+        std::vector<std::weak_ptr<const onerut_dependence::Dependable>> result;
+        result.push_back(arg);
+        result.push_back(factor);
+        return result;
+    }
+
 }

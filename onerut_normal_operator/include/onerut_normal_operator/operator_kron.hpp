@@ -19,11 +19,12 @@ namespace onerut_normal_operator {
         using AbstractOpPtrT = std::shared_ptr<const AbstractOpT>;
         using AbstractIteratorT = onerut_typed_operator::AbstractResultIterator<ScalarT, BraKetT>;
         using AbstractIteratorPtrT = std::unique_ptr<AbstractIteratorT>;
-        using IteratorT = onerut_normal_operator::KronIterator<double>;//TODO delete namespace
+        using IteratorT = onerut_normal_operator::KronIterator<double>; //TODO delete namespace
         static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);
         KronAtOperator(AbstractOpPtrT subdomain_op, std::shared_ptr<const KronPlaceholder> placeholder);
-        AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
-        std::shared_ptr<const Domain> get_domain() const override;
+        AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const final;
+        std::shared_ptr<const Domain> get_domain() const final;
+        std::vector<std::weak_ptr<const onerut_dependence::Dependable>> dependence() const final;
     private:
         const AbstractOpPtrT subdomain_op;
         const std::shared_ptr<const KronPlaceholder> placeholder;

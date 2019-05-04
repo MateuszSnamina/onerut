@@ -17,4 +17,9 @@ namespace onerut_normal_operator {
         return std::make_unique<IteratorT>();
     }
 
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    ZeroOperator::dependence() const {
+        return {};
+    }
+
 }

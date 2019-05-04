@@ -36,6 +36,8 @@ namespace onerut_dependence {
             result.push_back(dependable);
         };
         dfs(adder, condition_for_break, head);
+        assert(result.back().lock() == head.lock());
+        result.pop_back();
         return result;
     }
 

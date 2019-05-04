@@ -23,8 +23,9 @@ namespace onerut_normal_operator {
         using IteratorT = onerut_typed_operator::OpUnaryPlusMinusOperatorIterator<ScalarT, BraKetT>;
         static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);
         OpUnaryPlusMinusOperator(AbstractOpPtrT arg, char op);
-        AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
-        std::shared_ptr<const Domain> get_domain() const override;
+        AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const final;
+        std::shared_ptr<const Domain> get_domain() const final;
+        std::vector<std::weak_ptr<const onerut_dependence::Dependable>> dependence() const final;
     public:
         const AbstractOpPtrT arg;
         const char op;

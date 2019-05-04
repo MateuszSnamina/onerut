@@ -33,9 +33,10 @@ namespace onerut_normal_operator {
 
     // -------------------------------------------------------------------------
 
-    class Eig {
+    class Eig : public onerut_dependence::Dependable {
     public:
         Eig(std::shared_ptr<const AbstractRealOperator> hamiltonian);
+        std::vector<std::weak_ptr<const onerut_dependence::Dependable>> dependence() const final;
         virtual EigResult value() const;
         virtual void latch();
         virtual void reset();

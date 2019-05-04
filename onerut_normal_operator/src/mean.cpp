@@ -1,4 +1,6 @@
 #include<cassert>
+#include<algorithm>
+#include<iterator>
 #include<boost/cast.hpp>
 
 #include<onerut_normal_operator/calculate_mean.hpp>
@@ -28,7 +30,10 @@ namespace onerut_normal_operator {
     }
 
     std::vector<std::weak_ptr<const onerut_dependence::Dependable>> Mean::dependence() const {
-        assert(0); //TODO
+        std::vector<std::weak_ptr<const onerut_dependence::Dependable>> result;
+        result.push_back(op);
+        result.push_back(eig);
+        return result;
     }
 
     void Mean::latch() {

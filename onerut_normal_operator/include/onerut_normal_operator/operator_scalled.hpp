@@ -20,8 +20,9 @@ namespace onerut_normal_operator {
         using IteratorT = onerut_typed_operator::ScalledOperatorIterator<ScalarT, BraKetT>;
         static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);
         ScalledOperator(std::shared_ptr<const onerut_scalar::Real> factor, AbstractOpPtrT arg);
-        AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
-        std::shared_ptr<const Domain> get_domain() const override;
+        AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const final;
+        std::shared_ptr<const Domain> get_domain() const final;
+        std::vector<std::weak_ptr<const onerut_dependence::Dependable>> dependence() const final;
     public:
         const std::shared_ptr<const onerut_scalar::Real> factor;
         const AbstractOpPtrT arg;

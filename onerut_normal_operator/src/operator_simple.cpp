@@ -32,6 +32,11 @@ namespace onerut_normal_operator {
         return std::make_unique<IteratorT>(IteratorT::create_end_iterator());
     }
 
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    HopOperator::dependence() const {
+        return {value};
+    }
+
     // -------------------------------------------------------------------------        
 
     DiagOperator::DiagOperator(std::shared_ptr<const onerut_scalar::Real> value,
@@ -52,6 +57,11 @@ namespace onerut_normal_operator {
         return std::make_unique<IteratorT>(IteratorT::create_end_iterator());
     }
 
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    DiagOperator::dependence() const {
+        return {value};
+    }
+
     // -------------------------------------------------------------------------        
 
     EyeOperator::EyeOperator(std::shared_ptr<const Domain> domain) :
@@ -65,6 +75,11 @@ namespace onerut_normal_operator {
     typename EyeOperator::AbstractIteratorPtrT
     EyeOperator::begin_itptr(const BraKetT& ket) const {
         return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(1.0, ket)));
+    }
+
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    EyeOperator::dependence() const {
+        return {};
     }
 
 }

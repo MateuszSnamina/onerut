@@ -84,6 +84,11 @@ namespace onerut_normal_operator {
         return std::make_unique<IteratorT>(IteratorT::create_end_iterator());
     }
 
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    FockHopOperator::dependence() const {
+        return {value};
+    }
+
     // -------------------------------------------------------------------------
 
     FockParticleNumberOperator::FockParticleNumberOperator(
@@ -110,6 +115,11 @@ namespace onerut_normal_operator {
             return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(value->value_real(), ket)));
         }
         return std::make_unique<IteratorT>(IteratorT::create_end_iterator());
+    }
+
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    FockParticleNumberOperator::dependence() const {
+        return {value};
     }
 
 }

@@ -223,18 +223,17 @@ execute_declarative_script(
     // *************************************************************************
     // *************************************************************************    
     print_section_bar("DEPENDENCIES RESOLVER");
-
     for (const auto& object : convergence_parameter_objects) {
-        std::cout << "[DEPENDENCIES] " << "[DEPENDABLE] "  << "[CONVERGENCE PARAMETER] "
+        std::cout << "[DEPENDENCIES] " << "[DEPENDABLE] " << "[CONVERGENCE PARAMETER] "
                 << Aka(object, akas_for_convergence_parameter_objects, source_code_for_convergence_parameter_objects) << std::endl;
         const auto dependences = onerut_dependence::dependence_list(dependence_is_convergence_parameter, object);
         const auto dependences_eig = dependence_filter_eig(dependences);
         const auto dependences_mean = dependence_filter_mean(dependences);
-        std::cout << "dependence.size() =" << dependences.size() << std::endl;
-        for (const auto dependence : dependences) {//DEBUG
-            std::cout << dependence.lock() << " "; //DEBUG
-        }//DEBUG
-        std::cout << std::endl; //DEBUG
+        //        std::cout << "dependence.size() =" << dependences.size() << std::endl;//DEBUG
+        //        for (const auto dependence : dependences) {//DEBUG
+        //            std::cout << dependence.lock() << " "; //DEBUG
+        //        }//DEBUG
+        //        std::cout << std::endl; //DEBUG
         for (const auto dependence : dependences_eig) {
             std::cout << "[DEPENDENCIES] " << "[DEPENDS ON] " << "[EIG] "
                     << Aka(dependence, akas_for_eig_objects, source_code_for_eig_objects)
@@ -247,7 +246,6 @@ execute_declarative_script(
         }
         std::cout << std::endl;
     }
-
     // *************************************************************************
     // *************************************************************************    
     print_section_bar("SELF-CONSISTENT LOOP");

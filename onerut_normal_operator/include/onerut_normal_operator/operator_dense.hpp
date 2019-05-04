@@ -11,7 +11,7 @@ namespace onerut_normal_operator {
     // -------------------------------------------------------------------------
 
     class DenseOperator : public AbstractOperator<double> {
-    public:       
+    public:
         using ScalarT = double;
         using BraKetT = uint32_t;
         using AbstractOpT = AbstractOperator<ScalarT>;
@@ -23,6 +23,7 @@ namespace onerut_normal_operator {
         DenseOperator(std::shared_ptr<const Domain> domain, arma::mat matrix);
         AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
         std::shared_ptr<const Domain> get_domain() const override;
+        std::vector<std::weak_ptr<const onerut_dependence::Dependable>> dependence() const final;
     private:
         const std::shared_ptr<const Domain> _domain;
         const arma::mat _matrix;

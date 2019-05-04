@@ -20,4 +20,10 @@ namespace onerut_normal_operator {
         return std::make_unique<IteratorT>(_matrix.col(ket));
     }
 
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    DenseOperator::dependence() const {
+        return {};
+    }
+
+
 }

@@ -23,6 +23,11 @@ namespace onerut_normal_operator {
         return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(value, ket)));
     }
 
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    SpinZetOperator::dependence() const {
+        return {};
+    }
+
     // -------------------------------------------------------------------------
 
     SpinPlusOperator::SpinPlusOperator(std::shared_ptr<const SpinDomain> domain) :
@@ -46,6 +51,11 @@ namespace onerut_normal_operator {
         return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(value, ket - 1)));
     }
 
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    SpinPlusOperator::dependence() const {
+        return {};
+    }
+
     // -------------------------------------------------------------------------
 
     SpinMinusOperator::SpinMinusOperator(std::shared_ptr<const SpinDomain> domain) :
@@ -67,6 +77,11 @@ namespace onerut_normal_operator {
         const double temp = boost::numeric_cast<double>(doubled_l * (doubled_l + 2) - doubled_m * (doubled_m - 2));
         const double value = std::sqrt(temp / 4.0);
         return std::make_unique<IteratorT>(IteratorT::create_the_one_valid_iterator(std::make_pair(value, ket + 1)));
+    }
+
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    SpinMinusOperator::dependence() const {
+        return {};
     }
 
 }

@@ -24,8 +24,19 @@ namespace onerut_normal_operator {
         return std::make_unique<IteratorT>(first_arg, other_argv, opv, ket);
     }
 
-    std::shared_ptr<const Domain> OpPlusMinusOperator::get_domain() const {
+    std::shared_ptr<const Domain>
+    OpPlusMinusOperator::get_domain() const {
         return first_arg->get_domain();
     }
 
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    OpPlusMinusOperator::dependence() const {
+        decltype(dependence()) result;
+        result.reserve(1 + other_argv.size());
+        result.push_back(first_arg);
+        for (const auto& other_arg : other_argv) {
+            result.push_back(other_arg);
+        }
+        return result;
+    }
 }

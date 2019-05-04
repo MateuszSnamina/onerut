@@ -22,8 +22,9 @@ namespace onerut_normal_operator {
         HopOperator(std::shared_ptr<const onerut_scalar::Real> value,
                 std::shared_ptr<const StateIndex> state_1,
                 std::shared_ptr<const StateIndex> state_2);
-        AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
-        std::shared_ptr<const Domain> get_domain() const override;
+        AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const final;
+        std::shared_ptr<const Domain> get_domain() const final;
+        std::vector<std::weak_ptr<const onerut_dependence::Dependable>> dependence() const final;
     public:
         const std::shared_ptr<const onerut_scalar::Real> value;
         const std::shared_ptr<const StateIndex> state_1;
@@ -42,8 +43,9 @@ namespace onerut_normal_operator {
         static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);
         DiagOperator(std::shared_ptr<const onerut_scalar::Real> value,
                 std::shared_ptr<const StateIndex> state);
-        AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
-        std::shared_ptr<const Domain> get_domain() const override;
+        AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const final;
+        std::shared_ptr<const Domain> get_domain() const final;
+        std::vector<std::weak_ptr<const onerut_dependence::Dependable>> dependence() const final;
     public:
         const std::shared_ptr<const onerut_scalar::Real> value;
         const std::shared_ptr<const StateIndex> state;
@@ -60,8 +62,9 @@ namespace onerut_normal_operator {
         using IteratorT = onerut_typed_operator::SimpleOperatorIterator<ScalarT, BraKetT>;
         static_assert(std::is_base_of<AbstractIteratorT, IteratorT>::value);
         EyeOperator(std::shared_ptr<const Domain> domain);
-        AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const override;
-        std::shared_ptr<const Domain> get_domain() const override;
+        AbstractIteratorPtrT begin_itptr(const BraKetT& ket) const final;
+        std::shared_ptr<const Domain> get_domain() const final;
+        std::vector<std::weak_ptr<const onerut_dependence::Dependable>> dependence() const final;
     public:
         const std::shared_ptr<const Domain> domain;
     };

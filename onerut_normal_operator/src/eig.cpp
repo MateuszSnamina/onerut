@@ -49,19 +49,22 @@ namespace onerut_normal_operator {
         assert(beta.n_cols <= hamiltonian->get_domain()->size());
     }
 
-    void EigResult::print_energies(std::ostream& stream, unsigned chunk_size, std::string line_prefix) const {
+    void
+    EigResult::print_energies(std::ostream& stream, unsigned chunk_size, std::string line_prefix) const {
         fancy_logging::log(stream,{"Energy"}, eig_names,
                 arma::trans(energies),
                 chunk_size, line_prefix);
     }
 
-    void EigResult::print_beta(std::ostream& stream, unsigned chunk_size, std::string line_prefix) const {
+    void
+    EigResult::print_beta(std::ostream& stream, unsigned chunk_size, std::string line_prefix) const {
         fancy_logging::log(stream, hamiltonian->get_domain()->state_names(), eig_names,
                 beta,
                 chunk_size, line_prefix);
     }
 
-    void EigResult::log(std::ostream& stream, std::string line_prefix) const {
+    void
+    EigResult::log(std::ostream& stream, std::string line_prefix) const {
         auto flags = stream.flags();
         if (!success) {
             stream << line_prefix << "Fail to diagonalize." << std::endl;
@@ -84,15 +87,23 @@ namespace onerut_normal_operator {
         assert(hamiltonian);
     }
 
-    EigResult Eig::value() const {
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    Eig::dependence() const {
+        return {hamiltonian};
+    }
+
+    EigResult
+    Eig::value() const {
         return ( cached_result ? *cached_result : _value());
     }
 
-    void Eig::latch() {
+    void
+    Eig::latch() {
         cached_result.emplace(_value());
     }
 
-    void Eig::reset() {
+    void
+    Eig::reset() {
         cached_result = std::nullopt;
     }
 
@@ -102,7 +113,8 @@ namespace onerut_normal_operator {
     Eig(hamiltonian) {
     }
 
-    EigResult EigDense::_value() const {
+    EigResult
+    EigDense::_value() const {
         // ---------------------------------------------------------------------
         const std::vector<std::string> eig_names = _eig_names(hamiltonian->get_domain()->size());
         // ---------------------------------------------------------------------
@@ -127,7 +139,8 @@ namespace onerut_normal_operator {
         assert(numer_of_states_to_calculate < hamiltonian->get_domain()->size());
     }
 
-    EigResult EigSparse::_value() const {
+    EigResult
+    EigSparse::_value() const {
         // ------------------------------        
         const auto space_dim =
                 boost::numeric_cast<arma::uword>(hamiltonian->get_domain()->size());

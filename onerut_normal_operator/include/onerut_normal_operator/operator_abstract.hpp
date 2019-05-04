@@ -7,6 +7,7 @@
 
 #include<onerut_typed_operator/operator_abstract.hpp>
 #include<onerut_normal_operator/domain_abstract.hpp>
+#include<onerut_dependence/dependence.hpp>
 
 namespace onerut_normal_operator {
 
@@ -15,7 +16,9 @@ namespace onerut_normal_operator {
     // -------------------------------------------------------------------------    
 
     template<typename _ScalarT>
-    class AbstractOperator : public onerut_typed_operator::AbstractOperator<_ScalarT, uint32_t> {
+    class AbstractOperator :
+    public onerut_typed_operator::AbstractOperator<_ScalarT, uint32_t>,
+    public onerut_dependence::Dependable {
     public:
         using ScalarT = _ScalarT;
         using BraKetT = uint32_t;
@@ -28,7 +31,7 @@ namespace onerut_normal_operator {
     };
 
     using AbstractRealOperator = AbstractOperator<double>;
-    
+
     // -------------------------------------------------------------------------
     // ----------------  Helper functions  -------------------------------------
     // -------------------------------------------------------------------------    

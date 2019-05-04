@@ -14,8 +14,19 @@ namespace onerut_normal_operator {
         return std::make_unique<IteratorT>(argv, ket);
     }
 
-    std::shared_ptr<const Domain> OpProdOperator::get_domain() const {
+    std::shared_ptr<const Domain>
+    OpProdOperator::get_domain() const {
         return (argv.empty() ? std::shared_ptr<const Domain>(nullptr) : argv[0]->get_domain());
+    }
+
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    OpProdOperator::dependence() const {
+        decltype(dependence()) result;
+        result.reserve(argv.size());
+        for (const auto& other_arg : argv) {
+            result.push_back(other_arg);
+        }
+        return result;
     }
 
 }
