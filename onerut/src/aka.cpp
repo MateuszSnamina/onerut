@@ -5,10 +5,11 @@
 #include<string_utils/greek_support.hpp>
 #include<onerut/aka.hpp>
 
-std::string object_to_aka_string(
-        std::shared_ptr<void> object,
-        std::map<std::shared_ptr<void>, std::string> object_sources,
-        std::multimap<std::shared_ptr<void>, std::string> object_akas) {
+std::string
+object_to_aka_string(
+        std::shared_ptr<const void> object,
+        std::map<std::shared_ptr<const void>, std::string> object_sources,
+        std::multimap<std::shared_ptr<const void>, std::string> object_akas) {
     const auto it_lo = object_akas.lower_bound(object);
     const auto it_up = object_akas.upper_bound(object);
     std::vector<std::string> akas;
@@ -35,9 +36,9 @@ std::string object_to_aka_string(
     return sstream.str();
 }
 
-Aka::Aka(std::shared_ptr<void> object,
-        std::multimap<std::shared_ptr<void>, std::string> object_akas,
-        std::map<std::shared_ptr<void>, std::string> object_sources) :
+Aka::Aka(std::shared_ptr<const void> object,
+        std::multimap<std::shared_ptr<const void>, std::string> object_akas,
+        std::map<std::shared_ptr<const void>, std::string> object_sources) :
 _object(object),
 _object_akas(object_akas),
 _object_sources(object_sources) {

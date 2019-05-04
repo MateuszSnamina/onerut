@@ -8,8 +8,9 @@
 #include<onerut_parser_exec/asset_ref_container.hpp>
 
 template<class T>
-std::multimap<std::shared_ptr<void>, std::string> create_object_akas_map() {
-    std::multimap<std::shared_ptr<void>, std::string> object_akas;
+std::multimap<std::shared_ptr<const void>, std::string>
+create_object_akas_map() {
+    std::multimap<std::shared_ptr<const void>, std::string> object_akas;
     const auto& identifiers = onerut_parser_exec::AssetRefContainer::global_instance().identifiers();
     for (const auto& identifiers_entry : identifiers) {
         const auto& aka = identifiers_entry.first;
@@ -28,18 +29,19 @@ std::multimap<std::shared_ptr<void>, std::string> create_object_akas_map() {
 
 std::string
 object_to_aka_string(
-        std::shared_ptr<void> object,
-        std::multimap<std::shared_ptr<void>, std::string> object_akas);
+        std::shared_ptr<const void> object,
+        std::map<std::shared_ptr<const void>, std::string> object_sources,
+        std::multimap<std::shared_ptr<const void>, std::string> object_akas);
 
 class Aka {
 public:
-    Aka(std::shared_ptr<void> object,
-            std::multimap<std::shared_ptr<void>, std::string> object_akas,
-            std::map<std::shared_ptr<void>, std::string> object_sources);
+    Aka(std::shared_ptr<const void> object,
+            std::multimap<std::shared_ptr<const void>, std::string> object_akas,
+            std::map<std::shared_ptr<const void>, std::string> object_sources);
 private:
-    std::shared_ptr<void> _object;
-    std::multimap<std::shared_ptr<void>, std::string> _object_akas;
-    std::map<std::shared_ptr<void>, std::string> _object_sources;
+    std::shared_ptr<const void> _object;
+    std::multimap<std::shared_ptr<const void>, std::string> _object_akas;
+    std::map<std::shared_ptr<const void>, std::string> _object_sources;
     friend std::ostream& operator<<(std::ostream&, const Aka&);
 };
 

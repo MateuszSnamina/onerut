@@ -3,39 +3,42 @@
 
 #include<cassert>
 #include<functional>
+//#include<iostream> // TODO delete: debug
 
 #include<onerut_dependence/dependence.hpp>
 
 namespace onerut_dependence {
 
+    //TODO move to CPP
+
     inline
     void dfs(
             const std::function<void(std::shared_ptr<const Dependable>)> &visit_function,
-            const std::function<bool(std::shared_ptr<const Dependable>)> &condition_for_going_deeper,
-            std::weak_ptr<const Dependable> dependable) {
-        const auto dependable_shared = dependable.lock();
+            const std::function<bool(std::shared_ptr<const Dependable>)> &condition_for_break,
+            std::weak_ptr<const Dependable> head) {
+        const auto dependable_shared = head.lock();
         assert(dependable_shared);
-        if (condition_for_going_deeper(dependable_shared)) {
-            for (const auto & subdependence : dependable_shared->dependence()) {
-                dfs(visit_function, condition_for_going_deeper, subdependence);
+        for (const auto & subdependence : dependable_shared->dependence()) {
+            assert(subdependence.lock());
+            if (!condition_for_break(subdependence.lock())) {
+                dfs(visit_function, condition_for_break, subdependence);
             }
         }
         visit_function(dependable_shared);
     }
-    /*
-        template<class StopT>
-        std::vector<std::weak_ptr<const Dependable>>
-        dependence_list(const std::function<bool(std::shared_ptr<const Dependable>)> &condition_for_going_deeper) {
-            const auto dependable_shared = dependable.lock();
-            assert(dependable_shared);
-            if (condition_for_going_deeper(dependable_shared)) {
-                for (const auto & subdependence : dependable_shared->dependence()) {
-                    dfs(visit_function, condition_for_going_deeper, subdependence);
-                }
-            }
-            visit_function(dependable_shared);
-        }
-     */
+
+    std::vector<std::weak_ptr<const Dependable>>
+    dependence_list(
+            std::function<bool(std::shared_ptr<const Dependable>) > condition_for_break,
+            std::weak_ptr<const Dependable> head) {
+        std::vector<std::weak_ptr<const Dependable>> result;
+        const auto adder = [&result](std::weak_ptr<const Dependable> dependable) {
+            result.push_back(dependable);
+        };
+        dfs(adder, condition_for_break, head);
+        return result;
+    }
+
 }
 
 #endif

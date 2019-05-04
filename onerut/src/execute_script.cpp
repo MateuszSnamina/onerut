@@ -5,6 +5,7 @@
 
 #include<esc/esc_manip.hpp>
 #include<string_utils/string_span.hpp>
+#include<onerut_dependence/dependence_dfs.hpp>
 #include<onerut_convergence_parameter/convergence_parameter.hpp>
 #include<onerut_normal_operator/eig.hpp>
 #include<onerut_normal_operator/mean.hpp>
@@ -13,6 +14,60 @@
 #include<onerut/line_preprocessor.hpp>
 #include<onerut/line_processor.hpp>
 #include<onerut/execute_script.hpp>
+
+bool
+dependence_is_convergence_parameter(std::shared_ptr<const onerut_dependence::Dependable> dependable) {
+    using CastedT = onerut_convergence_parameter::ConvergenceParameter;
+    assert(dependable);
+    const auto dependable_casted = std::dynamic_pointer_cast<const CastedT>(dependable);
+    return static_cast<bool> (dependable_casted);
+}
+
+bool
+dependence_is_eig(std::shared_ptr<const onerut_dependence::Dependable> dependable) {
+    using CastedT = onerut_normal_operator::Eig;
+    assert(dependable);
+    const auto dependable_casted = std::dynamic_pointer_cast<const CastedT>(dependable);
+    return static_cast<bool> (dependable_casted);
+}
+
+bool
+dependence_is_mean(std::shared_ptr<const onerut_dependence::Dependable> dependable) {
+    using CastedT = onerut_normal_operator::Mean;
+    assert(dependable);
+    const auto dependable_casted = std::dynamic_pointer_cast<const CastedT>(dependable);
+    return static_cast<bool> (dependable_casted);
+}
+
+std::vector<std::shared_ptr<const onerut_normal_operator::Eig>>
+dependence_filter_eig(std::vector<std::weak_ptr<const onerut_dependence::Dependable>> dependences) {
+    using CastedT = onerut_normal_operator::Eig;
+    std::vector<std::shared_ptr<const CastedT>> result;
+    for (const auto& dependence : dependences) {
+        const auto& dependence_shared = dependence.lock();
+        assert(dependence_shared);
+        const auto dependence_casted = std::dynamic_pointer_cast<const CastedT>(dependence_shared);
+        if (dependence_casted) {
+            result.push_back(dependence_casted);
+        }
+    }
+    return result;
+}
+
+std::vector<std::shared_ptr<const onerut_normal_operator::Mean>>
+dependence_filter_mean(std::vector<std::weak_ptr<const onerut_dependence::Dependable>> dependences) {
+    using CastedT = onerut_normal_operator::Mean;
+    std::vector<std::shared_ptr<const CastedT>> result;
+    for (const auto& dependence : dependences) {
+        const auto& dependence_shared = dependence.lock();
+        assert(dependence_shared);
+        const auto dependence_casted = std::dynamic_pointer_cast<const CastedT>(dependence_shared);
+        if (dependence_casted) {
+            result.push_back(dependence_casted);
+        }
+    }
+    return result;
+}
 
 void
 print_section_bar(std::string section_title) {
@@ -26,8 +81,8 @@ template<class T>
 void
 add_if_type_matches(
         std::vector<std::shared_ptr<T> >& objects,
-        std::map<std::shared_ptr<void>, std::string>& source_code_for_objects,
-        const onerut_parser_exec::onerut_ast::asset::AssetNode& asset_node) {
+        std::map<std::shared_ptr<const void>, std::string>& source_code_for_objects,
+        const onerut_parser_exec::onerut_ast::asset::AssetNode & asset_node) {
     const auto asset = asset_node.asset;
     const auto asset_deref = asset.deref();
     if (asset_deref.is_either_value_or_type()) {
@@ -99,13 +154,13 @@ execute_declarative_script(
     print_section_bar("OBJECTS INVENTORYING");
     // -------------------------------------------------------------------------
     std::vector<std::shared_ptr<onerut_convergence_parameter::ConvergenceParameter> > convergence_parameter_objects;
-    std::map<std::shared_ptr<void>, std::string> source_code_for_convergence_parameter_objects;
+    std::map<std::shared_ptr<const void>, std::string> source_code_for_convergence_parameter_objects;
     std::vector<std::shared_ptr<onerut_normal_operator::Eig> > eig_objects;
-    std::map<std::shared_ptr<void>, std::string> source_code_for_eig_objects;
+    std::map<std::shared_ptr<const void>, std::string> source_code_for_eig_objects;
     std::vector<std::shared_ptr<onerut_normal_operator::Mean> > mean_objects;
-    std::map<std::shared_ptr<void>, std::string> source_code_for_mean_objects;
+    std::map<std::shared_ptr<const void>, std::string> source_code_for_mean_objects;
     std::vector<std::shared_ptr<onerut_request::PrintValueRequest > > print_value_request_objects;
-    std::map<std::shared_ptr<void>, std::string> source_code_for_print_value_request_objects;
+    std::map<std::shared_ptr<const void>, std::string> source_code_for_print_value_request_objects;
     // -------------------------------------------------------------------------
     for (const auto& ast_head_node : ats_head_nodes) {
         const auto add_convergence_parameter_objects = std::bind(
@@ -165,6 +220,34 @@ execute_declarative_script(
     }
     // -------------------------------------------------------------------------
     // check if every convergence_parameter_objects has set expression.
+    // *************************************************************************
+    // *************************************************************************    
+    print_section_bar("DEPENDENCIES RESOLVER");
+
+    for (const auto& object : convergence_parameter_objects) {
+        std::cout << "[DEPENDENCIES] " << "[DEPENDABLE] "  << "[CONVERGENCE PARAMETER] "
+                << Aka(object, akas_for_convergence_parameter_objects, source_code_for_convergence_parameter_objects) << std::endl;
+        const auto dependences = onerut_dependence::dependence_list(dependence_is_convergence_parameter, object);
+        const auto dependences_eig = dependence_filter_eig(dependences);
+        const auto dependences_mean = dependence_filter_mean(dependences);
+        std::cout << "dependence.size() =" << dependences.size() << std::endl;
+        for (const auto dependence : dependences) {//DEBUG
+            std::cout << dependence.lock() << " "; //DEBUG
+        }//DEBUG
+        std::cout << std::endl; //DEBUG
+        for (const auto dependence : dependences_eig) {
+            std::cout << "[DEPENDENCIES] " << "[DEPENDS ON] " << "[EIG] "
+                    << Aka(dependence, akas_for_eig_objects, source_code_for_eig_objects)
+                    << std::endl;
+        }
+        for (const auto dependence : dependences_mean) {
+            std::cout << "[DEPENDENCIES] " << "[DEPENDS ON] " << "[MEAN] "
+                    << Aka(dependence, akas_for_mean_objects, source_code_for_mean_objects)
+                    << std::endl;
+        }
+        std::cout << std::endl;
+    }
+
     // *************************************************************************
     // *************************************************************************    
     print_section_bar("SELF-CONSISTENT LOOP");

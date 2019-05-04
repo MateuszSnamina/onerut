@@ -177,7 +177,6 @@ namespace onerut_scalar {
                     result.push_back(arg);
                 };
         utility::for_each_on_tuple(adder_function, args);
-        assert(0); //TODO
         return result;
     }
 
