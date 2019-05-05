@@ -66,7 +66,7 @@ public:
             );
     std::multimap<std::shared_ptr<const void>, std::string> _object_akas;
     std::map<std::shared_ptr<const void>, std::string> _object_sources;
-    PresenterFrame<T> operator()(const std::shared_ptr<T>& object);
+    PresenterFrame<T> operator()(const std::shared_ptr<T>& object) const;
 };
 
 template<class T>
@@ -88,7 +88,7 @@ operator<<(std::ostream& stream, const PresenterFrame<T>& aka_printer) {
 }
 
 template<class T>
-PresenterFrame<T> Presenter<T>::operator()(const std::shared_ptr<T>& object) {
+PresenterFrame<T> Presenter<T>::operator()(const std::shared_ptr<T>& object) const {
     return PresenterFrame<T>(*this, object);
 }
 
