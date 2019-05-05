@@ -96,6 +96,30 @@ add_if_type_matches(
     }
 }
 
+template<class T>
+void
+add_if_type_matches_ver2(
+        std::vector<ObjectWithSnippet<T>>&target,
+        const onerut_parser_exec::onerut_ast::asset::AssetNode & asset_node) {
+    const auto asset = asset_node.asset;
+    const auto source_snippet = string_utils::to_string(asset_node.source->span);
+    const auto asset_deref = asset.deref();
+    if (asset_deref.is_either_value_or_type()) {
+        if (const auto &object = asset_deref.typed_value_or_empty<T>()) {
+            if (std::find_if(
+                    cbegin(target), cend(target),
+                    [&object](const ObjectWithSnippet<T> & target_item)->bool {
+                        return target_item.object == *object;
+                    }) == cend(target)) {
+            target.push_back({*object, source_snippet});
+            //objects.push_back(*object);
+            //source_code_for_objects[*object] =
+            //       string_utils::to_string(asset_node.source->span);
+        }
+        }
+    }
+}
+
 void
 dfs(std::shared_ptr<onerut_parser_exec::onerut_ast::asset::AssetNode> head_node,
         std::function<void(const onerut_parser_exec::onerut_ast::asset::AssetNode&) > action) {

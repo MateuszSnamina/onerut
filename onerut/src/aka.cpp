@@ -19,7 +19,7 @@ object_to_aka_string(
     }
     std::ostringstream sstream;
     sstream << "{";
-    sstream << object;//DEBUG
+    sstream << object; //DEBUG
     sstream << "|"; //DEBUG
     if (!akas.empty()) {
         sstream << string_utils::StreamToGreek(boost::algorithm::join(akas, "|"));
