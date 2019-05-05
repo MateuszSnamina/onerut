@@ -45,7 +45,13 @@ namespace onerut_request {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_scalar::Integer>::print(
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    PrintValueRequestTyped<onerut_scalar::Integer>::dependence() const {
+        return {instance};
+    }
+
+    void
+    PrintValueRequestTyped<onerut_scalar::Integer>::print(
             std::ostream& stream,
             std::string line_prefix) const {
         assert(instance);
@@ -64,7 +70,13 @@ namespace onerut_request {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_scalar::Real>::print(
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    PrintValueRequestTyped<onerut_scalar::Real>::dependence() const {
+        return {instance};
+    }
+
+    void
+    PrintValueRequestTyped<onerut_scalar::Real>::print(
             std::ostream& stream,
             std::string line_prefix) const {
         assert(instance);
@@ -83,7 +95,13 @@ namespace onerut_request {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_scalar::Complex>::print(
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    PrintValueRequestTyped<onerut_scalar::Complex>::dependence() const {
+        return {instance};
+    }
+
+    void
+    PrintValueRequestTyped<onerut_scalar::Complex>::print(
             std::ostream& stream,
             std::string line_prefix) const {
         assert(instance);
@@ -102,7 +120,13 @@ namespace onerut_request {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_env::Env>::print(
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    PrintValueRequestTyped<onerut_env::Env>::dependence() const {
+        return {instance};
+    }
+
+    void
+    PrintValueRequestTyped<onerut_env::Env>::print(
             std::ostream& stream,
             std::string line_prefix) const {
         assert(instance);
@@ -124,7 +148,13 @@ namespace onerut_request {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_convergence_parameter::ConvergenceParameter>::print(
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    PrintValueRequestTyped<onerut_convergence_parameter::ConvergenceParameter>::dependence() const {
+        return {instance};
+    }
+
+    void
+    PrintValueRequestTyped<onerut_convergence_parameter::ConvergenceParameter>::print(
             std::ostream& stream,
             std::string line_prefix) const {
         assert(instance);
@@ -152,7 +182,13 @@ namespace onerut_request {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_normal_operator::CustomDomain>::print(
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    PrintValueRequestTyped<onerut_normal_operator::CustomDomain>::dependence() const {
+        return {};
+    }
+
+    void
+    PrintValueRequestTyped<onerut_normal_operator::CustomDomain>::print(
             std::ostream& stream,
             std::string line_prefix) const {
         assert(instance);
@@ -174,7 +210,13 @@ namespace onerut_request {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_normal_operator::OscillatorDomain>::print(
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    PrintValueRequestTyped<onerut_normal_operator::OscillatorDomain>::dependence() const {
+        return {};
+    }
+
+    void
+    PrintValueRequestTyped<onerut_normal_operator::OscillatorDomain>::print(
             std::ostream& stream,
             std::string line_prefix) const {
         assert(instance);
@@ -196,7 +238,13 @@ namespace onerut_request {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_normal_operator::SpinDomain>::print(
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    PrintValueRequestTyped<onerut_normal_operator::SpinDomain>::dependence() const {
+        return {};
+    }
+
+    void
+    PrintValueRequestTyped<onerut_normal_operator::SpinDomain>::print(
             std::ostream& stream,
             std::string line_prefix) const {
         assert(instance);
@@ -221,7 +269,13 @@ namespace onerut_request {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_normal_operator::EgDomain>::print(
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    PrintValueRequestTyped<onerut_normal_operator::EgDomain>::dependence() const {
+        return {};
+    }
+
+    void
+    PrintValueRequestTyped<onerut_normal_operator::EgDomain>::print(
             std::ostream& stream,
             std::string line_prefix) const {
         assert(instance);
@@ -242,7 +296,13 @@ namespace onerut_request {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_normal_operator::FockDomain>::print(
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    PrintValueRequestTyped<onerut_normal_operator::FockDomain>::dependence() const {
+        return {};
+    }
+
+    void
+    PrintValueRequestTyped<onerut_normal_operator::FockDomain>::print(
             std::ostream& stream,
             std::string line_prefix) const {
         assert(instance);
@@ -260,7 +320,6 @@ namespace onerut_request {
                 << std::endl;
     }
 
-
     // *************************************************************************
 
     PrintValueRequestTyped<onerut_normal_operator::KronDomain>::PrintValueRequestTyped(
@@ -271,7 +330,13 @@ namespace onerut_request {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_normal_operator::KronDomain>::print(
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    PrintValueRequestTyped<onerut_normal_operator::KronDomain>::dependence() const {
+        return {};
+    }
+
+    void
+    PrintValueRequestTyped<onerut_normal_operator::KronDomain>::print(
             std::ostream& stream,
             std::string line_prefix) const {
         assert(instance);
@@ -293,7 +358,13 @@ namespace onerut_request {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_normal_operator::StateIndex>::print(
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    PrintValueRequestTyped<onerut_normal_operator::StateIndex>::dependence() const {
+        return {};
+    }
+
+    void
+    PrintValueRequestTyped<onerut_normal_operator::StateIndex>::print(
             std::ostream& stream,
             std::string line_prefix) const {
         assert(instance);
@@ -312,7 +383,13 @@ namespace onerut_request {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_normal_operator::OrbitalIndex>::print(
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    PrintValueRequestTyped<onerut_normal_operator::OrbitalIndex>::dependence() const {
+        return {};
+    }
+
+    void
+    PrintValueRequestTyped<onerut_normal_operator::OrbitalIndex>::print(
             std::ostream& stream,
             std::string line_prefix) const {
         assert(instance);
@@ -334,7 +411,13 @@ namespace onerut_request {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_normal_operator::KronPlaceholder>::print(
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    PrintValueRequestTyped<onerut_normal_operator::KronPlaceholder>::dependence() const {
+        return {};
+    }
+
+    void
+    PrintValueRequestTyped<onerut_normal_operator::KronPlaceholder>::print(
             std::ostream& stream,
             std::string line_prefix) const {
         assert(instance);
@@ -353,7 +436,13 @@ namespace onerut_request {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_normal_operator::AbstractRealOperator>::print(
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    PrintValueRequestTyped<onerut_normal_operator::AbstractRealOperator>::dependence() const {
+        return {instance};
+    }
+
+    void
+    PrintValueRequestTyped<onerut_normal_operator::AbstractRealOperator>::print(
             std::ostream& stream,
             std::string line_prefix) const {
         assert(instance);
@@ -370,7 +459,13 @@ namespace onerut_request {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_normal_operator::Eig>::print(
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    PrintValueRequestTyped<onerut_normal_operator::Eig>::dependence() const {
+        return {instance};
+    }
+
+    void
+    PrintValueRequestTyped<onerut_normal_operator::Eig>::print(
             std::ostream& stream,
             std::string line_prefix) const {
         assert(instance);
@@ -387,7 +482,13 @@ namespace onerut_request {
         assert(instance);
     }
 
-    void PrintValueRequestTyped<onerut_normal_operator::Mean>::print(
+    std::vector<std::weak_ptr<const onerut_dependence::Dependable>>
+    PrintValueRequestTyped<onerut_normal_operator::Mean>::dependence() const {
+        return {instance};
+    }
+
+    void
+    PrintValueRequestTyped<onerut_normal_operator::Mean>::print(
             std::ostream& stream,
             std::string line_prefix) const {
         assert(instance);

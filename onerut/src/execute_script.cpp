@@ -344,19 +344,19 @@ execute_declarative_script(
         }
         std::cout << std::endl;
     }
-    //    for (const auto& object : print_value_request_objects) {
-    //        std::cout << "[DEPENDENCIES] " << "[DEPENDABLE] " << "[REQUEST] "
-    //                << presenter_for_print_value_request_objects(object)
-    //                << std::endl;
-    //        const auto dependences = onerut_dependence::dependence_list(dependence_is_convergence_parameter, object);
-    //        const auto dependences_eig_mean = dependence_filter_eig_mean(dependences);
-    //        for (const auto dependence : dependences_eig_mean) {
-    //            std::cout << "[DEPENDENCIES] " << "[DEPENDS ON] "
-    //                    << presenter_for_dependable(dependence)
-    //                    << std::endl;
-    //        }
-    //        std::cout << std::endl;
-    //    }
+    for (const auto& object : print_value_request_objects) {
+        std::cout << "[DEPENDENCIES] " << "[DEPENDABLE] " << "[REQUEST] "
+                << presenter_for_print_value_request_objects(object)
+                << std::endl;
+        const auto dependences = onerut_dependence::dependence_list(dependence_is_convergence_parameter, object);
+        const auto dependences_eig_mean = dependence_filter_eig_mean(dependences);
+        for (const auto dependence : dependences_eig_mean) {
+            std::cout << "[DEPENDENCIES] " << "[DEPENDS ON] "
+                    << presenter_for_dependable(dependence)
+                    << std::endl;
+        }
+        std::cout << std::endl;
+    }
 
     // *************************************************************************
     // *************************************************************************    
