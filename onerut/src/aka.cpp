@@ -35,16 +35,3 @@ object_to_aka_string(
     sstream << "}";
     return sstream.str();
 }
-
-Aka::Aka(std::shared_ptr<const void> object,
-        std::multimap<std::shared_ptr<const void>, std::string> object_akas,
-        std::map<std::shared_ptr<const void>, std::string> object_sources) :
-_object(object),
-_object_akas(object_akas),
-_object_sources(object_sources) {
-}
-
-std::ostream& operator<<(std::ostream& stream, const Aka& aka) {
-    stream << object_to_aka_string(aka._object, aka._object_sources, aka._object_akas);
-    return stream;
-}

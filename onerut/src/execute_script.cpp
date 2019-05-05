@@ -96,30 +96,6 @@ add_if_type_matches(
     }
 }
 
-template<class T>
-void
-add_if_type_matches_ver2(
-        std::vector<ObjectWithSnippet<T>>&target,
-        const onerut_parser_exec::onerut_ast::asset::AssetNode & asset_node) {
-    const auto asset = asset_node.asset;
-    const auto source_snippet = string_utils::to_string(asset_node.source->span);
-    const auto asset_deref = asset.deref();
-    if (asset_deref.is_either_value_or_type()) {
-        if (const auto &object = asset_deref.typed_value_or_empty<T>()) {
-            if (std::find_if(
-                    cbegin(target), cend(target),
-                    [&object](const ObjectWithSnippet<T> & target_item)->bool {
-                        return target_item.object == *object;
-                    }) == cend(target)) {
-            target.push_back({*object, source_snippet});
-            //objects.push_back(*object);
-            //source_code_for_objects[*object] =
-            //       string_utils::to_string(asset_node.source->span);
-        }
-        }
-    }
-}
-
 void
 dfs(std::shared_ptr<onerut_parser_exec::onerut_ast::asset::AssetNode> head_node,
         std::function<void(const onerut_parser_exec::onerut_ast::asset::AssetNode&) > action) {
@@ -222,23 +198,37 @@ execute_declarative_script(
     const auto akas_for_print_value_request_objects =
             create_object_akas_map<onerut_request::PrintValueRequest>();
     // -------------------------------------------------------------------------
+    Presenter<const onerut_convergence_parameter::ConvergenceParameter> presenter_for_convergence_parameter(
+            akas_for_convergence_parameter_objects,
+            source_code_for_convergence_parameter_objects);
+    Presenter<const onerut_normal_operator::Eig> presenter_for_eig_objects(
+            akas_for_eig_objects,
+            source_code_for_eig_objects);
+    Presenter<const onerut_normal_operator::Mean> presenter_for_mean_objects(
+            akas_for_mean_objects,
+            source_code_for_mean_objects);
+    Presenter<const onerut_request::PrintValueRequest> presenter_for_print_value_request_objects(
+            akas_for_print_value_request_objects,
+            source_code_for_print_value_request_objects);
+    // -------------------------------------------------------------------------
     for (const auto& object : convergence_parameter_objects) {
         std::cout << "[INVENTORY] " << "[CONVERGENCE PARAMETER] "
-                << Aka(object, akas_for_convergence_parameter_objects, source_code_for_convergence_parameter_objects) << std::endl;
+                << presenter_for_convergence_parameter(object)
+                << std::endl;
     }
     for (const auto& object : eig_objects) {
         std::cout << "[INVENTORY] " << "[EIG] "
-                << Aka(object, akas_for_eig_objects, source_code_for_eig_objects)
+                << presenter_for_eig_objects(object)
                 << std::endl;
     }
     for (const auto& object : mean_objects) {
         std::cout << "[INVENTORY] " << "[MEAN] "
-                << Aka(object, akas_for_mean_objects, source_code_for_mean_objects)
+                << presenter_for_mean_objects(object)
                 << std::endl;
     }
     for (const auto& object : print_value_request_objects) {
         std::cout << "[INVENTORY] " << "[PRINT VALUE REQUEST] "
-                << Aka(object, akas_for_print_value_request_objects, source_code_for_print_value_request_objects)
+                << presenter_for_print_value_request_objects(object)
                 //<< ", only in summary: " << object->print_only_in_summary()
                 << std::endl;
     }
@@ -249,23 +239,20 @@ execute_declarative_script(
     print_section_bar("DEPENDENCIES RESOLVER");
     for (const auto& object : convergence_parameter_objects) {
         std::cout << "[DEPENDENCIES] " << "[DEPENDABLE] " << "[CONVERGENCE PARAMETER] "
-                << Aka(object, akas_for_convergence_parameter_objects, source_code_for_convergence_parameter_objects) << std::endl;
+                << presenter_for_convergence_parameter(object)
+                << std::endl;
         const auto dependences = onerut_dependence::dependence_list(dependence_is_convergence_parameter, object);
         const auto dependences_eig = dependence_filter_eig(dependences);
         const auto dependences_mean = dependence_filter_mean(dependences);
-        //        std::cout << "dependence.size() =" << dependences.size() << std::endl;//DEBUG
-        //        for (const auto dependence : dependences) {//DEBUG
-        //            std::cout << dependence.lock() << " "; //DEBUG
-        //        }//DEBUG
-        //        std::cout << std::endl; //DEBUG
         for (const auto dependence : dependences_eig) {
             std::cout << "[DEPENDENCIES] " << "[DEPENDS ON] " << "[EIG] "
-                    << Aka(dependence, akas_for_eig_objects, source_code_for_eig_objects)
+                    << presenter_for_eig_objects(dependence)
                     << std::endl;
+
         }
         for (const auto dependence : dependences_mean) {
             std::cout << "[DEPENDENCIES] " << "[DEPENDS ON] " << "[MEAN] "
-                    << Aka(dependence, akas_for_mean_objects, source_code_for_mean_objects)
+                    << presenter_for_mean_objects(dependence)
                     << std::endl;
         }
         std::cout << std::endl;
@@ -283,19 +270,19 @@ execute_declarative_script(
                 << std::endl;
         for (const auto& eig : eig_objects) {
             std::cout << "[CALCULATIONS] [EIG ] "
-                    << Aka(eig, akas_for_eig_objects, source_code_for_eig_objects)
+                    << presenter_for_eig_objects(eig)
                     << std::endl;
             eig->latch();
         }
         for (const auto& mean : mean_objects) {
             std::cout << "[CALCULATIONS] [MEAN] "
-                    << Aka(mean, akas_for_mean_objects, source_code_for_mean_objects)
+                    << presenter_for_mean_objects(mean)
                     << std::endl;
             mean->latch();
         }
         for (const auto& convergence_parameter_object : convergence_parameter_objects) {
             std::cout << "[CALCULATIONS] [CONVERGENCE PARAMETER] "
-                    << Aka(convergence_parameter_object, akas_for_convergence_parameter_objects, source_code_for_convergence_parameter_objects)
+                    << presenter_for_convergence_parameter(convergence_parameter_object)
                     << std::endl;
             convergence_parameter_object->recalcuate();
         }
@@ -304,21 +291,16 @@ execute_declarative_script(
                 continue;
             }
             std::cout << "[PRINT VALUE REQUEST] "
-                    << Aka(request, akas_for_print_value_request_objects, source_code_for_print_value_request_objects) << std::endl;
+                    << presenter_for_print_value_request_objects(request)
+                    << std::endl;
             request->print(std::cout, "[request] ");
         }
-        //for (const auto& eig : eig_objects) {
-        //    eig->reset();
-        //}
-        //for (const auto& mean : mean_objects) {
-        //    mean->reset();
-        //}
         for (const auto& object : convergence_parameter_objects) {
             double old_value = object->value_real();
             object->revolve();
             double new_value = object->value_real();
             std::cout << "[CONVERGENCE PARAMETER] [OLD VALUE => NEW VALUE] "
-                    << Aka(object, akas_for_convergence_parameter_objects, source_code_for_convergence_parameter_objects) << " "
+                    << presenter_for_convergence_parameter(object) << " "
                     << old_value << " => " << new_value
                     << std::endl;
         }
@@ -353,7 +335,8 @@ execute_declarative_script(
     std::cout << std::endl;
     for (const auto& request : print_value_request_objects) {
         std::cout << "[PRINT VALUE REQUEST] "
-                << Aka(request, akas_for_print_value_request_objects, source_code_for_print_value_request_objects) << std::endl;
+                << presenter_for_print_value_request_objects(request)
+                << std::endl;
         request->print(std::cout, "[request] ");
     }
     // -------------------------------------------------------------------------
