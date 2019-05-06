@@ -3,6 +3,8 @@
 #include<algorithm>
 #include<functional>
 
+#include<boost/range/adaptor/map.hpp>
+
 #include<esc/esc_manip.hpp>
 #include<string_utils/string_span.hpp>
 #include<onerut_dependence/dependence_dfs.hpp>
@@ -10,6 +12,9 @@
 #include<onerut_normal_operator/eig.hpp>
 #include<onerut_normal_operator/mean.hpp>
 #include<onerut_request/request_print_value.hpp>
+#include<onerut/utility_ast_asset_dfs.hpp> // TODO will  be deleted!
+#include<onerut/grep_ast_asset.hpp>
+#include<onerut/grep_ref_container.hpp>
 #include<onerut/aka.hpp>
 #include<onerut/line_preprocessor.hpp>
 #include<onerut/line_processor.hpp>
@@ -169,7 +174,7 @@ template<class T>
 void
 add_if_type_matches(
         std::vector<std::shared_ptr<T> >& objects,
-        std::map<std::shared_ptr<const void>, std::string>& source_code_for_objects,
+        //std::map<std::shared_ptr<const void>, std::string>& source_code_for_objects,
         const onerut_parser_exec::onerut_ast::asset::AssetNode & asset_node) {
     const auto asset = asset_node.asset;
     const auto asset_deref = asset.deref();
@@ -177,20 +182,11 @@ add_if_type_matches(
         if (const auto &object = asset_deref.typed_value_or_empty<T>()) {
             if (std::find(cbegin(objects), cend(objects), object) == cend(objects)) {
                 objects.push_back(*object);
-                source_code_for_objects[*object] =
-                        string_utils::to_string(asset_node.source->span);
+                //source_code_for_objects[*object] =
+                //        string_utils::to_string(asset_node.source->span);
             }
         }
     }
-}
-
-void
-dfs(std::shared_ptr<onerut_parser_exec::onerut_ast::asset::AssetNode> head_node,
-        std::function<void(const onerut_parser_exec::onerut_ast::asset::AssetNode&) > action) {
-    assert(head_node);
-    for (const auto sub_node : head_node->subnodes)
-        dfs(sub_node, action);
-    action(*head_node);
 }
 
 void
@@ -242,49 +238,57 @@ execute_declarative_script(
     print_section_bar("OBJECTS INVENTORYING");
     // -------------------------------------------------------------------------
     std::vector<std::shared_ptr<onerut_convergence_parameter::ConvergenceParameter> > convergence_parameter_objects;
-    std::map<std::shared_ptr<const void>, std::string> source_code_for_convergence_parameter_objects;
+    //std::map<std::shared_ptr<const void>, std::string> 
+    const auto source_code_for_convergence_parameter_objects = grep_ast_asset<onerut_convergence_parameter::ConvergenceParameter>(ats_head_nodes);
+
     std::vector<std::shared_ptr<onerut_normal_operator::Eig> > eig_objects;
-    std::map<std::shared_ptr<const void>, std::string> source_code_for_eig_objects;
+    //std::map<std::shared_ptr<const void>, std::string> 
+    const auto source_code_for_eig_objects = grep_ast_asset<onerut_normal_operator::Eig>(ats_head_nodes);
+
     std::vector<std::shared_ptr<onerut_normal_operator::Mean> > mean_objects;
-    std::map<std::shared_ptr<const void>, std::string> source_code_for_mean_objects;
+    //std::map<std::shared_ptr<const void>, std::string> 
+    const auto source_code_for_mean_objects = grep_ast_asset<onerut_normal_operator::Mean>(ats_head_nodes);
+
     std::vector<std::shared_ptr<onerut_request::PrintValueRequest > > print_value_request_objects;
-    std::map<std::shared_ptr<const void>, std::string> source_code_for_print_value_request_objects;
+    //std::map<std::shared_ptr<const void>, std::string> 
+    const auto source_code_for_print_value_request_objects = grep_ast_asset<onerut_request::PrintValueRequest>(ats_head_nodes);
     // -------------------------------------------------------------------------
     for (const auto& ast_head_node : ats_head_nodes) {
         const auto add_convergence_parameter_objects = std::bind(
                 add_if_type_matches<onerut_convergence_parameter::ConvergenceParameter>,
                 std::ref(convergence_parameter_objects),
-                std::ref(source_code_for_convergence_parameter_objects),
+                //std::ref(source_code_for_convergence_parameter_objects),
                 std::placeholders::_1);
-        dfs(ast_head_node, add_convergence_parameter_objects);
+        onerut::utility::dfs(ast_head_node, add_convergence_parameter_objects);
         const auto add_eig_objects = std::bind(
                 add_if_type_matches<onerut_normal_operator::Eig>,
                 std::ref(eig_objects),
-                std::ref(source_code_for_eig_objects),
+                //std::ref(source_code_for_eig_objects),
                 std::placeholders::_1);
-        dfs(ast_head_node, add_eig_objects);
+        onerut::utility::dfs(ast_head_node, add_eig_objects);
         const auto add_mean_objects = std::bind(
                 add_if_type_matches<onerut_normal_operator::Mean>,
                 std::ref(mean_objects),
-                std::ref(source_code_for_mean_objects),
+                //std::ref(source_code_for_mean_objects),
                 std::placeholders::_1);
-        dfs(ast_head_node, add_mean_objects);
+        onerut::utility::dfs(ast_head_node, add_mean_objects);
         const auto add_value_request_objects = std::bind(
                 add_if_type_matches<onerut_request::PrintValueRequest>,
                 std::ref(print_value_request_objects),
-                std::ref(source_code_for_print_value_request_objects),
+                //std::ref(source_code_for_print_value_request_objects),
                 std::placeholders::_1);
-        dfs(ast_head_node, add_value_request_objects);
+        onerut::utility::dfs(ast_head_node, add_value_request_objects);
     }
+
     // -------------------------------------------------------------------------
     const auto akas_for_convergence_parameter_objects =
-            create_object_akas_map<onerut_convergence_parameter::ConvergenceParameter>();
+            grep_ref_container<onerut_convergence_parameter::ConvergenceParameter>();
     const auto akas_for_eig_objects =
-            create_object_akas_map<onerut_normal_operator::Eig>();
+            grep_ref_container<onerut_normal_operator::Eig>();
     const auto akas_for_mean_objects =
-            create_object_akas_map<onerut_normal_operator::Mean>();
+            grep_ref_container<onerut_normal_operator::Mean>();
     const auto akas_for_print_value_request_objects =
-            create_object_akas_map<onerut_request::PrintValueRequest>();
+            grep_ref_container<onerut_request::PrintValueRequest>();
     // -------------------------------------------------------------------------
     Presenter<const onerut_convergence_parameter::ConvergenceParameter> presenter_for_convergence_parameter_objects(
             akas_for_convergence_parameter_objects,
@@ -299,22 +303,27 @@ execute_declarative_script(
             akas_for_print_value_request_objects,
             source_code_for_print_value_request_objects);
     // -------------------------------------------------------------------------
-    for (const auto& object : convergence_parameter_objects) {
+    //for (const auto& object : convergence_parameter_objects) {
+    for (const auto& object : source_code_for_convergence_parameter_objects | boost::adaptors::map_keys) {
         std::cout << "[INVENTORY] " << "[CONVERGENCE PARAMETER] "
                 << presenter_for_convergence_parameter_objects(object)
                 << std::endl;
     }
-    for (const auto& object : eig_objects) {
+    //for (const auto& object : eig_objects) {
+    for (const auto& object : source_code_for_eig_objects | boost::adaptors::map_keys) {
+        //for (const auto& object : eig_objects) {
         std::cout << "[INVENTORY] " << "[EIG] "
                 << presenter_for_eig_objects(object)
                 << std::endl;
     }
-    for (const auto& object : mean_objects) {
+    //for (const auto& object : mean_objects) {
+    for (const auto& object : source_code_for_mean_objects | boost::adaptors::map_keys) {
         std::cout << "[INVENTORY] " << "[MEAN] "
                 << presenter_for_mean_objects(object)
                 << std::endl;
     }
-    for (const auto& object : print_value_request_objects) {
+    //for (const auto& object : print_value_request_objects) {
+    for (const auto& object : source_code_for_print_value_request_objects | boost::adaptors::map_keys) {
         std::cout << "[INVENTORY] " << "[PRINT VALUE REQUEST] "
                 << presenter_for_print_value_request_objects(object)
                 //<< ", only in summary: " << object->print_only_in_summary()
@@ -331,7 +340,7 @@ execute_declarative_script(
             presenter_for_eig_objects,
             presenter_for_mean_objects,
             presenter_for_print_value_request_objects);
-    for (const auto& object : convergence_parameter_objects) {
+    for (const auto& object : source_code_for_convergence_parameter_objects | boost::adaptors::map_keys) {
         std::cout << "[DEPENDENCIES] " << "[DEPENDABLE] " << "[CONVERGENCE PARAMETER] "
                 << presenter_for_convergence_parameter_objects(object)
                 << std::endl;
@@ -369,34 +378,34 @@ execute_declarative_script(
                 << "iteration number " << std::setw(4) << iteracja << "."
                 << esc::manip::reset
                 << std::endl;
-        for (const auto& eig : eig_objects) {
+        for (const auto& object : source_code_for_eig_objects | boost::adaptors::map_keys) {
             std::cout << "[CALCULATIONS] [EIG ] "
-                    << presenter_for_eig_objects(eig)
+                    << presenter_for_eig_objects(object)
                     << std::endl;
-            eig->latch();
+            object->latch();
         }
-        for (const auto& mean : mean_objects) {
+        for (const auto& object : source_code_for_mean_objects | boost::adaptors::map_keys) {
             std::cout << "[CALCULATIONS] [MEAN] "
-                    << presenter_for_mean_objects(mean)
+                    << presenter_for_mean_objects(object)
                     << std::endl;
-            mean->latch();
+            object->latch();
         }
-        for (const auto& convergence_parameter_object : convergence_parameter_objects) {
+        for (const auto& object : source_code_for_convergence_parameter_objects | boost::adaptors::map_keys) {
             std::cout << "[CALCULATIONS] [CONVERGENCE PARAMETER] "
-                    << presenter_for_convergence_parameter_objects(convergence_parameter_object)
+                    << presenter_for_convergence_parameter_objects(object)
                     << std::endl;
-            convergence_parameter_object->recalcuate();
+            object->recalcuate();
         }
-        for (const auto& request : print_value_request_objects) {
-            if (request->print_only_in_summary()) {
+        for (const auto& object : source_code_for_print_value_request_objects | boost::adaptors::map_keys) {
+            if (object->print_only_in_summary()) {
                 continue;
             }
             std::cout << "[PRINT VALUE REQUEST] "
-                    << presenter_for_print_value_request_objects(request)
+                    << presenter_for_print_value_request_objects(object)
                     << std::endl;
-            request->print(std::cout, "[request] ");
+            object->print(std::cout, "[request] ");
         }
-        for (const auto& object : convergence_parameter_objects) {
+        for (const auto& object : source_code_for_convergence_parameter_objects | boost::adaptors::map_keys) {
             double old_value = object->value_real();
             object->revolve();
             double new_value = object->value_real();
@@ -406,7 +415,7 @@ execute_declarative_script(
                     << std::endl;
         }
         bool global_convergence_accumulator = true;
-        for (const auto& object : convergence_parameter_objects) {
+        for (const auto& object : source_code_for_convergence_parameter_objects | boost::adaptors::map_keys) {
             const bool is_converged = object->is_converged();
             std::cout << "[CONVERGENCE PARAMETER] [CONVERGENCE TEST] ";
             if (is_converged) {
@@ -434,11 +443,11 @@ execute_declarative_script(
         std::cout << "[GLOBAL CONVERGENCE] " << esc::manip::red << "✘✘✘...✘✘" << esc::manip::reset;
     }
     std::cout << std::endl;
-    for (const auto& request : print_value_request_objects) {
+    for (const auto& object : source_code_for_print_value_request_objects | boost::adaptors::map_keys) {
         std::cout << "[PRINT VALUE REQUEST] "
-                << presenter_for_print_value_request_objects(request)
+                << presenter_for_print_value_request_objects(object)
                 << std::endl;
-        request->print(std::cout, "[request] ");
+        object->print(std::cout, "[request] ");
     }
     // -------------------------------------------------------------------------
 }
