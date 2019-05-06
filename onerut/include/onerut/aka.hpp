@@ -4,6 +4,8 @@
 #include<string>
 #include<map>
 #include<memory>
+#include<type_traits>
+
 #include<boost/algorithm/string/join.hpp>
 
 #include<string_utils/greek_support.hpp>
@@ -12,20 +14,24 @@
 // **************  the core function  ******************************************
 // *****************************************************************************
 
-template<class T>
+// U may be T or const T.
+
+template<class T, class U>
 std::string
 object_to_aka_string(
-        std::shared_ptr<const T> object,
-        std::map<std::shared_ptr<const T>, std::string> object_sources,
-        std::multimap<std::shared_ptr<const T>, std::string> object_akas) {
+        std::shared_ptr<T> object,
+        std::map<std::shared_ptr<U>, std::string> object_sources,
+        std::multimap<std::shared_ptr<U>, std::string> object_akas) {
+    //static_assert(std::is_same<const T, const U>::value);//TODO think!!
     // Find all akas:
-    const auto it_lo = object_akas.lower_bound(object);
-    const auto it_up = object_akas.upper_bound(object);
     std::vector<std::string> akas;
-    for (auto it = it_lo; it != it_up; ++it) {
-        const auto& aka = it->second;
-        akas.push_back(aka);
-    }
+    //TODO restore
+    //    const auto it_lo = object_akas.lower_bound(object);
+    //    const auto it_up = object_akas.upper_bound(object);
+    //    for (auto it = it_lo; it != it_up; ++it) {
+    //        const auto& aka = it->second;
+    //        akas.push_back(aka);
+    //    }
     // Concatenate the output string:
     std::ostringstream sstream;
     sstream << "{";
@@ -37,11 +43,12 @@ object_to_aka_string(
         sstream << ":anonymous:";
     }
     sstream << "|";
-    if (object_sources.count(object)) {
-        sstream << "`" << string_utils::StreamToGreek(object_sources[object]) << "`";
-    } else {
-        sstream << ":nosource:";
-    }
+    //TODO  restore:
+    //    if (object_sources.count(object)) {
+    //        sstream << "`" << string_utils::StreamToGreek(object_sources[object]) << "`";
+    //    } else {
+    //        sstream << ":nosource:";
+    //    }
     sstream << "}";
     // Return:
     return sstream.str();
@@ -51,53 +58,54 @@ object_to_aka_string(
 // *************** Presenter ***************************************************
 // *****************************************************************************
 
-template<class T>
+template<class U>
 class Presenter;
 
-template<class T>
+template<class T, class U>
 class PresenterFrame;
 
-template<class T>
-std::ostream& operator<<(std::ostream&, const PresenterFrame<T>&);
+template<class T, class U>
+std::ostream& operator<<(std::ostream&, const PresenterFrame<T, U>&);
 
-template<class T>
+template<class T, class U>
 class PresenterFrame {
 public:
     PresenterFrame(
-            const Presenter<T>&aka,
+            const Presenter<U>&aka,
             const std::shared_ptr<T>& object);
-    const Presenter<T>&_aka;
+    const Presenter<U>&_aka;
     const std::shared_ptr<T>& _object;
-    friend std::ostream& operator<<<>(std::ostream&, const PresenterFrame<T>&);
+    friend std::ostream& operator<<<>(std::ostream&, const PresenterFrame<T, U>&);
 };
 
-template<class T>
+template<class U>
 class Presenter {
 public:
     Presenter(
-            std::multimap<std::shared_ptr<const T>, std::string> _object_akas,
-            std::map<std::shared_ptr<const T>, std::string> object_sources
+            std::multimap<std::shared_ptr<U>, std::string> _object_akas,
+            std::map<std::shared_ptr<U>, std::string> object_sources
             );
-    std::multimap<std::shared_ptr<const T>, std::string> _object_akas;
-    std::map<std::shared_ptr<const T>, std::string> _object_sources;
-    PresenterFrame<T> operator()(const std::shared_ptr<T>& object) const;
+    std::multimap<std::shared_ptr<U>, std::string> _object_akas;
+    std::map<std::shared_ptr<U>, std::string> _object_sources;
+    template<class T>
+    PresenterFrame<T, U> operator()(const std::shared_ptr<T>& object) const;
 };
 
 // *****************************************************************************
 // **************  Presenter -- templates implementation  **********************
 // *****************************************************************************
 
-template<class T>
-PresenterFrame<T>::PresenterFrame(
-        const Presenter<T>&aka,
+template<class T, class U>
+PresenterFrame<T, U>::PresenterFrame(
+        const Presenter<U>&aka,
         const std::shared_ptr<T>& object) :
 _aka(aka),
 _object(object) {
 }
 
-template<class T>
+template<class T, class U>
 std::ostream&
-operator<<(std::ostream& stream, const PresenterFrame<T>& aka_printer) {
+operator<<(std::ostream& stream, const PresenterFrame<T, U>& aka_printer) {
     stream << object_to_aka_string(
             aka_printer._object,
             aka_printer._aka._object_sources,
@@ -105,15 +113,17 @@ operator<<(std::ostream& stream, const PresenterFrame<T>& aka_printer) {
     return stream;
 }
 
+template<class U>
 template<class T>
-PresenterFrame<T> Presenter<T>::operator()(const std::shared_ptr<T>& object) const {
-    return PresenterFrame<T>(*this, object);
+PresenterFrame<T, U>
+Presenter<U>::operator()(const std::shared_ptr<T>& object) const {
+    return PresenterFrame<T, U>(*this, object);
 }
 
-template<class T>
-Presenter<T>::Presenter(
-        std::multimap<std::shared_ptr<const T>, std::string> object_akas,
-        std::map<std::shared_ptr<const T>, std::string> object_sources) :
+template<class U>
+Presenter<U>::Presenter(
+        std::multimap<std::shared_ptr<U>, std::string> object_akas,
+        std::map<std::shared_ptr<U>, std::string> object_sources) :
 _object_akas(object_akas),
 _object_sources(object_sources) {
 }

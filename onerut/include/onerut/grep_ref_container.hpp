@@ -13,9 +13,9 @@
  */
 
 template<class T>
-std::multimap<std::shared_ptr<const T>, std::string>
+std::multimap<std::shared_ptr<T>, std::string>
 grep_ref_container() {
-    std::multimap<std::shared_ptr<const T>, std::string> object_akas;
+    std::multimap<std::shared_ptr<T>, std::string> object_akas;
     const auto& identifiers = onerut_parser_exec::AssetRefContainer::global_instance().identifiers();
     for (const auto& identifiers_entry : identifiers) {
         const auto& aka = identifiers_entry.first;
@@ -25,7 +25,7 @@ grep_ref_container() {
         const auto& asset_deref = asset->get_asset_deref();
         if (asset_deref.is_either_value_or_type()) {
             if (const auto &object = asset_deref.typed_value_or_empty<T>()) {
-                typename std::multimap<std::shared_ptr<const T>, std::string>::value_type p(*object, aka);
+                typename std::multimap<std::shared_ptr<T>, std::string>::value_type p(*object, aka);
                 object_akas.insert(p);
             }
         }

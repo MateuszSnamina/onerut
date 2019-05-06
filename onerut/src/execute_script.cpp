@@ -65,15 +65,15 @@ _dependable(dependable) {
 
 struct DependablePresenter {
     DependablePresenter(
-            const Presenter<const onerut_convergence_parameter::ConvergenceParameter>& presenter_for_convergence_parameter_objects,
-            const Presenter<const onerut_normal_operator::Eig>& presenter_for_eig_objects,
-            const Presenter<const onerut_normal_operator::Mean>& presenter_for_mean_objects,
-            const Presenter<const onerut_request::PrintValueRequest>& presenter_for_print_value_request_objects);
+            const Presenter< onerut_convergence_parameter::ConvergenceParameter>& presenter_for_convergence_parameter_objects,
+            const Presenter< onerut_normal_operator::Eig>& presenter_for_eig_objects,
+            const Presenter< onerut_normal_operator::Mean>& presenter_for_mean_objects,
+            const Presenter< onerut_request::PrintValueRequest>& presenter_for_print_value_request_objects);
     DependablePresenterFrame operator()(std::shared_ptr<const onerut_dependence::Dependable> dependable) const;
-    const Presenter<const onerut_convergence_parameter::ConvergenceParameter>& _presenter_for_convergence_parameter_objects;
-    const Presenter<const onerut_normal_operator::Eig>& _presenter_for_eig_objects;
-    const Presenter<const onerut_normal_operator::Mean>& _presenter_for_mean_objects;
-    const Presenter<const onerut_request::PrintValueRequest>& _presenter_for_print_value_request_objects;
+    const Presenter< onerut_convergence_parameter::ConvergenceParameter>& _presenter_for_convergence_parameter_objects;
+    const Presenter< onerut_normal_operator::Eig>& _presenter_for_eig_objects;
+    const Presenter< onerut_normal_operator::Mean>& _presenter_for_mean_objects;
+    const Presenter< onerut_request::PrintValueRequest>& _presenter_for_print_value_request_objects;
 };
 
 std::ostream& operator<<(std::ostream& stream, const DependablePresenterFrame& frame) {
@@ -97,10 +97,10 @@ std::ostream& operator<<(std::ostream& stream, const DependablePresenterFrame& f
 }
 
 DependablePresenter::DependablePresenter(
-        const Presenter<const onerut_convergence_parameter::ConvergenceParameter>& presenter_for_convergence_parameter_objects,
-        const Presenter<const onerut_normal_operator::Eig>& presenter_for_eig_objects,
-        const Presenter<const onerut_normal_operator::Mean>& presenter_for_mean_objects,
-        const Presenter<const onerut_request::PrintValueRequest>& presenter_for_print_value_request_objects) :
+        const Presenter<onerut_convergence_parameter::ConvergenceParameter>& presenter_for_convergence_parameter_objects,
+        const Presenter<onerut_normal_operator::Eig>& presenter_for_eig_objects,
+        const Presenter<onerut_normal_operator::Mean>& presenter_for_mean_objects,
+        const Presenter<onerut_request::PrintValueRequest>& presenter_for_print_value_request_objects) :
 _presenter_for_convergence_parameter_objects(presenter_for_convergence_parameter_objects),
 _presenter_for_eig_objects(presenter_for_eig_objects),
 _presenter_for_mean_objects(presenter_for_mean_objects),
@@ -169,25 +169,25 @@ print_section_bar(std::string section_title) {
             << std::setw(100) << std::left << "[DECLARATIVE MODE] [SECTION] [" + section_title + "]"
             << esc::manip::reset << std::endl;
 }
-
-template<class T>
-void
-add_if_type_matches(
-        std::vector<std::shared_ptr<T> >& objects,
-        //std::map<std::shared_ptr<const void>, std::string>& source_code_for_objects,
-        const onerut_parser_exec::onerut_ast::asset::AssetNode & asset_node) {
-    const auto asset = asset_node.asset;
-    const auto asset_deref = asset.deref();
-    if (asset_deref.is_either_value_or_type()) {
-        if (const auto &object = asset_deref.typed_value_or_empty<T>()) {
-            if (std::find(cbegin(objects), cend(objects), object) == cend(objects)) {
-                objects.push_back(*object);
-                //source_code_for_objects[*object] =
-                //        string_utils::to_string(asset_node.source->span);
-            }
-        }
-    }
-}
+//
+//template<class T>
+//void
+//add_if_type_matches(
+//        std::vector<std::shared_ptr<T> >& objects,
+//        //std::map<std::shared_ptr<const void>, std::string>& source_code_for_objects,
+//        const onerut_parser_exec::onerut_ast::asset::AssetNode & asset_node) {
+//    const auto asset = asset_node.asset;
+//    const auto asset_deref = asset.deref();
+//    if (asset_deref.is_either_value_or_type()) {
+//        if (const auto &object = asset_deref.typed_value_or_empty<T>()) {
+//            if (std::find(cbegin(objects), cend(objects), object) == cend(objects)) {
+//                objects.push_back(*object);
+//                //source_code_for_objects[*object] =
+//                //        string_utils::to_string(asset_node.source->span);
+//            }
+//        }
+//    }
+//}
 
 void
 execute_imparative_script(
@@ -237,48 +237,48 @@ execute_declarative_script(
     // *************************************************************************    
     print_section_bar("OBJECTS INVENTORYING");
     // -------------------------------------------------------------------------
-    std::vector<std::shared_ptr<onerut_convergence_parameter::ConvergenceParameter> > convergence_parameter_objects;
+    //    std::vector<std::shared_ptr<onerut_convergence_parameter::ConvergenceParameter> > convergence_parameter_objects;
     //std::map<std::shared_ptr<const void>, std::string> 
     const auto source_code_for_convergence_parameter_objects = grep_ast_asset<onerut_convergence_parameter::ConvergenceParameter>(ats_head_nodes);
 
-    std::vector<std::shared_ptr<onerut_normal_operator::Eig> > eig_objects;
+    //    std::vector<std::shared_ptr<onerut_normal_operator::Eig> > eig_objects;
     //std::map<std::shared_ptr<const void>, std::string> 
     const auto source_code_for_eig_objects = grep_ast_asset<onerut_normal_operator::Eig>(ats_head_nodes);
 
-    std::vector<std::shared_ptr<onerut_normal_operator::Mean> > mean_objects;
+    //    std::vector<std::shared_ptr<onerut_normal_operator::Mean> > mean_objects;
     //std::map<std::shared_ptr<const void>, std::string> 
     const auto source_code_for_mean_objects = grep_ast_asset<onerut_normal_operator::Mean>(ats_head_nodes);
 
-    std::vector<std::shared_ptr<onerut_request::PrintValueRequest > > print_value_request_objects;
+    //    std::vector<std::shared_ptr<onerut_request::PrintValueRequest > > print_value_request_objects;
     //std::map<std::shared_ptr<const void>, std::string> 
     const auto source_code_for_print_value_request_objects = grep_ast_asset<onerut_request::PrintValueRequest>(ats_head_nodes);
     // -------------------------------------------------------------------------
-    for (const auto& ast_head_node : ats_head_nodes) {
-        const auto add_convergence_parameter_objects = std::bind(
-                add_if_type_matches<onerut_convergence_parameter::ConvergenceParameter>,
-                std::ref(convergence_parameter_objects),
-                //std::ref(source_code_for_convergence_parameter_objects),
-                std::placeholders::_1);
-        onerut::utility::dfs(ast_head_node, add_convergence_parameter_objects);
-        const auto add_eig_objects = std::bind(
-                add_if_type_matches<onerut_normal_operator::Eig>,
-                std::ref(eig_objects),
-                //std::ref(source_code_for_eig_objects),
-                std::placeholders::_1);
-        onerut::utility::dfs(ast_head_node, add_eig_objects);
-        const auto add_mean_objects = std::bind(
-                add_if_type_matches<onerut_normal_operator::Mean>,
-                std::ref(mean_objects),
-                //std::ref(source_code_for_mean_objects),
-                std::placeholders::_1);
-        onerut::utility::dfs(ast_head_node, add_mean_objects);
-        const auto add_value_request_objects = std::bind(
-                add_if_type_matches<onerut_request::PrintValueRequest>,
-                std::ref(print_value_request_objects),
-                //std::ref(source_code_for_print_value_request_objects),
-                std::placeholders::_1);
-        onerut::utility::dfs(ast_head_node, add_value_request_objects);
-    }
+    //    for (const auto& ast_head_node : ats_head_nodes) {
+    //        const auto add_convergence_parameter_objects = std::bind(
+    //                add_if_type_matches<onerut_convergence_parameter::ConvergenceParameter>,
+    //                std::ref(convergence_parameter_objects),
+    //                //std::ref(source_code_for_convergence_parameter_objects),
+    //                std::placeholders::_1);
+    //        onerut::utility::dfs(ast_head_node, add_convergence_parameter_objects);
+    //        const auto add_eig_objects = std::bind(
+    //                add_if_type_matches<onerut_normal_operator::Eig>,
+    //                std::ref(eig_objects),
+    //                //std::ref(source_code_for_eig_objects),
+    //                std::placeholders::_1);
+    //        onerut::utility::dfs(ast_head_node, add_eig_objects);
+    //        const auto add_mean_objects = std::bind(
+    //                add_if_type_matches<onerut_normal_operator::Mean>,
+    //                std::ref(mean_objects),
+    //                //std::ref(source_code_for_mean_objects),
+    //                std::placeholders::_1);
+    //        onerut::utility::dfs(ast_head_node, add_mean_objects);
+    //        const auto add_value_request_objects = std::bind(
+    //                add_if_type_matches<onerut_request::PrintValueRequest>,
+    //                std::ref(print_value_request_objects),
+    //                //std::ref(source_code_for_print_value_request_objects),
+    //                std::placeholders::_1);
+    //        onerut::utility::dfs(ast_head_node, add_value_request_objects);
+    //    }
 
     // -------------------------------------------------------------------------
     const auto akas_for_convergence_parameter_objects =
@@ -290,16 +290,16 @@ execute_declarative_script(
     const auto akas_for_print_value_request_objects =
             grep_ref_container<onerut_request::PrintValueRequest>();
     // -------------------------------------------------------------------------
-    Presenter<const onerut_convergence_parameter::ConvergenceParameter> presenter_for_convergence_parameter_objects(
+    Presenter<onerut_convergence_parameter::ConvergenceParameter> presenter_for_convergence_parameter_objects(
             akas_for_convergence_parameter_objects,
             source_code_for_convergence_parameter_objects);
-    Presenter<const onerut_normal_operator::Eig> presenter_for_eig_objects(
+    Presenter<onerut_normal_operator::Eig> presenter_for_eig_objects(
             akas_for_eig_objects,
             source_code_for_eig_objects);
-    Presenter<const onerut_normal_operator::Mean> presenter_for_mean_objects(
+    Presenter<onerut_normal_operator::Mean> presenter_for_mean_objects(
             akas_for_mean_objects,
             source_code_for_mean_objects);
-    Presenter<const onerut_request::PrintValueRequest> presenter_for_print_value_request_objects(
+    Presenter<onerut_request::PrintValueRequest> presenter_for_print_value_request_objects(
             akas_for_print_value_request_objects,
             source_code_for_print_value_request_objects);
     // -------------------------------------------------------------------------
@@ -353,7 +353,8 @@ execute_declarative_script(
         }
         std::cout << std::endl;
     }
-    for (const auto& object : print_value_request_objects) {
+
+    for (const auto& object : source_code_for_print_value_request_objects | boost::adaptors::map_keys) {
         std::cout << "[DEPENDENCIES] " << "[DEPENDABLE] " << "[REQUEST] "
                 << presenter_for_print_value_request_objects(object)
                 << std::endl;
