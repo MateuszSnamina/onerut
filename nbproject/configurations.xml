@@ -18,6 +18,7 @@
       <df name="include">
         <df name="onerut">
           <in>utility_ast_asset_dfs.hpp</in>
+          <in>utility_ptr_transparent_comparator.hpp</in>
         </df>
       </df>
       <df name="src">
@@ -548,6 +549,11 @@
         </ccTool>
       </item>
       <item path="onerut/include/onerut/utility_ast_asset_dfs.hpp"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="onerut/include/onerut/utility_ptr_transparent_comparator.hpp"
             ex="false"
             tool="3"
             flavor2="0">
