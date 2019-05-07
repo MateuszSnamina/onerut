@@ -5,36 +5,30 @@
 #include<map>
 #include<memory>
 #include<type_traits>
-
 #include<boost/algorithm/string/join.hpp>
 
 #include<string_utils/greek_support.hpp>
 #include<onerut/grep_ast_asset.hpp>
 #include<onerut/grep_ref_container.hpp>
 
-
 // *****************************************************************************
 // **************  the core function  ******************************************
 // *****************************************************************************
-
-// U may be T or const T.
 
 template<class T, class U>
 std::string
 object_to_aka_string(
         std::shared_ptr<T> object,
-        GrepAstAssetResultT<U> object_sources, //TODO const ref
-        std::multimap<std::shared_ptr<U>, std::string> object_akas) {//TODO const ref
-    //static_assert(std::is_same<const T, const U>::value);//TODO think!!
+        const GrepAstAssetResultT<U>& object_sources,
+        const GrepRefContainerResultT<U>& object_akas) {
     // Find all akas:
     std::vector<std::string> akas;
-    //TODO restore
-    //    const auto it_lo = object_akas.lower_bound(object);
-    //    const auto it_up = object_akas.upper_bound(object);
-    //    for (auto it = it_lo; it != it_up; ++it) {
-    //        const auto& aka = it->second;
-    //        akas.push_back(aka);
-    //    }
+    const auto it_lo = object_akas.lower_bound(object);
+    const auto it_up = object_akas.upper_bound(object);
+    for (auto it = it_lo; it != it_up; ++it) {
+        const auto& aka = it->second;
+        akas.push_back(aka);
+    }
     // Concatenate the output string:
     std::ostringstream sstream;
     sstream << "{";
@@ -46,8 +40,9 @@ object_to_aka_string(
         sstream << ":anonymous:";
     }
     sstream << "|";
-    if (object_sources.count(object.get())) {
-        const auto iterator = object_sources.lower_bound(object.get());
+    if (object_sources.count(object)) {
+        const auto iterator = object_sources.lower_bound(object);
+        assert((*iterator).first == object);
         const auto source_code = (*iterator).second;
         sstream << "`" << string_utils::StreamToGreek(source_code) << "`";
     } else {
@@ -86,10 +81,10 @@ template<class U>
 class Presenter {
 public:
     Presenter(
-            std::multimap<std::shared_ptr<U>, std::string> _object_akas,
+            GrepRefContainerResultT<U> _object_akas,
             GrepAstAssetResultT<U> object_sources
             );
-    std::multimap<std::shared_ptr<U>, std::string> _object_akas;
+    GrepRefContainerResultT<U> _object_akas;
     GrepAstAssetResultT<U> _object_sources;
     template<class T>
     PresenterFrame<T, U> operator()(const std::shared_ptr<T>& object) const;
@@ -126,7 +121,7 @@ Presenter<U>::operator()(const std::shared_ptr<T>& object) const {
 
 template<class U>
 Presenter<U>::Presenter(
-        std::multimap<std::shared_ptr<U>, std::string> object_akas,
+        GrepRefContainerResultT<U> object_akas,
         GrepAstAssetResultT<U> object_sources) :
 _object_akas(object_akas),
 _object_sources(object_sources) {
