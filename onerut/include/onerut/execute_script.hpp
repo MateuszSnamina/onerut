@@ -4,7 +4,7 @@
 #include<string>
 
 void
-execute_imparative_script(
+execute_imperative_script(
         const std::vector<std::shared_ptr<const std::string>>&lines);
 
 void

@@ -12,10 +12,10 @@
 #include<onerut_normal_operator/eig.hpp>
 #include<onerut_normal_operator/mean.hpp>
 #include<onerut_request/request_print_value.hpp>
-#include<onerut/utility_ast_asset_dfs.hpp> // TODO will  be deleted!
 #include<onerut/grep_ast_asset.hpp>
 #include<onerut/grep_ref_container.hpp>
 #include<onerut/aka.hpp>
+#include<onerut/presenter_dependable.hpp>
 #include<onerut/line_preprocessor.hpp>
 #include<onerut/line_processor.hpp>
 #include<onerut/execute_script.hpp>
@@ -44,76 +44,7 @@ dependence_is_mean(std::shared_ptr<const onerut_dependence::Dependable> dependab
     return static_cast<bool> (dependable_casted);
 }
 
-// -------------------------------------
-
-struct DependablePresenter;
-
-struct DependablePresenterFrame {
-    DependablePresenterFrame(
-            const DependablePresenter & presenter,
-            const std::shared_ptr<const onerut_dependence::Dependable>& dependable);
-    const DependablePresenter & _presenter;
-    const std::shared_ptr<const onerut_dependence::Dependable>& _dependable;
-};
-
-DependablePresenterFrame::DependablePresenterFrame(
-        const DependablePresenter & presenter,
-        const std::shared_ptr<const onerut_dependence::Dependable>& dependable) :
-_presenter(presenter),
-_dependable(dependable) {
-}
-
-struct DependablePresenter {
-    DependablePresenter(
-            const Presenter< onerut_convergence_parameter::ConvergenceParameter>& presenter_for_convergence_parameter_objects,
-            const Presenter< onerut_normal_operator::Eig>& presenter_for_eig_objects,
-            const Presenter< onerut_normal_operator::Mean>& presenter_for_mean_objects,
-            const Presenter< onerut_request::PrintValueRequest>& presenter_for_print_value_request_objects);
-    DependablePresenterFrame operator()(std::shared_ptr<const onerut_dependence::Dependable> dependable) const;
-    const Presenter< onerut_convergence_parameter::ConvergenceParameter>& _presenter_for_convergence_parameter_objects;
-    const Presenter< onerut_normal_operator::Eig>& _presenter_for_eig_objects;
-    const Presenter< onerut_normal_operator::Mean>& _presenter_for_mean_objects;
-    const Presenter< onerut_request::PrintValueRequest>& _presenter_for_print_value_request_objects;
-};
-
-std::ostream& operator<<(std::ostream& stream, const DependablePresenterFrame& frame) {
-    if (const auto& casted = std::dynamic_pointer_cast<const onerut_convergence_parameter::ConvergenceParameter>(frame._dependable)) {
-        stream << "[CONVERGENCE PARAMETER] "
-                << frame._presenter._presenter_for_convergence_parameter_objects(casted);
-    }
-    if (const auto& casted = std::dynamic_pointer_cast<const onerut_normal_operator::Eig>(frame._dependable)) {
-        stream << "[EIG] "
-                << frame._presenter._presenter_for_eig_objects(casted);
-    }
-    if (const auto& casted = std::dynamic_pointer_cast<const onerut_normal_operator::Mean>(frame._dependable)) {
-        stream << "[MEAN] "
-                << frame._presenter._presenter_for_mean_objects(casted);
-    }
-    if (const auto& casted = std::dynamic_pointer_cast<const onerut_request::PrintValueRequest>(frame._dependable)) {
-        stream << "[REQUEST] "
-                << frame._presenter._presenter_for_print_value_request_objects(casted);
-    }
-    return stream;
-}
-
-DependablePresenter::DependablePresenter(
-        const Presenter<onerut_convergence_parameter::ConvergenceParameter>& presenter_for_convergence_parameter_objects,
-        const Presenter<onerut_normal_operator::Eig>& presenter_for_eig_objects,
-        const Presenter<onerut_normal_operator::Mean>& presenter_for_mean_objects,
-        const Presenter<onerut_request::PrintValueRequest>& presenter_for_print_value_request_objects) :
-_presenter_for_convergence_parameter_objects(presenter_for_convergence_parameter_objects),
-_presenter_for_eig_objects(presenter_for_eig_objects),
-_presenter_for_mean_objects(presenter_for_mean_objects),
-_presenter_for_print_value_request_objects(presenter_for_print_value_request_objects) {
-}
-
-DependablePresenterFrame
-DependablePresenter::operator()(std::shared_ptr<const onerut_dependence::Dependable> dependable) const {
-    return DependablePresenterFrame(*this, dependable);
-}
-
-// -------------------------------------
-
+/*
 std::vector<std::shared_ptr<const onerut_normal_operator::Eig>>
 dependence_filter_eig(std::vector<std::weak_ptr<const onerut_dependence::Dependable>> dependences) {
     using CastedT = onerut_normal_operator::Eig;
@@ -143,7 +74,7 @@ dependence_filter_mean(std::vector<std::weak_ptr<const onerut_dependence::Depend
     }
     return result;
 }
-
+ */
 std::vector<std::shared_ptr<const onerut_dependence::Dependable>>
 dependence_filter_eig_mean(std::vector<std::weak_ptr<const onerut_dependence::Dependable>> dependences) {
     using MeanT = onerut_normal_operator::Mean;
@@ -169,31 +100,20 @@ print_section_bar(std::string section_title) {
             << std::setw(100) << std::left << "[DECLARATIVE MODE] [SECTION] [" + section_title + "]"
             << esc::manip::reset << std::endl;
 }
-//
-//template<class T>
-//void
-//add_if_type_matches(
-//        std::vector<std::shared_ptr<T> >& objects,
-//        //std::map<std::shared_ptr<const void>, std::string>& source_code_for_objects,
-//        const onerut_parser_exec::onerut_ast::asset::AssetNode & asset_node) {
-//    const auto asset = asset_node.asset;
-//    const auto asset_deref = asset.deref();
-//    if (asset_deref.is_either_value_or_type()) {
-//        if (const auto &object = asset_deref.typed_value_or_empty<T>()) {
-//            if (std::find(cbegin(objects), cend(objects), object) == cend(objects)) {
-//                objects.push_back(*object);
-//                //source_code_for_objects[*object] =
-//                //        string_utils::to_string(asset_node.source->span);
-//            }
-//        }
-//    }
-//}
+
+// #############################################################################
+// ############    execute_imperative_script    ################################
+// #############################################################################
 
 void
-execute_imparative_script(
+execute_imperative_script(
         const std::vector<std::shared_ptr<const std::string>>&lines) {
     process_imperative_lines(preprocess_line(lines));
 }
+
+// #############################################################################
+// ############    execute_declarative_script    ###############################
+// #############################################################################
 
 void
 execute_declarative_script(
@@ -294,40 +214,47 @@ execute_declarative_script(
     // *************************************************************************
     // *************************************************************************    
     print_section_bar("DEPENDENCIES RESOLVER");
-
+    // -------------------------------------------------------------------------
     DependablePresenter presenter_for_dependable(
             presenter_for_convergence_parameter_objects,
             presenter_for_eig_objects,
             presenter_for_mean_objects,
             presenter_for_print_value_request_objects);
-    for (const auto& object : grepped_convergence_parameter_objects | boost::adaptors::map_keys) {
+    // -------------------------------------------------------------------------
+    //onerut_dependence::DependencesGraph() dependences_graph;
+    // -------------------------------------------------------------------------    
+    for (const auto& dependable : grepped_convergence_parameter_objects | boost::adaptors::map_keys) {
         std::cout << "[DEPENDENCIES] " << "[DEPENDABLE] " << "[CONVERGENCE PARAMETER] "
-                << presenter_for_convergence_parameter_objects(object)
+                << presenter_for_convergence_parameter_objects(dependable)
                 << std::endl;
-        const auto dependences = onerut_dependence::dependence_list(dependence_is_convergence_parameter, object);
-        const auto dependences_eig_mean = dependence_filter_eig_mean(dependences);
+        const auto dependences =
+                onerut_dependence::unique_dependence_list(dependence_is_convergence_parameter, dependable);
+        const auto dependences_eig_mean =
+                dependence_filter_eig_mean(dependences);
         for (const auto dependence : dependences_eig_mean) {
             std::cout << "[DEPENDENCIES] " << "[DEPENDS ON] "
                     << presenter_for_dependable(dependence)
                     << std::endl;
         }
-        std::cout << std::endl;
+        //TODO dependences_graph.add()
     }
-
-    for (const auto& object : grepped_print_value_request_objects | boost::adaptors::map_keys) {
+    for (const auto& dependable : grepped_print_value_request_objects | boost::adaptors::map_keys) {
         std::cout << "[DEPENDENCIES] " << "[DEPENDABLE] " << "[REQUEST] "
-                << presenter_for_print_value_request_objects(object)
+                << presenter_for_print_value_request_objects(dependable)
                 << std::endl;
-        const auto dependences = onerut_dependence::dependence_list(dependence_is_convergence_parameter, object);
-        const auto dependences_eig_mean = dependence_filter_eig_mean(dependences);
+        const auto dependences
+                = onerut_dependence::unique_dependence_list(dependence_is_convergence_parameter, dependable);
+        const auto dependences_eig_mean
+                = dependence_filter_eig_mean(dependences);
         for (const auto dependence : dependences_eig_mean) {
             std::cout << "[DEPENDENCIES] " << "[DEPENDS ON] "
                     << presenter_for_dependable(dependence)
                     << std::endl;
         }
-        std::cout << std::endl;
+        if (!dependable->print_only_in_summary()) {
+            //TODO dependences_graph.add()
+        }
     }
-
     // *************************************************************************
     // *************************************************************************    
     print_section_bar("SELF-CONSISTENT LOOP");

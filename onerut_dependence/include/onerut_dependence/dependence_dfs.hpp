@@ -28,12 +28,20 @@ namespace onerut_dependence {
     }
 
     std::vector<std::weak_ptr<const Dependable>>
-    dependence_list(
+    unique_dependence_list(
             std::function<bool(std::shared_ptr<const Dependable>) > condition_for_break,
             std::weak_ptr<const Dependable> head) {
         std::vector<std::weak_ptr<const Dependable>> result;
         const auto adder = [&result](std::weak_ptr<const Dependable> dependable) {
-            result.push_back(dependable);
+            bool is_already_added = std::find_if(
+                    cbegin(result), cend(result),
+                    [&dependable](std::weak_ptr<const Dependable> dependable_in_reslt) -> bool {
+                        return dependable.lock() == dependable_in_reslt.lock();
+                    }
+            ) != cend(result);
+            if (!is_already_added) {
+                result.push_back(dependable);
+            }
         };
         dfs(adder, condition_for_break, head);
         assert(result.back().lock() == head.lock());

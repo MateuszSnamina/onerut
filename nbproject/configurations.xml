@@ -548,6 +548,11 @@
         <ccTool flags="1">
         </ccTool>
       </item>
+      <item path="onerut/include/onerut/presenter_dependable.hpp"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
       <item path="onerut/include/onerut/utility_ast_asset_dfs.hpp"
             ex="false"
             tool="3"

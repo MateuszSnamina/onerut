@@ -36,6 +36,6 @@ int main(int argc, char** argv) {
     if (program_options.script_type == ProgramOptions::ScriptType::Declarative) {
         execute_declarative_script(lines, program_options.n_max_iterations);
     } else {
-        execute_imparative_script(lines);
+        execute_imperative_script(lines);
     }
 }
