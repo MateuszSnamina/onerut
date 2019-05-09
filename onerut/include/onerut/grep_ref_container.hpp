@@ -6,10 +6,11 @@
 #include<memory>
 
 #include<onerut_parser_exec/asset_ref_container.hpp>
-#include<onerut/utility_ptr_transparent_comparator.hpp>
+#include<onerut/utility_ptr_map.hpp>
 
 template<class T>
-using GrepRefContainerResultT = std::multimap<std::shared_ptr<T>, std::string, utility::PtrTransparentComparator<T> >;
+//using GrepRefContainerResultT = std::multimap<std::shared_ptr<T>, std::string, utility::PtrTransparentComparator<T> >;
+using GrepRefContainerResultT = shared_ptr_multimap<T, std::string>;
 
 /*
  * The function scans onerut_parser_exec::AssetRefContainer::global_instance()

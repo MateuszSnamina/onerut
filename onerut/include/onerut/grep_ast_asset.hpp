@@ -7,11 +7,13 @@
 #include<string>
 #include<map>
 #include<memory>
-#include<onerut/utility_ptr_transparent_comparator.hpp>
+#include<onerut/utility_ptr_map.hpp>
 #include<onerut/utility_ast_asset_dfs.hpp>
 
+
 template<class T>
-using GrepAstAssetResultT = std::map<std::shared_ptr<T>, std::string, utility::PtrTransparentComparator<T> >;
+//using GrepAstAssetResultT = std::map<std::shared_ptr<T>, std::string, utility::PtrTransparentComparator<T> >;
+using GrepAstAssetResultT = shared_ptr_map<T, std::string>;
 
 namespace {
 
