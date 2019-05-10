@@ -8,8 +8,16 @@
 #include<boost/algorithm/string/join.hpp>
 
 #include<string_utils/greek_support.hpp>
-#include<onerut/grep_ast_asset.hpp>
-#include<onerut/grep_ref_container.hpp>
+#include<onerut/utility_ptr_map.hpp>
+
+namespace {
+
+    template<class Comparator, class T, class U>
+    bool is_equal(Comparator&& comparator, T&& lhs, U&& rhs) {
+        return !comparator(lhs, rhs) && !comparator(rhs, lhs);
+    }
+
+}
 
 // *****************************************************************************
 // **************  the core function  ******************************************
@@ -19,8 +27,8 @@ template<class T, class U>
 std::string
 object_to_aka_string(
         std::shared_ptr<T> object,
-        const GrepAstAssetResultT<U>& object_sources,
-        const GrepRefContainerResultT<U>& object_akas) {
+        const utility::weak_ptr_map<U, std::string>& object_sources,
+        const utility::weak_ptr_multimap<U, std::string>& object_akas) {
     // Find all akas:
     std::vector<std::string> akas;
     {
@@ -44,7 +52,8 @@ object_to_aka_string(
     sstream << "|";
     if (object_sources.count(object)) {
         const auto iterator = object_sources.lower_bound(object);
-        assert(utility::PtrTransparentComparator<U>()((*iterator).first, object));
+        assert(iterator != object_sources.cend());
+        assert(is_equal(utility::PtrTransparentComparator<U>(), (*iterator).first, object));
         const auto source_code = (*iterator).second;
         sstream << "`" << string_utils::StreamToGreek(source_code) << "`";
     } else {
@@ -83,11 +92,11 @@ template<class U>
 class Presenter {
 public:
     Presenter(
-            GrepRefContainerResultT<U> _object_akas,
-            GrepAstAssetResultT<U> object_sources
+            utility::weak_ptr_multimap<U, std::string> _object_akas,
+            utility::weak_ptr_map<U, std::string> object_sources
             );
-    GrepRefContainerResultT<U> _object_akas;
-    GrepAstAssetResultT<U> _object_sources;
+    utility::weak_ptr_multimap<U, std::string> _object_akas;
+    utility::weak_ptr_map<U, std::string> _object_sources;
     template<class T>
     PresenterFrame<T, U> operator()(const std::shared_ptr<T>& object) const;
 };
@@ -123,8 +132,8 @@ Presenter<U>::operator()(const std::shared_ptr<T>& object) const {
 
 template<class U>
 Presenter<U>::Presenter(
-        GrepRefContainerResultT<U> object_akas,
-        GrepAstAssetResultT<U> object_sources) :
+        utility::weak_ptr_multimap<U, std::string> object_akas,
+        utility::weak_ptr_map<U, std::string> object_sources) :
 _object_akas(object_akas),
 _object_sources(object_sources) {
 }

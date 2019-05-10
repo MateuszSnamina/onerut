@@ -8,15 +8,12 @@
 #include<onerut/utility_ptr_map.hpp>
 #include<onerut/utility_ast_asset_dfs.hpp>
 
-template<class T>
-using GrepAstAssetResultT = weak_ptr_map<T, std::string>;
-
 namespace {
 
     template<class T>
     void
     add_source_if_type_matches(
-            GrepAstAssetResultT<T>& source_code_for_objects,
+            utility::weak_ptr_map<T, std::string>& source_code_for_objects,
             const onerut_parser_exec::onerut_ast::asset::AssetNode & asset_node) {
         const auto asset = asset_node.asset;
         const auto asset_deref = asset.deref();
@@ -42,10 +39,10 @@ namespace {
  */
 
 template<class T>
-GrepAstAssetResultT<T>
+utility::weak_ptr_map<T, std::string>
 grep_ast_asset(
         std::vector<std::shared_ptr<onerut_parser_exec::onerut_ast::asset::AssetNode>> ats_head_nodes) {
-    GrepAstAssetResultT<T> result;
+    utility::weak_ptr_map<T, std::string> result;
     for (const auto& ast_head_node : ats_head_nodes) {
         const auto add_convergence_parameter_objects = std::bind(
                 add_source_if_type_matches<T>,
