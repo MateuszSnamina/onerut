@@ -92,7 +92,7 @@ template<class U>
 class Presenter {
 public:
     Presenter(
-            utility::weak_ptr_multimap<U, std::string> _object_akas,
+            utility::weak_ptr_multimap<U, std::string> object_akas,
             utility::weak_ptr_map<U, std::string> object_sources
             );
     utility::weak_ptr_multimap<U, std::string> _object_akas;
@@ -100,6 +100,13 @@ public:
     template<class T>
     PresenterFrame<T, U> operator()(const std::shared_ptr<T>& object) const;
 };
+
+template<class U>
+Presenter<U>
+make_presenter(
+        utility::weak_ptr_multimap<U, std::string> object_akas,
+        utility::weak_ptr_map<U, std::string> object_sources
+        );
 
 // *****************************************************************************
 // **************  Presenter -- templates implementation  **********************
@@ -136,6 +143,15 @@ Presenter<U>::Presenter(
         utility::weak_ptr_map<U, std::string> object_sources) :
 _object_akas(object_akas),
 _object_sources(object_sources) {
+}
+
+template<class U>
+Presenter<U>
+make_presenter(
+        utility::weak_ptr_multimap<U, std::string> object_akas,
+        utility::weak_ptr_map<U, std::string> object_sources
+        ) {
+    return Presenter<U>(object_akas, object_sources);
 }
 
 #endif

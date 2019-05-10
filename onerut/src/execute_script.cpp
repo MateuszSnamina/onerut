@@ -12,10 +12,10 @@
 #include<onerut_normal_operator/eig.hpp>
 #include<onerut_normal_operator/mean.hpp>
 #include<onerut_request/request_print_value.hpp>
+#include<onerut/presenter.hpp>
+#include<onerut/presenter_dependable.hpp>
 #include<onerut/grep_ast_asset.hpp>
 #include<onerut/grep_ref_container.hpp>
-#include<onerut/aka.hpp>
-#include<onerut/presenter_dependable.hpp>
 #include<onerut/line_preprocessor.hpp>
 #include<onerut/line_processor.hpp>
 #include<onerut/execute_script.hpp>
@@ -153,16 +153,16 @@ execute_declarative_script(
     const auto akas_for_print_value_request_objects =
             grep_ref_container<onerut_request::PrintValueRequest>();
     // -------------------------------------------------------------------------
-    Presenter<onerut_convergence_parameter::ConvergenceParameter> presenter_for_convergence_parameter_objects(
+    const auto presenter_for_convergence_parameter_objects = make_presenter(
             akas_for_convergence_parameter_objects,
             source_code_for_convergence_parameter_objects);
-    Presenter<onerut_normal_operator::Eig> presenter_for_eig_objects(
+    const auto presenter_for_eig_objects = make_presenter(
             akas_for_eig_objects,
             source_code_for_eig_objects);
-    Presenter<onerut_normal_operator::Mean> presenter_for_mean_objects(
+    const auto presenter_for_mean_objects = make_presenter(
             akas_for_mean_objects,
             source_code_for_mean_objects);
-    Presenter<onerut_request::PrintValueRequest> presenter_for_print_value_request_objects(
+    const auto presenter_for_print_value_request_objects = make_presenter(
             akas_for_print_value_request_objects,
             source_code_for_print_value_request_objects);
     // -------------------------------------------------------------------------
