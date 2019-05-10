@@ -188,22 +188,30 @@ execute_declarative_script(
             akas_for_print_value_request_objects,
             grepped_print_value_request_objects);
     // -------------------------------------------------------------------------
-    for (const auto& object : grepped_convergence_parameter_objects | boost::adaptors::map_keys) {
+    for (const auto& object_w : grepped_convergence_parameter_objects | boost::adaptors::map_keys) {
+        assert(!object_w.expired());
+        const auto object = object_w.lock();
         std::cout << "[INVENTORY] " << "[CONVERGENCE PARAMETER] "
                 << presenter_for_convergence_parameter_objects(object)
                 << std::endl;
     }
-    for (const auto& object : grepped_eig_objects | boost::adaptors::map_keys) {
+    for (const auto& object_w : grepped_eig_objects | boost::adaptors::map_keys) {
+        assert(!object_w.expired());
+        const auto object = object_w.lock();
         std::cout << "[INVENTORY] " << "[EIG] "
                 << presenter_for_eig_objects(object)
                 << std::endl;
     }
-    for (const auto& object : grepped_mean_objects | boost::adaptors::map_keys) {
+    for (const auto& object_w : grepped_mean_objects | boost::adaptors::map_keys) {
+        assert(!object_w.expired());
+        const auto object = object_w.lock();
         std::cout << "[INVENTORY] " << "[MEAN] "
                 << presenter_for_mean_objects(object)
                 << std::endl;
     }
-    for (const auto& object : grepped_print_value_request_objects | boost::adaptors::map_keys) {
+    for (const auto& object_w : grepped_print_value_request_objects | boost::adaptors::map_keys) {
+        assert(!object_w.expired());
+        const auto object = object_w.lock();
         std::cout << "[INVENTORY] " << "[PRINT VALUE REQUEST] "
                 << presenter_for_print_value_request_objects(object)
                 //<< ", only in summary: " << object->print_only_in_summary()
@@ -223,7 +231,9 @@ execute_declarative_script(
     // -------------------------------------------------------------------------
     //onerut_dependence::DependencesGraph() dependences_graph;
     // -------------------------------------------------------------------------    
-    for (const auto& dependable : grepped_convergence_parameter_objects | boost::adaptors::map_keys) {
+    for (const auto& dependable_w : grepped_convergence_parameter_objects | boost::adaptors::map_keys) {
+        assert(!dependable_w.expired());
+        const auto dependable = dependable_w.lock();
         std::cout << "[DEPENDENCIES] " << "[DEPENDABLE] " << "[CONVERGENCE PARAMETER] "
                 << presenter_for_convergence_parameter_objects(dependable)
                 << std::endl;
@@ -238,7 +248,9 @@ execute_declarative_script(
         }
         //TODO dependences_graph.add()
     }
-    for (const auto& dependable : grepped_print_value_request_objects | boost::adaptors::map_keys) {
+    for (const auto& dependable_w : grepped_print_value_request_objects | boost::adaptors::map_keys) {
+        assert(!dependable_w.expired());
+        const auto dependable = dependable_w.lock();
         std::cout << "[DEPENDENCIES] " << "[DEPENDABLE] " << "[REQUEST] "
                 << presenter_for_print_value_request_objects(dependable)
                 << std::endl;
@@ -266,25 +278,33 @@ execute_declarative_script(
                 << "iteration number " << std::setw(4) << iteracja << "."
                 << esc::manip::reset
                 << std::endl;
-        for (const auto& object : grepped_eig_objects | boost::adaptors::map_keys) {
+        for (const auto& object_w : grepped_eig_objects | boost::adaptors::map_keys) {
+            assert(!object_w.expired());
+            const auto object = object_w.lock();
             std::cout << "[CALCULATIONS] [EIG ] "
                     << presenter_for_eig_objects(object)
                     << std::endl;
             object->latch();
         }
-        for (const auto& object : grepped_mean_objects | boost::adaptors::map_keys) {
+        for (const auto& object_w : grepped_mean_objects | boost::adaptors::map_keys) {
+            assert(!object_w.expired());
+            const auto object = object_w.lock();
             std::cout << "[CALCULATIONS] [MEAN] "
                     << presenter_for_mean_objects(object)
                     << std::endl;
             object->latch();
         }
-        for (const auto& object : grepped_convergence_parameter_objects | boost::adaptors::map_keys) {
+        for (const auto& object_w : grepped_convergence_parameter_objects | boost::adaptors::map_keys) {
+            assert(!object_w.expired());
+            const auto object = object_w.lock();
             std::cout << "[CALCULATIONS] [CONVERGENCE PARAMETER] "
                     << presenter_for_convergence_parameter_objects(object)
                     << std::endl;
             object->recalcuate();
         }
-        for (const auto& object : grepped_print_value_request_objects | boost::adaptors::map_keys) {
+        for (const auto& object_w : grepped_print_value_request_objects | boost::adaptors::map_keys) {
+            assert(!object_w.expired());
+            const auto object = object_w.lock();
             if (object->print_only_in_summary()) {
                 continue;
             }
@@ -293,7 +313,9 @@ execute_declarative_script(
                     << std::endl;
             object->print(std::cout, "[request] ");
         }
-        for (const auto& object : grepped_convergence_parameter_objects | boost::adaptors::map_keys) {
+        for (const auto& object_w : grepped_convergence_parameter_objects | boost::adaptors::map_keys) {
+            assert(!object_w.expired());
+            const auto object = object_w.lock();
             double old_value = object->value_real();
             object->revolve();
             double new_value = object->value_real();
@@ -303,7 +325,9 @@ execute_declarative_script(
                     << std::endl;
         }
         bool global_convergence_accumulator = true;
-        for (const auto& object : grepped_convergence_parameter_objects | boost::adaptors::map_keys) {
+        for (const auto& object_w : grepped_convergence_parameter_objects | boost::adaptors::map_keys) {
+            assert(!object_w.expired());
+            const auto object = object_w.lock();
             const bool is_converged = object->is_converged();
             std::cout << "[CONVERGENCE PARAMETER] [CONVERGENCE TEST] ";
             if (is_converged) {
@@ -331,7 +355,9 @@ execute_declarative_script(
         std::cout << "[GLOBAL CONVERGENCE] " << esc::manip::red << "✘✘✘...✘✘" << esc::manip::reset;
     }
     std::cout << std::endl;
-    for (const auto& object : grepped_print_value_request_objects | boost::adaptors::map_keys) {
+    for (const auto& object_w : grepped_print_value_request_objects | boost::adaptors::map_keys) {
+        assert(!object_w.expired());
+        const auto object = object_w.lock();
         std::cout << "[PRINT VALUE REQUEST] "
                 << presenter_for_print_value_request_objects(object)
                 << std::endl;

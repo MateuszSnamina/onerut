@@ -40,6 +40,40 @@ namespace utility {
             return lhs.get() < rhs.get();
         }
 
+        // --------  weak_ptr vs weak_ptr  -------------------------------------
+
+        bool operator()(
+                const std::weak_ptr<bareT>& lhs,
+                const std::weak_ptr<bareT>& rhs) const {
+            assert(!lhs.expired());
+            assert(!rhs.expired());
+            return lhs.lock().get() < rhs.lock().get();
+        }
+
+        bool operator()(
+                const std::weak_ptr<bareT>& lhs,
+                const std::weak_ptr<const bareT>& rhs) const {
+            assert(!lhs.expired());
+            assert(!rhs.expired());
+            return lhs.lock().get() < rhs.lock().get();
+        }
+
+        bool operator()(
+                const std::weak_ptr<const bareT>& lhs,
+                const std::weak_ptr<bareT>& rhs) const {
+            assert(!lhs.expired());
+            assert(!rhs.expired());
+            return lhs.lock().get() < rhs.lock().get();
+        }
+
+        bool operator()(
+                const std::weak_ptr<const bareT>& lhs,
+                const std::weak_ptr<const bareT>& rhs) const {
+            assert(!lhs.expired());
+            assert(!rhs.expired());
+            return lhs.lock().get() < rhs.lock().get();
+        }
+
         // --------  weak_ptr vs shared_ptr  ---------------------------------
 
         bool operator()(

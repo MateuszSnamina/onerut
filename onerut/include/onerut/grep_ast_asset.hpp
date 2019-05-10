@@ -1,19 +1,15 @@
 #ifndef ONERUT_GREP_AST_ASSET_HPP
 #define ONERUT_GREP_AST_ASSET_HPP
 
-
-#include<iostream>//TODO delete
-
 #include<string>
 #include<map>
 #include<memory>
+
 #include<onerut/utility_ptr_map.hpp>
 #include<onerut/utility_ast_asset_dfs.hpp>
 
-
 template<class T>
-//using GrepAstAssetResultT = std::map<std::shared_ptr<T>, std::string, utility::PtrTransparentComparator<T> >;
-using GrepAstAssetResultT = shared_ptr_map<T, std::string>;
+using GrepAstAssetResultT = weak_ptr_map<T, std::string>;
 
 namespace {
 
@@ -30,7 +26,6 @@ namespace {
                 if (!already_added) {
                     source_code_for_objects[*object] =
                             string_utils::to_string(asset_node.source->span);
-                    std::cout << "ADDING" << *object << " " << source_code_for_objects[*object] << std::endl; //TODO delete
                 }
             }
         }
@@ -48,10 +43,8 @@ namespace {
 
 template<class T>
 GrepAstAssetResultT<T>
-//std::map<std::shared_ptr<T>, std::string, utility::PtrTransparentComparator<T> >
 grep_ast_asset(
         std::vector<std::shared_ptr<onerut_parser_exec::onerut_ast::asset::AssetNode>> ats_head_nodes) {
-    //std::map<std::shared_ptr<T>, std::string> result;
     GrepAstAssetResultT<T> result;
     for (const auto& ast_head_node : ats_head_nodes) {
         const auto add_convergence_parameter_objects = std::bind(

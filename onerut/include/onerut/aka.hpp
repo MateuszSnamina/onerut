@@ -23,11 +23,13 @@ object_to_aka_string(
         const GrepRefContainerResultT<U>& object_akas) {
     // Find all akas:
     std::vector<std::string> akas;
-    const auto it_lo = object_akas.lower_bound(object);
-    const auto it_up = object_akas.upper_bound(object);
-    for (auto it = it_lo; it != it_up; ++it) {
-        const auto& aka = it->second;
-        akas.push_back(aka);
+    {
+        const auto it_lo = object_akas.lower_bound(object);
+        const auto it_up = object_akas.upper_bound(object);
+        for (auto it = it_lo; it != it_up; ++it) {
+            const auto& aka = it->second;
+            akas.push_back(aka);
+        }
     }
     // Concatenate the output string:
     std::ostringstream sstream;
@@ -42,7 +44,7 @@ object_to_aka_string(
     sstream << "|";
     if (object_sources.count(object)) {
         const auto iterator = object_sources.lower_bound(object);
-        assert((*iterator).first == object);
+        assert(utility::PtrTransparentComparator<U>()((*iterator).first, object));
         const auto source_code = (*iterator).second;
         sstream << "`" << string_utils::StreamToGreek(source_code) << "`";
     } else {
