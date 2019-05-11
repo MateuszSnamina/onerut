@@ -8,6 +8,7 @@
 #include <boost/range/adaptor/reversed.hpp>
 
 #include<boost/graph/adjacency_list.hpp>
+//#include<boost/property_map/transform_value_property_map.hpp>
 #include<boost/graph/graphviz.hpp>
 #include<boost/graph/topological_sort.hpp>
 
@@ -153,27 +154,34 @@ public:
     using EdgeDescriptorBglT = boost::graph_traits<GraphBglT>::edge_descriptor;
     using EdgeIteratorBglT = boost::graph_traits<GraphBglT>::edge_iterator;
 
-    GraphBglT graph;
+    GraphBglT _graph;
 
     DependenciesGraph() :
-    graph() {
+    _graph() {
+    }
+
+    const GraphBglT& graph() const {
+        return _graph;
     }
 
     VertexDescriptorBglT add_vertex_if_not_added(const StoredT& vertex) {
         const std::pair<VertexIteratorBglT, VertexIteratorBglT> vertices_begin_end =
-                boost::vertices(graph);
+                boost::vertices(_graph);
         VertexIteratorBglT it =
                 std::find_if(
                 vertices_begin_end.first, vertices_begin_end.second,
                 [this, &vertex](const VertexDescriptorBglT & run_vertex_descriptor) {
-                    return this->graph[run_vertex_descriptor] == vertex;
+                    return this->_graph[run_vertex_descriptor] == vertex;
                 });
         if (it != vertices_begin_end.second) {
             //std::cout << "already added" << std::endl;
+            assert(_graph[*it] == vertex);
             return *it;
         }
         //std::cout << "not already added, adding now" << std::endl;
-        return boost::add_vertex(vertex, graph);
+        const VertexDescriptorBglT verted_descriptor = boost::add_vertex(vertex, _graph);
+        assert(_graph[verted_descriptor] == vertex);
+        return verted_descriptor;
     }
 
     EdgeDescriptorBglT add_dependence(const StoredT& source, const StoredT& target) {
@@ -181,31 +189,32 @@ public:
                 add_vertex_if_not_added(source);
         const VertexDescriptorBglT target_vertex_descriptor =
                 add_vertex_if_not_added(target);
-        assert(graph[source_vertex_descriptor] == source);
-        assert(graph[target_vertex_descriptor] == target);
+        assert(_graph[source_vertex_descriptor] == source);
+        assert(_graph[target_vertex_descriptor] == target);
         const std::pair<EdgeDescriptorBglT, bool> result = boost::add_edge(
                 source_vertex_descriptor,
                 target_vertex_descriptor,
-                graph);
+                _graph);
         const EdgeDescriptorBglT& edge_descriptor = result.first;
         const bool& success = result.second;
         assert(success);
-        assert(boost::source(edge_descriptor, graph) == source_vertex_descriptor);
-        assert(boost::target(edge_descriptor, graph) == target_vertex_descriptor);
+        assert(boost::source(edge_descriptor, _graph) == source_vertex_descriptor);
+        assert(boost::target(edge_descriptor, _graph) == target_vertex_descriptor);
         return edge_descriptor;
     }
 
-    void write_graphviz(std::ostream stream) const {
+    void write_graphviz(std::ostream& stream) const {
+        // https://stackoverflow.com/questions/46857868/using-boost-graph-library-with-a-custom-class-for-vertices
+        const auto bundle = get(boost::vertex_bundle, _graph);
         boost::dynamic_properties dp;
-        //dp.property("node_id", boost::get(&Person::name, graph));
-        //dp.property("node_id1", boost::get(&Person::id, graph));
-        //boost::write_graphviz_dp(std::cout, graph, dp);
+        dp.property("node_id", make_transform_value_property_map(std::mem_fn(&StoredT::get), bundle));
+        boost::write_graphviz_dp(stream, _graph, dp);
     }
 
     std::vector<VertexDescriptorBglT> calculate_execution_order() const {
         std::vector< VertexDescriptorBglT > execution_order;
         try {
-            boost::topological_sort(graph, std::back_inserter(execution_order));
+            boost::topological_sort(_graph, std::back_inserter(execution_order));
         } catch (const boost::exception_detail::clone_impl<boost::exception_detail::error_info_injector<boost::not_a_dag> >& ex) {
             std::cerr << "Topological sort failed as dependencies graph in not a dag." << std::endl;
         }
@@ -219,12 +228,12 @@ public:
             const std::vector<VertexDescriptorBglT> & execution_order) const {
         const auto topological_order = execution_order | boost::adaptors::reversed;
         stream << "[TOPOLOGICAL ORDER] "
-                << "A topological ordering: "
+                << "The topological ordering: "
                 << std::endl;
 
         for (const VertexDescriptorBglT & vertex_descriptor : topological_order) {
             stream << "[TOPOLOGICAL ORDER] "
-                    << presenter(graph[vertex_descriptor]) << " "
+                    << presenter(_graph[vertex_descriptor]) << " "
                     << std::endl;
         }
     }
@@ -234,7 +243,7 @@ public:
             std::function< void(const StoredT&) > executor) const {
         for (const VertexDescriptorBglT & vertex_descriptor : execution_order) {
             //std::cout << "[EXECUTE] " << std::endl;
-            executor(graph[vertex_descriptor]);
+            executor(_graph[vertex_descriptor]);
         }
     }
 };
@@ -506,6 +515,8 @@ execute_declarative_script(
             dependencies_graph.add_dependence(dependable, dependence);
         }
     }
+    // -------------------------------------------------------------------------    
+    dependencies_graph.write_graphviz(std::cout);
     // -------------------------------------------------------------------------    
     const auto execution_order = dependencies_graph.calculate_execution_order();
     // -------------------------------------------------------------------------    
