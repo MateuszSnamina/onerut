@@ -26,6 +26,7 @@
 #include<onerut/line_processor.hpp>
 #include<onerut/execute_script.hpp>
 
+/*
 struct Person {
     std::string name;
     int id;
@@ -141,8 +142,9 @@ public:
 
     }
 };
+ */
 
-class DependenciesGrap {
+class DependenciesGraph {
 public:
     using StoredT = std::shared_ptr<const onerut_dependence::Dependable>;
     using GraphBglT = boost::adjacency_list<boost::setS, boost::vecS, boost::directedS, StoredT>;
@@ -153,7 +155,7 @@ public:
 
     GraphBglT graph;
 
-    DependenciesGrap() :
+    DependenciesGraph() :
     graph() {
     }
 
@@ -164,14 +166,13 @@ public:
                 std::find_if(
                 vertices_begin_end.first, vertices_begin_end.second,
                 [this, &vertex](const VertexDescriptorBglT & run_vertex_descriptor) {
-                    std::cout << "check "; //debug TODO delete
                     return this->graph[run_vertex_descriptor] == vertex;
                 });
         if (it != vertices_begin_end.second) {
-            std::cout << "already added" << std::endl;
+            //std::cout << "already added" << std::endl;
             return *it;
         }
-        std::cout << "not already added, adding now" << std::endl;
+        //std::cout << "not already added, adding now" << std::endl;
         return boost::add_vertex(vertex, graph);
     }
 
@@ -202,27 +203,45 @@ public:
     }
 
     std::vector<VertexDescriptorBglT> calculate_execution_order() const {
+        std::vector< VertexDescriptorBglT > execution_order;
         try {
-            std::vector< VertexDescriptorBglT > execution_order;
             boost::topological_sort(graph, std::back_inserter(execution_order));
-
-            // print --- TODO --- move to separate function;
-            const auto topological_order = execution_order | boost::adaptors::reversed;
-            std::cout << "A topological ordering: ";
-            //for (std::vector<VertexDescriptorBglT>::reverse_iterator ii = execution_order.rbegin(); ii != execution_order.rend(); ++ii) {
-            //                std::cout << graph[*ii] << " ";
-            //            }
-            for (const VertexDescriptorBglT & vertex_descriptor : topological_order) {
-                std::cout << graph[vertex_descriptor] << " ";
-            }
-            std::cout << std::endl;
-            return execution_order;
         } catch (const boost::exception_detail::clone_impl<boost::exception_detail::error_info_injector<boost::not_a_dag> >& ex) {
             std::cerr << "Topological sort failed as dependencies graph in not a dag." << std::endl;
         }
+        return execution_order;
     }
 
+    template<class Presenter>
+    void print_topological_order(
+            std::ostream& stream,
+            const Presenter& presenter,
+            const std::vector<VertexDescriptorBglT> & execution_order) const {
+        const auto topological_order = execution_order | boost::adaptors::reversed;
+        stream << "[TOPOLOGICAL ORDER] "
+                << "A topological ordering: "
+                << std::endl;
+
+        for (const VertexDescriptorBglT & vertex_descriptor : topological_order) {
+            stream << "[TOPOLOGICAL ORDER] "
+                    << presenter(graph[vertex_descriptor]) << " "
+                    << std::endl;
+        }
+    }
+
+    void execute_in_execution_order(
+            const std::vector<VertexDescriptorBglT> & execution_order,
+            std::function< void(const StoredT&) > executor) const {
+        for (const VertexDescriptorBglT & vertex_descriptor : execution_order) {
+            //std::cout << "[EXECUTE] " << std::endl;
+            executor(graph[vertex_descriptor]);
+        }
+    }
 };
+
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 bool
 dependence_is_convergence_parameter(std::shared_ptr<const onerut_dependence::Dependable> dependable) {
@@ -293,8 +312,8 @@ execute_declarative_script(
         const std::vector<std::shared_ptr<const std::string>>&lines,
         unsigned n_max_iterations) {
 
-    DepencenciesGrap_lesson();
-    exit(1);
+    //DepencenciesGrap_lesson();
+    //exit(1);
 
     // *************************************************************************
     // *************************************************************************    
@@ -415,13 +434,13 @@ execute_declarative_script(
             presenter_for_mean_objects,
             presenter_for_print_value_request_objects);
     // -------------------------------------------------------------------------
-    //onerut_dependence::DependencesGraph() dependences_graph;
+    /*onerut_dependence::*/DependenciesGraph dependencies_graph;
     // -------------------------------------------------------------------------    
     for (const auto& dependable_w : grepped_convergence_parameter_objects) {
         assert(!dependable_w.expired());
         const auto dependable = dependable_w.lock();
-        std::cout << "[DEPENDENCIES] " << "[DEPENDABLE] " << "[CONVERGENCE PARAMETER] "
-                << presenter_for_convergence_parameter_objects(dependable)
+        std::cout << "[DEPENDENCIES] " << "[DEPENDABLE] "
+                << presenter_for_dependable(dependable)
                 << std::endl;
         const auto dependences =
                 onerut_dependence::unique_dependence_list(dependence_is_convergence_parameter, dependable);
@@ -431,14 +450,14 @@ execute_declarative_script(
             std::cout << "[DEPENDENCIES] " << "[DEPENDS ON] "
                     << presenter_for_dependable(dependence)
                     << std::endl;
+            dependencies_graph.add_dependence(dependable, dependence);
         }
-        //TODO dependences_graph.add()
     }
     for (const auto& dependable_w : grepped_print_value_request_objects) {
         assert(!dependable_w.expired());
         const auto dependable = dependable_w.lock();
-        std::cout << "[DEPENDENCIES] " << "[DEPENDABLE] " << "[REQUEST] "
-                << presenter_for_print_value_request_objects(dependable)
+        std::cout << "[DEPENDENCIES] " << "[DEPENDABLE] "
+                << presenter_for_dependable(dependable)
                 << std::endl;
         const auto dependences
                 = onerut_dependence::unique_dependence_list(dependence_is_convergence_parameter, dependable);
@@ -448,11 +467,49 @@ execute_declarative_script(
             std::cout << "[DEPENDENCIES] " << "[DEPENDS ON] "
                     << presenter_for_dependable(dependence)
                     << std::endl;
-        }
-        if (!dependable->print_only_in_summary()) {
-            //TODO dependences_graph.add()
+            if (!dependable->print_only_in_summary()) {
+                dependencies_graph.add_dependence(dependable, dependence);
+            }
         }
     }
+    for (const auto& dependable_w : grepped_eig_objects) {
+        assert(!dependable_w.expired());
+        const auto dependable = dependable_w.lock();
+        std::cout << "[DEPENDENCIES] " << "[DEPENDABLE] "
+                << presenter_for_dependable(dependable)
+                << std::endl;
+        const auto dependences
+                = onerut_dependence::unique_dependence_list(dependence_is_convergence_parameter, dependable);
+        const auto dependences_eig_mean
+                = dependence_filter_eig_mean(dependences);
+        for (const auto dependence : dependences_eig_mean) {
+            std::cout << "[DEPENDENCIES] " << "[DEPENDS ON] "
+                    << presenter_for_dependable(dependence)
+                    << std::endl;
+            dependencies_graph.add_dependence(dependable, dependence);
+        }
+    }
+    for (const auto& dependable_w : grepped_mean_objects) {
+        assert(!dependable_w.expired());
+        const auto dependable = dependable_w.lock();
+        std::cout << "[DEPENDENCIES] " << "[DEPENDABLE] "
+                << presenter_for_dependable(dependable)
+                << std::endl;
+        const auto dependences
+                = onerut_dependence::unique_dependence_list(dependence_is_convergence_parameter, dependable);
+        const auto dependences_eig_mean
+                = dependence_filter_eig_mean(dependences);
+        for (const auto dependence : dependences_eig_mean) {
+            std::cout << "[DEPENDENCIES] " << "[DEPENDS ON] "
+                    << presenter_for_dependable(dependence)
+                    << std::endl;
+            dependencies_graph.add_dependence(dependable, dependence);
+        }
+    }
+    // -------------------------------------------------------------------------    
+    const auto execution_order = dependencies_graph.calculate_execution_order();
+    // -------------------------------------------------------------------------    
+    dependencies_graph.print_topological_order(std::cout, presenter_for_dependable, execution_order);
     // *************************************************************************
     // *************************************************************************    
     print_section_bar("SELF-CONSISTENT LOOP");
