@@ -1,9 +1,13 @@
 #include<iostream>
 #include<iomanip>
 #include<algorithm>
+#include<iterator>
 #include<functional>
 
 #include<boost/range/adaptor/map.hpp>
+#include<boost/graph/adjacency_list.hpp>
+#include<boost/graph/graphviz.hpp>
+#include<boost/graph/topological_sort.hpp>
 
 #include<esc/esc_manip.hpp>
 #include<string_utils/string_span.hpp>
@@ -19,6 +23,168 @@
 #include<onerut/line_preprocessor.hpp>
 #include<onerut/line_processor.hpp>
 #include<onerut/execute_script.hpp>
+
+struct Person {
+    std::string name;
+    int id;
+};
+
+struct Edge {
+
+    Edge(int i) : id(i) {
+    };
+    int id;
+};
+
+//bool operator<(const Person& person1, const Person& person2) {
+//    return person1.name < person2.name;
+//}
+
+bool operator==(const Person& person1, const Person& person2) {
+    return person1.name == person2.name && person1.id == person2.id;
+}
+
+std::ostream& operator<<(std::ostream& stream, const Person& person) {
+    stream << "MyPersonPrint:" << person.name << person.id;
+    return stream;
+}
+
+class DepencenciesGrap_lesson {
+public:
+
+    DepencenciesGrap_lesson() {
+        typedef boost::adjacency_list<boost::setS, boost::vecS, boost::directedS, Person> GraphBglT;
+        GraphBglT graph;
+        Person p1{"aa", 11};
+        Person p2{"bb", 22};
+        Person p3{"aa", 11};
+        const auto v1 = boost::add_vertex(p1, graph);
+        const auto v2 = boost::add_vertex(p2, graph);
+
+        typedef boost::graph_traits<GraphBglT>::vertex_iterator VertexIteratorBglT;
+        typedef boost::graph_traits<GraphBglT>::vertex_descriptor VertexDescriptorBglT;
+        typedef boost::graph_traits<GraphBglT>::edge_descriptor EdgeDescriptorBglT;
+
+        std::pair<VertexIteratorBglT, VertexIteratorBglT> vertices_begin_end = boost::vertices(graph);
+        VertexIteratorBglT it = std::find_if(vertices_begin_end.first, vertices_begin_end.second,
+                [&graph, &p3](const VertexDescriptorBglT & run_vertex_descriptor) {
+                    std::cout << "check ";
+                    return graph[run_vertex_descriptor] == p3;
+                    //                    return false;
+                });
+        if (it != vertices_begin_end.second) {
+            std::cout << "already added" << std::endl;
+        } else {
+            std::cout << "not already added" << std::endl;
+        }
+        //const auto v3 = boost::add_vertex(p1, graph);
+
+        const std::pair<EdgeDescriptorBglT, bool> result = boost::add_edge(v1, v2, graph);
+        assert(result.second);
+        std::cout << "edgeDesc: "
+                << graph[boost::source(result.first, graph)] << "--->"
+                << graph[boost::target(result.first, graph)] << std::endl;
+        const std::pair<EdgeDescriptorBglT, bool> result_re = boost::add_edge(v1, v2, graph);
+        assert(!result_re.second);
+        std::cout << "edgeDesc: "
+                << graph[boost::source(result_re.first, graph)] << "--->"
+                << graph[boost::target(result_re.first, graph)] << std::endl;
+        assert(result.first == result_re.first);
+
+        boost::dynamic_properties dp;
+        dp.property("node_id", boost::get(&Person::name, graph));
+        dp.property("node_id1", boost::get(&Person::id, graph));
+        boost::write_graphviz_dp(std::cout, graph, dp);
+
+        auto xxx = boost::get(&Person::name, graph);
+        std::cout << xxx[v1] << std::endl;
+        std::cout << graph[v1] << std::endl;
+        std::cout << graph[v1].id << std::endl;
+
+        std::cout << "----------" << std::endl;
+
+
+        typedef std::vector< VertexDescriptorBglT > container;
+        container c;
+        boost::topological_sort(graph, std::back_inserter(c));
+        boost::write_graphviz(std::cout, graph);
+
+        std::cout << "A topological ordering: ";
+        for (container::reverse_iterator ii = c.rbegin(); ii != c.rend(); ++ii) {
+            std::cout << xxx(*ii) << " ";
+            std::cout << graph[*ii] << " ";
+        }
+        std::cout << std::endl;
+
+
+        std::cout << "----------" << std::endl;
+
+        boost::adjacency_list<boost::setS, boost::setS, boost::directedS, Person, Edge> graph1;
+
+        const auto v11 = boost::add_vertex(p1, graph1);
+        const auto v12 = boost::add_vertex(p2, graph1);
+
+        boost::add_edge(v11, v12, Edge(666), graph1);
+
+        boost::dynamic_properties dp3;
+        dp3.property("node_id", boost::get(&Person::name, graph1));
+        dp3.property("node_id1", boost::get(&Person::id, graph1));
+        dp3.property("edge_id1", boost::get(&Edge::id, graph1));
+        boost::write_graphviz_dp(std::cout, graph1, dp3);
+
+    }
+};
+
+class DependenciesGrap {
+public:
+    using StoredT = std::shared_ptr<const onerut_dependence::Dependable>;
+    using GraphBglT = boost::adjacency_list<boost::setS, boost::vecS, boost::directedS, StoredT>;
+    using VertexDescriptorBglT = boost::graph_traits<GraphBglT>::vertex_descriptor;
+    using VertexIteratorBglT = boost::graph_traits<GraphBglT>::vertex_iterator;
+    using EdgeDescriptorBglT = boost::graph_traits<GraphBglT>::edge_descriptor;
+    using EdgeIteratorBglT = boost::graph_traits<GraphBglT>::edge_iterator;
+
+    GraphBglT graph;
+
+    DependenciesGrap() :
+    graph() {
+    }
+
+    VertexDescriptorBglT add_vertex_if_not_added(const StoredT& vertex) {
+        const std::pair<VertexIteratorBglT, VertexIteratorBglT> vertices_begin_end =
+                boost::vertices(graph);
+        VertexIteratorBglT it =
+                std::find_if(
+                vertices_begin_end.first, vertices_begin_end.second,
+                [this, &vertex](const VertexDescriptorBglT & run_vertex_descriptor) {
+                    std::cout << "check "; //debug TODO delete
+                    return this->graph[run_vertex_descriptor] == vertex;
+                });
+        if (it != vertices_begin_end.second) {
+            std::cout << "already added" << std::endl;
+            return *it;
+        }
+        std::cout << "not already added, adding now" << std::endl;
+        return boost::add_vertex(vertex, graph);
+    }
+
+    EdgeDescriptorBglT add_dependence(const StoredT& source, const StoredT& target) {
+        const VertexDescriptorBglT source_vertex_descriptor =
+                add_vertex_if_not_added(source);
+        const VertexDescriptorBglT target_vertex_descriptor =
+                add_vertex_if_not_added(target);
+        //return 
+        //        EdgeDescriptorBglT edge_descriptor;
+        //        bool success;
+        const std::pair<EdgeDescriptorBglT, bool> result = boost::add_edge(
+                source_vertex_descriptor,
+                target_vertex_descriptor,
+                graph);
+        assert(result.second);
+        return result.first;
+    }
+
+};
 
 bool
 dependence_is_convergence_parameter(std::shared_ptr<const onerut_dependence::Dependable> dependable) {
@@ -88,6 +254,10 @@ void
 execute_declarative_script(
         const std::vector<std::shared_ptr<const std::string>>&lines,
         unsigned n_max_iterations) {
+
+    DepencenciesGrap_lesson();
+    exit(1);
+
     // *************************************************************************
     // *************************************************************************    
     print_section_bar("SCRIPT LINES PROCESSING");
