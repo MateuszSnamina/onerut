@@ -151,8 +151,10 @@ public:
     using GraphBglT = boost::adjacency_list<boost::setS, boost::vecS, boost::directedS, StoredT>;
     using VertexDescriptorBglT = boost::graph_traits<GraphBglT>::vertex_descriptor;
     using VertexIteratorBglT = boost::graph_traits<GraphBglT>::vertex_iterator;
+    using AdjacencyIteratorBglT = boost::graph_traits<GraphBglT>::adjacency_iterator;
     using EdgeDescriptorBglT = boost::graph_traits<GraphBglT>::edge_descriptor;
     using EdgeIteratorBglT = boost::graph_traits<GraphBglT>::edge_iterator;
+    using OutEdgeIteratorBglT = boost::graph_traits<GraphBglT>::out_edge_iterator;
 
     GraphBglT _graph;
 
@@ -184,7 +186,7 @@ public:
         return verted_descriptor;
     }
 
-    EdgeDescriptorBglT add_dependence(const StoredT& source, const StoredT& target) {
+    EdgeDescriptorBglT add_edge(const StoredT& source, const StoredT& target) {
         const VertexDescriptorBglT source_vertex_descriptor =
                 add_vertex_if_not_added(source);
         const VertexDescriptorBglT target_vertex_descriptor =
@@ -203,12 +205,37 @@ public:
         return edge_descriptor;
     }
 
-    void write_graphviz(std::ostream& stream) const {
+    template<class Presenter>
+    void write_graphviz(
+            std::ostream& stream,
+            const Presenter& presenter) const {
+        // - - - - - - - - - - Implementation variant 1: - - - - - - - - - - - - 
         // https://stackoverflow.com/questions/46857868/using-boost-graph-library-with-a-custom-class-for-vertices
-        const auto bundle = get(boost::vertex_bundle, _graph);
-        boost::dynamic_properties dp;
-        dp.property("node_id", make_transform_value_property_map(std::mem_fn(&StoredT::get), bundle));
-        boost::write_graphviz_dp(stream, _graph, dp);
+        //        const auto bundle = get(boost::vertex_bundle, _graph);
+        //        boost::dynamic_properties dp;
+        //        dp.property("node_id", make_transform_value_property_map(std::mem_fn(&StoredT::get), bundle));
+        //        boost::write_graphviz_dp(stream, _graph, dp);
+        // - - - - - - - - - - Implementation variant 2: - - - - - - - - - - - - 
+        const std::pair<VertexIteratorBglT, VertexIteratorBglT> source_vertex_descriptor_begin_end =
+                boost::vertices(_graph);
+        const VertexIteratorBglT& source_vertex_descriptor_begin = source_vertex_descriptor_begin_end.first;
+        const VertexIteratorBglT& source_vertex_descriptor_end = source_vertex_descriptor_begin_end.second;
+        for (VertexIteratorBglT it = source_vertex_descriptor_begin; it != source_vertex_descriptor_end; ++it) {
+            const VertexDescriptorBglT& source_vertex_descriptor = *it;
+            stream << "[DEPENDENCIES VER2] [DEPENDABLE] "
+                    << presenter(_graph[source_vertex_descriptor])
+                    << std::endl;
+            const std::pair<AdjacencyIteratorBglT, AdjacencyIteratorBglT> adjacent_vertices_begin_end =
+                    boost::adjacent_vertices(source_vertex_descriptor, _graph);
+            const AdjacencyIteratorBglT& adjacent_vertices_begin = adjacent_vertices_begin_end.first;
+            const AdjacencyIteratorBglT& adjacent_vertices_end = adjacent_vertices_begin_end.second;
+            for (AdjacencyIteratorBglT it2 = adjacent_vertices_begin; it2 != adjacent_vertices_end; ++it2) {
+                const VertexDescriptorBglT& target_vertex_descriptor = *it2;
+                stream << "[DEPENDENCIES VER2] [DEPENDS ON] "
+                        << presenter(_graph[target_vertex_descriptor])
+                        << std::endl;
+            }
+        }
     }
 
     std::vector<VertexDescriptorBglT> calculate_execution_order() const {
@@ -459,7 +486,7 @@ execute_declarative_script(
             std::cout << "[DEPENDENCIES] " << "[DEPENDS ON] "
                     << presenter_for_dependable(dependence)
                     << std::endl;
-            dependencies_graph.add_dependence(dependable, dependence);
+            dependencies_graph.add_edge(dependable, dependence);
         }
     }
     for (const auto& dependable_w : grepped_print_value_request_objects) {
@@ -477,7 +504,7 @@ execute_declarative_script(
                     << presenter_for_dependable(dependence)
                     << std::endl;
             if (!dependable->print_only_in_summary()) {
-                dependencies_graph.add_dependence(dependable, dependence);
+                dependencies_graph.add_edge(dependable, dependence);
             }
         }
     }
@@ -495,7 +522,7 @@ execute_declarative_script(
             std::cout << "[DEPENDENCIES] " << "[DEPENDS ON] "
                     << presenter_for_dependable(dependence)
                     << std::endl;
-            dependencies_graph.add_dependence(dependable, dependence);
+            dependencies_graph.add_edge(dependable, dependence);
         }
     }
     for (const auto& dependable_w : grepped_mean_objects) {
@@ -512,11 +539,11 @@ execute_declarative_script(
             std::cout << "[DEPENDENCIES] " << "[DEPENDS ON] "
                     << presenter_for_dependable(dependence)
                     << std::endl;
-            dependencies_graph.add_dependence(dependable, dependence);
+            dependencies_graph.add_edge(dependable, dependence);
         }
     }
     // -------------------------------------------------------------------------    
-    dependencies_graph.write_graphviz(std::cout);
+    dependencies_graph.write_graphviz(std::cout, presenter_for_dependable);
     // -------------------------------------------------------------------------    
     const auto execution_order = dependencies_graph.calculate_execution_order();
     // -------------------------------------------------------------------------    
