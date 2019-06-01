@@ -168,7 +168,7 @@ function download_and_build_openblas() {
 
 init
 download_and_build_boost
-#download_and_build_openblas
-#download_and_build_lapack
-#download_and_build_armadillo
+download_and_build_openblas
+download_and_build_lapack
+download_and_build_armadillo
 

@@ -6,13 +6,25 @@ cmake_minimum_required(VERSION 3.10)
 project(onerut LANGUAGES CXX Fortran)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-#set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_EXTENSIONS OFF)
 add_compile_options(-Wall)
 add_compile_options(-pedantic)
 #add_compile_options(-ffast-math) 
 add_compile_options(-pthread)
 # Note: fast-math disables isnan that is used in a test module.
 # When fast-math is enable the concerning NaN values may fail.
+
+# On Ubuntu 18.04:
+# sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+# sudo apt-get update
+# sudo apt-get install gcc-8 g++-8
+# gcc-8 --version
+# g++-8 --version
+# gfortran-8 --version
+# sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 700 --slave /usr/bin/g++ g++ /usr/bin/g++-7 --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-7 
+# sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 800 --slave /usr/bin/g++ g++ /usr/bin/g++-8 --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-8 
+# update-alternatives  --query gcc
+# ## to change the alternative: sudo update-alternatives --config
 
 #################################################################
 if (NOT (UNIX OR CYGWIN))
@@ -43,7 +55,7 @@ find_library(EXTERNAL_PACKAGES_BLAS_LIBRARY_PATH blas PATHS "${EXTERNAL_PACKAGES
 find_library(EXTERNAL_PACKAGES_LAPACK_LIBRARY_PATH lapack PATHS "${EXTERNAL_PACKAGES_ROOT}/lib" NO_DEFAULT_PATH)
 find_library(EXTERNAL_PACKAGES_ARMADILLO_LIBRARY_PATH armadillo PATHS "${EXTERNAL_PACKAGES_ROOT}/lib" NO_DEFAULT_PATH)
 message("  EXTERNAL_PACKAGES_BOOST_PROGRAM_OPTIONS_LIBRARY_PATH: ${EXTERNAL_PACKAGES_BOOST_PROGRAM_OPTIONS_LIBRARY_PATH}" )
-message("  EXTERNAL_PACKAGES_BOOST_SYSTEM_LIBRARY_PATH: ${EXTERNAL_PACKAGES_BOOST_SYSTEM_LIBRARY_PATH}" )
+message("  EXTERNAL_PACKAGES_BOOST_SYSTEM_LIBRARY_PATH:          ${EXTERNAL_PACKAGES_BOOST_SYSTEM_LIBRARY_PATH}" )
 message("  EXTERNAL_PACKAGES_BLAS_LIBRARY_PATH:                  ${EXTERNAL_PACKAGES_BLAS_LIBRARY_PATH}" )
 message("  EXTERNAL_PACKAGES_LAPACK_LIBRARY_PATH:                ${EXTERNAL_PACKAGES_LAPACK_LIBRARY_PATH}" )
 message("  EXTERNAL_PACKAGES_ARMADILLO_LIBRARY_PATH:             ${EXTERNAL_PACKAGES_ARMADILLO_LIBRARY_PATH}" )
@@ -72,6 +84,7 @@ if (TARGET Boost::boost)
 else()
   message(FATAL_ERROR "Boost::boost is not a target!")
 endif()
+
 if (TARGET Boost::program_options)
   message("Boost::program_options is a target.")
   get_target_property(x Boost::program_options NAME)
@@ -180,8 +193,16 @@ message("---  gtest - imported data  -------")
 message("-----------------------------------")
 
 # https://www.eriksmistad.no/getting-started-with-google-test-on-ubuntu/
+
+#sudo apt-get install cmake libgtest-dev
+#cd /usr/src/gtest
+#sudo cmake CMakeLists.txt
+#sudo make
+#sudo cp *.a /usr/lib
+
 find_package(GTest REQUIRED)
 message("\${GTEST_INCLUDE_DIRS}: ${GTEST_INCLUDE_DIRS}")
+message("\${GTEST_LIBRARIES}:    ${GTEST_LIBRARIES}")
 
 #################################################################
 message("-----------------------------------")
