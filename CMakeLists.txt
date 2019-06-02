@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 3.10)
 
+# Install C++ plugin in Netbeans:
+# https://stackoverflow.com/questions/51493882/netbeans-9-c-support
+# Use plugins url:
+# http://updates.netbeans.org/netbeans/updates/8.2/uc/final/distribution/catalog.xml.gz
+
 # On Ubuntu 18.04:
 # version=3.14
 # build=5
