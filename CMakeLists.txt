@@ -1,5 +1,15 @@
 cmake_minimum_required(VERSION 3.10)
 
+# On Ubuntu 18.04:
+# version=3.14
+# build=5
+# mkdir ~/temp
+# cd ~/temp
+# wget https://cmake.org/files/v$version/cmake-$version.$build-Linux-x86_64.sh 
+# sudo mkdir /opt/cmake
+# sudo sh cmake-$version.$build-Linux-x86_64.sh --prefix=/opt/cmake --skip-license
+# sudo ln -s /opt/cmake/bin/cmake /usr/local/bin/cmake
+
 #################################################################
 # The project is supposed to be homogenous C++17 and Fortran.
 # (Fortran is needed for proper linkage with blas and lapack.)
@@ -193,11 +203,12 @@ message("-----------------------------------")
 
 # https://www.eriksmistad.no/getting-started-with-google-test-on-ubuntu/
 
-#sudo apt-get install cmake libgtest-dev
-#cd /usr/src/gtest
-#sudo cmake CMakeLists.txt
-#sudo make
-#sudo cp *.a /usr/lib
+# On Ubuntu 18.04:
+# sudo apt-get install cmake libgtest-dev
+# cd /usr/src/gtest
+# sudo cmake CMakeLists.txt
+# sudo make
+# sudo cp *.a /usr/lib
 
 find_package(GTest REQUIRED)
 message("\${GTEST_INCLUDE_DIRS}: ${GTEST_INCLUDE_DIRS}")
