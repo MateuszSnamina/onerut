@@ -283,9 +283,9 @@ execute_declarative_script(
         for (const auto& object_w : grepped_print_value_request_objects) {
             assert(!object_w.expired());
             const auto object = object_w.lock();
-            if (object->print_only_in_summary()) {
-                continue;
-            }
+            //if (object->print_only_in_summary()) {
+            //    continue;
+            //}
             std::cout << "[PRINT VALUE REQUEST] "
                     << presenter_for_print_value_request_objects(object)
                     << std::endl;

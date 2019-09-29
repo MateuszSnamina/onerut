@@ -54,7 +54,7 @@ ProgramOptions grep_program_options(int argc, char** argv) {
     }
     // -------------------------------------------------------------------------
     ProgramOptions program_options;
-    program_options.script_file_path = std::filesystem::path(vm["script-file-path"].as<std::string>());
+    program_options.script_file_path = std::experimental::filesystem::path(vm["script-file-path"].as<std::string>());
     program_options.script_type = vm["imperative"].as<bool>() ? ProgramOptions::ScriptType::Imperative : ProgramOptions::ScriptType::Declarative;
     program_options.n_max_iterations = vm["n_max_iterations"].as<unsigned>();
     return program_options;

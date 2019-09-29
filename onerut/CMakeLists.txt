@@ -22,13 +22,15 @@ endif()
 
 add_executable("${TARGET_NAME}" ${src} ${inc})
 target_include_directories("${TARGET_NAME}" PUBLIC include)
+#target_include_directories("${TARGET_NAME}" PUBLIC "/usr/include/c++/7/experimental")
+
 target_link_libraries("${TARGET_NAME}"
   onerut_parser_exec
   onerut_parser_rules
   #onerut_normal_operator
   esc
-  /usr/lib/gcc/x86_64-linux-gnu/8/libstdc++fs.a  # Will not be necessary in the future.
-  #stdc++fs # Will not be necessary in the future.
+  #/usr/lib/gcc/x86_64-linux-gnu/8/libstdc++fs.a  # Will not be necessary in the future.
+  stdc++fs # Will not be necessary in the future.
   Boost::boost
   Boost::program_options
   #armadillo lapack blas
